@@ -41,11 +41,11 @@ interpretation. Sinauer.
 \code{\link{LifeExpect}}, \code{\link{create.IPM.Tmatrix}} 
 }
 \examples{
-dff <- generateData()
-Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size),
-maxsize=max(dff$size),growObj=makeGrowthObj(dff),
-survObj=makeSurvObj(dff))
-MeanLifeExpect(Tmatrix)
+%dff <- generateData()
+%Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size),
+%maxsize=max(dff$size),growObj=makeGrowthObj(dff),
+%survObj=makeSurvObj(dff))
+%MeanLifeExpect(Tmatrix)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

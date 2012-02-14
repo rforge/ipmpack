@@ -53,8 +53,8 @@ capture extra mortality events.
   makeSurvObjWithDataAugment
 }
 \examples{
-dff<-generateData()
-dffnew<-DeathDataAugment(dff,size.thresh=10,prop.dead=0.5)
+#dff<-generateData()
+#dffnew<-DeathDataAugment(dff,size.thresh=10,prop.dead=0.5)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

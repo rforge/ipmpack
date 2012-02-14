@@ -56,11 +56,11 @@ is small relative to the size range.
 \code{\link{MeanLifeExpect}}, ~~~
 }
 \examples{
-dff <- generateData()
-Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size),
-maxsize=max(dff$size),growObj=makeGrowthObj(dff),
-survObj=makeSurvObj(dff))
-PassageTime(5,Tmatrix)
+%dff <- generateData()
+%Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size),
+%maxsize=max(dff$size),growObj=makeGrowthObj(dff),
+%survObj=makeSurvObj(dff))
+%PassageTime(5,Tmatrix)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
