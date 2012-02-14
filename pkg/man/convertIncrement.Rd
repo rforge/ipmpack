@@ -22,7 +22,7 @@ convertIncrement(dataf, nyrs = 1)
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+%%  ~~  none If necessary, more details than the description above ~~
 }
 \value{
 %%  ~Describe the value returned
