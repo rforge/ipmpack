@@ -2,7 +2,7 @@
 \alias{StochGrowthRateManyCovSeedBank}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-%%  ~~function to do ... ~~
+Function for estimating lambda_s or invasion rate with many varying covariates
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~

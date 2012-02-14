@@ -3,7 +3,7 @@
 \alias{StochGrowthRateManyCovSeedBank}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function for estimating lambda_s or invasion rate with many varying covariates
+Function for estimating lambdas or invasion rate with many varying covariates
 }
 \description{
 Iterates a population through a time-series of covariates according to

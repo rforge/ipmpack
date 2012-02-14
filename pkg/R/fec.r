@@ -1,11 +1,3 @@
- reload.source <- function() {
- source("C://users//Eelke//Dropbox//IPMpack_folder//IPMpack//IPMpack//R//TreesDemog-Base.r")
- source("C://users//Eelke//Dropbox//IPMpack_folder//IPMpack//IPMpack//R//TreesDemog-Impl.r")
- source("C://users//Eelke//Dropbox//IPMpack_folder//IPMpack//IPMpack//R//TreesDemog-Util.r")
- }
-reload.source()
-
-dff <- generateData()
 
 # Create a generic fertility object #in base
 setClass("fecObj",

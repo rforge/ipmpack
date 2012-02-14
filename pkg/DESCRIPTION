@@ -4,7 +4,7 @@ Title: Builds and analyses Integral Projection Models (IPMs).
 Version: 1.0
 Date: 2011-11-25
 Author: CJE Metcalf, SM McMahon, R Salguero-Gómez, E Jongejans
-Maintainer: IPMpack@gmail.com
+Maintainer: IPMpack team <pack@gmail.com>
 Description: IPMpack takes demographic vital rates and (optionally) environmental data to build integral projection models.  A number of functional forms for growth and survival can be incorporated, as well as a range of reproductive strategies.  The package also includes a suite of diagnostic routines, provides classic matrix model output (e.g., lambda, elasticities, sensitivities), and produces post-hoc metrics (e.g., passage time and life expectancy).  
 License: GPL
 LazyLoad: yes
