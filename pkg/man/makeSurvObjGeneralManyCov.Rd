@@ -1,0 +1,61 @@
+\name{makeSurvObjGeneralManyCov.Rd}
+\alias{makeSurvObjGeneralManyCov.Rd}
+
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{Functions to build survival objects}
+\description{
+  A function to fit logistic regressions defining
+  survival following user defined forulas (e.g., size+size^2, etc)
+  to build survival objects for which methods to build an IPM  object are defined.
+}
+\usage{
+makeSurvObjGeneral(dataf,explanatoryVariables="size+size2+size3")
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+ \item{dataf}{a dataframe with columns `size' and
+    `surv' (`size' is size at t, `surv' is survival to t+1 coded as 0
+    or 1); dataf may include a number of covariates for which
+    column names must follow the sequence `covariate1', `covariate2', ...
+    \item{explanatoryVariables}{a formula describing the desired
+      explanatory variables (interactions, etc) in classical R
+      style, i.e. separated by `+', `*', `:'. Possible covariates
+      include `size', 'size2' (size^2), `size3'
+      (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
+      `covariate1' `covariate2', etc.}
+  }
+
+\details{
+
+}
+\value{
+  An object of class survObjManyCov
+}
+\references{
+%% ~put references to the literature/web site here ~
+}
+\author{
+%%  ~~who you are~~
+}
+\note{
+  See manual for details on building case-specific survival objects. 
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+  \code{\link{makeSurvObjGeneral}}
+}
+\examples{
+#generate data
+dff<-generateDataArabi()
+#make simple logistic regression survival object relating survival to size at t
+sv1 <- makeSurvObjGeneralManyCov(dff, explanatoryVariables="size+covariate2")
+#assess fit for model with discrete environmental classes fitted
+sv1 <- makeSurvObjGeneralManyCov(dff, explanatoryVariables="size+covariate1+covariate3")
+
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

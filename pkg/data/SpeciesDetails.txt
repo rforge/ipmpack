@@ -1,0 +1,101 @@
+SpCode	LatinName	Authority	Family	VoucherRef	PotStrata
+acta	Actinodaphne tadulingamii	Gamble	Lauraceae	HIFP_RP578	3
+agba	Aglaia barberi	Gamble	Meliaceae	HIFP_BRR1306	2
+agja	Aglaia jainii	M.V.Viswa. &  K.Ramachan.	Meliaceae	HIFP_MAM07	NA
+agbo	Agrostistachys borneensis	Becc.	Euphorbiaceae	HIFP_BRR1744	3
+alsp1	Alphonsea sp1	NA	Annonaceae	HIFP_RP596	NA
+anto	Antiaris toxicaria	Lesch.	Moraceae	HIFP_JPP0745	0
+anme	Antidesma menasu	Miq. ex Tul.	Euphorbiaceae	HIFP_SA256	3
+appo	Aphanamixis polystachya	(Wall.) R.Parker	Meliaceae	HIFP_BRR0056	2
+arhe	Artocarpus heterophyllus	Lam.	Moraceae	HIFP_BRR1329	2
+arhi	Artocarpus hirsutus	Lam.	Moraceae	HIFP_BRR1328	1
+baco	Baccaurea courtallensis	Mull.-Arg.	Euphorbiaceae	HIFP_AMS079	3
+bewi	Beilschmiedia wightii	Benth. ex Hook.f.	Lauraceae	HIFP_AMS062	1
+blum	Blachia umbellata	Baill.	Euphorbiaceae	HIFP_SA062	3
+blme	Blepharistemma membranifolia	(Miq.) Ding Hou	Rhizophoraceae	HIFP_AMS017	1
+cato	Callicarpa tomentosa	(L.) Murray	Verbenaceae	HIFP_AMS013a	3
+capo	Calophyllum polyanthum	Wall. ex Choisy	Clusiaceae	HIFP_BRR0217	1
+cast	Canarium strictum	Roxb.	Burseraceae	HIFP_JPP0976	1
+caur	Caryota urens	L.	Arecaceae	HIFP_GT1040	2
+caov	Casearia ovata	(Lam.) Willd.	Flacourtiaceae	HIFP_SA066	2
+chla	Chrysophyllum lanceolatum	(Bl.) A.DC	Sapotaceae	HIFP_SA303	1
+cisp1	Cinnamomum sp1	NA	Lauraceae	HIFP_SA147	NA
+clvi	Clerodendrum viscosum	Vent.	Verbenaceae	HIFP_BRR1309	3
+crma	Croton malabaricus	Bedd.	Euphorbiaceae	HIFP_SA282	2
+crwi	Cryptocarya wightiana	Thw.	Lauraceae	HIFP_RP626	2
+cyze	Cyathocalyx zeylanicus	Champ ex Hook.f. & Thomson	Annonaceae	HIFP_SA069	2
+desi	Dendrocnide sinuata	(Blume) Chew	Urticaceae	HIFP_SA043	3
+dilo	Dimocarpus longan	Lour.	Sapindaceae	HIFP_SR2	1
+dila	Dimorphocalyx lawianus	(Mull.-Arg.) Hook.f.	Euphorbiaceae	HIFP_AMS018	3
+dias	Diospyros assimilis	Bedd.	Ebenaceae	HIFP_BRR0925	1
+dibo	Diospyros bourdillonii	Brandis	Ebenaceae	HIFP_SA250	1
+dibu	Diospyros buxifolia	(Bl.) Hiern	Ebenaceae	HIFP_BRR1327	1
+digh	Diospyros ghatensis	B.R. Ramesh & D.De Franceschi	Ebenaceae	HIFP_BRR1950	2
+dipr	Diospyros pruriens	Dalz.	Ebenaceae	HIFP_AMS058	3
+disy	Diospyros sylvatica	Roxb.	Ebenaceae	HIFP_SA162	1
+diin	Dipterocarpus indicus	Bedd.	Dipterocarpaceae	HIFP_RP618	0
+drco	Drypetes confertiflora	(Hook. f.) Pax & K.Hoffm.	Euphorbiaceae	HIFP_BRRKFDBSP01	3
+drel	Drypetes elata	(Bedd.) Pax & K.Hoffm.	Euphorbiaceae	HIFP_SA041	1
+drob	Drypetes oblongifolia	(Bedd.) Airy Shaw	Euphorbiaceae	HIFP_AMS040	3
+euin	Euonymus indicus	Heyne ex Wall.	Celastraceae	HIFP_AMS075	3
+faze	Fahrenheitia zeylanica	(Thw.) Airy Shaw	Euphorbiaceae	HIFP_AMS085	1
+fine	Ficus nervosa	Roth	Moraceae	HIFP_SA102	1
+flmo	Flacourtia montana	J.Graham	Flacourtiaceae	HIFP_DDF0483	3
+gagu	Garcinia gummi-gutta	(L.) N.Robson	Clusiaceae	HIFP_AMS048	3
+gamo	Garcinia morella	(Gaertn.) Desr.	Clusiaceae	HIFP_RP570	3
+gata	Garcinia talbotii	Raizada & Sant.	Clusiaceae	HIFP_AMS035	2
+glma	Glochidion malabaricum	Bedd.	Euphorbiaceae	HIFP_SA097	3
+glmc	Glycosmis macrocarpa	Wight	Rutaceae	HIFP_RP624	3
+goca	Goniothalamus cardiopetalus	Hook.f. & Thomson	Annonaceae	HIFP_BRR1032	3
+haar	Harpullia arborea	(Blanco) Radlk.	Sapindaceae	HIFP_SA135	2
+hepa	Heritiera papilio	Bedd.	Sterculiaceae	HIFP_JPP0894	1
+hoar	Holigarna arnottiana	Hook.f.	Anacardiaceae	HIFP_RP604	1
+hofe	Holigarna ferruginea	Marchand	Anacardiaceae	HIFP_SA246	1
+hogr	Holigarna grahamii	(Wt.) Kurz	Anacardiaceae	HIFP_JPhP018	1
+honi	Holigarna nigra	Bourd.	Anacardiaceae	HIFP_SA280	1
+hoze	Homalium zeylanicum	(Gardn.) Benth.	Flacourtiaceae	HIFP_JPP0751	2
+hopo	Hopea ponga	(Dennst.) Mabb.	Dipterocarpaceae	HIFP_SA058	2
+hubr	Humboldtia brunonis	Wall.	Fabaceae	HIFP_RP586	3
+hyal	Hydnocarpus alpina	Wight	Flacourtiaceae	HIFP_RP622	3
+hype	Hydnocarpus pentandra	(Buch.-Ham.) Oken	Flacourtiaceae	HIFP_SA044	3
+isla	Isonandra lanceolata	Wight	Sapotaceae	HIFP_RP627	3
+kipi	Kingiodendron pinnatum	(Roxb. ex DC) Harms	Fabaceae	HIFP_SA174	1
+knat	Knema attenuata	(Hook.f. & Thw.) Warb.	Myristicaceae	HIFP_RP614	2
+lemo	Leptonychia moacurroides	Bedd.	Sterculiaceae	HIFP_SA141	3
+lifl	Litsea floribunda	(Bl.) Gamble	Lauraceae	HIFP_SA105	3
+liol	Litsea oleoides	Hook.f.	Lauraceae	HIFP_SA045	1
+lowi	Lophopetalum wightianum	Arn.	Celastraceae	HIFP_AMS031	0
+mape	Macaranga peltata	(Roxb.) Mull.-Arg.	Euphorbiaceae	HIFP_SA181	2
+maph	Mallotus philippensis	(Lam.) Mull.-Arg.	Euphorbiaceae	HIFP_JPP0650	3
+mast	Mallotus stenanthus	Mull.-Arg.	Euphorbiaceae	HIFP_BRR0932	3
+mate	Mallotus tetracoccus	(Roxb.) Kurz	Euphorbiaceae	HIFP_SA063	2
+main	Mangifera indica	L.	Anacardiaceae	HIFP_SR01	1
+mrin	Margaritaria indica	(Dalziel) Airy Shaw	Euphorbiaceae	HIFP_BRR0941	1
+maar	Mastixia arborea	(Wt.) Bedd.	Cornaceae	HIFP_SA189	2
+mema	Memecylon macrocarpum	Thw.	Melastomataceae	HIFP_SA052	3
+mewi	Memecylon wightii	Thw.	Melastomataceae	HIFP_SA286	3
+mefe	Mesua ferrea	L.	Clusiaceae	HIFP_SA079	1
+miwa	Microtropis wallichiana	Wight ex Thw.	Celastraceae	HIFP_AMS064	3
+myda	Myristica dactyloides	Gaertn.	Myristicaceae	HIFP_SA127	2
+myma	Myristica malabarica	Lam.	Myristicaceae	HIFP_SA180	2
+nepu	Neonauclea purpurea	(Roxb.) Merr.	Rubiaceae	HIFP_SA165	3
+nobe	Nothopegia beddomei	Gamble	Anacardiaceae	HIFP_AMS012	3
+oldi	Olea dioica	Roxb.	Oleaceae	HIFP_BRR1970	3
+otst	Otonephelium stipulaceum	(Bedd.) Radlk.	Sapindaceae	HIFP_RP637	1
+palo	Pajanelia longifolia	(Willd.) Schum.	Bignoniaceae	HIFP_JP0802	0
+pael	Palaquium ellipticum	(Dalz.) Baillon	Sapotaceae	HIFP_RP642a	1
+pema	Persea macrantha	(Nees) Kosterm.	Lauraceae	HIFP_SA148	1
+poco	Polyalthia coffeoides	(Thw.) Hook.f. & Thomson	Annonaceae	HIFP_SA299	2
+pofr	Polyalthia fragrans	(Dalz.) Bedd.	Annonaceae	HIFP_BRR1035	1
+ptdi	Pterospermum diversifolium	Blume	Sterculiaceae	HIFP_BRR1170	1
+rean	Reinwardtiodendron anaimalaiense	(Bedd.) Mabb.	Meliaceae	HIFP_AMS041	3
+ribe	Rinorea bengalensis	(Wall.) Kuntze	Violaceae	HIFP_AMS077	3
+seau	Semecarpus auriculata	Bedd.	Anacardiaceae	HIFP_SA166	1
+stce	Strombosia ceylanica	Gardn.	Olacaceae	HIFP_AMS016	1
+syra	Symplocos racemosa	Roxb.	Symplocaceae	HIFP_SA244	2
+syga	Syzygium gardneri	Thw.	Myrtaceae	HIFP_SA259	0
+syhe	Syzygium hemisphericum	(Walp.) Alston	Myrtaceae	HIFP_JPP0767	2
+syla	Syzygium laetum	(Buch.-Ham.) Gandhi	Myrtaceae	HIFP_SA051	3
+vain	Vateria indica	L.	Dipterocarpaceae	HIFP_SR1	0
+vebi	Vepris bilocularis	(Wt. & Arn.) Engl.	Rutaceae	HIFP_BF101	2
+watr	Walsura trifolia	(A. Juss.) Harms	Meliaceae	HIFP_BRR1314	3

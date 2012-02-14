@@ -1,0 +1,58 @@
+\name{growth}
+\alias{growth}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Growth 
+}
+\description{
+Generic function to predict the pdf of size at t+1 given size at t and a growth object
+}
+\usage{
+growth(size, sizenext, cov, growthObj)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{size}{
+    vector of current sizes
+}
+  \item{sizenext}{
+    vector of sizes in the next time-step
+}
+  \item{cov}{
+    covariate level in this time-step (numeric of length 1)
+}
+  \item{growthObj}{
+    a growth object
+}
+}
+\details{
+  Models defining size at t+1, or growth increment are defined; with various
+  underlying statistical models
+}
+\value{
+  a vector of length sizenext giving the pdf of each value of sizenext
+}
+\references{
+%% ~put references to the literature/web site here ~
+}
+\author{
+%%  ~~who you are~~
+}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+surv, growSurv, growth-methods
+}
+\examples{
+dff <- generateData()
+gr1 <- makeGrowthObj(dff)
+growth(1,1:5,1,gr1)
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

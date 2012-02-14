@@ -1,0 +1,86 @@
+\name{getIPMoutput}
+\alias{getIPMoutput}
+%- Also NEED an '\alias' for EACH other topic documented here.
+\title{
+Get IPM output from a list of Tmatrices or full IPMs
+}
+\description{
+Get summary statistics including life expectancy, passage time, and if a
+fertility matrix is available, lambda, stable size, etc., for e.g.,
+posterior distribution of Tmatrices, or values across environments,
+etc. 
+}
+\usage{
+getIPMoutput(Tmatrixlist, target.size = c(), Fmatrixlist = NULL)
+}
+%- maybe also 'usage' for other objects documented here.
+\arguments{
+  \item{Tmatrixlist}{
+    List of Tmatrices for which summary statistics desired
+}
+  \item{target.size}{
+    Target size for passage time - if none is provided defaults to the
+    median of the IPM meshpoints
+}
+  \item{Fmatrixlist}{
+    List of fertility matrices corresponding to Tmatrices, facultative;
+    if included, lambda, and stable size distribution will also be provided
+}
+}
+\details{
+%%  ~~ If necessary, more details than the description above ~~
+}
+\value{
+  \item{LE}{matrix of life expectancies, columsn correspond to
+  meshpoints, rows corresponding to each element of the list of Tmatrices}
+  \item{ptime}{matrix of passage times to the target.size from each of
+    the meshpoints (columns) and for each element in the Tmatrix list
+    (columns)}
+  \item{lambda}{vector of lambda corresonding to value obtained
+    combining each element of the list of Tmatrices with the
+    corresponding element in the list of Fmatrices; if no Fmatrix list
+    is provided, this is a vector of NAs}
+  \item{stable.size}{matrix of stable size distributions rows corresonding to values obtained
+    combining each element of the list of Tmatrices with the
+    corresponding element in the list of Fmatrices; if no Fmatrix list
+    is provided, this is a matrix of NAs}
+  
+}
+\references{
+%% ~put references to the literature/web site here ~
+}
+\author{
+%%  ~~who you are~~
+}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+  
+  %% ~~objects to See Also as \code{\link{help}}, ~~~
+  \code{\link{help}} {getIPMoutputDirect.Rd}
+}
+\examples{
+dff <- generateData()
+svlist <- makePostSurvivalObjs(dataf=dff, covsurv = FALSE,
+meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
+grlist <- makePostGrowthObjs(dataf=dff, covgrow = FALSE, nitt=5000)
+fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
+
+#use only first 10 of each list, for speed
+Tlist <- makeListTmatrix(growObjList=grlist[1:10], survObjList=svlist[1:10],
+n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
+
+Flist <- makeListFmatrix(growObjList=grlist[1:10], survObjList=svlist[1:10],fecObjList=fvlist[1:10],
+n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
+
+getIPMoutput(Tmatrixlist=Tlist, target.size = 10, Fmatrixlist = Flist)
+
+}
+% Add one or more standard keywords, see file 'KEYWORDS' in the
+% R documentation directory.
+\keyword{ ~kwd1 }
+\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
