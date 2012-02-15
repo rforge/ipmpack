@@ -1,6 +1,6 @@
 \name{create.IPM.Fmatrix}
 \alias{create.IPM.Fmatrix}
-%- Also NEED an '\alias' for EACH other topic documented here.
+%- Also NEED an '\alias' for EACH other topic documented here. 
 \title{
   Function to build F matrices
 }
