@@ -8,7 +8,7 @@ logit <- function(x) { u<-exp(pmin(x,50)); return(u/(1+u))}
 
 # Register a growth  generic
 #
-# Parameters -
+# Parameters - (testing update)
 #   size - size measurement this time-step
 #   sizenext - size measurement the next time-step (midpoints)
 #   cov - the covariate (light, etc) this time-step
