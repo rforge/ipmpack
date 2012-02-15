@@ -19,7 +19,7 @@ setClass("fecObj",
          )
 
 
-makeFecObjGeneral <- function(dataf,
+makeFecObjGeneral <- function(dataf, 
                               fec.constants=1,
                               explanatoryVariables="size+size2",
                               Family="gaussian",
