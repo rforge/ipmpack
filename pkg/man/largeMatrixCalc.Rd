@@ -52,7 +52,7 @@ Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
 maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff),
 survObj=makeSurvObjGeneral(dff))
 Fmatrix <-create.IPM.Fmatrix(minsize=min(dff$size,na.rm=TRUE),
-maxsize=max(dff$size,na.rm=TRUE),fecObj=makeFecObj(dff))
+maxsize=max(dff$size,na.rm=TRUE),fecObj=makeFecObjGeneral(dff))
 
 largeMatrixCalc(Tmatrix,Fmatrix)
 
