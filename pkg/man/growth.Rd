@@ -49,7 +49,7 @@ surv, growSurv, growth-methods
 }
 \examples{
 dff <- generateData()
-gr1 <- makeGrowthObj(dff)
+gr1 <- makeGrowthObjGeneral(dff)
 growth(1,1:5,1,gr1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

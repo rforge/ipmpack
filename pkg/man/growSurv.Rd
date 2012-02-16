@@ -56,8 +56,8 @@ growth, surv, fertility
 }
 \examples{
 dff<-generateData()
-gr1<-makeGrowthObj(dff)
-sv1 <- makeSurvObj(dff)
+gr1<-makeGrowthObjGeneral(dff)
+sv1 <- makeSurvObjGeneral(dff)
 growSurv(1,1:5,1,gr1,sv1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

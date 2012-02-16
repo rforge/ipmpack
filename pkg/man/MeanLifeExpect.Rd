@@ -43,14 +43,14 @@ interpretation. Sinauer.
 \examples{
 dff <- generateData()
 Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
-maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
-survObj=makeSurvObj(dff))
+maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObjGeneral(dff),
+survObj=makeSurvObjGeneral(dff))
 PassageTime(5,Tmatrix)
 
-%Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
-%maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
-%survObj=makeSurvObj(dff))
-%MeanLifeExpect(Tmatrix)
+Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
+maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObjGeneral(dff),
+survObj=makeSurvObjGeneral(dff))
+MeanLifeExpect(Tmatrix)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

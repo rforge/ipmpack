@@ -44,9 +44,9 @@ R0.calc(Tmatrix, Fmatrix)
 \examples{
 dff<-generateData()
 Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
-maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
+maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff))
 Fmatrix <-create.IPM.Fmatrix(minsize=min(dff$size, na.rm = TRUE),
-maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff), fecObj=makeFecObj(dff))
+maxsize=max(dff$size, na.rm = TRUE),fecObj=makeFecObjGeneral(dff))
 R0.calc(Tmatrix, Fmatrix)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
