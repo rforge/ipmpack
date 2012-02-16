@@ -50,8 +50,13 @@ environments. Life expectancy and survivorship. Ecology 87 p1497-1509
 \code{\link{MeanLifeExpect}} \code{\link{create.compound.Tmatrix}}
 }
 \examples{
-%dff <- generateData()
-%Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size),
+dff <- generateData()
+Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = T),
+maxsize=max(dff$size),growObj=makeGrowthObj(dff),
+survObj=makeSurvObj(dff))
+PassageTime(5,Tmatrix)
+
+%Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size, na.rm = T),
 %maxsize=max(dff$size),growObj=makeGrowthObjDiscreteCovariate(dff),
 %survObj=makeSurvObjDiscreteCovariate(dff), envMatrix=makeEnvObj(dff))
 %le <- LifeExpect(Tmatrix, makeEnvObj(dff))

@@ -54,7 +54,7 @@ environments. Life expectancy and survivorship. Ecology 87 p1497-1509
 }
 \examples{
 dff <- generateData()
-Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size),
+Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = T),
 maxsize=max(dff$size),growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff))
 su <- Survivorship(Tmatrix,1,300)

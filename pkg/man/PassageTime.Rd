@@ -56,8 +56,13 @@ is small relative to the size range.
 \code{\link{MeanLifeExpect}}, ~~~
 }
 \examples{
-%dff <- generateData()
-%Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size),
+dff <- generateData()
+Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = T),
+maxsize=max(dff$size),growObj=makeGrowthObj(dff),
+survObj=makeSurvObj(dff))
+PassageTime(5,Tmatrix)
+
+%Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = T),
 %maxsize=max(dff$size),growObj=makeGrowthObj(dff),
 %survObj=makeSurvObj(dff))
 %PassageTime(5,Tmatrix)

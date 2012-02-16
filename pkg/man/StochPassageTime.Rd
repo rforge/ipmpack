@@ -63,7 +63,7 @@ is small relative to the size range.
 }
 \examples{
 dff <- generateData()
-Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size),
+Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size, na.rm = T),
 maxsize=max(dff$size),growObj=makeGrowthObjDiscreteCovariate(dff),
 survObj=makeSurvObjDiscreteCovariate(dff), envMatrix=makeEnvObj(dff))
 StochPassageTime(10,Tmatrix, makeEnvObj(dff))

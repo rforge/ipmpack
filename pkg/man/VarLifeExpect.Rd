@@ -43,7 +43,7 @@ interpretation. Sinauer. p119
 }
 \examples{
 dff <- generateData()
-Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size),
+Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = T),
 maxsize=max(dff$size),growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff))
 VarLifeExpect(Tmatrix)
