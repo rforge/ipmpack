@@ -1973,7 +1973,8 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
     
     
     for (t in 1:Tmax) {
-        if (dd) tmp.fecObj@p.est <- min(n.microsites[min(t,length(n.microsites))]/nt[1],1)
+        if (dd) tmp.fecObj@fec.constants <- c(tmp.fecObj@fec.constants, 
+					min(n.microsites[min(t,length(n.microsites))]/nt[1],1))
 
         
         tpS <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minsize = minsize,
@@ -1982,10 +1983,10 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
                                   integrate.type=integrate.type, correction=correction)
         tpF <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minsize = minsize,
                                   maxsize = maxsize, chosen.cov = covariate[t,],
-                                  growObj = growthObj, survObj = survObj, fecObj = tmp.fecObj,
+                                  fecObj = tmp.fecObj,
                                   integrate.type=integrate.type)
         
-        IPM.here <- (tmp.fecObj@p.est*tpF)+tpS
+        IPM.here <- tpF+tpS
         nt1<-IPM.here %*% nt	
         sum.nt1<-sum(nt1)
         Rt[t]<-log(sum.nt1)
