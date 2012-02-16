@@ -176,9 +176,9 @@ setClass("DiscreteTrans",
 setMethod("surv", 
           c("numeric","numeric","survObj"),
           function(size,cov,survObj){
-              newd <- data.frame(size=size,size2=size^2,size3=size^3,
-                                 covariate=as.factor(rep(cov,length(size))))
-              if (length(grep("logsize",
+       		  newd <- data.frame(size=size,size2=size^2,size3=size^3,
+                                 covariate=as.factor(rep(cov,length(size)))) 
+		      if (length(grep("logsize",
                               survObj@fit$formula))>0) newd$logsize=log(size)
               if (length(grep("logsize2",
                               survObj@fit$formula))>0) newd$logsize2=(log(size))^2
@@ -218,21 +218,6 @@ setMethod("surv",
               u <- predict(survObj@fit,newd,type="response")
               return(u);
           })
-
-#  survival probability for given sizes and covariate level with log instead of polynomial
-setMethod("surv", 
-          c("numeric","numeric","survObjLog.multiyear"),
-          function(size,cov,survObj){
-              ncov <- length(cov)
-              xdat <- matrix(rep(cov,each=length(size)),length(size),ncov)
-              newd <- cbind(size,log(size),xdat)
-              colnames(newd) <- c("size","logsize",
-                                  paste("covariate",1:ncov,sep=""))
-              newd <- as.data.frame(newd)
-              u <- predict(survObj@fit,newd,type="response")  ^ (1/5) # for multi-year census interval
-              return(u);
-          })
-
 
 
 # Method to obtain growth transitions -
