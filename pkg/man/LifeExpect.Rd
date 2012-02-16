@@ -52,12 +52,12 @@ environments. Life expectancy and survivorship. Ecology 87 p1497-1509
 \examples{
 dff <- generateData()
 Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
-maxsize=minsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
+maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff))
 PassageTime(5,Tmatrix)
 
 %Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
-%maxsize=minsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObjDiscreteCovariate(dff),
+%maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObjDiscreteCovariate(dff),
 %survObj=makeSurvObjDiscreteCovariate(dff), envMatrix=makeEnvObj(dff))
 %le <- LifeExpect(Tmatrix, makeEnvObj(dff))
 %plot(Tmatrix@meshpoints,le[1,],type="l", ylim=range(le))
