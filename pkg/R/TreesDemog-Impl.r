@@ -904,14 +904,12 @@ makeListFmatrix <- function(growObjList,survObjList,fecObjList,
     for ( k in 1:nsamp) {
         if (!cov) { 
             Fmatrixlist[[k]] <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minsize = minsize, 
-                                                   maxsize = maxsize, growObj = growObjList[[k]],
-                                                   survObj = survObjList[[k]],
+                                                   maxsize = maxsize, 
                                                    fecObj=fecObjList[[k]])
         } else {
             Fmatrixlist[[k]] <- create.compound.Fmatrix(n.env.class = length(env.mat[1,]),
                                                         n.big.matrix = n.big.matrix, minsize = minsize, 
                                                         maxsize = maxsize, envMatrix=env.mat,
-                                                        growObj = growObjList[[k]], survObj = survObjList[[k]],
                                                         fecObj=fecObjList[[k]])
         }
 

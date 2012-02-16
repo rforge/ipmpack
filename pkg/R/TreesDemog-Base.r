@@ -1699,7 +1699,7 @@ sensParams <- function(growObj,survObj,fecObj,
 	# create a named vector to hold them 
 	elam <- rep(0,npar);
 	nmes <- c(paste("grow",names(growObj@fit$coeff)), "sd growth",paste("surv",names(survObj@fit$coeff)),
-			paste("reprod constant",which(!is.na(fecObj@fec.constants, arr.ind=TRUE))),
+			paste("reprod constant",which(!is.na(fecObj@fec.constants), arr.ind=TRUE)),
 			paste("reprod1",names(fecObj@fit.fec1$coeff)),
 			paste("reprod2",names(fecObj@fit.fec2$coeff)),
 			paste("reprod3",names(fecObj@fit.fec3$coeff)),

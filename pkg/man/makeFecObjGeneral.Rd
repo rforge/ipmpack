@@ -19,7 +19,7 @@ mean.offspring.size, var.offspring.siez, offspring.splitter)
       "stagenext", "fec1", "fec2" or other names containing fec; up to
       nine are currently possible (and note that ANY name containing
       "fec" will be included and these MUST NOT be transformed via log,
-      etc, since the fertility object produced will assume that it has total reproductive output.)}}
+      etc, since the fertility object produced will assume that it has total reproductive output.)}
   \item{fec.constants}{a numeric vector containing the value by which
     each of the fecundity transforms will be multplied \emph{in the
       order defined by the alphabetical order of column names
@@ -90,7 +90,6 @@ mean.offspring.size, var.offspring.siez, offspring.splitter)
 \examples{
 dff<-generateDataDiscrete()
 fv1 <- makeFecObjGeneral(dff)
-}
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ ~kwd1 }
