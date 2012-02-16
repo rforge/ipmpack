@@ -790,6 +790,7 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 #Returns -
 #  an IPM object
 
+## chng!
 
 create.IPM.Fmatrix <- function(n.env.class = 1,
 		n.big.matrix = 50,
