@@ -790,7 +790,6 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 #Returns -
 #  an IPM object
 
-## chng!
 
 create.IPM.Fmatrix <- function(n.env.class = 1,
 		n.big.matrix = 50,
@@ -1943,13 +1942,15 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 		integrate.type="midpoint",correction="none"){
 	require(MASS)
 	
+			
 	nt<-rep(1,n.big.matrix)
 	Rt<-rep(NA,Tmax)
+	fecObj@fec.constants[is.na(fecObj@fec.constants)] <- 1 
 	tmp.fecObj <- fecObj
 	
 	
 	#density dep? 
-	if (sum(n.microsites)>0) { dd <- TRUE } else { dd <- FALSE; tmp.fecObj@p.est <- 1}
+	if (sum(n.microsites)>0) { dd <- TRUE } else { dd <- FALSE; tmp.fecObj@fec.constants <- 1}
 	
 	
 	for (t in 1:Tmax) {
