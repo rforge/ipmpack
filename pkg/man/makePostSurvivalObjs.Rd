@@ -55,10 +55,10 @@ meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-dff<-generateData()
-svlist <- makePostSurvivalObjs(dataf=dff,
-explanatoryVariables="size+size2+covariate",
-meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
+%dff<-generateData()
+%svlist <- makePostSurvivalObjs(dataf=dff,
+%explanatoryVariables="size+size2+covariate",
+%meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
