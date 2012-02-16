@@ -719,7 +719,7 @@ create.MPM.Fmatrix <- function(dataf, bins, p.est=1, n.env=1) {
     
     loc.now <- findInterval(dataf$size[dataf$fec>0],bins)+1
     n.now <- sapply(split(dataf$fec[dataf$fec>0],loc.now),median)
-    loc.next <- table(findInterval(dataf$size[dataf$age==1],bins)+1)/sum(dataf$age==1,na.rm=TRUE)    
+    loc.next <- table(findInterval(dataf$sizenext[is.na(dataf$size)],bins)+1)/length(dataf$sizenext[is.na(dataf$size)],na.rm=TRUE)    
     
     nbins <- max(c(loc.next,loc.now))
     
