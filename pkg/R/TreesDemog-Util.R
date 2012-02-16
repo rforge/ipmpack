@@ -553,6 +553,10 @@ generateDataStoch <- function(){
 	sizenext <- 1+0.9*size+3*covariate1+0.01*covariate2+0.2*covariate3+rnorm(1000,0,0.1)
 	surv <- rbinom(1000,1,logit(-2+0.35*size+1*covariate1))
 	fec <- exp(-1+2*size+0*covariate1)
+	seedlings <- sample(1:1000,size=100,replace=TRUE)
+	size[seedlings] <- NA; 
+	sizenext[seedlings] <- rnorm(100,-2,0.1)
+	surv[seedlings] <- 1
 	#set to flower when covariate1 is around 1.5
 	pfec <- 1*(runif(length(size))<logit(size+covariate1)); #print(pfec)
 	fec[pfec==0] <- 0
@@ -745,14 +749,14 @@ plotResultsStochStruct <- function(tvals,st,covtest,n.runin=15,...) {
     
     par(mfrow=c(2,2),bty="l")
     plot(tvals[n.runin:length(tvals)],
-         colSums(st$rc[index.notseed,n.runin:length(tvals)]),log="y",xlab="Time (years)", ylab="Population size (plants)",type="l",...)
+         colSums(st$rc[index.notseed,n.runin:length(tvals)]+1),log="y",xlab="Time (years)", ylab="Population size (plants)",type="l",...)
     abline(v=1:max(tvals),lty=3)
     covtestplot <- exp(mean(log(colSums(st$rc[index.notseed,n.runin:length(tvals)]))) +
                        ((covtest-mean(covtest))/sd(covtest))*sd(log(colSums(st$rc[index.notseed,n.runin:length(tvals)]))))
     points(tvals,covtestplot+1,type="l",lty=3,col=2)
 
     if (do.seed) { 
-        plot(tvals[n.runin:length(tvals)],st$rc[1,n.runin:length(tvals)],log="y",xlab="Time (years)", ylab="Population size (seeds)",type="l",...)
+        plot(tvals[n.runin:length(tvals)],st$rc[1,n.runin:length(tvals)]+1,log="y",xlab="Time (years)", ylab="Population size (seeds)",type="l",...)
         abline(v=1:max(tvals),lty=3)
         covtestplot <- exp(mean(log(st$rc[1,n.runin:length(tvals)])) +
                            ((covtest-mean(covtest))/sd(covtest))*sd(log(st$rc[1,n.runin:length(tvals)])))
@@ -760,52 +764,6 @@ plotResultsStochStruct <- function(tvals,st,covtest,n.runin=15,...) {
     }
     image(tvals[n.runin:length(tvals)],st$IPM.here@meshpoints,
           t(log(st$rc[index.notseed,n.runin:length(tvals)]+1)),ylab="Size (e.g. leaf length)", xlab="Time",...)
-}
-
-
-# Timing germination and survivorship over first few years
-#
-# Parameters - tstart - the highest starting time-step desired
-#            - covariate - the covariate
-#            - n.runin - the runin
-#            - Tmax - maximum time span
-#            - growthObj
-#            - survObj
-#            - fecObj
-#            - n.big.matrix
-#            - minsize
-#            - maxsize
-#
-# Returns - rc - array containing by pop struct.,
-#                time-step in the time-series
-#                starting time-step
-
-TimeGermSurvivorship <- function(tstart,covariate,n.runin,Tmax,
-                                 growthObj,survObj,fecObj,
-                                 n.big.matrix,minsize,maxsize, integrate="midpoint", correction="none") {
-                                     
-    rc <- array(dim=c(n.big.matrix+1,Tmax,tstart))
-
-    for (t1 in 1:tstart) {
-        nt <- rep(0,n.big.matrix+1)
-        nt[1] <- 1000
-        for (t in t1:Tmax) {
-            IPM.here <- create.seed.Tmatrix(n.env.class = 1,n.big.matrix = n.big.matrix, minsize = minsize,
-                                            maxsize = maxsize, chosen.cov = covariate[t,],
-                                            growObj = growthObj, survObj = survObj, fecObj = fecObj,
-                                            integrate.type=integrate.type,correction=correction)
-            nt1<-IPM.here %*% nt	
-            rc[,t,t1] <- nt1
-            nt<-nt1
-        }
-    }
-
-    
-    plot(colSums(rc[,1:20,1]),type="l",xlab="timestep", ylab="Number in pop")
-    for (t1 in 1:tstart) points(colSums(rc[,t1:(20+t1),t1]),type="l",col=t1)
-        
-    return(list(rc=rc))
-
 }
 
 

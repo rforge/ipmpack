@@ -1979,24 +1979,30 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 	fecObj@fec.constants[is.na(fecObj@fec.constants)] <- 1 
 	tmp.fecObj <- fecObj
 	
+	#print("fec.const start")
+	#print(fecObj@fec.constants)
 	
 	#density dep? 
-	if (sum(n.microsites)>0) { dd <- TRUE } else { dd <- FALSE; tmp.fecObj@fec.constants <- 1}
+	if (sum(n.microsites)>0) { dd <- TRUE } else { dd <- FALSE}
 	
 	
 	for (t in 1:Tmax) {
-		if (dd) tmp.fecObj@fec.constants <- c(tmp.fecObj@fec.constants, 
+		if (dd) tmp.fecObj@fec.constants <- c(fecObj@fec.constants, 
 					min(n.microsites[min(t,length(n.microsites))]/nt[1],1))
 		
-		
+	
 		tpS <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minsize = minsize,
 				maxsize = maxsize, chosen.cov = covariate[t,],
 				growObj = growthObj, survObj = survObj,
 				integrate.type=integrate.type, correction=correction)
+				
 		tpF <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minsize = minsize,
 				maxsize = maxsize, #chosen.cov = covariate[t,],
 				fecObj = tmp.fecObj,
 				integrate.type=integrate.type, correction=correction)
+
+		#print(range(tpF))
+		#print(tmp.fecObj)	
 		
 		IPM.here <- tpF@.Data+tpS@.Data
 		nt1<-IPM.here %*% nt	
@@ -2033,11 +2039,11 @@ TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
 	fecObj@fec.constants[is.na(fecObj@fec.constants)] <- 1 
 	tmp.fecObj <- fecObj
 	#density dep? 
-	if (sum(n.microsites)>0) { dd <- TRUE } else { dd <- FALSE; tmp.fecObj@fec.constants <- 1}
+	if (sum(n.microsites)>0) { dd <- TRUE } else { dd <- FALSE}
 	
 	
 	for (t in 1:Tmax) {
-		if (dd) tmp.fecObj@fec.constants <- c(tmp.fecObj@fec.constants, 
+		if (dd) tmp.fecObj@fec.constants <- c(fecObj@fec.constants, 
 					min(n.microsites[min(t,length(n.microsites))]/nt[1],1))
 		
 		
