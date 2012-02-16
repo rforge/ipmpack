@@ -64,20 +64,20 @@ getIPMoutput(Tmatrixlist, target.size = c(), Fmatrixlist = NULL)
   \code{\link{help}} {getIPMoutputDirect.Rd}
 }
 \examples{
-dff <- generateData()
-svlist <- makePostSurvivalObjs(dataf=dff, covsurv = FALSE,
-meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
-grlist <- makePostGrowthObjs(dataf=dff, covgrow = FALSE, nitt=5000)
-fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
+%dff <- generateData()
+%svlist <- makePostSurvivalObjs(dataf=dff, covsurv = FALSE,
+%meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
+%grlist <- makePostGrowthObjs(dataf=dff, covgrow = FALSE, nitt=5000)
+%fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
 
 #use only first 10 of each list, for speed
-Tlist <- makeListTmatrix(growObjList=grlist[1:10], survObjList=svlist[1:10],
-n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
+%Tlist <- makeListTmatrix(growObjList=grlist[1:10], survObjList=svlist[1:10],
+%n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
 
-Flist <- makeListFmatrix(growObjList=grlist[1:10], survObjList=svlist[1:10],fecObjList=fvlist[1:10],
-n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
+%Flist <- makeListFmatrix(growObjList=grlist[1:10], survObjList=svlist[1:10],fecObjList=fvlist[1:10],
+%n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
 
-getIPMoutput(Tmatrixlist=Tlist, target.size = 10, Fmatrixlist = Flist)
+%getIPMoutput(Tmatrixlist=Tlist, target.size = 10, Fmatrixlist = Flist)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
