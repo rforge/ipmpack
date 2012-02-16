@@ -828,6 +828,7 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 	newd <- data.frame(size=y,size2=y^2,size3=y^3)
 	if (length(as.numeric(chosen.cov))==1) newd$covariate=as.factor(rep(chosen.cov,length(y)))
 		
+	
 	if (length(grep("logsize",fecObj@fit.fec1$formula))>0 | 
 			length(grep("logsize",fecObj@fit.fec2$formula))>0 | 
 			length(grep("logsize",fecObj@fit.fec3$formula))>0 | 
@@ -839,12 +840,11 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 			length(grep("logsize",fecObj@fit.fec9$formula))>0) { 
 		newd$logsize <- log(y)
 	}
-	
-		print("here0")
-	
+		
 	fecObj@fec.constants[is.na(fecObj@fec.constants)] <- 1
 	
 	fec.values <- matrix(c(rep(1,9),fecObj@fec.constants),ncol=n.big.matrix,nrow=(9+length(fecObj@fec.constants)))
+	
 	if (is.null(fecObj@fit.fec1)==FALSE) fec.values[1,]<-predict(fecObj@fit.fec1,newd,type="response")
 	if (is.null(fecObj@fit.fec2)==FALSE) fec.values[2,]<-predict(fecObj@fit.fec2,newd,type="response")
 	if (is.null(fecObj@fit.fec3)==FALSE) fec.values[3,]<-predict(fecObj@fit.fec3,newd,type="response")
@@ -855,29 +855,28 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 	if (is.null(fecObj@fit.fec8)==FALSE) fec.values[8,]<-predict(fecObj@fit.fec8,newd,type="response")
 	if (is.null(fecObj@fit.fec9)==FALSE) fec.values[9,]<-predict(fecObj@fit.fec9,newd,type="response")
 	
+	#Transforms
 	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fec.values[i,]<-exp(fec.values[i,])
 	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fec.values[i,]<-(fec.values[i,])^2
 	prod.fec.values<-apply(fec.values,2,prod)
 	
+	#Kids
 	tmp<-dnorm(y,fecObj@mean.offspring.size,sqrt(fecObj@var.offspring.size))*h
 	if (correction=="constant") tmp<-tmp/sum(tmp)
 	to.cont<-tmp%*%t(as.numeric(fecObj@offspring.splitter["continuous"])*prod.fec.values)
 	get.matrix <- to.cont
 	ndisc <- length(fecObj@offspring.splitter)-1
 	
-		print("here")
 	
 	if (ndisc>0) {
 		
 		to.discrete <- as.numeric(fecObj@offspring.splitter)[1:ndisc]%*%t(prod.fec.values)
-		print("here2")
 		
 		from.discrete <- matrix(0,ncol=ndisc,nrow=ndisc+n.big.matrix)
 		if (length(fecObj@fec.by.discrete)>0)
 			from.discrete <- c(as.numeric(fecObj@offspring.splitter)[1:ndisc],
 					as.numeric(fecObj@offspring.splitter)[ndisc+1]*tmp)%*%t(fecObj@fec.by.discrete)
 		
-		print("here3")
 		
 		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont)) }
 	
@@ -1995,11 +1994,11 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 				growObj = growthObj, survObj = survObj,
 				integrate.type=integrate.type, correction=correction)
 		tpF <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minsize = minsize,
-				maxsize = maxsize, chosen.cov = covariate[t,],
+				maxsize = maxsize, #chosen.cov = covariate[t,],
 				fecObj = tmp.fecObj,
-				integrate.type=integrate.type)
+				integrate.type=integrate.type, correction=correction)
 		
-		IPM.here <- tpF+tpS
+		IPM.here <- tpF@.Data+tpS@.Data
 		nt1<-IPM.here %*% nt	
 		sum.nt1<-sum(nt1)
 		Rt[t]<-log(sum.nt1)
@@ -2049,7 +2048,7 @@ TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
 		tpF <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minsize = minsize,
 				maxsize = maxsize, chosen.cov = covariate[t,],
 				fecObj = tmp.fecObj,
-				integrate.type=integrate.type)
+				integrate.type=integrate.type, correction=correction)
 		
 		IPM.here <- tpF+tpS
 		nt1<-IPM.here %*% nt	
