@@ -1,6 +1,6 @@
 # TODO: Add comment
 # 
-# Author: seanmcmahon
+# Author: sean mcmahon
 ###############################################################################
 
 
