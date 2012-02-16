@@ -202,7 +202,8 @@ setMethod("surv",
 setMethod("surv", 
           c("numeric","data.frame","survObjMultiCov"),
           function(size,cov,survObj){
-              newd <- cov
+			  newd <- cov
+			  newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
 			  newd$size <- size
               newd$size2 <- size^2
               newd$size3 <- size^3
@@ -249,6 +250,7 @@ setMethod("growth",
           c("numeric","numeric","data.frame","growthObjMultiCov"),
           function(size,sizenext,cov,growthObj){
               newd <- cov
+			  newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
               newd$size <- size
               newd$size2 <- size^2
               newd$size3 <- size^3
@@ -259,7 +261,7 @@ setMethod("growth",
                               growthObj@fit$formula))>0) newd$logsize2=(log(size))^2
 
               mux <- predict(growthObj@fit,newd,type="response")
-              sigmax <- summary(growthObj@fit)$sigma
+			  sigmax <- summary(growthObj@fit)$sigma
               u <- dnorm(sizenext,mux,sigmax,log=FALSE)  
               return(u);
           })
