@@ -1,6 +1,5 @@
 \name{StochGrowthRateManyCov}
 \alias{StochGrowthRateManyCov}
-\alias{StochGrowthRateManyCovSeedBank}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Function for estimating lambdas or invasion rate with many varying covariates
@@ -53,11 +52,7 @@ growthObj, survObj, fecObj, n.big.matrix, minsize, maxsize, n.microsites)
 }
 }
 \details{
-If StochGrowthRateManyCovSeedBank is used, the IPM matrix constructed
-includes a seedbank, and seed germination is determined by a function
-denoted 'pgerminate' of current covariates and the 'germ.params' in
-fecObj; the functional form can be changed; otherwise the population is just structured by
-size. Forms of density dependence beyond density dependence in seedling
+Forms of density dependence beyond density dependence in seedling
 establishment not yet defined. 
 }
 \value{

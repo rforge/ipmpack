@@ -1,6 +1,5 @@
 \name{TrackPopStructManyCov}
 \alias{TrackPopStructManyCov}
-\alias{TrackPopStructManyCovSeedBank}
 \alias{plotResultsStochStruct}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -8,8 +7,7 @@
 }
 \description{
   Provided a set of time-varying covariates, projects the population
-  forward, and stores state of the population, for populations structured
-  by size alone, or size and a seedbank. 
+  forward, and stores state of the population. 
 }
 \usage{
 TrackPopStructManyCov(covariate, n.runin, Tmax, growthObj, survObj, fecObj, n.big.matrix, minsize, maxsize, n.microsites)
@@ -51,10 +49,7 @@ TrackPopStructManyCov(covariate, n.runin, Tmax, growthObj, survObj, fecObj, n.bi
 }
 }
 \details{
-If TrackPopStructManyCovSeedBank is used, the IPM matrix constructed
-includes a seedbank; otherwise the population is just structured by
-size. Forms of density dependence beyond density dependence in seedling
-establishment not yet defined. 
+
 }
 \value{
 \item{rc }{matrix of the numbers of individuals in each size and seed
