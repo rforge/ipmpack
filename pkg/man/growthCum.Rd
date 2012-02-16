@@ -1,8 +1,9 @@
 \name{growthCum}
 \alias{growthCum}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{~~ title for growthCum ~~}
+\title{Model of growth allowing cumulative bin estimation}
 \description{
+Generic function to predict the cdf of size at t+1 given size at t and a growth object
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
@@ -10,28 +11,24 @@ growthCum(size, sizenext, cov, growthObj)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{size}{
-%%     ~~Describe \code{size} here~~
+   \item{size}{
+    vector of current sizes
 }
   \item{sizenext}{
-%%     ~~Describe \code{sizenext} here~~
+    vector of sizes in the next time-step
 }
   \item{cov}{
-%%     ~~Describe \code{cov} here~~
+    covariate level in this time-step (numeric of length 1)
 }
   \item{growthObj}{
-%%     ~~Describe \code{growthObj} here~~
+    a growth object
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+ a vector of length sizenext giving the cdf of each value of sizenext
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -46,20 +43,12 @@ growthCum(size, sizenext, cov, growthObj)
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+growth
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-structure(function (size, sizenext, cov, growthObj) 
-standardGeneric("growthCum"), generic = structure("growthCum", package = "IPMpack"), package = "IPMpack", group = list(), valueClass = character(0), signature = c("size", 
-"sizenext", "cov", "growthObj"), default = `NULL`, skeleton = function (size, 
-    sizenext, cov, growthObj) 
-stop("invalid call in method dispatch to \"growthCum\" (no default method)", 
-    domain = NA)(size, sizenext, cov, growthObj), class = structure("standardGeneric", package = "methods"))
+dff <- generateData()
+gr1 <- makeGrowthObjGeneral(dff)
+growthCum(1,1:5,1,gr1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
