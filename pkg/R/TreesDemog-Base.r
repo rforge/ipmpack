@@ -809,8 +809,7 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 	#size<-y
 	newd <- data.frame(size=y,size2=y^2,size3=y^3)
 	if (length(chosen.cov)==1) newd$covariate=as.factor(rep(chosen.cov,length(y)))
-	
-	
+		
 	if (length(grep("logsize",fecObj@fit.fec1$formula))>0&length(grep("logsize",fecObj@fit.fec2$formula))>0&
 			length(grep("logsize",fecObj@fit.fec3$formula))>0
 			&length(grep("logsize",fecObj@fit.fec4$formula))>0&length(grep("logsize",fecObj@fit.fec5$formula))>0&length(grep("logsize",fecObj@fit.fec6$formula))>0

@@ -98,11 +98,11 @@ covmattest <- data.frame(covariate1=rnorm(length(covtest),covtest,0.5)-1,
                     covariate3=rnorm(length(covtest),covtest,0.5)-1)
 
 #calculate
-r<-StochGrowthRateManyCov(covariate=covmattest,n.runin=12*10,Tmax=length(tvals),
-                   growthObj=gr1,survObj=sv1,fecObj=fv1,
-                   n.big.matrix=100,minsize=2*min(dff$size,na.rm=TRUE),
-                   maxsize=1.5*max(dff$size, na.rm = TRUE),n.microsites=10)
-r
+%r<-StochGrowthRateManyCov(covariate=covmattest,n.runin=5*10,Tmax=length(tvals),
+%                   growthObj=gr1,survObj=sv1,fecObj=fv1,
+%                   n.big.matrix=100,minsize=2*min(dff$size,na.rm=TRUE),
+%                   maxsize=1.5*max(dff$size, na.rm = TRUE),n.microsites=10)
+%r
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
