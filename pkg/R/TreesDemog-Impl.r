@@ -8,7 +8,7 @@
 
 
 
-## 1. Growth models  #############################################
+## 1. Growth  models  #############################################
 
 
 #More general function for growth than older versions listed below

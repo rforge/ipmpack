@@ -6,7 +6,7 @@ logit <- function(x) { u<-exp(pmin(x,50)); return(u/(1+u))}
 ### FUNCTIONS FOR PREDICTING GROWTH AND SURVIVAL ###########################
 ### AS A FUNCTION OF  SIZE, COV, AND GROWTH AND SURV OBJECTS ################
 
-# Register a growth  generic
+# Register a growth  generic 2
 #
 # Parameters - (testing update)
 #   size - size measurement this time-step
