@@ -80,26 +80,26 @@ establishment not yet defined.
 \examples{
 
 #generate relevant data, build objects
-dff <- generateDataArabi()
+dff <- generateDataStoch()
 print(head(dff))
-gr1 <- makeGrowthObjSubsetCovariates(dff,1:3)
-sv1 <- makeSurvObjSubsetCovariates(dff,1:3)
-fv1 <- makeFecObjBasicSubsetCovariates(dff,1:3,1:3)
-fv1@seed.mortality <- 0.5
-fv1@germ.params <- c(-2,8)
+gr1 <- makeGrowthObjGeneralManyCov(dff,explanatoryVariables="size+size2+covariate1")
+sv1 <- makeSurvObjGeneralManyCov(dff,explanatoryVariables="size+size2+covariate2")
+fv1 <- makeFecObjGeneral(dff,explanatoryVariables="size+size2+covariate1")
 
 #generate time-series of covariates for which growth rate is required
 # here set to be seasonal environment. NOTE that the order of covariates
 # is the same as in dff. 
 tvals <- seq(1,20,by=1/12)
 covtest <- (1+0.5*sin(2*pi*tvals))
-covmattest <- cbind(rnorm(length(covtest),covtest,0.5)-1,
-                    rnorm(length(covtest),covtest,0.5)-1,
-                    rnorm(length(covtest),covtest,0.5)-1)
+covmattest <- data.frame(covariate1=rnorm(length(covtest),covtest,0.5)-1,
+                    covariate2=rnorm(length(covtest),covtest,0.5)-1,
+                    covariate3=rnorm(length(covtest),covtest,0.5)-1)
+
 
 st<-TrackPopStructManyCovSeedBank(covariate=covmattest,n.runin=12*10,Tmax=length(tvals),
                    growthObj=gr1,survObj=sv1,fecObj=fv1,
-                   n.big.matrix=100,minsize=2*min(dff$size),maxsize=1.5*minsize=max(dff$size, na.rm = TRUE),n.microsites=10)
+                   n.big.matrix=100,minsize=2*min(dff$size,na.rm=TRUE),
+                   maxsize=1.5*(dff$size, na.rm = TRUE),n.microsites=10)
 
 
 #function to plot output
