@@ -57,7 +57,7 @@ See manual for details on building case-specific growth objects.
 }
 \examples{
 #generate data
-dff<-generateDataArabi()
+dff<-generateData()
 #make simple linear regression growth object relating size to size at t+1
 gr1 <- makeGrowthObjGeneralManyCov(dataf=dff,
 explanatoryVariables="size+covariate1+covariate3", responseType="sizenext")

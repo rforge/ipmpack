@@ -48,7 +48,7 @@ makeSurvObjGeneral(dataf,explanatoryVariables="size+size2+size3")
 }
 \examples{
 #generate data
-dff<-generateDataArabi()
+dff<-generateData()
 #make simple logistic regression survival object relating survival to size at t
 sv1 <- makeSurvObjGeneralManyCov(dff, explanatoryVariables="size+covariate2")
 #assess fit for model with discrete environmental classes fitted
