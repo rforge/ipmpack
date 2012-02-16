@@ -717,11 +717,14 @@ create.MPM.Tmatrix <- function(dataf, bins, n.env=1) {
 
 create.MPM.Fmatrix <- function(dataf, bins, p.est=1, n.env=1) {
     
-    loc.now <- findInterval(dataf$size[dataf$fec>0],bins)+1
-    n.now <- sapply(split(dataf$fec[dataf$fec>0],loc.now),median)
-    loc.next <- table(findInterval(dataf$sizenext[is.na(dataf$size)],bins)+1)/length(dataf$sizenext[is.na(dataf$size)],na.rm=TRUE)    
+    loc.now <- findInterval(dataf$size[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],bins)+1
+    n.now <- sapply(split(dataf$fec[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],loc.now),median)
+    loc.next <- table(findInterval(dataf$sizenext[is.na(dataf$size)],bins)+1)/
+			length(dataf$sizenext[is.na(dataf$size) & !is.na(dataf$sizenext)])    
     
-    nbins <- max(c(loc.next,loc.now))
+	
+    nbins <- max(c(loc.next,loc.now)); 
+	print(nbins)
     
     MPM <- matrix(0,nbins,nbins)
     for (j in 1:length(loc.next)) MPM[j,as.numeric(names(n.now))] <- p.est * loc.next[j]*n.now
