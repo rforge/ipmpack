@@ -550,18 +550,18 @@ generateDataStoch <- function(){
 	covariate2 <- rnorm(1000)
 	covariate3 <- rnorm(1000)
 	size <- rnorm(1000,5,2)
-	sizel <- 1+0.9*size+3*covariate1+0.01*covariate2+0.2*covariate3+rnorm(1000,0,0.1)
+	sizenext <- 1+0.9*size+3*covariate1+0.01*covariate2+0.2*covariate3+rnorm(1000,0,0.1)
 	surv <- rbinom(1000,1,logit(-2+0.35*size+1*covariate1))
 	fec <- exp(-1+2*size+0*covariate1)
 	#set to flower when covariate1 is around 1.5
-	pfec <- 1*(runif(length(size))<pflower(size,matrix(covariate1,length(covariate1),1))); #print(pfec)
+	pfec <- 1*(runif(length(size))<logit(size+covariate1)); #print(pfec)
 	fec[pfec==0] <- 0
 	#fill in stage
 	stage <- stagenext <- rep("continuous",1000)
 	stage[is.na(size)] <- NA
 	stagenext[is.na(sizenext)] <- "dead"
 	
-	dataf <- data.frame(size=size,sizel=sizel,surv=surv,
+	dataf <- data.frame(size=size,sizenext=sizenext,surv=surv,
 			covariate1=covariate1,covariate2=covariate2,covariate3=covariate3,
 			fec=fec, stage=stage,stagenext=stagenext)
 	return(dataf)
