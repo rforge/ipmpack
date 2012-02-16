@@ -31,8 +31,7 @@ largest size
 }
 }
 \details{
-Currently uses makeSurvObjDiscreteCovariate, etc, so restricted to one
-polynomial. Should use 'eval' perhaps to make more flexible. 
+Currently uses makeSurvObjGeneral with a discrete covariate 
 }
 \value{
   list of matrices corresponding to covariates, in order
