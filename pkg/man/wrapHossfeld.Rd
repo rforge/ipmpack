@@ -54,7 +54,7 @@ wrapHossfeld(par, dataf)
 function (par, dataf) 
 {
     pred <- Hossfeld(dataf$size, par[1:3])
-    ss <- sum((pred - dataf$incr)^2, na.rm = T)
+    ss <- sum((pred - dataf$incr)^2, na.rm = TRUE)
     return(ss)
   }
 }

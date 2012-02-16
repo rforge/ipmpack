@@ -99,7 +99,7 @@ covmattest <- cbind(rnorm(length(covtest),covtest,0.5)-1,
 
 st<-TrackPopStructManyCovSeedBank(covariate=covmattest,n.runin=12*10,Tmax=length(tvals),
                    growthObj=gr1,survObj=sv1,fecObj=fv1,
-                   n.big.matrix=100,minsize=2*min(dff$size),maxsize=1.5*max(dff$size),n.microsites=10)
+                   n.big.matrix=100,minsize=2*min(dff$size),maxsize=1.5*minsize=max(dff$size, na.rm = TRUE),n.microsites=10)
 
 
 #function to plot output

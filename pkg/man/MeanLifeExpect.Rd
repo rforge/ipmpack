@@ -42,13 +42,13 @@ interpretation. Sinauer.
 }
 \examples{
 dff <- generateData()
-Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = T),
-maxsize=max(dff$size),growObj=makeGrowthObj(dff),
+Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
+maxsize=minsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff))
 PassageTime(5,Tmatrix)
 
-%Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = T),
-%maxsize=max(dff$size),growObj=makeGrowthObj(dff),
+%Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
+%maxsize=minsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
 %survObj=makeSurvObj(dff))
 %MeanLifeExpect(Tmatrix)
 

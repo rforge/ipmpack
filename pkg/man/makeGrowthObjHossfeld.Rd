@@ -57,7 +57,7 @@ function (dataf)
     gr1 <- new("growthObj.Hossfeld")
     gr1@paras <- tmp$par
     resids <- Hossfeld(dataf$size, tmp$par) - dataf$incr
-    gr1@sd <- sd(resids, na.rm = T)
+    gr1@sd <- sd(resids, na.rm = TRUE)
     return(gr1)
   }
 }
