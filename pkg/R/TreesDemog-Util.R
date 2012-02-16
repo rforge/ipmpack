@@ -679,8 +679,8 @@ coerceMatrixIPM <- function(amat) {
 #
 create.MPM.Tmatrix <- function(dataf, bins, n.env=1) {
     
-    loc.now <- findInterval(dataf$size,bins)+1
-    loc.next <- findInterval(dataf$sizenext,bins)+1    
+    loc.now <- findInterval(dataf$size[!is.na(dataf$size)],bins)+1
+    loc.next <- findInterval(dataf$sizenext[!is.na(dataf$sizenext)],bins)+1    
     
     nbins <- max(c(loc.next,loc.now))
 
