@@ -431,6 +431,96 @@ makeFecObjGeneral <- function(dataf,
 
 
 
+
+makeFecObjGeneralManyCov <- function(dataf,
+		fec.constants=as.numeric(NA),
+		explanatoryVariables="size",
+		Family="gaussian",
+		Transform="none",
+		mean.offspring.size=NA,
+		var.offspring.size=NA,
+		offspring.splitter=data.frame(continuous=1),
+		fec.by.discrete=matrix(NA,nrow=0,ncol=0)){
+	
+	##warnings
+	if (length(dataf$stage)==0) {
+		print("Warning - no column named stage - assuming all continuous")
+		dataf$stagenext <- dataf$stage <- rep("continuous", length(dataf[,1]))
+		dataf$stage[is.na(dataf$size)] <- NA
+		dataf$stagenext[is.na(dataf$sizenext)] <- "dead"
+	}
+	
+	if(ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
+		print("Warning - offspring splitter indicates more than just continuous stages. No fertility by the discrete stages supplied in fec.by.discrete; assumed that is 0")
+		fec.by.discrete <- matrix(0,col(offspring.splitter)-1,col(offspring.splitter)-1)
+	}
+	
+	if (length(grep("covariate",explanatoryVariables))>0) {
+		dataf$covariate <- as.factor(dataf$covariate)
+		dataf$covariatenext <- as.factor(dataf$covariatenext)
+		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
+	}
+	
+	f1 <- new("fecObjMultiCov")
+	dataf$size2 <- dataf$size^2
+	if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
+	
+	fecnames <- names(dataf)[grep("fec",names(dataf))]
+	if (length(fecnames)>length(explanatoryVariables)) {
+		misE <- length(explanatoryVariables):length(fecnames)
+		print(c("number in explanatoryVariables not the same as the number of fecundity columns in the data file, using default of `size' for missing ones which are:",fecnames[misE]))
+		explanatoryVariables <- c(explanatoryVariables,rep("size",length(fecnames)-length(explanatoryVariables)))
+	}
+	if (length(fecnames)>length(Family)) {
+		misE <- length(Family):length(fecnames)
+		print(c("number of families not the same as the number of fecundity columns in the data file, using default of `gaussian' for missing ones which are:",fecnames[misE]))
+		Family <- c(Family,rep("gaussian",length(fecnames)-length(Family)))
+	}
+	if (length(fecnames)>length(Transform)) {
+		misE <- length(Transform):length(fecnames)
+		print(c("number of transforms not the same as the number of fecundity columns in the data file, using default of `none' for missing ones which are:",fecnames[misE]))
+		Transform <- c(Transform,rep("none",length(fecnames)-length(Transform)))
+	}
+	
+	for (i in 1:length(fecnames)) {
+		
+		if (Transform[i]=="log") dataf[,fecnames[i]] <- log(dataf[,fecnames[i]])
+		if (Transform[i]=="sqrt") dataf[,fecnames[i]] <- sqrt(dataf[,fecnames[i]])
+		dataf[!is.finite(dataf[,fecnames[i]]),fecnames[i]] <- NA
+		
+		#print(range(dataf[,fecnames[i]]))
+		#print(range(dataf[,"size"], na.rm=TRUE))
+		#print(range(dataf[,"covariate"]))
+		
+		fit <- glm(paste(fecnames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
+		if (i==1) f1@fit.fec1 <- fit
+		if (i==2) f1@fit.fec2 <- fit
+		if (i==3) f1@fit.fec3 <- fit
+		if (i==4) f1@fit.fec4 <- fit
+		if (i==5) f1@fit.fec5 <- fit
+		if (i==6) f1@fit.fec6 <- fit
+		if (i==7) f1@fit.fec7 <- fit
+		if (i==8) f1@fit.fec8 <- fit
+		if (i==9) f1@fit.fec9 <- fit
+	}
+	
+	if (is.na(mean.offspring.size)) {
+		offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stagenext=="continuous")
+		mean.offspring.size <- mean(offspringdata$sizenext)
+		var.offspring.size <- var(offspringdata$sizenext) }
+	f1@fec.constants <- fec.constants
+	f1@mean.offspring.size <- mean.offspring.size
+	f1@var.offspring.size <- var.offspring.size
+	f1@offspring.splitter <- offspring.splitter / max(offspring.splitter) 
+	f1@fec.by.discrete <- fec.by.discrete
+	f1@Transform <- Transform
+	return(f1)
+}
+
+
+
+
+
 # 4. Discrete Transition models  #######################################################################################################
 
 ## Function to take a data-frame and make a discrete transition object

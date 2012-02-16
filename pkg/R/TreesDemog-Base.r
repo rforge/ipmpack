@@ -143,6 +143,24 @@ setClass("fecObj",
 				Transform = "character")
 )
 
+# Create a generic fertility object for multiple covariates
+setClass("fecObjMultiCov",
+		representation(fit.fec1 = "glm",
+				fit.fec2 = "glm",
+				fit.fec3 = "glm",
+				fit.fec4 = "glm",
+				fit.fec5 = "glm",
+				fit.fec6 = "glm",
+				fit.fec7 = "glm",
+				fit.fec8 = "glm",
+				fit.fec9 = "glm",
+				fec.constants = "numeric",
+				offspring.splitter = "data.frame",
+				mean.offspring.size = "numeric",
+				var.offspring.size = "numeric",
+				fec.by.discrete = "matrix",
+				Transform = "character")
+)
 
 
 
@@ -808,7 +826,7 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 	h<-y[2]-y[1]
 	#size<-y
 	newd <- data.frame(size=y,size2=y^2,size3=y^3)
-	if (length(chosen.cov)==1) newd$covariate=as.factor(rep(chosen.cov,length(y)))
+	if (length(as.numeric(chosen.cov))==1) newd$covariate=as.factor(rep(chosen.cov,length(y)))
 		
 	if (length(grep("logsize",fecObj@fit.fec1$formula))>0&length(grep("logsize",fecObj@fit.fec2$formula))>0&
 			length(grep("logsize",fecObj@fit.fec3$formula))>0
