@@ -2057,7 +2057,7 @@ TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
 		
 	}
 	
-	return(list(rc=rc,IPM.here=IPM.here))
+	return(list(rc=rc,IPM.here=tpS))
 }
 
 
