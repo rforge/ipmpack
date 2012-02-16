@@ -44,8 +44,8 @@ interpretation. Sinauer. p119
 \examples{
 dff <- generateData()
 Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
-maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
-survObj=makeSurvObj(dff))
+maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObjGeneral(dff),
+survObj=makeSurvObjGeneral(dff))
 VarLifeExpect(Tmatrix)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
