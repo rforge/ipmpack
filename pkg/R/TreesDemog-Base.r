@@ -200,12 +200,10 @@ setMethod("surv",
 #Returns -
 #  survival probability for given sizes and covariate level
 setMethod("surv", 
-          c("numeric","numeric","survObjMultiCov"),
+          c("numeric","data.frame","survObjMultiCov"),
           function(size,cov,survObj){
-              ncov <- length(cov)
-              newd <- as.data.frame(matrix(rep(cov,each=length(size)),length(size),ncov))
-              colnames(newd) <- paste("covariate",1:ncov,sep="")
-              newd$size <- size
+              newd <- cov
+			  newd$size <- size
               newd$size2 <- size^2
               newd$size3 <- size^3
 
@@ -248,11 +246,9 @@ setMethod("growth",
 
 # Same for many covariates
 setMethod("growth", 
-          c("numeric","numeric","numeric","growthObjMultiCov"),
+          c("numeric","numeric","data.frame","growthObjMultiCov"),
           function(size,sizenext,cov,growthObj){
-              ncov <- length(cov)
-              newd <- as.data.frame(matrix(rep(cov,each=length(size)),length(size),ncov))
-              colnames(newd) <- paste("covariate",1:ncov,sep="")
+              newd <- cov
               newd$size <- size
               newd$size2 <- size^2
               newd$size3 <- size^3
@@ -1951,7 +1947,6 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
     Rt<-rep(NA,Tmax)
     tmp.fecObj <- fecObj
 
-    colnames(covariate) <- paste("covariate",1:length(cov.vals),sep="")
 
     #density dep? 
     if (sum(n.microsites)>0) { dd <- TRUE } else { dd <- FALSE; tmp.fecObj@p.est <- 1}
