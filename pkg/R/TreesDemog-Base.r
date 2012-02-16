@@ -817,7 +817,7 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 			&length(grep("logsize",fecObj@fit.fec7$formula))>0&length(grep("logsize",fecObj@fit.fec8$formula))>0
 			&length(grep("logsize",fecObj@fit.fec9$formula))>0) { newd$logsize <- log(y)}
 	
-	if (is.na(fecObj@fec.constants) & length(fecObj@fec.constants)==1) fecObj@fec.constants <- 1
+	if (is.na(sum(fecObj@fec.constants)) & length(fecObj@fec.constants)==1) fecObj@fec.constants <- 1
 	
 	fec.values <- matrix(c(rep(1,9),fecObj@fec.constants),ncol=n.big.matrix,nrow=(9+length(fecObj@fec.constants)))
 	if (is.null(fecObj@fit.fec1)==FALSE) fec.values[1,]<-predict(fecObj@fit.fec1,newd,type="response")
