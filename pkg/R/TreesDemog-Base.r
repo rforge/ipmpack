@@ -828,13 +828,21 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 	newd <- data.frame(size=y,size2=y^2,size3=y^3)
 	if (length(as.numeric(chosen.cov))==1) newd$covariate=as.factor(rep(chosen.cov,length(y)))
 		
-	if (length(grep("logsize",fecObj@fit.fec1$formula))>0&length(grep("logsize",fecObj@fit.fec2$formula))>0&
-			length(grep("logsize",fecObj@fit.fec3$formula))>0
-			&length(grep("logsize",fecObj@fit.fec4$formula))>0&length(grep("logsize",fecObj@fit.fec5$formula))>0&length(grep("logsize",fecObj@fit.fec6$formula))>0
-			&length(grep("logsize",fecObj@fit.fec7$formula))>0&length(grep("logsize",fecObj@fit.fec8$formula))>0
-			&length(grep("logsize",fecObj@fit.fec9$formula))>0) { newd$logsize <- log(y)}
+	if (length(grep("logsize",fecObj@fit.fec1$formula))>0 | 
+			length(grep("logsize",fecObj@fit.fec2$formula))>0 | 
+			length(grep("logsize",fecObj@fit.fec3$formula))>0 | 
+			length(grep("logsize",fecObj@fit.fec4$formula))>0 | 
+			length(grep("logsize",fecObj@fit.fec5$formula))>0 | 
+			length(grep("logsize",fecObj@fit.fec6$formula))>0 | 
+			length(grep("logsize",fecObj@fit.fec7$formula))>0 | 
+			length(grep("logsize",fecObj@fit.fec8$formula))>0 | 
+			length(grep("logsize",fecObj@fit.fec9$formula))>0) { 
+		newd$logsize <- log(y)
+	}
 	
-	if (is.na(sum(fecObj@fec.constants)) & length(fecObj@fec.constants)==1) fecObj@fec.constants <- 1
+		print("here0")
+	
+	fecObj@fec.constants[is.na(fecObj@fec.constants)] <- 1
 	
 	fec.values <- matrix(c(rep(1,9),fecObj@fec.constants),ncol=n.big.matrix,nrow=(9+length(fecObj@fec.constants)))
 	if (is.null(fecObj@fit.fec1)==FALSE) fec.values[1,]<-predict(fecObj@fit.fec1,newd,type="response")
@@ -846,6 +854,7 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 	if (is.null(fecObj@fit.fec7)==FALSE) fec.values[7,]<-predict(fecObj@fit.fec7,newd,type="response")
 	if (is.null(fecObj@fit.fec8)==FALSE) fec.values[8,]<-predict(fecObj@fit.fec8,newd,type="response")
 	if (is.null(fecObj@fit.fec9)==FALSE) fec.values[9,]<-predict(fecObj@fit.fec9,newd,type="response")
+	
 	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fec.values[i,]<-exp(fec.values[i,])
 	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fec.values[i,]<-(fec.values[i,])^2
 	prod.fec.values<-apply(fec.values,2,prod)
@@ -856,13 +865,19 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 	get.matrix <- to.cont
 	ndisc <- length(fecObj@offspring.splitter)-1
 	
+		print("here")
+	
 	if (ndisc>0) {
+		
 		to.discrete <- as.numeric(fecObj@offspring.splitter)[1:ndisc]%*%t(prod.fec.values)
+		print("here2")
+		
 		from.discrete <- matrix(0,ncol=ndisc,nrow=ndisc+n.big.matrix)
 		if (length(fecObj@fec.by.discrete)>0)
 			from.discrete <- c(as.numeric(fecObj@offspring.splitter)[1:ndisc],
 					as.numeric(fecObj@offspring.splitter)[ndisc+1]*tmp)%*%t(fecObj@fec.by.discrete)
 		
+		print("here3")
 		
 		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont)) }
 	
