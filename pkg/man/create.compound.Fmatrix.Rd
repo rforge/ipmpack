@@ -90,7 +90,7 @@ dff<-generateDataDiscrete()
 dff$covariate <- sample(1:3,size=nrow(dff),replace=TRUE)
 dff$covariatenext <- sample(1:3,size=nrow(dff),replace=TRUE)
 fv1 <- makeFecObjGeneral(dff,
-explanatoryVariables="size",Transform="log",
+explanatoryVariables="size",Transform="none",
 offspring.splitter=data.frame(continuous=0.9,dormant=0.1))
 Fmatrix <-create.compound.Fmatrix(minsize=min(dff$size,na.rm=TRUE),
 maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),

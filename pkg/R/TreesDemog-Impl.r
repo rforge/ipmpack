@@ -430,7 +430,7 @@ makeFecObjGeneral <- function(dataf,
 		 
 
 
-
+## NO different from the above yet, except in what it produces
 
 makeFecObjGeneralManyCov <- function(dataf,
 		fec.constants=as.numeric(NA),

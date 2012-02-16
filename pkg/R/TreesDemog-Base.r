@@ -845,15 +845,15 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 	
 	fec.values <- matrix(c(rep(1,9),fecObj@fec.constants),ncol=n.big.matrix,nrow=(9+length(fecObj@fec.constants)))
 	
-	if (is.null(fecObj@fit.fec1)==FALSE) fec.values[1,]<-predict(fecObj@fit.fec1,newd,type="response")
-	if (is.null(fecObj@fit.fec2)==FALSE) fec.values[2,]<-predict(fecObj@fit.fec2,newd,type="response")
-	if (is.null(fecObj@fit.fec3)==FALSE) fec.values[3,]<-predict(fecObj@fit.fec3,newd,type="response")
-	if (is.null(fecObj@fit.fec4)==FALSE) fec.values[4,]<-predict(fecObj@fit.fec4,newd,type="response")
-	if (is.null(fecObj@fit.fec5)==FALSE) fec.values[5,]<-predict(fecObj@fit.fec5,newd,type="response")
-	if (is.null(fecObj@fit.fec6)==FALSE) fec.values[6,]<-predict(fecObj@fit.fec6,newd,type="response")
-	if (is.null(fecObj@fit.fec7)==FALSE) fec.values[7,]<-predict(fecObj@fit.fec7,newd,type="response")
-	if (is.null(fecObj@fit.fec8)==FALSE) fec.values[8,]<-predict(fecObj@fit.fec8,newd,type="response")
-	if (is.null(fecObj@fit.fec9)==FALSE) fec.values[9,]<-predict(fecObj@fit.fec9,newd,type="response")
+	if (!is.null(fecObj@fit.fec1)) fec.values[1,]<-predict(fecObj@fit.fec1,newd,type="response")
+	if (!is.null(fecObj@fit.fec2)) fec.values[2,]<-predict(fecObj@fit.fec2,newd,type="response")
+	if (!is.null(fecObj@fit.fec3)) fec.values[3,]<-predict(fecObj@fit.fec3,newd,type="response")
+	if (!is.null(fecObj@fit.fec4)) fec.values[4,]<-predict(fecObj@fit.fec4,newd,type="response")
+	if (!is.null(fecObj@fit.fec5)) fec.values[5,]<-predict(fecObj@fit.fec5,newd,type="response")
+	if (!is.null(fecObj@fit.fec6)) fec.values[6,]<-predict(fecObj@fit.fec6,newd,type="response")
+	if (!is.null(fecObj@fit.fec7)) fec.values[7,]<-predict(fecObj@fit.fec7,newd,type="response")
+	if (!is.null(fecObj@fit.fec8)) fec.values[8,]<-predict(fecObj@fit.fec8,newd,type="response")
+	if (!is.null(fecObj@fit.fec9)) fec.values[9,]<-predict(fecObj@fit.fec9,newd,type="response")
 	
 	#Transforms
 	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fec.values[i,]<-exp(fec.values[i,])
