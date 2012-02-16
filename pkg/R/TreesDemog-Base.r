@@ -2046,7 +2046,7 @@ TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
 				growObj = growthObj, survObj = survObj,
 				integrate.type=integrate.type, correction=correction)
 		tpF <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minsize = minsize,
-				maxsize = maxsize, chosen.cov = covariate[t,],
+				maxsize = maxsize, #chosen.cov = covariate[t,],
 				fecObj = tmp.fecObj,
 				integrate.type=integrate.type, correction=correction)
 		
