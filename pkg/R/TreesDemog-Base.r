@@ -826,8 +826,8 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 	h<-y[2]-y[1]
 	#size<-y
 	newd <- data.frame(size=y,size2=y^2,size3=y^3)
-	if (length(as.numeric(chosen.cov))==1) newd$covariate=as.factor(rep(chosen.cov,length(y)))
-		
+	if (length(as.numeric(chosen.cov))==1) newd$covariate <- as.factor(rep(chosen.cov,length(y)))
+		#print(head(newd))
 	
 	if (length(grep("logsize",fecObj@fit.fec1$formula))>0 | 
 			length(grep("logsize",fecObj@fit.fec2$formula))>0 | 
@@ -858,6 +858,7 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 	#Transforms
 	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fec.values[i,]<-exp(fec.values[i,])
 	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fec.values[i,]<-(fec.values[i,])^2
+	fec.values[!is.finite(fec.values)] <- exp(200)
 	prod.fec.values<-apply(fec.values,2,prod)
 	
 	#Kids
