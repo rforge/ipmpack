@@ -10,7 +10,7 @@
   (compound T and F matrixes not possible yet)
 }
 \usage{
-sensParams(growObj, survObj, fecObj, n.big.matrix, minsize, maxsize)
+sensParams(growObj, survObj, fecObj, n.big.matrix, minsize, maxsize, integrate.type, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

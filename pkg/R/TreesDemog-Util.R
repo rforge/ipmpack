@@ -1,14 +1,5 @@
 
 
-#Utility function for reloading
-#source code
-reload.source <- function(filename="") {
-    source(paste(filename,"TreesDemog-Base.r", sep=""))
-    source(paste(filename,"TreesDemog-Impl.r", sep=""))
-    source(paste(filename,"TreesDemog-Util.r", sep=""))
-#    source(paste(filename,"TreesDemog-Zuidema.r", sep=""))
-}
-
 
 # Function to extract IPM output from a list
 # of T (survival + growth) and F (fertility) matrices
