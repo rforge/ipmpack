@@ -18,17 +18,16 @@ makeListIPMs(dataf, n.big.matrix = 10, minsize = -2, maxsize = 10)
     'covariate', 'covariatel'; 
     and 'age' indicating which individuals
     are seedlings for identifying the mean and variance in seedling
-      size. 
-}
-  \item{n.big.matrix}{
-number of bins in size
-}
+      size. }
+ \item{n.big.matrix}{
+	number of bins in size
+	}
   \item{minsize}{
-smallest size
-}
+	smallest size
+	}
   \item{maxsize}{
-largest size
-}
+	largest size
+	}
 }
 \details{
 Currently uses makeSurvObjGeneral with a discrete covariate 

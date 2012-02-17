@@ -63,5 +63,6 @@ maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=make
 
 rc <- timeToSize(starting.sizes=start.sizes, IPM=Tmatrix, end.size=30, 
 starting.env = 1, maxt = 100, prop.reach = 0.01)
+}
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -20,7 +20,7 @@ makePostFecObjs(dataf,fec.constants,explanatoryVariables,Family,Transform,mean.o
       "stagenext", "fec1", "fec2" or other names containing fec; up to
       nine are currently possible (and note that ANY name containing
       "fec" will be included and these MUST NOT be transformed via log,
-      etc, since the fertility object produced will assume that it has total reproductive output.)}}
+      etc, since the fertility object produced will assume that it has total reproductive output.)}
   \item{fec.constants}{a numeric vector containing the value by which
     each of the fecundity transforms will be multplied \emph{in the
       order defined by the alphabetical order of column names
@@ -83,9 +83,9 @@ probability of seed establishment must be further added. Requires MCMCglmm.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-%dff<-generateData()
-%fvlist <- makePostFecObjs(dataf=dff,explanatoryVariables="size+size2+covariate",
-%                               nitt = 5000)
+dff<-generateData()
+fvlist <- makePostFecObjs(dataf=dff,explanatoryVariables="size+size2+covariate",
+                               nitt = 5000)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
