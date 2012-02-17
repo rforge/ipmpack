@@ -2,8 +2,8 @@
 \alias{sens}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
- ~~function to do ... ~~
-}
+ Function to estimate element by element sensitivity
+ }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
@@ -42,19 +42,11 @@ sens(A)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
+dff<-generateData()
+Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
+maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff))
+ss <- sens(Tmatrix)
 
-## The function is currently defined as
-function (A) 
-{
-    w <- Re(eigen(A)$vectors[, 1])
-    v <- Re(eigen(t(A))$vectors[, 1])
-    vw <- sum(v * w)
-    s <- outer(v, w)
-    return(s/vw)
-  }
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

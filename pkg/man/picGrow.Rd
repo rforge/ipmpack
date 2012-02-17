@@ -4,7 +4,7 @@
 \title{  Function to make pictures of data with growth models
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Takes the data-file and a growth object and shows the model fit over the data
 }
 \usage{
 picGrow(dataf, growObj)
@@ -44,6 +44,9 @@ picGrow(dataf, growObj)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
+dff<-generateData()
+gr1 <- makeGrowthObjGeneral(dff)
+picGrow(dff,gr1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
