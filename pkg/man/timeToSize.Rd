@@ -2,7 +2,7 @@
 \alias{timeToSize}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-~~function to do ... ~~
+Function to project how long it takes to get from a starting distribution to an final size
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
@@ -13,33 +13,32 @@ timeToSize(starting.sizes, IPM, end.size, starting.env = 1, maxt = 100, prop.rea
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{starting.sizes}{
-%%     ~~Describe \code{starting.sizes} here~~
+vector of starting sizes (in any order)
 }
   \item{IPM}{
-%%     ~~Describe \code{IPM} here~~
+the IPM (just a Tmatrix)
 }
   \item{end.size}{
-%%     ~~Describe \code{end.size} here~~
+the end size
 }
   \item{starting.env}{
-%%     ~~Describe \code{starting.env} here~~
+vector of starting env, same length as starting.sizes, or length=1
 }
   \item{maxt}{
-%%     ~~Describe \code{maxt} here~~
+the max number of time-steps tested
 }
   \item{prop.reach}{
-%%     ~~Describe \code{prop.reach} here~~
+the proportion of the starting pop that have to be > than the end.size for it to count
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Plots and returned values of survivorship from preliminary runs will give a notion of how low this has to be
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+ Returns - a list containing: ts.dist - the time-series of size distribution
+                              time.reach - the time for n.reach to be at sizes > end.size
+                              survivorship - survivorship over the course of the time elapsed for that pop
+
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -57,7 +56,12 @@ timeToSize(starting.sizes, IPM, end.size, starting.env = 1, maxt = 100, prop.rea
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
+dff <- generateData()
+start.sizes <- rnorm(100,10,1)
+Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
+maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff))
+
+rc <- timeToSize(starting.sizes=start.sizes, IPM=Tmatrix, end.size=30, 
+starting.env = 1, maxt = 100, prop.reach = 0.01)
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
