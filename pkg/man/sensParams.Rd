@@ -2,7 +2,7 @@
 \alias{sensParams}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Estimating sensitivity and elastivity of parameters underlying an IPM
+  Estimating sensitivity and elasticity of parameters underlying an IPM
 }
 \description{
   Uses perturbation to estimate the sensitivity and elasticity of
@@ -79,19 +79,19 @@ barplot(res$elam, main = expression("Parameter elasticity of " *
  lambda), las = 2, cex.names = 0.5) 
 
 #same but with two fertility functions WON'T WORK ALTHOUGH DOES DIRECTLY???
-%dff$fec2 <- dff$fec>0 #create binomial describing e.g., prob of flowering
-%fv1 <- makeFecObjGeneral(dff,
-%explanatoryVariables=c("size+size2","size"), Family=c("gaussian","binomial"))
+dff$fec2 <- dff$fec>0 #create binomial describing e.g., prob of flowering
+fv1 <- makeFecObjGeneral(dff,
+explanatoryVariables=c("size+size2","size"), Family=c("gaussian","binomial"))
 
-%res <- sensParams(growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff),
-%fecObj=fv1, n.big.matrix=50, minsize=min(dff$size, na.rm=TRUE),
-%maxsize=max(dff$size, na.rm=TRUE))
+res <- sensParams(growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff),
+fecObj=fv1, n.big.matrix=50, minsize=min(dff$size, na.rm=TRUE),
+maxsize=max(dff$size, na.rm=TRUE))
 
-%par(mfrow = c(2, 1), bty = "l", pty = "m") 
-%barplot(res$slam, main = expression("Parameter sensitivity of " * 
-% lambda), las = 2, cex.names = 0.5) 
-%barplot(res$elam, main = expression("Parameter elasticity of " * 
-% lambda), las = 2, cex.names = 0.5) 
+par(mfrow = c(2, 1), bty = "l", pty = "m") 
+barplot(res$slam, main = expression("Parameter sensitivity of " * 
+ lambda), las = 2, cex.names = 0.5) 
+barplot(res$elam, main = expression("Parameter elasticity of " * 
+ lambda), las = 2, cex.names = 0.5) 
 
 
 #same but with two fertility functions and a constant
