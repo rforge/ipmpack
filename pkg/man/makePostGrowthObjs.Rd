@@ -62,10 +62,10 @@ meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
 \code{\link{makePostSurvivalObjs}}, makePostSurvObjs 
 }
 \examples{
-%dff<-generateData()
-%grlist <- makePostGrowthObjs(dataf=dff,explanatoryVariables="size+size2+covariate",
-%                               responseType="sizenext",
-%                               meanB=rep(0,3),varB=rep(1e10),nitt = 5000)
+dff<-generateData()
+grlist <- makePostGrowthObjs(dataf=dff,explanatoryVariables="size+size2+covariate",
+                               responseType="sizenext",
+                               meanB=rep(0,3),varB=rep(1e10),nitt = 5000)
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

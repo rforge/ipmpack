@@ -22,6 +22,11 @@ meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
     survived or not); facultatively, dataf may include `covariate'
     (discrete or continuous) or other covariates
   }
+  \item{explanatoryVariables}{a formula describing the desired
+    explanatory variables (interactions, etc) in classical R
+    style, i.e. separated by `+', `*', `:'. Possible covariates include `size', 'size2' (size^2), `size3'
+    (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
+    `covariate'.}
   \item{meanB}{
     vector defining the means of the priors of the coefficients for survival (should be the same length as desired coeff)
   }
@@ -55,10 +60,10 @@ meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-%dff<-generateData()
-%svlist <- makePostSurvivalObjs(dataf=dff,
-%explanatoryVariables="size+size2+covariate",
-%meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
+dff<-generateData()
+svlist <- makePostSurvivalObjs(dataf=dff,
+explanatoryVariables="size+size2+covariate",
+meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
