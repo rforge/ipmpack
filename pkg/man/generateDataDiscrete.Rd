@@ -36,7 +36,8 @@ generateDataDiscrete()
 %%  ~~who you are~~
 }
 \note{
-%%  ~~further notes~~
+Note that the data-frame generated contains no covariates (either discrete or continuous) 
+and so may be inappropriate for some functions. %%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
