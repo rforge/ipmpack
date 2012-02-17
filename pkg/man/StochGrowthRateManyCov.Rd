@@ -13,7 +13,8 @@ dependence is specified.
 }
 \usage{
 StochGrowthRateManyCov(covariate, n.runin, Tmax,
-growthObj, survObj, fecObj, n.big.matrix, minsize, maxsize, n.microsites)
+growthObj, survObj, fecObj, n.big.matrix, minsize, maxsize, 
+n.microsites, integrate.type,correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -50,6 +51,15 @@ growthObj, survObj, fecObj, n.big.matrix, minsize, maxsize, n.microsites)
     seedling establishment, and if length(n.microsites)>1, then the
     number of microsites available for establishment at time t is n.microsites[min(t,length(n.microsites))] 
 }
+  \item{integrate.type}{
+    integration type, defaults to "midpoint" (which uses prob. density
+    function); other option is "cumul" (which uses the cumul. density function)
+  }
+  \item{correction}{
+    correction type, defaults to "none"; option is "constant" which will
+    multiply every column of the IPM by a constant sufficient to adjust
+    values to those predicted for survival at that size. 
+  }
 }
 \details{
 Forms of density dependence beyond density dependence in seedling
@@ -73,7 +83,7 @@ covariate distribution is stationary.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{TrackPopStructManyCovSeedBank}},\code{\link{TrackPopStructManyCov}}
+\code{\link{TrackPopStructManyCov}},\code{\link{TrackPopStructManyCov}}
 }
 \examples{
 

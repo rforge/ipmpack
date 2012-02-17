@@ -10,7 +10,7 @@ Function to create a series of diagnostic graphs for a Tmatrix
   resolution and size range are being used. 
 }
 \usage{
-diagnosticsTmatrix(Tmatrix, growObj, survObj, dff)
+diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrate.type, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,6 +26,15 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff)
   \item{dff}{
     the dataframe from which the survival and growth objects were constructed
 }
+  \item{integrate.type}{
+    integration type, defaults to "midpoint" (which uses prob. density
+    function); other option is "cumul" (which uses the cumul. density function)
+  }
+  \item{correction}{
+    correction type, defaults to "none"; option is "constant" which will
+    multiply every column of the IPM by a constant sufficient to adjust
+    values to those predicted for survival at that size. 
+  }
 }
 \details{
   The first panel shows the size range in the

@@ -57,12 +57,12 @@ See manual for details on building case-specific growth objects.
 }
 \examples{
 #generate data
-dff<-generateData()
+dff<-generateDataStoch()
 #make simple linear regression growth object relating size to size at t+1
 gr1 <- makeGrowthObjGeneralManyCov(dataf=dff,
 explanatoryVariables="size+covariate1+covariate3", responseType="sizenext")
-#same but relating size to incr
-gr1 <- makeGrowthObjGeneralManyCov(dataf=dff, explanatoryVariables="size+covariate3", responseType="incr")
+#same but relating size to incr with slightly different covariate set
+gr1 <- makeGrowthObjGeneralManyCov(dataf=dff, explanatoryVariables="size+covariate1", responseType="incr")
 
 
 }

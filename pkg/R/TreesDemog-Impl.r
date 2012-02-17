@@ -147,6 +147,18 @@ makeGrowthObjGeneralManyCov <- function(dataf,
 					responseType="sizenext",
 					regType="constantVar"){
     
+				
+	if (responseType=="incr" & length(dataf$incr)==0) {
+		print("building incr as sizenext-size")
+		dataf$incr <- dataf$sizenext-dataf$size
+	}
+				
+	if (responseType=="logincr" & length(dataf$logincr)==0) {
+		print("building logincr as log(sizenext-size) - pre-build if this is not appropriate")
+		dataf$logincr <- log(dataf$sizenext-dataf$size)
+	}
+				
+				
     Formula<-paste(responseType,'~',explanatoryVariables,sep='')
     
     #create appropriate size based covariates
@@ -422,7 +434,7 @@ makeFecObjGeneral <- function(dataf,
     f1@fec.constants <- fec.constants
     f1@mean.offspring.size <- mean.offspring.size
     f1@var.offspring.size <- var.offspring.size
-    f1@offspring.splitter <- offspring.splitter / max(offspring.splitter) 
+    f1@offspring.splitter <- offspring.splitter/max(offspring.splitter) 
     f1@fec.by.discrete <- fec.by.discrete
     f1@Transform <- Transform
     return(f1)

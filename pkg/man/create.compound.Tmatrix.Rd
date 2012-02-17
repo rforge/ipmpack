@@ -12,7 +12,7 @@ Function to build compound T matrix
 }
 \usage{
 create.compound.Tmatrix(n.env.class = 2, n.big.matrix = 50,
-minsize = -1, maxsize = 50, envMatrix, growObj, survObj)
+minsize = -1, maxsize = 50, envMatrix, growObj, survObj, integrate.type, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
