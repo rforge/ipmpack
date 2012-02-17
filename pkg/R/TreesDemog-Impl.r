@@ -936,7 +936,7 @@ makeListFmatrix <- function(growObjList,survObjList,fecObjList,
                                                         fecObj=fecObjList[[k]])
         }
 
-         Fmatrixlist[[k]] <-  fecObjList[[k]]@p.est*Fmatrixlist[[k]]
+         Fmatrixlist[[k]] <-  Fmatrixlist[[k]]
     }
     return(Fmatrixlist)
 }
