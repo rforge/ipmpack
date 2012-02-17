@@ -109,7 +109,7 @@ env.mat = NULL, n.size.to.age = 5, size.start = -1)
 
 names(rc)
 
-}
+
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

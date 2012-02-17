@@ -16,7 +16,7 @@ makeSurvObjGeneralManyCov(dataf,explanatoryVariables="size+size2+size3")
  \item{dataf}{a dataframe with columns `size' and
     `surv' (`size' is size at t, `surv' is survival to t+1 coded as 0
     or 1); dataf may include a number of covariates for which
-    column names must follow the sequence `covariate1', `covariate2', ...
+    column names must follow the sequence `covariate1', `covariate2', ...}
     \item{explanatoryVariables}{a formula describing the desired
       explanatory variables (interactions, etc) in classical R
       style, i.e. separated by `+', `*', `:'. Possible covariates

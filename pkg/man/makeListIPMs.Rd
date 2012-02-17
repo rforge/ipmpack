@@ -53,6 +53,6 @@ Currently uses makeSurvObjGeneral with a discrete covariate
 \examples{
 dff <- generateData()
 tmp <- makeListIPMs(dff)
-
+}
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
