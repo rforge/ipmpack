@@ -61,8 +61,9 @@ start.sizes <- rnorm(100,10,1)
 Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
 maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff))
 
-rc <- timeToSize(starting.sizes=start.sizes, IPM=Tmatrix, end.size=30, 
-starting.env = 1, maxt = 100, prop.reach = 0.01)
+#CURRENTLY NOT WORKING
+#rc <- timeToSize(starting.sizes=start.sizes, IPM=Tmatrix, end.size=30, 
+#starting.env = 1, maxt = 100, prop.reach = 0.01)
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
