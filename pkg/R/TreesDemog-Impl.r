@@ -660,11 +660,15 @@ makePostGrowthObjs <- function(dataf,
     
     dataf$size2 <- dataf$size^2
     dataf$size3 <- dataf$size^3
-    dataf$covariate <- as.factor(dataf$covariate)
-    levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
-     
+	if (length(dataf$covariate)>0){
+		dataf$covariate <- as.factor(dataf$covariate)
+    	levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
+	}
     if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
     
+	#get rid of NAs
+	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizenext),]
+	
     #fit growth model
     Formula<-as.formula(paste(responseType,'~',explanatoryVariables,sep=''))
     fit<-MCMCglmm(Formula, data=dataf, verbose=FALSE, nitt=nitt)
@@ -712,6 +716,10 @@ makePostSurvivalObjs <- function(dataf,
     levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
     if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
 
+	#get rid of NAs
+	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizenext),]
+	
+	
     #build formula
     Formula<-paste('surv','~',explanatoryVariables,sep='')
     Formula <- as.formula(Formula)
@@ -806,7 +814,9 @@ makePostFecObjs <- function(dataf,
         var.offspring.size <- var(offspringdata$sizenext)
     }
  
-
+	#get rid of NAs
+	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizenext),]
+	
     fit <- dummy.fit <- list()
     
     for (i in 1:length(fecnames)) {

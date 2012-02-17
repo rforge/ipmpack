@@ -98,9 +98,9 @@ list of fertiltiy objects (facultative)
 \examples{
 %dff <- generateData()
 
-%svlist <- makePostSurvivalObjs(dataf=dff, covsurv = FALSE,
+%svlist <- makePostSurvivalObjs(dataf=dff, 
 %meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
-%grlist <- makePostGrowthObjs(dataf=dff, covgrow = FALSE, nitt=5000)
+%grlist <- makePostGrowthObjs(dataf=dff,  nitt=5000)
 %fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
 
 %rc <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
