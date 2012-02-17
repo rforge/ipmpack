@@ -9,7 +9,9 @@ This function takes a dataframe, a chosen size, a min and max, and a
 number of bins, and creates a Tmatrix and plots passage time and life expectancy.
 }
 \usage{
-run.Simple.Model(dataf, chosen.size, minsize = c(), maxsize = c(), n.big.matrix = 500, do.plot = TRUE, is.log = TRUE,  integrate.type = "midpoint")
+run.Simple.Model(dataf, chosen.size, minsize = c(), maxsize = c(), 
+n.big.matrix = 500, do.plot = TRUE, is.log = TRUE,  
+integrate.type = "midpoint", correction="none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -40,13 +42,16 @@ the target size
   \item{integrate.type}{
 %%     ~~Describe \code{integrate.type} here~~
 }
+  \item{correction}{
+%%     ~~Describe \code{integrate.type} here~~
+}
 }
 \details{
 This function is a utility for running a whole bunch of species... or
 something... %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-  a list including LE which is life
+  a list including LE which is life expectancy
 %%  ~Describe the value returned
 %%  If it is a LIST, use
 %%  \item{comp1 }{Description of 'comp1'}

@@ -10,8 +10,9 @@
   flowering, number of flower heads produced, etc. 
 }
 \usage{
-makeFecObjGeneral(dataf, fec.constants,explanatoryVariables, family,
-mean.offspring.size, var.offspring.siez, offspring.splitter)
+makeFecObjGeneral(dataf, fec.constants,explanatoryVariables,Family,
+Transform,mean.offspring.size, var.offspring.size, offspring.splitter,
+fec.by.discrete)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

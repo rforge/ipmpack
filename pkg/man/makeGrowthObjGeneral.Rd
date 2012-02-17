@@ -12,8 +12,8 @@
   object are defined.
 }
 \usage{
-makeGrowthObjGeneral(dataf, explanatoryVariables="size", responseType="sizenext")
-makeGrowthObjGeneral(dataf, explanatoryVariables="size+size2", responseType="incr")
+makeGrowthObjGeneral(dataf, explanatoryVariables="size", responseType="sizenext",regType="constantVar")
+makeGrowthObjGeneral(dataf, explanatoryVariables="size+size2", responseType="incr",regType="constantVar")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -33,7 +33,7 @@ makeGrowthObjGeneral(dataf, explanatoryVariables="size+size2", responseType="inc
     `covariate'.}
   \item{responseType}{possible values include `sizenext' (size in one
     discrete time step) and `incr' and `logincr'}
-  \item{regType}{possible values inclue `constantVar' or `declineVar'}
+  \item{regType}{possible values include `constantVar' or `declineVar'}
   
   }
 \details{
