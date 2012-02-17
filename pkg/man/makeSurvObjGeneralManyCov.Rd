@@ -56,9 +56,10 @@ makeSurvObjGeneralManyCov(dataf,explanatoryVariables="size+size2+size3")
 #generate data
 dff<-generateData()
 #make simple logistic regression survival object relating survival to size at t
-sv1 <- makeSurvObjGeneralManyCov(dff, explanatoryVariables="size+covariate2")
+sv1 <- makeSurvObjGeneralManyCov(dff, explanatoryVariables="size")
 #assess fit for model with discrete environmental classes fitted
-sv1 <- makeSurvObjGeneralManyCov(dff, explanatoryVariables="size+covariate1+covariate3")
+dff$covariate1 <- sample(1:3,size=nrow(dff),replace=TRUE)
+sv1 <- makeSurvObjGeneralManyCov(dff, explanatoryVariables="size+covariate1")
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
