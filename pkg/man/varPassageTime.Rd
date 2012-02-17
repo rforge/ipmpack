@@ -2,7 +2,7 @@
 \alias{varPassageTime}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-variation in passage time
+Variation in passage time
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
@@ -45,17 +45,6 @@ varPassageTime(chosen.size, IPM.matrix)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-structure(function (chosen.size, IPM.matrix) 
-standardGeneric("varPassageTime"), generic = structure("varPassageTime", package = "IPMpack"), package = "IPMpack", group = list(), valueClass = character(0), signature = c("chosen.size", 
-"IPM.matrix"), default = `NULL`, skeleton = function (chosen.size, 
-    IPM.matrix) 
-stop("invalid call in method dispatch to \"varPassageTime\" (no default method)", 
-    domain = NA)(chosen.size, IPM.matrix), class = structure("standardGeneric", package = "methods"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
