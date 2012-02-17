@@ -95,16 +95,16 @@ barplot(res$elam, main = expression("Parameter elasticity of " *
 
 
 #same but with two fertility functions and a constant
-%fv1@fec.constants[1] <- 0.5
-%res <- sensParams(growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff),
-%fecObj=fv1, n.big.matrix=50, minsize=min(dff$size, na.rm=TRUE),
-%maxsize=max(dff$size, na.rm=TRUE))
+fv1@fec.constants[1] <- 0.5
+res <- sensParams(growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff),
+fecObj=fv1, n.big.matrix=50, minsize=min(dff$size, na.rm=TRUE),
+maxsize=max(dff$size, na.rm=TRUE))
 
-%par(mfrow = c(2, 1), bty = "l", pty = "m") 
-%barplot(res$slam, main = expression("Parameter sensitivity of " * 
-% lambda), las = 2, cex.names = 0.5) 
-%barplot(res$elam, main = expression("Parameter elasticity of " * 
-% lambda), las = 2, cex.names = 0.5) 
+par(mfrow = c(2, 1), bty = "l", pty = "m") 
+barplot(res$slam, main = expression("Parameter sensitivity of " * 
+ lambda), las = 2, cex.names = 0.5) 
+barplot(res$elam, main = expression("Parameter elasticity of " * 
+ lambda), las = 2, cex.names = 0.5) 
 
 
 
