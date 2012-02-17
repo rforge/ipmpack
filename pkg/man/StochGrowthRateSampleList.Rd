@@ -26,7 +26,8 @@ StochGrowthRateSampleList(list.IPM.matrix, n.runin, Tmax)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-a numeric converging on high enough log lambda_s for sufficient Tmax
+a numeric converging on high enough log lambda_s for sufficient Tmax; note that if the population shrinks to zero, this may return NAs (since logging)
+
 }
 \references{
 Caswell, 2001. Matrix population models: analysis, construction and
@@ -47,9 +48,8 @@ interpretation. Sinauer.
 }
 \examples{
 dff<-generateData()
-IPMlist <- makeListIPMs(dataf = dff, n.big.matrix = 100, minsize = -5, maxsize = 25)
-StochGrowthRateSampleList(list.IPM.matrix = IPMlist,
-n.runin = 100, Tmax = 5000) 
+IPMlist <- makeListIPMs(dataf = dff, n.big.matrix = 10, minsize = -5, maxsize = 25,fec.constants=1000)
+StochGrowthRateSampleList(list.IPM.matrix = IPMlist,n.runin = 100, Tmax = 5000) 
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

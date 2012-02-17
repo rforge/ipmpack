@@ -12,7 +12,7 @@ discrete covariate, and return a list of these.
 makeListIPMs(dataf, n.big.matrix = 10, minsize = -2, maxsize = 10,
 	integrate.type="midpoint", correction="none",
 	explSurv="size+size2+covariate",explGrow="size+size2+covariate", 
-	regType="constantVar",responseType="sizenext")
+	regType="constantVar",responseType="sizenext",explFec="size",fec.constants=1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -48,6 +48,12 @@ makeListIPMs(dataf, n.big.matrix = 10, minsize = -2, maxsize = 10,
 	}
  \item{responseType}{
 	regression response variable for growth (sizenext, size...)
+	}
+ \item{explFec}{
+	explanatory variables used in the fertility
+	}
+ \item{fec.constants}{
+	constant multipliers for the fertility model
 	}
 }
 \details{
