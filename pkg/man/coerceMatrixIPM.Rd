@@ -2,7 +2,7 @@
 \alias{coerceMatrixIPM}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Coerce matrix population model to IPM.matrix bject
+Coerce matrix population model to IPM.matrix object
 }
 \description{
 Forces MPM (or survival-growth transition matrix, or
