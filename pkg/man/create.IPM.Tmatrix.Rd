@@ -11,7 +11,8 @@ Function to build T matrices
 }
 \usage{
 create.IPM.Tmatrix(n.env.class = 1, n.big.matrix = 50,
-minsize = -1, maxsize = 50, chosen.cov = 1, growObj, survObj, integrate.type, correction)
+minsize = -1, maxsize = 50, chosen.cov = 1, growObj, survObj, DiscreteTrans, 
+integrate.type, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -9,8 +9,8 @@
   object are defined.
 }
 \usage{
-makeGrowthObjGeneralManyCov(dataf, explanatoryVariables="size+covariate1+covariate2", responseType="sizenext")
-makeGrowthObjGeneralManyCov(dataf, explanatoryVariables="size+size2+covariate3", responseType="incr")
+makeGrowthObjGeneralManyCov(dataf, explanatoryVariables="size+covariate1+covariate2", responseType="sizenext",regType="constantVar")
+makeGrowthObjGeneralManyCov(dataf, explanatoryVariables="size+size2+covariate3", responseType="incr",regType="constantVar")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
