@@ -35,10 +35,9 @@ the proportion of the starting pop that have to be > than the end.size for it to
 Plots and returned values of survivorship from preliminary runs will give a notion of how low this has to be
 }
 \value{
- Returns - a list containing: ts.dist - the time-series of size distribution
-                              time.reach - the time for n.reach to be at sizes > end.size
-                              survivorship - survivorship over the course of the time elapsed for that pop
-
+ \item{ts.dist}{ the time-series of size distribution}
+ \item{time.reach }{the time for n.reach to be at sizes > end.size }
+ \item{survivorship}{survivorship over the course of the time elapsed for that pop}
 }
 \references{
 Caswell, 2001. Matrix population models: analysis, construction and
