@@ -1292,9 +1292,7 @@ setMethod("varPassageTime",
 		function(chosen.size,IPM.matrix){
 			require(MASS)
 			
-			loc <- which(abs(chosen.size-
-											IPM.matrix@meshpoints)==min(abs(chosen.size-
-													IPM.matrix@meshpoints)),arr.ind=TRUE)
+			loc <- which(abs(chosen.size-IPM.matrix@meshpoints)==min(abs(chosen.size-IPM.matrix@meshpoints)),arr.ind=TRUE)
 			matrix.dim <- length(IPM.matrix[1,])
 			
 			Tprime <- IPM.matrix
