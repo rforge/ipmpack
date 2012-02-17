@@ -96,18 +96,18 @@ list of fertiltiy objects (facultative)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-%dff <- generateData()
+dff <- generateData()
 
-%svlist <- makePostSurvivalObjs(dataf=dff, 
-%meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
-%grlist <- makePostGrowthObjs(dataf=dff,  nitt=5000)
-%fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
+svlist <- makePostSurvivalObjs(dataf=dff, 
+meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
+grlist <- makePostGrowthObjs(dataf=dff,  nitt=5000)
+fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
 
-%rc <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
-%n.big.matrix=20, minsize=-2, maxsize=15, cov = FALSE, fecObjList =fvlist[1:10],
-%env.mat = NULL, n.size.to.age = 5, size.start = -1)
+rc <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
+n.big.matrix=20, minsize=-2, maxsize=15, cov = FALSE, fecObjList =fvlist[1:10],
+env.mat = NULL, n.size.to.age = 5, size.start = -1)
 
-%names(rc)
+names(rc)
 
 }
 

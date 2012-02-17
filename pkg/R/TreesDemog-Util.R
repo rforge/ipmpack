@@ -117,15 +117,13 @@ getIPMoutputDirect <- function(survObjList,growObjList,target.size=c(),
         if (class(fecObjList)!="NULL") {
             if (!cov) { 
                 Fmatrix <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minsize = minsize, 
-                                              maxsize = maxsize, growObj = growObjList[[k]],
-                                              survObj = survObjList[[k]],
+                                              maxsize = maxsize, 
                                               fecObj=fecObjList[[k]],
                                               integrate.type=integrate.type)
             } else {
                 Fmatrix <- create.compound.Fmatrix(n.env.class = length(env.mat[1,]),
                                                    n.big.matrix = n.big.matrix, minsize = minsize, 
                                                    maxsize = maxsize, envMatrix=env.mat,
-                                                   growObj = growObjList[[k]], survObj = survObjList[[k]],
                                                    fecObj=fecObjList[[k]],integrate.type=integrate.type)
             }
 
