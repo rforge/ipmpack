@@ -9,26 +9,24 @@ fertility objects
 Get summary statistics including life expectancy, passage time, and if a
 fertility matrix is available, lambda, stable size, etc., for e.g.,
 posterior distribution of survival and growth objects, slightly swifter
-approach than getIPMoutput since matrices are not stored 
+approach than getIPMoutput since matrices are not stored. 
 }
 \usage{
-getIPMoutputDirect(survObjList, growObjList, target.size = c(),
-n.big.matrix, minsize, maxsize, cov = FALSE, fecObjList = NULL,
-env.mat = NULL, n.size.to.age = 0, size.start = 10)
+getIPMoutputDirect(survObjList, growObjList, target.size = c(), n.big.matrix, minsize, maxsize, cov = FALSE, fecObjList = NULL, env.mat = NULL, n.size.to.age = 0, size.start = 10)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{survObjList}{
-list of survival objects
+	list of survival objects
 }
   \item{growObjList}{
-list of growth objects
+	list of growth objects
 }
   \item{target.size}{
     Target size for passage time - if none is provided defaults to the median of the IPM meshpoints
 }
   \item{n.big.matrix}{
-number of meshpoints
+	number of meshpoints
 }
   \item{minsize}{
 minimum size
@@ -40,7 +38,7 @@ maximum size
 boolean identifying if a discrete covariate should be fitted
 }
   \item{fecObjList}{
-list of fertiltiy objects (facultative)
+list of fertility objects (facultative)
 }
   \item{env.mat}{
     environmental matrix (facultative)
@@ -85,9 +83,6 @@ list of fertiltiy objects (facultative)
 \note{
 %%  ~~further notes~~
 }
-
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
@@ -104,9 +99,6 @@ n.big.matrix=20, minsize=-2, maxsize=15, cov = FALSE, fecObjList =fvlist[1:10],
 env.mat = NULL, n.size.to.age = 5, size.start = -1)
 
 names(rc)
-
-
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
