@@ -8,7 +8,7 @@ fertility objects
 \description{
 Get summary statistics including life expectancy, passage time, and if a
 fertility matrix is available, lambda, stable size, etc., for e.g.,
-posterior distribution of survival and gowth objects, slightly swifter
+posterior distribution of survival and growth objects, slightly swifter
 approach than getIPMoutput since matrices are not stored 
 }
 \usage{
@@ -25,8 +25,7 @@ list of survival objects
 list of growth objects
 }
   \item{target.size}{
-    Target size for passage time - if none is provided defaults to the
-    median of the IPM meshpoints
+    Target size for passage time - if none is provided defaults to the median of the IPM meshpoints
 }
   \item{n.big.matrix}{
 number of meshpoints
@@ -38,7 +37,7 @@ minimum size
 maximum size
 }
   \item{cov}{
-    boolean identifying if a discrete covariate should be fitted
+boolean identifying if a discrete covariate should be fitted
 }
   \item{fecObjList}{
 list of fertiltiy objects (facultative)
@@ -60,20 +59,17 @@ list of fertiltiy objects (facultative)
   \item{LE}{matrix of life expectancies, columsn correspond to
   meshpoints, rows corresponding to each element of the list of Tmatrices}
   \item{ptime}{matrix of passage times to the target.size from each of
-    the meshpoints (columns) and for each element in the Tmatrix list
-    (columns)}
+    the meshpoints (columns) and for each element in the Tmatrix list (columns)}
   \item{lambda}{vector of lambda corresonding to value obtained
     combining each element of the list of Tmatrices with the
-    corresponding element in the list of Fmatrices; if no Fmatrix list
-    is provided, this is a vector of NAs}
-  \item{stable.size}{matrix of stable size distributions rows corresonding to values obtained
+    corresponding element in the list of Fmatrices; if no Fmatrix list is provided, this is a vector of NAs}
+  \item{stable.size}{matrix of stable size distributions rows corresponding to values obtained
     combining each element of the list of Tmatrices with the
     corresponding element in the list of Fmatrices; if no Fmatrix list
     is provided, this is a matrix of NAs}
   \item{meshpoints} {matrix meshpoints}
   \item{resSize} {matrix providing target sizes for size to age estimate (assuming age=1
-    at size.start), of length n.size.to.age space equally between the
-    smallest and largest meshpoints}
+    at size.start), of length n.size.to.age space equally between the smallest and largest meshpoints}
   \item{resAge} {matrix providing time in time-steps to get to resSize,
     rows corresonding sequential elements in the list of Tmatrices} 
   \item{surv.par} {matrix of posteriors of survival parameters (columns,
