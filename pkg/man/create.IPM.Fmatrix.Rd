@@ -69,9 +69,9 @@ minsize = -1, maxsize = 50, chosen.cov = 1,  fecObj, integrate.type,correction)
 \examples{
 
 dff<-generateData()
-fv1 <- makeFecObjGeneral(dff),
+fv1 <- makeFecObjGeneral(dff,
 	explanatoryVariables="size",Transform="log")
-	Fmatrix <-create.IPM.Fmatrix(n.big.matrix=20,minsize=min(dff$size, na.rm=TRUE),
+Fmatrix <-create.IPM.Fmatrix(n.big.matrix=20,minsize=min(dff$size, na.rm=TRUE),
 	maxsize=max(dff$size, na.rm=TRUE),fecObj=fv1)
 
 slotNames(Fmatrix)
