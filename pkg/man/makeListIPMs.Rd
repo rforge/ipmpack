@@ -9,7 +9,10 @@ Wrapper function to build the IPM corresponding to every level of the
 discrete covariate, and return a list of these. 
 }
 \usage{
-makeListIPMs(dataf, n.big.matrix = 10, minsize = -2, maxsize = 10)
+makeListIPMs(dataf, n.big.matrix = 10, minsize = -2, maxsize = 10,
+	integrate.type="midpoint", correction="none",
+	explSurv="size+size2+covariate",explGrow="size+size2+covariate", 
+	regType="constantVar",responseType="sizenext")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -27,6 +30,24 @@ makeListIPMs(dataf, n.big.matrix = 10, minsize = -2, maxsize = 10)
 	}
   \item{maxsize}{
 	largest size
+	}
+  \item{integrate.type}{
+	integration type
+	}
+  \item{correction}{
+	correction
+	}
+ \item{explSurv}{
+	explanatory variables used in the survival model
+	}
+ \item{explGrow}{
+	explanatory variables used in the growth model
+	}
+ \item{regType}{
+	regression Type for growth (normal density function, truncated....)
+	}
+ \item{responseType}{
+	regression response variable for growth (sizenext, size...)
 	}
 }
 \details{

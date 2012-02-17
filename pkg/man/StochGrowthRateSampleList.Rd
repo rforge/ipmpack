@@ -47,12 +47,9 @@ interpretation. Sinauer.
 }
 \examples{
 dff<-generateData()
-IPMlist <- makeListIPMs(dataf = dff,
-n.big.matrix = 100, minsize = -5, 
-maxsize = 35)
+IPMlist <- makeListIPMs(dataf = dff, n.big.matrix = 100, minsize = -5, maxsize = 25)
 StochGrowthRateSampleList(list.IPM.matrix = IPMlist,
-n.runin = 100, 
- Tmax = 5000) 
+n.runin = 100, Tmax = 5000) 
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

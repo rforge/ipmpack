@@ -33,6 +33,7 @@ predictFutureDistribution(starting.sizes, IPM, n.time.steps, starting.env = 1)
 }
 }
 \details{
+Currently this does not accept IPMs with discrete stages.
 }
 \value{
  \item{n.new.dist0}{Starting frequency distribution along meshpoints in IPM.matrix}

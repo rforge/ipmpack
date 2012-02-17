@@ -444,16 +444,21 @@ generateDataStoch <- function(){
 ## FUNCTION FOR MAKING A LIST OF IPMS ############################################
 # to do for stoch env with a single discrete covariate. ##########################
 
-makeListIPMs <- function(dataf, n.big.matrix=10, minsize=-2,maxsize=10, integrate.type="midpoint", correction="none") {
+makeListIPMs <- function(dataf, n.big.matrix=10, minsize=-2,maxsize=10, 
+			integrate.type="midpoint", correction="none",
+			explSurv="size+size2+covariate",explGrow="size+size2+covariate", 
+			regType="constantVar",responseType="sizenext") {
 
     #convert to 1:n for indexing later
     dataf$covariate <- as.factor(dataf$covariate)
     levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
     
      sv1 <- makeSurvObjGeneral(dataf,
-                               explanatoryVariables="size+size2")
+                               explanatoryVariables=explSurv)
      gr1 <- makeGrowthObjGeneral(dataf,
-                                 explanatoryVariables="size+size2")
+                                 explanatoryVariables=explGrow,
+								 responseType=responseType,
+								 regType=regType)
      fv1 <- makeFecObjGeneral(dataf) 
 
      covs <- unique(dataf$covariate)
@@ -466,7 +471,7 @@ makeListIPMs <- function(dataf, n.big.matrix=10, minsize=-2,maxsize=10, integrat
      
          tpF <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minsize = minsize,
                                    maxsize = maxsize, chosen.cov = k,
-                                   fecObj = fv1,integrate.type=integrate.type)
+                                   fecObj = fv1,integrate.type=integrate.type, correction=correction)
          tpS <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minsize = minsize,
                                    maxsize = maxsize, chosen.cov = k,growObj = gr1, survObj = sv1,
                                    integrate.type=integrate.type, correction=correction)
