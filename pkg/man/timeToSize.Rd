@@ -41,7 +41,8 @@ Plots and returned values of survivorship from preliminary runs will give a noti
 
 }
 \references{
-%% ~put references to the literature/web site here ~
+Caswell, 2001. Matrix population models: analysis, construction and
+interpretation. Sinauer. 
 }
 \author{
 %%  ~~who you are~~

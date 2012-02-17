@@ -5,7 +5,7 @@
 Variation in passage time
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Function to take a Tmatrix (either compound or not) and estimate variance in passage time to a chosen size
 }
 \usage{
 varPassageTime(chosen.size, IPM.matrix)
@@ -13,24 +13,21 @@ varPassageTime(chosen.size, IPM.matrix)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{chosen.size}{
-%%     ~~Describe \code{chosen.size} here~~
+The size of interest
 }
   \item{IPM.matrix}{
-%%     ~~Describe \code{IPM.matrix} here~~
+The Tmatrix (compound or not)
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+Numeric vector corresponding to variance in passage time from each of the meshpoints in the IPM (so both size, and if a compound matrix, size from different environments). 
 }
 \references{
-%% ~put references to the literature/web site here ~
+Caswell, 2001. Matrix population models: analysis, construction and
+interpretation. Sinauer. p119
 }
 \author{
 %%  ~~who you are~~
@@ -42,9 +39,15 @@ varPassageTime(chosen.size, IPM.matrix)
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{PassageTime}}, \code{\link{create.IPM.Tmatrix}} 
 }
 \examples{
+dff <- generateData()
+start.sizes <- rnorm(100,10,1)
+Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
+maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff))
+vP <- varPassageTime(5,Tmatrix)
+plot(Tmatrix@meshpoints,vP, type="l", xlab="Meshpoints", ylab="Variance in passage time")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
