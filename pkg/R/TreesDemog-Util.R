@@ -201,7 +201,6 @@ picSurv <- function(dataf,survObj,ncuts=20,...) {
     psz<-tapply(os.size,as.numeric(cut(os.size,ncuts)),mean,na.rm=TRUE); #print(psz)
     ps<-tapply(os.surv,as.numeric(cut(os.size,ncuts)),mean,na.rm=TRUE);#print(ps)
 
-
     if (length(grep("covariate",names(survObj@fit$model)))==0) {  
         #plot data
         plot(as.numeric(psz),as.numeric(ps),pch=19,
@@ -359,8 +358,9 @@ generateData <- function(){
     sizenext <- 1+0.8*size-0.9*covariate+rnorm(1000,0,1)
     seedlings <- sample(1:1000,size=100,replace=TRUE)
     size[seedlings] <- NA; sizenext[seedlings] <- rnorm(100,-2,0.1)
-    surv <- rbinom(1000,1,logit(-1+0.2*size))
-    fec <- rnorm(length(size),exp(-7+0.9*size),1)
+	fec <- surv <- rep(NA, length(size))
+    surv[!is.na(size)] <- rbinom(sum(!is.na(size)),1,logit(-1+0.2*size[!is.na(size)]))
+    fec[!is.na(size)] <- rnorm(sum(!is.na(size)),exp(-7+0.9*size[!is.na(size)]),1)
     fec[size<quantile(size,0.20,na.rm=TRUE) | fec<0] <- 0
 
     stage <- stagenext <- rep("continuous",1000)
@@ -420,8 +420,12 @@ generateDataStoch <- function(){
 	covariate3 <- rnorm(1000)
 	size <- rnorm(1000,5,2)
 	sizenext <- 1+0.9*size+3*covariate1+0.01*covariate2+0.2*covariate3+rnorm(1000,0,0.1)
-	surv <- rbinom(1000,1,logit(-2+0.35*size+1*covariate1))
-	fec <- exp(-1+2*size+0*covariate1)
+
+	fec <- surv <- rep(NA, length(size))
+	surv[!is.na(size)] <- rbinom(sum(!is.na(size)),1,logit(-1+0.2*size[!is.na(size)]))
+	fec[!is.na(size)] <- rnorm(sum(!is.na(size)),exp(-7+0.9*size[!is.na(size)]),1)
+	fec[size<quantile(size,0.20,na.rm=TRUE) | fec<0] <- 0
+	
 	seedlings <- sample(1:1000,size=100,replace=TRUE)
 	size[seedlings] <- NA; 
 	sizenext[seedlings] <- rnorm(100,-2,0.1)
