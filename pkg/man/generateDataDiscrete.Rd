@@ -17,7 +17,7 @@ generateDataDiscrete()
 This function allows the modeling of complex life cycles that incorporate continuous (e.g. size) as well as discrete (e.g., hibernation, seed bank, dormancy...) stages
 }
 \value{
-  a dataframe with headings "size" (continuous variable, indicating current size),
+  A dataframe with headings "size" (continuous variable, indicating current size),
   "sizeNext" (continuous variable, indicating size in the next time step), "surv"
   (boolean, indicating whether individual survived or not to the next
   time-step, whatever stage the individual ends up in), "fec" (continuous
@@ -25,7 +25,7 @@ This function allows the modeling of complex life cycles that incorporate contin
   that time-step, or "continuous"), "stageNext" (character vector, containing names of the discrete stages in
   the following time-step, or "continuous"), "number" corresponds to the number of
   individuals moving between stages - so "number" is 1 for all movements
-  out of the "continous" stage, and is >1 for all movements out of
+  out of the "continuous" stage, and is >1 for all movements out of
   discrete stages - this is just so that you don't need to have an
   individual line for every movement between discrete stages. 
 }

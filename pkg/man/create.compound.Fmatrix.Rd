@@ -7,7 +7,7 @@ Function to build compound F matrix
 \description{
   Uses fecundity object, and environmental
   transition objects to construct a matrix
-  defining probabilities for transitions between sizes due fecundity
+  defining probabilities for transitions between sizes due to fecundity
   given both size and environmental state and discrete stages (e.g. seedbank). 
 }
 \usage{
