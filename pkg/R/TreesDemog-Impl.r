@@ -372,28 +372,33 @@ makeFecObj <- function(dataf,
         dataf$stage[is.na(dataf$size)] <- NA
         dataf$stagenext[is.na(dataf$sizeNext)] <- "dead"
     }
-    
-	if ((sum(names(offspring.splitter)%in%c(levels(dataf$stage),levels(dataf$stagenext)))/length(offspring.splitter))<1) {
+	#order stage names from discrete to continuous
+	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stagenext)),c(levels(dataf$stage),levels(dataf$stagenext)),length))
+	stages <- stages[stages!="dead"] 
+	stages <- c(stages[stages!="continuous"],"continuous") 
+	if ((sum(names(offspring.splitter)%in%stage.names)/length(offspring.splitter))<1) {
 		stop("Error - the variable names in your offspring.splitter data.frame are not all part of the levels of stage or stagenext in your data file. Please fix this by adjusting your offspring.splitter entry to include the correct variable names, e.g. offspring.splitter=data.frame(continuous=.7,seed.age.1=.3)")
 	}
+	dummy<-rep(0,length(stages));names(dummy)<-stages;dummy<-as.data.frame(t(as.matrix(dummy)))
+	for (i in names(offspring.splitter)) dummy[i]<-offspring.splitter[i]
+	offspring.splitter <- dummy
 	
-    if(ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
+    if (ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
         print("Warning - offspring splitter indicates more than just continuous stages. No fertility by the discrete stages supplied in fec.by.discrete; assumed that is 0")
         fec.by.discrete <- matrix(0,col(offspring.splitter)-1,col(offspring.splitter)-1)
     }
     
-	if(sum(offspring.splitter)!=1) {
+	if (sum(offspring.splitter)!=1) {
 		print("Warning - offspring splitter does not sum to 1. It is now rescaled to sum to 1.")
 		offspring.splitter <- offspring.splitter / sum(offspring.splitter) 
 	}
 	
-	if (length(grep("covariate",explanatoryVariables))>0) {
-        dataf$covariate <- as.factor(dataf$covariate)
+	if ("covariate"%in%strsplit(explanatoryVariables,"[+-\\*]")) dataf$covariate <- as.factor(dataf$covariate)
         dataf$covariatenext <- as.factor(dataf$covariatenext)
         levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
     }
     
-    f1 <- new("fecObj")
+	f1 <- new("fecObj")
     dataf$size2 <- dataf$size^2
     if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
     
@@ -413,18 +418,11 @@ makeFecObj <- function(dataf,
         print(c("number of transforms not the same as the number of fecundity columns in the data file, using default of `none' for missing ones which are:",fecnames[misE],". (which might be exactly what you want)"))
         Transform <- c(Transform,rep("none",length(fecnames)-length(Transform)))
     }
-    
-	
+    	
     for (i in 1:length(fecnames)) {
-        
         if (Transform[i]=="log") dataf[,fecnames[i]] <- log(dataf[,fecnames[i]])
         if (Transform[i]=="sqrt") dataf[,fecnames[i]] <- sqrt(dataf[,fecnames[i]])
         dataf[!is.finite(dataf[,fecnames[i]]),fecnames[i]] <- NA
-
-        #print(range(dataf[,fecnames[i]]))
-        #print(range(dataf[,"size"], na.rm=TRUE))
-        #print(range(dataf[,"covariate"]))
-        
         fit <- glm(paste(fecnames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
         if (i==1) f1@fit.fec1 <- fit
         if (i==2) f1@fit.fec2 <- fit
@@ -437,7 +435,7 @@ makeFecObj <- function(dataf,
         if (i==9) f1@fit.fec9 <- fit
     }
     
-    if (is.na(mean.offspring.size)) {
+	if (is.na(mean.offspring.size)) {
         offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stagenext=="continuous")
         mean.offspring.size <- mean(offspringdata$sizeNext)
         var.offspring.size <- var(offspringdata$sizeNext) }
