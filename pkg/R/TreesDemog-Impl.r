@@ -391,17 +391,17 @@ makeFecObjGeneral <- function(dataf,
     fecnames <- names(dataf)[grep("fec",names(dataf))]
     if (length(fecnames)>length(explanatoryVariables)) {
         misE <- (length(explanatoryVariables)+1):length(fecnames)
-        print(c("number in explanatoryVariables not the same as the number of fecundity columns in the data file, using default of `size' for missing ones which are:",fecnames[misE]))
+        print(c("number in explanatoryVariables not the same as the number of fecundity columns in the data file, using default of `size' for missing ones which are:",fecnames[misE],". (which might be exactly what you want)"))
         explanatoryVariables <- c(explanatoryVariables,rep("size",length(fecnames)-length(explanatoryVariables)))
     }
     if (length(fecnames)>length(Family)) {
         misE <- (length(Family)+1):length(fecnames)
-        print(c("number of families not the same as the number of fecundity columns in the data file, using default of `gaussian' for missing ones which are:",fecnames[misE]))
+        print(c("number of families not the same as the number of fecundity columns in the data file, using default of `gaussian' for missing ones which are:",fecnames[misE],". (which might be exactly what you want)"))
         Family <- c(Family,rep("gaussian",length(fecnames)-length(Family)))
     }
     if (length(fecnames)>length(Transform)) {
         misE <- (length(Transform)+1):length(fecnames)
-        print(c("number of transforms not the same as the number of fecundity columns in the data file, using default of `none' for missing ones which are:",fecnames[misE]))
+        print(c("number of transforms not the same as the number of fecundity columns in the data file, using default of `none' for missing ones which are:",fecnames[misE],". (which might be exactly what you want)"))
         Transform <- c(Transform,rep("none",length(fecnames)-length(Transform)))
     }
     
