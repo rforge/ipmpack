@@ -13,21 +13,24 @@ convertIncrement(dataf, nyrs = 1)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{
-    a data-frame with columns `size' `sizeNext`, `exactDate', `exactDateNext' 
+    a data-frame with columns `size' `sizeNext', `exactDate', `exactDateNext' 
 }
   \item{nyrs}{
     the number of years between sequential measurements (i.e. if census
-    interval is 5, nyrs=5)
+    interval is 5, nyrs=5, if census interval is 3 times a year, nyrs=0.333)
 }
 }
 \details{
-In some data-sets the time-interval between census measurements will be greater than  a year and/or vary across intervals. This function takes a data frame \code{dataf} and uses columns with the term \code{extractData} to adjust the size increment to the number of years given in \code{nyears}.  Defaults to annual.  %%  ~~  none  If necessary, more details than the description above ~~
+In some data sets the time-interval between census measurements can be different than a year. In some species demographic information is recorded several times within a year, while in others, particularly in "slow-living" species (e.g. trees) the census frequency is greater than  a year and/or vary across intervals. This function takes a data frame \code{dataf} and uses columns with the term \code{extractData} to adjust the size increment to the number of years given in \code{nyears}.  Defaults to annual.  %%  ~~  none  If necessary, more details than the description above ~~
 }
 \value{
 Returns the adjusted increments.%% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
+
+Sampling 3 times/year (nyrs=0.333): Smith, Caswell & Mettler-Cherry. Stochastic flood and precipitation regimes and the population dynamics of a threatened floodplain plant. Ecological Applications 15 p1036-1052
+
+Sampling every five years (nyrs=5): van Mantgem & Stepheson. 2005. The accuracy of matrix population model projections for coniferous trees in the Sierra Nevada, California. Journal of Ecology 93 p737-747
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
