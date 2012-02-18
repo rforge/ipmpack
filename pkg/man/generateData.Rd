@@ -16,7 +16,7 @@ generateData()
 }
 \value{
   a dataframe with headings size (continuous variable, indicating current size),
-  sizenext (continuous variable, indicating size in the next time step), surv
+  sizeNext (continuous variable, indicating size in the next time step), surv
   (boolean, indicating whether individual survived or not to the next time-step), covariate
   (discrete covariate), covariatenext (discrete covariate in the next
   time-step),  fec (continuous variable, indicating fecundity).

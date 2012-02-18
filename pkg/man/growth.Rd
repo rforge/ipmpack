@@ -8,14 +8,14 @@ Growth
 Generic function to predict the pdf of size at t+1 given size at t and a growth object
 }
 \usage{
-growth(size, sizenext, cov, growthObj)
+growth(size, sizeNext, cov, growthObj)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{size}{
     vector of current sizes
 }
-  \item{sizenext}{
+  \item{sizeNext}{
     vector of sizes in the next time-step
 }
   \item{cov}{
@@ -30,7 +30,7 @@ growth(size, sizenext, cov, growthObj)
   underlying statistical models
 }
 \value{
-  a vector of length sizenext giving the pdf of each value of sizenext
+  a vector of length sizeNext giving the pdf of each value of sizeNext
 }
 \references{
 %% ~put references to the literature/web site here ~

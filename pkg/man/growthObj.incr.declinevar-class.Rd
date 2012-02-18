@@ -19,7 +19,7 @@ Objects can be created by calls of the form \code{new("growthObj.incr.declinevar
 }
 \section{Methods}{
   \describe{
-    \item{growth}{\code{signature(size = "numeric", sizenext = "numeric", cov = "numeric", growthObj = "growthObj.incr.declinevar")}: ... }
+    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.incr.declinevar")}: ... }
 	 }
 }
 \references{

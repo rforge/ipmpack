@@ -6,7 +6,7 @@
 }
 \description{
   Model takes a data-frame and fits a Bayesian model to the chosen
-  "responseType" (sizenext, incr, etc) using the chosen explanatory
+  "responseType" (sizeNext, incr, etc) using the chosen explanatory
   variable, and the package MCMCglmm; then
   create the resulting list of growth objects necessary to get Bayes
   posterior of IPM outputs
@@ -19,7 +19,7 @@ meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
 \arguments{
   \item{dataf}{
     a dataframe with columns `size',
-    and `sizenext' (`size' is size at t, `sizenext' is size at t+1); facultatively, dataf may include `covariate'
+    and `sizeNext' (`size' is size at t, `sizeNext' is size at t+1); facultatively, dataf may include `covariate'
     (discrete or continuous) or other covariates
   }
   \item{explanatoryVariables}{a formula describing the desired
@@ -27,7 +27,7 @@ meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
     style, i.e. separated by `+', `*', `:'. Possible covariates include `size', 'size2' (size^2), `size3'
     (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
     `covariate'.}
-  \item{responseType}{possible values include `sizenext' (size in one
+  \item{responseType}{possible values include `sizeNext' (size in one
     discrete time step) and `incr' and `logincr'}  
   \item{meanB}{
     vector defining the means of the priors of the coefficients for growth (should be the same length as desired coeff)
@@ -65,7 +65,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff<-generateData()
 grlist <- makePostGrowthObjs(dataf=dff,
 			explanatoryVariables="size+size2+covariate",
-            responseType="sizenext",
+            responseType="sizeNext",
             meanB=rep(0,3),varB=rep(1e10),nitt = 5000)
 }
 

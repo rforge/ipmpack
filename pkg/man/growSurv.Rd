@@ -9,14 +9,14 @@ Function to predict the pdf of size at t+1 given size at t and survival
 probability given a growth and survival object
 }
 \usage{
-growSurv(size, sizenext, cov, growthObj, survObj)
+growSurv(size, sizeNext, cov, growthObj, survObj)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{size}{
     vector of current sizes
 }
-  \item{sizenext}{
+  \item{sizeNext}{
     vector of future sizes
 }
   \item{cov}{

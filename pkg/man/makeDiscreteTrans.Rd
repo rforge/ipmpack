@@ -16,7 +16,7 @@
   with values of the names of the discrete classes and the name
   "continuous" where appropriate, in the current and
   subsequent time-step. Continuous categories are also defined by their
-  measurements, contained in "size" and "sizenext" (necessary for
+  measurements, contained in "size" and "sizeNext" (necessary for
   defining the mean and variance of the size of individuals emerging
   from discrete classes)
 }
@@ -28,7 +28,7 @@ makeDiscreteTrans(dataf)
   \item{dataf}{a dataframe with columns "stage", "stagenext" (both
     character vectors containing either names of discrete stages or
   "continuous" or "dead"), "size",
-    "sizenext", and "surv" (continuous and booean variables respectively)}
+    "sizeNext", and "surv" (continuous and booean variables respectively)}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

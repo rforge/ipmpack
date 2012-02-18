@@ -12,12 +12,12 @@ discrete covariate, and return a list of these.
 makeListIPMs(dataf, n.big.matrix = 10, minsize = -2, maxsize = 10,
 	integrate.type="midpoint", correction="none",
 	explSurv="size+size2+covariate",explGrow="size+size2+covariate", 
-	regType="constantVar",responseType="sizenext",explFec="size",fec.constants=1)
+	regType="constantVar",responseType="sizeNext",explFec="size",fec.constants=1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{
-    a dataframe with columns `size', `sizenext', 'surv', 'fec',
+    a dataframe with columns `size', `sizeNext', 'surv', 'fec',
     'covariate', 'covariatel'; 
     and 'age' indicating which individuals
     are seedlings for identifying the mean and variance in seedling
@@ -47,7 +47,7 @@ makeListIPMs(dataf, n.big.matrix = 10, minsize = -2, maxsize = 10,
 	regression Type for growth (normal density function, truncated....)
 	}
  \item{responseType}{
-	regression response variable for growth (sizenext, size...)
+	regression response variable for growth (sizeNext, size...)
 	}
  \item{explFec}{
 	explanatory variables used in the fertility

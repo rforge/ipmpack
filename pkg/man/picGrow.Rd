@@ -12,13 +12,13 @@ picGrow(dataf, growObj)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{a dataframe with columns `size' and
-    `sizenext'(`size' is size at t, `sizenext' is size at t+1);
+    `sizeNext'(`size' is size at t, `sizeNext' is size at t+1);
     facultatively, dataf may include `covariate'
     and `covariatel' for a single discrete covariate, indicating values at t,
     and at t+1, respectively; these must take values of sequential integers, starting at
     `1'. For models fitting growth increment, 'incr' or 'logincr' may be directly provided as
     a column in the dataframe, otherwise they are calculated as
-    dataf$sizenext-dataf$size or log(dataf$sizenext-dataf$size),
+    dataf$sizeNext-dataf$size or log(dataf$sizeNext-dataf$size),
   respectively. }
 
   \item{growObj}{

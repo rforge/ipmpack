@@ -16,7 +16,7 @@ makePostFecObjs(dataf,fec.constants,explanatoryVariables,Family,Transform,mean.o
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{dataf}{a dataframe with columns "size", "sizenext", "stage",
+    \item{dataf}{a dataframe with columns "size", "sizeNext", "stage",
       "stagenext", "fec1", "fec2" or other names containing fec; up to
       nine are currently possible (and note that ANY name containing
       "fec" will be included and these MUST NOT be transformed via log,

@@ -15,7 +15,7 @@ create.MPM.Tmatrix(dataf,bins,n.env=1)
 \arguments{
   \item{dataf}{
 	a dataframe with columns `size',
-    `sizenext' (`size' is size at t, `sizenext' is size at t+1); facultatively, dataf may include `covariate'
+    `sizeNext' (`size' is size at t, `sizeNext' is size at t+1); facultatively, dataf may include `covariate'
     and `covariatel' for discrete covariates, indicating values at t,
     and at t+1, respectively; these must take values of sequential integers, starting at
     `1'. }
@@ -31,7 +31,7 @@ create.MPM.Tmatrix(dataf,bins,n.env=1)
   time-step is identified and probabilities entered into a matrix. To
   get a classic Matrix Population model this can be added to values
   defined by create.MPM.Fmatrix. Note that the assumption that all
-  individuals for whom is.na(sizenext) died.   
+  individuals for whom is.na(sizeNext) died.   
 }
 \value{
   an object of class IPM.matrix

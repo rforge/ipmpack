@@ -17,7 +17,7 @@ integrate.type = "midpoint", correction="none")
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{
-  a data-frame with columns size, sizenext (which is size in the NEXT time
+  a data-frame with columns size, sizeNext (which is size in the NEXT time
   step), and surv, at a minimum%%     
   }
   \item{chosen.size}{

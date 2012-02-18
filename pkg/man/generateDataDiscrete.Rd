@@ -18,7 +18,7 @@ This function allows the modeling of complex life cycles that incorporate contin
 }
 \value{
   a dataframe with headings "size" (continuous variable, indicating current size),
-  "sizenext" (continuous variable, indicating size in the next time step), "surv"
+  "sizeNext" (continuous variable, indicating size in the next time step), "surv"
   (boolean, indicating whether individual survived or not to the next
   time-step, whatever stage the individual ends up in), "fec" (continuous
   variable, indicating fecundity), "stage" (character vector, containing names of the discrete stages in

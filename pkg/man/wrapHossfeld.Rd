@@ -50,7 +50,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 #simulate data and create a column for growth increment
 dff<-generateData()
-dff$incr <- dff$sizenext-dff$size
+dff$incr <- dff$sizeNext-dff$size
 
 #current sum of squares
 wrapHossfeld(c(1,1,1), dff)

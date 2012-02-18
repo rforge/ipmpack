@@ -9,24 +9,24 @@
   object are defined.
 }
 \usage{
-makeGrowthObjGeneralManyCov(dataf, explanatoryVariables="size+covariate1+covariate2", responseType="sizenext",regType="constantVar")
+makeGrowthObjGeneralManyCov(dataf, explanatoryVariables="size+covariate1+covariate2", responseType="sizeNext",regType="constantVar")
 makeGrowthObjGeneralManyCov(dataf, explanatoryVariables="size+size2+covariate3", responseType="incr",regType="constantVar")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{a dataframe with columns `size' and
-    `sizenext' (`size' is size at t, `sizenext' is size at t+1);
+    `sizeNext' (`size' is size at t, `sizeNext' is size at t+1);
     facultatively, dataf may include a number of covariates for which
     column names must follow the sequence `covariate1', `covariate2', ...
     For models fitting growth increment, 'incr' or 'logincr' may be directly provided as
     a column in the dataframe, otherwise it is calculated as
-    dataf$sizenext-dataf$size; or log(dataf$sizenext-dataf$size). }
+    dataf$sizeNext-dataf$size; or log(dataf$sizeNext-dataf$size). }
   \item{explanatoryVariables}{a formula describing the desired
     explanatory variables (interactions, etc) in classical R
     style, i.e. separated by `+', `*', `:'. Possible covariates include `size', 'size2' (size^2), `size3'
     (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
     `covariate1', `covariate2' through to whatever the desired number of covariates is.}
-  \item{responseType}{possible values include `sizenext' (size in one
+  \item{responseType}{possible values include `sizeNext' (size in one
     discrete time step) and `incr' and `logincr'}
   \item{regType}{possible values inclue `constantVar' (defines wether a
   normal regression is fitted) or `declineVar' (declining variance with
@@ -60,7 +60,7 @@ See manual for details on building case-specific growth objects.
 dff<-generateDataStoch()
 #make simple linear regression growth object relating size to size at t+1
 gr1 <- makeGrowthObjGeneralManyCov(dataf=dff,
-explanatoryVariables="size+covariate1+covariate3", responseType="sizenext")
+explanatoryVariables="size+covariate1+covariate3", responseType="sizeNext")
 #same but relating size to incr with slightly different covariate set
 gr1 <- makeGrowthObjGeneralManyCov(dataf=dff, explanatoryVariables="size+covariate1", responseType="incr")
 

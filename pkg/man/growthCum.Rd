@@ -7,14 +7,14 @@ Generic function to predict the cdf of size at t+1 given size at t and a growth 
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-growthCum(size, sizenext, cov, growthObj)
+growthCum(size, sizeNext, cov, growthObj)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
    \item{size}{
     vector of current sizes
 }
-  \item{sizenext}{
+  \item{sizeNext}{
     vector of sizes in the next time-step
 }
   \item{cov}{
@@ -28,7 +28,7 @@ growthCum(size, sizenext, cov, growthObj)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
- a vector of length sizenext giving the cdf of each value of sizenext
+ a vector of length sizeNext giving the cdf of each value of sizeNext
 }
 \references{
 %% ~put references to the literature/web site here ~

@@ -52,7 +52,7 @@ function (dataf)
     require(censReg)
     dataf$size2 <- dataf$size^2
     if (length(dataf$incr) == 0) 
-        dataf$incr <- dataf$sizenext - dataf$size
+        dataf$incr <- dataf$sizeNext - dataf$size
     fit <- censReg(incr ~ logsize + logsize2, data = dataf, left = 0)
     gr1 <- new("growthObj.truncincr")
     gr1@fit <- fit$estimate

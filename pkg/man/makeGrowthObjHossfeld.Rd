@@ -5,9 +5,9 @@
 Function to make a Hossfeld Growth Object
 }
 \description{
-Takes a data-frame with at minimum columns size and sizenext; and fits a Hossfeld type growth function
+Takes a data-frame with at minimum columns size and sizeNext; and fits a Hossfeld type growth function
 to increment - if length(dataf$incr) is zero, it will calculate dataf$increment as the difference between 
-size and sizenext; otherwise it will take the column provided
+size and sizeNext; otherwise it will take the column provided
 }
 \usage{
 makeGrowthObjHossfeld(dataf)
@@ -15,7 +15,7 @@ makeGrowthObjHossfeld(dataf)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{a dataframe with columns `size' and
-    `sizenext'(`size' is size at t, `sizenext' is size at t+1);
+    `sizeNext'(`size' is size at t, `sizeNext' is size at t+1);
 	}
 }
 \details{

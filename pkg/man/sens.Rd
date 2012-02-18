@@ -48,7 +48,7 @@ maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=make
 ss <- sens(Tmatrix)
 
 image(Tmatrix@meshpoints, Tmatrix@meshpoints,t(ss), 
-	xlab="size", ylab="sizenext")
+	xlab="size", ylab="sizeNext")
 contour(Tmatrix@meshpoints, Tmatrix@meshpoints,t(ss),add=TRUE)
 
 
