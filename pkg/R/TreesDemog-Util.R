@@ -457,13 +457,13 @@ makeListIPMs <- function(dataf, n.big.matrix=10, minsize=-2,maxsize=10,
     dataf$covariate <- as.factor(dataf$covariate)
     levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
     
-     sv1 <- makeSurvObjGeneral(dataf,
+     sv1 <- makeSurvObj(dataf,
                                explanatoryVariables=explSurv)
-     gr1 <- makeGrowthObjGeneral(dataf,
+     gr1 <- makeGrowthObj(dataf,
                                  explanatoryVariables=explGrow,
 								 responseType=responseType,
 								 regType=regType)
-     fv1 <- makeFecObjGeneral(dataf,explanatoryVariables=explFec, fec.constants=fec.constants) 
+     fv1 <- makeFecObj(dataf,explanatoryVariables=explFec, fec.constants=fec.constants) 
 
      covs <- unique(dataf$covariate)
      covs <- covs[!is.na(covs)]
@@ -544,8 +544,8 @@ run.Simple.Model <- function(dataf,
     if (length(maxsize)==0) maxsize <- 1.5*max(dataf$size,na.rm=TRUE)
     
     # Make necessary objects - here using simplest polynomials
-    sv1 <- makeSurvObjGeneral(dataf)
-    gr1 <- makeGrowthObjGeneral(dataf)
+    sv1 <- makeSurvObj(dataf)
+    gr1 <- makeGrowthObj(dataf)
   
     #print(gr1)
     

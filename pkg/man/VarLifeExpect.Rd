@@ -44,8 +44,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff <- generateData()
 Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
-maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObjGeneral(dff),
-survObj=makeSurvObjGeneral(dff))
+maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
+survObj=makeSurvObj(dff))
 VarLifeExpect(Tmatrix)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

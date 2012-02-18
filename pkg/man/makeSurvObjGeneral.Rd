@@ -1,5 +1,5 @@
-\name{makeSurvObjGeneral.Rd}
-\alias{makeSurvObjGeneral.Rd}
+\name{makeSurvObj.Rd}
+\alias{makeSurvObj.Rd}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Functions to build survival objects}
@@ -9,7 +9,7 @@
   to build survival objects for which methods to build an IPM  object are defined.
 }
 \usage{
-makeSurvObjGeneral(dataf,explanatoryVariables="size+size2+size3")
+makeSurvObj(dataf,explanatoryVariables="size+size2+size3")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -48,15 +48,15 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-  \code{\link{makeSurvObjGeneralManyCov}}
+  \code{\link{makeSurvObjManyCov}}
 }
 \examples{
 #generate data
 dff<-generateData()
 #make simple logistic regression survival object relating survival to size at t
-sv1 <- makeSurvObjGeneral(dff, explanatoryVariables="size")
+sv1 <- makeSurvObj(dff, explanatoryVariables="size")
 #assess fit for model with discrete environmental classes fitted
-sv1 <- makeSurvObjGeneral(dff, explanatoryVariables="size+covariate")
+sv1 <- makeSurvObj(dff, explanatoryVariables="size+covariate")
 picSurv(dff,sv1,ncuts=30)
 
 }

@@ -1,5 +1,5 @@
-\name{makeGrowthObjGeneralManyCov}
-\alias{makeGrowthObjGeneralManyCov}
+\name{makeGrowthObjManyCov}
+\alias{makeGrowthObjManyCov}
 
 \title{Functions to build growth objects for varying environments
   (discretely, continuously, with potential for several covariates)}
@@ -9,8 +9,8 @@
   object are defined.
 }
 \usage{
-makeGrowthObjGeneralManyCov(dataf, explanatoryVariables="size+covariate1+covariate2", responseType="sizeNext",regType="constantVar")
-makeGrowthObjGeneralManyCov(dataf, explanatoryVariables="size+size2+covariate3", responseType="incr",regType="constantVar")
+makeGrowthObjManyCov(dataf, explanatoryVariables="size+covariate1+covariate2", responseType="sizeNext",regType="constantVar")
+makeGrowthObjManyCov(dataf, explanatoryVariables="size+size2+covariate3", responseType="incr",regType="constantVar")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -59,10 +59,10 @@ See manual for details on building case-specific growth objects.
 #generate data
 dff<-generateDataStoch()
 #make simple linear regression growth object relating size to size at t+1
-gr1 <- makeGrowthObjGeneralManyCov(dataf=dff,
+gr1 <- makeGrowthObjManyCov(dataf=dff,
 explanatoryVariables="size+covariate1+covariate3", responseType="sizeNext")
 #same but relating size to incr with slightly different covariate set
-gr1 <- makeGrowthObjGeneralManyCov(dataf=dff, explanatoryVariables="size+covariate1", responseType="incr")
+gr1 <- makeGrowthObjManyCov(dataf=dff, explanatoryVariables="size+covariate1", responseType="incr")
 
 
 }

@@ -53,14 +53,14 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff <- generateData()
 Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
-maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObjGeneral(dff),
-survObj=makeSurvObjGeneral(dff))
+maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
+survObj=makeSurvObj(dff))
 PassageTime(5,Tmatrix)
 
 Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
 maxsize=max(dff$size, na.rm = TRUE),
-growObj=makeGrowthObjGeneral(dff,explanatoryVariables="size+size2+covariate"),
-survObj=makeSurvObjGeneral(dff), envMatrix=makeEnvObj(dff))
+growObj=makeGrowthObj(dff,explanatoryVariables="size+size2+covariate"),
+survObj=makeSurvObj(dff), envMatrix=makeEnvObj(dff))
 le <- LifeExpect(Tmatrix, makeEnvObj(dff))
 plot(Tmatrix@meshpoints,le[1,],type="l", ylim=range(le))
 points(Tmatrix@meshpoints,le[2,],type="l",col=2)

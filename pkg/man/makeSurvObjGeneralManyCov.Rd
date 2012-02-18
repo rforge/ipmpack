@@ -1,5 +1,5 @@
-\name{makeSurvObjGeneralManyCov.Rd}
-\alias{makeSurvObjGeneralManyCov.Rd}
+\name{makeSurvObjManyCov.Rd}
+\alias{makeSurvObjManyCov.Rd}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Functions to build survival objects}
@@ -9,7 +9,7 @@
   to build survival objects for which methods to build an IPM  object are defined.
 }
 \usage{
-makeSurvObjGeneralManyCov(dataf,explanatoryVariables="size+size2+size3")
+makeSurvObjManyCov(dataf,explanatoryVariables="size+size2+size3")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -50,16 +50,16 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-  \code{\link{makeSurvObjGeneral}}
+  \code{\link{makeSurvObj}}
 }
 \examples{
 #generate data
 dff<-generateData()
 #make simple logistic regression survival object relating survival to size at t
-sv1 <- makeSurvObjGeneralManyCov(dff, explanatoryVariables="size")
+sv1 <- makeSurvObjManyCov(dff, explanatoryVariables="size")
 #assess fit for model with discrete environmental classes fitted
 dff$covariate1 <- sample(1:3,size=nrow(dff),replace=TRUE)
-sv1 <- makeSurvObjGeneralManyCov(dff, explanatoryVariables="size+covariate1")
+sv1 <- makeSurvObjManyCov(dff, explanatoryVariables="size+covariate1")
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -45,7 +45,7 @@ growth, growSurv, surv-methods
 }
 \examples{
 dff<-generateData()
-sv1<-makeSurvObjGeneral(dff)
+sv1<-makeSurvObj(dff)
 surv(1,1,sv1)
 
 }

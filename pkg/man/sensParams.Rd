@@ -68,8 +68,8 @@ approach. Proc. Roy. Soc. Lond. Ser. B. 269 p1509-1515
 }
 \examples{
 dff <- generateData()
-res <- sensParams(growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff),
-fecObj=makeFecObjGeneral(dff), n.big.matrix=50, minsize=min(dff$size, na.rm=TRUE),
+res <- sensParams(growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff),
+fecObj=makeFecObj(dff), n.big.matrix=50, minsize=min(dff$size, na.rm=TRUE),
 maxsize=max(dff$size, na.rm=TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
@@ -80,10 +80,10 @@ barplot(res$elam, main = expression("Parameter elasticity of " *
 
 #same but with two fertility functions WON'T WORK ALTHOUGH DOES DIRECTLY???
 dff$fec2 <- dff$fec>0 #create binomial describing e.g., prob of flowering
-fv1 <- makeFecObjGeneral(dff,
+fv1 <- makeFecObj(dff,
 explanatoryVariables=c("size+size2","size"), Family=c("gaussian","binomial"))
 
-res <- sensParams(growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff),
+res <- sensParams(growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff),
 fecObj=fv1, n.big.matrix=50, minsize=min(dff$size, na.rm=TRUE),
 maxsize=max(dff$size, na.rm=TRUE))
 
@@ -96,7 +96,7 @@ barplot(res$elam, main = expression("Parameter elasticity of " *
 
 #same but with two fertility functions and a constant
 fv1@fec.constants[1] <- 0.5
-res <- sensParams(growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff),
+res <- sensParams(growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff),
 fecObj=fv1, n.big.matrix=50, minsize=min(dff$size, na.rm=TRUE),
 maxsize=max(dff$size, na.rm=TRUE))
 

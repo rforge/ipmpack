@@ -45,11 +45,11 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeGrowthObjGeneral}}, \code{\link{picSurv}}
+\code{\link{makeGrowthObj}}, \code{\link{picSurv}}
 }
 \examples{
 dff<-generateData()
-gr1 <- makeGrowthObjGeneral(dff)
+gr1 <- makeGrowthObj(dff)
 picGrow(dff,gr1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -1,5 +1,5 @@
-\name{makeGrowthObjGeneral}
-\alias{makeGrowthObjGeneral}
+\name{makeGrowthObj}
+\alias{makeGrowthObj}
 
 \title{Functions to build growth objects for constant environments, or
   discretely varying environments}
@@ -9,8 +9,8 @@
   object are defined.
 }
 \usage{
-makeGrowthObjGeneral(dataf, explanatoryVariables="size", responseType="sizeNext",regType="constantVar")
-makeGrowthObjGeneral(dataf, explanatoryVariables="size+size2", responseType="incr",regType="constantVar")
+makeGrowthObj(dataf, explanatoryVariables="size", responseType="sizeNext",regType="constantVar")
+makeGrowthObj(dataf, explanatoryVariables="size+size2", responseType="incr",regType="constantVar")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -57,17 +57,17 @@ See manual for details on building case-specific growth objects; which may conta
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeGrowthObjGeneralManyCov}}, \code{\link{makeSurvObjGeneral}}, \code{\link{makeFecObj}}
+\code{\link{makeGrowthObjManyCov}}, \code{\link{makeSurvObj}}, \code{\link{makeFecObj}}
 }
 \examples{
 #generate data
 dff<-generateData()
 #make simple linear regression growth object relating size to size at t+1
-(gr1 <- makeGrowthObjGeneral(dataf=dff, explanatoryVariables="size", responseType="sizeNext"))
+(gr1 <- makeGrowthObj(dataf=dff, explanatoryVariables="size", responseType="sizeNext"))
 #same but relating size to incr
-(gr1 <- makeGrowthObjGeneral(dataf=dff, explanatoryVariables="size", responseType="incr"))
+(gr1 <- makeGrowthObj(dataf=dff, explanatoryVariables="size", responseType="incr"))
 #same but relating size to incr and discrete covariate
-(gr1 <- makeGrowthObjGeneral(dataf=dff, explanatoryVariables="size+covariate", responseType="incr"))
+(gr1 <- makeGrowthObj(dataf=dff, explanatoryVariables="size+covariate", responseType="incr"))
 
 
 #assess fit 

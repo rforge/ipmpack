@@ -65,8 +65,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff <- generateData()
 Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
 maxsize=max(dff$size, na.rm = TRUE),
-growObj=makeGrowthObjGeneral(dff, explanatoryVariables="size+size2+covariate",),
-survObj=makeSurvObjGeneral(dff,explanatoryVariables="size+covariate"), 
+growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate",),
+survObj=makeSurvObj(dff,explanatoryVariables="size+covariate"), 
 envMatrix=makeEnvObj(dff))
 StochPassageTime(10,Tmatrix, makeEnvObj(dff))
 

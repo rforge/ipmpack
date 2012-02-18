@@ -50,12 +50,12 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeSurvObjGeneral}}, \code{\link{picGrow}}
+\code{\link{makeSurvObj}}, \code{\link{picGrow}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
 dff<-generateData()
-sv1 <- makeSurvObjGeneral(dff)
+sv1 <- makeSurvObj(dff)
 picSurv(dff,sv1)
 
 }

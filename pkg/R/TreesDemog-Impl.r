@@ -26,7 +26,7 @@
 # Returns - a growth object                  
 #
 #
-makeGrowthObjGeneral <- function(dataf,
+makeGrowthObj <- function(dataf,
                                  explanatoryVariables="size+size2",
                                  responseType="sizeNext",
                                  regType="constantVar"){
@@ -142,7 +142,7 @@ makeGrowthObjGeneral <- function(dataf,
 # Returns - a growth object                  
 #
 #
-makeGrowthObjGeneralManyCov <- function(dataf,
+makeGrowthObjManyCov <- function(dataf,
 					explanatoryVariables="size+size2+covariate1",
 					responseType="sizeNext",
 					regType="constantVar"){
@@ -291,7 +291,7 @@ makeGrowthObjIncrTrunc <- function(dataf) {
 # Returns - a survival object                   
 #
 #
-makeSurvObjGeneral <- function(dataf,
+makeSurvObj <- function(dataf,
                                explanatoryVariables="size+size2"){
 
         
@@ -335,7 +335,7 @@ makeSurvObjGeneral <- function(dataf,
 # Returns - a survival object                   
 #
 #
-makeSurvObjGeneralManyCov <- function(dataf,
+makeSurvObjManyCov <- function(dataf,
                                       explanatoryVariables="size+size2+covariate1"){
         
     #build appropriate size based covariates
@@ -355,7 +355,7 @@ makeSurvObjGeneralManyCov <- function(dataf,
 
 # 3. Fertility models  #######################################################################################################
 
-makeFecObjGeneral <- function(dataf,
+makeFecObj <- function(dataf,
                               fec.constants=as.numeric(NA),
                               explanatoryVariables="size",
                               Family="gaussian",
@@ -454,7 +454,7 @@ makeFecObjGeneral <- function(dataf,
 
 ## NO different from the above yet, except in what it produces
 
-makeFecObjGeneralManyCov <- function(dataf,
+makeFecObjManyCov <- function(dataf,
 		fec.constants=as.numeric(NA),
 		explanatoryVariables="size",
 		Family="gaussian",

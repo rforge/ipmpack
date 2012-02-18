@@ -57,7 +57,7 @@ makeListIPMs(dataf, n.big.matrix = 10, minsize = -2, maxsize = 10,
 	}
 }
 \details{
-Currently uses makeSurvObjGeneral with a discrete covariate 
+Currently uses makeSurvObj with a discrete covariate 
 }
 \value{
   list of matrices corresponding to covariates, in order

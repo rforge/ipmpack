@@ -69,7 +69,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 
 dff<-generateData()
-fv1 <- makeFecObjGeneral(dff,
+fv1 <- makeFecObj(dff,
 	explanatoryVariables="size",Transform="log")
 Fmatrix <-create.IPM.Fmatrix(n.big.matrix=20,minsize=min(dff$size, na.rm=TRUE),
 	maxsize=max(dff$size, na.rm=TRUE),fecObj=fv1)

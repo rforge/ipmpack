@@ -81,8 +81,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff<-generateData()
 Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
 maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
-growObj=makeGrowthObjGeneral(dff, explanatoryVariables="size+size2+covariate"),
-survObj=makeSurvObjGeneral(dff,explanatoryVariables="size+size2+covariate"))
+growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"),
+survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"))
 
 
 #with discrete stages
@@ -92,8 +92,8 @@ dff$covariatenext <- sample(1:3,size=nrow(dff),replace=TRUE)
 discM <- makeDiscreteTrans(dff)
 Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
 maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
-growObj=makeGrowthObjGeneral(dff, explanatoryVariables="size+size2+covariate"),
-survObj=makeSurvObjGeneral(dff,explanatoryVariables="size+size2+covariate"),DiscreteTrans=discM)
+growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"),
+survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"),DiscreteTrans=discM)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

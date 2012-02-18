@@ -74,15 +74,15 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff<-generateData()
 Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
-maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff))
-diagnosticsTmatrix(Tmatrix, growObj=makeGrowthObjGeneral(dff),
-survObj=makeSurvObjGeneral(dff), dff=dff)
+maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
+diagnosticsTmatrix(Tmatrix, growObj=makeGrowthObj(dff),
+survObj=makeSurvObj(dff), dff=dff)
 
 #compare with...
 Tmatrix <-create.IPM.Tmatrix(n.big.matrix=8,minsize=min(dff$size,na.rm=TRUE),
-maxsize=0.5*max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff))
-diagnosticsTmatrix(Tmatrix, growObj=makeGrowthObjGeneral(dff),
-survObj=makeSurvObjGeneral(dff), dff=dff)
+maxsize=0.5*max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
+diagnosticsTmatrix(Tmatrix, growObj=makeGrowthObj(dff),
+survObj=makeSurvObj(dff), dff=dff)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

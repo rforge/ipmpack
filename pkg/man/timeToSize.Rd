@@ -61,7 +61,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff <- generateData()
 start.sizes <- rnorm(100,2,1)
 Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
-maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff))
+maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
 
 #CURRENTLY NOT WORKING VERY WELL
 rc <- timeToSize(starting.sizes=start.sizes, IPM=Tmatrix, end.size=10, 

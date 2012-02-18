@@ -1,5 +1,5 @@
-\name{makeFecObjGeneral}
-\alias{makeFecObjGeneral}
+\name{makeFecObj}
+\alias{makeFecObj}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -10,7 +10,7 @@
   flowering, number of flower heads produced, etc. 
 }
 \usage{
-makeFecObjGeneral(dataf, fec.constants,explanatoryVariables,Family,
+makeFecObj(dataf, fec.constants,explanatoryVariables,Family,
 Transform,mean.offspring.size, var.offspring.size, offspring.splitter,
 fec.by.discrete)
 }
@@ -90,7 +90,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff<-generateDataDiscrete()
-fv1 <- makeFecObjGeneral(dff,offspring.splitter=data.frame(continuous=0.2,seed.age.1=0.8))
+fv1 <- makeFecObj(dff,offspring.splitter=data.frame(continuous=0.2,seed.age.1=0.8))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -76,7 +76,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff<-generateData()
 Fmatrix <-create.compound.Fmatrix(n.big.matrix=20,minsize=min(dff$size, na.rm=TRUE),
 maxsize=max(dff$size, na.rm=TRUE),envMatrix=makeEnvObj(dff),
-fecObj=makeFecObjGeneral(dff, explanatoryVariables="size+size2+covariate"))
+fecObj=makeFecObj(dff, explanatoryVariables="size+size2+covariate"))
 
 image(1:nrow(Fmatrix),1:ncol(Fmatrix),log(Fmatrix), xlab="Size at t+1",
 ylab="Size at t", axes=FALSE)
@@ -91,7 +91,7 @@ abline(v=length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
 dff<-generateDataDiscrete()
 dff$covariate <- sample(1:3,size=nrow(dff),replace=TRUE)
 dff$covariatenext <- sample(1:3,size=nrow(dff),replace=TRUE)
-fv1 <- makeFecObjGeneral(dff,
+fv1 <- makeFecObj(dff,
 explanatoryVariables="size",Transform="none",
 offspring.splitter=data.frame(continuous=0.9,dormant=0.1))
 Fmatrix <-create.compound.Fmatrix(minsize=min(dff$size,na.rm=TRUE),

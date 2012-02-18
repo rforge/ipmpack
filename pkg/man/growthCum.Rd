@@ -47,7 +47,7 @@ growth
 }
 \examples{
 dff <- generateData()
-gr1 <- makeGrowthObjGeneral(dff)
+gr1 <- makeGrowthObj(dff)
 growthCum(1,1:5,1,gr1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -90,9 +90,9 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 #generate relevant data, build objects
 dff <- generateDataStoch()
 print(head(dff))
-gr1 <- makeGrowthObjGeneralManyCov(dff,explanatoryVariables="size+size2+covariate1")
-sv1 <- makeSurvObjGeneralManyCov(dff,explanatoryVariables="size+size2+covariate2")
-fv1 <- makeFecObjGeneralManyCov(dff,explanatoryVariables="size+size2")
+gr1 <- makeGrowthObjManyCov(dff,explanatoryVariables="size+size2+covariate1")
+sv1 <- makeSurvObjManyCov(dff,explanatoryVariables="size+size2+covariate2")
+fv1 <- makeFecObjManyCov(dff,explanatoryVariables="size+size2")
 
 #generate time-series of covariates for which population growth rate is required
 # here set to be seasonal environment. NAMES of covariates must be same as in dff
