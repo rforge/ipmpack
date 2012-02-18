@@ -750,7 +750,7 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 		
 		# In case of discrete classes, take the IPM constructed above and add discrete classes defined in DiscreteTrans
 		if (class(DiscreteTrans)=="DiscreteTrans") {
-			nmes <- rownames(DiscreteTrans@disccrete.trans)
+			nmes <- rownames(DiscreteTrans@discrete.trans)
 			surv.to.discrete <- predict(DiscreteTrans@surv.to.discrete,data.frame(size=y,size2=(y*y)),type="response")
 			cont.to.cont <- get.matrix*matrix(1-surv.to.discrete,nrow=n.big.matrix,ncol=n.big.matrix,byrow=T)
 			disc.to.disc <- DiscreteTrans@discrete.trans[1:ndisc,1:ndisc]*matrix(c(DiscreteTrans@discrete.surv),
