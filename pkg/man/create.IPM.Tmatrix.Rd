@@ -67,6 +67,10 @@ integrate.type, correction)
   nbig.matrix+nrow(DiscreteTrans)
 }
 \references{
+Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81 p694-708
+
+Ellner & Rees. 2006. Integral projection models for species with complex demography. The American Naturalist 167 p410-428
+
 %% ~put references to the literature/web site here ~
 }
 \author{
@@ -83,8 +87,12 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff<-generateData()
-Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
-maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
+Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
+
+slotNames(Tmatrix)
+
+image(Tmatrix@meshpoints,Tmatrix@meshpoints,Tmatrix, xlab="Size at t+1",ylab="Size at t")
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

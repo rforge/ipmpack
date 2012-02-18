@@ -69,15 +69,12 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 
 dff<-generateData()
-fv1 <- makeFecObj(dff,
-	explanatoryVariables="size",Transform="log")
-Fmatrix <-create.IPM.Fmatrix(n.big.matrix=20,minsize=min(dff$size, na.rm=TRUE),
-	maxsize=max(dff$size, na.rm=TRUE),fecObj=fv1)
+fv1 <- makeFecObj(dff,explanatoryVariables="size",Transform="log")
+Fmatrix <-create.IPM.Fmatrix(n.big.matrix=20,minsize=min(dff$size, na.rm=TRUE),maxsize=max(dff$size, na.rm=TRUE),fecObj=fv1)
 
 slotNames(Fmatrix)
 
-image(Fmatrix@meshpoints,Fmatrix@meshpoints,Fmatrix, xlab="Size at t+1",
-ylab="Size at t")
+image(Fmatrix@meshpoints,Fmatrix@meshpoints,Fmatrix, xlab="Size at t+1",ylab="Size at t")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

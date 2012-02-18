@@ -62,7 +62,17 @@ between ages is reflected by a similar matrix
 }
 \references{
 
-For age x size modeling: Garcia, Dahlgren & Ehrlen. 2011. No evidence of senescence in a 300-year-old mountain herb. Journal of Ecology 
+For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112
+
+For habitat x stage modeling: Horvitz & Schemske. 1995. Spatiotemporal variation in demographic transitions of a tropical understory herb. Projection matrix analysis. Ecological Monographs 65 p155-192
+
+For age x size modeling: Garcia, Dahlgren & Ehrlen. 2011. No evidence of senescence in a 300-year-old mountain herb. Journal of Ecology 99 p1424Ð1430
+
+For general information:
+
+Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81 p694-708
+
+Ellner & Rees. 2006. Integral projection models for species with complex demography. The American Naturalist 167 p410-428
 
 %% ~put references to the literature/web site here ~
 }
@@ -81,10 +91,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 #without discrete stages
 dff<-generateData()
-Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
-maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
-growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"),
-survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"))
+Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size,na.rm=TRUE), maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff), growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"), survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"))
 
 
 #with discrete stages
