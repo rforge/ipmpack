@@ -435,7 +435,7 @@ makeFecObjGeneral <- function(dataf,
     f1@fec.constants <- fec.constants
     f1@mean.offspring.size <- mean.offspring.size
     f1@var.offspring.size <- var.offspring.size
-    f1@offspring.splitter <- offspring.splitter/max(offspring.splitter) 
+    f1@offspring.splitter <- offspring.splitter/sum(offspring.splitter) 
     f1@fec.by.discrete <- fec.by.discrete
     f1@Transform <- Transform
     return(f1)
