@@ -5,7 +5,7 @@
   Function to generate data with stochastic covariates
 }
 \description{
-  Simulates growth, survival, fertility to create a data-frame of the
+  Simulates growth, survival, fecundity to create a data-frame of the
   form required by the functions and methods used in the package
 }
 \usage{

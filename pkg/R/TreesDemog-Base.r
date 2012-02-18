@@ -125,7 +125,7 @@ setClass("survObjLog.multiyear",
 
 
 ## FECUNDITY OBJECTS ##
-# Create a generic fertility object
+# Create a generic fecundity object
 setClass("fecObj",
 		representation(fit.fec1 = "glm",
 				fit.fec2 = "glm",
@@ -144,7 +144,7 @@ setClass("fecObj",
 				Transform = "character")
 )
 
-# Create a generic fertility object for multiple covariates
+# Create a generic fecundity object for multiple covariates
 setClass("fecObjMultiCov",
 		representation(fit.fec1 = "glm",
 				fit.fec2 = "glm",
@@ -799,7 +799,7 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 
 
 
-#Function creates a single F.IPM (fertility transitions only)
+#Function creates a single F.IPM (fecundity transitions only)
 #for a chosen size range, env category (single one at a time)
 #and survival and fecundity objects (assume survival 
 #precedes growth; could do otherwise...)
@@ -1678,7 +1678,7 @@ largeMatrixCalc <- function(Tmatrix,Fmatrix, tol=1.e-8){
 
 
 ## Sensitivity of parameters - works for an IPM built out of
-## growth, survival, and fertility objects with a fitted regression
+## growth, survival, and fecundity objects with a fitted regression
 ## as one of their slots. Note that fecObj and growObj need to reflect
 ## the 
 ##
@@ -2085,7 +2085,7 @@ TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
 ## FUNCTIONS FOR SENSITIVITY AND ELASTICITY ############################
 
 
-#parameters - an IPM (with full survival and fertility complement)
+#parameters - an IPM (with full survival and fecundity complement)
 # returns - the sensitivity of every transition for pop growth
 sens<-function(A) {
 	w<-Re(eigen(A)$vectors[,1]); 
@@ -2095,7 +2095,7 @@ sens<-function(A) {
 	return(s/vw); 
 }   
 
-#parameters - an IPM (with full survival and fertility complement)
+#parameters - an IPM (with full survival and fecundity complement)
 # returns - the elasticity of every transition for pop growth
 elas<-function(A) {
 	s<-sens(A)

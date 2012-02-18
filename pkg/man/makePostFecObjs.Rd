@@ -6,7 +6,7 @@
 }
 \description{
    Allows a series of different glms to be fit all on the way to
-   fertility, e.g., probability of flowering, number of flower heads
+   fecundity, e.g., probability of flowering, number of flower heads
    produced, etc. using a Bayesian framework via the MCMCglmm
    package. Needs work on priors.  
 
@@ -20,7 +20,7 @@ makePostFecObjs(dataf,fec.constants,explanatoryVariables,Family,Transform,mean.o
       "stagenext", "fec1", "fec2" or other names containing fec; up to
       nine are currently possible (and note that ANY name containing
       "fec" will be included and these MUST NOT be transformed via log,
-      etc, since the fertility object produced will assume that it has total reproductive output.)}
+      etc, since the fecundity object produced will assume that it has total reproductive output.)}
   \item{fec.constants}{a numeric vector containing the value by which
     each of the fecundity transforms will be multplied \emph{in the
       order defined by the alphabetical order of column names
@@ -66,7 +66,7 @@ Function does not return output of Bayes analysis which might be useful for asse
 
 }
 \value{
-  list of fertility objects
+  list of fecundity objects
 }
 \references{
 %% ~put references to the literature/web site here ~

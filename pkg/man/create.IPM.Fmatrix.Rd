@@ -31,7 +31,7 @@ minsize = -1, maxsize = 50, chosen.cov = 1,  fecObj, integrate.type,correction)
     setting values where multiple covarites are modeled
   }
   \item{fecObj}{
-    fertility object
+    fecundity object
   }
   \item{integrate.type}{
     integration type, defaults to "midpoint" (which uses prob. density

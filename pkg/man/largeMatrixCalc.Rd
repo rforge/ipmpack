@@ -17,7 +17,7 @@ largeMatrixCalc(Tmatrix, Fmatrix, tol = 1e-08)
 	object of class IPM.matrix describing survival transitions
 }
   \item{Fmatrix}{
-	object of class IPM.matrix describing fertility transitions
+	object of class IPM.matrix describing fecundity transitions
 }
   \item{tol}{
     tolerance for convergence, defaults to 1e-08

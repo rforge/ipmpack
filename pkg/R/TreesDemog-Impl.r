@@ -353,7 +353,7 @@ makeSurvObjManyCov <- function(dataf,
 }
 
 
-# 3. Fertility models  #######################################################################################################
+# 3. fecundity models  #######################################################################################################
 
 makeFecObj <- function(dataf,
                               fec.constants=as.numeric(NA),
@@ -384,7 +384,7 @@ makeFecObj <- function(dataf,
 	offspring.splitter <- dummy
 	
     if (ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
-        print("Warning - offspring splitter indicates more than just continuous stages. No fertility by the discrete stages supplied in fec.by.discrete; assumed that is 0")
+        print("Warning - offspring splitter indicates more than just continuous stages. No fecundity by the discrete stages supplied in fec.by.discrete; assumed that is 0")
         fec.by.discrete <- matrix(0,col(offspring.splitter)-1,col(offspring.splitter)-1)
     }
     
@@ -471,7 +471,7 @@ makeFecObjManyCov <- function(dataf,
 	}
 	
 	if(ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
-		print("Warning - offspring splitter indicates more than just continuous stages. No fertility by the discrete stages supplied in fec.by.discrete; assumed that is 0")
+		print("Warning - offspring splitter indicates more than just continuous stages. No fecundity by the discrete stages supplied in fec.by.discrete; assumed that is 0")
 		fec.by.discrete <- matrix(0,col(offspring.splitter)-1,col(offspring.splitter)-1)
 	}
 	
@@ -762,12 +762,12 @@ makePostSurvivalObjs <- function(dataf,
 
 
 
-## Using MCMCglmm to get a list of  fertility posteriors - this assumes that
+## Using MCMCglmm to get a list of  fecundity posteriors - this assumes that
 # only applies to the first three functions
 #
 # Parameters - dataf - dataframe
 #            - covfec - is there a discrete covariate in prob of reproduction
-#            - covseeds - is there a discrete covariate in fertility production
+#            - covseeds - is there a discrete covariate in fecundity production
 #            - meanB the mean of the prior of the coefficients for XX
 #            - varB the variance of the prior of the coeff for XX
 #            - nitt - the total number of iterations
@@ -794,7 +794,7 @@ makePostFecObjs <- function(dataf,
     }
     
     if(ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
-        print("Warning - offspring splitter indicates more than just continuous stages. No fertility by the discrete stages supplied in fec.by.discrete; assumed that is 0")
+        print("Warning - offspring splitter indicates more than just continuous stages. No fecundity by the discrete stages supplied in fec.by.discrete; assumed that is 0")
         fec.by.discrete <- matrix(0,col(offspring.splitter)-1,col(offspring.splitter)-1)
     }
     

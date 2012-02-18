@@ -7,7 +7,7 @@ growth functions.
 }
 \description{
 This function takes a dataframe, a chosen size, a min and max, and a
-number of bins, and creates a Tmatrix and plots passage time and life expectancy (does not include fertility)
+number of bins, and creates a Tmatrix and plots passage time and life expectancy (does not include fecundity)
 }
 \usage{
 run.Simple.Model(dataf, chosen.size, minsize = c(), maxsize = c(), 

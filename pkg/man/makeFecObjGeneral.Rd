@@ -3,10 +3,10 @@
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Function to build fertility objects 
+  Function to build fecundity objects 
 }
 \description{
-  Allows a series of different glms to be fit all on the way to fertility, e.g., probability of
+  Allows a series of different glms to be fit all on the way to fecundity, e.g., probability of
   flowering, number of flower heads produced, etc. 
 }
 \usage{
@@ -20,7 +20,7 @@ fec.by.discrete)
       "stagenext", "fec1", "fec2" or other names containing fec; up to
       nine are currently possible (and note that ANY name containing
       "fec" will be included and these MUST NOT be transformed via log,
-      etc, since the fertility object produced will assume that it has total reproductive output.)}
+      etc, since the fecundity object produced will assume that it has total reproductive output.)}
   \item{fec.constants}{a numeric vector containing the value by which
     each of the fecundity transforms will be multplied \emph{in the
       order defined by the alphabetical order of column names
@@ -58,7 +58,7 @@ fec.by.discrete)
 }
   
 \details{
-  This function fits a suite of subfunctions of fertility towards creating
+  This function fits a suite of subfunctions of fecundity towards creating
   a Fecundity transition  projection model; e.g., the probability of flowering as a function of size,
   the number of seeds produced as a function of size, etc. Users can
   define the functional form of each relationship, as well as the

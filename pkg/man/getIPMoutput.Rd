@@ -6,7 +6,7 @@ Get IPM output from a list of Tmatrices or full IPMs
 }
 \description{
 Get synthetic values including life expectancy, passage time, and, if a
-fertility matrix is available, lambda, stable size, etc., for e.g.,
+fecundity matrix is available, lambda, stable size, etc., for e.g.,
 posterior distribution of Tmatrices, or values across environments,
 etc. 
 }
@@ -24,7 +24,7 @@ getIPMoutput(Tmatrixlist, target.size = c(),
     median of the IPM meshpoints
 }
   \item{Fmatrixlist}{
-    List of fertility matrices corresponding to the list of Tmatrices, facultative;
+    List of fecundity matrices corresponding to the list of Tmatrices, facultative;
     if included, lambda, and stable size distribution will also be provided
 }
 }

@@ -5,7 +5,7 @@
   Function to generate random data in the form used by IPMpack
 }
 \description{
-  Simulates growth, survival and fertility to create a data-frame of the form required by the functions and methods used in IPMpack. Note that the data created includes only one continuous covariate structuring the population; user can include additional covariates if necessary.
+  Simulates growth, survival and fecundity to create a data-frame of the form required by the functions and methods used in IPMpack. Note that the data created includes only one continuous covariate structuring the population; user can include additional covariates if necessary.
 }
 \usage{
 generateData()

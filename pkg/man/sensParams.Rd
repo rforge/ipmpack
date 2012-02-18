@@ -79,7 +79,7 @@ barplot(res$slam, main = expression("Parameter sensitivity of " *
 barplot(res$elam, main = expression("Parameter elasticity of " * 
  lambda), las = 2, cex.names = 0.5) 
 
-#same but with two fertility functions WON'T WORK ALTHOUGH DOES DIRECTLY???
+#same but with two fecundity functions WON'T WORK ALTHOUGH DOES DIRECTLY???
 dff$fec2 <- dff$fec>0 #create binomial describing e.g., prob of flowering
 fv1 <- makeFecObj(dff,
 explanatoryVariables=c("size+size2","size"), Family=c("gaussian","binomial"))
@@ -95,7 +95,7 @@ barplot(res$elam, main = expression("Parameter elasticity of " *
  lambda), las = 2, cex.names = 0.5) 
 
 
-#same but with two fertility functions and a constant
+#same but with two fecundity functions and a constant
 fv1@fec.constants[1] <- 0.5
 res <- sensParams(growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff),
 fecObj=fv1, n.big.matrix=50, minsize=min(dff$size, na.rm=TRUE),

@@ -3,11 +3,11 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Get IPM output from a list of growth, survival, and (facultatively)
-fertility objects
+fecundity objects
 }
 \description{
 Get synthetic values including life expectancy, passage time, and if a
-fertility matrix is available, lambda, stable size, etc., for e.g.,
+fecundity matrix is available, lambda, stable size, etc., for e.g.,
 posterior distribution of survival and growth objects. This is essentially identical,
 but can be a slightly swifter approach than getIPMoutput since matrices are not stored; it 
 also allows compound matrices to be produced following levels of a discrete covariate (using cov=TRUE). 
@@ -42,7 +42,7 @@ boolean identifying if a discrete covariate should be fitted; if cov=TRUE,
 an environmental matrix MUST be supplied. 
 }
   \item{fecObjList}{
-list of fertility objects (facultative)
+list of fecundity objects (facultative)
 }
   \item{env.mat}{
     environmental matrix (facultative unless cov=TRUE)

@@ -6,7 +6,7 @@ Function for estimating lambdas or invasion rate with many varying covariates
 }
 \description{
 Iterates a population through a time-series of covariates according to
-growth, survival and fertility objects, and
+growth, survival and fecundity objects, and
 calculates the stochastic population rate of increase if no
 density-dependence is specified, or the rate of invasion if density
 dependence is specified.

@@ -2,10 +2,10 @@
 \alias{makeListFmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Build list of Fmatrices from lists of growth, survival and fertility objects
+Build list of Fmatrices from lists of growth, survival and fecundity objects
 }
 \description{
-Uses posteriors (or other) lists of growth, fertility and survival objects to
+Uses posteriors (or other) lists of growth, fecundity and survival objects to
 create a list of Fmatrices
 }
 \usage{
@@ -20,7 +20,7 @@ makeListFmatrix(growObjList, survObjList, fecObjList, n.big.matrix, minsize, max
 	list of survival objects
 }
   \item{fecObjList}{
-	list of fertility objects
+	list of fecundity objects
 }
   \item{n.big.matrix}{
 	number of meshpoints

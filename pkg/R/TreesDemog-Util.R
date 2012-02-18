@@ -2,7 +2,7 @@
 
 
 # Function to extract IPM output from a list
-# of T (survival + growth) and F (fertility) matrices
+# of T (survival + growth) and F (fecundity) matrices
 # (usually from Bayes fit) 
 #
 # Parameters - Tmatrixlist
@@ -49,7 +49,7 @@ getIPMoutput <- function(Tmatrixlist,target.size=c(),Fmatrixlist=NULL){
 #            - minsize - the minimum size
 #            - maxsize - the maximum size
 #            - cov - do you want to fit a discrete covariate
-#            - fecObjList - list of fertility objects
+#            - fecObjList - list of fecundity objects
 #            - env.mat - matrix of env transitions (only if cov=TRUE)
 #            - n.size.to.age - numeric describing how many size to age defined (0 - 100s)
 # 

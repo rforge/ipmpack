@@ -5,8 +5,8 @@
 Function to build discrete F matrix from the types of data structures used in IPMpack
 }
 \description{
-A method that uses bins to construct a class discrete fertility transition matrix 
-from the types of data structures used in IPMpack; assumes that there is a single fertility 
+A method that uses bins to construct a class discrete fecundity transition matrix 
+from the types of data structures used in IPMpack; assumes that there is a single fecundity 
 column in the data entitled fec that captures number of offspring produced by individuals over 
 every size, and also assumes that all individuals are "born" into the first rows of the matrix 
 defined by offspring.classes (where offspring.classes=1 means between bins[1] and bins[2], 
@@ -33,7 +33,7 @@ create.MPM.Fmatrix(dataf,bins, offspring.classes=c(1),offspring.prop,n.env=1)
 }
 \details{
   The median number of offspring produced by individuals in each bin is
-  identified. Fertility values are distributed across rows and columns accordingl. To
+  identified. fecundity values are distributed across rows and columns accordingl. To
   get a classic Matrix Population model this can be added to values
   defined by create.MPM.Tmatrix.    
 }

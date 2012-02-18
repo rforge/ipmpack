@@ -5,7 +5,7 @@
   Function to generate data including discrete stages
 }
 \description{
-  Simulates growth, survival, fertility to create a data-frame of the
+  Simulates growth, survival, fecundity to create a data-frame of the
   form required by the functions and methods used in the package,
   including three possible discrete stages, "dormant", "seed.age.1", "seed.old"
 }

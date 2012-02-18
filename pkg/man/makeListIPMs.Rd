@@ -50,10 +50,10 @@ makeListIPMs(dataf, n.big.matrix = 10, minsize = -2, maxsize = 10,
 	regression response variable for growth (sizeNext, size...)
 	}
  \item{explFec}{
-	explanatory variables used in the fertility
+	explanatory variables used in the fecundity
 	}
  \item{fec.constants}{
-	constant multipliers for the fertility model
+	constant multipliers for the fecundity model
 	}
 }
 \details{

@@ -7,7 +7,7 @@ Function to build compound F matrix
 \description{
   Uses fecundity object, and environmental
   transition objects to construct a matrix
-  defining probabilities for transitions between sizes due fertility
+  defining probabilities for transitions between sizes due fecundity
   given both size and environmental state and discrete stages (e.g. seedbank). 
 }
 \usage{
@@ -33,7 +33,7 @@ minsize = -1, maxsize = 50, envMatrix, fecObj, integrate.type, correction)
     for each size
   }
   \item{fecObj}{
-    fertility object
+    fecundity object
   }
   \item{integrate.type}{
     integration type, defaults to "midpoint" (which uses prob. density

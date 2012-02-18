@@ -6,7 +6,7 @@ Calculating R0 from an IPM
 }
 \description{
 Function to estimate lifetime reproductive success from a full IPM
-(including growth, survival and fertility transitions). 
+(including growth, survival and fecundity transitions). 
 }
 \usage{
 R0.calc(Tmatrix, Fmatrix)
