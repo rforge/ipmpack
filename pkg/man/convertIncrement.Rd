@@ -13,7 +13,7 @@ convertIncrement(dataf, nyrs = 1)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{
-    a data-frame with columns `size' `sizenext`, `exactDate', `exactDatel' 
+    a data-frame with columns `size' `sizeNext`, `exactDate', `exactDateNext' 
 }
   \item{nyrs}{
     the number of years between sequential measurements (i.e. if census
