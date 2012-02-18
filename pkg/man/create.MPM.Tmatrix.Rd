@@ -37,7 +37,9 @@ create.MPM.Tmatrix(dataf,bins,n.env=1)
   an object of class IPM.matrix
 }
 \references{
-%% ~put references to the literature/web site here ~
+For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112
+
+For information on collapsing large matrices: Salguero-Gomez & Plotkin. 2010. Matrix dimensions bias demographic inferences: implications for comparative plant demography. The American Naturalist 176 p710-720
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans

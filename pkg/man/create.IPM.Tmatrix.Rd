@@ -71,6 +71,9 @@ Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured po
 
 Ellner & Rees. 2006. Integral projection models for species with complex demography. The American Naturalist 167 p410-428
 
+For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112
+
+
 %% ~put references to the literature/web site here ~
 }
 \author{
