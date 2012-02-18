@@ -5,9 +5,9 @@
 Function to calculate Life Expectancy in a discretely stochastic environment
 }
 \description{
-  Provided with a compound Tmatrix that describes survival transitions across size and
-  across discrete environmental states provides a matrix defining life-expectancy in
-  units of the time-step used, for each of the size bins for each of the
+  Provided a compound Tmatrix that describes survival transitions across size and
+  across discrete environmental states, this function provides a matrix defining life-expectancy in
+  units of the time-step used, for each of the size bins in each of the
   environments (rows). 
 }
 \usage{
@@ -32,10 +32,11 @@ LifeExpect(IPM.matrix, env.matrix)
 }
 \references{
 Caswell, 2001. Matrix population models: analysis, construction and
-interpretation. Sinauer.
+interpretation. 2nd ed. Sinauer. p110-132
 
-Tuljapurkar & Horvitz, 2006. From stage to age in variable
-environments. Life expectancy and survivorship. Ecology 87 p1497-1509
+Cochran & Ellner. 1995. Simple methods for calculating age-based life history parameters for stage-structured populations. Ecological Monographs 62 p345-364.
+
+Tuljapurkar & Horvitz, 2006. From stage to age in variable environments. Life expectancy and survivorship. Ecology 87 p1497-1509
 }
 \author{
 %%  ~~who you are~~
