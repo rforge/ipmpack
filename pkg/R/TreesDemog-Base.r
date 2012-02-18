@@ -651,7 +651,7 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 				ncol =1*n.big.matrix+ndisc,
 				meshpoints = y,
 				env.index = rep(1:n.env.class,each=n.big.matrix,
-				names.discrete=rownames(DiscreteTrans@disccrete.trans)))
+				names.discrete=rownames(DiscreteTrans@discrete.trans)))
 		rc[,] <-get.disc.matrix   
 	}
 	
@@ -877,7 +877,7 @@ create.IPM.Fmatrix <- function(fecObj,
 	ndisc <- length(fecObj@offspring.splitter)-1
 	
 	nmes <- ""
-	
+	names.discrete <- "NA"
 	if (ndisc>0) {
 			
 		to.discrete <- as.numeric(fecObj@offspring.splitter)[1:ndisc]%*%t(prod.fec.values)
@@ -888,7 +888,9 @@ create.IPM.Fmatrix <- function(fecObj,
 					as.numeric(fecObj@offspring.splitter)[ndisc+1]*tmp)%*%t(fecObj@fec.by.discrete)
 		
 		
-		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont)) 
+		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
+		
+		names.discrete <- names(fecObj@offspring.splitter[1:ndisc])
 	}
 	
 	rc <- new("IPM.matrix",
@@ -899,7 +901,7 @@ create.IPM.Fmatrix <- function(fecObj,
 			ncol =1*n.big.matrix+ndisc,
 			meshpoints = y,
 			env.index = rep(1:n.env.class,each=n.big.matrix),
-			names.discrete=names(fecObj@offspring.splitter[1:ndisc]))
+			names.discrete=names.discrete)
 	rc[,] <-get.matrix   
 	
 	return(rc)
