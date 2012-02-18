@@ -473,7 +473,8 @@ makeFecObjGeneralManyCov <- function(dataf,
 	}
 	
 	if(sum(offspring.splitter)!=1) {
-		print("Warning - offspring splitter does not sum to 1. It is now rescale to sum to 1.")
+		print("Warning - offspring splitter does not sum to 1. It is now rescaled to sum to 1.")
+		
 	}
 	
 	if (length(grep("covariate",explanatoryVariables))>0) {
