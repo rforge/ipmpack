@@ -6,7 +6,7 @@ Function to build T matrices
 }
 \description{
   Uses growth and survival objects to construct a matrix
-  defining probabailities for transitions between sizes due to growth
+  defining probabilities for transitions between sizes due to growth
   and survival. Extensions for transition to discrete classes are possible
 }
 \usage{

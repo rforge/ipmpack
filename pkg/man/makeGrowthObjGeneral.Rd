@@ -27,7 +27,7 @@ makeGrowthObjGeneral(dataf, explanatoryVariables="size+size2", responseType="inc
     dataf$sizenext-dataf$size or log(dataf$sizenext-dataf$size),
   respectively. }
   \item{explanatoryVariables}{a formula describing the desired
-    explanatory variables (interactions, etc) in classical R
+    explanatory variables (interactions, etc) according to the R notation for \code{formula}.
     style, i.e. separated by `+', `*', `:'. Possible covariates include `size', 'size2' (size^2), `size3'
     (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
     `covariate'.}
@@ -62,11 +62,11 @@ See manual for details on building case-specific growth objects.
 #generate data
 dff<-generateData()
 #make simple linear regression growth object relating size to size at t+1
-gr1 <- makeGrowthObjGeneral(dataf=dff, explanatoryVariables="size", responseType="sizenext")
+(gr1 <- makeGrowthObjGeneral(dataf=dff, explanatoryVariables="size", responseType="sizenext"))
 #same but relating size to incr
-gr1 <- makeGrowthObjGeneral(dataf=dff, explanatoryVariables="size", responseType="incr")
+(gr1 <- makeGrowthObjGeneral(dataf=dff, explanatoryVariables="size", responseType="incr"))
 #same but relating size to incr and discrete covariate
-gr1 <- makeGrowthObjGeneral(dataf=dff, explanatoryVariables="size+covariate", responseType="incr")
+(gr1 <- makeGrowthObjGeneral(dataf=dff, explanatoryVariables="size+covariate", responseType="incr"))
 
 
 #assess fit 

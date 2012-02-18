@@ -5,7 +5,7 @@
 \title{Functions to build survival objects}
 \description{
   A function to fit logistic regressions defining
-  survival following user defined forulas (e.g., size+size^2, etc)
+  survival following user defined formulas (e.g., size+size^2, etc)
   to build survival objects for which methods to build an IPM  object are defined.
 }
 \usage{
