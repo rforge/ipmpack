@@ -5,8 +5,7 @@
   Function to build F matrices
 }
 \description{
-Uses fertility objects to construct a matrix defining probabailities for
-transitions between stages due to fecundity
+Uses fecundity objects to construct a matrix defining per-capita contribution to recruitment stages by reproductive stages due to sexual reproduction
 }
 \usage{
 create.IPM.Fmatrix(n.env.class = 1, n.big.matrix = 50,
