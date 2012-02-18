@@ -363,19 +363,19 @@ generateData <- function(){
     fec[!is.na(size)] <- rnorm(sum(!is.na(size)),exp(-7+0.9*size[!is.na(size)]),1)
     fec[size<quantile(size,0.20,na.rm=TRUE) | fec<0] <- 0
 
-    stage <- stagenext <- rep("continuous",1000)
+    stage <- stageNext <- rep("continuous",1000)
     stage[is.na(size)] <- NA
-    stagenext[is.na(sizeNext)] <- "dead"
+    stageNext[is.na(sizeNext)] <- "dead"
     
     dataf <- data.frame(size=size,sizeNext=sizeNext,surv=surv,
                         covariate=covariate,covariatenext=covariatenext,
-                        fec=fec, stage=stage,stagenext=stagenext)
+                        fec=fec, stage=stage,stageNext=stageNext)
     return(dataf)
 }
 
 ## Generate a simple data-frame for continuous and discrete covariates
 #  with a total of 1000 measurements in columns called
-# size, sizeNext, surv, fec, stage, stagenext number
+# size, sizeNext, surv, fec, stage, stageNext number
 # Stage contains names including "continuous", and then a range
 # of names for discrete stages, e.g., in this example,
 #  "dormant" "seed.age.1"   "seed.old" 
@@ -389,29 +389,29 @@ generateDataDiscrete <- function(){
     fec <- rnorm(length(size),exp(-7+0.9*size),1)
     fec[size<quantile(size,0.20) | fec<0] <- 0
     stage <- rep("continuous",1000)
-    stagenext <- rep("continuous",1000)
+    stageNext <- rep("continuous",1000)
     sizeNext[surv==0] <- NA
-    stagenext[surv==0] <- c("dead")
+    stageNext[surv==0] <- c("dead")
     number <- rep(1,1000)
     become.dormant <- which(rank(size)%in%sample(rank(size),50,prob=surv*fec))
-    sizeNext[become.dormant] <- NA; stagenext[become.dormant] <- c("dormant")
+    sizeNext[become.dormant] <- NA; stageNext[become.dormant] <- c("dormant")
     were.dormant <- which(rank(sizeNext)%in%sample(rank(sizeNext),50,prob=surv*fec))
     size[were.dormant] <- NA; stage[were.dormant] <- c("dormant")
     dataf <- rbind(data.frame(size=size,sizeNext=sizeNext,surv=surv,
-                        fec=fec,stage=stage,stagenext=stagenext,number=number),
+                        fec=fec,stage=stage,stageNext=stageNext,number=number),
                    data.frame(size=NA,sizeNext=NA,surv=rep(c(1,0),2),fec=0,
-                        stage=rep(c("seed.age.1","seed.old"),each=2),stagenext=rep(c("seed.old","dead"),2),
+                        stage=rep(c("seed.age.1","seed.old"),each=2),stageNext=rep(c("seed.old","dead"),2),
                         number=c(202,220,115,121)),
                    data.frame(size=NA,sizeNext=rnorm(113,3,2),surv=1,fec=0,
                         stage=c(rep("seed.age.1",33),rep("seed.old",30),rep(NA,50)),
-                        stagenext=c("continuous"),number=1))
+                        stageNext=c("continuous"),number=1))
 
     return(dataf)
 }
 
 ## Generate a simple data-frame for continuous and discrete covariates
 #  with a total of 1000 measurements in columns called
-# size, sizeNext, surv, fec, stage, stagenext number
+# size, sizeNext, surv, fec, stage, stageNext number
 #
 # 
 generateDataStoch <- function(){
@@ -434,13 +434,13 @@ generateDataStoch <- function(){
 	pfec <- 1*(runif(length(size))<logit(size+covariate1)); #print(pfec)
 	fec[pfec==0] <- 0
 	#fill in stage
-	stage <- stagenext <- rep("continuous",1000)
+	stage <- stageNext <- rep("continuous",1000)
 	stage[is.na(size)] <- NA
-	stagenext[is.na(sizeNext)] <- "dead"
+	stageNext[is.na(sizeNext)] <- "dead"
 	
 	dataf <- data.frame(size=size,sizeNext=sizeNext,surv=surv,
 			covariate1=covariate1,covariate2=covariate2,covariate3=covariate3,
-			fec=fec, stage=stage,stagenext=stagenext)
+			fec=fec, stage=stage,stageNext=stageNext)
 	return(dataf)
 }
 

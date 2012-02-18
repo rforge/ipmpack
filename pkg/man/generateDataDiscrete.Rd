@@ -22,7 +22,7 @@ This function allows the modeling of complex life cycles that incorporate contin
   (boolean, indicating whether individual survived or not to the next
   time-step, whatever stage the individual ends up in), "fec" (continuous
   variable, indicating fecundity), "stage" (character vector, containing names of the discrete stages in
-  that time-step, or "continuous"), "stagenext" (character vector, containing names of the discrete stages in
+  that time-step, or "continuous"), "stageNext" (character vector, containing names of the discrete stages in
   the following time-step, or "continuous"), "number" corresponds to the number of
   individuals moving between stages - so "number" is 1 for all movements
   out of the "continous" stage, and is >1 for all movements out of

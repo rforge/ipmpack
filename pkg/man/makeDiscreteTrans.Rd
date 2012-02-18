@@ -12,7 +12,7 @@
   argument in the function to "create.IPM.Tmatrix" to build a T matrix
   that contains both discrete and continuous strategies. 
 
-  The data-frame must contain columns  "stage" and "stagenext"
+  The data-frame must contain columns  "stage" and "stageNext"
   with values of the names of the discrete classes and the name
   "continuous" where appropriate, in the current and
   subsequent time-step. Continuous categories are also defined by their
@@ -25,7 +25,7 @@ makeDiscreteTrans(dataf)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{dataf}{a dataframe with columns "stage", "stagenext" (both
+  \item{dataf}{a dataframe with columns "stage", "stageNext" (both
     character vectors containing either names of discrete stages or
   "continuous" or "dead"), "size",
     "sizeNext", and "surv" (continuous and booean variables respectively)}

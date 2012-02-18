@@ -17,7 +17,7 @@ makePostFecObjs(dataf,fec.constants,explanatoryVariables,Family,Transform,mean.o
 %- maybe also 'usage' for other objects documented here.
 \arguments{
     \item{dataf}{a dataframe with columns "size", "sizeNext", "stage",
-      "stagenext", "fec1", "fec2" or other names containing fec; up to
+      "stageNext", "fec1", "fec2" or other names containing fec; up to
       nine are currently possible (and note that ANY name containing
       "fec" will be included and these MUST NOT be transformed via log,
       etc, since the fecundity object produced will assume that it has total reproductive output.)}

@@ -366,11 +366,11 @@ makeFecObj <- function(dataf,
                               fec.by.discrete=matrix(NA,nrow=0,ncol=0)){
 
 	#order stage names from discrete to continuous
-	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stagenext)),c(levels(dataf$stage),levels(dataf$stagenext)),length))
+	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
 	stages <- stages[stages!="dead"] 
 	stages <- c(stages[stages!="continuous"],"continuous") 
 	if ((sum(names(offspring.splitter)%in%stage.names)/length(offspring.splitter))<1) {
-		stop("Error - the variable names in your offspring.splitter data.frame are not all part of the levels of stage or stagenext in your data file. Please fix this by adjusting your offspring.splitter entry to include the correct variable names, e.g. offspring.splitter=data.frame(continuous=.7,seed.age.1=.3)")
+		stop("Error - the variable names in your offspring.splitter data.frame are not all part of the levels of stage or stageNext in your data file. Please fix this by adjusting your offspring.splitter entry to include the correct variable names, e.g. offspring.splitter=data.frame(continuous=.7,seed.age.1=.3)")
 	}
 	dummy<-rep(0,length(stages));names(dummy)<-stages;dummy<-as.data.frame(t(as.matrix(dummy)))
 	for (i in names(offspring.splitter)) dummy[i]<-offspring.splitter[i]
@@ -379,9 +379,9 @@ makeFecObj <- function(dataf,
 	##warnings
     if (length(dataf$stage)==0) {
         print("Warning - no column named stage - assuming all continuous")
-        dataf$stagenext <- dataf$stage <- rep("continuous", length(dataf[,1]))
+        dataf$stageNext <- dataf$stage <- rep("continuous", length(dataf[,1]))
         dataf$stage[is.na(dataf$size)] <- NA
-        dataf$stagenext[is.na(dataf$sizeNext)] <- "dead"
+        dataf$stageNext[is.na(dataf$sizeNext)] <- "dead"
     }
 	
     if (ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
@@ -435,7 +435,7 @@ makeFecObj <- function(dataf,
     }
     
 	if (is.na(mean.offspring.size)) {
-        offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stagenext=="continuous")
+        offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
         mean.offspring.size <- mean(offspringdata$sizeNext)
         var.offspring.size <- var(offspringdata$sizeNext) }
     f1@fec.constants <- fec.constants
@@ -464,9 +464,9 @@ makeFecObjManyCov <- function(dataf,
 	##warnings
 	if (length(dataf$stage)==0) {
 		print("Warning - no column named stage - assuming all continuous")
-		dataf$stagenext <- dataf$stage <- rep("continuous", length(dataf[,1]))
+		dataf$stageNext <- dataf$stage <- rep("continuous", length(dataf[,1]))
 		dataf$stage[is.na(dataf$size)] <- NA
-		dataf$stagenext[is.na(dataf$sizeNext)] <- "dead"
+		dataf$stageNext[is.na(dataf$sizeNext)] <- "dead"
 	}
 	
 	if(ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
@@ -529,7 +529,7 @@ makeFecObjManyCov <- function(dataf,
 	}
 	
 	if (is.na(mean.offspring.size)) {
-		offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stagenext=="continuous")
+		offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
 		mean.offspring.size <- mean(offspringdata$sizeNext)
 		var.offspring.size <- var(offspringdata$sizeNext) }
 	f1@fec.constants <- fec.constants
@@ -551,14 +551,14 @@ makeFecObjManyCov <- function(dataf,
 ## for combining with a continuous T matrix
 #
 # Parameters - dataf - dataframe with headings of at least
-#                      size, sizeNext, surv, fec, stage, stagenext, number
+#                      size, sizeNext, surv, fec, stage, stageNext, number
 #
 # Returns - an object of class DiscreteTrans
 #
 makeDiscreteTrans <- function(dataf) {
 
 	#order stage names from discrete to continuous
-	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stagenext)),c(levels(dataf$stage),levels(dataf$stagenext)),length))
+	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
 	stages <- stages[stages!="dead"] 
 	stages <- c(stages[stages!="continuous"],"continuous") 
     #define the number of classes
@@ -572,21 +572,21 @@ makeDiscreteTrans <- function(dataf) {
 
     #loop over discrete stages and fill 
     for (j in stages[1:(length(stages)-1)]) {
-      for (i in stages) discrete.trans[i,j] <- sum(dataf[dataf$stage==j & dataf$stagenext==i,]$number,na.rm=T)
+      for (i in stages) discrete.trans[i,j] <- sum(dataf[dataf$stage==j & dataf$stageNext==i,]$number,na.rm=T)
       discrete.surv[,j] <- sum(discrete.trans[,j],na.rm=T)/sum(dataf[dataf$stage==j,]$number,na.rm=T)
       discrete.trans[,j] <- discrete.trans[,j]/sum(discrete.trans[,j],na.rm=T)
-      mean.to.cont[,j] <- mean(dataf[dataf$stage==j&dataf$stagenext==i,]$sizeNext,na.rm=T)
-      sd.to.cont[,j] <- sd(dataf[dataf$stage==j&dataf$stagenext==i,]$sizeNext,na.rm=T)
+      mean.to.cont[,j] <- mean(dataf[dataf$stage==j&dataf$stageNext==i,]$sizeNext,na.rm=T)
+      sd.to.cont[,j] <- sd(dataf[dataf$stage==j&dataf$stageNext==i,]$sizeNext,na.rm=T)
       }
 
     for (i in stages[1:(length(stages)-1)])
-        distrib.to.discrete[i,] <- sum(dataf[dataf$stage=="continuous"&dataf$stagenext==i,]$number,na.rm=T)
+        distrib.to.discrete[i,] <- sum(dataf[dataf$stage=="continuous"&dataf$stageNext==i,]$number,na.rm=T)
     distrib.to.discrete <- distrib.to.discrete/sum(distrib.to.discrete,na.rm=T)
 
     
     subdata <- subset(dataf,dataf$stage=="continuous"&dataf$surv==1)
     subdata$cont.to.discrete <- 1
-    subdata$cont.to.discrete[subdata$stagenext=="continuous"] <- 0
+    subdata$cont.to.discrete[subdata$stageNext=="continuous"] <- 0
     subdata$size2 <- subdata$size^2
     surv.to.discrete <- glm(cont.to.discrete~size+size2,family=binomial,data=subdata)
 
@@ -789,9 +789,9 @@ makePostFecObjs <- function(dataf,
     ##warnings
     if (length(dataf$stage)==0) {
         print("Warning - no column named stage - assuming all continuous")
-        dataf$stagenext <- dataf$stage <- rep("continuous", length(dataf[,1]))
+        dataf$stageNext <- dataf$stage <- rep("continuous", length(dataf[,1]))
         dataf$stage[is.na(dataf$size)] <- NA
-        dataf$stagenext[is.na(dataf$sizeNext)] <- "dead"
+        dataf$stageNext[is.na(dataf$sizeNext)] <- "dead"
     }
     
     if(ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
@@ -822,7 +822,7 @@ makePostFecObjs <- function(dataf,
     }
 
     if (is.na(mean.offspring.size)) {
-        offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stagenext=="continuous")
+        offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
         mean.offspring.size <- mean(offspringdata$sizeNext)
         var.offspring.size <- var(offspringdata$sizeNext)
     }
