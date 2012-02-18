@@ -369,7 +369,7 @@ makeFecObj <- function(dataf,
 	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
 	stages <- stages[stages!="dead"] 
 	stages <- c(stages[stages!="continuous"],"continuous") 
-	if ((sum(names(offspring.splitter)%in%stage.names)/length(offspring.splitter))<1) {
+	if ((sum(names(offspring.splitter)%in%stages)/length(offspring.splitter))<1) {
 		stop("Error - the variable names in your offspring.splitter data.frame are not all part of the levels of stage or stageNext in your data file. Please fix this by adjusting your offspring.splitter entry to include the correct variable names, e.g. offspring.splitter=data.frame(continuous=.7,seed.age.1=.3)")
 	}
 	dummy<-rep(0,length(stages));names(dummy)<-stages;dummy<-as.data.frame(t(as.matrix(dummy)))
