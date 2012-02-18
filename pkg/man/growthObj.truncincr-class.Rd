@@ -28,7 +28,7 @@ Objects can be created by calls of the form \code{new("growthObj.truncincr", ...
 %%  ~~put references to the literature/web site here~~
 }
 \author{
-%%  ~~who you are~~
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
 }
 \note{
 %%  ~~further notes~~

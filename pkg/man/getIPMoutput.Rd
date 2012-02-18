@@ -51,7 +51,7 @@ getIPMoutput(Tmatrixlist, target.size = c(),
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
 }
 \note{
 %%  ~~further notes~~

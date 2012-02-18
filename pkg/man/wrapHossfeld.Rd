@@ -35,7 +35,7 @@ Zuidema et al. 2010. Integral Projection Models for trees: a new parametrization
 Journal of Ecology, 98, 345-355
 }
 \author{
-%%  ~~who you are~~
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
 }
 \note{
 %%  ~~further notes~~

@@ -35,7 +35,7 @@ interpretation. Sinauer.
 
 }
 \author{
-%%  ~~who you are~~
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
 }
 \note{
 %%  ~~further notes~~

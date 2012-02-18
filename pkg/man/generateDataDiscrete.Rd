@@ -33,7 +33,7 @@ generateDataDiscrete()
 %% ~put references to the literature/web site here ~
 }
 \author{
-%%  ~~who you are~~
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
 }
 \note{
 Note that the data-frame generated contains no covariates (either discrete or continuous) 

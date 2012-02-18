@@ -47,7 +47,7 @@ Ecology 98: 345-355 for bias in this estimation where variance in growth
 is small relative to the size range. 
 }
 \author{
-%%  ~~who you are~~
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
 }
 \note{
 %%  ~~further notes~~
