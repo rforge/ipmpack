@@ -33,15 +33,19 @@ create.MPM.Fmatrix(dataf,bins, offspring.classes=c(1),offspring.prop,n.env=1)
 }
 \details{
   The median number of offspring produced by individuals in each bin is
-  identified. fecundity values are distributed across rows and columns accordingl. To
-  get a classic Matrix Population model this can be added to values
-  defined by create.MPM.Tmatrix.    
+  identified. Fecundity values are distributed across rows and columns accordingly. To
+  get a classic Matrix Population model this can be added to values defined by create.MPM.Tmatrix.    
 }
 \value{
   an object of class IPM.matrix
 }
 \references{
-%% ~put references to the literature/web site here ~
+For information on F matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112
+
+For midpoint: Zuidema, Jongejans, Chien, Duirng & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355
+
+For multiple-vital rate integration on fecundity: Yang, Jongejans, Yang & Bishop. 2011. The effect of consumers and mutualists of Vaccinum membranaceum at Mount St. Helens: dependence on successional context. PLoS One 10 p1-11
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans

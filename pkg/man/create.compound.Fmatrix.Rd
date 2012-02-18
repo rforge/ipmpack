@@ -55,9 +55,12 @@ minsize = -1, maxsize = 50, envMatrix, fecObj, integrate.type, correction)
 
 }
 \references{
+For information on F matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112
+
 For midpoint: Zuidema, Jongejans, Chien, Duirng & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355
 
 For multiple-vital rate integration on fecundity: Yang, Jongejans, Yang & Bishop. 2011. The effect of consumers and mutualists of Vaccinum membranaceum at Mount St. Helens: dependence on successional context. PLoS One 10 p1-11
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
@@ -74,18 +77,13 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 #without discrete stages
 dff<-generateData()
-Fmatrix <-create.compound.Fmatrix(n.big.matrix=20,minsize=min(dff$size, na.rm=TRUE),
-maxsize=max(dff$size, na.rm=TRUE),envMatrix=makeEnvObj(dff),
-fecObj=makeFecObj(dff, explanatoryVariables="size+size2+covariate"))
+Fmatrix <-create.compound.Fmatrix(n.big.matrix=20,minsize=min(dff$size,na.rm=TRUE),maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),fecObj=makeFecObj(dff, explanatoryVariables="size+size2+covariate"))
 
-image(1:nrow(Fmatrix),1:ncol(Fmatrix),log(Fmatrix), xlab="Size at t+1",
-ylab="Size at t", axes=FALSE)
+image(1:nrow(Fmatrix),1:ncol(Fmatrix),t(log(Fmatrix)), xlab="Size at t",ylab="Size at t+1",axes=FALSE)
 axis(1,at=1:nrow(Fmatrix),lab=round(rep(Fmatrix@meshpoints,Fmatrix@n.env.class),2))
 axis(2,at=1:nrow(Fmatrix),lab=round(rep(Fmatrix@meshpoints,Fmatrix@n.env.class),2))
 abline(h=length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
 abline(v=length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
-
-
 
 #with discrete stages
 dff<-generateDataDiscrete()
@@ -98,7 +96,11 @@ Fmatrix <-create.compound.Fmatrix(minsize=min(dff$size,na.rm=TRUE),
 maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
 fecObj=fv1)
 
-
+image(1:nrow(Fmatrix),1:ncol(Fmatrix),t(log(Fmatrix)), xlab="Size at t",ylab="Size at t+1",axes=FALSE)
+axis(1,at=1:nrow(Fmatrix),lab=round(rep(Fmatrix@meshpoints,Fmatrix@n.env.class),2))
+axis(2,at=1:nrow(Fmatrix),lab=round(rep(Fmatrix@meshpoints,Fmatrix@n.env.class),2))
+abline(h=length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
+abline(v=length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
 
 
 }
