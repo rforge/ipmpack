@@ -817,12 +817,12 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 #  an IPM object
 
 
-create.IPM.Fmatrix <- function(n.env.class = 1,
+create.IPM.Fmatrix <- function(fecObj,
+		n.env.class = 1,
 		n.big.matrix = 50,
 		minsize = -1,
 		maxsize = 50,
 		chosen.cov = 1,
-		fecObj,
 		integrate.type="midpoint",
 		correction="none") {
 	
