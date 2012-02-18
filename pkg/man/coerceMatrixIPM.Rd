@@ -28,7 +28,7 @@ coerceMatrixIPM(amat)
 %% ~put references to the literature/web site here ~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
 %%  ~~further notes~~
@@ -41,16 +41,13 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
 }
 \examples{
 
-#build simple matrix mode
+#build simple matrix model with three classes, no retrogression and stasis only in the third stage, which is the only reproductive one in the life cycle.
 amat <- matrix(0,3,3)
 amat[cbind(2:3,1:2)] <- 0.5
-amat[c(3,3)] <- 0.8
+amat[cbind(3,3)] <- 0.8
 amat[1,3] <-5
 
 IPM.amat <- coerceMatrixIPM(amat)
-
-
-
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

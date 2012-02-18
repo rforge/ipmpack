@@ -2,12 +2,10 @@
 \alias{generateData}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Function to generate data in the form used by IPMpack
+  Function to generate random data in the form used by IPMpack
 }
 \description{
-  Simulates growth, survival, fertility to create a data-frame of the
-  form required by the functions and methods used in the package; with only 
-  a single continuous covariate structuring the population. 
+  Simulates growth, survival and fertility to create a data-frame of the form required by the functions and methods used in IPMpack. Note that the data created includes only one continuous covariate structuring the population; user can include additional covariates if necessary.
 }
 \usage{
 generateData()
@@ -27,7 +25,7 @@ generateData()
 %% ~put references to the literature/web site here ~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
 %%  ~~further notes~~

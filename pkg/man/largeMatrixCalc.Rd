@@ -35,7 +35,7 @@ object of class IPM.matrix describing fertility transitions
 From Rees & Ellner, 2009, American Naturalist. 
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
 %%  ~~further notes~~

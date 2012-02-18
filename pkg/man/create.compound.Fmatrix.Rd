@@ -8,7 +8,7 @@ Function to build compound F matrix
   Uses fecundity object, and environmental
   transition objects to construct a matrix
   defining probabilities for transitions between sizes due fertility
-  given both size and environmental state and discrete stages. 
+  given both size and environmental state and discrete stages (e.g. seedbank). 
 }
 \usage{
 create.compound.Fmatrix(n.env.class = 2, n.big.matrix = 50,
@@ -55,10 +55,11 @@ minsize = -1, maxsize = 50, envMatrix, fecObj, integrate.type, correction)
 
 }
 \references{
-%% ~put references to the literature/web site here ~
+For midpoint: Zuidema, Jongejans, Chien, Duirng & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355
+For multiple-vital rate integration on fecundity: Eelke's paper.
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
 %%  ~~further notes~~

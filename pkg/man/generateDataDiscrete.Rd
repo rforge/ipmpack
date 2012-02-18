@@ -2,7 +2,7 @@
 \alias{generateDataDiscrete}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Function to generate data including discrete stages (here seed stages)
+  Function to generate data including discrete stages
 }
 \description{
   Simulates growth, survival, fertility to create a data-frame of the
@@ -14,7 +14,7 @@ generateDataDiscrete()
 }
 %- maybe also 'usage' for other objects documented here.
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+This function allows the modeling of complex life cycles that incorporate continuous (e.g. size) as well as discrete (e.g., hibernation, seed bank, dormancy...) stages
 }
 \value{
   a dataframe with headings "size" (continuous variable, indicating current size),
@@ -30,14 +30,14 @@ generateDataDiscrete()
   individual line for every movement between discrete stages. 
 }
 \references{
-%% ~put references to the literature/web site here ~
+Ellner & Rees, 2006. Integral projection models for species with complex demography. American Naturalist 167 p410-428
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
 Note that the data-frame generated contains no covariates (either discrete or continuous) 
-and so may be inappropriate for some functions. %%  ~~further notes~~
+and so may be inappropriate for some functions, particularly those dealing with stochastic simulations. %%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

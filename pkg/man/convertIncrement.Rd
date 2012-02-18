@@ -5,7 +5,7 @@
 Convert size increment according to time elapsed
 }
 \description{
-This function adjust the intervals of census data that is not annual. 
+This function adjust the intervals of census data that is not annual to report output on population dynamics on an annual basis 
 }
 \usage{
 convertIncrement(dataf, nyrs = 1)
@@ -21,7 +21,7 @@ convertIncrement(dataf, nyrs = 1)
 }
 }
 \details{
-In many data-sets the time-interval between census measurements will be greater than  a single year and/or vary across intervals. This function takes a data frame \code{dataf} and uses columns with the term \code{extractData} to adjust the size increment to the number of years given in \code{nyears}.  Defaults to annual.  %%  ~~  none  If necessary, more details than the description above ~~
+In some data-sets the time-interval between census measurements will be greater than  a year and/or vary across intervals. This function takes a data frame \code{dataf} and uses columns with the term \code{extractData} to adjust the size increment to the number of years given in \code{nyears}.  Defaults to annual.  %%  ~~  none  If necessary, more details than the description above ~~
 }
 \value{
 Returns the adjusted increments.%% ...
@@ -30,7 +30,7 @@ Returns the adjusted increments.%% ...
 %% ~put references to the literature/web site here ~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
 %%  ~~further notes~~

@@ -44,7 +44,7 @@ or growthObjManyCov.declinevar, or growthObjManyCov.incr.declinevar, or growthOb
 %% ~put references to the literature/web site here ~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gómez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
 See manual for details on building case-specific growth objects. 
