@@ -1,12 +1,11 @@
 \name{makeSurvObjGeneral.Rd}
 \alias{makeSurvObjGeneral.Rd}
-\alias{picSurv}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Functions to build survival objects}
 \description{
   A function to fit logistic regressions defining
-  survival following user defined forulas (e.g., size+size^2, etc)
+  survival following user defined formulas (e.g., size+size^2, etc)
   to build survival objects for which methods to build an IPM  object are defined.
 }
 \usage{
@@ -32,7 +31,9 @@ makeSurvObjGeneral(dataf,explanatoryVariables="size+size2+size3")
 
 }
 \value{
-  An object of class survObj
+  An object of class survObj which is a S4 object which contains the slots: 
+   \item{fit}{an object of class \code{lm} or \code{glm} that can be used with predict in the survival methods}
+Slots can be listed by using slotNames(survObj)   
 }
 \references{
 %% ~put references to the literature/web site here ~

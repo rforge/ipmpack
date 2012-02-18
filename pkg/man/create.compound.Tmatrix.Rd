@@ -52,7 +52,8 @@ minsize = -1, maxsize = 50, envMatrix, growObj, survObj, integrate.type, correct
   }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Note that this structure can also be used to define size by age IPMs, where the transition 
+between ages is reflected by a similar matrix
 }
 \value{
   an object of class IPM.matrix with dimensions

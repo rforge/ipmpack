@@ -1,8 +1,5 @@
 \name{makeGrowthObjGeneral}
 \alias{makeGrowthObjGeneral}
-\alias{makeGrowthObjHossfeld}
-
-\alias{picGrow}
 
 \title{Functions to build growth objects for constant environments, or
   discretely varying environments}
@@ -41,7 +38,11 @@ makeGrowthObjGeneral(dataf, explanatoryVariables="size+size2", responseType="inc
 }
 \value{
 An object of class growthObj, or growthObj.incr, or growthObj.logincr;
-or growthObj.declinevar, or growthObj.incr.declinevar, or growthObj.logincr.declinevar.
+or growthObj.declinevar, or growthObj.incr.declinevar, or growthObj.logincr.declinevar. 
+These are S4 objects which contain the slots: 
+   \item{fit}{an object of class \code{lm} or \code{glm} or \code{gls} that can be used with predict in the survival methods}
+Slots can be listed by using slotNames(growthObj)   
+
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -50,7 +51,7 @@ or growthObj.declinevar, or growthObj.incr.declinevar, or growthObj.logincr.decl
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
-See manual for details on building case-specific growth objects. 
+See manual for details on building case-specific growth objects; which may contain different slots, etc.  
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

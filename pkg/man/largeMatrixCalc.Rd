@@ -5,8 +5,8 @@
 Calculate lambda and stable size distribution efficiently
 }
 \description{
-Method to calculate lambda and stable size distrbution where a large
-number of bins are used
+Method to calculate lambda and stable size distribution where a large
+number of bins are used in the IPM.
 }
 \usage{
 largeMatrixCalc(Tmatrix, Fmatrix, tol = 1e-08)
@@ -14,10 +14,10 @@ largeMatrixCalc(Tmatrix, Fmatrix, tol = 1e-08)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Tmatrix}{
-object of class IPM.matrix describing survival transitions
+	object of class IPM.matrix describing survival transitions
 }
   \item{Fmatrix}{
-object of class IPM.matrix describing fertility transitions
+	object of class IPM.matrix describing fertility transitions
 }
   \item{tol}{
     tolerance for convergence, defaults to 1e-08

@@ -2,7 +2,7 @@
 \alias{growSurv}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Functioning combining growth and survival
+Function combining growth and survival
 }
 \description{
 Function to predict the pdf of size at t+1 given size at t and survival
@@ -52,7 +52,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-growth, surv, fertility
+growth, surv
 }
 \examples{
 dff<-generateData()
