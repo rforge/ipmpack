@@ -5,8 +5,7 @@
 Convert size increment according to time elapsed
 }
 \description{
-In many data-sets the time-interval between sequential measurements will
-be slightly different; this provides a simple method to adjust them. 
+In many data-sets the time-interval between census measurements will be greater than  a single year and/or vary across intervals.  This function provides a simple method to adjust the intervals. 
 }
 \usage{
 convertIncrement(dataf, nyrs = 1)
