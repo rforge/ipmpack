@@ -365,13 +365,6 @@ makeFecObj <- function(dataf,
                               offspring.splitter=data.frame(continuous=1),
                               fec.by.discrete=matrix(NA,nrow=0,ncol=0)){
 
-    ##warnings
-    if (length(dataf$stage)==0) {
-        print("Warning - no column named stage - assuming all continuous")
-        dataf$stagenext <- dataf$stage <- rep("continuous", length(dataf[,1]))
-        dataf$stage[is.na(dataf$size)] <- NA
-        dataf$stagenext[is.na(dataf$sizeNext)] <- "dead"
-    }
 	#order stage names from discrete to continuous
 	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stagenext)),c(levels(dataf$stage),levels(dataf$stagenext)),length))
 	stages <- stages[stages!="dead"] 
@@ -382,6 +375,14 @@ makeFecObj <- function(dataf,
 	dummy<-rep(0,length(stages));names(dummy)<-stages;dummy<-as.data.frame(t(as.matrix(dummy)))
 	for (i in names(offspring.splitter)) dummy[i]<-offspring.splitter[i]
 	offspring.splitter <- dummy
+  
+	##warnings
+    if (length(dataf$stage)==0) {
+        print("Warning - no column named stage - assuming all continuous")
+        dataf$stagenext <- dataf$stage <- rep("continuous", length(dataf[,1]))
+        dataf$stage[is.na(dataf$size)] <- NA
+        dataf$stagenext[is.na(dataf$sizeNext)] <- "dead"
+    }
 	
     if (ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
         print("Warning - offspring splitter indicates more than just continuous stages. No fecundity by the discrete stages supplied in fec.by.discrete; assumed that is 0")
@@ -393,10 +394,8 @@ makeFecObj <- function(dataf,
 		offspring.splitter <- offspring.splitter / sum(offspring.splitter) 
 	}
 	
-	if ("covariate"%in%strsplit(explanatoryVariables,"[+-\\*]")) dataf$covariate <- as.factor(dataf$covariate)
-        dataf$covariatenext <- as.factor(dataf$covariatenext)
-        levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
-    }
+	if ("covariate"%in%strsplit(explanatoryVariables,"[+-\\*]")[[1]]) dataf$covariate <- as.factor(dataf$covariate)
+	if ("covariatenext"%in%strsplit(explanatoryVariables,"[+-\\*]")[[1]]) dataf$covariatenext <- as.factor(dataf$covariatenext)
     
 	f1 <- new("fecObj")
     dataf$size2 <- dataf$size^2
@@ -558,8 +557,10 @@ makeFecObjManyCov <- function(dataf,
 #
 makeDiscreteTrans <- function(dataf) {
 
-    #order stage names from discrete to continuous
-    stages <- c(subset(levels(dataf$stage),levels(dataf$stage)!="continuous"),"continuous")
+	#order stage names from discrete to continuous
+	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stagenext)),c(levels(dataf$stage),levels(dataf$stagenext)),length))
+	stages <- stages[stages!="dead"] 
+	stages <- c(stages[stages!="continuous"],"continuous") 
     #define the number of classes
     nclasses <- length(stages)
     #define matrices to hold the transition between all classes
