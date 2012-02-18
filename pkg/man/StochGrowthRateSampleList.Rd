@@ -5,7 +5,7 @@
   Estimating the stochastic growth rate
 }
 \description{
-  Function to estimate the stochastic growth rate lambda_s by iteration
+  Function to estimate the stochastic growth rate lambda_s by iteration; operates by sampling a list of IPMs
 }
 \usage{
 StochGrowthRateSampleList(list.IPM.matrix, n.runin, Tmax)

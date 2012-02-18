@@ -39,7 +39,8 @@ meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
   }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Note that the use of priors is schematic here, and the function does not return output
+of Bayes analysis which might be useful for assessment; in development. 
 }
 \value{
   a list of survival objects, of length nitt

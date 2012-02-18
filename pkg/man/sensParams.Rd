@@ -56,9 +56,10 @@ glazioviana: an integral projection model
 approach. Proc. Roy. Soc. Lond. Ser. B. 269 p1509-1515
 }
 \author{
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
-%%  ~~further notes~~
+Modified following code developed by Mark Rees, Karen Rose.  
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

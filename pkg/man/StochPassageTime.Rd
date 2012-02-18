@@ -68,6 +68,7 @@ maxsize=max(dff$size, na.rm = TRUE),
 growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate",),
 survObj=makeSurvObj(dff,explanatoryVariables="size+covariate"), 
 envMatrix=makeEnvObj(dff))
+
 StochPassageTime(10,Tmatrix, makeEnvObj(dff))
 
 }

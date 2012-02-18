@@ -58,17 +58,17 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{makeListTmatrix}}, \code{\link{makeListIPMs}}
 }
 \examples{
-%dff<-generateData()
-%svlist <- makePostSurvivalObjs(dataf=dff, covsurv = FALSE,
-%meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
-%grlist <- makePostGrowthObjs(dataf=dff, covgrow = FALSE, nitt=5000)
+dff<-generateData()
+svlist <- makePostSurvivalObjs(dataf=dff, 
+meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
+grlist <- makePostGrowthObjs(dataf=dff,  nitt=5000)
 
 #use only first 10 for speed
-%Tlist <- makeListTmatrix(growObjList=grlist[1:10], survObjList=svlist[1:10],
-%n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
+Tlist <- makeListTmatrix(growObjList=grlist[1:10], survObjList=svlist[1:10],
+n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

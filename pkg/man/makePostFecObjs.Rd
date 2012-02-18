@@ -62,6 +62,8 @@ makePostFecObjs(dataf,fec.constants,explanatoryVariables,Family,Transform,mean.o
 \details{
 NOTE: priors not implemented; also uncertainty / variation in mean seedling size,
 variance in seedling size is not implemented. Requires MCMCglmm.
+Function does not return output of Bayes analysis which might be useful for assessment; in development. 
+
 }
 \value{
   list of fertility objects
@@ -79,12 +81,15 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{makeListIPMs}}, \code{\link{makePostGrowthObjs}}, \code{\link{makeFecObj}}
 }
 \examples{
 dff<-generateData()
 fvlist <- makePostFecObjs(dataf=dff,explanatoryVariables="size+size2+covariate",
                                nitt = 5000)
+                               
+                               
+                               
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

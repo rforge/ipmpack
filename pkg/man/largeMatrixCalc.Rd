@@ -38,7 +38,7 @@ From Rees & Ellner, 2009, American Naturalist.
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
-%%  ~~further notes~~
+modified from Appendices in Rees & Ellner, 2009
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

@@ -14,28 +14,28 @@ makeListFmatrix(growObjList, survObjList, fecObjList, n.big.matrix, minsize, max
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{growObjList}{
-list of growth objects
+	list of growth objects
 }
   \item{survObjList}{
-list of survival objects
+	list of survival objects
 }
   \item{fecObjList}{
-list of fertility objects
+	list of fertility objects
 }
   \item{n.big.matrix}{
-number of meshpoints
+	number of meshpoints
 }
   \item{minsize}{
-minimum size
+	minimum size
 }
   \item{maxsize}{
-maximum size
+	maximum size
 }
   \item{cov}{
     level of covariate
   }
   \item{env.mat}{
-environmental matrix, defaults to NULL
+	environmental matrix, defaults to NULL
 }
 }
 \details{
@@ -57,22 +57,27 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{makeListTmatrix}}, \code{\link{makeListIPMs}}
 }
 \examples{
-%NEEDS CORRECTING
-%dff<-generateData()
-%fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
-%svlist <- makePostSurvivalObjs(dataf=dff, covsurv = FALSE,
-%meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
-%grlist <- makePostGrowthObjs(dataf=dff, covgrow = FALSE,
-%meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
+dff<-generateData()
+fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
+svlist <- makePostSurvivalObjs(dataf=dff, 
+meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
+grlist <- makePostGrowthObjs(dataf=dff, 
+meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
 
 #only first 10 for speed
-%Flist <- makeListFmatrix(growObjList=grlist[1:10],
-%survObjList=svlist[1:10],fecObjList=fvlist[1:10],
-%n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
+Flist <- makeListFmatrix(growObjList=grlist[1:10],
+survObjList=svlist[1:10],fecObjList=fvlist[1:10],
+n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
 
+#make pics of two of them at random...
+image(Flist[[1]]@meshpoints, Flist[[1]]@meshpoints, t(Flist[[1]]), 
+xlab="size", ylab="size")
+
+image(Flist[[3]]@meshpoints, Flist[[3]]@meshpoints, t(Flist[[3]]), 
+xlab="size", ylab="size")
 
 
 }

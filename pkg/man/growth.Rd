@@ -45,9 +45,9 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-surv, growSurv, growth-methods
+\code{\link{surv}}, \code{\link{growSurv}}
 }
-\examples{
+\examples{s
 dff <- generateData()
 gr1 <- makeGrowthObj(dff)
 growth(1,1:5,1,gr1)

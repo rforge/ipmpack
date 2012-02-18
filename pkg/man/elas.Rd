@@ -4,10 +4,10 @@
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Function to estimate elasticity and sensitivity of a matrix
+  Functions to estimate elasticity and sensitivity of a matrix
 }
 \description{
-  Function to estimate elasticity and sensitivity of each cell of the IPM
+  Functions to estimate elasticity and sensitivity of each element of the IPM
 }
 \usage{
 elas(A)
@@ -33,7 +33,7 @@ interpretation. Sinauer. %add page!
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
-%%  ~~further notes~~
+Modified following code developed by Mark Rees, Dylan Childs. 
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -53,10 +53,12 @@ maxsize=max(dff$size,na.rm=TRUE),fecObj=makeFecObj(dff))
 IPM <- Tmatrix + Fmatrix
 
 elast <- elas(IPM)
-image(Tmatrix@meshpoints,Tmatrix@meshpoints,elast, main="elasticity")
+image(Tmatrix@meshpoints,Tmatrix@meshpoints,t(elast), 
+	main="elasticity", xlab="size", ylab="sizeNext")
 
 senst <- sens(IPM)
-image(Tmatrix@meshpoints,Tmatrix@meshpoints,senst, main="sensitivity")
+image(Tmatrix@meshpoints,Tmatrix@meshpoints,t(senst), 
+	main="sensitivity", xlab="size", ylab="sizeNext")
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

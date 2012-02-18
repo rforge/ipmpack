@@ -14,10 +14,10 @@ growSurv(size, sizeNext, cov, growthObj, survObj)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{size}{
-    vector of current sizes
+    vector of current size(s)
 }
   \item{sizeNext}{
-    vector of future sizes
+    vector of future size(s)
 }
   \item{cov}{
     covariate level (numeric of length 1)
@@ -30,14 +30,11 @@ growSurv(size, sizeNext, cov, growthObj, survObj)
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+\code{create.IPM.Tmatrix} and variants there-of apply \code{outer} to this function to 
+efficiently obtain the IPM T matrix. 
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+numeric defining the pdf
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -46,13 +43,13 @@ growSurv(size, sizeNext, cov, growthObj, survObj)
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
-%%  ~~further notes~~
+Code developed following Mark Rees, Dylan Childs, Karen Rose. 
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-growth, surv
+ \code{\link{growth}},  \code{\link{surv}}
 }
 \examples{
 dff<-generateData()
