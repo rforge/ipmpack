@@ -65,10 +65,16 @@ maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=make
 
 #CURRENTLY NOT WORKING VERY WELL
 rc <- timeToSize(starting.sizes=start.sizes, IPM=Tmatrix, end.size=10, 
-starting.env = 1, maxt = 1000, prop.reach = 0.001)
+starting.env = 1, maxt = 1000, prop.reach = 0.005)
 
 names(rc)
-plot(rc$time.reach)
+
+#make picture with lines for dist of pop on different time-points
+matplot(Tmatrix@meshpoints,rc$ts.dist, type="l", xlab="size", ylab="n individuals")
+
+#look at time it has taken prop.reach to attain the chosen end.size
+rc$time.reach
+
 
 }
 \keyword{ ~kwd1 }
