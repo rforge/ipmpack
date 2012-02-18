@@ -40,9 +40,8 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrate.type, correction)
   The first panel shows the size range in the
   data (histogram) and the size range used in the IPM (red dashed
   lines); the second panel shows survival (y axis) plotted against the sums of columns of the current
-  Tmatrix (black) or an extended Tmatrix (red) where minsize set to 0.5 its current
-  value (or 1.5 times its current value, if it is negative), the max size set to 1.5 its current value, and the number of
-  bins set to 1.5 the current value; the dashed line is the
+  Tmatrix (black) or an extended Tmatrix (red) where minSize set to 0.5 its current
+  value (or 1.5 times its current value, if it is negative), the max size set to 1.5 its current value, and the number of bins set to 1.5 the current value; the dashed line is the
   1:1 line; the third panel shows predicted life expectancy for the current
   (black) and extended IPM as above (red); the last three plots
   show numerical predicted density function (histogram) and the expected

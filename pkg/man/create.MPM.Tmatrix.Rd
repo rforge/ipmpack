@@ -58,9 +58,6 @@ dff<-generateData()
 Tmatrix <-create.MPM.Tmatrix(dff,bins=c(1,4,10,15))
 Tmatrix
 
-
-##Rob: It'd be super-nice if we could present the matrix a la Horvitz, with each class with its size-ranges.
-image(Tmatrix@meshpoints,Tmatrix@meshpoints,t(Tmatrix), xlab="Size at t",ylab="Size at t+1")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -57,11 +57,11 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{create.IPM.Fmatrix}}, \code{\link{create.MPM.Tmatrix}}
 }
 \examples{
+dff<-generateData()
+
 Fmatrix <-create.MPM.Fmatrix(dff,bins=c(1,4,10,15),offspring.classes=c(1,2), offspring.prop=c(0.5,0.5))
 Fmatrix
 
-##Rob: It'd be super-nice if we could present the matrix a la Horvitz, with each class with its size-ranges.
-image(Fmatrix@meshpoints,Fmatrix@meshpoints,t(Fmatrix), xlab="Size at t",ylab="Size at t+1")
 
 
 }
