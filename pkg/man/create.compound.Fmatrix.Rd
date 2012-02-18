@@ -88,7 +88,7 @@ abline(v=length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
 #with discrete stages
 dff<-generateDataDiscrete()
 dff$covariate <- sample(1:3,size=nrow(dff),replace=TRUE)
-dff$covariatenext <- sample(1:3,size=nrow(dff),replace=TRUE)
+dff$covariateNext <- sample(1:3,size=nrow(dff),replace=TRUE)
 fv1 <- makeFecObj(dff,
 explanatoryVariables="size",Transform="none",
 offspring.splitter=data.frame(continuous=0.9,dormant=0.1))

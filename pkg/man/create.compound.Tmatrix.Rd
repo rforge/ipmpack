@@ -97,7 +97,7 @@ Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size,na.rm=TRUE), maxsize=max(
 #with discrete stages
 dff<-generateDataDiscrete()
 dff$covariate <- sample(1:3,size=nrow(dff),replace=TRUE)
-dff$covariatenext <- sample(1:3,size=nrow(dff),replace=TRUE)
+dff$covariateNext <- sample(1:3,size=nrow(dff),replace=TRUE)
 discM <- makeDiscreteTrans(dff)
 Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
 maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),

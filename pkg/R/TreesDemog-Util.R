@@ -319,9 +319,9 @@ picGrow <- function(dataf,growObj) {
 
 makeEnvObj <- function(dataf){
     #turn into index starting at 1
-    minval <-  min(c(dataf$covariate,dataf$covariatenext))
+    minval <-  min(c(dataf$covariate,dataf$covariateNext))
     startenv <- dataf$covariate-minval+1
-    nextenv <- dataf$covariatenext-minval+1
+    nextenv <- dataf$covariateNext-minval+1
     
     n.env.class <- max(c(startenv,nextenv))
     desired.mat <- matrix(0,n.env.class,n.env.class) 
@@ -347,12 +347,12 @@ makeEnvObj <- function(dataf){
 
 ## Generate a simple data-frame for only continuous covariates
 #  with a total of 1000 measurements with columns called
-# size, sizeNext, surv, covariate, covariatenext, fec,
+# size, sizeNext, surv, covariate, covariateNext, fec,
 #
 #
 generateData <- function(){
     covariate <- sample(0:1, size=1000, replace=TRUE, prob = c(0.2, 0.8))
-    covariatenext <- sample(0:1, size=1000, replace=TRUE, prob = c(0.8, 0.2))
+    covariateNext <- sample(0:1, size=1000, replace=TRUE, prob = c(0.8, 0.2))
     size <- rnorm(1000,5,2)
  	#size <- exp(rnorm(1000, -1, 1.1))
     sizeNext <- 1+0.8*size-0.9*covariate+rnorm(1000,0,1)
@@ -368,7 +368,7 @@ generateData <- function(){
     stageNext[is.na(sizeNext)] <- "dead"
     
     dataf <- data.frame(size=size,sizeNext=sizeNext,surv=surv,
-                        covariate=covariate,covariatenext=covariatenext,
+                        covariate=covariate,covariateNext=covariateNext,
                         fec=fec, stage=stage,stageNext=stageNext)
     return(dataf)
 }

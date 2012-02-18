@@ -50,9 +50,9 @@ makeGrowthObj <- function(dataf,
     if (length(grep("logsize",Formula))>0) dataf$logsize <- log(dataf$size)
 
     #setup for discrete covariates if data suggests may be implemented by the
-    #presence of "covariate" and "covariatenext"
+    #presence of "covariate" and "covariateNext"
     if (length(grep("covariate",Formula))>0 &
-        length(grep("covariatenext",colnames(dataf)))>0) {
+        length(grep("covariateNext",colnames(dataf)))>0) {
             dataf$covariate <- as.factor(dataf$covariate)
              #convert to 1:n for indexing later
             levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
@@ -306,9 +306,9 @@ makeSurvObj <- function(dataf,
     #print(formula)
     
     #setup for discrete covariates if data suggests may be implemented by the
-    #presence of "covariate" and "covariatenext"
+    #presence of "covariate" and "covariateNext"
     if (length(grep("covariate",formula))>0 &
-        length(grep("covariatenext",colnames(dataf)))>0) {
+        length(grep("covariateNext",colnames(dataf)))>0) {
         dataf$covariate <- as.factor(dataf$covariate)
         #convert to 1:n for indexing later
         levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
@@ -395,7 +395,7 @@ makeFecObj <- function(dataf,
 	}
 	
 	if ("covariate"%in%strsplit(explanatoryVariables,"[+-\\*]")[[1]]) dataf$covariate <- as.factor(dataf$covariate)
-	if ("covariatenext"%in%strsplit(explanatoryVariables,"[+-\\*]")[[1]]) dataf$covariatenext <- as.factor(dataf$covariatenext)
+	if ("covariateNext"%in%strsplit(explanatoryVariables,"[+-\\*]")[[1]]) dataf$covariateNext <- as.factor(dataf$covariateNext)
     
 	f1 <- new("fecObj")
     dataf$size2 <- dataf$size^2
@@ -481,7 +481,7 @@ makeFecObjManyCov <- function(dataf,
 	
 	if (length(grep("covariate",explanatoryVariables))>0) {
 		dataf$covariate <- as.factor(dataf$covariate)
-		dataf$covariatenext <- as.factor(dataf$covariatenext)
+		dataf$covariateNext <- as.factor(dataf$covariateNext)
 		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
 	}
 	
@@ -620,7 +620,7 @@ DeathDataAugment <- function (dataf, size.thresh, prop.dead) {
     new.size <- rnorm(n.new.dead,size.thresh,sd(dataf$size[dataf$size>size.thresh]))
 
     datanew <- data.frame(size =new.size, sizeNext=rep(NA,n.new.dead), surv=rep(0,n.new.dead), 
-                        covariate = rep(0,n.new.dead), covariatenext = rep(0,n.new.dead),
+                        covariate = rep(0,n.new.dead), covariateNext = rep(0,n.new.dead),
                           fec = rep(NA,n.new.dead), age = rep(NA,n.new.dead)) 
 
     dataf.new <- rbind(dataf,datanew)
@@ -801,7 +801,7 @@ makePostFecObjs <- function(dataf,
     
     if (length(grep("covariate",explanatoryVariables))>0) {
         dataf$covariate <- as.factor(dataf$covariate)
-        dataf$covariatenext <- as.factor(dataf$covariatenext)
+        dataf$covariateNext <- as.factor(dataf$covariateNext)
         levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
     }
     
