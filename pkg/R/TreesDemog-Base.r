@@ -108,7 +108,8 @@ setClass("growthObjMultiCov.logincr.declinevar",
 # Create a generic growth object containing the Hossfeld parameters 
 setClass("growthObj.Hossfeld",
 		representation(paras="numeric",
-				sd="numeric"))
+				sd="numeric", 
+				logLik="numeric"))
 
 ## SURVIVAL OBJECTS ##
 # Create a generic survival object
@@ -543,7 +544,8 @@ setClass("IPM.matrix",
 				n.env.class = "numeric", #number of covariate levels
 				n.big.matrix = "numeric", #the resolution of the IPM
 				meshpoints = "numeric",
-				env.index = "numeric"),
+				env.index = "numeric",
+				names.discrete = "character"),
 		contains="matrix")
 
 
@@ -619,7 +621,8 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 			nrow = 1*n.big.matrix,
 			ncol =1*n.big.matrix,
 			meshpoints = y,
-			env.index = rep(1:n.env.class,each=n.big.matrix))
+			env.index = rep(1:n.env.class,each=n.big.matrix),
+			names.discrete="")
 	rc[,] <-get.matrix
 	
 	# In case of discrete classes, take the IPM constructed above and add discrete classes defined in DiscreteTrans
@@ -647,7 +650,8 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 				nrow = 1*n.big.matrix+ndisc,
 				ncol =1*n.big.matrix+ndisc,
 				meshpoints = y,
-				env.index = rep(1:n.env.class,each=n.big.matrix))
+				env.index = rep(1:n.env.class,each=n.big.matrix,
+				names.discrete=rownames(DiscreteTrans@disccrete.trans)))
 		rc[,] <-get.disc.matrix   
 	}
 	
@@ -740,10 +744,13 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 			get.matrix <- t((t(get.matrix)/nvals)*surv(size=y,cov=as.factor(k),survObj=survObj))    
 		}
 		
+		#names of discrete classes default
+		nmes <- ""
+		
 		
 		# In case of discrete classes, take the IPM constructed above and add discrete classes defined in DiscreteTrans
 		if (class(DiscreteTrans)=="DiscreteTrans") {
-			
+			nmes <- rownames(DiscreteTrans@disccrete.trans)
 			surv.to.discrete <- predict(DiscreteTrans@surv.to.discrete,data.frame(size=y,size2=(y*y)),type="response")
 			cont.to.cont <- get.matrix*matrix(1-surv.to.discrete,nrow=n.big.matrix,ncol=n.big.matrix,byrow=T)
 			disc.to.disc <- DiscreteTrans@discrete.trans[1:ndisc,1:ndisc]*matrix(c(DiscreteTrans@discrete.surv),
@@ -781,7 +788,8 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 			nrow = n.env.class*(n.big.matrix+ndisc),
 			ncol =n.env.class*(n.big.matrix+ndisc),
 			meshpoints = y,
-			env.index = rep(1:n.env.class,each=n.big.matrix))
+			env.index = rep(1:n.env.class,each=n.big.matrix,
+			names.discrete=nmes))
 	
 	rc[,] <- megamatrix
 	
@@ -861,16 +869,17 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 	fec.values[!is.finite(fec.values)] <- exp(200)
 	prod.fec.values<-apply(fec.values,2,prod)
 	
-	#Kids
+	#Kids normal dist
 	tmp<-dnorm(y,fecObj@mean.offspring.size,sqrt(fecObj@var.offspring.size))*h
 	if (correction=="constant") tmp<-tmp/sum(tmp)
 	to.cont<-tmp%*%t(as.numeric(fecObj@offspring.splitter["continuous"])*prod.fec.values)
 	get.matrix <- to.cont
 	ndisc <- length(fecObj@offspring.splitter)-1
 	
+	nmes <- ""
 	
 	if (ndisc>0) {
-		
+			
 		to.discrete <- as.numeric(fecObj@offspring.splitter)[1:ndisc]%*%t(prod.fec.values)
 		
 		from.discrete <- matrix(0,ncol=ndisc,nrow=ndisc+n.big.matrix)
@@ -879,7 +888,8 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 					as.numeric(fecObj@offspring.splitter)[ndisc+1]*tmp)%*%t(fecObj@fec.by.discrete)
 		
 		
-		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont)) }
+		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont)) 
+	}
 	
 	rc <- new("IPM.matrix",
 			n.discrete = ndisc,
@@ -888,7 +898,8 @@ create.IPM.Fmatrix <- function(n.env.class = 1,
 			nrow = 1*n.big.matrix+ndisc,
 			ncol =1*n.big.matrix+ndisc,
 			meshpoints = y,
-			env.index = rep(1:n.env.class,each=n.big.matrix))
+			env.index = rep(1:n.env.class,each=n.big.matrix),
+			names.discrete=names(fecObj@offspring.splitter[1:ndisc]))
 	rc[,] <-get.matrix   
 	
 	return(rc)
@@ -978,7 +989,8 @@ create.compound.Fmatrix <- function(n.env.class = 2,
 			nrow = n.env.class*(n.big.matrix+ndisc),
 			ncol =n.env.class*(n.big.matrix+ndisc),
 			meshpoints = y,
-			env.index = rep(1:n.env.class,each=n.big.matrix))
+			env.index = rep(1:n.env.class,each=n.big.matrix),
+			names.discrete=get.matrix@names.discrete)
 	
 	
 	rc[,] <- megamatrix

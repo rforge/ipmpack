@@ -2,12 +2,12 @@
 \alias{coerceMatrixIPM}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Coerce matrix population model to IPM.matrix object
+Coerces a matrix population model to IPM.matrix object
 }
 \description{
 Forces MPM (or survival-growth transition matrix, or
 similar) into an IPM.matrix object for use with passage time,
-life expectancy, etc. functions. 
+life expectancy, etc. methods. 
 }
 \usage{
 coerceMatrixIPM(amat)
@@ -15,7 +15,7 @@ coerceMatrixIPM(amat)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{amat}{
-    A matrix population model
+    A matrix population model; or subset (Tmatrix, Fmatrix, Cmatrix) with any number of bins
 }
 }
 \details{

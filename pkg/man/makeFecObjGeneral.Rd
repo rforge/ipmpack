@@ -90,7 +90,7 @@ fec.by.discrete)
 }
 \examples{
 dff<-generateDataDiscrete()
-fv1 <- makeFecObjGeneral(dff)
+fv1 <- makeFecObjGeneral(dff,offspring.splitter=data.frame(continuous=0.2,seed.age.1=0.8))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

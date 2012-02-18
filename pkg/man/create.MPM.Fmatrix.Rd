@@ -2,14 +2,15 @@
 \alias{create.MPM.Fmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function to build discrete F matrix
+Function to build discrete F matrix from the types of data structures used in IPMpack
 }
 \description{
-A method that uses bins to construct a class discrete
-fertility transition matrix 
+A method that uses bins to construct a class discrete fertility transition matrix 
+from the types of data structures used in IPMpack; assumes that there is a single fertility 
+column in the data entitled fec that captures number of offspring produced by individuals over every size. 
 }
 \usage{
-create.MPM.Fmatrix(dataf,bins,p.est=1, n.env=1)
+create.MPM.Fmatrix(dataf,bins, n.env=1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
