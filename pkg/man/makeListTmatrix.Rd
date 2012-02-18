@@ -9,7 +9,7 @@
   create a list of Tmatrices
 }
 \usage{
-makeListTmatrix(growObjList, survObjList, n.big.matrix, minsize, maxsize, cov = FALSE, env.mat = NULL)
+makeListTmatrix(growObjList, survObjList, n.big.matrix, minSize, maxSize, cov = FALSE, env.mat = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,10 +22,10 @@ makeListTmatrix(growObjList, survObjList, n.big.matrix, minsize, maxsize, cov = 
   \item{n.big.matrix}{
     number of meshpoints
   }
-  \item{minsize}{
+  \item{minSize}{
     min size 
   }
-  \item{maxsize}{
+  \item{maxSize}{
     max size
   }
   \item{cov}{
@@ -68,7 +68,7 @@ grlist <- makePostGrowthObjs(dataf=dff,  nitt=5000)
 
 #use only first 10 for speed
 Tlist <- makeListTmatrix(growObjList=grlist[1:10], survObjList=svlist[1:10],
-n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
+n.big.matrix=20, minSize=-5, maxSize=20, cov = FALSE, env.mat = NULL)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

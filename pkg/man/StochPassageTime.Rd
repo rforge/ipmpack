@@ -63,8 +63,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff <- generateData()
-Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
-maxsize=max(dff$size, na.rm = TRUE),
+Tmatrix <-create.compound.Tmatrix(minSize=min(dff$size, na.rm = TRUE),
+maxSize=max(dff$size, na.rm = TRUE),
 growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate",),
 survObj=makeSurvObj(dff,explanatoryVariables="size+covariate"), 
 envMatrix=makeEnvObj(dff))

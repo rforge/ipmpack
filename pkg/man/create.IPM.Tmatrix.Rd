@@ -11,7 +11,7 @@ Function to build T matrices
 }
 \usage{
 create.IPM.Tmatrix(n.env.class = 1, n.big.matrix = 50,
-minsize = -1, maxsize = 50, chosen.cov = 1, growObj, survObj, DiscreteTrans, 
+minSize = -1, maxSize = 50, chosen.cov = 1, growObj, survObj, DiscreteTrans, 
 integrate.type, correction)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -23,10 +23,10 @@ integrate.type, correction)
   \item{n.big.matrix}{
     numeric, number of size bins in the T matrix, defaults to 50
   }
-  \item{minsize}{
+  \item{minSize}{
     numeric, minimum size of the T matrix, defaults to -1
   }
-  \item{maxsize}{
+  \item{maxSize}{
     numeric, maximum size of the T matrix, defaults to 50
   }
   \item{chosen.cov}{
@@ -90,7 +90,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff<-generateData()
-Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
+Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size,na.rm=TRUE),maxSize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
 
 slotNames(Tmatrix)
 

@@ -9,7 +9,7 @@ Uses posteriors (or other) lists of growth, fecundity and survival objects to
 create a list of Fmatrices
 }
 \usage{
-makeListFmatrix(growObjList, survObjList, fecObjList, n.big.matrix, minsize, maxsize, cov = FALSE, env.mat = NULL)
+makeListFmatrix(growObjList, survObjList, fecObjList, n.big.matrix, minSize, maxSize, cov = FALSE, env.mat = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -25,10 +25,10 @@ makeListFmatrix(growObjList, survObjList, fecObjList, n.big.matrix, minsize, max
   \item{n.big.matrix}{
 	number of meshpoints
 }
-  \item{minsize}{
+  \item{minSize}{
 	minimum size
 }
-  \item{maxsize}{
+  \item{maxSize}{
 	maximum size
 }
   \item{cov}{
@@ -70,7 +70,7 @@ meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
 #only first 10 for speed
 Flist <- makeListFmatrix(growObjList=grlist[1:10],
 survObjList=svlist[1:10],fecObjList=fvlist[1:10],
-n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
+n.big.matrix=20, minSize=-5, maxSize=20, cov = FALSE, env.mat = NULL)
 
 #make pics of two of them at random...
 image(Flist[[1]]@meshpoints, Flist[[1]]@meshpoints, t(Flist[[1]]), 

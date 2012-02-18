@@ -10,7 +10,7 @@
   (compound T and F matrixes not possible yet)
 }
 \usage{
-sensParams(growObj, survObj, fecObj, n.big.matrix, minsize, maxsize, integrate.type, correction)
+sensParams(growObj, survObj, fecObj, n.big.matrix, minSize, maxSize, integrate.type, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,10 +26,10 @@ sensParams(growObj, survObj, fecObj, n.big.matrix, minsize, maxsize, integrate.t
   \item{n.big.matrix}{
     numeric, number of bins of size used in the T matrix
   }
-  \item{minsize}{
+  \item{minSize}{
     numeric, minimum size used for meshpoints of the T matrix
   }
-  \item{maxsize}{
+  \item{maxSize}{
     numeric, maximum size used for meshpoints of the T matrix
   }
   \item{integrate.type}{
@@ -70,8 +70,8 @@ Modified following code developed by Mark Rees, Karen Rose.
 \examples{
 dff <- generateData()
 res <- sensParams(growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff),
-fecObj=makeFecObj(dff), n.big.matrix=50, minsize=min(dff$size, na.rm=TRUE),
-maxsize=max(dff$size, na.rm=TRUE))
+fecObj=makeFecObj(dff), n.big.matrix=50, minSize=min(dff$size, na.rm=TRUE),
+maxSize=max(dff$size, na.rm=TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
 barplot(res$slam, main = expression("Parameter sensitivity of " * 
@@ -85,8 +85,8 @@ fv1 <- makeFecObj(dff,
 explanatoryVariables=c("size+size2","size"), Family=c("gaussian","binomial"))
 
 res <- sensParams(growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff),
-fecObj=fv1, n.big.matrix=50, minsize=min(dff$size, na.rm=TRUE),
-maxsize=max(dff$size, na.rm=TRUE))
+fecObj=fv1, n.big.matrix=50, minSize=min(dff$size, na.rm=TRUE),
+maxSize=max(dff$size, na.rm=TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
 barplot(res$slam, main = expression("Parameter sensitivity of " * 
@@ -98,8 +98,8 @@ barplot(res$elam, main = expression("Parameter elasticity of " *
 #same but with two fecundity functions and a constant
 fv1@fec.constants[1] <- 0.5
 res <- sensParams(growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff),
-fecObj=fv1, n.big.matrix=50, minsize=min(dff$size, na.rm=TRUE),
-maxsize=max(dff$size, na.rm=TRUE))
+fecObj=fv1, n.big.matrix=50, minSize=min(dff$size, na.rm=TRUE),
+maxSize=max(dff$size, na.rm=TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
 barplot(res$slam, main = expression("Parameter sensitivity of " * 

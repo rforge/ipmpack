@@ -9,7 +9,7 @@ Uses fecundity objects to construct a matrix defining per-capita contribution to
 }
 \usage{
 create.IPM.Fmatrix(n.env.class = 1, n.big.matrix = 50,
-minsize = -1, maxsize = 50, chosen.cov = 1,  fecObj, integrate.type,correction)
+minSize = -1, maxSize = 50, chosen.cov = 1,  fecObj, integrate.type,correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,10 +20,10 @@ minsize = -1, maxsize = 50, chosen.cov = 1,  fecObj, integrate.type,correction)
   \item{n.big.matrix}{
     numeric, number of size bins in the T matrix, defaults to 50
   }
-  \item{minsize}{
+  \item{minSize}{
     numeric, minimum size of the T matrix, defaults to -1
   }
-  \item{maxsize}{
+  \item{maxSize}{
     numeric, maximum size of the T matrix, defaults to -1
   }
   \item{chosen.cov}{
@@ -74,7 +74,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 dff<-generateData()
 fv1 <- makeFecObj(dff,explanatoryVariables="size",Transform="log")
-Fmatrix <-create.IPM.Fmatrix(n.big.matrix=20,minsize=min(dff$size, na.rm=TRUE),maxsize=max(dff$size, na.rm=TRUE),fecObj=fv1)
+Fmatrix <-create.IPM.Fmatrix(n.big.matrix=20,minSize=min(dff$size, na.rm=TRUE),maxSize=max(dff$size, na.rm=TRUE),fecObj=fv1)
 
 slotNames(Fmatrix)
 

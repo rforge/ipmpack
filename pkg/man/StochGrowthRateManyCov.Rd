@@ -13,7 +13,7 @@ dependence is specified.
 }
 \usage{
 StochGrowthRateManyCov(covariate, n.runin, Tmax,
-growthObj, survObj, fecObj, n.big.matrix, minsize, maxsize, 
+growthObj, survObj, fecObj, n.big.matrix, minSize, maxSize, 
 n.microsites, integrate.type,correction)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -40,10 +40,10 @@ n.microsites, integrate.type,correction)
   \item{n.big.matrix}{
     numeric, number of size bins in the IPM
 }
-  \item{minsize}{
+  \item{minSize}{
     numeric, minimum size in the IPM
 }
-  \item{maxsize}{
+  \item{maxSize}{
     numeric, maximum size in the IPM
 }
   \item{n.microsites}{
@@ -105,8 +105,8 @@ covmattest <- data.frame(covariate1=rnorm(length(covtest),covtest,0.5)-1,
 #calculate
 r<-StochGrowthRateManyCov(covariate=covmattest,n.runin=5*10,Tmax=length(tvals),
                    growthObj=gr1,survObj=sv1,fecObj=fv1,
-                   n.big.matrix=100,minsize=2*min(dff$size,na.rm=TRUE),
-                   maxsize=1.5*max(dff$size, na.rm = TRUE),n.microsites=10)
+                   n.big.matrix=100,minSize=2*min(dff$size,na.rm=TRUE),
+                   maxSize=1.5*max(dff$size, na.rm = TRUE),n.microsites=10)
 r
 
 }

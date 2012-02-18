@@ -43,12 +43,12 @@ Modified following code developed by Mark Rees, Dylan Childs.
 }
 \examples{
 dff<-generateData()
-Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
-maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff),
+Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size,na.rm=TRUE),
+maxSize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff))
 
-Fmatrix <-create.IPM.Fmatrix(minsize=min(dff$size,na.rm=TRUE),
-maxsize=max(dff$size,na.rm=TRUE),fecObj=makeFecObj(dff))
+Fmatrix <-create.IPM.Fmatrix(minSize=min(dff$size,na.rm=TRUE),
+maxSize=max(dff$size,na.rm=TRUE),fecObj=makeFecObj(dff))
 
 IPM <- Tmatrix + Fmatrix
 

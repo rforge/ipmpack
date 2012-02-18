@@ -44,8 +44,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff <- generateData()
 start.sizes <- rnorm(100,10,1)
-Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
-maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
+Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size,na.rm=TRUE),
+maxSize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
 vP <- varPassageTime(5,Tmatrix)
 plot(Tmatrix@meshpoints,vP, type="l", xlab="Meshpoints", ylab="Variance in passage time")
 }

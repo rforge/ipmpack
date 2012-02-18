@@ -14,7 +14,7 @@ also allows compound matrices to be produced following levels of a discrete cova
 }
 \usage{
 getIPMoutputDirect(survObjList, growObjList, target.size = c(), 
-	n.big.matrix, minsize, maxsize, cov = FALSE, 
+	n.big.matrix, minSize, maxSize, cov = FALSE, 
 	fecObjList = NULL, env.mat = NULL, n.size.to.age = 0, size.start = 10)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -31,10 +31,10 @@ getIPMoutputDirect(survObjList, growObjList, target.size = c(),
   \item{n.big.matrix}{
 	number of meshpoints
 }
-  \item{minsize}{
+  \item{minSize}{
 minimum size
 }
-  \item{maxsize}{
+  \item{maxSize}{
 maximum size
 }
   \item{cov}{
@@ -103,7 +103,7 @@ fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
 
 #Just use first 10 for speed
 res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
-n.big.matrix=20, minsize=-2, maxsize=15, cov = FALSE, fecObjList =fvlist[1:10],
+n.big.matrix=20, minSize=-2, maxSize=15, cov = FALSE, fecObjList =fvlist[1:10],
 env.mat = NULL, n.size.to.age = 5, size.start = -1)
 
 names(res)
@@ -130,7 +130,7 @@ hist(res$lambda,xlab=expression(lambda),ylab="", main="",col="grey")
 # same but for compound matrix #
 #TODO - check code
 res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
-n.big.matrix=20, minsize=-2, maxsize=15, cov = TRUE, fecObjList =fvlist[1:10],
+n.big.matrix=20, minSize=-2, maxSize=15, cov = TRUE, fecObjList =fvlist[1:10],
 env.mat = makeEnvObj(dff), n.size.to.age = 5, size.start = -1)
 
 

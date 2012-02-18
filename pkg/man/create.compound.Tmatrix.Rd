@@ -12,7 +12,7 @@ Function to build compound T matrix
 }
 \usage{
 create.compound.Tmatrix(n.env.class = 2, n.big.matrix = 50,
-minsize = -1, maxsize = 50, envMatrix, growObj, survObj, integrate.type, correction)
+minSize = -1, maxSize = 50, envMatrix, growObj, survObj, integrate.type, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,10 +22,10 @@ minsize = -1, maxsize = 50, envMatrix, growObj, survObj, integrate.type, correct
   \item{n.big.matrix}{
     numeric, number of size bins in the T matrix, defaults to 50
   }
-  \item{minsize}{
+  \item{minSize}{
     numeric, minimum size of the T matrix, defaults to -1
   }
-  \item{maxsize}{
+  \item{maxSize}{
     numeric, maximum size of the T matrix, defaults to 50
   }
   \item{envMatrix}{
@@ -91,7 +91,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 #without discrete stages
 dff<-generateData()
-Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size,na.rm=TRUE), maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff), growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"), survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"))
+Tmatrix <-create.compound.Tmatrix(minSize=min(dff$size,na.rm=TRUE), maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff), growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"), survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"))
 
 image(1:nrow(Tmatrix),1:ncol(Tmatrix),t(log(Tmatrix)), xlab="Size at t",ylab="Size at t+1",axes=FALSE)
 axis(1,at=1:nrow(Tmatrix),lab=round(rep(Tmatrix@meshpoints,Tmatrix@n.env.class),2))
@@ -104,12 +104,10 @@ dff<-generateDataDiscrete()
 dff$covariate <- sample(1:3,size=nrow(dff),replace=TRUE)
 dff$covariateNext <- sample(1:3,size=nrow(dff),replace=TRUE)
 discM <- makeDiscreteTrans(dff)
-Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
-maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
+Tmatrix <-create.compound.Tmatrix(minSize=min(dff$size,na.rm=TRUE),
+maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
 growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"),
 survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"),DiscreteTrans=discM)
-
-##ROB NEEDS TO COME BACK TO THIS EXAMPLE. ERROR WITH "startenv" and "nextenv"
 
 image(1:nrow(Tmatrix),1:ncol(Tmatrix),t(log(Tmatrix)), xlab="Size at t",ylab="Size at t+1",axes=FALSE)
 axis(1,at=1:nrow(Tmatrix),lab=round(rep(Tmatrix@meshpoints,Tmatrix@n.env.class),2))

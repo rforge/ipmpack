@@ -48,11 +48,11 @@ modified from Appendices in Rees & Ellner, 2009
 }
 \examples{
 dff <- generateData()
-Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
-maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff),
+Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size,na.rm=TRUE),
+maxSize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff))
-Fmatrix <-create.IPM.Fmatrix(minsize=min(dff$size,na.rm=TRUE),
-maxsize=max(dff$size,na.rm=TRUE),fecObj=makeFecObj(dff))
+Fmatrix <-create.IPM.Fmatrix(minSize=min(dff$size,na.rm=TRUE),
+maxSize=max(dff$size,na.rm=TRUE),fecObj=makeFecObj(dff))
 
 largeMatrixCalc(Tmatrix,Fmatrix)
 

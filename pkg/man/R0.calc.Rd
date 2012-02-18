@@ -44,10 +44,10 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff<-generateData()
-Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
-maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
-Fmatrix <-create.IPM.Fmatrix(minsize=min(dff$size, na.rm = TRUE),
-maxsize=max(dff$size, na.rm = TRUE),fecObj=makeFecObj(dff))
+Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size, na.rm = TRUE),
+maxSize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
+Fmatrix <-create.IPM.Fmatrix(minSize=min(dff$size, na.rm = TRUE),
+maxSize=max(dff$size, na.rm = TRUE),fecObj=makeFecObj(dff))
 R0.calc(Tmatrix, Fmatrix)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

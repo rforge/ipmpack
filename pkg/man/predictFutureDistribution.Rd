@@ -61,11 +61,11 @@ startpop <- rnorm(1000,4,1)
 
 #build T and F matrix
 dff <- generateData()
-Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size, na.rm = TRUE),
-maxsize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
+Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size, na.rm = TRUE),
+maxSize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff))
-Fmatrix <-create.IPM.Fmatrix(minsize=min(dff$size, na.rm = TRUE),
-maxsize=max(dff$size, na.rm = TRUE), fecObj=makeFecObj(dff))
+Fmatrix <-create.IPM.Fmatrix(minSize=min(dff$size, na.rm = TRUE),
+maxSize=max(dff$size, na.rm = TRUE), fecObj=makeFecObj(dff))
 
 #make an IPM.matrix object containing Tmatrix+Fmatrix by replacing the Tmatrix
 IPM <- Tmatrix

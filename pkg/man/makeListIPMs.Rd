@@ -9,7 +9,7 @@ Wrapper function to build the IPM corresponding to every level of the
 discrete covariate, and return a list of these. 
 }
 \usage{
-makeListIPMs(dataf, n.big.matrix = 10, minsize = -2, maxsize = 10,
+makeListIPMs(dataf, n.big.matrix = 10, minSize = -2, maxSize = 10,
 	integrate.type="midpoint", correction="none",
 	explSurv="size+size2+covariate",explGrow="size+size2+covariate", 
 	regType="constantVar",responseType="sizeNext",explFec="size",fec.constants=1)
@@ -25,10 +25,10 @@ makeListIPMs(dataf, n.big.matrix = 10, minsize = -2, maxsize = 10,
  \item{n.big.matrix}{
 	number of bins in size
 	}
-  \item{minsize}{
+  \item{minSize}{
 	smallest size
 	}
-  \item{maxsize}{
+  \item{maxSize}{
 	largest size
 	}
   \item{integrate.type}{

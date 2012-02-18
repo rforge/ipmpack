@@ -12,7 +12,7 @@ Function to build compound F matrix
 }
 \usage{
 create.compound.Fmatrix(n.env.class = 2, n.big.matrix = 50,
-minsize = -1, maxsize = 50, envMatrix, fecObj, integrate.type, correction)
+minSize = -1, maxSize = 50, envMatrix, fecObj, integrate.type, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,10 +22,10 @@ minsize = -1, maxsize = 50, envMatrix, fecObj, integrate.type, correction)
   \item{n.big.matrix}{
     numeric, number of size bins in the T matrix, defaults to 50
   }
-  \item{minsize}{
+  \item{minSize}{
     numeric, minimum size of the T matrix, defaults to -1
   }
-  \item{maxsize}{
+  \item{maxSize}{
     numeric, maximum size of the T matrix, defaults to 50
   }
   \item{envMatrix}{
@@ -77,7 +77,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 #without discrete stages
 dff<-generateData()
-Fmatrix <-create.compound.Fmatrix(n.big.matrix=20,minsize=min(dff$size,na.rm=TRUE),maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),fecObj=makeFecObj(dff, explanatoryVariables="size+size2+covariate"))
+Fmatrix <-create.compound.Fmatrix(n.big.matrix=20,minSize=min(dff$size,na.rm=TRUE),maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),fecObj=makeFecObj(dff, explanatoryVariables="size+size2+covariate"))
 
 image(1:nrow(Fmatrix),1:ncol(Fmatrix),t(log(Fmatrix)), xlab="Size at t",ylab="Size at t+1",axes=FALSE)
 axis(1,at=1:nrow(Fmatrix),lab=round(rep(Fmatrix@meshpoints,Fmatrix@n.env.class),2))
@@ -92,8 +92,8 @@ dff$covariateNext <- sample(1:3,size=nrow(dff),replace=TRUE)
 fv1 <- makeFecObj(dff,
 explanatoryVariables="size",Transform="none",
 offspring.splitter=data.frame(continuous=0.9,dormant=0.1))
-Fmatrix <-create.compound.Fmatrix(minsize=min(dff$size,na.rm=TRUE),
-maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
+Fmatrix <-create.compound.Fmatrix(minSize=min(dff$size,na.rm=TRUE),
+maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
 fecObj=fv1)
 
 image(1:nrow(Fmatrix),1:ncol(Fmatrix),t(log(Fmatrix)), xlab="Size at t",ylab="Size at t+1",axes=FALSE)

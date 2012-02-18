@@ -10,7 +10,7 @@ This function takes a dataframe, a chosen size, a min and max, and a
 number of bins, and creates a Tmatrix and plots passage time and life expectancy (does not include fecundity)
 }
 \usage{
-run.Simple.Model(dataf, chosen.size, minsize = c(), maxsize = c(), 
+run.Simple.Model(dataf, chosen.size, minSize = c(), maxSize = c(), 
 n.big.matrix = 500, do.plot = TRUE, is.log = TRUE,  
 integrate.type = "midpoint", correction="none")
 }
@@ -23,13 +23,13 @@ integrate.type = "midpoint", correction="none")
   \item{chosen.size}{
 	the target size for which passage time estimates are desired
 }
-  \item{minsize}{
+  \item{minSize}{
     minimum size for the IPM, defaults to a vector of length zero, in which case, 
     it is estimated as either 0.5*min(dataf$size,na.rm=TRUE) if the 
     minimum size is positive, or 1.5*min(dataf$size,na.rm=TRUE) if the minimum size is negative 
     (e.g., reflecting a log scale)
     }
-  \item{maxsize}{
+  \item{maxSize}{
     minimum size for the IPM, defaults to a vector of length zero, in which case, 
     it is estimated as 1.5*max(dataf$size,na.rm=TRUE) 
 }
