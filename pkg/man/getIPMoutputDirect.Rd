@@ -6,10 +6,11 @@ Get IPM output from a list of growth, survival, and (facultatively)
 fertility objects
 }
 \description{
-Get summary statistics including life expectancy, passage time, and if a
+Get synthetic values including life expectancy, passage time, and if a
 fertility matrix is available, lambda, stable size, etc., for e.g.,
 posterior distribution of survival and growth objects. This is essentially identical,
-but can be a slightly swifter approach than getIPMoutput since matrices are not stored. 
+but can be a slightly swifter approach than getIPMoutput since matrices are not stored; it 
+also allows compound matrices to be produced following levels of a discrete covariate (using cov=TRUE). 
 }
 \usage{
 getIPMoutputDirect(survObjList, growObjList, target.size = c(), 
@@ -37,13 +38,14 @@ minimum size
 maximum size
 }
   \item{cov}{
-boolean identifying if a discrete covariate should be fitted
+boolean identifying if a discrete covariate should be fitted; if cov=TRUE, 
+an environmental matrix MUST be supplied. 
 }
   \item{fecObjList}{
 list of fertility objects (facultative)
 }
   \item{env.mat}{
-    environmental matrix (facultative)
+    environmental matrix (facultative unless cov=TRUE)
 }
   \item{n.size.to.age}{
     numeric describing how many size to age defined (0 - 100s)
@@ -91,16 +93,47 @@ list of fertility objects (facultative)
 \examples{
 dff <- generateData()
 
-svlist <- makePostSurvivalObjs(dataf=dff, 
-meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
+#use package MCMCglmm to get Bayesian posteriors - note that sometimes
+#!this sometimes later leads to error messages with glm - so you might have
+#to re-start R to run other parts of the package! 
+
+svlist <- makePostSurvivalObjs(dataf=dff, meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
 grlist <- makePostGrowthObjs(dataf=dff,  nitt=5000)
 fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
 
-rc <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
+#Just use first 10 for speed
+res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
 n.big.matrix=20, minsize=-2, maxsize=15, cov = FALSE, fecObjList =fvlist[1:10],
 env.mat = NULL, n.size.to.age = 5, size.start = -1)
 
-names(rc)
+names(res)
+
+
+
+## plot out with different colours for different rows
+par(mfrow=c(2,2),bty="l",pty="s")
+plot(Tlist[[1]]@meshpoints,res$LE[1,],xlab="Size", ylab="Life expectancy", type="l", 
+	ylim=range(res$LE,na.rm=TRUE))
+for (j in 1:nrow(res$LE)) points(Tlist[[1]]@meshpoints,res$LE[j,],col=j, type="l")
+
+plot(Tlist[[1]]@meshpoints,res$ptime[1,],xlab="Size", ylab="Passage Time", type="l", 
+	ylim=range(res$ptime,na.rm=TRUE))
+for (j in 1:nrow(res$ptime)) points(Tlist[[1]]@meshpoints,res$ptime[j,],col=j, type="l")
+
+plot(Tlist[[1]]@meshpoints,res$stable.size[1,],xlab="Size", ylab="Stable size dist", type="l", 
+	ylim=range(res$stable.size,na.rm=TRUE))
+for (j in 1:nrow(res$stable.size)) points(Tlist[[1]]@meshpoints,res$stable.size[j,],col=j, type="l")
+
+hist(res$lambda,xlab=expression(lambda),ylab="", main="",col="grey")
+
+
+# same but for compound matrix #
+#TODO - check code
+res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
+n.big.matrix=20, minsize=-2, maxsize=15, cov = TRUE, fecObjList =fvlist[1:10],
+env.mat = makeEnvObj(dff), n.size.to.age = 5, size.start = -1)
+
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

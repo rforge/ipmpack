@@ -31,7 +31,8 @@ wrapHossfeld(par, dataf)
 %% ...
 }
 \references{
-%% ~put references to the literature/web site here ~
+Zuidema et al. 2010. Integral Projection Models for trees: a new parametrization method and a validation of model output. 
+Journal of Ecology, 98, 345-355
 }
 \author{
 %%  ~~who you are~~
@@ -43,20 +44,20 @@ wrapHossfeld(par, dataf)
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
+ \code{\link{help}} {Hossfeld}
+ }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
 
-## The function is currently defined as
-function (par, dataf) 
-{
-    pred <- Hossfeld(dataf$size, par[1:3])
-    ss <- sum((pred - dataf$incr)^2, na.rm = TRUE)
-    return(ss)
-  }
+#simulate data and create a column for growth increment
+dff<-generateData()
+dff$incr <- dff$sizenext-dff$size
+
+#current sum of squares
+wrapHossfeld(c(1,1,1), dff)
+
+#use optim to get best parameters values [not run]
+#tmp <- optim(c(1,1,1),wrapHossfeld,dataf=dff,method="Nelder-Mead")
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

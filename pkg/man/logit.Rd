@@ -1,18 +1,18 @@
 \name{logit}
 \alias{logit}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{ ~~function to do ... ~~
+\title{ Function to run a logistic transform
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Provided a vector or numeric changes it into a vector on 0-1 using the logit transform
 }
 \usage{
 logit(x)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{x}{
-%%     ~~Describe \code{x} here~~
+\item{x}{
+vector of numbers for which the transform is required
 }
 }
 \details{
@@ -41,16 +41,8 @@ logit(x)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (x) 
-{
-    u <- exp(pmin(x, 50))
-    return(u/(1 + u))
-  }
+x <- rnorm(100)
+plot(x,logit(x), type="l", xlab="x", ylab="transformed x")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

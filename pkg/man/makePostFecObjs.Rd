@@ -61,8 +61,7 @@ makePostFecObjs(dataf,fec.constants,explanatoryVariables,Family,Transform,mean.o
 }
 \details{
 NOTE: priors not implemented; also uncertainty / variation in mean seedling size,
-variance in seedling size, seed germination, death, and
-probability of seed establishment must be further added. Requires MCMCglmm.
+variance in seedling size is not implemented. Requires MCMCglmm.
 }
 \value{
   list of fertility objects

@@ -5,7 +5,7 @@
 Get IPM output from a list of Tmatrices or full IPMs
 }
 \description{
-Get summary statistics including life expectancy, passage time, and, if a
+Get synthetic values including life expectancy, passage time, and, if a
 fertility matrix is available, lambda, stable size, etc., for e.g.,
 posterior distribution of Tmatrices, or values across environments,
 etc. 
@@ -100,7 +100,7 @@ for (j in 1:nrow(res$stable.size)) points(Tlist[[1]]@meshpoints,res$stable.size[
 
 hist(res$lambda,xlab=expression(lambda),ylab="", main="",col="grey")
 
-
+#TODO - add warning to function
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

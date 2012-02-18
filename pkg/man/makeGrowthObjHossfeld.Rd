@@ -2,29 +2,27 @@
 \alias{makeGrowthObjHossfeld}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
- ~~function to do ... ~~
+Function to make a Hossfeld Growth Object
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Takes a data-frame with at minimum columns size and sizenext; and fits a Hossfeld type growth function
+to increment - if length(dataf$incr) is zero, it will calculate dataf$increment as the difference between 
+size and sizenext; otherwise it will take the column provided
 }
 \usage{
 makeGrowthObjHossfeld(dataf)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{dataf}{
-%%     ~~Describe \code{dataf} here~~
-}
+  \item{dataf}{a dataframe with columns `size' and
+    `sizenext'(`size' is size at t, `sizenext' is size at t+1);
+	}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+Returns a growth object of class growthObj.Hossfeld for which growth methods exist. 
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -42,24 +40,8 @@ makeGrowthObjHossfeld(dataf)
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (dataf) 
-{
-    if (length(dataf$incr) == 0) 
-        dataf$incr <- dataf$sizel - dataf$size
-    dataf$incr[dataf$incr < 0] <- 0
-    tmp <- optim(c(1, 1, 1), wrapHossfeld, dataf = dataf, method = "Nelder-Mead")
-    print(tmp$convergence)
-    gr1 <- new("growthObj.Hossfeld")
-    gr1@paras <- tmp$par
-    resids <- Hossfeld(dataf$size, tmp$par) - dataf$incr
-    gr1@sd <- sd(resids, na.rm = TRUE)
-    return(gr1)
-  }
+dff<-generateData()
+gr1 <- makeGrowthObjHossfeld(dff)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

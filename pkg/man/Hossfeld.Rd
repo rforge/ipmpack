@@ -30,7 +30,8 @@ Hossfeld(size, par)
 %% ...
 }
 \references{
-Zuidema et al. 
+Zuidema et al. 2010. Integral Projection Models for trees: a new parametrization method and a validation of model output. 
+Journal of Ecology, 98, 345-355
 }
 \author{
 %%  ~~who you are~~
@@ -46,6 +47,10 @@ Zuidema et al.
 }
 \examples{
 Hossfeld(1:10,rep(1,3))
+
+plot(1:10,Hossfeld(1:10,rep(1,3)), type="l",
+ylab="predicted increment as a function of size")
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

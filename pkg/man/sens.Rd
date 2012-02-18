@@ -39,13 +39,18 @@ sens(A)
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{elas}}
 }
 \examples{
 dff<-generateData()
 Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
 maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff))
 ss <- sens(Tmatrix)
+
+image(Tmatrix@meshpoints, Tmatrix@meshpoints,t(ss), 
+	xlab="size", ylab="sizenext")
+contour(Tmatrix@meshpoints, Tmatrix@meshpoints,t(ss),add=TRUE)
+
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

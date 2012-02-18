@@ -5,35 +5,37 @@
 Function to make pictures of survival
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Produces figures of value for assessing survival fit given data
 }
 \usage{
 picSurv(dataf, survObj, ncuts = 20, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{dataf}{
-%%     ~~Describe \code{dataf} here~~
-}
+  \item{dataf}{a dataframe with columns `size' and
+    `sizenext'(`size' is size at t, `sizenext' is size at t+1);
+    facultatively, dataf may include `covariate'
+    and `covariatel' for a single discrete covariate, indicating values at t,
+    and at t+1, respectively; these must take values of sequential integers, starting at
+    `1'. For models fitting growth increment, 'incr' or 'logincr' may be directly provided as
+    a column in the dataframe, otherwise they are calculated as
+    dataf$sizenext-dataf$size or log(dataf$sizenext-dataf$size),
+  respectively. }
   \item{survObj}{
-%%     ~~Describe \code{survObj} here~~
+an object of class survObj
 }
   \item{ncuts}{
-%%     ~~Describe \code{ncuts} here~~
+number of consecutive values for which means of survival and size are taken for the plotting
 }
   \item{\dots}{
-%%     ~~Describe \code{\dots} here~~
+extra arguments to plot (e.g, ylim, etc)
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+Returns nothing
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -48,6 +50,7 @@ picSurv(dataf, survObj, ncuts = 20, ...)
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
+\code{\link{makeSurvObjGeneral}}, \code{\link{picGrow}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{

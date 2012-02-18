@@ -11,7 +11,7 @@
 \alias{growth,numeric,numeric,numeric,growthObj.logincrdeclinevar-method}
 \alias{growth,numeric,numeric,numeric,growthObj.logincrmanycov-method}
 \alias{growth,numeric,numeric,numeric,growthObj.manycov-method}
-\title{ ~~ Methods for Function growth  ~~}
+\title{ Methods for Function growth  ~~}
 \description{
  ~~ Methods for function \code{growth}  ~~
 }

@@ -5,7 +5,7 @@
 Calculating R0 from an IPM
 }
 \description{
-Methods to estimate lifetime reproductive success from a full IPM
+Function to estimate lifetime reproductive success from a full IPM
 (including growth, survival and fertility transitions). 
 }
 \usage{
@@ -27,7 +27,8 @@ R0.calc(Tmatrix, Fmatrix)
   numeric
 }
 \references{
-%% ~put references to the literature/web site here ~
+Caswell, 2001. Matrix population models: analysis, construction and
+interpretation. Sinauer. p126
 }
 \author{
 %%  ~~who you are~~
@@ -39,7 +40,7 @@ R0.calc(Tmatrix, Fmatrix)
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{create.IPM.Tmatrix}},\code{\link{create.IPM.Fmatrix}}  
 }
 \examples{
 dff<-generateData()
