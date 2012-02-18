@@ -1,7 +1,7 @@
 
 ## FUNCTIONS FOR TURNING DATA INTO GROWTH AND SURVIVAL OBJECTS ############################
 ## uses linear and logistic regressions, with various polynomials
-# dataf must have columns "size", "sizenext", "surv",
+# dataf must have columns "size", "sizeNext", "surv",
 # and facultatively, "covariate" and "covariatel" (if single discrete covariate, like light)
 # or covariate1, covariate2, covariate3, covariate4,... (if continuous and discrete)
 # and "fec", "age";  age is for picking out seedling sizes for full IPM
@@ -15,12 +15,12 @@
 #
 # Parameters - dataf - the data-frame (which must contain the headings found in the formulas)
 #              formula= - a model formula that requires
-#                    "sizenext" or "incr" as a reponse variable
+#                    "sizeNext" or "incr" as a reponse variable
 #                    "size" as a possible covariate possibly with
 #                        other combinations including size2 (size^2), size3(size^3), logsize(log(size)
 #                        and potentially a discrete covariate (called covariate)
 #              responseType - the response variable desired, crucial for building
-#                             the right kind of object. Possible levels are "sizenext", "incr", "logincr"
+#                             the right kind of object. Possible levels are "sizeNext", "incr", "logincr"
 #              regType - options are "constantVar" (i.e. use lm), declineVar (use gls with model for variance)
 # 
 # Returns - a growth object                  
@@ -28,18 +28,18 @@
 #
 makeGrowthObjGeneral <- function(dataf,
                                  explanatoryVariables="size+size2",
-                                 responseType="sizenext",
+                                 responseType="sizeNext",
                                  regType="constantVar"){
 
 
     if (responseType=="incr" & length(dataf$incr)==0) {
-        print("building incr as sizenext-size")
-        dataf$incr <- dataf$sizenext-dataf$size
+        print("building incr as sizeNext-size")
+        dataf$incr <- dataf$sizeNext-dataf$size
     }
 
     if (responseType=="logincr" & length(dataf$logincr)==0) {
-        print("building logincr as log(sizenext-size) - pre-build if this is not appropriate")
-        dataf$logincr <- log(dataf$sizenext-dataf$size)
+        print("building logincr as log(sizeNext-size) - pre-build if this is not appropriate")
+        dataf$logincr <- log(dataf$sizeNext-dataf$size)
     }
 
     Formula<-paste(responseType,'~',explanatoryVariables,sep='')
@@ -69,8 +69,8 @@ makeGrowthObjGeneral <- function(dataf,
     }
 
     #make the objects
-    #with sizenext as response
-    if (responseType=="sizenext") { 
+    #with sizeNext as response
+    if (responseType=="sizeNext") { 
 
         if (class(fit)=="lm") { 
             gr1 <- new("growthObj")
@@ -131,12 +131,12 @@ makeGrowthObjGeneral <- function(dataf,
 #
 # Parameters - dataf - the data-frame (which must contain the headings found in the formulas)
 #              formula= - a model formula that requires
-#                    "sizenext" or "incr" as a reponse variable
+#                    "sizeNext" or "incr" as a reponse variable
 #                    "size" as a possible covariate possibly with
 #                        other combinations including size2 (size^2), size3(size^3), logsize(log(size)
 #                        and potentially a discrete covariate (called covariate)
 #              responseType - the response variable desired, crucial for building
-#                             the right kind of object. Possible levels are "sizenext", "incr", "logincr"
+#                             the right kind of object. Possible levels are "sizeNext", "incr", "logincr"
 #              regType - options are "constantVar" (i.e. use lm), declineVar (use gls with model for variance)
 # 
 # Returns - a growth object                  
@@ -144,18 +144,18 @@ makeGrowthObjGeneral <- function(dataf,
 #
 makeGrowthObjGeneralManyCov <- function(dataf,
 					explanatoryVariables="size+size2+covariate1",
-					responseType="sizenext",
+					responseType="sizeNext",
 					regType="constantVar"){
     
 				
 	if (responseType=="incr" & length(dataf$incr)==0) {
-		print("building incr as sizenext-size")
-		dataf$incr <- dataf$sizenext-dataf$size
+		print("building incr as sizeNext-size")
+		dataf$incr <- dataf$sizeNext-dataf$size
 	}
 				
 	if (responseType=="logincr" & length(dataf$logincr)==0) {
-		print("building logincr as log(sizenext-size) - pre-build if this is not appropriate")
-		dataf$logincr <- log(dataf$sizenext-dataf$size)
+		print("building logincr as log(sizeNext-size) - pre-build if this is not appropriate")
+		dataf$logincr <- log(dataf$sizeNext-dataf$size)
 	}
 				
 				
@@ -176,8 +176,8 @@ makeGrowthObjGeneralManyCov <- function(dataf,
     }}
 
     #make the objects
-    #with sizenext as response
-    if (responseType=="sizenext") { 
+    #with sizeNext as response
+    if (responseType=="sizeNext") { 
 
         if (class(fit)=="lm") { 
             gr1 <- new("growthObjMultiCov")
@@ -242,7 +242,7 @@ makeGrowthObjGeneralManyCov <- function(dataf,
 
 #no covariate, and one polynom, linear regression
 makeGrowthObjHossfeld <- function(dataf) {  
-    if (length(dataf$incr)==0) dataf$incr <- dataf$sizenext-dataf$size
+    if (length(dataf$incr)==0) dataf$incr <- dataf$sizeNext-dataf$size
     dataf$incr[dataf$incr<0] <- 0
     tmp <- optim(c(1, 1, 1), wrapHossfeld, dataf = dataf, method = "Nelder-Mead")
     print(tmp$convergence)
@@ -264,7 +264,7 @@ makeGrowthObjHossfeld <- function(dataf) {
 makeGrowthObjIncrTrunc <- function(dataf) {
     require(censReg)
     dataf$size2 <- dataf$size^2
-    if (length(dataf$incr)==0) dataf$incr <- dataf$sizenext-dataf$size
+    if (length(dataf$incr)==0) dataf$incr <- dataf$sizeNext-dataf$size
     fit <- censReg(incr~logsize+logsize2,data=dataf, left=0)
     gr1 <- new("growthObj.truncincr")
     gr1@fit <- fit$estimate
@@ -370,7 +370,7 @@ makeFecObjGeneral <- function(dataf,
         print("Warning - no column named stage - assuming all continuous")
         dataf$stagenext <- dataf$stage <- rep("continuous", length(dataf[,1]))
         dataf$stage[is.na(dataf$size)] <- NA
-        dataf$stagenext[is.na(dataf$sizenext)] <- "dead"
+        dataf$stagenext[is.na(dataf$sizeNext)] <- "dead"
     }
     
 	if ((sum(names(offspring.splitter)%in%c(levels(dataf$stage),levels(dataf$stagenext)))/length(offspring.splitter))<1) {
@@ -439,8 +439,8 @@ makeFecObjGeneral <- function(dataf,
     
     if (is.na(mean.offspring.size)) {
         offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stagenext=="continuous")
-        mean.offspring.size <- mean(offspringdata$sizenext)
-        var.offspring.size <- var(offspringdata$sizenext) }
+        mean.offspring.size <- mean(offspringdata$sizeNext)
+        var.offspring.size <- var(offspringdata$sizeNext) }
     f1@fec.constants <- fec.constants
     f1@mean.offspring.size <- mean.offspring.size
     f1@var.offspring.size <- var.offspring.size
@@ -469,7 +469,7 @@ makeFecObjGeneralManyCov <- function(dataf,
 		print("Warning - no column named stage - assuming all continuous")
 		dataf$stagenext <- dataf$stage <- rep("continuous", length(dataf[,1]))
 		dataf$stage[is.na(dataf$size)] <- NA
-		dataf$stagenext[is.na(dataf$sizenext)] <- "dead"
+		dataf$stagenext[is.na(dataf$sizeNext)] <- "dead"
 	}
 	
 	if(ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
@@ -533,8 +533,8 @@ makeFecObjGeneralManyCov <- function(dataf,
 	
 	if (is.na(mean.offspring.size)) {
 		offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stagenext=="continuous")
-		mean.offspring.size <- mean(offspringdata$sizenext)
-		var.offspring.size <- var(offspringdata$sizenext) }
+		mean.offspring.size <- mean(offspringdata$sizeNext)
+		var.offspring.size <- var(offspringdata$sizeNext) }
 	f1@fec.constants <- fec.constants
 	f1@mean.offspring.size <- mean.offspring.size
 	f1@var.offspring.size <- var.offspring.size
@@ -554,7 +554,7 @@ makeFecObjGeneralManyCov <- function(dataf,
 ## for combining with a continuous T matrix
 #
 # Parameters - dataf - dataframe with headings of at least
-#                      size, sizenext, surv, fec, stage, stagenext, number
+#                      size, sizeNext, surv, fec, stage, stagenext, number
 #
 # Returns - an object of class DiscreteTrans
 #
@@ -576,8 +576,8 @@ makeDiscreteTrans <- function(dataf) {
       for (i in stages) discrete.trans[i,j] <- sum(dataf[dataf$stage==j & dataf$stagenext==i,]$number,na.rm=T)
       discrete.surv[,j] <- sum(discrete.trans[,j],na.rm=T)/sum(dataf[dataf$stage==j,]$number,na.rm=T)
       discrete.trans[,j] <- discrete.trans[,j]/sum(discrete.trans[,j],na.rm=T)
-      mean.to.cont[,j] <- mean(dataf[dataf$stage==j&dataf$stagenext==i,]$sizenext,na.rm=T)
-      sd.to.cont[,j] <- sd(dataf[dataf$stage==j&dataf$stagenext==i,]$sizenext,na.rm=T)
+      mean.to.cont[,j] <- mean(dataf[dataf$stage==j&dataf$stagenext==i,]$sizeNext,na.rm=T)
+      sd.to.cont[,j] <- sd(dataf[dataf$stage==j&dataf$stagenext==i,]$sizeNext,na.rm=T)
       }
 
     for (i in stages[1:(length(stages)-1)])
@@ -620,7 +620,7 @@ DeathDataAugment <- function (dataf, size.thresh, prop.dead) {
     n.new.dead <- ceiling(prop.dead*n.now/(1-prop.dead))
     new.size <- rnorm(n.new.dead,size.thresh,sd(dataf$size[dataf$size>size.thresh]))
 
-    datanew <- data.frame(size =new.size, sizenext=rep(NA,n.new.dead), surv=rep(0,n.new.dead), 
+    datanew <- data.frame(size =new.size, sizeNext=rep(NA,n.new.dead), surv=rep(0,n.new.dead), 
                         covariate = rep(0,n.new.dead), covariatenext = rep(0,n.new.dead),
                           fec = rep(NA,n.new.dead), age = rep(NA,n.new.dead)) 
 
@@ -644,12 +644,12 @@ DeathDataAugment <- function (dataf, size.thresh, prop.dead) {
 #
 # Parameters - dataf - dataframe
 #              formula= - a model formula that requires
-#                    "sizenext" or "incr" as a reponse variable
+#                    "sizeNext" or "incr" as a reponse variable
 #                    "size" as a possible covariate possibly with
 #                        other combinations including size2 (size^2), size3(size^3), logsize(log(size)
 #                        and potentially a discrete covariate (called covariate)
 #              responseType - the response variable desired, crucial for building
-#                             the right kind of object. Possible levels are "sizenext", "incr", "logincr"
+#                             the right kind of object. Possible levels are "sizeNext", "incr", "logincr"
 #            - meanB the mean of the prior of the coefficients for survival (should be the same length as desired coeff)
 #            - varB the variance of the prior of the coeff for survival (note could add for growth also)
 #            - nitt - the total number of iterations
@@ -657,19 +657,19 @@ DeathDataAugment <- function (dataf, size.thresh, prop.dead) {
 # Returns - list including list of growth objects, + list of survival objects
 makePostGrowthObjs <- function(dataf,
                                explanatoryVariables="size+size2+covariate",
-                               responseType="sizenext",
+                               responseType="sizeNext",
                                meanB=rep(0,3),varB=rep(1e10),nitt=50000) {
     
     require(MCMCglmm)
     
     if (responseType=="incr" & length(dataf$incr)==0) {
-        print("building incr as sizenext-size")
-        dataf$incr <- dataf$sizenext-dataf$size
+        print("building incr as sizeNext-size")
+        dataf$incr <- dataf$sizeNext-dataf$size
     }
 
     if (responseType=="logincr" & length(dataf$logincr)==0) {
-        print("building logincr as log(sizenext-size) - pre-build if this is not appropriate")
-        dataf$logincr <- log(dataf$sizenext-dataf$size)
+        print("building logincr as log(sizeNext-size) - pre-build if this is not appropriate")
+        dataf$logincr <- log(dataf$sizeNext-dataf$size)
     }
     
     dataf$size2 <- dataf$size^2
@@ -681,7 +681,7 @@ makePostGrowthObjs <- function(dataf,
     if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
     
 	#get rid of NAs
-	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizenext),]
+	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizeNext),]
 	
     #fit growth model
     Formula<-as.formula(paste(responseType,'~',explanatoryVariables,sep=''))
@@ -693,7 +693,7 @@ makePostGrowthObjs <- function(dataf,
     for (k in 1:length(fit$Sol[,1])) {
         dummy.fit$coefficients <- fit$Sol[k,]
         dummy.fit$residuals <- rnorm(length(dummy.fit$residuals),0,sqrt(fit$VCV[k,1]))
-        if (responseType=="sizenext") gr[[k]] <-  new("growthObj")
+        if (responseType=="sizeNext") gr[[k]] <-  new("growthObj")
         if (responseType=="incr") gr[[k]] <-  new("growthObj.incr")
         if (responseType=="logincr") gr[[k]] <-  new("growthObj.logincr")
         gr[[k]]@fit <- dummy.fit       
@@ -731,7 +731,7 @@ makePostSurvivalObjs <- function(dataf,
     if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
 
 	#get rid of NAs
-	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizenext),]
+	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizeNext),]
 	
 	
     #build formula
@@ -792,7 +792,7 @@ makePostFecObjs <- function(dataf,
         print("Warning - no column named stage - assuming all continuous")
         dataf$stagenext <- dataf$stage <- rep("continuous", length(dataf[,1]))
         dataf$stage[is.na(dataf$size)] <- NA
-        dataf$stagenext[is.na(dataf$sizenext)] <- "dead"
+        dataf$stagenext[is.na(dataf$sizeNext)] <- "dead"
     }
     
     if(ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
@@ -824,12 +824,12 @@ makePostFecObjs <- function(dataf,
 
     if (is.na(mean.offspring.size)) {
         offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stagenext=="continuous")
-        mean.offspring.size <- mean(offspringdata$sizenext)
-        var.offspring.size <- var(offspringdata$sizenext)
+        mean.offspring.size <- mean(offspringdata$sizeNext)
+        var.offspring.size <- var(offspringdata$sizeNext)
     }
  
 	#get rid of NAs
-	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizenext),]
+	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizeNext),]
 	
     fit <- dummy.fit <- list()
     

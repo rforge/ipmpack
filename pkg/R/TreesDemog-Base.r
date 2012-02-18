@@ -10,17 +10,17 @@ logit <- function(x) { u<-exp(pmin(x,50)); return(u/(1+u))}
 #
 # Parameters - (testing update)
 #   size - size measurement this time-step
-#   sizenext - size measurement the next time-step (midpoints)
+#   sizeNext - size measurement the next time-step (midpoints)
 #   cov - the covariate (light, etc) this time-step
 #   grow.obj - the growth object 
 #
-#   Note "growth" takes a SINGLE value for covariate although can take a VECTOR for size,sizenext
+#   Note "growth" takes a SINGLE value for covariate although can take a VECTOR for size,sizeNext
 #
 #
 # Returns -
-#   the growth transition from size to sizenext
+#   the growth transition from size to sizeNext
 setGeneric("growth",
-		function(size, sizenext, cov, growthObj) standardGeneric("growth"))
+		function(size, sizeNext, cov, growthObj) standardGeneric("growth"))
 
 
 # Register a survival  generic
@@ -42,17 +42,17 @@ setGeneric("surv",
 #
 # Parameters -
 #   size - size measurement this time-step
-#   sizenext - size measurement the next time-step (midpoints)
+#   sizeNext - size measurement the next time-step (midpoints)
 #   cov - the covariate (light, etc) this time-step
 #   grow.obj - the growth object 
 #
-#   Note "growth" takes a SINGLE value for covariate although can take a VECTOR for size,sizenext
+#   Note "growth" takes a SINGLE value for covariate although can take a VECTOR for size,sizeNext
 #
 #
 # Returns -
-#   the growth transition from size to sizenext
+#   the growth transition from size to sizeNext
 setGeneric("growthCum",
-		function(size, sizenext, cov, growthObj) standardGeneric("growthCum"))
+		function(size, sizeNext, cov, growthObj) standardGeneric("growthCum"))
 
 
 ### CLASSES UNDERLYING THE GROWTH / SURVIVAL FUNCTIONS ######
@@ -243,15 +243,15 @@ setMethod("surv",
 #
 #Parameters -
 #   size = size now (vector)
-#   sizenext = size going to  (vector)
+#   sizeNext = size going to  (vector)
 #   cov = the covariate (.e.g. light..., single value)
 #   growthObj = a growth object
 #
 #Returns -
-#  growth transition probability from size to sizenext at that covariate level 
+#  growth transition probability from size to sizeNext at that covariate level 
 setMethod("growth", 
 		c("numeric","numeric","numeric","growthObj"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,
 					covariate=as.factor(rep(cov,length(size))))
 			#print(head(newd))
@@ -260,14 +260,14 @@ setMethod("growth",
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <- summary(growthObj@fit)$sigma
-			u <- dnorm(sizenext,mux,sigmax,log=FALSE)  
+			u <- dnorm(sizeNext,mux,sigmax,log=FALSE)  
 			return(u);
 		})
 
 # Same for many covariates
 setMethod("growth", 
 		c("numeric","numeric","data.frame","growthObjMultiCov"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			newd <- cov
 			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
 			newd$size <- size
@@ -281,7 +281,7 @@ setMethod("growth",
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <- summary(growthObj@fit)$sigma
-			u <- dnorm(sizenext,mux,sigmax,log=FALSE)  
+			u <- dnorm(sizeNext,mux,sigmax,log=FALSE)  
 			return(u);
 		})
 
@@ -289,7 +289,7 @@ setMethod("growth",
 # growth for predicting next incr 
 setMethod("growth", 
 		c("numeric","numeric","numeric","growthObj.incr"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,
 					covariate=as.factor(rep(cov,length(size))))
 			
@@ -301,7 +301,7 @@ setMethod("growth",
 			#print(mux)
 			
 			sigmax <- summary(growthObj@fit)$sigma
-			u <- dnorm(sizenext,size+mux,sigmax,log=FALSE)  
+			u <- dnorm(sizeNext,size+mux,sigmax,log=FALSE)  
 			return(u); 
 		})
 
@@ -310,7 +310,7 @@ setMethod("growth",
 # growth for predicting next truncated incr 
 setMethod("growth", 
 		c("numeric","numeric","numeric","growthObj.truncincr"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			require(truncnorm)
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,
 					logsize=log(size),logsize2=(log(size))^2,
@@ -321,7 +321,7 @@ setMethod("growth",
 			mux <- colSums(growthObj@fit[1]+t(newd[,m1])*growthObj@fit[2:(length(growthObj@fit)-1)])
 			#print(range(mux))
 			sigmax <- exp(growthObj@fit["logSigma"])
-			u <- dtruncnorm(sizenext,a=size,b=Inf,mean=size+mux,sd=sigmax)  
+			u <- dtruncnorm(sizeNext,a=size,b=Inf,mean=size+mux,sd=sigmax)  
 			return(u); 
 		})
 
@@ -329,7 +329,7 @@ setMethod("growth",
 # Same for many covariates on increment
 setMethod("growth", 
 		c("numeric","numeric","numeric","growthObjMultiCov.incr"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			newd <- cov
 			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
 			newd$size <- size
@@ -343,7 +343,7 @@ setMethod("growth",
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <- summary(growthObj@fit)$sigma
-			u <- dnorm(sizenext,size+mux,sigmax,log=FALSE)  
+			u <- dnorm(sizeNext,size+mux,sigmax,log=FALSE)  
 			return(u);
 		})
 
@@ -351,7 +351,7 @@ setMethod("growth",
 # growth for predicting next logincr with a polynomial or log
 setMethod("growth", 
 		c("numeric","numeric","numeric","growthObj.logincr"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,
 					covariate=as.factor(rep(cov,length(size))))
 			
@@ -360,7 +360,7 @@ setMethod("growth",
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <- summary(growthObj@fit)$sigma
-			u <- dlnorm(sizenext-size,mux,sigmax,log=FALSE)  
+			u <- dlnorm(sizeNext-size,mux,sigmax,log=FALSE)  
 			return(u);
 		})
 
@@ -368,7 +368,7 @@ setMethod("growth",
 # Same for many covariates on log increment
 setMethod("growth", 
 		c("numeric","numeric","numeric","growthObjMultiCov.logincr"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			newd <- cov
 			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
 			newd$size <- size
@@ -382,7 +382,7 @@ setMethod("growth",
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <- summary(growthObj@fit)$sigma
-			u <- dlnorm(sizenext,size+mux,sigmax,log=FALSE)  
+			u <- dlnorm(sizeNext,size+mux,sigmax,log=FALSE)  
 			return(u);
 		})
 
@@ -397,14 +397,14 @@ setMethod("growth",
 # using pnorm (i.e. getting cumulative at boundary points and doing difference)
 setMethod("growthCum", 
 		c("numeric","numeric","numeric","growthObj"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,
 					covariate=as.factor(rep(cov,length(size))))
 			if (length(grep("logsize",
 							growthObj@fit$formula))>0) newd$logsize=log(size)
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <- summary(growthObj@fit)$sigma
-			u <- pnorm(sizenext,mux,sigmax,log=FALSE)  
+			u <- pnorm(sizeNext,mux,sigmax,log=FALSE)  
 			return(u);
 		})
 
@@ -412,7 +412,7 @@ setMethod("growthCum",
 # using pnorm (i.e. getting cumulative at boundary points and doing difference)
 setMethod("growthCum", 
 		c("numeric","numeric","numeric","growthObj.incr"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,#logsize=log(size),
 					covariate=as.factor(rep(cov,length(size))))
 			if (length(grep("logsize",
@@ -420,7 +420,7 @@ setMethod("growthCum",
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <- summary(growthObj@fit)$sigma
-			u <- pnorm(sizenext,size+mux,sigmax,log=FALSE)  
+			u <- pnorm(sizeNext,size+mux,sigmax,log=FALSE)  
 			return(u); 
 		})
 
@@ -429,7 +429,7 @@ setMethod("growthCum",
 # growth for predicting next truncated incr with cumulative 
 setMethod("growthCum", 
 		c("numeric","numeric","numeric","growthObj.truncincr"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			require(truncnorm)
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,
 					logsize=log(size),logsize2=(log(size))^2,
@@ -438,7 +438,7 @@ setMethod("growthCum",
 			mux <- colSums(growthObj@fit[1]+t(newd[,m1])*growthObj@fit[2:(length(growthObj@fit)-1)])
 			#print(range(mux))
 			sigmax <- exp(growthObj@fit["logSigma"])
-			u <- ptruncnorm(sizenext,a=size,b=Inf,mean=size+mux,sd=sigmax)  
+			u <- ptruncnorm(sizeNext,a=size,b=Inf,mean=size+mux,sd=sigmax)  
 			return(u); 
 		})
 
@@ -447,7 +447,7 @@ setMethod("growthCum",
 # using pnorm (i.e. getting cumulative at boundary points and doing difference)
 setMethod("growthCum", 
 		c("numeric","numeric","numeric","growthObj.logincr"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,#logsize=log(size),
 					covariate=as.factor(rep(cov,length(size))))
 			if (length(grep("logsize",
@@ -455,7 +455,7 @@ setMethod("growthCum",
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <- summary(growthObj@fit)$sigma
-			u <- plnorm(sizenext-size,mux,sigmax,log=FALSE)  
+			u <- plnorm(sizeNext-size,mux,sigmax,log=FALSE)  
 			return(u);
 		})
 
@@ -464,13 +464,13 @@ setMethod("growthCum",
 # using pnorm (i.e. getting cumulative at boundary points and doing difference)
 setMethod("growthCum", 
 		c("numeric","numeric","numeric","growthObj.declinevar"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,covariate=as.factor(rep(cov,length(size))))
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
 			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
-			u <- pnorm(sizenext,mux,sqrt(sigmax2),log=FALSE)  
+			u <- pnorm(sizeNext,mux,sqrt(sigmax2),log=FALSE)  
 			return(u);
 		})
 
@@ -480,13 +480,13 @@ setMethod("growthCum",
 #Simple growth methods, using  declining variance in growth
 setMethod("growth", 
 		c("numeric","numeric","numeric","growthObj.declinevar"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,covariate=as.factor(rep(cov,length(size))))
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
 			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
-			u <- dnorm(sizenext,mux,sqrt(sigmax2),log=FALSE)  
+			u <- dnorm(sizeNext,mux,sqrt(sigmax2),log=FALSE)  
 			return(u);
 		})
 
@@ -496,23 +496,23 @@ setMethod("growth",
 #same but with declining variance in growth on incrment
 setMethod("growth", 
 		c("numeric","numeric","numeric","growthObj.incr.declinevar"),
-		function(size,sizenext,cov,growthObj){
+		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,covariate=as.factor(rep(cov,length(size))))
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
 			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
-			u <- dnorm(sizenext,size+mux,sqrt(sigmax2),log=FALSE)  
+			u <- dnorm(sizeNext,size+mux,sqrt(sigmax2),log=FALSE)  
 			return(u);
 		})
 
 
 ## Define a new growth method for Hossfeld growth (classic midpoint rule approach)
 setMethod("growth", c("numeric", "numeric", "numeric", "growthObj.Hossfeld"), 
-		function(size, sizenext, cov, growthObj) { 
+		function(size, sizeNext, cov, growthObj) { 
 			mux <- size+Hossfeld(size, growthObj@paras) 
 			sigmax <- growthObj@sd 
-			u <- dnorm(sizenext, mux, sigmax, log = F) 
+			u <- dnorm(sizeNext, mux, sigmax, log = F) 
 			return(u)
 		}) 
 
@@ -521,8 +521,8 @@ setMethod("growth", c("numeric", "numeric", "numeric", "growthObj.Hossfeld"),
 
 # Method combining growth and survival for doing outer (not a generic, so that don't have to
 # define for all the different classes / growth and surv take care of that)
-growSurv <- function(size,sizenext,cov,growthObj,survObj){
-	growth(size,sizenext,cov,growthObj)*surv(size,cov,survObj)
+growSurv <- function(size,sizeNext,cov,growthObj,survObj){
+	growth(size,sizeNext,cov,growthObj)*surv(size,cov,survObj)
 }
 
 
@@ -1031,8 +1031,8 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrate.type="mid
 	
 	#Is the size range sufficient? 
 	par(mfrow=c(2,3),bty="l")
-	hist(c(dff$size,dff$sizenext),xlab="Sizes observed",
-			ylab="Frequency",main="", xlim=range(c(Tmatrix@meshpoints,dff$size,dff$sizenext),na.rm=TRUE))
+	hist(c(dff$size,dff$sizeNext),xlab="Sizes observed",
+			ylab="Frequency",main="", xlim=range(c(Tmatrix@meshpoints,dff$size,dff$sizeNext),na.rm=TRUE))
 	abline(v=c(Tmatrix@meshpoints[1],Tmatrix@meshpoints[length(Tmatrix@meshpoints)]),lty=2,col=2)
 	legend("topright",legend="fitted range", col="red",lty=2,bty="n")
 	title("Size range")

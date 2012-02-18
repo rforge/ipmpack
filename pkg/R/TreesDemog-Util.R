@@ -276,7 +276,7 @@ wrapHossfeld <- function(par, dataf) {
 picGrow <- function(dataf,growObj) {
 
 
-    plot(dataf$size,dataf$sizenext,pch=19,xlab="Size at t", ylab="Size at t+1",main="Growth")
+    plot(dataf$size,dataf$sizeNext,pch=19,xlab="Size at t", ylab="Size at t+1",main="Growth")
 
     if (length(grep("covariate",names(growObj@fit$model)))>0) {  
         #convert to 1:n for indexing later and to relate to discrete
@@ -285,7 +285,7 @@ picGrow <- function(dataf,growObj) {
         ud <- unique(dataf$covariate); ud <- ud[!is.na(ud)]
         for (k in 1:length(ud)) { 
             tp <- dataf$covariate==ud[k]
-            points(dataf$size[tp], dataf$sizenext[tp],pch=19,col=k)            
+            points(dataf$size[tp], dataf$sizeNext[tp],pch=19,col=k)            
         }
         ud <- as.factor(ud)
     } else {
@@ -347,7 +347,7 @@ makeEnvObj <- function(dataf){
 
 ## Generate a simple data-frame for only continuous covariates
 #  with a total of 1000 measurements with columns called
-# size, sizenext, surv, covariate, covariatenext, fec,
+# size, sizeNext, surv, covariate, covariatenext, fec,
 #
 #
 generateData <- function(){
@@ -355,9 +355,9 @@ generateData <- function(){
     covariatenext <- sample(0:1, size=1000, replace=TRUE, prob = c(0.8, 0.2))
     size <- rnorm(1000,5,2)
  	#size <- exp(rnorm(1000, -1, 1.1))
-    sizenext <- 1+0.8*size-0.9*covariate+rnorm(1000,0,1)
+    sizeNext <- 1+0.8*size-0.9*covariate+rnorm(1000,0,1)
     seedlings <- sample(1:1000,size=100,replace=TRUE)
-    size[seedlings] <- NA; sizenext[seedlings] <- rnorm(100,-2,0.1)
+    size[seedlings] <- NA; sizeNext[seedlings] <- rnorm(100,-2,0.1)
 	fec <- surv <- rep(NA, length(size))
     surv[!is.na(size)] <- rbinom(sum(!is.na(size)),1,logit(-1+0.2*size[!is.na(size)]))
     fec[!is.na(size)] <- rnorm(sum(!is.na(size)),exp(-7+0.9*size[!is.na(size)]),1)
@@ -365,9 +365,9 @@ generateData <- function(){
 
     stage <- stagenext <- rep("continuous",1000)
     stage[is.na(size)] <- NA
-    stagenext[is.na(sizenext)] <- "dead"
+    stagenext[is.na(sizeNext)] <- "dead"
     
-    dataf <- data.frame(size=size,sizenext=sizenext,surv=surv,
+    dataf <- data.frame(size=size,sizeNext=sizeNext,surv=surv,
                         covariate=covariate,covariatenext=covariatenext,
                         fec=fec, stage=stage,stagenext=stagenext)
     return(dataf)
@@ -375,7 +375,7 @@ generateData <- function(){
 
 ## Generate a simple data-frame for continuous and discrete covariates
 #  with a total of 1000 measurements in columns called
-# size, sizenext, surv, fec, stage, stagenext number
+# size, sizeNext, surv, fec, stage, stagenext number
 # Stage contains names including "continuous", and then a range
 # of names for discrete stages, e.g., in this example,
 #  "dormant" "seed.age.1"   "seed.old" 
@@ -383,26 +383,26 @@ generateData <- function(){
 # 
 generateDataDiscrete <- function(){
     size <- rnorm(1000,5,2)
-    sizenext <- 1+0.8*size+rnorm(1000,0,1)
+    sizeNext <- 1+0.8*size+rnorm(1000,0,1)
     surv <- rbinom(1000,1,logit(-1+0.2*size))
-    sizenext[surv==0] <- NA
+    sizeNext[surv==0] <- NA
     fec <- rnorm(length(size),exp(-7+0.9*size),1)
     fec[size<quantile(size,0.20) | fec<0] <- 0
     stage <- rep("continuous",1000)
     stagenext <- rep("continuous",1000)
-    sizenext[surv==0] <- NA
+    sizeNext[surv==0] <- NA
     stagenext[surv==0] <- c("dead")
     number <- rep(1,1000)
     become.dormant <- which(rank(size)%in%sample(rank(size),50,prob=surv*fec))
-    sizenext[become.dormant] <- NA; stagenext[become.dormant] <- c("dormant")
-    were.dormant <- which(rank(sizenext)%in%sample(rank(sizenext),50,prob=surv*fec))
+    sizeNext[become.dormant] <- NA; stagenext[become.dormant] <- c("dormant")
+    were.dormant <- which(rank(sizeNext)%in%sample(rank(sizeNext),50,prob=surv*fec))
     size[were.dormant] <- NA; stage[were.dormant] <- c("dormant")
-    dataf <- rbind(data.frame(size=size,sizenext=sizenext,surv=surv,
+    dataf <- rbind(data.frame(size=size,sizeNext=sizeNext,surv=surv,
                         fec=fec,stage=stage,stagenext=stagenext,number=number),
-                   data.frame(size=NA,sizenext=NA,surv=rep(c(1,0),2),fec=0,
+                   data.frame(size=NA,sizeNext=NA,surv=rep(c(1,0),2),fec=0,
                         stage=rep(c("seed.age.1","seed.old"),each=2),stagenext=rep(c("seed.old","dead"),2),
                         number=c(202,220,115,121)),
-                   data.frame(size=NA,sizenext=rnorm(113,3,2),surv=1,fec=0,
+                   data.frame(size=NA,sizeNext=rnorm(113,3,2),surv=1,fec=0,
                         stage=c(rep("seed.age.1",33),rep("seed.old",30),rep(NA,50)),
                         stagenext=c("continuous"),number=1))
 
@@ -411,7 +411,7 @@ generateDataDiscrete <- function(){
 
 ## Generate a simple data-frame for continuous and discrete covariates
 #  with a total of 1000 measurements in columns called
-# size, sizenext, surv, fec, stage, stagenext number
+# size, sizeNext, surv, fec, stage, stagenext number
 #
 # 
 generateDataStoch <- function(){
@@ -419,7 +419,7 @@ generateDataStoch <- function(){
 	covariate2 <- rnorm(1000)
 	covariate3 <- rnorm(1000)
 	size <- rnorm(1000,5,2)
-	sizenext <- 1+0.9*size+3*covariate1+0.01*covariate2+0.2*covariate3+rnorm(1000,0,0.1)
+	sizeNext <- 1+0.9*size+3*covariate1+0.01*covariate2+0.2*covariate3+rnorm(1000,0,0.1)
 
 	fec <- surv <- rep(NA, length(size))
 	surv[!is.na(size)] <- rbinom(sum(!is.na(size)),1,logit(-1+0.2*size[!is.na(size)]))
@@ -428,7 +428,7 @@ generateDataStoch <- function(){
 	
 	seedlings <- sample(1:1000,size=100,replace=TRUE)
 	size[seedlings] <- NA; 
-	sizenext[seedlings] <- rnorm(100,-2,0.1)
+	sizeNext[seedlings] <- rnorm(100,-2,0.1)
 	surv[seedlings] <- 1
 	#set to flower when covariate1 is around 1.5
 	pfec <- 1*(runif(length(size))<logit(size+covariate1)); #print(pfec)
@@ -436,9 +436,9 @@ generateDataStoch <- function(){
 	#fill in stage
 	stage <- stagenext <- rep("continuous",1000)
 	stage[is.na(size)] <- NA
-	stagenext[is.na(sizenext)] <- "dead"
+	stagenext[is.na(sizeNext)] <- "dead"
 	
-	dataf <- data.frame(size=size,sizenext=sizenext,surv=surv,
+	dataf <- data.frame(size=size,sizeNext=sizeNext,surv=surv,
 			covariate1=covariate1,covariate2=covariate2,covariate3=covariate3,
 			fec=fec, stage=stage,stagenext=stagenext)
 	return(dataf)
@@ -451,7 +451,7 @@ generateDataStoch <- function(){
 makeListIPMs <- function(dataf, n.big.matrix=10, minsize=-2,maxsize=10, 
 			integrate.type="midpoint", correction="none",
 			explSurv="size+size2+covariate",explGrow="size+size2+covariate", 
-			regType="constantVar",responseType="sizenext",explFec="size",fec.constants=1) {
+			regType="constantVar",responseType="sizeNext",explFec="size",fec.constants=1) {
 
     #convert to 1:n for indexing later
     dataf$covariate <- as.factor(dataf$covariate)
@@ -489,24 +489,24 @@ makeListIPMs <- function(dataf, n.big.matrix=10, minsize=-2,maxsize=10,
 
 
 ## Convert Increment - where exact dates of census vary but some multiplier of yearly increments
-## are desired; this function takes a data-frame (with columns size, sizenext,
+## are desired; this function takes a data-frame (with columns size, sizeNext,
 ## and, importantly exactDate, exactDatel)
-## and returns a data-frame with sizenext modified proportional to the time
+## and returns a data-frame with sizeNext modified proportional to the time
 ## elapsed in the desired yaerly increments, adding an additional column denoted 'increment'. 
 #
-# Parameters - dataf - a dataframe with headings size, sizenext, exactDate,exactDatel
+# Parameters - dataf - a dataframe with headings size, sizeNext, exactDate,exactDatel
 #            - nyrs - the number of years between censuses desired (e.g. for CTFS data, 5 years)
 #
 # Returns - a dataframe with the same headings
 convertIncrement <- function(dataf, nyrs=1) {
-    incr <- dataf$sizenext-dataf$size
+    incr <- dataf$sizeNext-dataf$size
     if (class(dataf$exactDatel)=="Date")  {
         time.elapsed <- (difftime(dataf$exactDatel,dataf$exactDate)[[1]])/(365*nyrs)
     } else {
         time.elapsed <- (dataf$exactDatel-dataf$exactDate)/(365*nyrs)
     }
     incr.new <- incr/time.elapsed
-    dataf$sizenext <- dataf$size+incr.new
+    dataf$sizeNext <- dataf$size+incr.new
     dataf$incr <- dataf$incr.new
     return(dataf)
 
@@ -515,7 +515,7 @@ convertIncrement <- function(dataf, nyrs=1) {
 ## Function to run all analyses with simplest model
 ## fits for a dataf object
 #
-# Parameters - dataf - dataframe with right headings, i.e. size, sizenext, surv
+# Parameters - dataf - dataframe with right headings, i.e. size, sizeNext, surv
 #            - chosen.size - size for which passage time desired
 #            - minsize - lower limit for IPM - defaults to fraction of smallest observed 
 #            - maxsize - upper limit for IPM - default to produce of largest observed
@@ -666,7 +666,7 @@ coerceMatrixIPM <- function(amat) {
 
 
 # Function to build a discrete Tmatrix, with the same slots as an IPM.matrix
-# provided with bins and the usual type of data-frame (columns size, sizenext, surv)
+# provided with bins and the usual type of data-frame (columns size, sizeNext, surv)
 #
 # Parameters - dataf - a dataframe
 #            - bins - the lower and upper edge of desired bins
@@ -677,8 +677,8 @@ coerceMatrixIPM <- function(amat) {
 #
 create.MPM.Tmatrix <- function(dataf, bins, n.env=1) {
     
-    loc.now <- findInterval(dataf$size[!is.na(dataf$size) & !is.na(dataf$sizenext)],bins)+1
-    loc.next <- findInterval(dataf$sizenext[!is.na(dataf$size) & !is.na(dataf$sizenext)],bins)+1    
+    loc.now <- findInterval(dataf$size[!is.na(dataf$size) & !is.na(dataf$sizeNext)],bins)+1
+    loc.next <- findInterval(dataf$sizeNext[!is.na(dataf$size) & !is.na(dataf$sizeNext)],bins)+1    
     
     nbins <- max(c(loc.next,loc.now))
 
@@ -717,8 +717,8 @@ create.MPM.Fmatrix <- function(dataf, bins, p.est=1, n.env=1) {
     
     loc.now <- findInterval(dataf$size[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],bins)+1
     n.now <- sapply(split(dataf$fec[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],loc.now),median)
-    loc.next <- table(findInterval(dataf$sizenext[is.na(dataf$size)],bins)+1)/
-			length(dataf$sizenext[is.na(dataf$size) & !is.na(dataf$sizenext)])    
+    loc.next <- table(findInterval(dataf$sizeNext[is.na(dataf$size)],bins)+1)/
+			length(dataf$sizeNext[is.na(dataf$size) & !is.na(dataf$sizeNext)])    
     
 	
     nbins <- max(c(loc.next,loc.now)); 
