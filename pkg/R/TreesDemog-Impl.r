@@ -382,7 +382,12 @@ makeFecObjGeneral <- function(dataf,
         fec.by.discrete <- matrix(0,col(offspring.splitter)-1,col(offspring.splitter)-1)
     }
     
-    if (length(grep("covariate",explanatoryVariables))>0) {
+	if(sum(offspring.splitter)!=1) {
+		print("Warning - offspring splitter does not sum to 1. It is now rescaled to sum to 1.")
+		offspring.splitter <- offspring.splitter / sum(offspring.splitter) 
+	}
+	
+	if (length(grep("covariate",explanatoryVariables))>0) {
         dataf$covariate <- as.factor(dataf$covariate)
         dataf$covariatenext <- as.factor(dataf$covariatenext)
         levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
@@ -439,7 +444,7 @@ makeFecObjGeneral <- function(dataf,
     f1@fec.constants <- fec.constants
     f1@mean.offspring.size <- mean.offspring.size
     f1@var.offspring.size <- var.offspring.size
-    f1@offspring.splitter <- offspring.splitter/sum(offspring.splitter) 
+    f1@offspring.splitter <- offspring.splitter 
     f1@fec.by.discrete <- fec.by.discrete
     f1@Transform <- Transform
     return(f1)
@@ -533,7 +538,7 @@ makeFecObjGeneralManyCov <- function(dataf,
 	f1@fec.constants <- fec.constants
 	f1@mean.offspring.size <- mean.offspring.size
 	f1@var.offspring.size <- var.offspring.size
-	f1@offspring.splitter <- offspring.splitter / max(offspring.splitter) 
+	f1@offspring.splitter <- offspring.splitter 
 	f1@fec.by.discrete <- fec.by.discrete
 	f1@Transform <- Transform
 	return(f1)
