@@ -69,12 +69,15 @@ starting.env = 1, maxt = 1000, prop.reach = 0.005)
 
 names(rc)
 
+par(mfrow=c(2,2),bty="l")
 #make picture with lines for dist of pop on different time-points
 matplot(Tmatrix@meshpoints,rc$ts.dist, type="l", xlab="size", ylab="n individuals")
 
 #look at time it has taken prop.reach to attain the chosen end.size
 rc$time.reach
 
+#plot out the survivorship
+plot(rc$survivorship, type="l",log="y",xlab="time-step", ylab="prop original population survival")
 
 }
 \keyword{ ~kwd1 }
