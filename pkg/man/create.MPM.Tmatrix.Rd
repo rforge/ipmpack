@@ -5,8 +5,8 @@
 Function to build discrete T matrix
 }
 \description{
-A method that uses bins to construct a class discrete
-survival transition matrix 
+A method that uses bins to construct a discrete survival transition matrix of class IPM using the
+data structures used by IPMpack
 }
 \usage{
 create.MPM.Tmatrix(dataf,bins,n.env=1)
@@ -14,8 +14,8 @@ create.MPM.Tmatrix(dataf,bins,n.env=1)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{
-a dataframe with columns `size',
-    `sizel' (`size' is size at t, `sizel' is size at t+1); facultatively, dataf may include `covariate'
+	a dataframe with columns `size',
+    `sizenext' (`size' is size at t, `sizenext' is size at t+1); facultatively, dataf may include `covariate'
     and `covariatel' for discrete covariates, indicating values at t,
     and at t+1, respectively; these must take values of sequential integers, starting at
     `1'. }
@@ -28,10 +28,10 @@ a dataframe with columns `size',
 }
 \details{
   The number of individuals moving from one bin to the next in one
-  time-step is identified, and probabilities entered into a matrix. To
+  time-step is identified and probabilities entered into a matrix. To
   get a classic Matrix Population model this can be added to values
   defined by create.MPM.Fmatrix. Note that the assumption that all
-  individuals for whom is.na(sizel) died.   
+  individuals for whom is.na(sizenext) died.   
 }
 \value{
   an object of class IPM.matrix
@@ -49,7 +49,7 @@ a dataframe with columns `size',
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-create.IPM.Tmatrix, create.MPM.Fmatrix
+\code{\link{create.IPM.Tmatrix}}, \code{\link{create.MPM.Fmatrix}}
 }
 \examples{
 dff<-generateData()

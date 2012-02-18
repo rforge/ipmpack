@@ -13,7 +13,6 @@ generateDataStoch()
 }
 %- maybe also 'usage' for other objects documented here.
 \details{
-%%  ~~ If necessary, more details than the description above ~~
 }
 \value{
   a dataframe with headings size (continuous variable, indicating current size),
@@ -34,7 +33,7 @@ generateDataStoch()
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{generateData}},\code{\link{generateDataDiscrete}}
 }
 \examples{
 dff<-generateDataStoch()

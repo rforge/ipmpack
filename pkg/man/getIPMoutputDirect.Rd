@@ -8,11 +8,13 @@ fertility objects
 \description{
 Get summary statistics including life expectancy, passage time, and if a
 fertility matrix is available, lambda, stable size, etc., for e.g.,
-posterior distribution of survival and growth objects, slightly swifter
-approach than getIPMoutput since matrices are not stored. 
+posterior distribution of survival and growth objects. This is essentially identical,
+but can be a slightly swifter approach than getIPMoutput since matrices are not stored. 
 }
 \usage{
-getIPMoutputDirect(survObjList, growObjList, target.size = c(), n.big.matrix, minsize, maxsize, cov = FALSE, fecObjList = NULL, env.mat = NULL, n.size.to.age = 0, size.start = 10)
+getIPMoutputDirect(survObjList, growObjList, target.size = c(), 
+	n.big.matrix, minsize, maxsize, cov = FALSE, 
+	fecObjList = NULL, env.mat = NULL, n.size.to.age = 0, size.start = 10)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

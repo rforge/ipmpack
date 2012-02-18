@@ -2,11 +2,12 @@
 \alias{generateData}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Function to generate data 
+  Function to generate data in the form used by IPMpack
 }
 \description{
   Simulates growth, survival, fertility to create a data-frame of the
-  form required by the functions and methods used in the package
+  form required by the functions and methods used in the package; with only 
+  a single continuous covariate structuring the population. 
 }
 \usage{
 generateData()
@@ -20,8 +21,7 @@ generateData()
   sizenext (continuous variable, indicating size in the next time step), surv
   (boolean, indicating whether individual survived or not to the next time-step), covariate
   (discrete covariate), covariatenext (discrete covariate in the next
-  time-step),  fec (continuous variable, indicating fecundity), age,
-  (integer, indicating age)
+  time-step),  fec (continuous variable, indicating fecundity).
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -36,7 +36,7 @@ generateData()
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{generateDataStoch}},\code{\link{generateDataDiscrete}}
 }
 \examples{
 dff<-generateData()

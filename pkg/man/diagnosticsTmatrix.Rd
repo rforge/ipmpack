@@ -24,7 +24,7 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrate.type, correction)
     the survival object used to construct the IPM.matrix object    
 }
   \item{dff}{
-    the dataframe from which the survival and growth objects were constructed
+    the dataframe from which the survival and growth objects were constructed, with the usual headings
 }
   \item{integrate.type}{
     integration type, defaults to "midpoint" (which uses prob. density
@@ -41,7 +41,7 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrate.type, correction)
   data (histogram) and the size range used in the IPM (red dashed
   lines); the second panel shows survival (y axis) plotted against the sums of columns of the current
   Tmatrix (black) or an extended Tmatrix (red) where minsize set to 0.5 its current
-  value, the max size set to 1.5 its current value, and the number of
+  value (or 1.5 times its current value, if it is negative), the max size set to 1.5 its current value, and the number of
   bins set to 1.5 the current value; the dashed line is the
   1:1 line; the third panel shows predicted life expectancy for the current
   (black) and extended IPM as above (red); the last three plots
@@ -69,7 +69,7 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrate.type, correction)
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{create.IPM.Tmatrix}}
 }
 \examples{
 dff<-generateData()
@@ -77,6 +77,13 @@ Tmatrix <-create.IPM.Tmatrix(minsize=min(dff$size,na.rm=TRUE),
 maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff))
 diagnosticsTmatrix(Tmatrix, growObj=makeGrowthObjGeneral(dff),
 survObj=makeSurvObjGeneral(dff), dff=dff)
+
+#compare with...
+Tmatrix <-create.IPM.Tmatrix(n.big.matrix=8,minsize=min(dff$size,na.rm=TRUE),
+maxsize=0.5*max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=makeSurvObjGeneral(dff))
+diagnosticsTmatrix(Tmatrix, growObj=makeGrowthObjGeneral(dff),
+survObj=makeSurvObjGeneral(dff), dff=dff)
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

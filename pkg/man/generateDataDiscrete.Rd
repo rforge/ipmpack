@@ -43,7 +43,7 @@ and so may be inappropriate for some functions. %%  ~~further notes~~
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\code{\link{generateDataStoch}},\code{\link{generateData}}
 }
 \examples{
 dff<-generateDataDiscrete()

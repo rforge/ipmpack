@@ -5,7 +5,7 @@
 Get IPM output from a list of Tmatrices or full IPMs
 }
 \description{
-Get summary statistics including life expectancy, passage time, and if a
+Get summary statistics including life expectancy, passage time, and, if a
 fertility matrix is available, lambda, stable size, etc., for e.g.,
 posterior distribution of Tmatrices, or values across environments,
 etc. 
@@ -24,7 +24,7 @@ getIPMoutput(Tmatrixlist, target.size = c(),
     median of the IPM meshpoints
 }
   \item{Fmatrixlist}{
-    List of fertility matrices corresponding to Tmatrices, facultative;
+    List of fertility matrices corresponding to the list of Tmatrices, facultative;
     if included, lambda, and stable size distribution will also be provided
 }
 }
@@ -60,12 +60,14 @@ getIPMoutput(Tmatrixlist, target.size = c(),
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-  
-  %% ~~objects to See Also as \code{\link{help}}, ~~~
   \code{\link{help}} {getIPMoutputDirect.Rd}
 }
 \examples{
 dff <- generateData()
+
+#use package MCMCglmm to get Bayesian posteriors - note that sometimes
+#!this sometimes later leads to error messages with glm - so you might have
+#to re-start R to run other parts of the package! 
 svlist <- makePostSurvivalObjs(dataf=dff, explanatoryVariables="size",
 meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
 grlist <- makePostGrowthObjs(dataf=dff,  nitt=5000)
@@ -78,7 +80,27 @@ n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
 Flist <- makeListFmatrix(growObjList=grlist[1:10], survObjList=svlist[1:10],fecObjList=fvlist[1:10],
 n.big.matrix=20, minsize=-5, maxsize=20, cov = FALSE, env.mat = NULL)
 
-getIPMoutput(Tmatrixlist=Tlist, target.size = 10, Fmatrixlist = Flist)
+res <- getIPMoutput(Tmatrixlist=Tlist, target.size = 10, Fmatrixlist = Flist)
+names(res)
+
+
+## plot out with different colours for different rows
+par(mfrow=c(2,2),bty="l",pty="s")
+plot(Tlist[[1]]@meshpoints,res$LE[1,],xlab="Size", ylab="Life expectancy", type="l", 
+	ylim=range(res$LE,na.rm=TRUE))
+for (j in 1:nrow(res$LE)) points(Tlist[[1]]@meshpoints,res$LE[j,],col=j, type="l")
+
+plot(Tlist[[1]]@meshpoints,res$ptime[1,],xlab="Size", ylab="Passage Time", type="l", 
+	ylim=range(res$ptime,na.rm=TRUE))
+for (j in 1:nrow(res$ptime)) points(Tlist[[1]]@meshpoints,res$ptime[j,],col=j, type="l")
+
+plot(Tlist[[1]]@meshpoints,res$stable.size[1,],xlab="Size", ylab="Stable size dist", type="l", 
+	ylim=range(res$stable.size,na.rm=TRUE))
+for (j in 1:nrow(res$stable.size)) points(Tlist[[1]]@meshpoints,res$stable.size[j,],col=j, type="l")
+
+hist(res$lambda,xlab=expression(lambda),ylab="", main="",col="grey")
+
+
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
