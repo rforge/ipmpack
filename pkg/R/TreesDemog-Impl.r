@@ -394,12 +394,12 @@ makeFecObj <- function(dataf,
 		offspring.splitter <- offspring.splitter / sum(offspring.splitter) 
 	}
 	
-	if ("covariate"%in%strsplit(explanatoryVariables,"[+-\\*]")[[1]]) dataf$covariate <- as.factor(dataf$covariate)
-	if ("covariateNext"%in%strsplit(explanatoryVariables,"[+-\\*]")[[1]]) dataf$covariateNext <- as.factor(dataf$covariateNext)
+	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]) dataf$covariate <- as.factor(dataf$covariate)
+	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]) dataf$covariateNext <- as.factor(dataf$covariateNext)
     
 	f1 <- new("fecObj")
     dataf$size2 <- dataf$size^2
-    if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
+    if (length(grep("logsize",as.character(explanatoryVariables)))>0) dataf$logsize <- log(dataf$size)
     
     fecnames <- names(dataf)[grep("fec",names(dataf))]
     if (length(fecnames)>length(explanatoryVariables)) {

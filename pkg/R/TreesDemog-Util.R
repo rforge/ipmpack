@@ -323,6 +323,7 @@ makeEnvObj <- function(dataf){
     startenv <- dataf$covariate-minval+1
     nextenv <- dataf$covariateNext-minval+1
     
+	
     n.env.class <- max(c(startenv,nextenv))
     desired.mat <- matrix(0,n.env.class,n.env.class) 
     mats<-table(startenv,nextenv)
