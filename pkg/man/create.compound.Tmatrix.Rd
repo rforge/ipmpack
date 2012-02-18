@@ -52,16 +52,18 @@ minsize = -1, maxsize = 50, envMatrix, growObj, survObj, integrate.type, correct
   }
 }
 \details{
-Note that this structure can also be used to define size by age IPMs, where the transition 
+Note that this structure can also be used to define size x age IPMs, where the transition 
 between ages is reflected by a similar matrix
 }
 \value{
   an object of class IPM.matrix with dimensions
   n.big.matrix*n.env.class, or if discrete transitions exist
   (n.big.matrix+n.disc)*n.env.class
-
 }
 \references{
+
+For age x size modeling: Garcia, Dahlgren & Ehrlen. 2011. No evidence of senescence in a 300-year-old mountain herb. Journal of Ecology 
+
 %% ~put references to the literature/web site here ~
 }
 \author{
