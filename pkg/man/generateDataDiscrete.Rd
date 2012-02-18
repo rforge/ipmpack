@@ -30,7 +30,7 @@ This function allows the modeling of complex life cycles that incorporate contin
   individual line for every movement between discrete stages. 
 }
 \references{
-Ellner & Rees, 2006. Integral projection models for species with complex demography. American Naturalist 167 p410-428
+Ellner & Rees, 2006. Integral projection models for species with complex demography. The American Naturalist 167 p410-428
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
