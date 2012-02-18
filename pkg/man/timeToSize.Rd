@@ -5,7 +5,9 @@
 Function to project how long it takes to get from a starting distribution to an final size
 }
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+Provided with a starting vector reflecting starting individual sizes, this function projects forward via the 
+provided IPM until a defined proportion of the population has reach the chosen end.size. Only works for single environment
+or compound matrices (not time-varying covariates apart from a single discrete one). 
 }
 \usage{
 timeToSize(starting.sizes, IPM, end.size, starting.env = 1, maxt = 100, prop.reach = 0.01)
@@ -13,16 +15,16 @@ timeToSize(starting.sizes, IPM, end.size, starting.env = 1, maxt = 100, prop.rea
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{starting.sizes}{
-vector of starting sizes (in any order)
+	vector of starting sizes reflecting sizes of individuals in the starting population (in any order)
 }
   \item{IPM}{
-the IPM (just a Tmatrix)
+the IPM Tmatrix 
 }
   \item{end.size}{
 the end size
 }
   \item{starting.env}{
-vector of starting env, same length as starting.sizes, or length=1
+vector of starting env, same length as starting.sizes, or length=1 if compound matrices are not being used. 
 }
   \item{maxt}{
 the max number of time-steps tested
@@ -64,6 +66,10 @@ maxsize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObjGeneral(dff), survObj=make
 #CURRENTLY NOT WORKING VERY WELL
 rc <- timeToSize(starting.sizes=start.sizes, IPM=Tmatrix, end.size=10, 
 starting.env = 1, maxt = 1000, prop.reach = 0.001)
+
+names(rc)
+plot(rc$time.reach)
+
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
