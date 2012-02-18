@@ -13,8 +13,10 @@
 
 getIPMoutput <- function(Tmatrixlist,target.size=c(),Fmatrixlist=NULL){
 
-    if (length(target.size)==0)  target.size <- median(TmatrixList[[1]]@meshpoints)
-    
+    if (length(target.size)==0)  { 
+		print("no target size for passage time provided; taking meshpoint median")
+		target.size <- median(TmatrixList[[1]]@meshpoints)
+	}
     nsamps <- length(Tmatrixlist)
     h1 <- Tmatrixlist[[1]]@meshpoints[2]-Tmatrixlist[[1]]@meshpoints[1]
     stable.size <- LE <- ptime <- matrix(NA,nsamps,length(Tmatrixlist[[1]]@.Data[1,]))
@@ -714,19 +716,18 @@ create.MPM.Tmatrix <- function(dataf, bins, n.env=1) {
 # ! assumes no relationship between adult size class and their baby's size class
 #
 
-create.MPM.Fmatrix <- function(dataf, bins, p.est=1, n.env=1) {
+create.MPM.Fmatrix <- function(dataf, bins,offspring.classes=1, offspring.prop=1, n.env=1) {
     
     loc.now <- findInterval(dataf$size[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],bins)+1
     n.now <- sapply(split(dataf$fec[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],loc.now),median)
-    loc.next <- table(findInterval(dataf$sizeNext[is.na(dataf$size)],bins)+1)/
-			length(dataf$sizeNext[is.na(dataf$size) & !is.na(dataf$sizeNext)])    
+   
+    nbins <- max(loc.now); 
+	#print(nbins)
     
+	offspring.prop <- offspring.prop/sum(offspring.prop)
 	
-    nbins <- max(c(loc.next,loc.now)); 
-	print(nbins)
-    
     MPM <- matrix(0,nbins,nbins)
-    for (j in 1:length(loc.next)) MPM[j,as.numeric(names(n.now))] <- p.est * loc.next[j]*n.now
+    for (j in 1:length(offspring.classes)) MPM[offspring.classes[j],as.numeric(names(n.now))] <-  offspring.prop[j]*n.now
             
     rc <- new("IPM.matrix",
               n.env.class = 1, 
