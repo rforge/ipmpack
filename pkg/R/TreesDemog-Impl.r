@@ -373,6 +373,10 @@ makeFecObjGeneral <- function(dataf,
         dataf$stagenext[is.na(dataf$sizenext)] <- "dead"
     }
     
+	if ((sum(names(offspring.splitter)%in%c(levels(dataf$stage),levels(dataf$stagenext)))/length(offspring.splitter))<1) {
+		stop("Error - the variable names in your offspring.splitter data.frame are not all part of the levels of stage or stagenext in your data file. Please fix this by adjusting your offspring.splitter entry to include the correct variable names, e.g. offspring.splitter=data.frame(continuous=.7,seed.age.1=.3)")
+	}
+	
     if(ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
         print("Warning - offspring splitter indicates more than just continuous stages. No fertility by the discrete stages supplied in fec.by.discrete; assumed that is 0")
         fec.by.discrete <- matrix(0,col(offspring.splitter)-1,col(offspring.splitter)-1)
@@ -466,6 +470,10 @@ makeFecObjGeneralManyCov <- function(dataf,
 	if(ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
 		print("Warning - offspring splitter indicates more than just continuous stages. No fertility by the discrete stages supplied in fec.by.discrete; assumed that is 0")
 		fec.by.discrete <- matrix(0,col(offspring.splitter)-1,col(offspring.splitter)-1)
+	}
+	
+	if(sum(offspring.splitter)!=1) {
+		print("Warning - offspring splitter does not sum to 1. It is now rescale to sum to 1.")
 	}
 	
 	if (length(grep("covariate",explanatoryVariables))>0) {
