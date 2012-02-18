@@ -93,6 +93,11 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff<-generateData()
 Tmatrix <-create.compound.Tmatrix(minsize=min(dff$size,na.rm=TRUE), maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff), growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"), survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"))
 
+image(1:nrow(Tmatrix),1:ncol(Tmatrix),t(log(Tmatrix)), xlab="Size at t",ylab="Size at t+1",axes=FALSE)
+axis(1,at=1:nrow(Tmatrix),lab=round(rep(Tmatrix@meshpoints,Tmatrix@n.env.class),2))
+axis(2,at=1:nrow(Tmatrix),lab=round(rep(Tmatrix@meshpoints,Tmatrix@n.env.class),2))
+abline(h=length(Tmatrix@meshpoints)*(1:Tmatrix@n.env.class))
+abline(v=length(Tmatrix@meshpoints)*(1:Tmatrix@n.env.class))
 
 #with discrete stages
 dff<-generateDataDiscrete()
@@ -104,6 +109,13 @@ maxsize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
 growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"),
 survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"),DiscreteTrans=discM)
 
+##ROB NEEDS TO COME BACK TO THIS EXAMPLE. ERROR WITH "startenv" and "nextenv"
+
+image(1:nrow(Tmatrix),1:ncol(Tmatrix),t(log(Tmatrix)), xlab="Size at t",ylab="Size at t+1",axes=FALSE)
+axis(1,at=1:nrow(Tmatrix),lab=round(rep(Tmatrix@meshpoints,Tmatrix@n.env.class),2))
+axis(2,at=1:nrow(Tmatrix),lab=round(rep(Tmatrix@meshpoints,Tmatrix@n.env.class),2))
+abline(h=length(Tmatrix@meshpoints)*(1:Tmatrix@n.env.class))
+abline(v=length(Tmatrix@meshpoints)*(1:Tmatrix@n.env.class))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -78,7 +78,7 @@ Fmatrix <-create.IPM.Fmatrix(n.big.matrix=20,minsize=min(dff$size, na.rm=TRUE),m
 
 slotNames(Fmatrix)
 
-image(Fmatrix@meshpoints,Fmatrix@meshpoints,Fmatrix, xlab="Size at t+1",ylab="Size at t")
+image(Fmatrix@meshpoints,Fmatrix@meshpoints,t(Fmatrix), xlab="Size at t",ylab="Size at t+1")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
