@@ -6,8 +6,8 @@ Function to build discrete F matrix from the types of data structures used in IP
 }
 \description{
 A method that uses bins to construct a class discrete fecundity transition matrix 
-from the types of data structures used in IPMpack; assumes that there is a single fecundity 
-column in the data entitled fec that captures number of offspring produced by individuals over 
+(F) from the types of data structures used in IPMpack; assumes that there is a single fecundity 
+column in the data entitled "fec" that captures number of offspring produced by individuals over 
 every size, and also assumes that all individuals are "born" into the first rows of the matrix 
 defined by offspring.classes (where offspring.classes=1 means between bins[1] and bins[2], 
 offspring.classes=2 means between bins[2] and bins[3], etc...) in proportions offspring.prop, 
@@ -19,9 +19,9 @@ create.MPM.Fmatrix(dataf,bins, offspring.classes=c(1),offspring.prop,n.env=1)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{
-    a dataframe with columns `size', `fec' (`size' is size at t, and `fec' indicates the number of
+    A dataframe with columns `size', `fec' (`size' is size at t, and `fec' indicates the number of
     seeds produced by that individual); facultatively, dataf may include `covariate'
-    and `covariatel' for discrete covariates, indicating values at t,
+    and `covariateNext' for discrete covariates, indicating values at t,
     and at t+1, respectively; these must take values of sequential integers, starting at
     `1'. }
   \item{bins}{
@@ -34,7 +34,7 @@ create.MPM.Fmatrix(dataf,bins, offspring.classes=c(1),offspring.prop,n.env=1)
 \details{
   The median number of offspring produced by individuals in each bin is
   identified. Fecundity values are distributed across rows and columns accordingly. To
-  get a classic Matrix Population model this can be added to values defined by create.MPM.Tmatrix.    
+  get a classic Matrix Population model (A) this can be added to values defined by create.MPM.Tmatrix (A=F+T).    
 }
 \value{
   an object of class IPM.matrix
@@ -57,11 +57,13 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{create.IPM.Fmatrix}}, \code{\link{create.MPM.Tmatrix}}
 }
 \examples{
-dff<-generateData()
-Fmatrix <-create.MPM.Fmatrix(dff,bins=c(1,4,10,15),offspring.classes=1, offspring.prop=1)
-Fmatrix
 Fmatrix <-create.MPM.Fmatrix(dff,bins=c(1,4,10,15),offspring.classes=c(1,2), offspring.prop=c(0.5,0.5))
 Fmatrix
+
+##Rob: It'd be super-nice if we could present the matrix a la Horvitz, with each class with its size-ranges.
+image(Fmatrix@meshpoints,Fmatrix@meshpoints,t(Fmatrix), xlab="Size at t",ylab="Size at t+1")
+
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
