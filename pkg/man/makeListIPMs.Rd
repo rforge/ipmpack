@@ -17,7 +17,7 @@ makeListIPMs(dataf, n.big.matrix = 10, minsize = -2, maxsize = 10,
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{
-    a dataframe with columns `size', `sizel', 'surv', 'fec',
+    a dataframe with columns `size', `sizenext', 'surv', 'fec',
     'covariate', 'covariatel'; 
     and 'age' indicating which individuals
     are seedlings for identifying the mean and variance in seedling

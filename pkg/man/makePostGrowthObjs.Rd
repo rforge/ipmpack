@@ -19,7 +19,7 @@ meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
 \arguments{
   \item{dataf}{
     a dataframe with columns `size',
-    and `sizel' (`size' is size at t, `sizel' is size at t+1); facultatively, dataf may include `covariate'
+    and `sizenext' (`size' is size at t, `sizenext' is size at t+1); facultatively, dataf may include `covariate'
     (discrete or continuous) or other covariates
   }
   \item{explanatoryVariables}{a formula describing the desired
