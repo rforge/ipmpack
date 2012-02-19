@@ -2,12 +2,12 @@
 \alias{LifeExpect}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function to calculate Life Expectancy in a discretely stochastic environment
+Function to calculate life expectancy in a discretely stochastic environment
 }
 \description{
-  Provided a compound Tmatrix that describes survival transitions across size and
-  across discrete environmental states, this function provides a matrix defining life-expectancy in
-  units of the time-step used, for each of the size bins in each of the
+  Provided a compound T matrix that describes survival transitions across size and
+  across discrete environmental states, this function provides a matrix defining life expectancy in
+  units of the time-step used in the census, for each of the size bins in each of the
   environments (rows). 
 }
 \usage{
