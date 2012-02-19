@@ -11,11 +11,13 @@
 \describe{
 
 \item{\code{signature(size = "numeric", cov = "numeric", survObj = "survObj")}}{
-%%  ~~describe this method here~~
+Methods to predict probability of survival given a linear predictor based on 
+various transforms of size and potentially a single discrete covariate. 
 }
 
-\item{\code{signature(size = "numeric", cov = "numeric", survObj = "survObj.manycov")}}{
-%%  ~~describe this method here~~
+\item{\code{signature(size = "numeric", cov = "data.frame", survObj = "survObjMultiCov")}}{
+Methods to predict probability of survival given a linear predictor based on 
+various transforms of size and a dataframe of other covariates.  
 }
 }}
 \keyword{methods}
