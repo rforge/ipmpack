@@ -26,8 +26,8 @@ growth(size, sizeNext, cov, growthObj)
 }
 }
 \details{
-  Models defining size at t+1, or growth increment are defined; with various
-  underlying statistical models
+  Models defining size at t+1, or growth increment, or log growth increment are defined; with various
+  underlying statistical models. 
 }
 \value{
   a vector of length sizeNext giving the pdf (probability density function) of each value of sizeNext

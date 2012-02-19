@@ -19,54 +19,63 @@
 \describe{
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj")}}{
-Methods to predict the probability density of \code{sizeNext} using a range of transforms of the current size, 
-and potentially one discrete covariate in the predictor, which supplies mean sizeNext directly; the 
-density function is normal. 
+Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
+range of transforms of the current size, and potentially one discrete covariate. The prediction 
+supplies mean sizeNext directly; the density function around this is normal. 
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.declinevar")}}{
-Methods to predict the probability density of \code{sizeNext} using a range of transforms of the current size, 
-and potentially one discrete covariate in the predictor, which supplies mean sizeNext directly; the 
-density function is normal, but the sd may change with size. 
+Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
+range of transforms of the current size, and potentially one discrete covariate. The prediction 
+supplies mean sizeNext directly; the density function around this is normal and the sd may change with size. 
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.Hossfeld")}}{
-Methods to predict the probability density of \code{sizeNext} using the Hossfeld function
- which supplies mean incr which is added to size to obtain sizeNext; the  density function is normal. 
+Methods to predict the probability density of \code{sizeNext} using the Hossfeld function. The prediction
+supplies mean incr which is added to size to obtain sizeNext; the  density function  around this is normal. 
  }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.incr")}}{
-Methods to predict the probability density of \code{sizeNext} using a range of transforms of the current size, 
-and potentially one discrete covariate in the predictor, which supplies mean incr which is added to size to 
-obtain sizeNext; the density function is normal. 
+Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
+range of transforms of the current size, and potentially one discrete covariate. The prediction 
+supplies mean incr which is added to size to obtain sizeNext; the density function around this is normal. 
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.incrdeclinevar")}}{
-Methods to predict the probability density of \code{sizeNext} using a range of transforms of the current size, 
-and potentially one discrete covariate in the predictor, which supplies mean incr which is added to size to 
-obtain sizeNext; the density function is normal, but the sd may change with size. 
+Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
+range of transforms of the current size, and potentially one discrete covariate. The prediction 
+supplies mean sizeNext directly; the density function around this is normal and the sd may change with size.
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "data.frame", growthObj = "growthObjMultiCov.incr")}}{
-Methods to predict the probability density of \code{sizeNext} using a range of transforms of the current size, 
-and a data-frame of covariates in the predictor, which supplies mean incr which is added to size to 
-obtain sizeNext; the density function is normal. 
+Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
+range of transforms of the current size, and covariates defined in data.frame. The prediction 
+supplies mean incr which is added to size to obtain sizeNext; the density function around this is normal. 
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.logincr")}}{
-%%  ~~describe this method here~~
+Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
+range of transforms of the current size, and potentially one discrete covariate. The prediction 
+supplies mean logincr which is exponentiated and added to size to obtain sizeNext; the density function around this is log normal. 
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.logincrdeclinevar")}}{
-%%  ~~describe this method here~~
+Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
+range of transforms of the current size, and potentially one discrete covariate. The prediction 
+supplies logincr which is exponentiated and added to size to obtain sizeNext; the density function around this is lognormal; 
+the sd may change with size. 
 }
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjMultiCov.logincr")}}{
-%%  ~~describe this method here~~
+\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "data.frame", growthObj = "growthObjMultiCov.logincr")}}{
+Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
+range of transforms of the current size, and covariates defined in data.frame. The prediction 
+supplies logincr which is exponentiated and added to size to obtain sizeNext; the density function around this is lognormal. 
 }
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjMultiCov")}}{
-%%  ~~describe this method here~~
+\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "data.frame", growthObj = "growthObjMultiCov")}}{
+Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
+range of transforms of the current size, and covariates defined in data.frame. The prediction 
+supplies mean sizeNext directly; the density function around this is normal. 
 }
 }}
 \keyword{methods}
