@@ -861,6 +861,10 @@ create.IPM.Fmatrix <- function(fecObj,
 		namesDiscrete <- colnames(fecObj@offspring.splitter[1:ndisc])
 	}
 	
+	
+	#warning about negative numbers
+	if (min(get.matrix)<0) print("Warning: fertility values < 0 exist in matrix, consider transforms.") 
+	
 	rc <- new("IPM.matrix",
 			n.discrete = ndisc,
 			n.env.class = 1, 
@@ -952,6 +956,10 @@ create.compound.Fmatrix <- function(n.env.class = 2,
 		}
 		
 	}
+	
+	#warning about negative numbers
+	if (min(megamatrix)<0) print("Warning: fertility values < 0 exist in matrix, consider transforms.") 
+	
 	
 	rc <- new("IPM.matrix",
 			n.env.class = n.env.class, 
@@ -1907,6 +1915,7 @@ TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
 		if (dd) tmp.fecObj@fec.constants <- c(fecObj@fec.constants, 
 					min(n.microsites[min(t,length(n.microsites))]/nt[1],1))
 		
+		#print(tmp.fecObj@fec.constants)
 		
 		tpS <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosen.cov = covariate[t,],
@@ -1921,6 +1930,12 @@ TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
 		nt1<-IPM.here %*% nt	
 		rc[,t] <- nt1
 		nt<-nt1
+		
+		#print("Smat")
+		#print(range(tpS))
+		#print("Fmat")
+		#print(range(tpF))
+		
 		
 	}
 	

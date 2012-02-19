@@ -619,19 +619,21 @@ run.Simple.Model <- function(dataf,
 #            - n.runin - how many to leave off pics
 # Returns - 
 #
-plotResultsStochStruct <- function(tvals,st,covtest,n.runin=15,...) { 
+plotResultsStochStruct <- function(tvals,st,covtest,n.runin=15,log="y",...) { 
 		
 	par(mfrow=c(2,2),bty="l")
 	plot(tvals[n.runin:length(tvals)],
 			colSums(st$rc[,n.runin:length(tvals)]+1),
 				xlab="Time", 
-			ylab="Population size",type="l",...)
+			ylab="Population size",type="l",log=log,...)
 	abline(v=1:max(tvals),lty=3)
 	covtestplot <- exp(mean(colSums(st$rc[,n.runin:length(tvals)])) +
 					((covtest-mean(covtest))/sd(covtest))*
 					sd(colSums(st$rc[,n.runin:length(tvals)])))
 	points(tvals,covtestplot+1,type="l",lty=3,col=2)
 
+	if (log=="y") st$rc <- log(st$rc)
+	
 	image(tvals[n.runin:length(tvals)],
 			st$IPM.here@meshpoints,
 			t(st$rc[,n.runin:length(tvals)]+1),
