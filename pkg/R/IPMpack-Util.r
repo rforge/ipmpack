@@ -429,7 +429,7 @@ generateDataStoch <- function(){
 	surv[!is.na(size)] <- rbinom(sum(!is.na(size)),1,logit(-1+0.2*size[!is.na(size)]))
 	fec[!is.na(size)] <- rnorm(sum(!is.na(size)),exp(-7+0.9*size[!is.na(size)]),1)
 	fec[size<quantile(size,0.20,na.rm=TRUE) | fec<0] <- 0
-	fec <- 30*fec
+	fec <- 10*fec
 	
 	seedlings <- sample(1:1000,size=100,replace=TRUE)
 	size[seedlings] <- NA; 
@@ -620,33 +620,22 @@ run.Simple.Model <- function(dataf,
 # Returns - 
 #
 plotResultsStochStruct <- function(tvals,st,covtest,n.runin=15,...) { 
-	
-	# this conditional works if don't have compound Tmatrices...
-	if (length(st$IPM.here@meshpoints)<length(st$rc[,1])) {
-		do.seed <- TRUE
-		index.notseed <- (1:length(st$IPM.here@meshpoints))+1
-	} else {
-		do.seed <- FALSE
-		index.notseed <- (1:length(st$IPM.here@meshpoints))
-	}       
-	
+		
 	par(mfrow=c(2,2),bty="l")
 	plot(tvals[n.runin:length(tvals)],
-			colSums(st$rc[index.notseed,n.runin:length(tvals)]+1),log="y",xlab="Time (years)", ylab="Population size (plants)",type="l",...)
+			colSums(st$rc[,n.runin:length(tvals)]+1),
+				xlab="Time", 
+			ylab="Population size",type="l",...)
 	abline(v=1:max(tvals),lty=3)
-	covtestplot <- exp(mean(log(colSums(st$rc[index.notseed,n.runin:length(tvals)]))) +
-					((covtest-mean(covtest))/sd(covtest))*sd(log(colSums(st$rc[index.notseed,n.runin:length(tvals)]))))
+	covtestplot <- exp(mean(colSums(st$rc[,n.runin:length(tvals)])) +
+					((covtest-mean(covtest))/sd(covtest))*
+					sd(colSums(st$rc[,n.runin:length(tvals)])))
 	points(tvals,covtestplot+1,type="l",lty=3,col=2)
-	
-	if (do.seed) { 
-		plot(tvals[n.runin:length(tvals)],st$rc[1,n.runin:length(tvals)]+1,log="y",xlab="Time (years)", ylab="Population size (seeds)",type="l",...)
-		abline(v=1:max(tvals),lty=3)
-		covtestplot <- exp(mean(log(st$rc[1,n.runin:length(tvals)])) +
-						((covtest-mean(covtest))/sd(covtest))*sd(log(st$rc[1,n.runin:length(tvals)])))
-		points(tvals,covtestplot+1,type="l",lty=3,col=2)
-	}
-	image(tvals[n.runin:length(tvals)],st$IPM.here@meshpoints,
-			t(log(st$rc[index.notseed,n.runin:length(tvals)]+1)),ylab="Size (e.g. leaf length)", xlab="Time",...)
+
+	image(tvals[n.runin:length(tvals)],
+			st$IPM.here@meshpoints,
+			t(st$rc[,n.runin:length(tvals)]+1),
+			ylab="Size", xlab="Time")
 }
 
 
