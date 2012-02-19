@@ -396,8 +396,16 @@ makeFecObj <- function(dataf,
 		offspring.splitter <- offspring.splitter / sum(offspring.splitter) 
 	}
 	
-	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) dataf$covariate <- as.factor(dataf$covariate)
-	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) dataf$covariateNext <- as.factor(dataf$covariateNext)
+	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
+		dataf$covariate <- as.factor(dataf$covariate)
+		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
+		
+	}
+	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) { 
+		dataf$covariateNext <- as.factor(dataf$covariateNext)
+		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
+	}
+	#print(table(dataf$covariate))
 	
 	f1 <- new("fecObj")
 	dataf$size2 <- dataf$size^2
@@ -473,8 +481,16 @@ makeFecObjManyCov <- function(dataf,
 		
 	}
 	
-	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) dataf$covariate <- as.factor(dataf$covariate)
-	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) dataf$covariateNext <- as.factor(dataf$covariateNext)
+	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
+			dataf$covariate <- as.factor(dataf$covariate)
+			levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
+			
+		}
+	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) { 
+			dataf$covariateNext <- as.factor(dataf$covariateNext)
+			levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
+		}
+		#print(table(dataf$covariate))
 		
 	f1 <- new("fecObjMultiCov")
 	dataf$size2 <- dataf$size^2

@@ -77,7 +77,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 #without discrete stages
 dff<-generateData()
-Fmatrix <-create.compound.Fmatrix(nBigMatrix=20,minSize=min(dff$size,na.rm=TRUE),maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),fecObj=makeFecObj(dff, explanatoryVariables="size+size2+covariate"))
+Fmatrix <-create.compound.Fmatrix(nBigMatrix=20,minSize=min(dff$size,na.rm=TRUE),maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
+fecObj=makeFecObj(dff, explanatoryVariables="size+size2+covariate", Transform="log"))
 
 image(1:nrow(Fmatrix),1:ncol(Fmatrix),t(log(Fmatrix)), xlab="Size at t",ylab="Size at t+1",axes=FALSE)
 axis(1,at=1:nrow(Fmatrix),lab=round(rep(Fmatrix@meshpoints,Fmatrix@n.env.class),2))
@@ -90,17 +91,11 @@ dff<-generateDataDiscrete()
 dff$covariate <- sample(1:3,size=nrow(dff),replace=TRUE)
 dff$covariateNext <- sample(1:3,size=nrow(dff),replace=TRUE)
 fv1 <- makeFecObj(dff,
-explanatoryVariables="size",Transform="none",
+explanatoryVariables="size",Transform="log",
 offspring.splitter=data.frame(continuous=0.9,dormant=0.1))
 Fmatrix <-create.compound.Fmatrix(minSize=min(dff$size,na.rm=TRUE),
 maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
 fecObj=fv1)
-
-image(1:nrow(Fmatrix),1:ncol(Fmatrix),t(log(Fmatrix)), xlab="Size at t",ylab="Size at t+1",axes=FALSE)
-axis(1,at=1:nrow(Fmatrix),lab=round(rep(Fmatrix@meshpoints,Fmatrix@n.env.class),2))
-axis(2,at=1:nrow(Fmatrix),lab=round(rep(Fmatrix@meshpoints,Fmatrix@n.env.class),2))
-abline(h=length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
-abline(v=length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
 
 
 }
