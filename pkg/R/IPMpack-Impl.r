@@ -403,7 +403,7 @@ makeFecObj <- function(dataf,
 	dataf$size2 <- dataf$size^2
 	if (length(grep("logsize",as.character(explanatoryVariables)))>0) dataf$logsize <- log(dataf$size)
 	
-	if (is.na(fecNames)) <- fecNames <- names(dataf)[grep("fec",names(dataf))]
+	if (is.na(fecNames)) fecNames <- names(dataf)[grep("fec",names(dataf))]
 	if (length(fecNames)>length(explanatoryVariables)) {
 		misE <- (length(explanatoryVariables)+1):length(fecNames)
 		print(c("number in explanatoryVariables not the same as the number of fecundity columns in the data file, using default of `size' for missing ones which are:",fecNames[misE],". (which might be exactly what you want)"))
@@ -425,16 +425,7 @@ makeFecObj <- function(dataf,
 		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
 		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
 		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
-		fit <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
-		if (i==1) f1@fit.fec1 <- fit
-		if (i==2) f1@fit.fec2 <- fit
-		if (i==3) f1@fit.fec3 <- fit
-		if (i==4) f1@fit.fec4 <- fit
-		if (i==5) f1@fit.fec5 <- fit
-		if (i==6) f1@fit.fec6 <- fit
-		if (i==7) f1@fit.fec7 <- fit
-		if (i==8) f1@fit.fec8 <- fit
-		if (i==9) f1@fit.fec9 <- fit
+		f1@fit.fec[[i]] <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
 	}
 	
 	if (is.na(mean.offspring.size)) {
@@ -520,16 +511,7 @@ makeFecObjManyCov <- function(dataf,
 		#print(range(dataf[,"size"], na.rm=TRUE))
 		#print(range(dataf[,"covariate"]))
 		
-		fit <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
-		if (i==1) f1@fit.fec1 <- fit
-		if (i==2) f1@fit.fec2 <- fit
-		if (i==3) f1@fit.fec3 <- fit
-		if (i==4) f1@fit.fec4 <- fit
-		if (i==5) f1@fit.fec5 <- fit
-		if (i==6) f1@fit.fec6 <- fit
-		if (i==7) f1@fit.fec7 <- fit
-		if (i==8) f1@fit.fec8 <- fit
-		if (i==9) f1@fit.fec9 <- fit
+		f1@fit.fec[[i]] <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
 	}
 	
 	if (is.na(mean.offspring.size)) {
