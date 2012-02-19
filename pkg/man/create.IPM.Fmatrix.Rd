@@ -8,11 +8,13 @@
 Uses fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calfs) by reproductive stages due to sexual reproduction
 }
 \usage{
-create.IPM.Fmatrix(n.env.class = 1, n.big.matrix = 50,
-minSize = -1, maxSize = 50, chosen.cov = 1,  fecObj, integrate.type,correction)
+create.IPM.Fmatrix(fecObj, n.env.class = 1, n.big.matrix = 50, minSize = -1, maxSize = 50, chosen.cov = 1, integrate.type="midpoint", correction="none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+  \item{fecObj}{
+    fecundity object
+  }
   \item{n.env.class}{
     numeric, number of environmental classes, always = 1 for
     non-compound matrices
@@ -24,14 +26,11 @@ minSize = -1, maxSize = 50, chosen.cov = 1,  fecObj, integrate.type,correction)
     numeric, minimum size of the T matrix, defaults to -1
   }
   \item{maxSize}{
-    numeric, maximum size of the T matrix, defaults to -1
+    numeric, maximum size of the T matrix, defaults to 50
   }
   \item{chosen.cov}{
     numeric indicating level of the discrete covariate, or vector
     setting values where multiple covariates are modeled
-  }
-  \item{fecObj}{
-    fecundity object
   }
   \item{integrate.type}{
     integration type, defaults to "midpoint" (which uses prob. density
@@ -53,7 +52,7 @@ minSize = -1, maxSize = 50, chosen.cov = 1,  fecObj, integrate.type,correction)
 \references{
 For information on F matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112
 
-For midpoint: Zuidema, Jongejans, Chien, Duirng & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355
+For midpoint: Zuidema, Jongejans, Chien, During & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355
 
 For multiple-vital rate integration on fecundity: Yang, Jongejans, Yang & Bishop. 2011. The effect of consumers and mutualists of Vaccinum membranaceum at Mount St. Helens: dependence on successional context. PLoS One 10 p1-11
 
@@ -74,7 +73,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 dff<-generateData()
 fv1 <- makeFecObj(dff,explanatoryVariables="size",Transform="log")
-Fmatrix <-create.IPM.Fmatrix(n.big.matrix=20,minSize=min(dff$size, na.rm=TRUE),maxSize=max(dff$size, na.rm=TRUE),fecObj=fv1)
+Fmatrix <-create.IPM.Fmatrix(fecObj=fv1,n.big.matrix=20,minSize=min(dff$size, na.rm=TRUE),maxSize=max(dff$size, na.rm=TRUE))
 
 slotNames(Fmatrix)
 
