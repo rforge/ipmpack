@@ -60,7 +60,7 @@ Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured po
 
 Ellner & Rees. 2006. Integral projection models for species with complex demography. The American Naturalist 167 p410-428
 
-For effects of mesh size on IPM output: Zuidema, Jongejans, Chien, Duirng & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355
+For effects of mesh size on IPM output: Zuidema, Jongejans, Chien, During & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355
 
 }
 \author{
@@ -82,7 +82,7 @@ maxSize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj
 diagnosticsTmatrix(Tmatrix, growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff), dff=dff)
 
-#compare with...
+#compare with the following example where mesh size has an important effect on output:
 Tmatrix <-create.IPM.Tmatrix(n.big.matrix=8,minSize=min(dff$size,na.rm=TRUE),
 maxSize=0.5*max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
 diagnosticsTmatrix(Tmatrix, growObj=makeGrowthObj(dff),

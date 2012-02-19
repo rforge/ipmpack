@@ -16,7 +16,7 @@ sens(A)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{A}{
-    a matrix defining all transitions (growth, survival, fecundity) between sizes
+    a matrix defining all transitions (growth, survival, fecundity) between sizes/stages
 }
 }
 \details{
@@ -27,13 +27,19 @@ sens(A)
 }
 \references{
 Caswell, 2001, Matrix Population Models: construction, analysis,
-interpretation. Sinauer. %add page!
+interpretation. 2nd ed. Sinauer. p206-256
+
+de Kroon, Plaisier, van Groenendael & Caswell. 1986. Elasticity: the relative contribution of demographic parameters to population growth rate. Ecology 67 p1427-1431
+
+de Kroon, van Groenendael & Ehrlen. 2000. Elasticities: a review of methods and model limitations. Ecology 81 p607-618
+
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
-Modified following code developed by Mark Rees, Dylan Childs. 
+Modified following code developed by Mark Rees & Dylan Childs
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -54,11 +60,11 @@ IPM <- Tmatrix + Fmatrix
 
 elast <- elas(IPM)
 image(Tmatrix@meshpoints,Tmatrix@meshpoints,t(elast), 
-	main="elasticity", xlab="size", ylab="sizeNext")
+	main="Elasticity", xlab="size in t", ylab="size in t+1")
 
 senst <- sens(IPM)
 image(Tmatrix@meshpoints,Tmatrix@meshpoints,t(senst), 
-	main="sensitivity", xlab="size", ylab="sizeNext")
+	main="Sensitivity", xlab="size in t", ylab="size in t+1")
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
