@@ -50,9 +50,9 @@ makeGrowthObj <- function(dataf,
     if (length(grep("logsize",Formula))>0) dataf$logsize <- log(dataf$size)
 
     #setup for discrete covariates if data suggests may be implemented by the
-    #presence of "covariate" and "covariateNext"
+    #presence of "covariate" and "covariatenext"
     if (length(grep("covariate",Formula))>0 &
-        length(grep("covariateNext",colnames(dataf)))>0) {
+        length(grep("covariatenext",colnames(dataf)))>0) {
             dataf$covariate <- as.factor(dataf$covariate)
              #convert to 1:n for indexing later
             levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
@@ -264,9 +264,8 @@ makeGrowthObjHossfeld <- function(dataf) {
 makeGrowthObjIncrTrunc <- function(dataf) {
     require(censReg)
     dataf$size2 <- dataf$size^2
-	#dataf$size <- log(dataf$size)
-	if (length(dataf$incr)==0) dataf$incr <- dataf$sizeNext-dataf$size
-    fit <- censReg(incr~size+size2,data=dataf, left=0)
+    if (length(dataf$incr)==0) dataf$incr <- dataf$sizeNext-dataf$size
+    fit <- censReg(incr~logsize+logsize2,data=dataf, left=0)
     gr1 <- new("growthObj.truncincr")
     gr1@fit <- fit$estimate
     return(gr1)
@@ -307,9 +306,9 @@ makeSurvObj <- function(dataf,
     #print(formula)
     
     #setup for discrete covariates if data suggests may be implemented by the
-    #presence of "covariate" and "covariateNext"
+    #presence of "covariate" and "covariatenext"
     if (length(grep("covariate",formula))>0 &
-        length(grep("covariateNext",colnames(dataf)))>0) {
+        length(grep("covariatenext",colnames(dataf)))>0) {
         dataf$covariate <- as.factor(dataf$covariate)
         #convert to 1:n for indexing later
         levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
@@ -395,12 +394,12 @@ makeFecObj <- function(dataf,
 		offspring.splitter <- offspring.splitter / sum(offspring.splitter) 
 	}
 	
-	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]) dataf$covariate <- as.factor(dataf$covariate)
-	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]) dataf$covariateNext <- as.factor(dataf$covariateNext)
+	if ("covariate"%in%strsplit(explanatoryVariables,"[+-\\*]")[[1]]) dataf$covariate <- as.factor(dataf$covariate)
+	if ("covariatenext"%in%strsplit(explanatoryVariables,"[+-\\*]")[[1]]) dataf$covariatenext <- as.factor(dataf$covariatenext)
     
 	f1 <- new("fecObj")
     dataf$size2 <- dataf$size^2
-    if (length(grep("logsize",as.character(explanatoryVariables)))>0) dataf$logsize <- log(dataf$size)
+    if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
     
     fecnames <- names(dataf)[grep("fec",names(dataf))]
     if (length(fecnames)>length(explanatoryVariables)) {
@@ -482,7 +481,7 @@ makeFecObjManyCov <- function(dataf,
 	
 	if (length(grep("covariate",explanatoryVariables))>0) {
 		dataf$covariate <- as.factor(dataf$covariate)
-		dataf$covariateNext <- as.factor(dataf$covariateNext)
+		dataf$covariatenext <- as.factor(dataf$covariatenext)
 		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
 	}
 	
@@ -621,7 +620,7 @@ DeathDataAugment <- function (dataf, size.thresh, prop.dead) {
     new.size <- rnorm(n.new.dead,size.thresh,sd(dataf$size[dataf$size>size.thresh]))
 
     datanew <- data.frame(size =new.size, sizeNext=rep(NA,n.new.dead), surv=rep(0,n.new.dead), 
-                        covariate = rep(0,n.new.dead), covariateNext = rep(0,n.new.dead),
+                        covariate = rep(0,n.new.dead), covariatenext = rep(0,n.new.dead),
                           fec = rep(NA,n.new.dead), age = rep(NA,n.new.dead)) 
 
     dataf.new <- rbind(dataf,datanew)
@@ -802,7 +801,7 @@ makePostFecObjs <- function(dataf,
     
     if (length(grep("covariate",explanatoryVariables))>0) {
         dataf$covariate <- as.factor(dataf$covariate)
-        dataf$covariateNext <- as.factor(dataf$covariateNext)
+        dataf$covariatenext <- as.factor(dataf$covariatenext)
         levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
     }
     
@@ -888,14 +887,14 @@ makePostFecObjs <- function(dataf,
 # Parameters - growObjList - a list of growth objects
 #            - survObjList - a list of survival objects
 #            - n.big.matrix - the number of bins
-#            - minSize - the minimum size
-#            - maxSize - the maximum size
+#            - minsize - the minimum size
+#            - maxsize - the maximum size
 #            - cov - is a discrete covariate considered
 #            - env.mat - enviromental matrix for transition between
 # 
 # Returns    - a list of Tmatrices
 makeListTmatrix <- function(growObjList,survObjList,
-                            n.big.matrix,minSize,maxSize, cov=FALSE, env.mat=NULL) {
+                            n.big.matrix,minsize,maxsize, cov=FALSE, env.mat=NULL) {
 
     if (length(growObjList)>length(survObjList)) { 
         survObjList <- sample(survObjList,size=length(growObjList),replace=TRUE)
@@ -909,13 +908,13 @@ makeListTmatrix <- function(growObjList,survObjList,
     Tmatrixlist <- list()
     for ( k in 1:length(growObjList)) { 
         if (!cov) {
-            Tmatrixlist[[k]] <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minSize = minSize, 
-                                                   maxSize = maxSize, growObj = growObjList[[k]],
+            Tmatrixlist[[k]] <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minsize = minsize, 
+                                                   maxsize = maxsize, growObj = growObjList[[k]],
                                                    survObj = survObjList[[k]]) 
         } else {
             Tmatrixlist[[k]] <- create.compound.Tmatrix(n.env.class = length(env.mat[1,]),
-                                                        n.big.matrix = n.big.matrix, minSize = minSize, 
-                                                        maxSize = maxSize, envMatrix=env.mat,
+                                                        n.big.matrix = n.big.matrix, minsize = minsize, 
+                                                        maxsize = maxsize, envMatrix=env.mat,
                                                         growObj = growObjList[[k]],
                                                         survObj = survObjList[[k]])    
         }
@@ -927,7 +926,7 @@ makeListTmatrix <- function(growObjList,survObjList,
 # Function to take a list of growth and survival objects and make a list of Fmatrices
 
 makeListFmatrix <- function(growObjList,survObjList,fecObjList,
-                            n.big.matrix,minSize,maxSize, cov=FALSE, env.mat=NULL) {
+                            n.big.matrix,minsize,maxsize, cov=FALSE, env.mat=NULL) {
 
     nsamp <- max(length(growObjList),length(survObjList),length(fecObjList))
     if (length(survObjList)<nsamp)  
@@ -940,13 +939,13 @@ makeListFmatrix <- function(growObjList,survObjList,fecObjList,
     Fmatrixlist <- list()
     for ( k in 1:nsamp) {
         if (!cov) { 
-            Fmatrixlist[[k]] <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minSize = minSize, 
-                                                   maxSize = maxSize, 
+            Fmatrixlist[[k]] <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minsize = minsize, 
+                                                   maxsize = maxsize, 
                                                    fecObj=fecObjList[[k]])
         } else {
             Fmatrixlist[[k]] <- create.compound.Fmatrix(n.env.class = length(env.mat[1,]),
-                                                        n.big.matrix = n.big.matrix, minSize = minSize, 
-                                                        maxSize = maxSize, envMatrix=env.mat,
+                                                        n.big.matrix = n.big.matrix, minsize = minsize, 
+                                                        maxsize = maxsize, envMatrix=env.mat,
                                                         fecObj=fecObjList[[k]])
         }
 
