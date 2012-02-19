@@ -42,7 +42,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 x <- rnorm(100)
-plot(x,logit(x), type="l", xlab="x", ylab="transformed x")
+plot(sort(x),logit(sort(x)), type="l", xlab="x", ylab="Transformed x")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
