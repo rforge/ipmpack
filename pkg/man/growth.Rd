@@ -48,7 +48,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \seealso{
 \code{\link{surv}}, \code{\link{growSurv}}
 }
-\examples{s
+\examples{
 dff <- generateData()
 gr1 <- makeGrowthObj(dff)
 growth(1,1:5,1,gr1)
