@@ -638,7 +638,7 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 				ncol =1*nBigMatrix+ndisc,
 				meshpoints = y,
 				env.index = rep(1:n.env.class,each=nBigMatrix),
-				names.discrete=rownames(DiscreteTrans@discrete.trans))
+				names.discrete=rownames(DiscreteTrans@discrete.trans)[1:ndisc])
 		
 		rc[,] <-get.disc.matrix   
 	}
