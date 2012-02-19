@@ -15,7 +15,8 @@ also allows compound matrices to be produced following levels of a discrete cova
 \usage{
 getIPMoutputDirect(survObjList, growObjList, target.size = c(), 
 	nBigMatrix, minSize, maxSize, cov = FALSE, 
-	fecObjList = NULL, env.mat = NULL, n.size.to.age = 0, size.start = 10)
+	fecObjList = NULL, env.mat = NULL, n.size.to.age = 0, 
+	size.start = 10, integrate.type = "midpoint",correction = "none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -53,6 +54,15 @@ list of fecundity objects (facultative)
   \item{size.start}{
     starting size for size to age
 }
+  \item{integrate.type}{
+    integration type, defaults to "midpoint" (which uses prob. density
+    function); other option is "cumul" (which uses the cumul. density function)
+  }
+  \item{correction}{
+    correction type, defaults to "none"; option is "constant" which will
+    multiply every column of the IPM by a constant sufficient to adjust
+    values to those predicted for survival at that size. 
+  }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

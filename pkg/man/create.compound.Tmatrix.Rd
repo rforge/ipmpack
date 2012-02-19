@@ -12,7 +12,8 @@ Function to build compound T matrix
 }
 \usage{
 create.compound.Tmatrix(n.env.class = 2, nBigMatrix = 50,
-minSize = -1, maxSize = 50, envMatrix, growObj, survObj, integrate.type, correction)
+minSize = -1, maxSize = 50, envMatrix, growObj, survObj,
+DiscreteTrans = 1, integrate.type = "midpoint",correction = "none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

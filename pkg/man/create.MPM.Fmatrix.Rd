@@ -14,7 +14,7 @@ offspring.classes=2 means between bins[2] and bins[3], etc...) in proportions of
 which will be rescaled to sum to 1 if necessary  
 }
 \usage{
-create.MPM.Fmatrix(dataf,bins, offspring.classes=c(1),offspring.prop=1,n.env=1)
+create.MPM.Fmatrix(dataf,bins, offspring.classes=1,offspring.prop=1,n.env=1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
