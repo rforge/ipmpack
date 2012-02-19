@@ -628,6 +628,8 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 		
 		get.disc.matrix <- rbind(cbind(disc.to.disc,cont.to.disc),
 				cbind(disc.to.cont,cont.to.cont))
+		
+	
 		rc <- new("IPM.matrix",
 				n.discrete = ndisc,
 				n.env.class = 1, 
@@ -635,8 +637,9 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 				nrow = 1*nBigMatrix+ndisc,
 				ncol =1*nBigMatrix+ndisc,
 				meshpoints = y,
-				env.index = rep(1:n.env.class,each=nBigMatrix,
-						names.discrete=rownames(DiscreteTrans@discrete.trans)))
+				env.index = rep(1:n.env.class,each=nBigMatrix),
+				names.discrete=rownames(DiscreteTrans@discrete.trans))
+		
 		rc[,] <-get.disc.matrix   
 	}
 	
