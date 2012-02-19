@@ -30,8 +30,11 @@ Hossfeld(size, par)
 %% ...
 }
 \references{
-Zuidema et al. 2010. Integral Projection Models for trees: a new parametrization method and a validation of model output. 
-Journal of Ecology, 98, 345-355
+Zuidema, Jongejans, Chien, During & Schieving. 2010. Integral projection models for trees: a new parameterization method and a validation of model output. 
+Journal of Ecology 98 p345-355
+
+Rivas, Gonzalez, Gonzalez & von Gadow. 2004. Compatible height and site index models for five pine species in El Salto, Durango (Mexico). Forest Ecology and Management 201 p145-160
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
@@ -48,8 +51,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 Hossfeld(1:10,rep(1,3))
 
-plot(1:10,Hossfeld(1:10,rep(1,3)), type="l",
-ylab="predicted increment as a function of size")
+plot(1:10,Hossfeld(1:10,rep(1,3)), type="l",ylab="Predicted increment t to t+1",xlab="Size in t")
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
