@@ -10,7 +10,7 @@
   survival objects necessary to get Bayes posterior of IPM outputs
 }
 \usage{
-makePostSurvivalObjs(dataf, explanatoryVariables,
+makePostSurvivalObjs(dataf, explanatoryVariables="size+size2",
 meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
 }
 %- maybe also 'usage' for other objects documented here.

@@ -15,6 +15,7 @@ Objects can be created by calls of the form \code{new("growthObj.Hossfeld", ...)
 }
 \section{Slots}{
   \describe{
+    \item{\code{logLik}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{paras}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{sd}:}{Object of class \code{"numeric"} ~~ }
   }

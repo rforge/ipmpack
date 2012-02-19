@@ -721,7 +721,7 @@ makePostGrowthObjs <- function(dataf,
 # Returns - list including list of growth objects, + list of survival objects
 makePostSurvivalObjs <- function(dataf,
 		explanatoryVariables="size+size2",
-		meanB=rep(0,2),varB=rep(1e10), nitt=50000) {
+		meanB=rep(0,3),varB=rep(1e10), nitt=50000) {
 	
 	require(MCMCglmm)
 	#build appropriate size based covariates

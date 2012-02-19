@@ -48,7 +48,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-  \code{\link{makeSurvObjManyCov}}
+  \code{\link{makeSurvObjManyCov}}, \code{\link{picSurv}}
 }
 \examples{
 #generate data
@@ -57,7 +57,6 @@ dff<-generateData()
 sv1 <- makeSurvObj(dff, explanatoryVariables="size")
 #assess fit for model with discrete environmental classes fitted
 sv1 <- makeSurvObj(dff, explanatoryVariables="size+covariate")
-picSurv(dff,sv1,ncuts=30)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

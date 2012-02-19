@@ -23,13 +23,7 @@ makeSurvObjManyCov(dataf,explanatoryVariables="size+size2+covariate1")
       include `size', 'size2' (size^2), `size3'
       (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
       `covariate1' `covariate2', etc.}
-  
-   \item{explanatoryVariables}{a formula describing the desired
-    explanatory variables (interactions, etc) in classical R
-    style, i.e. separated by `+', `*', `:'. Possible covariates include `size', 'size2' (size^2), `size3'
-    (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
-    `covariate'.}
-  }
+   }
 
 \details{
 
