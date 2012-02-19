@@ -443,7 +443,7 @@ generateDataStoch <- function(){
 	
 	dataf <- data.frame(size=size,sizeNext=sizeNext,surv=surv,
 			covariate1=covariate1,covariate2=covariate2,covariate3=covariate3,
-			fec=fec, stage=stage,stageNext=stageNext)
+			fec=fec, stage=stage,stageNext=stageNext, number=rep(1,length(size)))
 	return(dataf)
 }
 
