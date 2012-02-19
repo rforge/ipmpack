@@ -130,9 +130,9 @@ hist(res$lambda,xlab=expression(lambda),ylab="", main="",col="grey")
 
 # same but for compound matrix #
 #TODO - check code
-res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
-nBigMatrix=20, minSize=-2, maxSize=15, cov = TRUE, fecObjList =fvlist[1:10],
-env.mat = makeEnvObj(dff), n.size.to.age = 5, size.start = -1)
+#res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
+#nBigMatrix=20, minSize=-2, maxSize=15, cov = TRUE, fecObjList =fvlist[1:10],
+#env.mat = makeEnvObj(dff), n.size.to.age = 5, size.start = -1)
 
 
 }
