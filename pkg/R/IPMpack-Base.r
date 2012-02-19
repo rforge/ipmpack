@@ -820,62 +820,41 @@ create.IPM.Fmatrix <- function(fecObj,
 	newd <- data.frame(size=y,size2=y^2,size3=y^3)
 	if (length(as.numeric(chosen.cov))==1) newd$covariate <- as.factor(rep(chosen.cov,length(y)))
 	#print(head(newd))
-	
-	if (length(grep("logsize",fecObj@fit.fec1$formula))>0 | 
-			length(grep("logsize",fecObj@fit.fec2$formula))>0 | 
-			length(grep("logsize",fecObj@fit.fec3$formula))>0 | 
-			length(grep("logsize",fecObj@fit.fec4$formula))>0 | 
-			length(grep("logsize",fecObj@fit.fec5$formula))>0 | 
-			length(grep("logsize",fecObj@fit.fec6$formula))>0 | 
-			length(grep("logsize",fecObj@fit.fec7$formula))>0 | 
-			length(grep("logsize",fecObj@fit.fec8$formula))>0 | 
-			length(grep("logsize",fecObj@fit.fec9$formula))>0) { 
-		newd$logsize <- log(y)
-	}
+	for (i in 1:length(fecObj@fit.fec)) if (length(grep("logsize",fecObj@fit.fec[[i]]$formula))>0) newd$logsize <- log(y)
 	
 	fecObj@fec.constants[is.na(fecObj@fec.constants)] <- 1
 	
-	fec.values <- matrix(c(rep(1,9),fecObj@fec.constants),ncol=n.big.matrix,nrow=(9+length(fecObj@fec.constants)))
+	fecValues <- matrix(c(rep(1,length(fecObj@fit.fec)),fecObj@fec.constants),ncol=n.big.matrix,nrow=length(fecObj@fit.fec)+length(fecObj@fec.constants))
 	
-	if (!is.null(fecObj@fit.fec1)) fec.values[1,]<-predict(fecObj@fit.fec1,newd,type="response")
-	if (!is.null(fecObj@fit.fec2)) fec.values[2,]<-predict(fecObj@fit.fec2,newd,type="response")
-	if (!is.null(fecObj@fit.fec3)) fec.values[3,]<-predict(fecObj@fit.fec3,newd,type="response")
-	if (!is.null(fecObj@fit.fec4)) fec.values[4,]<-predict(fecObj@fit.fec4,newd,type="response")
-	if (!is.null(fecObj@fit.fec5)) fec.values[5,]<-predict(fecObj@fit.fec5,newd,type="response")
-	if (!is.null(fecObj@fit.fec6)) fec.values[6,]<-predict(fecObj@fit.fec6,newd,type="response")
-	if (!is.null(fecObj@fit.fec7)) fec.values[7,]<-predict(fecObj@fit.fec7,newd,type="response")
-	if (!is.null(fecObj@fit.fec8)) fec.values[8,]<-predict(fecObj@fit.fec8,newd,type="response")
-	if (!is.null(fecObj@fit.fec9)) fec.values[9,]<-predict(fecObj@fit.fec9,newd,type="response")
+	for (i in 1:length(fecObj@fit.fec)) fecValues[i,]<-predict(fecObj@fit.fec[[i]],newd,type="response")
 	
 	#Transforms
-	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fec.values[i,]<-exp(fec.values[i,])
-	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fec.values[i,]<-(fec.values[i,])^2
-	if (length(grep("-1",fecObj@Transform))>0) for (i in grep("-1",fecObj@Transform)) fec.values[i,]<-fec.values[i,]+1
-	fec.values[!is.finite(fec.values)] <- exp(200)
-	prod.fec.values<-apply(fec.values,2,prod)
+	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fecValues[i,]<-exp(fecValues[i,])
+	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fecValues[i,]<-(fecValues[i,])^2
+	if (length(grep("-1",fecObj@Transform))>0) for (i in grep("-1",fecObj@Transform)) fecValues[i,]<-fecValues[i,]+1
+	fecValues[!is.finite(fecValues)] <- exp(200)
+	prodFecValues<-apply(fecValues,2,prod)
 	
 	#Kids normal dist
 	tmp<-dnorm(y,fecObj@mean.offspring.size,sqrt(fecObj@var.offspring.size))*h
 	if (correction=="constant") tmp<-tmp/sum(tmp)
-	to.cont<-tmp%*%t(as.numeric(fecObj@offspring.splitter["continuous"])*prod.fec.values)
+	to.cont<-tmp%*%t(as.numeric(fecObj@offspring.splitter["continuous"])*prodFecValues)
 	get.matrix <- to.cont
 	ndisc <- length(fecObj@offspring.splitter)-1
 	
-	nmes <- ""
-	names.discrete <- "NA"
+	namesDiscrete <- "NA"
 	if (ndisc>0) {
 		
-		to.discrete <- as.numeric(fecObj@offspring.splitter)[1:ndisc]%*%t(prod.fec.values)
+		to.discrete <- as.numeric(fecObj@offspring.splitter)[1:ndisc]%*%t(prodFecValues)
 		
 		from.discrete <- matrix(0,ncol=ndisc,nrow=ndisc+n.big.matrix)
 		if (length(fecObj@fec.by.discrete)>0)
 			from.discrete <- c(as.numeric(fecObj@offspring.splitter)[1:ndisc],
 					as.numeric(fecObj@offspring.splitter)[ndisc+1]*tmp)%*%t(fecObj@fec.by.discrete)
 		
-		
 		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
 		
-		names.discrete <- names(fecObj@offspring.splitter[1:ndisc])
+		namesDiscrete <- names(fecObj@offspring.splitter[1:ndisc])
 	}
 	
 	rc <- new("IPM.matrix",
@@ -886,7 +865,7 @@ create.IPM.Fmatrix <- function(fecObj,
 			ncol =1*n.big.matrix+ndisc,
 			meshpoints = y,
 			env.index = rep(1:n.env.class,each=n.big.matrix),
-			names.discrete=names.discrete)
+			names.discrete=namesDiscrete)
 	rc[,] <-get.matrix   
 	
 	return(rc)
