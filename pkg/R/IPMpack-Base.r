@@ -854,7 +854,7 @@ create.IPM.Fmatrix <- function(fecObj,
 		
 		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
 		
-		namesDiscrete <- names(fecObj@offspring.splitter[1:ndisc])
+		namesDiscrete <- colnames(fecObj@offspring.splitter[1:ndisc])
 	}
 	
 	rc <- new("IPM.matrix",
