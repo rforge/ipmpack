@@ -28,7 +28,7 @@ makeDiscreteTrans(dataf)
   \item{dataf}{a dataframe with columns "stage", "stageNext" (both
     character vectors containing either names of discrete stages or
   "continuous" or "dead"), "size",
-    "sizeNext", and "surv" (continuous and booean variables respectively)}
+    "sizeNext", and "surv" (continuous and boolean variables respectively)}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
