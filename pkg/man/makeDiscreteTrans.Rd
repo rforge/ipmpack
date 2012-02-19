@@ -4,7 +4,7 @@
 \title{Functions to build matrix for transitions between discrete stages
   and between discrete and continuous stages}
 \description{
-  Function that takes a dataframe reflecting a population that includes continuous and discrete
+  Function that takes a data.frame reflecting a population that includes continuous and discrete
   classes of individuals, and builds a transition matrix from this for movement
   between discrete and continuous stages (providing just a single value
   for the continuous stages; the detail of movement between continuous
