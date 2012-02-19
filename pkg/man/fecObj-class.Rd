@@ -17,15 +17,7 @@ Objects can be created by calls of the form \code{new("fecObj", ...)}.
    "fec.constants"      
 "offspring.splitter"  "mean.offspring.size" "var.offspring.size"  "fec.by.discrete"     "Transform"
     
-    \item{\code{fit.fec1}:}{Object of class \code{"glm"} ~~ }
-    \item{\code{fit.fec2}:}{Object of class \code{"glm"} ~~ }
-    \item{\code{fit.fec3}:}{Object of class \code{"glm"} ~~ }
-    \item{\code{fit.fec4}:}{Object of class \code{"glm"} ~~ }
-    \item{\code{fit.fec5}:}{Object of class \code{"glm"} ~~ }
-    \item{\code{fit.fec6}:}{Object of class \code{"glm"} ~~ }
-    \item{\code{fit.fec7}:}{Object of class \code{"glm"} ~~ }
-    \item{\code{fit.fec8}:}{Object of class \code{"glm"} ~~ }
-    \item{\code{fit.fec9}:}{Object of class \code{"glm"} ~~ }
+    \item{\code{fit.fec}:}{Object of class \code{"list"} ~~ }
     \item{\code{fec.constants}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{offspring.splitter}:}{Object of class \code{"data.frame"} ~~ }
     \item{\code{mean.offspring.size}:}{Object of class \code{"numeric"} ~~ }
