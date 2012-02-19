@@ -502,14 +502,14 @@ makeListIPMs <- function(dataf, n.big.matrix=10, minSize=-2,maxSize=10,
 #
 # Returns - a dataframe with the same headings
 convertIncrement <- function(dataf, nyrs=1) {
-	incr <- dataf$sizeNext-dataf$size
-	if (class(dataf$exactDatel)=="Date")  {
+	incr <- dataf$sizeNext - dataf$size
+	if (class(dataf$exactDatel) == "Date")  {
 		time.elapsed <- (difftime(dataf$exactDatel,dataf$exactDate)[[1]])/(365*nyrs)
 	} else {
 		time.elapsed <- (dataf$exactDatel-dataf$exactDate)/(365*nyrs)
 	}
 	incr.new <- incr/time.elapsed
-	dataf$sizeNext <- dataf$size+incr.new
+	dataf$sizeNext <- dataf$size + incr.new
 	dataf$incr <- dataf$incr.new
 	return(dataf)
 	
