@@ -10,7 +10,7 @@ Function to build T matrices
   and survival. Extensions for transition to discrete classes are possible
 }
 \usage{
-create.IPM.Tmatrix(n.env.class = 1, n.big.matrix = 50,
+create.IPM.Tmatrix(n.env.class = 1, nBigMatrix = 50,
 minSize = -1, maxSize = 50, chosen.cov = 1, growObj, survObj, DiscreteTrans, 
 integrate.type, correction)
 }
@@ -20,7 +20,7 @@ integrate.type, correction)
     numeric, number of environmental classes, always = 1 for
     non-compound matrices
   }
-  \item{n.big.matrix}{
+  \item{nBigMatrix}{
     numeric, number of size bins in the T matrix, defaults to 50
   }
   \item{minSize}{
@@ -53,7 +53,7 @@ integrate.type, correction)
   }
 }
 \details{
-  The number of bins (n.big.matrix) is combined with the minimum and
+  The number of bins (nBigMatrix) is combined with the minimum and
   maximum size to define the meshpoints of the IPM. Bins should be
   sufficient and the size range should encompass the size range of the
   data. If a "DiscreteTrans" exists, then discrete stages will be added
@@ -63,7 +63,7 @@ integrate.type, correction)
   vector of these covariates, and growth will reflect these values.  
 }
 \value{
-  an object of class IPM.matrix with dimensions n.big.matrix*n.big.matrix, or
+  an object of class IPM.matrix with dimensions nBigMatrix*nBigMatrix, or
   nbig.matrix+nrow(DiscreteTrans)
 }
 \references{

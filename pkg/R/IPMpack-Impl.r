@@ -604,7 +604,7 @@ DeathDataAugment <- function (dataf, size.thresh, prop.dead) {
 	
 	datanew <- data.frame(size =new.size, sizeNext=rep(NA,n.new.dead), surv=rep(0,n.new.dead), 
 			covariate = rep(0,n.new.dead), covariateNext = rep(0,n.new.dead),
-			fec = rep(NA,n.new.dead), age = rep(NA,n.new.dead)) 
+			fec = rep(NA,n.new.dead)) 
 	
 	dataf.new <- rbind(dataf,datanew)
 	

@@ -29,7 +29,7 @@ Survivorship(IPM.matrix, size1, maxage)
 \value{
  \item{surv.curv}{vector of length maxage providing survivorship at each
  age from 1 to maxage}
- \item{state.agesurv}{matrix of dimensions n.big.matrix*maxage providing
+ \item{state.agesurv}{matrix of dimensions nBigMatrix*maxage providing
    the population structure at every age for a cohort starting with an
    individual of size size1
  }

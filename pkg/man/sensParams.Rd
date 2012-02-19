@@ -10,7 +10,7 @@
   (compound T and F matrixes not possible yet)
 }
 \usage{
-sensParams(growObj, survObj, fecObj, n.big.matrix, minSize, maxSize, integrate.type, correction)
+sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, integrate.type, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,7 +23,7 @@ sensParams(growObj, survObj, fecObj, n.big.matrix, minSize, maxSize, integrate.t
   \item{fecObj}{
     a fecundity object
   }
-  \item{n.big.matrix}{
+  \item{nBigMatrix}{
     numeric, number of bins of size used in the T matrix
   }
   \item{minSize}{
@@ -70,7 +70,7 @@ Modified following code developed by Mark Rees, Karen Rose.
 \examples{
 dff <- generateData()
 res <- sensParams(growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff),
-fecObj=makeFecObj(dff), n.big.matrix=50, minSize=min(dff$size, na.rm=TRUE),
+fecObj=makeFecObj(dff), nBigMatrix=50, minSize=min(dff$size, na.rm=TRUE),
 maxSize=max(dff$size, na.rm=TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
@@ -85,7 +85,7 @@ fv1 <- makeFecObj(dff,
 explanatoryVariables=c("size+size2","size"), Family=c("gaussian","binomial"))
 
 res <- sensParams(growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff),
-fecObj=fv1, n.big.matrix=50, minSize=min(dff$size, na.rm=TRUE),
+fecObj=fv1, nBigMatrix=50, minSize=min(dff$size, na.rm=TRUE),
 maxSize=max(dff$size, na.rm=TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
@@ -98,7 +98,7 @@ barplot(res$elam, main = expression("Parameter elasticity of " *
 #same but with two fecundity functions and a constant
 fv1@fec.constants[1] <- 0.5
 res <- sensParams(growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff),
-fecObj=fv1, n.big.matrix=50, minSize=min(dff$size, na.rm=TRUE),
+fecObj=fv1, nBigMatrix=50, minSize=min(dff$size, na.rm=TRUE),
 maxSize=max(dff$size, na.rm=TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 

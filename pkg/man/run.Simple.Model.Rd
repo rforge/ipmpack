@@ -11,7 +11,7 @@ number of bins, and creates a Tmatrix and plots passage time and life expectancy
 }
 \usage{
 run.Simple.Model(dataf, chosen.size, minSize = c(), maxSize = c(), 
-n.big.matrix = 500, do.plot = TRUE, is.log = TRUE,  
+nBigMatrix = 500, do.plot = TRUE, is.log = TRUE,  
 integrate.type = "midpoint", correction="none")
 }
 %- maybe also 'usage' for other objects documented here.
@@ -33,7 +33,7 @@ integrate.type = "midpoint", correction="none")
     minimum size for the IPM, defaults to a vector of length zero, in which case, 
     it is estimated as 1.5*max(dataf$size,na.rm=TRUE) 
 }
-  \item{n.big.matrix}{
+  \item{nBigMatrix}{
 number of bins used in the IPM
 }
   \item{do.plot}{

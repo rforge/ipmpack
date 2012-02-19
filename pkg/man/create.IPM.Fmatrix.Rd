@@ -8,7 +8,7 @@
 Uses fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calfs) by reproductive stages due to sexual reproduction
 }
 \usage{
-create.IPM.Fmatrix(fecObj, n.env.class = 1, n.big.matrix = 50, minSize = -1, maxSize = 50, chosen.cov = 1, integrate.type="midpoint", correction="none")
+create.IPM.Fmatrix(fecObj, n.env.class = 1, nBigMatrix = 50, minSize = -1, maxSize = 50, chosen.cov = 1, integrate.type="midpoint", correction="none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,7 +19,7 @@ create.IPM.Fmatrix(fecObj, n.env.class = 1, n.big.matrix = 50, minSize = -1, max
     numeric, number of environmental classes, always = 1 for
     non-compound matrices
   }
-  \item{n.big.matrix}{
+  \item{nBigMatrix}{
     numeric, number of size bins in the T matrix, defaults to 50
   }
   \item{minSize}{
@@ -47,7 +47,7 @@ create.IPM.Fmatrix(fecObj, n.env.class = 1, n.big.matrix = 50, minSize = -1, max
 %%
 }
 \value{
-  an object of class IPM.matrix of dimensions n.big.matrix or n.big.matrix+ndiscrete classes (defined by fecObj@offspring.splitter-1)
+  an object of class IPM.matrix of dimensions nBigMatrix or nBigMatrix+ndiscrete classes (defined by fecObj@offspring.splitter-1)
 }
 \references{
 For information on F matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112
@@ -73,7 +73,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 dff<-generateData()
 fv1 <- makeFecObj(dff,explanatoryVariables="size",Transform="log")
-Fmatrix <-create.IPM.Fmatrix(fecObj=fv1,n.big.matrix=20,minSize=min(dff$size, na.rm=TRUE),maxSize=max(dff$size, na.rm=TRUE))
+Fmatrix <-create.IPM.Fmatrix(fecObj=fv1,nBigMatrix=20,minSize=min(dff$size, na.rm=TRUE),maxSize=max(dff$size, na.rm=TRUE))
 
 slotNames(Fmatrix)
 

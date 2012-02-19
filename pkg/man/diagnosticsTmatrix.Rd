@@ -83,7 +83,7 @@ diagnosticsTmatrix(Tmatrix, growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff), dff=dff)
 
 #compare with the following example where mesh size has an important effect on output:
-Tmatrix <-create.IPM.Tmatrix(n.big.matrix=8,minSize=min(dff$size,na.rm=TRUE),
+Tmatrix <-create.IPM.Tmatrix(nBigMatrix=8,minSize=min(dff$size,na.rm=TRUE),
 maxSize=0.5*max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
 diagnosticsTmatrix(Tmatrix, growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff), dff=dff)

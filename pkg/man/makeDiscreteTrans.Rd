@@ -55,7 +55,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff <- generateDataDiscrete()
 discTrans <- makeDiscreteTrans(dff)
-create.IPM.Tmatrix(n.big.matrix = 10,growObj=makeGrowthObj(dff),survObj=makeSurvObj(dff),DiscreteTrans=discTrans)
+create.IPM.Tmatrix(nBigMatrix = 10,growObj=makeGrowthObj(dff),survObj=makeSurvObj(dff),DiscreteTrans=discTrans)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

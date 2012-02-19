@@ -11,7 +11,7 @@ Function to build compound F matrix
   given both size and environmental state and discrete stages (e.g. seedbank). 
 }
 \usage{
-create.compound.Fmatrix(n.env.class = 2, n.big.matrix = 50,
+create.compound.Fmatrix(n.env.class = 2, nBigMatrix = 50,
 minSize = -1, maxSize = 50, envMatrix, fecObj, integrate.type, correction)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -19,7 +19,7 @@ minSize = -1, maxSize = 50, envMatrix, fecObj, integrate.type, correction)
   \item{n.env.class}{
     numeric, number of environmental classes, defaults to 2
   }
-  \item{n.big.matrix}{
+  \item{nBigMatrix}{
     numeric, number of size bins in the T matrix, defaults to 50
   }
   \item{minSize}{
@@ -50,8 +50,8 @@ minSize = -1, maxSize = 50, envMatrix, fecObj, integrate.type, correction)
 }
 \value{
   an object of class IPM.matrix with dimensions
-  n.big.matrix*n.env.class, or if discrete transitions exist
-  (n.big.matrix+n.disc)*n.env.class
+  nBigMatrix*n.env.class, or if discrete transitions exist
+  (nBigMatrix+n.disc)*n.env.class
 
 }
 \references{
@@ -77,7 +77,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 #without discrete stages
 dff<-generateData()
-Fmatrix <-create.compound.Fmatrix(n.big.matrix=20,minSize=min(dff$size,na.rm=TRUE),maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),fecObj=makeFecObj(dff, explanatoryVariables="size+size2+covariate"))
+Fmatrix <-create.compound.Fmatrix(nBigMatrix=20,minSize=min(dff$size,na.rm=TRUE),maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),fecObj=makeFecObj(dff, explanatoryVariables="size+size2+covariate"))
 
 image(1:nrow(Fmatrix),1:ncol(Fmatrix),t(log(Fmatrix)), xlab="Size at t",ylab="Size at t+1",axes=FALSE)
 axis(1,at=1:nrow(Fmatrix),lab=round(rep(Fmatrix@meshpoints,Fmatrix@n.env.class),2))

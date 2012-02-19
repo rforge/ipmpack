@@ -22,7 +22,7 @@ Objects can be created by calls of the form \code{new("IPM.matrix", data, nrow, 
   \describe{
     \item{\code{.Data}:}{Object of class \code{"matrix"} ~~ }
     \item{\code{n.env.class}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{n.big.matrix}:}{Object of class \code{"numeric"} ~~ }
+    \item{\code{nBigMatrix}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{meshpoints}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{env.index}:}{Object of class \code{"numeric"} ~~ }
   }

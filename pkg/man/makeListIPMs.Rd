@@ -9,7 +9,7 @@ Wrapper function to build the IPM corresponding to every level of the
 discrete covariate, and return a list of these. 
 }
 \usage{
-makeListIPMs(dataf, n.big.matrix = 10, minSize = -2, maxSize = 10,
+makeListIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,
 	integrate.type="midpoint", correction="none",
 	explSurv="size+size2+covariate",explGrow="size+size2+covariate", 
 	regType="constantVar",responseType="sizeNext",explFec="size",fec.constants=1)
@@ -22,7 +22,7 @@ makeListIPMs(dataf, n.big.matrix = 10, minSize = -2, maxSize = 10,
     and 'age' indicating which individuals
     are seedlings for identifying the mean and variance in seedling
       size. }
- \item{n.big.matrix}{
+ \item{nBigMatrix}{
 	number of bins in size
 	}
   \item{minSize}{

@@ -11,7 +11,7 @@
 }
 \usage{
 TrackPopStructManyCov(covariate, n.runin, Tmax, growthObj, survObj, fecObj, 
-n.big.matrix, minSize, maxSize, n.microsites, integrate.type, correction)
+nBigMatrix, minSize, maxSize, n.microsites, integrate.type, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -34,7 +34,7 @@ n.big.matrix, minSize, maxSize, n.microsites, integrate.type, correction)
   \item{fecObj}{
     a fecundity object, defined to correspond to covariate definition in covariate
 }
-  \item{n.big.matrix}{
+  \item{nBigMatrix}{
     numeric, number of size bins in the IPM
 }
   \item{minSize}{
@@ -104,7 +104,7 @@ covmattest <- data.frame(covariate1=rnorm(length(covtest),covtest,0.5)-1,
 
 st<-TrackPopStructManyCov(covariate=covmattest,n.runin=2*10,Tmax=length(tvals),
                    growthObj=gr1,survObj=sv1,fecObj=fv1,
-                   n.big.matrix=100,minSize=2*min(dff$size,na.rm=TRUE),
+                   nBigMatrix=100,minSize=2*min(dff$size,na.rm=TRUE),
                    maxSize=1.5*max(dff$size, na.rm = TRUE),n.microsites=10)
 
 

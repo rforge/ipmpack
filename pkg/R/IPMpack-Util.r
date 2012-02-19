@@ -365,6 +365,7 @@ generateData <- function(){
 	surv[!is.na(size)] <- rbinom(sum(!is.na(size)),1,logit(-1+0.2*size[!is.na(size)]))
 	fec[!is.na(size)] <- rnorm(sum(!is.na(size)),exp(-7+0.9*size[!is.na(size)]),1)
 	fec[size<quantile(size,0.20,na.rm=TRUE) | fec<0] <- 0
+	fec <- fec*10
 	
 	stage <- stageNext <- rep("continuous",1000)
 	stage[is.na(size)] <- NA

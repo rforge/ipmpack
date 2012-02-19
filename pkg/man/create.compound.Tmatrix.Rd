@@ -11,7 +11,7 @@ Function to build compound T matrix
   given both size and environmental state and discrete stages. 
 }
 \usage{
-create.compound.Tmatrix(n.env.class = 2, n.big.matrix = 50,
+create.compound.Tmatrix(n.env.class = 2, nBigMatrix = 50,
 minSize = -1, maxSize = 50, envMatrix, growObj, survObj, integrate.type, correction)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -19,7 +19,7 @@ minSize = -1, maxSize = 50, envMatrix, growObj, survObj, integrate.type, correct
   \item{n.env.class}{
     numeric, number of environmental classes, defaults to 2
   }
-  \item{n.big.matrix}{
+  \item{nBigMatrix}{
     numeric, number of size bins in the T matrix, defaults to 50
   }
   \item{minSize}{
@@ -57,8 +57,8 @@ between ages is reflected by a similar matrix
 }
 \value{
   an object of class IPM.matrix with dimensions
-  n.big.matrix*n.env.class, or if discrete transitions exist
-  (n.big.matrix+n.disc)*n.env.class
+  nBigMatrix*n.env.class, or if discrete transitions exist
+  (nBigMatrix+n.disc)*n.env.class
 }
 \references{
 
