@@ -58,6 +58,8 @@ maxSize=max(dff$size,na.rm=TRUE),fecObj=makeFecObj(dff))
 
 IPM <- Tmatrix + Fmatrix
 
+par(mfrow=c(1,2))
+
 elast <- elas(IPM)
 image(Tmatrix@meshpoints,Tmatrix@meshpoints,t(elast), 
 	main="Elasticity", xlab="size in t", ylab="size in t+1")

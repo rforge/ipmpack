@@ -5,14 +5,14 @@
   Function to generate random data in the form used by IPMpack
 }
 \description{
-  Simulates growth, survival and fecundity to create a data-frame of the form required by the functions and methods used in IPMpack. Note that the data created includes only one continuous covariate structuring the population; user can include additional covariates if necessary.
+  Simulates growth, survival and fecundity to create a data-frame of the form required by the functions and methods used in IPMpack. Demographic stage data is only continuous. 
 }
 \usage{
 generateData()
 }
 %- maybe also 'usage' for other objects documented here.
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Note that the random data created includes only one discrete covariate structuring the population (e.g., habitat type [shaded, open], age [0, 1, 2, 3 years old...], time since fire [0, 1, 2, 3 years...], etc); user can include into the data frame additional discrete covariates if necessary. To include continuous covariates (e.g., precipitation, temperature, light incidence, hurricane recurrence interval, etc) in randomized data, refer to generateDataStoch(). For randomized datasets with complex life cycles that include discrete stages (e.g., seedbank), refer to generateDataDiscrete()
 }
 \value{
   A dataframe with headings size (continuous variable, indicating current size),
@@ -39,6 +39,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff<-generateData()
 head(dff)
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
