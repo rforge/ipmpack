@@ -626,7 +626,8 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 			cont.to.disc[j,] <- DiscreteTrans@distrib.to.discrete[j,]*surv(y,chosen.cov,survObj)*surv.to.discrete
 		}
 		
-		get.disc.matrix <- rbind(cbind(disc.to.disc,cont.to.disc),cbind(disc.to.cont,cont.to.cont))
+		get.disc.matrix <- rbind(cbind(disc.to.disc,cont.to.disc),
+				cbind(disc.to.cont,cont.to.cont))
 		rc <- new("IPM.matrix",
 				n.discrete = ndisc,
 				n.env.class = 1, 

@@ -555,16 +555,16 @@ makeDiscreteTrans <- function(dataf) {
 	
 	#loop over discrete stages and fill 
 	for (j in stages[1:(length(stages)-1)]) {
-		for (i in stages) discrete.trans[i,j] <- sum(dataf[dataf$stage==j & dataf$stageNext==i,]$number,na.rm=T)
-		discrete.surv[,j] <- sum(discrete.trans[,j],na.rm=T)/sum(dataf[dataf$stage==j,]$number,na.rm=T)
-		discrete.trans[,j] <- discrete.trans[,j]/sum(discrete.trans[,j],na.rm=T)
-		mean.to.cont[,j] <- mean(dataf[dataf$stage==j&dataf$stageNext==i,]$sizeNext,na.rm=T)
-		sd.to.cont[,j] <- sd(dataf[dataf$stage==j&dataf$stageNext==i,]$sizeNext,na.rm=T)
+		for (i in stages) discrete.trans[i,j] <- sum(dataf[dataf$stage==j & dataf$stageNext==i,]$number,na.rm=TRUE)
+		discrete.surv[,j] <- sum(discrete.trans[,j],na.rm=T)/sum(dataf[dataf$stage==j,]$number,na.rm=TRUE)
+		discrete.trans[,j] <- discrete.trans[,j]/sum(discrete.trans[,j],na.rm=TRUE)
+		mean.to.cont[,j] <- mean(dataf[dataf$stage==j&dataf$stageNext==i,]$sizeNext,na.rm=TRUE)
+		sd.to.cont[,j] <- sd(dataf[dataf$stage==j&dataf$stageNext==i,]$sizeNext,na.rm=TRUE)
 	}
 	
 	for (i in stages[1:(length(stages)-1)])
-		distrib.to.discrete[i,] <- sum(dataf[dataf$stage=="continuous"&dataf$stageNext==i,]$number,na.rm=T)
-	distrib.to.discrete <- distrib.to.discrete/sum(distrib.to.discrete,na.rm=T)
+		distrib.to.discrete[i,] <- sum(dataf[dataf$stage=="continuous"&dataf$stageNext==i,]$number,na.rm=TRUE)
+	distrib.to.discrete <- distrib.to.discrete/sum(distrib.to.discrete,na.rm=TRUE)
 	
 	
 	subdata <- subset(dataf,dataf$stage=="continuous"&dataf$surv==1)
@@ -572,8 +572,9 @@ makeDiscreteTrans <- function(dataf) {
 	subdata$cont.to.discrete[subdata$stageNext=="continuous"] <- 0
 	subdata$size2 <- subdata$size^2
 	surv.to.discrete <- glm(cont.to.discrete~size+size2,family=binomial,data=subdata)
-	
-	
+			
+	rownames(discrete.trans) <- stages	
+	colnames(discrete.trans) <- stages	
 	
 	#define new object
 	disTrans <- new("DiscreteTrans")
