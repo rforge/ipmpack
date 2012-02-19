@@ -3,7 +3,7 @@
 \alias{IPMpack}
 \docType{package}
 \title{
-Construction of Integral Projection Models and associated measures of population
+Construction of integral projection models and associated measures of population
 growth, structure, dynamics, etc. 
 }
 \description{
@@ -24,9 +24,10 @@ Depends: \tab methods\cr
 %~~ functions ~~
 }
 \author{
-Metcalf, C.J.E.; McMahon, S.M.
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
-Maintainer: Who to complain to <yourfault@somewhere.net>
+Maintainer: ipmpack@gmail.com
+User mailing list: Go to r-forge and copy paste link from list ipmpack-users link
 %~~ The author and/or maintainer of the package ~~
 }
 \references{
