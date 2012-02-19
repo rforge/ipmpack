@@ -844,16 +844,10 @@ makePostFecObjs <- function(dataf,
 		
 		for (i in 1:length(fecNames)) { 
 			dummy.fit[[i]]$coefficients <- fit[[i]]$Sol[k,]
+			##TODO check over-ride
 			dummy.fit[[i]]$residuals <- rnorm(length(dummy.fit[[i]]$residuals),0,sqrt(fit[[i]]$VCV[k,1]))
-			if (i==1) fv[[k]]@fit.fec1 <- dummy.fit[[i]]
-			if (i==2) fv[[k]]@fit.fec2 <- dummy.fit[[i]]
-			if (i==3) fv[[k]]@fit.fec3 <- dummy.fit[[i]]
-			if (i==4) fv[[k]]@fit.fec4 <- dummy.fit[[i]]
-			if (i==5) fv[[k]]@fit.fec5 <- dummy.fit[[i]]
-			if (i==6) fv[[k]]@fit.fec6 <- dummy.fit[[i]]
-			if (i==7) fv[[k]]@fit.fec7 <- dummy.fit[[i]]
-			if (i==8) fv[[k]]@fit.fec8 <- dummy.fit[[i]]
-			if (i==9) fv[[k]]@fit.fec9 <- dummy.fit[[i]]
+			fv[[k]]@fit.fec[[i]] <- dummy.fit[[i]]
+					
 		}
 		
 		fv[[k]]@fec.constants <- fec.constants
