@@ -113,17 +113,17 @@ names(res)
 
 ## plot out with different colours for different rows
 par(mfrow=c(2,2),bty="l",pty="s")
-plot(Tlist[[1]]@meshpoints,res$LE[1,],xlab="Size", ylab="Life expectancy", type="l", 
+plot(res$meshpoints,res$LE[1,],xlab="Size", ylab="Life expectancy", type="l", 
 	ylim=range(res$LE,na.rm=TRUE))
-for (j in 1:nrow(res$LE)) points(Tlist[[1]]@meshpoints,res$LE[j,],col=j, type="l")
+for (j in 1:nrow(res$LE)) points(res$meshpoints,res$LE[j,],col=j, type="l")
 
-plot(Tlist[[1]]@meshpoints,res$ptime[1,],xlab="Size", ylab="Passage Time", type="l", 
+plot(res$meshpoints,res$ptime[1,],xlab="Size", ylab="Passage Time", type="l", 
 	ylim=range(res$ptime,na.rm=TRUE))
-for (j in 1:nrow(res$ptime)) points(Tlist[[1]]@meshpoints,res$ptime[j,],col=j, type="l")
+for (j in 1:nrow(res$ptime)) points(res$meshpoints,res$ptime[j,],col=j, type="l")
 
-plot(Tlist[[1]]@meshpoints,res$stable.size[1,],xlab="Size", ylab="Stable size dist", type="l", 
-	ylim=range(res$stable.size,na.rm=TRUE))
-for (j in 1:nrow(res$stable.size)) points(Tlist[[1]]@meshpoints,res$stable.size[j,],col=j, type="l")
+plot(res$meshpoints,Re(res$stable.size[1,]),xlab="Size", ylab="Stable size dist", type="l", 
+	ylim=range(Re(res$stable.size),na.rm=TRUE))
+for (j in 1:nrow(res$stable.size)) points(res$meshpoints,Re(res$stable.size[j,]),col=j, type="l")
 
 hist(res$lambda,xlab=expression(lambda),ylab="", main="",col="grey")
 
