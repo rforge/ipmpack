@@ -60,7 +60,12 @@ Fmatrix <-create.IPM.Fmatrix(minSize=min(dff$size,na.rm=TRUE),
 maxSize=max(dff$size,na.rm=TRUE),fecObj=makeFecObj(dff))
 
 largeMatrixCalc(Tmatrix,Fmatrix)
+
+plot(largeMatrixCalc(Tmatrix,Fmatrix)$stableDist,ylab="Frequency",xlab="Size",type="l",col="blue",lty=1,ylim=c(0:1))
 #ROB WILL CHANGE THE APPROPRIATE SECTION IN BASE SO REPRODUCTIVE OUTPUT IS ALSO ATTAINABLE, AND THEN IMPLEMENT A FEW GRAPHS IN THE EXAMPLE SECTION HERE
+#Add line for reproductive effort with dash line and red color
+#points(largeMatrixCalc(Tmatrix,Fmatrix)$reprodValue-0.1,type="l",col="red",lty=2)
+legend(1, 0.9,c("Stable distribution","Reproductive value"),col=c("blue","red"),lty=c(1,2),merge=TRUE)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
