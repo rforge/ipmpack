@@ -547,7 +547,7 @@ makeDiscreteTrans <- function(dataf) {
 	#define the number of classes
 	nclasses <- length(stages)
 	#define matrices to hold the transition between all classes
-	discrete.trans <- matrix(NA,nrow=nclasses,ncol=nclasses, dimnames=list(stages,stages))
+	discrete.trans <- matrix(0,nrow=nclasses,ncol=nclasses, dimnames=list(stages,stages))
 	#define matrix to hold sd and mean of re-entry into continous + matrix of  survival for all discrete stages
 	sd.to.cont <- mean.to.cont <- discrete.surv <- matrix(NA,nrow=1,ncol=nclasses-1,dimnames=list(1,stages[1:length(stages)-1]))
 	# define matrix to hold transitions from the continuous to the discrete
@@ -572,6 +572,8 @@ makeDiscreteTrans <- function(dataf) {
 	subdata$cont.to.discrete[subdata$stageNext=="continuous"] <- 0
 	subdata$size2 <- subdata$size^2
 	surv.to.discrete <- glm(cont.to.discrete~size+size2,family=binomial,data=subdata)
+	
+	
 	
 	#define new object
 	disTrans <- new("DiscreteTrans")
