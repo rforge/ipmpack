@@ -47,7 +47,7 @@ getIPMoutput <- function(Tmatrixlist,target.size=c(),Fmatrixlist=NULL){
 # Parameters - survObjlist - list of survival objects
 #            - growObjList - list of growth objects
 #            - target.size - the size you want passage time estimated for.
-#            - n.big.matrix - the number of bins
+#            - nBigMatrix - the number of bins
 #            - minSize - the minimum size
 #            - maxSize - the maximum size
 #            - cov - do you want to fit a discrete covariate
@@ -59,7 +59,7 @@ getIPMoutput <- function(Tmatrixlist,target.size=c(),Fmatrixlist=NULL){
 # Returns - a list 
 
 getIPMoutputDirect <- function(survObjList,growObjList,target.size=c(),
-		n.big.matrix,minSize,maxSize,
+		nBigMatrix,minSize,maxSize,
 		cov=FALSE,fecObjList=NULL, env.mat=NULL,
 		n.size.to.age=0, size.start=10,
 		integrate.type="midpoint", correction="none"){
@@ -85,11 +85,11 @@ getIPMoutputDirect <- function(survObjList,growObjList,target.size=c(),
 	}
 	
 	#set up storage
-	LE <- ptime <- matrix(NA,nsamp,n.big.matrix)
+	LE <- ptime <- matrix(NA,nsamp,nBigMatrix)
 	if (class(fecObjList)=="NULL") {
 		lambda <- stable.size <- c()
 	} else {
-		stable.size <- matrix(NA,nsamp,n.big.matrix)
+		stable.size <- matrix(NA,nsamp,nBigMatrix)
 		lambda <- rep(NA,nsamp)
 	}
 	if (n.size.to.age==0) { resAge <- resSize <- c() } else { resAge <- resSize <- matrix(NA,nsamp,n.size.to.age)} 
@@ -99,13 +99,13 @@ getIPMoutputDirect <- function(survObjList,growObjList,target.size=c(),
 	for (k in 1:nsamp) {
 		
 		if (!cov) {
-			Tmatrix <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minSize = minSize, 
+			Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, growObj = growObjList[[k]],
 					survObj = survObjList[[k]],
 					integrate.type=integrate.type, correction=correction) 
 		} else {
 			Tmatrix <- create.compound.Tmatrix(n.env.class = length(env.mat[1,]),
-					n.big.matrix = n.big.matrix, minSize = minSize, 
+					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=env.mat,growObj = growObjList[[k]],
 					survObj = survObjList[[k]],
 					integrate.type=integrate.type, correction=correction)    
@@ -118,13 +118,13 @@ getIPMoutputDirect <- function(survObjList,growObjList,target.size=c(),
 		
 		if (class(fecObjList)!="NULL") {
 			if (!cov) { 
-				Fmatrix <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minSize = minSize, 
+				Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 						maxSize = maxSize, 
 						fecObj=fecObjList[[k]],
 						integrate.type=integrate.type)
 			} else {
 				Fmatrix <- create.compound.Fmatrix(n.env.class = length(env.mat[1,]),
-						n.big.matrix = n.big.matrix, minSize = minSize, 
+						nBigMatrix = nBigMatrix, minSize = minSize, 
 						maxSize = maxSize, envMatrix=env.mat,
 						fecObj=fecObjList[[k]],integrate.type=integrate.type)
 			}
@@ -451,7 +451,7 @@ generateDataStoch <- function(){
 ## FUNCTION FOR MAKING A LIST OF IPMS ############################################
 # to do for stoch env with a single discrete covariate. ##########################
 
-makeListIPMs <- function(dataf, n.big.matrix=10, minSize=-2,maxSize=10, 
+makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10, 
 		integrate.type="midpoint", correction="none",
 		explSurv="size+size2+covariate",explGrow="size+size2+covariate", 
 		regType="constantVar",responseType="sizeNext",explFec="size",fec.constants=1) {
@@ -476,10 +476,10 @@ makeListIPMs <- function(dataf, n.big.matrix=10, minSize=-2,maxSize=10,
 	IPM.list <- list()
 	for (k in 1:length(covs)) { 
 		
-		tpF <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minSize = minSize,
+		tpF <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosen.cov = k,
 				fecObj = fv1,integrate.type=integrate.type, correction=correction)
-		tpS <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minSize = minSize,
+		tpS <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosen.cov = k,growObj = gr1, survObj = sv1,
 				integrate.type=integrate.type, correction=correction)
 		IPM.list[[k]] <- tpF+tpS
@@ -522,7 +522,7 @@ convertIncrement <- function(dataf, nyrs=1) {
 #            - chosen.size - size for which passage time desired
 #            - minSize - lower limit for IPM - defaults to fraction of smallest observed 
 #            - maxSize - upper limit for IPM - default to produce of largest observed
-#            - n.big.matrix - numerical resolution of IPM - defaults to 500
+#            - nBigMatrix - numerical resolution of IPM - defaults to 500
 #            - do.log - is data on a log scale? (for plotting) - default is TRUE
 #            - do.plot - figures desired? - default is TRUE
 #
@@ -536,7 +536,7 @@ run.Simple.Model <- function(dataf,
 		chosen.size,
 		minSize=c(),
 		maxSize=c(),
-		n.big.matrix=500,
+		nBigMatrix=500,
 		do.plot=TRUE,
 		is.log=TRUE,
 		integrate.type="midpoint", correction="none") {
@@ -576,8 +576,8 @@ run.Simple.Model <- function(dataf,
 		p2 <- picSurv(dataf,sv1,ncuts=50)
 	}
 	
-	# Make IPM Tmatrix with these objects, and chosen size range, and resolution (n.big.matrix)
-	tmp <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minSize = minSize, maxSize = maxSize,
+	# Make IPM Tmatrix with these objects, and chosen size range, and resolution (nBigMatrix)
+	tmp <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize, maxSize = maxSize,
 			growObj = gr1, survObj = sv1,integrate.type=integrate.type, correction=correction)
 	
 	# Get the mean life expect from every size value in IPM
@@ -659,8 +659,8 @@ coerceMatrixIPM <- function(amat) {
 	
 	newmat <- as(amat,"IPM.matrix")
 	newmat@n.env.class <- 1
-	newmat@n.big.matrix <- length(newmat[1,])
-	newmat@meshpoints <- 1:newmat@n.big.matrix
+	newmat@nBigMatrix <- length(newmat[1,])
+	newmat@meshpoints <- 1:newmat@nBigMatrix
 	newmat@env.index <- 1
 	
 	return(newmat)
@@ -691,7 +691,7 @@ create.MPM.Tmatrix <- function(dataf, bins, n.env=1) {
 	
 	rc <- new("IPM.matrix",
 			n.env.class = 1, 
-			n.big.matrix = nbins,
+			nBigMatrix = nbins,
 			nrow = 1*nbins,
 			ncol =1*nbins,
 			meshpoints = 1:nbins,
@@ -731,7 +731,7 @@ create.MPM.Fmatrix <- function(dataf, bins,offspring.classes=1, offspring.prop=1
 	
 	rc <- new("IPM.matrix",
 			n.env.class = 1, 
-			n.big.matrix = nbins,
+			nBigMatrix = nbins,
 			nrow = 1*nbins,
 			ncol =1*nbins,
 			meshpoints = 1:nbins,

@@ -867,7 +867,7 @@ makePostFecObjs <- function(dataf,
 #
 # Parameters - growObjList - a list of growth objects
 #            - survObjList - a list of survival objects
-#            - n.big.matrix - the number of bins
+#            - nBigMatrix - the number of bins
 #            - minSize - the minimum size
 #            - maxSize - the maximum size
 #            - cov - is a discrete covariate considered
@@ -875,7 +875,7 @@ makePostFecObjs <- function(dataf,
 # 
 # Returns    - a list of Tmatrices
 makeListTmatrix <- function(growObjList,survObjList,
-		n.big.matrix,minSize,maxSize, cov=FALSE, env.mat=NULL) {
+		nBigMatrix,minSize,maxSize, cov=FALSE, env.mat=NULL) {
 	
 	if (length(growObjList)>length(survObjList)) { 
 		survObjList <- sample(survObjList,size=length(growObjList),replace=TRUE)
@@ -889,12 +889,12 @@ makeListTmatrix <- function(growObjList,survObjList,
 	Tmatrixlist <- list()
 	for ( k in 1:length(growObjList)) { 
 		if (!cov) {
-			Tmatrixlist[[k]] <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minSize = minSize, 
+			Tmatrixlist[[k]] <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, growObj = growObjList[[k]],
 					survObj = survObjList[[k]]) 
 		} else {
 			Tmatrixlist[[k]] <- create.compound.Tmatrix(n.env.class = length(env.mat[1,]),
-					n.big.matrix = n.big.matrix, minSize = minSize, 
+					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=env.mat,
 					growObj = growObjList[[k]],
 					survObj = survObjList[[k]])    
@@ -907,7 +907,7 @@ makeListTmatrix <- function(growObjList,survObjList,
 # Function to take a list of growth and survival objects and make a list of Fmatrices
 
 makeListFmatrix <- function(growObjList,survObjList,fecObjList,
-		n.big.matrix,minSize,maxSize, cov=FALSE, env.mat=NULL) {
+		nBigMatrix,minSize,maxSize, cov=FALSE, env.mat=NULL) {
 	
 	nsamp <- max(length(growObjList),length(survObjList),length(fecObjList))
 	if (length(survObjList)<nsamp)  
@@ -920,12 +920,12 @@ makeListFmatrix <- function(growObjList,survObjList,fecObjList,
 	Fmatrixlist <- list()
 	for ( k in 1:nsamp) {
 		if (!cov) { 
-			Fmatrixlist[[k]] <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minSize = minSize, 
+			Fmatrixlist[[k]] <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, 
 					fecObj=fecObjList[[k]])
 		} else {
 			Fmatrixlist[[k]] <- create.compound.Fmatrix(n.env.class = length(env.mat[1,]),
-					n.big.matrix = n.big.matrix, minSize = minSize, 
+					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=env.mat,
 					fecObj=fecObjList[[k]])
 		}

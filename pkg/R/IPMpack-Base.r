@@ -526,7 +526,7 @@ setClass("env.matrix",
 setClass("IPM.matrix",
 		representation(n.discrete = "numeric", #number of discrete classes
 				n.env.class = "numeric", #number of covariate levels
-				n.big.matrix = "numeric", #the resolution of the IPM
+				nBigMatrix = "numeric", #the resolution of the IPM
 				meshpoints = "numeric",
 				env.index = "numeric",
 				names.discrete = "character"),
@@ -539,7 +539,7 @@ setClass("IPM.matrix",
 #
 #Parameters -
 #   n.env.class - the number of env classes, cannot be !=1, defaults to 1 
-#   n.big.matrix - the number of size bins in the model
+#   nBigMatrix - the number of size bins in the model
 #   minSize - lower end of desired size range
 #   maxSize - upper end of desired size range
 #   chosen.cov - current level of covariate - can be vector for continuous
@@ -557,7 +557,7 @@ setClass("IPM.matrix",
 #Returns -
 #  an IPM object (with or without discrete classes)
 create.IPM.Tmatrix <- function(n.env.class = 1,
-		n.big.matrix = 50,
+		nBigMatrix = 50,
 		minSize = -1,
 		maxSize = 50,
 		chosen.cov = 1,
@@ -567,8 +567,8 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 		integrate.type = "midpoint",
 		correction="none") {
 	# boundary points b and mesh points y
-	b<-minSize+c(0:n.big.matrix)*(maxSize-minSize)/n.big.matrix;
-	y<-0.5*(b[1:n.big.matrix]+b[2:(n.big.matrix+1)]);
+	b<-minSize+c(0:nBigMatrix)*(maxSize-minSize)/nBigMatrix;
+	y<-0.5*(b[1:nBigMatrix]+b[2:(nBigMatrix+1)]);
 	
 	# step size for mid point rule, see equations 4 and 5
 	h<-y[2]-y[1]
@@ -584,10 +584,10 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 		get.matrix.cum <- 
 				t(outer(y,b,growthCum,cov=chosen.cov,
 								growthObj=growObj))
-		get.matrix <- get.matrix.cum[2:(n.big.matrix+1),]-get.matrix.cum[1:n.big.matrix,]
+		get.matrix <- get.matrix.cum[2:(nBigMatrix+1),]-get.matrix.cum[1:nBigMatrix,]
 		#fix last size
-		get.matrix[n.big.matrix,n.big.matrix] <- get.matrix[n.big.matrix,n.big.matrix]+
-				(1-sum(get.matrix[,n.big.matrix]))
+		get.matrix[nBigMatrix,nBigMatrix] <- get.matrix[nBigMatrix,nBigMatrix]+
+				(1-sum(get.matrix[,nBigMatrix]))
 		#put in survival
 		get.matrix <- t(t(get.matrix)*surv(size=y,cov=chosen.cov,survObj=survObj))
 	}
@@ -601,11 +601,11 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 	rc <- new("IPM.matrix",
 			n.discrete =0,
 			n.env.class = 1, 
-			n.big.matrix = n.big.matrix,
-			nrow = 1*n.big.matrix,
-			ncol =1*n.big.matrix,
+			nBigMatrix = nBigMatrix,
+			nrow = 1*nBigMatrix,
+			ncol =1*nBigMatrix,
 			meshpoints = y,
-			env.index = rep(1:n.env.class,each=n.big.matrix),
+			env.index = rep(1:n.env.class,each=nBigMatrix),
 			names.discrete="")
 	rc[,] <-get.matrix
 	
@@ -614,10 +614,10 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 		
 		ndisc <- ncol(DiscreteTrans@discrete.surv)
 		surv.to.discrete <- predict(DiscreteTrans@surv.to.discrete,data.frame(size=y,size2=(y*y)),type="response")
-		cont.to.cont <- get.matrix*matrix(1-surv.to.discrete,nrow=n.big.matrix,ncol=n.big.matrix,byrow=T)
+		cont.to.cont <- get.matrix*matrix(1-surv.to.discrete,nrow=nBigMatrix,ncol=nBigMatrix,byrow=T)
 		disc.to.disc <- DiscreteTrans@discrete.trans[1:ndisc,1:ndisc]*matrix(c(DiscreteTrans@discrete.surv),nrow=ndisc,ncol=ndisc,byrow=T)
-		disc.to.cont <- matrix(NA,ncol=ndisc,nrow=n.big.matrix)
-		cont.to.disc <- matrix(NA,nrow=ndisc,ncol=n.big.matrix)
+		disc.to.cont <- matrix(NA,ncol=ndisc,nrow=nBigMatrix)
+		cont.to.disc <- matrix(NA,nrow=ndisc,ncol=nBigMatrix)
 		
 		for (j in 1:ndisc) {
 			tmp<-dnorm(y,DiscreteTrans@mean.to.cont[j],DiscreteTrans@sd.to.cont[j])*h
@@ -630,11 +630,11 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 		rc <- new("IPM.matrix",
 				n.discrete = ndisc,
 				n.env.class = 1, 
-				n.big.matrix = n.big.matrix,
-				nrow = 1*n.big.matrix+ndisc,
-				ncol =1*n.big.matrix+ndisc,
+				nBigMatrix = nBigMatrix,
+				nrow = 1*nBigMatrix+ndisc,
+				ncol =1*nBigMatrix+ndisc,
 				meshpoints = y,
-				env.index = rep(1:n.env.class,each=n.big.matrix,
+				env.index = rep(1:n.env.class,each=nBigMatrix,
 						names.discrete=rownames(DiscreteTrans@discrete.trans)))
 		rc[,] <-get.disc.matrix   
 	}
@@ -651,7 +651,7 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 #
 #Parameters -
 #   n.env.class - the number of env classes, defaults to 2, should match dim envMatrix
-#   n.big.matrix - the number of size bins in the model
+#   nBigMatrix - the number of size bins in the model
 #   minSize - lower end of desired size range
 #   maxSize - upper end of desired size range
 #   envMatrix - a matrix describing transiions between env
@@ -669,7 +669,7 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 
 
 create.compound.Tmatrix <- function(n.env.class = 2,
-		n.big.matrix = 50,
+		nBigMatrix = 50,
 		minSize = -1,
 		maxSize = 50,
 		envMatrix,
@@ -687,8 +687,8 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 	}
 	
 	# boundary points b and mesh points y
-	b<-minSize+c(0:n.big.matrix)*(maxSize-minSize)/n.big.matrix;
-	y<-0.5*(b[1:n.big.matrix]+b[2:(n.big.matrix+1)]);
+	b<-minSize+c(0:nBigMatrix)*(maxSize-minSize)/nBigMatrix;
+	y<-0.5*(b[1:nBigMatrix]+b[2:(nBigMatrix+1)]);
 	
 	# step size for mid point rule, see equations 4 and 5
 	h<-y[2]-y[1]
@@ -697,10 +697,10 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 	if (class(DiscreteTrans)=="DiscreteTrans") ndisc <- ncol(DiscreteTrans@discrete.surv) else ndisc <- 0
 	
 	#indexes for slotting in IPMs
-	indexes <- rep(1:n.env.class,each=(n.big.matrix+ndisc))
+	indexes <- rep(1:n.env.class,each=(nBigMatrix+ndisc))
 	
 	#megamatrix
-	megamatrix <- matrix(0,(n.big.matrix+ndisc)*n.env.class,(n.big.matrix+ndisc)*n.env.class) 
+	megamatrix <- matrix(0,(nBigMatrix+ndisc)*n.env.class,(nBigMatrix+ndisc)*n.env.class) 
 	
 	#print(indexes)
 	
@@ -711,13 +711,13 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 		if (integrate.type=="midpoint") { 
 			get.matrix <- (maxSize-minSize)*
 					t(outer(y,y,growSurv,cov=as.factor(k),
-									growthObj=growObj,survObj=survObj))/n.big.matrix  
+									growthObj=growObj,survObj=survObj))/nBigMatrix  
 		}
 		if (integrate.type=="cumul") {
 			get.matrix.cum <- 
 					t(outer(y,b,growthCum,cov=as.factor(k),
 									growthObj=growObj))
-			get.matrix <- get.matrix.cum[2:(n.big.matrix+1),]-get.matrix.cum[1:n.big.matrix,]
+			get.matrix <- get.matrix.cum[2:(nBigMatrix+1),]-get.matrix.cum[1:nBigMatrix,]
 			get.matrix <- t(t(get.matrix)*surv(size=y,cov=k,survObj=survObj))
 			
 		}
@@ -736,11 +736,11 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 		if (class(DiscreteTrans)=="DiscreteTrans") {
 			nmes <- rownames(DiscreteTrans@discrete.trans)
 			surv.to.discrete <- predict(DiscreteTrans@surv.to.discrete,data.frame(size=y,size2=(y*y)),type="response")
-			cont.to.cont <- get.matrix*matrix(1-surv.to.discrete,nrow=n.big.matrix,ncol=n.big.matrix,byrow=T)
+			cont.to.cont <- get.matrix*matrix(1-surv.to.discrete,nrow=nBigMatrix,ncol=nBigMatrix,byrow=T)
 			disc.to.disc <- DiscreteTrans@discrete.trans[1:ndisc,1:ndisc]*matrix(c(DiscreteTrans@discrete.surv),
 					nrow=ndisc,ncol=ndisc,byrow=T)
-			disc.to.cont <- matrix(NA,ncol=ndisc,nrow=n.big.matrix)
-			cont.to.disc <- matrix(NA,nrow=ndisc,ncol=n.big.matrix)
+			disc.to.cont <- matrix(NA,ncol=ndisc,nrow=nBigMatrix)
+			cont.to.disc <- matrix(NA,nrow=ndisc,ncol=nBigMatrix)
 			
 			#print(DiscreteTrans@mean.to.cont)
 			#print(DiscreteTrans@sd.to.cont)
@@ -768,11 +768,11 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 	
 	rc <- new("IPM.matrix",
 			n.env.class = n.env.class, 
-			n.big.matrix = n.big.matrix,
-			nrow = n.env.class*(n.big.matrix+ndisc),
-			ncol =n.env.class*(n.big.matrix+ndisc),
+			nBigMatrix = nBigMatrix,
+			nrow = n.env.class*(nBigMatrix+ndisc),
+			ncol =n.env.class*(nBigMatrix+ndisc),
 			meshpoints = y,
-			env.index = rep(1:n.env.class,each=n.big.matrix,
+			env.index = rep(1:n.env.class,each=nBigMatrix,
 					names.discrete=nmes))
 	
 	rc[,] <- megamatrix
@@ -790,7 +790,7 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 #
 #Parameters -
 #   n.env.class - the number of env classes, cannot be !=1, defaults to 1 
-#   n.big.matrix - the number of size bins in the model
+#   nBigMatrix - the number of size bins in the model
 #   minSize - lower end of desired size range
 #   maxSize - upper end of desired size range
 #   chosen.cov - current level of covariate
@@ -803,7 +803,7 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 
 create.IPM.Fmatrix <- function(fecObj,
 		n.env.class = 1,
-		n.big.matrix = 50,
+		nBigMatrix = 50,
 		minSize = -1,
 		maxSize = 50,
 		chosen.cov = 1,
@@ -811,8 +811,8 @@ create.IPM.Fmatrix <- function(fecObj,
 		correction="none") {
 	
 	# boundary points b and mesh points y
-	b<-minSize+c(0:n.big.matrix)*(maxSize-minSize)/n.big.matrix;
-	y<-0.5*(b[1:n.big.matrix]+b[2:(n.big.matrix+1)]);
+	b<-minSize+c(0:nBigMatrix)*(maxSize-minSize)/nBigMatrix;
+	y<-0.5*(b[1:nBigMatrix]+b[2:(nBigMatrix+1)]);
 	
 	# step size for mid point rule, see equations 4 and 5
 	h<-y[2]-y[1]
@@ -824,7 +824,7 @@ create.IPM.Fmatrix <- function(fecObj,
 	
 	fecObj@fec.constants[is.na(fecObj@fec.constants)] <- 1
 	
-	fecValues <- matrix(c(rep(1,length(fecObj@fit.fec)),fecObj@fec.constants),ncol=n.big.matrix,nrow=length(fecObj@fit.fec)+length(fecObj@fec.constants))
+	fecValues <- matrix(c(rep(1,length(fecObj@fit.fec)),fecObj@fec.constants),ncol=nBigMatrix,nrow=length(fecObj@fit.fec)+length(fecObj@fec.constants))
 	
 	for (i in 1:length(fecObj@fit.fec)) fecValues[i,]<-predict(fecObj@fit.fec[[i]],newd,type="response")
 	
@@ -847,7 +847,7 @@ create.IPM.Fmatrix <- function(fecObj,
 		
 		to.discrete <- as.numeric(fecObj@offspring.splitter)[1:ndisc]%*%t(prodFecValues)
 		
-		from.discrete <- matrix(0,ncol=ndisc,nrow=ndisc+n.big.matrix)
+		from.discrete <- matrix(0,ncol=ndisc,nrow=ndisc+nBigMatrix)
 		if (length(fecObj@fec.by.discrete)>0)
 			from.discrete <- c(as.numeric(fecObj@offspring.splitter)[1:ndisc],
 					as.numeric(fecObj@offspring.splitter)[ndisc+1]*tmp)%*%t(fecObj@fec.by.discrete)
@@ -860,11 +860,11 @@ create.IPM.Fmatrix <- function(fecObj,
 	rc <- new("IPM.matrix",
 			n.discrete = ndisc,
 			n.env.class = 1, 
-			n.big.matrix = n.big.matrix,
-			nrow = 1*n.big.matrix+ndisc,
-			ncol =1*n.big.matrix+ndisc,
+			nBigMatrix = nBigMatrix,
+			nrow = 1*nBigMatrix+ndisc,
+			ncol =1*nBigMatrix+ndisc,
 			meshpoints = y,
-			env.index = rep(1:n.env.class,each=n.big.matrix),
+			env.index = rep(1:n.env.class,each=nBigMatrix),
 			names.discrete=namesDiscrete)
 	rc[,] <-get.matrix   
 	
@@ -882,7 +882,7 @@ create.IPM.Fmatrix <- function(fecObj,
 #
 #Parameters -
 #   n.env.class - the number of env classes, defaults to 2, should match dim envMatrix
-#   n.big.matrix - the number of size bins in the model
+#   nBigMatrix - the number of size bins in the model
 #   minSize - lower end of desired size range
 #   maxSize - upper end of desired size range
 #   envMatrix - a matrix describing transiions between env
@@ -894,7 +894,7 @@ create.IPM.Fmatrix <- function(fecObj,
 
 
 create.compound.Fmatrix <- function(n.env.class = 2,
-		n.big.matrix = 50,
+		nBigMatrix = 50,
 		minSize = -1,
 		maxSize = 50,
 		envMatrix,
@@ -909,8 +909,8 @@ create.compound.Fmatrix <- function(n.env.class = 2,
 	}
 	
 	# boundary points b and mesh points y
-	b<-minSize+c(0:n.big.matrix)*(maxSize-minSize)/n.big.matrix;
-	y<-0.5*(b[1:n.big.matrix]+b[2:(n.big.matrix+1)]);
+	b<-minSize+c(0:nBigMatrix)*(maxSize-minSize)/nBigMatrix;
+	y<-0.5*(b[1:nBigMatrix]+b[2:(nBigMatrix+1)]);
 	
 	# step size for mid point rule, see equations 4 and 5
 	h<-y[2]-y[1]
@@ -919,18 +919,18 @@ create.compound.Fmatrix <- function(n.env.class = 2,
 	if (ncol(fecObj@offspring.splitter)>1) ndisc <- ncol(fecObj@offspring.splitter)-1 else ndisc <- 0
 	
 	#indexes for slotting in IPMs
-	indexes <- rep(1:n.env.class,each=(n.big.matrix+ndisc))
+	indexes <- rep(1:n.env.class,each=(nBigMatrix+ndisc))
 	#print(indexes)
 	
 	
 	#megamatrix
-	megamatrix <- matrix(0,(n.big.matrix+ndisc)*n.env.class,(n.big.matrix+ndisc)*n.env.class) 
+	megamatrix <- matrix(0,(nBigMatrix+ndisc)*n.env.class,(nBigMatrix+ndisc)*n.env.class) 
 	
 	#loop over habitats / environments
 	for (k in 1:n.env.class) {
 		
 		get.matrix <- create.IPM.Fmatrix(n.env.class =1,
-				n.big.matrix = n.big.matrix,
+				nBigMatrix = nBigMatrix,
 				minSize = minSize,
 				maxSize = maxSize,
 				chosen.cov = k,
@@ -951,11 +951,11 @@ create.compound.Fmatrix <- function(n.env.class = 2,
 	
 	rc <- new("IPM.matrix",
 			n.env.class = n.env.class, 
-			n.big.matrix = n.big.matrix,
-			nrow = n.env.class*(n.big.matrix+ndisc),
-			ncol =n.env.class*(n.big.matrix+ndisc),
+			nBigMatrix = nBigMatrix,
+			nrow = n.env.class*(nBigMatrix+ndisc),
+			ncol =n.env.class*(nBigMatrix+ndisc),
 			meshpoints = y,
-			env.index = rep(1:n.env.class,each=n.big.matrix),
+			env.index = rep(1:n.env.class,each=nBigMatrix),
 			names.discrete=get.matrix@names.discrete)
 	
 	
@@ -990,7 +990,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrate.type="mid
 	if (Tmatrix@meshpoints[1]>0)
 		new.min <- Tmatrix@meshpoints[1]/2 else new.min <- Tmatrix@meshpoints[1]*1.5
 	Tmatrix1 <- create.IPM.Tmatrix(n.env.class = 1,
-			n.big.matrix = floor(length(Tmatrix@meshpoints)*1.5),
+			nBigMatrix = floor(length(Tmatrix@meshpoints)*1.5),
 			minSize = new.min, maxSize = 1.5*max(Tmatrix@meshpoints),
 			chosen.cov = 1, growObj=growObj,survObj=survObj,
 			integrate.type=integrate.type, correction=correction)
@@ -1021,7 +1021,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrate.type="mid
 	
 	
 	#Does the resolution adequately reflect normal distribution of growth? (Zuidema issue)
-	loctest <- floor(quantile(1:Tmatrix@n.big.matrix,c(0.25,0.5,0.75)))
+	loctest <- floor(quantile(1:Tmatrix@nBigMatrix,c(0.25,0.5,0.75)))
 	h <- diff(Tmatrix@meshpoints)[1]
 	testSizes <- seq(min(Tmatrix@meshpoints),max(Tmatrix@meshpoints),length=5000)
 	
@@ -1145,8 +1145,8 @@ setMethod("MeanLifeExpect",
 		c("IPM.matrix"),
 		function(IPM.matrix){
 			require(MASS)
-			n.big.matrix <- length(IPM.matrix@.Data[1,])
-			tmp <-  ginv(diag(IPM.matrix@n.env.class*n.big.matrix)-IPM.matrix)
+			nBigMatrix <- length(IPM.matrix@.Data[1,])
+			tmp <-  ginv(diag(IPM.matrix@n.env.class*nBigMatrix)-IPM.matrix)
 			lifeExpect <- colSums(tmp)
 			return(lifeExpect)
 		})
@@ -1163,8 +1163,8 @@ setMethod("VarLifeExpect",
 		c("IPM.matrix"),
 		function(IPM.matrix){
 			require(MASS)
-			n.big.matrix <- length(IPM.matrix@.Data[1,])
-			tmp <-  ginv(diag(IPM.matrix@n.env.class*n.big.matrix)-IPM.matrix)
+			nBigMatrix <- length(IPM.matrix@.Data[1,])
+			tmp <-  ginv(diag(IPM.matrix@n.env.class*nBigMatrix)-IPM.matrix)
 			#varlifeExpect <- (2*diag(tmp)-diag(length(IPM.matrix[,1])))%*%tmp-(tmp*tmp)
 			#varLifeExpect <- colSums(varlifeExpect)
 			varLifeExpect <- colSums(2*(tmp%*%tmp)-tmp)-colSums(tmp)*colSums(tmp)                  
@@ -1188,8 +1188,8 @@ setGeneric("Survivorship",
 setMethod("Survivorship",
 		c("IPM.matrix","numeric","numeric"),
 		function(IPM.matrix, size1, maxage=300){
-			n.big.matrix <- length(IPM.matrix@.Data[1,])
-			n <- IPM.matrix@n.env.class*n.big.matrix
+			nBigMatrix <- length(IPM.matrix@.Data[1,])
+			n <- IPM.matrix@n.env.class*nBigMatrix
 			A1 <- tmp <-  IPM.matrix
 			stage.agesurv <- matrix(NA,n,maxage)
 			surv.curv <- rep (NA,maxage)
@@ -1295,7 +1295,7 @@ setMethod("varPassageTime",
 
 
 #Generic for life expectancy in a modeled stoch env  -NEEDS DOUBLE-CHECKING
-#parameters - a compound IPM of dim n.env.class*n.big.matrix
+#parameters - a compound IPM of dim n.env.class*nBigMatrix
 #           - an environmental matrix
 # returns - the life expectancy for each of the sizes in the IPM (columns)
 #           for each of the starting env states
@@ -1308,7 +1308,7 @@ setMethod("LifeExpect",
 			require(MASS)
 			
 			matrix.dim <- length(IPM.matrix[1,])
-			nstages <- IPM.matrix@n.big.matrix
+			nstages <- IPM.matrix@nBigMatrix
 			nstates <- IPM.matrix@n.env.class
 			
 			pis <- Re(eigen(env.matrix)$vector[,1])
@@ -1651,7 +1651,7 @@ largeMatrixCalc <- function(Tmatrix,Fmatrix, tol=1.e-8){
 ##
 
 sensParams <- function(growObj,survObj,fecObj,
-		n.big.matrix,minSize,maxSize,
+		nBigMatrix,minSize,maxSize,
 		integrate.type="midpoint",
 		correction="none") { 
 	
@@ -1684,9 +1684,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	slam <- elam
 	
 	# build the IPM and get the lamdba value
-	Tmatrix <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minSize=minSize,maxSize=maxSize,
+	Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 			growObj=growObj,survObj=survObj, integrate.type=integrate.type, correction=correction)
-	Fmatrix <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minSize=minSize,maxSize=maxSize,
+	Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 			fecObj=fecObj,integrate.type=integrate.type, correction=correction)
 	IPM <- Tmatrix+Fmatrix
 	lambda1 <- Re(eigen(IPM)$value[1]);#print(lambda1)
@@ -1694,9 +1694,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	# change the growth parameters
 	for (param.test in 1:length(growObj@fit$coeff)){
 		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test]*(1+delta);
-		Tmatrix <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minSize=minSize,maxSize=maxSize,
+		Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				growObj=growObj,survObj=survObj, integrate.type=integrate.type, correction=correction)
-		Fmatrix <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minSize=minSize,maxSize=maxSize,
+		Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				fecObj=fecObj, integrate.type=integrate.type, correction=correction)
 		IPM <- Tmatrix+Fmatrix
 		lambda2 <- Re(eigen(IPM)$value[1]); #print(lambda2)
@@ -1708,9 +1708,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	param.test <- param.test+1
 	resids <- growObj@fit$residuals
 	growObj@fit$residuals <- rnorm(length(growObj@fit$residuals),0,sd(growObj@fit$residuals)*(1+delta))
-	Tmatrix <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minSize=minSize,maxSize=maxSize,
+	Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 			growObj=growObj,survObj=survObj, integrate.type=integrate.type, correction=correction)
-	Fmatrix <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minSize=minSize,maxSize=maxSize,
+	Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 			fecObj=fecObj, integrate.type=integrate.type, correction=correction)
 	IPM <- Tmatrix + Fmatrix
 	lambda2 <- Re(eigen(IPM)$value[1]); #print(lambda2)
@@ -1722,9 +1722,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	count <- param.test
 	for (param.test in 1:length(survObj@fit$coeff)){
 		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test]*(1+delta);
-		Tmatrix <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minSize=minSize,maxSize=maxSize,
+		Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				growObj=growObj,survObj=survObj, integrate.type=integrate.type, correction=correction)
-		Fmatrix <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minSize=minSize,maxSize=maxSize,
+		Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				fecObj=fecObj,integrate.type=integrate.type, correction=correction)
 		IPM <- Tmatrix+Fmatrix
 		lambda2 <- Re(eigen(IPM)$value[1]);
@@ -1739,9 +1739,9 @@ sensParams <- function(growObj,survObj,fecObj,
 		count <- count + param.test;
 		for (param.test in 1:length(chs)) {
 			fecObj@fec.constants[chs[param.test]] <- fecObj@fec.constants[chs[param.test]]*(1+delta);
-			Tmatrix <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minSize=minSize,maxSize=maxSize,
+			Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 					growObj=growObj,survObj=survObj, integrate.type=integrate.type, correction=correction)
-			Fmatrix <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minSize=minSize,maxSize=maxSize,
+			Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 					fecObj=fecObj,integrate.type=integrate.type, correction=correction)
 			IPM <- Tmatrix+Fmatrix
 			lambda2 <- Re(eigen(IPM)$value[1]);
@@ -1758,9 +1758,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	for (i in 1:length(fecObj@fit.fec)){
 	for (param.test in 1:length(fecObj@fit.fec[[i]]$coeff)){
 		fecObj@fit.fec[[i]]$coefficients[param.test] <- fecObj@fit.fec[[i]]$coefficients[param.test]*(1+delta);
-		Tmatrix <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minSize=minSize,maxSize=maxSize,
+		Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				growObj=growObj,survObj=survObj, integrate.type=integrate.type, correction=correction)
-		Fmatrix <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minSize=minSize,maxSize=maxSize,
+		Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				fecObj=fecObj,integrate.type=integrate.type, correction=correction)
 		IPM <- Tmatrix+Fmatrix
 		lambda2 <- Re(eigen(IPM)$value[1]);
@@ -1826,12 +1826,12 @@ setMethod("StochGrowthRateSampleList",
 
 StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 		growthObj,survObj,fecObj,
-		n.big.matrix,minSize,maxSize, n.microsites,
+		nBigMatrix,minSize,maxSize, n.microsites,
 		integrate.type="midpoint",correction="none"){
 	require(MASS)
 	
 	
-	nt<-rep(1,n.big.matrix)
+	nt<-rep(1,nBigMatrix)
 	Rt<-rep(NA,Tmax)
 	fecObj@fec.constants[is.na(fecObj@fec.constants)] <- 1 
 	tmp.fecObj <- fecObj
@@ -1848,12 +1848,12 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 					min(n.microsites[min(t,length(n.microsites))]/nt[1],1))
 		
 		
-		tpS <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minSize = minSize,
+		tpS <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosen.cov = covariate[t,],
 				growObj = growthObj, survObj = survObj,
 				integrate.type=integrate.type, correction=correction)
 		
-		tpF <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minSize = minSize,
+		tpF <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, #chosen.cov = covariate[t,],
 				fecObj = tmp.fecObj,
 				integrate.type=integrate.type, correction=correction)
@@ -1887,12 +1887,12 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 
 TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
 		growthObj,survObj,fecObj,
-		n.big.matrix,minSize,maxSize,
+		nBigMatrix,minSize,maxSize,
 		n.microsites,integrate.type="midpoint",correction="none"){
 	require(MASS)
 	
-	nt <- rep(1,n.big.matrix)
-	rc <- matrix(NA,n.big.matrix,Tmax)
+	nt <- rep(1,nBigMatrix)
+	rc <- matrix(NA,nBigMatrix,Tmax)
 	fecObj@fec.constants[is.na(fecObj@fec.constants)] <- 1 
 	tmp.fecObj <- fecObj
 	#density dep? 
@@ -1904,11 +1904,11 @@ TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
 					min(n.microsites[min(t,length(n.microsites))]/nt[1],1))
 		
 		
-		tpS <- create.IPM.Tmatrix(n.big.matrix = n.big.matrix, minSize = minSize,
+		tpS <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosen.cov = covariate[t,],
 				growObj = growthObj, survObj = survObj,
 				integrate.type=integrate.type, correction=correction)
-		tpF <- create.IPM.Fmatrix(n.big.matrix = n.big.matrix, minSize = minSize,
+		tpF <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, #chosen.cov = covariate[t,],
 				fecObj = tmp.fecObj,
 				integrate.type=integrate.type, correction=correction)
