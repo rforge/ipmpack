@@ -2,13 +2,11 @@
 \alias{getIPMoutput}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Get IPM output from a list of Tmatrices or full IPMs
+Get IPM output from a list of T matrices (only survival and size information) or full IPMs (T matrices and F matrices; the latter include sexual reproduction information)
 }
 \description{
 Get synthetic values including life expectancy, passage time, and, if a
-fecundity matrix is available, lambda, stable size, etc., for e.g.,
-posterior distribution of Tmatrices, or values across environments,
-etc. 
+fecundity matrix is available, lambda, stable size, reproductive output, etc. For example, posterior distribution of T matrices, or values across environments, etc. 
 }
 \usage{
 getIPMoutput(Tmatrixlist, target.size = c(), 
@@ -17,15 +15,13 @@ getIPMoutput(Tmatrixlist, target.size = c(),
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Tmatrixlist}{
-    List of Tmatrices for which summary statistics desired
+    List of survival-size (T) matrices for which summary statistics desired
 }
   \item{target.size}{
-    Target size for passage time - if none is provided defaults to the
-    median of the IPM meshpoints
+    Target size for passage time - if none is provided defaults to the median of the IPM meshpoints
 }
   \item{Fmatrixlist}{
-    List of fecundity matrices corresponding to the list of Tmatrices, facultative;
-    if included, lambda, and stable size distribution will also be provided
+    List of fecundity (F) matrices corresponding to the list of Tmatrices, facultative. When this information is included, lambda, and stable size distribution will also be provided
 }
 }
 \details{
@@ -48,7 +44,9 @@ getIPMoutput(Tmatrixlist, target.size = c(),
   
 }
 \references{
-%% ~put references to the literature/web site here ~
+Zuidema, Jongejans, Chien, During & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355
+
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
@@ -66,8 +64,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff <- generateData()
 
 #use package MCMCglmm to get Bayesian posteriors - note that sometimes
-#!this sometimes later leads to error messages with glm - so you might have
-#to re-start R to run other parts of the package! 
+#!this may lead later to error messages with glm. User might have
+#to re-start R to run other parts of the package 
 svlist <- makePostSurvivalObjs(dataf=dff, explanatoryVariables="size",
 meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
 grlist <- makePostGrowthObjs(dataf=dff,  nitt=5000)

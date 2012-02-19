@@ -2,15 +2,15 @@
 \alias{getIPMoutputDirect}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Get IPM output from a list of growth, survival, and (facultatively)
+Get IPM output from a list of survival, growth, and (facultatively)
 fecundity objects
 }
 \description{
 Get synthetic values including life expectancy, passage time, and if a
 fecundity matrix is available, lambda, stable size, etc., for e.g.,
 posterior distribution of survival and growth objects. This is essentially identical,
-but can be a slightly swifter approach than getIPMoutput since matrices are not stored; it 
-also allows compound matrices to be produced following levels of a discrete covariate (using cov=TRUE). 
+but can be a slightly swifter approach than getIPMoutput since matrices are not stored. It 
+also allows compound matrices to be produced following levels of a discrete covariate (e.g., habitat) (using cov=TRUE). 
 }
 \usage{
 getIPMoutputDirect(survObjList, growObjList, target.size = c(), 
@@ -26,7 +26,7 @@ getIPMoutputDirect(survObjList, growObjList, target.size = c(),
 	list of growth objects
 }
   \item{target.size}{
-    Target size for passage time - if none is provided defaults to the median of the IPM meshpoints
+    Target size for passage time. If none is provided defaults to the median of the IPM meshpoints
 }
   \item{n.big.matrix}{
 	number of meshpoints
@@ -58,28 +58,29 @@ list of fecundity objects (facultative)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-  \item{LE}{matrix of life expectancies, columsn correspond to
-  meshpoints, rows corresponding to each element of the list of Tmatrices}
+  \item{LE}{matrix of life expectancies, columns correspond to
+  meshpoints, rows corresponding to each element of the list of T matrices}
   \item{ptime}{matrix of passage times to the target.size from each of
-    the meshpoints (columns) and for each element in the Tmatrix list (columns)}
-  \item{lambda}{vector of lambda corresonding to value obtained
-    combining each element of the list of Tmatrices with the
-    corresponding element in the list of Fmatrices; if no Fmatrix list is provided, this is a vector of NAs}
+    the meshpoints (columns) and for each element in the T matrix list (columns)}
+  \item{lambda}{vector of lambda corresponding to value obtained
+    combining each element of the list of T matrices with the
+    corresponding element in the list of F matrices; if no F matrix list is provided, this is a vector of NAs}
   \item{stable.size}{matrix of stable size distributions rows corresponding to values obtained
-    combining each element of the list of Tmatrices with the
-    corresponding element in the list of Fmatrices; if no Fmatrix list
+    combining each element of the list of T matrices with the
+    corresponding element in the list of F matrices; if no F matrix list
     is provided, this is a matrix of NAs}
   \item{meshpoints} {matrix meshpoints}
   \item{resSize} {matrix providing target sizes for size to age estimate (assuming age=1
     at size.start), of length n.size.to.age space equally between the smallest and largest meshpoints}
   \item{resAge} {matrix providing time in time-steps to get to resSize,
-    rows corresonding sequential elements in the list of Tmatrices} 
+    rows corresonding sequential elements in the list of T matrices} 
   \item{surv.par} {matrix of posteriors of survival parameters (columns,
     each sample is a row)}
   \item{grow.par} {matrix of posteriors of growth parameters (in columns)} 
 }
 \references{
-%% ~put references to the literature/web site here ~
+For midpoint: Zuidema, Jongejans, Chien, Duiring & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans

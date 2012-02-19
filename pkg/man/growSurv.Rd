@@ -6,7 +6,7 @@ Function combining growth and survival
 }
 \description{
 Function to predict the pdf of size at t+1 given size at t and survival
-probability given a growth and survival object
+probability as a function of size at t, given a growth and survival object
 }
 \usage{
 growSurv(size, sizeNext, cov, growthObj, survObj)
@@ -30,8 +30,7 @@ growSurv(size, sizeNext, cov, growthObj, survObj)
 }
 }
 \details{
-\code{create.IPM.Tmatrix} and variants there-of apply \code{outer} to this function to 
-efficiently obtain the IPM T matrix. 
+\code{create.IPM.Tmatrix} and variants there-of apply \code{outer} to this function to efficiently obtain the IPM T matrix. 
 }
 \value{
 numeric defining the pdf
@@ -43,7 +42,7 @@ numeric defining the pdf
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
-Code developed following Mark Rees, Dylan Childs, Karen Rose. 
+Code developed following Mark Rees, Dylan Childs & Karen Rose
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
