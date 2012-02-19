@@ -473,12 +473,9 @@ makeFecObjManyCov <- function(dataf,
 		
 	}
 	
-	if (length(grep("covariate",explanatoryVariables))>0) {
-		dataf$covariate <- as.factor(dataf$covariate)
-		dataf$covariateNext <- as.factor(dataf$covariateNext)
-		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
-	}
-	
+	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) dataf$covariate <- as.factor(dataf$covariate)
+	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) dataf$covariateNext <- as.factor(dataf$covariateNext)
+		
 	f1 <- new("fecObjMultiCov")
 	dataf$size2 <- dataf$size^2
 	if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
