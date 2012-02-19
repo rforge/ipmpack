@@ -5,7 +5,7 @@
 Survival
 }
 \description{
-Function to predict the probability of surviving at a given sizegiven a survival object
+Function to predict the probability of surviving at a given size given a survival object
 }
 \usage{
 surv(size, cov, survObj)
@@ -41,7 +41,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-growth, growSurv, surv-methods
+\code{\link{growth}}, \code{\link{growSurv}}, \code{\link{surv-methods}}
 }
 \examples{
 dff<-generateData()
