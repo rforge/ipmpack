@@ -23,7 +23,10 @@ generateDataStoch()
   	- "fec": continuous variable, indicating fecundity, that is, per-capita contributions via sexual reproduction
 }
 \references{
-%% ~put references to the literature/web site here ~
+Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p377-502
+
+
+Rees & Ellner. 2009. Integral projection models for populations in temporally varying environments. The American Naturalist 79 p575-594
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans

@@ -2,11 +2,11 @@
 \alias{largeMatrixCalc}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Calculate lambda and stable size distribution efficiently
+Calculate population growth rate (lambda) and stable size distribution in a computationally efficient way when the number of bins in the IPM is large
 }
 \description{
 Method to calculate lambda and stable size distribution where a large
-number of bins are used in the IPM.
+number of bins are used in the IPM
 }
 \usage{
 largeMatrixCalc(Tmatrix, Fmatrix, tol = 1e-08)
@@ -32,13 +32,16 @@ largeMatrixCalc(Tmatrix, Fmatrix, tol = 1e-08)
   \item{h1}{size bin width}
 }
 \references{
-From Rees & Ellner, 2009, American Naturalist. 
+Rees & Ellner. 2009. Integral projection models for populations in temporally varying environments. The American Naturalist 79 p575-594
+
+Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p377-502
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
-modified from Appendices in Rees & Ellner, 2009
+Modified from Appendix A in Rees & Ellner 2009 (see references)
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
