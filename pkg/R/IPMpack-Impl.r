@@ -361,6 +361,7 @@ makeFecObj <- function(dataf,
 		explanatoryVariables="size",
 		Family="gaussian",
 		Transform="none",
+		fecNames=NA,
 		mean.offspring.size=NA,
 		var.offspring.size=NA,
 		offspring.splitter=data.frame(continuous=1),
@@ -402,28 +403,29 @@ makeFecObj <- function(dataf,
 	dataf$size2 <- dataf$size^2
 	if (length(grep("logsize",as.character(explanatoryVariables)))>0) dataf$logsize <- log(dataf$size)
 	
-	fecnames <- names(dataf)[grep("fec",names(dataf))]
-	if (length(fecnames)>length(explanatoryVariables)) {
-		misE <- (length(explanatoryVariables)+1):length(fecnames)
-		print(c("number in explanatoryVariables not the same as the number of fecundity columns in the data file, using default of `size' for missing ones which are:",fecnames[misE],". (which might be exactly what you want)"))
-		explanatoryVariables <- c(explanatoryVariables,rep("size",length(fecnames)-length(explanatoryVariables)))
+	if (is.na(fecNames)) <- fecNames <- names(dataf)[grep("fec",names(dataf))]
+	if (length(fecNames)>length(explanatoryVariables)) {
+		misE <- (length(explanatoryVariables)+1):length(fecNames)
+		print(c("number in explanatoryVariables not the same as the number of fecundity columns in the data file, using default of `size' for missing ones which are:",fecNames[misE],". (which might be exactly what you want)"))
+		explanatoryVariables <- c(explanatoryVariables,rep("size",length(fecNames)-length(explanatoryVariables)))
 	}
-	if (length(fecnames)>length(Family)) {
-		misE <- (length(Family)+1):length(fecnames)
-		print(c("number of families not the same as the number of fecundity columns in the data file, using default of `gaussian' for missing ones which are:",fecnames[misE],". (which might be exactly what you want)"))
-		Family <- c(Family,rep("gaussian",length(fecnames)-length(Family)))
+	if (length(fecNames)>length(Family)) {
+		misE <- (length(Family)+1):length(fecNames)
+		print(c("number of families not the same as the number of fecundity columns in the data file, using default of `gaussian' for missing ones which are:",fecNames[misE],". (which might be exactly what you want)"))
+		Family <- c(Family,rep("gaussian",length(fecNames)-length(Family)))
 	}
-	if (length(fecnames)>length(Transform)) {
-		misE <- (length(Transform)+1):length(fecnames)
-		print(c("number of transforms not the same as the number of fecundity columns in the data file, using default of `none' for missing ones which are:",fecnames[misE],". (which might be exactly what you want)"))
-		Transform <- c(Transform,rep("none",length(fecnames)-length(Transform)))
+	if (length(fecNames)>length(Transform)) {
+		misE <- (length(Transform)+1):length(fecNames)
+		print(c("number of transforms not the same as the number of fecundity columns in the data file, using default of `none' for missing ones which are:",fecNames[misE],". (which might be exactly what you want)"))
+		Transform <- c(Transform,rep("none",length(fecNames)-length(Transform)))
 	}
 	
-	for (i in 1:length(fecnames)) {
-		if (Transform[i]=="log") dataf[,fecnames[i]] <- log(dataf[,fecnames[i]])
-		if (Transform[i]=="sqrt") dataf[,fecnames[i]] <- sqrt(dataf[,fecnames[i]])
-		dataf[!is.finite(dataf[,fecnames[i]]),fecnames[i]] <- NA
-		fit <- glm(paste(fecnames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
+	for (i in 1:length(fecNames)) {
+		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
+		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
+		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
+		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
+		fit <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
 		if (i==1) f1@fit.fec1 <- fit
 		if (i==2) f1@fit.fec2 <- fit
 		if (i==3) f1@fit.fec3 <- fit
@@ -490,34 +492,35 @@ makeFecObjManyCov <- function(dataf,
 	dataf$size2 <- dataf$size^2
 	if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
 	
-	fecnames <- names(dataf)[grep("fec",names(dataf))]
-	if (length(fecnames)>length(explanatoryVariables)) {
-		misE <- length(explanatoryVariables):length(fecnames)
-		print(c("number in explanatoryVariables not the same as the number of fecundity columns in the data file, using default of `size' for missing ones which are:",fecnames[misE]))
-		explanatoryVariables <- c(explanatoryVariables,rep("size",length(fecnames)-length(explanatoryVariables)))
+	fecNames <- names(dataf)[grep("fec",names(dataf))]
+	if (length(fecNames)>length(explanatoryVariables)) {
+		misE <- length(explanatoryVariables):length(fecNames)
+		print(c("number in explanatoryVariables not the same as the number of fecundity columns in the data file, using default of `size' for missing ones which are:",fecNames[misE]))
+		explanatoryVariables <- c(explanatoryVariables,rep("size",length(fecNames)-length(explanatoryVariables)))
 	}
-	if (length(fecnames)>length(Family)) {
-		misE <- length(Family):length(fecnames)
-		print(c("number of families not the same as the number of fecundity columns in the data file, using default of `gaussian' for missing ones which are:",fecnames[misE]))
-		Family <- c(Family,rep("gaussian",length(fecnames)-length(Family)))
+	if (length(fecNames)>length(Family)) {
+		misE <- length(Family):length(fecNames)
+		print(c("number of families not the same as the number of fecundity columns in the data file, using default of `gaussian' for missing ones which are:",fecNames[misE]))
+		Family <- c(Family,rep("gaussian",length(fecNames)-length(Family)))
 	}
-	if (length(fecnames)>length(Transform)) {
-		misE <- length(Transform):length(fecnames)
-		print(c("number of transforms not the same as the number of fecundity columns in the data file, using default of `none' for missing ones which are:",fecnames[misE]))
-		Transform <- c(Transform,rep("none",length(fecnames)-length(Transform)))
+	if (length(fecNames)>length(Transform)) {
+		misE <- length(Transform):length(fecNames)
+		print(c("number of transforms not the same as the number of fecundity columns in the data file, using default of `none' for missing ones which are:",fecNames[misE]))
+		Transform <- c(Transform,rep("none",length(fecNames)-length(Transform)))
 	}
 	
-	for (i in 1:length(fecnames)) {
+	for (i in 1:length(fecNames)) {
 		
-		if (Transform[i]=="log") dataf[,fecnames[i]] <- log(dataf[,fecnames[i]])
-		if (Transform[i]=="sqrt") dataf[,fecnames[i]] <- sqrt(dataf[,fecnames[i]])
-		dataf[!is.finite(dataf[,fecnames[i]]),fecnames[i]] <- NA
+		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
+		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
+		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
+		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
 		
-		#print(range(dataf[,fecnames[i]]))
+		#print(range(dataf[,fecNames[i]]))
 		#print(range(dataf[,"size"], na.rm=TRUE))
 		#print(range(dataf[,"covariate"]))
 		
-		fit <- glm(paste(fecnames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
+		fit <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
 		if (i==1) f1@fit.fec1 <- fit
 		if (i==2) f1@fit.fec2 <- fit
 		if (i==3) f1@fit.fec3 <- fit
@@ -808,18 +811,18 @@ makePostFecObjs <- function(dataf,
 	
 	dataf$size2 <- dataf$size^2
 	if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
-	fecnames <- names(dataf)[grep("fec",names(dataf))]
-	if (length(fecnames)>length(explanatoryVariables)) {
+	fecNames <- names(dataf)[grep("fec",names(dataf))]
+	if (length(fecNames)>length(explanatoryVariables)) {
 		print("number in explanatoryVariables not the same as the number of fecundity columns in the data file, taking first for all")
-		explanatoryVariables <- rep(explanatoryVariables[1],length(fecnames))
+		explanatoryVariables <- rep(explanatoryVariables[1],length(fecNames))
 	}
-	if (length(fecnames)>length(Family)) {
+	if (length(fecNames)>length(Family)) {
 		print("number of families not the same as the number of fecundity columns in the data file, taking first for all")
-		Family <- rep(Family[1],length(fecnames))
+		Family <- rep(Family[1],length(fecNames))
 	}
-	if (length(fecnames)>length(Transform)) {
+	if (length(fecNames)>length(Transform)) {
 		print("number of transforms not the same as the number of fecundity columns in the data file, taking first for all")
-		Transform <- rep(Transform[1],length(fecnames))
+		Transform <- rep(Transform[1],length(fecNames))
 	}
 	
 	if (is.na(mean.offspring.size)) {
@@ -833,20 +836,21 @@ makePostFecObjs <- function(dataf,
 	
 	fit <- dummy.fit <- list()
 	
-	for (i in 1:length(fecnames)) {
+	for (i in 1:length(fecNames)) {
 		
-		if (Transform[i]=="log") dataf[,fecnames[i]] <- log(dataf[,fecnames[i]])
-		if (Transform[i]=="sqrt") dataf[,fecnames[i]] <- sqrt(dataf[,fecnames[i]])
-		dataf[!is.finite(dataf[,fecnames[i]]),fecnames[i]] <- NA
+		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
+		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
+		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
+		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
 		
-		Formula <- paste(fecnames[i],'~',explanatoryVariables[i],sep='')
+		Formula <- paste(fecNames[i],'~',explanatoryVariables[i],sep='')
 		Formula <- as.formula(Formula)
 		
 		fit[[i]] <- MCMCglmm(Formula,
-				data=dataf[!is.na(dataf[,fecnames[i]]),], verbose=FALSE, nitt=nitt,family=Family[i])
+				data=dataf[!is.na(dataf[,fecNames[i]]),], verbose=FALSE, nitt=nitt,family=Family[i])
 		
 		dummy.fit[[i]] <- glm(Formula,
-				data=dataf[!is.na(dataf[,fecnames[i]]),],family=Family[i])
+				data=dataf[!is.na(dataf[,fecNames[i]]),],family=Family[i])
 		
 	}
 	
@@ -856,7 +860,7 @@ makePostFecObjs <- function(dataf,
 	for (k in 1:length(fit[[1]]$Sol[,1])) {
 		fv[[k]] <-  new("fecObj")
 		
-		for (i in 1:length(fecnames)) { 
+		for (i in 1:length(fecNames)) { 
 			dummy.fit[[i]]$coefficients <- fit[[i]]$Sol[k,]
 			dummy.fit[[i]]$residuals <- rnorm(length(dummy.fit[[i]]$residuals),0,sqrt(fit[[i]]$VCV[k,1]))
 			if (i==1) fv[[k]]@fit.fec1 <- dummy.fit[[i]]

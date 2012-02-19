@@ -866,6 +866,7 @@ create.IPM.Fmatrix <- function(fecObj,
 	#Transforms
 	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fec.values[i,]<-exp(fec.values[i,])
 	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fec.values[i,]<-(fec.values[i,])^2
+	if (length(grep("-1",fecObj@Transform))>0) for (i in grep("-1",fecObj@Transform)) fec.values[i,]<-fec.values[i,]+1
 	fec.values[!is.finite(fec.values)] <- exp(200)
 	prod.fec.values<-apply(fec.values,2,prod)
 	
