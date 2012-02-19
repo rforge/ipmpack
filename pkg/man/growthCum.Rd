@@ -3,7 +3,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Model of growth allowing cumulative bin estimation}
 \description{
-Generic function to predict the cdf of size at t+1 given size at t and a growth object
+Generic function to predict the cdf (cummulative density function) of size at t+1 given size at t and a growth object
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{

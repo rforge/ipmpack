@@ -33,10 +33,11 @@ growSurv(size, sizeNext, cov, growthObj, survObj)
 \code{create.IPM.Tmatrix} and variants there-of apply \code{outer} to this function to efficiently obtain the IPM T matrix. 
 }
 \value{
-numeric defining the pdf
+numeric defining the pdf (probability density function)
 }
 \references{
-%% ~put references to the literature/web site here ~
+Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81 p694-708
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans

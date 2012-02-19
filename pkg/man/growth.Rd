@@ -5,7 +5,7 @@
 Growth 
 }
 \description{
-Generic function to predict the pdf of size at t+1 given size at t and a growth object
+Generic function to predict the pdf (probability density function) of size at t+1 given size at t and a growth object
 }
 \usage{
 growth(size, sizeNext, cov, growthObj)
@@ -30,10 +30,11 @@ growth(size, sizeNext, cov, growthObj)
   underlying statistical models
 }
 \value{
-  a vector of length sizeNext giving the pdf of each value of sizeNext
+  a vector of length sizeNext giving the pdf (probability density function) of each value of sizeNext
 }
 \references{
-%% ~put references to the literature/web site here ~
+Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81 p694-708
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
