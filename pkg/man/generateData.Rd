@@ -15,11 +15,14 @@ generateData()
 Note that the random data created includes only one discrete covariate structuring the population (e.g., habitat type [shaded, open], age [0, 1, 2, 3 years old...], time since fire [0, 1, 2, 3 years...], etc); user can include into the data frame additional discrete covariates if necessary. To include continuous covariates (e.g., precipitation, temperature, light incidence, hurricane recurrence interval, etc) in randomized data, refer to generateDataStoch(). For randomized datasets with complex life cycles that include discrete stages (e.g., seedbank), refer to generateDataDiscrete()
 }
 \value{
-  A dataframe with headings size (continuous variable, indicating current size),
-  sizeNext (continuous variable, indicating size in the next time step), surv
-  (boolean, indicating whether individual survived or not to the next time-step), covariate
-  (discrete covariate), covariateNext (discrete covariate in the next
-  time-step),  fec (continuous variable, indicating fecundity).
+  A dataframe with headings:
+  	- "size": continuous variable, indicating current size
+  	- "sizeNext" continuous variable, indicating size in the next time step
+  	- "surv": boolean, indicating whether individual survived or not to the next time-step
+  	- "covariate": discrete covariate
+  	- "covariateNext": discrete covariate in the next
+  time-step
+  	- "fec": continuous variable, indicating fecundity
 }
 \references{
 %% ~put references to the literature/web site here ~

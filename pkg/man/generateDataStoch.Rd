@@ -15,10 +15,12 @@ generateDataStoch()
 \details{
 }
 \value{
-  a dataframe with headings size (continuous variable, indicating current size),
-  sizeNext (continuous variable, indicating size in the next time step), surv
-  (boolean, indicating whether individual survived or not to the next time-step), covariate1
-  covariate2,  covariate3, ..., fec (continuous variable, indicating fecundity).
+  A dataframe with headings:
+  	- "size": continuous variable, indicating current size
+  	- "sizeNext": continuous variable, indicating size in the next time step
+  	- "surv": boolean, indicating whether individual survived or not to the next time-step
+  	- "covariate1", "covariate2", "covariate3", ...: discrete or continuous covariates
+  	- "fec": continuous variable, indicating fecundity, that is, per-capita contributions via sexual reproduction
 }
 \references{
 %% ~put references to the literature/web site here ~
