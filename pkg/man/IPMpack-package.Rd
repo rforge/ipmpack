@@ -24,11 +24,10 @@ Depends: \tab methods\cr
 %~~ functions ~~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+The IPMpack team: C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+Maintainer: ipmpack-users@lists.r-forge.r-project.org; ipmpack@gmail.com
+User mailing list: https://lists.r-forge.r-project.org/mailman/listinfo/ipmpack-users 
 
-Maintainer: ipmpack@gmail.com
-User mailing list: Go to r-forge and copy paste link from list ipmpack-users link
-%~~ The author and/or maintainer of the package ~~
 }
 \references{
 %~~ Literature or other references for background information ~~
