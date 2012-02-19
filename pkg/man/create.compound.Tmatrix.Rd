@@ -61,7 +61,6 @@ between ages is reflected by a similar matrix
   (nBigMatrix+n.disc)*n.env.class
 }
 \references{
-
 For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112
 
 For habitat x stage modeling: Horvitz & Schemske. 1995. Spatiotemporal variation in demographic transitions of a tropical understory herb. Projection matrix analysis. Ecological Monographs 65 p155-192
@@ -73,7 +72,6 @@ For general information:
 Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81 p694-708
 
 Ellner & Rees. 2006. Integral projection models for species with complex demography. The American Naturalist 167 p410-428
-
 %% ~put references to the literature/web site here ~
 }
 \author{

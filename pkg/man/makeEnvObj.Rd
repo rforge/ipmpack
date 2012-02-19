@@ -36,7 +36,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeFecObj}}, \code{\link{makeSurvObj}}, \code{\link{makeEnvObj}}
+\code{\link{makeFecObj}}, \code{\link{makeSurvObj}}, 
+\code{\link{create.IPM.Tmatrix}}, \code{\link{create.IPM.Fmatrix}}
 
 }
 \examples{

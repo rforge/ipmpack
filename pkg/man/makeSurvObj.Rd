@@ -9,7 +9,7 @@
   to build survival objects for which methods to build an IPM  object are defined.
 }
 \usage{
-makeSurvObj(dataf,explanatoryVariables="size+size2+size3")
+makeSurvObj(dataf,explanatoryVariables)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

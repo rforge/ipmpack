@@ -9,7 +9,7 @@
   to build survival objects for which methods to build an IPM  object are defined.
 }
 \usage{
-makeSurvObjManyCov(dataf,explanatoryVariables="size+size2+size3")
+makeSurvObjManyCov(dataf,explanatoryVariables="size+size2+covariate1")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
