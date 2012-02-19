@@ -28,7 +28,7 @@ largeMatrixCalc(Tmatrix, Fmatrix, tol = 1e-08)
 }
 \value{
  \item{lambda}{Population rate of increase}
-  \item{stable.dist}{Stable size distribution}
+  \item{stableDist}{Stable size distribution}
   \item{h1}{size bin width}
 }
 \references{
@@ -60,6 +60,7 @@ Fmatrix <-create.IPM.Fmatrix(minSize=min(dff$size,na.rm=TRUE),
 maxSize=max(dff$size,na.rm=TRUE),fecObj=makeFecObj(dff))
 
 largeMatrixCalc(Tmatrix,Fmatrix)
+#ROB WILL CHANGE THE APPROPRIATE SECTION IN BASE SO REPRODUCTIVE OUTPUT IS ALSO ATTAINABLE, AND THEN IMPLEMENT A FEW GRAPHS IN THE EXAMPLE SECTION HERE
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

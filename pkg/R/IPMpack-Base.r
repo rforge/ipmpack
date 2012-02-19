@@ -1622,6 +1622,7 @@ R0.calc<-function(Tmatrix,Fmatrix){
 #
 # Returns list containing lambda and stable.size
 #
+#ROB WILL MODIFY THIS CODE TO INCLUDE REPRODUCTIVE VALUES
 largeMatrixCalc <- function(Tmatrix,Fmatrix, tol=1.e-8){
 	require(Matrix)
 	A2 <- Matrix(Tmatrix+Fmatrix);
@@ -1640,14 +1641,14 @@ largeMatrixCalc <- function(Tmatrix,Fmatrix, tol=1.e-8){
 		#cat(lam,qmax,"\n");
 	} 
 	nt <- matrix(nt@x,length(Tmatrix[1,]),1); 
-	stable.dist <- nt/(h1*sum(nt)); #normalize so that integral=1
-	lam.stable <- lam; 
+	stableDist <- nt/(h1*sum(nt)); #normalize so that integral=1
+	lamStable <- lam; 
 	
 	# Check works   
 	qmax <- sum(abs(lam*nt-(Tmatrix+Fmatrix)%*%nt)); 
 	cat("Convergence: ",qmax," should be less than ",tol,"\n"); 
 	
-	return(list(lam=lam,stable.dist=stable.dist,h1=h1)) 
+	return(list(lam=lam,stableDist=stableDist,h1=h1)) 
 	
 }
 
