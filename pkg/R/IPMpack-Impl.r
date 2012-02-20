@@ -461,7 +461,7 @@ makeFecObjManyCov <- function(dataf,
 		mean.offspring.size=NA,
 		var.offspring.size=NA,
 		offspring.splitter=data.frame(continuous=1),
-		fec.by.discrete=matrix(NA,nrow=0,ncol=0)){
+		fec.by.discrete=data.frame(NA)){
 	
 	##warnings
 	if (length(dataf$stage)==0) {
