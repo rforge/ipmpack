@@ -22,7 +22,7 @@ Objects can be created by calls of the form \code{new("fecObj", ...)}.
     \item{\code{offspring.splitter}:}{Object of class \code{"data.frame"} ~~ }
     \item{\code{mean.offspring.size}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{var.offspring.size}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{fec.by.discrete}:}{Object of class \code{"matrix"} ~~ }
+    \item{\code{fec.by.discrete}:}{Object of class \code{"data.frame"} ~~ }
     \item{\code{Transform}:}{Object of class \code{"character"} ~~ }
    
   }

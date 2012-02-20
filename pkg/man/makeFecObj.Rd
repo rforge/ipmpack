@@ -14,7 +14,7 @@ makeFecObj(dataf, fec.constants=as.numeric(NA),
 	explanatoryVariables="size", Family="gaussian", 
 	Transform="none", fecNames=NA, mean.offspring.size=NA, 
 	var.offspring.size=NA, offspring.splitter=data.frame(continuous=1), 
-	fec.by.discrete=matrix(NA,nrow=0,ncol=0))
+	fec.by.discrete=data.frame(NA))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -34,9 +34,8 @@ makeFecObj(dataf, fec.constants=as.numeric(NA),
   \item{offspring.splitter}{dataframe with values defining the number of
     offspring going into the indicated offspring category; will be re-scaled to
     sum to 1 within the function. This argument needs to be entered as a data.frame, and the names in the data.frame need to precisely match the used stage names in the data file.}
-  \item{fec.by.discrete}{matrix defining number produced by each
-    discrete class (rows) into each of the discrete and continuous types (columns);
-    defaults to 0. THEY MUST appear in alphabetical order, with "continuous" as the last one.}     
+  \item{fec.by.discrete}{data.frame defining number of offspring produced by each
+    discrete class ; defaults to 0. If specified, ALL discrete classes MUST appear in alphabetical order, so NO "continuous". e.g. fec.by.discrete=data.frame(dormant=0,seed.age.1=4.2,seed.old=0)}     
 }
   
 \details{
