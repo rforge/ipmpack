@@ -784,7 +784,7 @@ makePostFecObjs <- function(dataf,
 		mean.offspring.size=NA,
 		var.offspring.size=NA,
 		offspring.splitter=data.frame(continuous=1),
-		fec.by.discrete=matrix(NA,nrow=0,ncol=0),nitt=50000) {
+		fec.by.discrete=data.frame(NA),nitt=50000) {
 	
 	require(MCMCglmm)
 	
