@@ -132,7 +132,7 @@ setClass("fecObj",
 				offspring.splitter = "data.frame",
 				mean.offspring.size = "numeric",
 				var.offspring.size = "numeric",
-				fec.by.discrete = "matrix",
+				fec.by.discrete = "data.frame",
 				Transform = "character")
 )
 
@@ -143,7 +143,7 @@ setClass("fecObjMultiCov",
 				offspring.splitter = "data.frame",
 				mean.offspring.size = "numeric",
 				var.offspring.size = "numeric",
-				fec.by.discrete = "matrix",
+				fec.by.discrete = "data.frame",
 				Transform = "character")
 )
 
@@ -852,19 +852,17 @@ create.IPM.Fmatrix <- function(fecObj,
 	
 	namesDiscrete <- "NA"
 	if (ndisc>0) {
+		namesDiscrete <- colnames(fecObj@offspring.splitter[1:ndisc])
 		
 		to.discrete <- as.numeric(fecObj@offspring.splitter)[1:ndisc]%*%t(prodFecValues)
 		
 		from.discrete <- matrix(0,ncol=ndisc,nrow=ndisc+nBigMatrix)
-		if (length(fecObj@fec.by.discrete)>0)
-			from.discrete <- c(as.numeric(fecObj@offspring.splitter)[1:ndisc],
-					as.numeric(fecObj@offspring.splitter)[ndisc+1]*tmp)%*%t(fecObj@fec.by.discrete)
-		
+		if (names(fecObj@fec.by.discrete)[1]!="NA.") {
+			if (sum(names(fecObj@fec.by.discrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fec.by.discrete are not 100% the same discrete class names in your data.frame offspring.splitter. They should also be in alphabetical order.")
+			from.discrete <- c(as.numeric(fecObj@offspring.splitter)[1:ndisc],as.numeric(fecObj@offspring.splitter)[ndisc+1]*tmp)%*%as.matrix(fecObj@fec.by.discrete)
+		}
 		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
-		
-		namesDiscrete <- colnames(fecObj@offspring.splitter[1:ndisc])
 	}
-	
 	
 	#warning about negative numbers
 	if (min(get.matrix)<0) print("Warning: fertility values < 0 exist in matrix, consider transforms.") 
