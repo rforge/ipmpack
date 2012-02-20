@@ -2,7 +2,7 @@
 \alias{makeListFmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Build list of Fmatrices from lists of growth, survival and fecundity objects
+Build list of F (sexual reproduction) matrices from lists of growth, survival and fecundity objects
 }
 \description{
 Uses posteriors (or other) lists of growth, fecundity and survival objects to
@@ -45,7 +45,8 @@ makeListFmatrix(growObjList, survObjList, fecObjList, nBigMatrix, minSize, maxSi
 list of Fmatrices. 
 }
 \references{
-%% ~put references to the literature/web site here ~
+Yang, Jongejans, Yang & Bishop. 2011. The effect of consumers and mutualists of Vaccinum membranaceum at Mount St. Helens: dependence on successional context. PLoS One 10 p1-11
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
