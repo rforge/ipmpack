@@ -799,7 +799,7 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 #   maxSize - upper end of desired size range
 #   chosen.cov - current level of covariate
 #   fecObj - a fecundity object
-#   integrate.type - options include "midpoint" "cumul" !! not yet implemented!!
+#   integrate.type - options include "midpoint" "cumul" 
 #   etc...
 #Returns -
 #  an IPM object
@@ -841,6 +841,10 @@ create.IPM.Fmatrix <- function(fecObj,
 	
 	#Kids normal dist
 	tmp<-dnorm(y,fecObj@mean.offspring.size,sqrt(fecObj@var.offspring.size))*h
+	if (integreate.type=="cumul") { 
+		tmp1 <- dnorm(b,fecObj@mean.offspring.size,sqrt(fecObj@var.offspring.size))
+		tmp <- tmp1[2:(nBigMatrix+1)]-tmp1[1:nBigMatrix]
+	}
 	if (correction=="constant") tmp<-tmp/sum(tmp)
 	to.cont<-tmp%*%t(as.numeric(fecObj@offspring.splitter["continuous"])*prodFecValues)
 	get.matrix <- to.cont
