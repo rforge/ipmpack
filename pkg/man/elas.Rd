@@ -4,10 +4,10 @@
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Functions to estimate elasticity and sensitivity of a matrix
+  Functions to estimate matrix element elasticity and sensitivity
 }
 \description{
-  Functions to estimate elasticity and sensitivity of each element of the IPM
+  Functions to estimate elasticity and sensitivity of each element of a discretized IPM
 }
 \usage{
 elas(A)
@@ -62,11 +62,11 @@ par(mfrow=c(1,2))
 
 elast <- elas(IPM)
 image(Tmatrix@meshpoints,Tmatrix@meshpoints,t(elast), 
-	main="Elasticity", xlab="size in t", ylab="size in t+1")
+	main="Elasticity", xlab="Size in t", ylab="Size in t+1")
 
 senst <- sens(IPM)
 image(Tmatrix@meshpoints,Tmatrix@meshpoints,t(senst), 
-	main="Sensitivity", xlab="size in t", ylab="size in t+1")
+	main="Sensitivity", xlab="Size in t", ylab="Size in t+1")
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -3,8 +3,8 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Functions to build environmental transition objects}
 \description{
-  Function that takes vectors of discrete environmental states at t and
-  t+1 and builds a transition matrix from this.
+  Function that takes vectors of discrete environmental states (e.g. shaded vs open canopy habitats) at times t and
+  t+1 and builds a transition (habitat) matrix from these
 }
 \usage{
 makeEnvObj(dataf)
@@ -24,7 +24,10 @@ makeEnvObj(dataf)
   an object of class env.matrix
 }
 \references{
-%% ~put references to the literature/web site here ~
+Horvitz & Schemske. 1995. Spatiotemporal variation in demographic transitions of a tropical understory herb. Projection matrix analysis. Ecological Monographs 65 p155-192
+
+Horvitz, Ehrlen & Matlaga. 2010. Context-dependent pollinator limitation in stochastic environments: can increased seed set overpower cost of reproduction in an understorey herb? Journal of Ecology 98 p268-278
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
