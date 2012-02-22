@@ -71,15 +71,15 @@ maxSize=max(dff$size, na.rm = TRUE), fecObj=makeFecObj(dff))
 IPM <- Tmatrix
 IPM@.Data <- Tmatrix+Fmatrix
 
-#project
-a1 <- predictFutureDistribution(starting.sizes=startPop, IPM=IPM,
-n.time.steps=4, starting.env = 1)
+#project five steps
+a5 <- predictFutureDistribution(starting.sizes=startPop,IPM=IPM,
+n.time.steps=5,starting.env=1)
 
 #plot
  plot(IPM@meshpoints,a1$n.new.dist,type="l",
- ylim=range(c(a1$n.new.dist,a1$n.new.dist0)), xlab="Size", ylab="")
- points(IPM@meshpoints,a1$n.new.dist0,type="l",col=2)
-legend("topright", legend=c("start dist", "end dist"), col=c(2,1),lty=1)
+ ylim=range(c(a1$n.new.dist,a1$n.new.dist0)), xlab="Size", ylab="Number of individuals")
+ points(IPM@meshpoints,a5$n.new.dist0,type="l",lty=2,col="red")
+legend("topright", legend=c("Start distribution", "Distribution in 5 steps"), col=c(1,2),lty=c(1,2))
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

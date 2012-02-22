@@ -51,15 +51,16 @@ sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, integrate.typ
     corresponding to parameters}
 }
 \references{
-Rees & Rose, 2002 Evolution of flowering strategies in Oenothera
+Rees & Rose. 2002. Evolution of flowering strategies in Oenothera
 glazioviana: an integral projection model
-approach. Proc. Roy. Soc. Lond. Ser. B. 269 p1509-1515
+approach. Proceedings of the Royal Society London Seres B 269 p1509-1515
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
-Modified following code developed by Mark Rees, Karen Rose.  
+Modified following code developed by  Rees & Rose.  
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -74,10 +75,8 @@ fecObj=makeFecObj(dff), nBigMatrix=50, minSize=min(dff$size, na.rm=TRUE),
 maxSize=max(dff$size, na.rm=TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
-barplot(res$slam, main = expression("Parameter sensitivity of " * 
- lambda), las = 2, cex.names = 0.5) 
-barplot(res$elam, main = expression("Parameter elasticity of " * 
- lambda), las = 2, cex.names = 0.5) 
+barplot(res$slam, main = expression("Parameter sensitivity of population growth rate "* lambda), las = 2, cex.names = 0.5) 
+barplot(res$elam, main = expression("Parameter elasticity of population growth rate "* lambda), las = 2, cex.names = 0.5) 
 
 #same but with two fecundity functions WON'T WORK ALTHOUGH DOES DIRECTLY???
 dff$fec2 <- dff$fec>0 #create binomial describing e.g., prob of flowering
@@ -89,9 +88,9 @@ fecObj=fv1, nBigMatrix=50, minSize=min(dff$size, na.rm=TRUE),
 maxSize=max(dff$size, na.rm=TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
-barplot(res$slam, main = expression("Parameter sensitivity of " * 
+barplot(res$slam, main = expression("Parameter sensitivity of population growth rate " * 
  lambda), las = 2, cex.names = 0.5) 
-barplot(res$elam, main = expression("Parameter elasticity of " * 
+barplot(res$elam, main = expression("Parameter elasticity of population growth rate " * 
  lambda), las = 2, cex.names = 0.5) 
 
 
@@ -102,13 +101,10 @@ fecObj=fv1, nBigMatrix=50, minSize=min(dff$size, na.rm=TRUE),
 maxSize=max(dff$size, na.rm=TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
-barplot(res$slam, main = expression("Parameter sensitivity of " * 
+barplot(res$slam, main = expression("Parameter sensitivity of population growth rate " * 
  lambda), las = 2, cex.names = 0.5) 
-barplot(res$elam, main = expression("Parameter elasticity of " * 
+barplot(res$elam, main = expression("Parameter elasticity of population growth rate " * 
  lambda), las = 2, cex.names = 0.5) 
-
-
-
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

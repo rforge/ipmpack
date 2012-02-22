@@ -2,12 +2,10 @@
 \alias{run.Simple.Model}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function to run a simple model using default survival, 
-growth functions. 
+Function to run a simple model using default survival and growth functions. 
 }
 \description{
-This function takes a dataframe, a chosen size, a min and max, and a
-number of bins, and creates a Tmatrix and plots passage time and life expectancy (does not include fecundity)
+This function takes a dataframe, a chosen size, a minimum and maximum size onto which integrate, and a number of bins, and creates a T matrix and plots passage time and life expectancy (does not include fecundity)
 }
 \usage{
 run.Simple.Model(dataf, chosen.size, minSize = c(), maxSize = c(), 
@@ -17,7 +15,7 @@ integrate.type = "midpoint", correction="none")
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{
-  a data-frame with columns size, sizeNext (which is size in the NEXT time
+  a data-frame with columns size, sizeNext (which is size in the next time
   step), and surv, at a minimum%%     
   }
   \item{chosen.size}{
