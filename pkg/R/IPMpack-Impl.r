@@ -388,7 +388,9 @@ makeFecObj <- function(dataf,
 	
 	if (ncol(offspring.splitter)>1 & (ncol(offspring.splitter)-1)!=ncol(fec.by.discrete)) {
 		print("Warning - offspring splitter indicates more than just continuous stages. No fecundity by the discrete stages supplied in fec.by.discrete; assumed that is 0")
-		fec.by.discrete <- matrix(0,col(offspring.splitter)-1,col(offspring.splitter)-1)
+		#fec.by.discrete <- matrix(0,col(offspring.splitter)-1,col(offspring.splitter)-1)
+		fec.by.discrete <- offspring.splitter[,1:(ncol(offspring.splitter)-1)]
+		fec.by.discrete[] <- 0
 	}
 	
 	if (sum(offspring.splitter)!=1) {
