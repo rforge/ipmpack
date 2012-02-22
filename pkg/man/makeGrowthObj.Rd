@@ -10,7 +10,6 @@
 }
 \usage{
 makeGrowthObj(dataf, explanatoryVariables="size", responseType="sizeNext",regType="constantVar")
-makeGrowthObj(dataf, explanatoryVariables="size+size2", responseType="incr",regType="constantVar")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

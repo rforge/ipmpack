@@ -27,8 +27,8 @@ makeFecObj(dataf, fec.constants=as.numeric(NA),
       containing "fec" or in the order of column names specified in fecNames} }
   \item{Transform}{a character vector containing the names of the
     transforms to be used for the response variables, e.g., log, sqrt, -1, etc. Again, these must appear  \emph{in the order defined by the alphabetical order of column names
-      containing "fec" or in the order of column names specified in fecNames} 
-  \item{fecNames}{a character vector containing the names of the columns of the dataframe from which fecundity data will be analysed (one column at a time). If the fecNames argument is not specified (as by defaul, NA), fecNames will be filled by the names of all column names that contain "fec".} }
+      containing "fec" or in the order of column names specified in fecNames} }
+  \item{fecNames}{a character vector containing the names of the columns of the dataframe from which fecundity data will be analysed (one column at a time). If the fecNames argument is not specified (as by defaul, NA), fecNames will be filled by the names of all column names that contain "fec".} 
   \item{mean.offspring.size}{numeric vector, defining mean offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size}
   \item{var.offspring.size}{numeric vector, defining mean offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size}
   \item{offspring.splitter}{dataframe with values defining the number of

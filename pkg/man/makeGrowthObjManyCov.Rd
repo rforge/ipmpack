@@ -9,8 +9,7 @@
   object are defined.
 }
 \usage{
-makeGrowthObjManyCov(dataf, explanatoryVariables="size+covariate1+covariate2", responseType="sizeNext",regType="constantVar")
-makeGrowthObjManyCov(dataf, explanatoryVariables="size+size2+covariate3", responseType="incr",regType="constantVar")
+makeGrowthObjManyCov(dataf, explanatoryVariables="size+size2+covariate1", responseType="sizeNext",regType="constantVar")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
