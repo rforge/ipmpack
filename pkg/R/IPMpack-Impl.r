@@ -922,16 +922,11 @@ makeListTmatrix <- function(growObjList,survObjList,
 
 # Function to take a list of growth and survival objects and make a list of Fmatrices
 
-makeListFmatrix <- function(growObjList,survObjList,fecObjList,
-		nBigMatrix,minSize,maxSize, cov=FALSE, env.mat=NULL) {
+makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE, env.mat=NULL) {
 	
-	nsamp <- max(length(growObjList),length(survObjList),length(fecObjList))
-	if (length(survObjList)<nsamp)  
-		survObjList <- sample(survObjList,size=nsamp,replace=TRUE)
+	nsamp <- max(length(fecObjList))
 	if (length(fecObjList)<nsamp)  
 		fecObjList <- sample(fecObjList,size=nsamp,replace=TRUE)
-	if (length(growObjList)<nsamp)  
-		growObjList <- sample(growObjList,size=nsamp,replace=TRUE)
 	
 	Fmatrixlist <- list()
 	for ( k in 1:nsamp) {

@@ -75,8 +75,7 @@ fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
 Tlist <- makeListTmatrix(growObjList=grlist[1:10], survObjList=svlist[1:10],
 nBigMatrix=20, minSize=-5, maxSize=20, cov = FALSE, env.mat = NULL)
 
-Flist <- makeListFmatrix(growObjList=grlist[1:10], survObjList=svlist[1:10],fecObjList=fvlist[1:10],
-nBigMatrix=20, minSize=-5, maxSize=20, cov = FALSE, env.mat = NULL)
+Flist <- makeListFmatrix(fecObjList=fvlist[1:10], nBigMatrix=20, minSize=-5, maxSize=20, cov = FALSE, env.mat = NULL)
 
 res <- getIPMoutput(Tmatrixlist=Tlist, target.size = 10, Fmatrixlist = Flist)
 names(res)

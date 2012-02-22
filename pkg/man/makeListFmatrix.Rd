@@ -9,17 +9,11 @@ Uses posteriors (or other) lists of growth, fecundity and survival objects to
 create a list of Fmatrices
 }
 \usage{
-makeListFmatrix(growObjList, survObjList, fecObjList, nBigMatrix, minSize, maxSize, cov = FALSE, env.mat = NULL)
+makeListFmatrix(fecObjList, nBigMatrix, minSize, maxSize, cov = FALSE, env.mat = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{growObjList}{
-	list of growth objects
-}
-  \item{survObjList}{
-	list of survival objects
-}
-  \item{fecObjList}{
+   \item{fecObjList}{
 	list of fecundity objects
 }
   \item{nBigMatrix}{
@@ -63,14 +57,9 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff<-generateData()
 fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
-svlist <- makePostSurvivalObjs(dataf=dff, 
-meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
-grlist <- makePostGrowthObjs(dataf=dff, 
-meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
 
 #only first 10 for speed
-Flist <- makeListFmatrix(growObjList=grlist[1:10],
-survObjList=svlist[1:10],fecObjList=fvlist[1:10],
+Flist <- makeListFmatrix(fecObjList=fvlist[1:10],
 nBigMatrix=20, minSize=-5, maxSize=20, cov = FALSE, env.mat = NULL)
 
 #make pics of two of them at random...
