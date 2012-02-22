@@ -5,7 +5,7 @@
 Function to define passage time to a chosen size
 }
 \description{
-  Estimates the time in units of the chosen time-steps that it will take to
+  Estimates the time in units of the chosen time-steps (see convertIncrement()) that it will take to
   reach a chosen size for the first time conditional on surviving from each of the meshpoints of the IPM; 
   currently not defined for matrices with discrete as well as continuous stage categories. 
 }
@@ -29,20 +29,17 @@ PassageTime(chosen.size, IPM.matrix)
   from values > than the chosen.size should be ignored. 
 }
 \value{
-  a vector of times in the units of the chosen time-steps corresponding to each of the IPM meshpoints
+  A vector of times in the units of the chosen time-steps corresponding to each of the IPM meshpoints
 }
 \references{
 Caswell, 2001. Matrix population models: analysis, construction and
-interpretation. Sinauer. 
+interpretation. 2nd ed. Sinauer. 
 
-Metcalf, C.J.E., Horvitz, C.C., Tuljapurkar, S. & Clark, D.A. 2009 A time to grow and a time to die: a 
-new way to analyze the dynamics of size, light, age and death of
-tropical trees. Ecology 90: 2766-2778
+Metcalf, Horvitz, Tuljapurkar & Clark. 2009 A time to grow and a time to die: a new way to analyze the dynamics of size, light, age and death of
+tropical trees. Ecology 90, p2766-2778
 
-See Zuidema et al. 2010. Integral Projection Models for trees: a new
-parameterization method and a validation of model output. Journal of
-Ecology 98: 345-355 for bias in this estimation where variance in growth
-is small relative to the size range. 
+For bias in this estimation where variance in growth is small relative to the size range: Zuidema, Jongejans, Chien, During & Schieving. 2010. Integral Projection Models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98, p345-355
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
@@ -61,7 +58,11 @@ dff <- generateData()
 Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size, na.rm = TRUE),
 maxSize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff))
-PassageTime(5,Tmatrix)
+targetSize=8
+passage=PassageTime(targetSize,Tmatrix)
+
+plot(passage,ylab="Passage time",xlab="Continuous stage",type="l",col="dark gray",ylim=c(0,max(passage)))
+abline(v=targetSize,col="red")
 
 
 ##with a compound matrix (discrete stages not yet defined)
@@ -69,7 +70,12 @@ Tmatrix <-create.compound.Tmatrix(minSize=min(dff$size,na.rm=TRUE),
 maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
 growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"),
 survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"),DiscreteTrans=1)
-PassageTime(5,Tmatrix)
+targetSize=8
+passage=PassageTime(targetSize,Tmatrix)
+
+plot(passage,ylab="Passage time",xlab="Discrete and continuous stages",type="l",col="dark gray",ylim=c(0,max(passage)))
+abline(v=targetSize,col="red")
+
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

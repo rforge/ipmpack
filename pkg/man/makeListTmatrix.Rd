@@ -2,11 +2,11 @@
 \alias{makeListTmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Build list of Tmatrices from list growth and survival objects
+  Build list of T matrices from list growth and survival objects
 }
 \description{
   Uses posteriors (or other) lists of growth and survival objects to
-  create a list of Tmatrices
+  create a list of T matrices
 }
 \usage{
 makeListTmatrix(growObjList, survObjList, nBigMatrix, minSize, maxSize, cov = FALSE, env.mat = NULL)

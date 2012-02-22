@@ -2,7 +2,7 @@
 \alias{makeListIPMs}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Make list IPMs where there is a discretely covarying covariate
+Make list IPMs where there is a discrete covariate
 }
 \description{
 Wrapper function to build the IPM corresponding to every level of the
