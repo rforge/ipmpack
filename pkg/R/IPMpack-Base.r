@@ -1,5 +1,8 @@
 
 
+##can you do this to get rid of teh warnings? check 
+require(nlme)
+
 logit <- function(x) { u<-exp(pmin(x,50)); return(u/(1+u))}
 
 

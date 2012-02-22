@@ -89,9 +89,7 @@ list of fecundity objects (facultative)
   \item{grow.par} {matrix of posteriors of growth parameters (in columns)} 
 }
 \references{
-For midpoint: Zuidema, Jongejans, Chien, Duiring & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355
-
-}
+For midpoint: Zuidema, Jongejans, Chien, Duiring, Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355}
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
@@ -139,10 +137,9 @@ hist(res$lambda,xlab=expression(lambda),ylab="", main="",col="grey")
 
 
 # same but for compound matrix #
-#TODO - check code
-#res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
-#nBigMatrix=20, minSize=-2, maxSize=15, cov = TRUE, fecObjList =fvlist[1:10],
-#env.mat = makeEnvObj(dff), n.size.to.age = 5, size.start = -1)
+res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
+nBigMatrix=20, minSize=-2, maxSize=15, cov = TRUE, fecObjList =fvlist[1:10],
+env.mat = makeEnvObj(dff), n.size.to.age = 5, size.start = -1)
 
 
 }
