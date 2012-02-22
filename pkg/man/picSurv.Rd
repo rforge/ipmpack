@@ -15,7 +15,7 @@ picSurv(dataf, survObj, ncuts = 20, ...)
   \item{dataf}{a dataframe with columns `size' and
     `sizeNext'(`size' is size at t, `sizeNext' is size at t+1);
     facultatively, dataf may include `covariate'
-    and `covariatel' for a single discrete covariate, indicating values at t,
+    and `covariateNext' for a single discrete covariate, indicating values at t,
     and at t+1, respectively; these must take values of sequential integers, starting at
     `1'. For models fitting growth increment, 'incr' or 'logincr' may be directly provided as
     a column in the dataframe, otherwise they are calculated as

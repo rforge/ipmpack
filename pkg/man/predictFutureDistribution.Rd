@@ -2,7 +2,7 @@
 \alias{predictFutureDistribution}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Predict size distibution in the future giving current population
+  Predict size distribution in the future giving current population's size distribution
 }
 \description{
   Function to project a population forwards using an IPM and a starting
@@ -33,7 +33,7 @@ predictFutureDistribution(starting.sizes, IPM, n.time.steps, starting.env = 1)
 }
 }
 \details{
-Currently this does not accept IPMs with discrete stages.
+Currently this does not accept IPMs with discrete stages (e.g. seedbank)
 }
 \value{
  \item{n.new.dist0}{Starting frequency distribution along meshpoints in IPM.matrix}
@@ -57,7 +57,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 
 #define starting pop of interest
-startpop <- rnorm(1000,4,1)
+startPop <- rnorm(1000,4,1)
 
 #build T and F matrix
 dff <- generateData()
@@ -72,7 +72,7 @@ IPM <- Tmatrix
 IPM@.Data <- Tmatrix+Fmatrix
 
 #project
-a1 <- predictFutureDistribution(starting.sizes=startpop, IPM=IPM,
+a1 <- predictFutureDistribution(starting.sizes=startPop, IPM=IPM,
 n.time.steps=4, starting.env = 1)
 
 #plot
