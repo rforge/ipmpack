@@ -1162,8 +1162,9 @@ setMethod("MeanLifeExpect",
 		c("IPM.matrix"),
 		function(IPM.matrix){
 			require(MASS)
-			nBigMatrix <- length(IPM.matrix@.Data[1,])
-			tmp <-  ginv(diag(IPM.matrix@n.env.class*nBigMatrix)-IPM.matrix)
+			nBigMatrix <- length(IPM.matrix@.Data[1,]) #this nBigMatrix actually contains discrete, env, etc
+			#tmp <-  ginv(diag(IPM.matrix@n.env.class*nBigMatrix)-IPM.matrix)
+			tmp <-  ginv(diag(nBigMatrix)-IPM.matrix)
 			lifeExpect <- colSums(tmp)
 			return(lifeExpect)
 		})
@@ -1181,7 +1182,8 @@ setMethod("VarLifeExpect",
 		function(IPM.matrix){
 			require(MASS)
 			nBigMatrix <- length(IPM.matrix@.Data[1,])
-			tmp <-  ginv(diag(IPM.matrix@n.env.class*nBigMatrix)-IPM.matrix)
+			#tmp <-  ginv(diag(IPM.matrix@n.env.class*nBigMatrix)-IPM.matrix)
+			tmp <-  ginv(diag(nBigMatrix)-IPM.matrix)
 			#varlifeExpect <- (2*diag(tmp)-diag(length(IPM.matrix[,1])))%*%tmp-(tmp*tmp)
 			#varLifeExpect <- colSums(varlifeExpect)
 			varLifeExpect <- colSums(2*(tmp%*%tmp)-tmp)-colSums(tmp)*colSums(tmp)                  
@@ -1199,6 +1201,8 @@ setMethod("VarLifeExpect",
 # returns - a list including the survivorship up to the max age,
 #                      this broken down by stage,
 #                       and mortality over age 
+
+## WON'T WORK WITH DISCRETE STAGES AS IS!!
 setGeneric("Survivorship",
 		function(IPM.matrix, size1, maxage) standardGeneric("Survivorship"))
 
@@ -1206,7 +1210,8 @@ setMethod("Survivorship",
 		c("IPM.matrix","numeric","numeric"),
 		function(IPM.matrix, size1, maxage=300){
 			nBigMatrix <- length(IPM.matrix@.Data[1,])
-			n <- IPM.matrix@n.env.class*nBigMatrix
+			#n <- IPM.matrix@n.env.class*nBigMatrix
+			n <- nBigMatrix
 			A1 <- tmp <-  IPM.matrix
 			stage.agesurv <- matrix(NA,n,maxage)
 			surv.curv <- rep (NA,maxage)

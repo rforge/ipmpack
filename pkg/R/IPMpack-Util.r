@@ -59,7 +59,7 @@ getIPMoutput <- function(Tmatrixlist,target.size=c(),Fmatrixlist=NULL){
 # Returns - a list 
 
 getIPMoutputDirect <- function(survObjList,growObjList,target.size=c(),
-		nBigMatrix,minSize,maxSize,
+		nBigMatrix,minSize,maxSize,DiscreteTrans = 1,
 		cov=FALSE,fecObjList=NULL, env.mat=NULL,
 		n.size.to.age=0, size.start=10,
 		integrate.type="midpoint", correction="none"){
@@ -75,7 +75,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,target.size=c(),
 		if (length(fecObjList)<nsamp)  
 			fecObjList <- sample(fecObjList,size=nsamp,replace=TRUE)
 	}
-	
+		
 	# store chosen parameters
 	surv.par <- matrix(NA,nsamp,length(survObjList[[1]]@fit$coefficients))
 	grow.par <- matrix(NA,nsamp,length(growObjList[[1]]@fit$coefficients)+1)
@@ -85,11 +85,13 @@ getIPMoutputDirect <- function(survObjList,growObjList,target.size=c(),
 	}
 	
 	#set up storage
-	LE <- ptime <- matrix(NA,nsamp,nBigMatrix)
+	if (is.data.frame(DiscreteTrans)) ndisc <- ncol(DiscreteTrans) else ndisc <- 0
+	if (class(env.mat)!="NULL") n.env <- env.mat@n.env.class else n.env <- 1
+	LE <- ptime <- matrix(NA,nsamp,(nBigMatrix+ndisc)*n.env)
 	if (class(fecObjList)=="NULL") {
 		lambda <- stable.size <- c()
 	} else {
-		stable.size <- matrix(NA,nsamp,nBigMatrix)
+		stable.size <- matrix(NA,nsamp,(nBigMatrix+ndisc)*n.env)
 		lambda <- rep(NA,nsamp)
 	}
 	if (n.size.to.age==0) { resAge <- resSize <- c() } else { resAge <- resSize <- matrix(NA,nsamp,n.size.to.age)} 
@@ -101,19 +103,20 @@ getIPMoutputDirect <- function(survObjList,growObjList,target.size=c(),
 		if (!cov) {
 			Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, growObj = growObjList[[k]],
-					survObj = survObjList[[k]],
+					survObj = survObjList[[k]],DiscreteTrans=DiscreteTrans,
 					integrate.type=integrate.type, correction=correction) 
+			
 		} else {
-			Tmatrix <- create.compound.Tmatrix(n.env.class = length(env.mat[1,]),
+			Tmatrix <- create.compound.Tmatrix(n.env.class = n.env,
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=env.mat,growObj = growObjList[[k]],
-					survObj = survObjList[[k]],
+					survObj = survObjList[[k]],DiscreteTrans=DiscreteTrans,
 					integrate.type=integrate.type, correction=correction)    
+	
 		}
 		
-		
-		LE[k,]<-MeanLifeExpect(Tmatrix) 
-		ptime[k,]<-PassageTime(target.size,Tmatrix) 
+		LE[k,] <- MeanLifeExpect(Tmatrix) 
+		ptime[k,] <- PassageTime(target.size,Tmatrix) 
 		if (k==1) h1 <- diff(Tmatrix@meshpoints)[1]
 		
 		if (class(fecObjList)!="NULL") {
@@ -121,19 +124,23 @@ getIPMoutputDirect <- function(survObjList,growObjList,target.size=c(),
 				Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 						maxSize = maxSize, 
 						fecObj=fecObjList[[k]],
-						integrate.type=integrate.type)
+						integrate.type=integrate.type, correction=correction)
 			} else {
-				Fmatrix <- create.compound.Fmatrix(n.env.class = length(env.mat[1,]),
+				Fmatrix <- create.compound.Fmatrix(n.env.class = n.env,
 						nBigMatrix = nBigMatrix, minSize = minSize, 
 						maxSize = maxSize, envMatrix=env.mat,
-						fecObj=fecObjList[[k]],integrate.type=integrate.type)
+						fecObj=fecObjList[[k]],integrate.type=integrate.type, correction=correction)
 			}
+
+	
 			
 			IPM <- Tmatrix + Fmatrix
 			lambda[k] <- Re(eigen(IPM)$value[1])
 			stable.size[k,] <- eigen(IPM)$vector[,1]
 			#normalize stable size distribution
 			stable.size[k,] <- stable.size[k,]/(h1*sum(stable.size[k,]))
+			
+			#print("here2")
 		}
 		
 		# get size to age results

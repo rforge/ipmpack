@@ -51,12 +51,17 @@ makeGrowthObj <- function(dataf,
 	
 	#setup for discrete covariates if data suggests may be implemented by the
 	#presence of "covariate" and "covariateNext"
-	if (length(grep("covariate",Formula))>0 &
-			length(grep("covariateNext",colnames(dataf)))>0) {
+		if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
 		dataf$covariate <- as.factor(dataf$covariate)
-		#convert to 1:n for indexing later
 		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
+		
 	}
+	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) { 
+		dataf$covariateNext <- as.factor(dataf$covariateNext)
+		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
+	}
+	
+	
 	
 	#eval fit
 	if (regType=="constantVar")  {
@@ -308,12 +313,16 @@ makeSurvObj <- function(dataf,
 	
 	#setup for discrete covariates if data suggests may be implemented by the
 	#presence of "covariate" and "covariateNext"
-	if (length(grep("covariate",formula))>0 &
-			length(grep("covariateNext",colnames(dataf)))>0) {
+	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
 		dataf$covariate <- as.factor(dataf$covariate)
-		#convert to 1:n for indexing later
 		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
+		
 	}
+	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) { 
+		dataf$covariateNext <- as.factor(dataf$covariateNext)
+		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
+	}
+	
 	
 	#  print(formula)
 	
@@ -482,18 +491,10 @@ makeFecObjManyCov <- function(dataf,
 		print("Warning - offspring splitter does not sum to 1. It is now rescaled to sum to 1.")
 		
 	}
+
+	# the covariate covariatenext transform removed here, because presumably if you are doing ManyCov you 
+	# have something else in mind!
 	
-	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
-			dataf$covariate <- as.factor(dataf$covariate)
-			levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
-			
-		}
-	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) { 
-			dataf$covariateNext <- as.factor(dataf$covariateNext)
-			levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
-		}
-		#print(table(dataf$covariate))
-		
 	f1 <- new("fecObjMultiCov")
 	dataf$size2 <- dataf$size^2
 	if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
@@ -677,12 +678,21 @@ makePostGrowthObjs <- function(dataf,
 	
 	dataf$size2 <- dataf$size^2
 	dataf$size3 <- dataf$size^3
-	if (length(dataf$covariate)>0){
-		dataf$covariate <- as.factor(dataf$covariate)
-		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
-	}
 	if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
 	
+	#setup for discrete covariates if data suggests may be implemented by the
+	#presence of "covariate" and "covariateNext"
+	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
+		dataf$covariate <- as.factor(dataf$covariate)
+		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
+		
+	}
+	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) { 
+		dataf$covariateNext <- as.factor(dataf$covariateNext)
+		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
+	}
+	
+		
 	#get rid of NAs
 	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizeNext),]
 	
@@ -729,12 +739,22 @@ makePostSurvivalObjs <- function(dataf,
 	#build appropriate size based covariates
 	dataf$size2 <- dataf$size^2
 	dataf$size3 <- dataf$size^3
-	dataf$covariate <- as.factor(dataf$covariate)
-	levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
 	if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
 	
+	#setup for discrete covariates if data suggests may be implemented by the
+	#presence of "covariate" and "covariateNext"
+	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
+		dataf$covariate <- as.factor(dataf$covariate)
+		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
+		
+	}
+	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) { 
+		dataf$covariateNext <- as.factor(dataf$covariateNext)
+		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
+	}
+			
 	#get rid of NAs
-	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizeNext),]
+	dataf <- dataf[!is.na(dataf$size)& !is.na(dataf$surv),]
 	
 	
 	#build formula
@@ -803,12 +823,18 @@ makePostFecObjs <- function(dataf,
 		fec.by.discrete <- matrix(0,col(offspring.splitter)-1,col(offspring.splitter)-1)
 	}
 	
-	if (length(grep("covariate",explanatoryVariables))>0) {
+    #setup for discrete covariates if data suggests may be implemented by the
+	#presence of "covariate" and "covariateNext"
+	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
 		dataf$covariate <- as.factor(dataf$covariate)
-		dataf$covariateNext <- as.factor(dataf$covariateNext)
 		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
+		
 	}
-	
+	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) { 
+		dataf$covariateNext <- as.factor(dataf$covariateNext)
+		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
+	}
+			
 	dataf$size2 <- dataf$size^2
 	if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
 	fecNames <- names(dataf)[grep("fec",names(dataf))]

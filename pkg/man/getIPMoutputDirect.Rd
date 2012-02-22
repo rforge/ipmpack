@@ -14,7 +14,7 @@ also allows compound matrices to be produced following levels of a discrete cova
 }
 \usage{
 getIPMoutputDirect(survObjList, growObjList, target.size = c(), 
-	nBigMatrix, minSize, maxSize, cov = FALSE, 
+	nBigMatrix, minSize, maxSize, DiscreteTrans = 1,cov = FALSE, 
 	fecObjList = NULL, env.mat = NULL, n.size.to.age = 0, 
 	size.start = 10, integrate.type = "midpoint",correction = "none")
 }
@@ -38,6 +38,9 @@ minimum size
   \item{maxSize}{
 maximum size
 }
+  \item{DiscreteTrans}{
+    object of class DiscreteTrans, or numeric
+  }
   \item{cov}{
 boolean identifying if a discrete covariate should be fitted; if cov=TRUE, 
 an environmental matrix MUST be supplied. 
@@ -102,13 +105,9 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff <- generateData()
 
-#use package MCMCglmm to get Bayesian posteriors - note that sometimes
-#!this sometimes later leads to error messages with glm - so you might have
-#to re-start R to run other parts of the package! 
-
-svlist <- makePostSurvivalObjs(dataf=dff, meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
-grlist <- makePostGrowthObjs(dataf=dff,  nitt=5000)
-fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
+svlist <- makePostSurvivalObjs(dataf=dff, explanatoryVariables="size+size2", meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
+grlist <- makePostGrowthObjs(dataf=dff, explanatoryVariables="size+size2", meanB = rep(0, 3), varB = rep(1e+10),  nitt=5000)
+fvlist <- makePostFecObjs(dataf=dff, explanatoryVariables="size+size2", Transform="log",nitt=5000)
 
 #Just use first 10 for speed
 res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
@@ -136,10 +135,29 @@ for (j in 1:nrow(res$stable.size)) points(res$meshpoints,Re(res$stable.size[j,])
 hist(res$lambda,xlab=expression(lambda),ylab="", main="",col="grey")
 
 
-# same but for compound matrix #
+
+# same but for matrix with discrete classes #
+svlist <- makePostSurvivalObjs(dataf=dff, explanatoryVariables="size+size2+covariate", meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
+env1 <- makeEnvObj(dff)
 res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
 nBigMatrix=20, minSize=-2, maxSize=15, cov = TRUE, fecObjList =fvlist[1:10],
-env.mat = makeEnvObj(dff), n.size.to.age = 5, size.start = -1)
+env.mat = env1, n.size.to.age = 5, size.start = -1)
+
+
+
+# same but for matrix with discrete classes #
+dff <- generateDataDiscrete()
+
+svlist <- makePostSurvivalObjs(dataf=dff, explanatoryVariables="size+size2", meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
+grlist <- makePostGrowthObjs(dataf=dff, explanatoryVariables="size+size2", meanB = rep(0, 3), varB = rep(1e+10),  nitt=5000)
+fvlist <- makePostFecObjs(dataf=dff, explanatoryVariables="size+size2", Transform="log",nitt=5000)
+
+res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
+nBigMatrix=20, minSize=-2, maxSize=15, cov = FALSE, fecObjList =fvlist[1:10],
+n.size.to.age = 5, size.start = -1)
+
+
+
 
 
 }

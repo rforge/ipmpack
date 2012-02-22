@@ -35,7 +35,7 @@ makeDiscreteTrans(dataf)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-  an object of class "DiscreteTrans"
+  an object of class "DiscreteTrans" with columns corresponding to all the discrete and the one continuous stage
 }
 \references{
 Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81 p694-708

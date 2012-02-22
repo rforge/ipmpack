@@ -52,6 +52,19 @@ maxSize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff))
 MeanLifeExpect(Tmatrix)
 
+
+##with discrete stages
+dff<-generateDataDiscrete()
+dff$covariate <- sample(1:3,size=nrow(dff),replace=TRUE)
+dff$covariateNext <- sample(1:3,size=nrow(dff),replace=TRUE)
+discM <- makeDiscreteTrans(dff)
+Tmatrix <-create.compound.Tmatrix(minSize=min(dff$size,na.rm=TRUE),
+maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
+growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"),
+survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"),DiscreteTrans=discM)
+MeanLifeExpect(Tmatrix)
+
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
