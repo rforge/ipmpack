@@ -6,7 +6,8 @@ Function to define passage time to a chosen size
 }
 \description{
   Estimates the time in units of the chosen time-steps that it will take to
-  reach a chosen size for the first time conditional on surviving from each of the meshpoints of the IPM
+  reach a chosen size for the first time conditional on surviving from each of the meshpoints of the IPM; 
+  currently not defined for matrices with discrete as well as continuous stage categories. 
 }
 \usage{
 PassageTime(chosen.size, IPM.matrix)
@@ -62,10 +63,14 @@ maxSize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff))
 PassageTime(5,Tmatrix)
 
-Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size, na.rm = TRUE),
-maxSize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
-survObj=makeSurvObj(dff))
+
+##with a compound matrix (discrete stages not yet defined)
+Tmatrix <-create.compound.Tmatrix(minSize=min(dff$size,na.rm=TRUE),
+maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
+growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"),
+survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"),DiscreteTrans=1)
 PassageTime(5,Tmatrix)
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

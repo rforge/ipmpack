@@ -7,7 +7,7 @@
 \description{
   Uses perturbation to estimate the sensitivity and elasticity of
   all the parameters underlying an IPM that is structured only by size
-  (compound T and F matrixes not possible yet)
+  (compound T and F matrices not possible yet; nor matrices with discrete stages)
 }
 \usage{
 sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, integrate.type, correction)

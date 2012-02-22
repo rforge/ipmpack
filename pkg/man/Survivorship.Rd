@@ -60,6 +60,14 @@ survObj=makeSurvObj(dff))
 su <- Survivorship(Tmatrix,1,300)
 plot(su$surv.curv,type="l")
 
+
+Tmatrix <-create.compound.Tmatrix(minSize=min(dff$size,na.rm=TRUE),
+maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
+growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"),
+survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"),DiscreteTrans=1)
+su <- Survivorship(Tmatrix,1,300)
+plot(su$surv.curv,type="l")
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

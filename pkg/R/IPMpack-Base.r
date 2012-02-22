@@ -1248,8 +1248,7 @@ setMethod("PassageTime",
 		function(chosen.size,IPM.matrix){
 			require(MASS)
 			
-			loc <- which(abs(chosen.size-
-											IPM.matrix@meshpoints) ==
+			loc <- which(abs(chosen.size-IPM.matrix@meshpoints) ==
 							min(abs(chosen.size - IPM.matrix@meshpoints)),arr.ind=TRUE)[1]
 			matrix.dim <- length(IPM.matrix[1,])
 			

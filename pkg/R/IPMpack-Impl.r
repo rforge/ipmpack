@@ -62,7 +62,6 @@ makeGrowthObj <- function(dataf,
 	}
 	
 	
-	
 	#eval fit
 	if (regType=="constantVar")  {
 		fit <-lm(Formula, data=dataf)
