@@ -2,10 +2,10 @@
 \alias{StochGrowthRateManyCov}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function for estimating lambdas or invasion rate with many varying covariates
+Function for estimating stochastic population growth rates (lambda_s) or invasion rate with many varying covariates
 }
 \description{
-Iterates a population through a time-series of covariates according to
+Iterates a population vector through a time-series of covariates according to
 growth, survival and fecundity objects, and
 calculates the stochastic population rate of increase if no
 density-dependence is specified, or the rate of invasion if density
@@ -71,6 +71,10 @@ rate (density dependence) for large enough Tmax, and if
 covariate distribution is stationary. 
 }
 \references{
+Ellner & Rees. 2007. Stochastic stable population growth in integral projection models: theory and application. Journal of Mathematical Biology 54, p227-256
+
+Rees & Ellner. 2009. Integral projection models for populations in temporally varying environments. Ecological Monographs 79, p575-594
+
 %% ~put references to the literature/web site here ~
 }
 \author{
@@ -95,7 +99,7 @@ sv1 <- makeSurvObjManyCov(dff,explanatoryVariables="size+size2+covariate2")
 fv1 <- makeFecObjManyCov(dff,explanatoryVariables="size+size2")
 
 #generate time-series of covariates for which population growth rate is required
-# here set to be seasonal environment. NAMES of covariates must be same as in dff
+# here set to be seasonal environment. Names of covariates must be same as in dff
 tvals <- seq(1,20,by=1/12)
 covtest <- (1+0.5*sin(2*pi*tvals))
 covmattest <- data.frame(covariate1=rnorm(length(covtest),covtest,0.5)-1,

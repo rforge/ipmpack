@@ -2,7 +2,7 @@
 \alias{StochGrowthRateSampleList}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Estimating the stochastic growth rate
+  Estimating the stochastic population growth rate
 }
 \description{
   Function to estimate the stochastic growth rate lambda_s by iteration; operates by sampling a list of IPMs
