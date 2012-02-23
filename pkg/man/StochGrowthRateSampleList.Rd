@@ -26,12 +26,12 @@ StochGrowthRateSampleList(list.IPM.matrix, n.runin, Tmax)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-a numeric converging on high enough log lambda_s for sufficient Tmax; note that if the population shrinks to zero, this may return NAs (since logging)
+a numeric converging on high enough log lambda_s for sufficient Tmax; note that if the population size declines to zero, this may return NAs because of logging
 
 }
 \references{
 Caswell, 2001. Matrix population models: analysis, construction and
-interpretation. Sinauer. 
+interpretation. 2nd ed. Sinauer. p452-502
 
 }
 \author{

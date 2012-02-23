@@ -5,7 +5,7 @@
 Function to estimate passage time in a discretely varying environment
 }
 \description{
-  Estimates the time in units of the chosen time-steps that it will take to
+  Estimates the time in units of the chosen time-steps (see convertIncrement()) that it will take to
   reach a chosen size for the first time conditional on surviving from
   each of the meshpoints of the IPM for each starting environment. 
 }
@@ -26,11 +26,11 @@ StochPassageTime(chosen.size, IPM.matrix, env.matrix)
 }
 }
 \details{
-  Passage time for values exactly equal to the chosen.size are one year, because of how the conditionals are
+  Passage time for values exactly equal to the target size are one year, because of how the conditionals are
   framed. Values slightly less than the target size may on average take
   longer due to variance in growth, mortality, leading to
   discontinuities in the pattern of passage time over age. Passage time
-  from values > than the chosen.size should be ignored. 
+  from values > than the chosen.size should be ignored (space to the right of the red vertical line in example below) 
 }
 \value{
   vector containing passage times across size in the first discrete
@@ -38,16 +38,12 @@ StochPassageTime(chosen.size, IPM.matrix, env.matrix)
 }
 \references{
 Caswell, 2001. Matrix population models: analysis, construction and
-interpretation. Sinauer. 
+interpretation. 2nd ed. Sinauer. 
 
-Metcalf, C.J.E., Horvitz, C.C., Tuljapurkar, S. & Clark, D.A. 2009 A time to grow and a time to die: a 
-new way to analyze the dynamics of size, light, age and death of
-tropical trees. Ecology 90: 2766-2778
+Metcalf, Horvitz, Tuljapurkar & Clark. 2009. A time to grow and a time to die: a new way to analyze the dynamics of size, light, age and death of
+tropical trees. Ecology 90, p2766-2778
 
-See Zuidema et al. 2010. Integral Projection Models for trees: a new
-parameterization method and a validation of model output. Journal of
-Ecology 98: 345-355 for bias in this estimation where variance in growth
-is small relative to the size range. 
+For bias in this estimation where variance in growth is small relative to the size range: Zuidema, Jongejans, Chien, During & Schieving. 2010. Integral Projection Models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98, p345-355
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
@@ -68,8 +64,13 @@ maxSize=max(dff$size, na.rm = TRUE),
 growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate",),
 survObj=makeSurvObj(dff,explanatoryVariables="size+covariate"), 
 envMatrix=makeEnvObj(dff))
+targetSize=8
 
-StochPassageTime(10,Tmatrix, makeEnvObj(dff))
+passage=StochPassageTime(targetSize,Tmatrix,makeEnvObj(dff))
+
+plot(passage,ylab="Passage time",xlab="Continuous stage",type="l",col="dark gray",ylim=c(0,max(passage)))
+abline(v=targetSize,col="red")
+
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

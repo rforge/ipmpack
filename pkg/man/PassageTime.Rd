@@ -26,7 +26,7 @@ PassageTime(chosen.size, IPM.matrix)
   framed. Values slightly less than the target size may on average take
   longer due to variance in growth, mortality, leading to
   discontinuities in the pattern of passage time over age. Passage time
-  from values > than the chosen.size should be ignored. 
+  from values > than the chosen.size should be ignored (space to the right of the red vertical line in example below) 
 }
 \value{
   A vector of times in the units of the chosen time-steps corresponding to each of the IPM meshpoints
@@ -35,7 +35,7 @@ PassageTime(chosen.size, IPM.matrix)
 Caswell, 2001. Matrix population models: analysis, construction and
 interpretation. 2nd ed. Sinauer. 
 
-Metcalf, Horvitz, Tuljapurkar & Clark. 2009 A time to grow and a time to die: a new way to analyze the dynamics of size, light, age and death of
+Metcalf, Horvitz, Tuljapurkar & Clark. 2009. A time to grow and a time to die: a new way to analyze the dynamics of size, light, age and death of
 tropical trees. Ecology 90, p2766-2778
 
 For bias in this estimation where variance in growth is small relative to the size range: Zuidema, Jongejans, Chien, During & Schieving. 2010. Integral Projection Models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98, p345-355
