@@ -716,7 +716,7 @@ create.MPM.Tmatrix <- function(dataf, bins, n.env=1) {
 # ! assumes no relationship between adult size class and their baby's size class
 #
 
-create.MPM.Fmatrix <- function(dataf, bins,offspring.classes=1, offspring.prop=1, n.env=1) {
+create.MPM.Fmatrix <- function(dataf, bins,offspringClasses=1, offspringProp=1, n.env=1) {
 	
 	loc.now <- findInterval(dataf$size[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],bins)+1
 	n.now <- sapply(split(dataf$fec[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],loc.now),median)
@@ -724,10 +724,10 @@ create.MPM.Fmatrix <- function(dataf, bins,offspring.classes=1, offspring.prop=1
 	nbins <- max(loc.now); 
 	#print(nbins)
 	
-	offspring.prop <- offspring.prop/sum(offspring.prop)
+	offspringProp <- offspringProp/sum(offspringProp)
 	
 	MPM <- matrix(0,nbins,nbins)
-	for (j in 1:length(offspring.classes)) MPM[offspring.classes[j],as.numeric(names(n.now))] <-  offspring.prop[j]*n.now
+	for (j in 1:length(offspringClasses)) MPM[offspringClasses[j],as.numeric(names(n.now))] <-  offspringProp[j]*n.now
 	
 	rc <- new("IPM.matrix",
 			n.env.class = 1, 
