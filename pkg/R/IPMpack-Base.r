@@ -520,7 +520,7 @@ growSurv <- function(size,sizeNext,cov,growthObj,survObj){
 ### CLASSES AND FUNCTIONS FOR MATRICES (ENV, TMATRIX [compound or not], FMATRIX) #################
 
 #Class for the matrix that holds the env matrix 
-setClass("env.matrix",
+setClass("envMatrix",
 		representation(nEnvClass = "numeric"), #number of covariate levels
 		contains="matrix")
 
@@ -1321,23 +1321,23 @@ setMethod("varPassageTime",
 # returns - the life expectancy for each of the sizes in the IPM (columns)
 #           for each of the starting env states
 setGeneric("LifeExpect",
-		function(IPM.matrix,env.matrix) standardGeneric("LifeExpect"))
+		function(IPM.matrix,envMatrix) standardGeneric("LifeExpect"))
 
 setMethod("LifeExpect",
-		c("IPM.matrix", "env.matrix"),
-		function(IPM.matrix,env.matrix){
+		c("IPM.matrix", "envMatrix"),
+		function(IPM.matrix,envMatrix){
 			require(MASS)
 			
 			matrix.dim <- length(IPM.matrix[1,])
 			nstages <- IPM.matrix@nBigMatrix
 			nstates <- IPM.matrix@nEnvClass
 			
-			pis <- Re(eigen(env.matrix)$vector[,1])
+			pis <- Re(eigen(envMatrix)$vector[,1])
 			pis <- pis/(sum(pis))
 			
 			#print(pis)
 			
-			#ckron <- kronecker(env.matrix,diag(nstages))  #doesnt work??
+			#ckron <- kronecker(envMatrix,diag(nstages))  #doesnt work??
 			m <- IPM.matrix  #%*%ckron  #eq 29 in carols paper
 			
 			Itilda <- diag(matrix.dim)
@@ -1353,8 +1353,8 @@ setMethod("LifeExpect",
 			qatildas[,,]<-0
 			for (i in 1:nstates) {
 				indext <-((i-1)*nstages+1):(nstages*i) 
-				qatildas[indext,,i] <- IPM.matrix[indext,indext]/env.matrix[i,i]
-				#print( IPM.matrix[cbind(indext,indext)]/env.matrix[i,i] )
+				qatildas[indext,,i] <- IPM.matrix[indext,indext]/envMatrix[i,i]
+				#print( IPM.matrix[cbind(indext,indext)]/envMatrix[i,i] )
 			}                            #array of qatildas, eqn 26
 			#need to remove env effect since mega-matrix pre-built 
 			
@@ -1405,11 +1405,11 @@ setMethod("LifeExpect",
 #           - a size for which passage time is required            
 # returns - the passage time to this size from each of the sizes in the IPM 
 setGeneric("StochPassageTime",
-		function(chosen.size,IPM.matrix,env.matrix) standardGeneric("StochPassageTime"))
+		function(chosen.size,IPM.matrix,envMatrix) standardGeneric("StochPassageTime"))
 
 setMethod("StochPassageTime",
-		c("numeric","IPM.matrix","env.matrix"),
-		function(chosen.size,IPM.matrix,env.matrix){
+		c("numeric","IPM.matrix","envMatrix"),
+		function(chosen.size,IPM.matrix,envMatrix){
 			require(MASS)
 			#get the right index for the size you want
 			loc <- which(abs(chosen.size-

@@ -21,7 +21,7 @@ makeEnvObj(dataf)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-  an object of class env.matrix
+  an object of class envMatrix
 }
 \references{
 Horvitz & Schemske. 1995. Spatiotemporal variation in demographic transitions of a tropical understory herb. Projection matrix analysis. Ecological Monographs 65 p155-192

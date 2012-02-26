@@ -10,7 +10,7 @@ Function to estimate passage time in a discretely varying environment
   each of the meshpoints of the IPM for each starting environment. 
 }
 \usage{
-StochPassageTime(chosen.size, IPM.matrix, env.matrix)
+StochPassageTime(chosen.size, IPM.matrix, envMatrix)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,8 +20,8 @@ StochPassageTime(chosen.size, IPM.matrix, env.matrix)
   \item{IPM.matrix}{
     object of class IPM.matrix describing survival related transitions only
 }
-  \item{env.matrix}{
-    object of class env.matrix describing transitions between discrete
+  \item{envMatrix}{
+    object of class envMatrix describing transitions between discrete
     environmental states
 }
 }

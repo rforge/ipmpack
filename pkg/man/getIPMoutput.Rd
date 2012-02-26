@@ -61,39 +61,31 @@ dff <- generateData()
 
 # Use package MCMCglmm to get Bayesian posteriors - note that sometimes
 # this may later lead to error messages with glm. User might have
-# to re-start R to run other parts of the package 
+# to re-start R to run other parts of the package:
 svlist <- makePostSurvivalObjs(dataf = dff, explanatoryVariables = "size",
 meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
 grlist <- makePostGrowthObjs(dataf = dff,  nitt = 5000)
 fvlist <- makePostFecObjs(dataf = dff, nitt = 5000)
 
-# Use only first 10 of each list, for speed
-Tlist <- makeListTmatrix(growObjList = grlist[1:10], survObjList = svlist[1:10], nBigMatrix = 20, minSize = -5, maxSize = 20, cov = FALSE, env.mat = NULL)
-
-Flist <- makeListFmatrix(fecObjList = fvlist[1:10], nBigMatrix = 20, minSize = -5, maxSize = 20, cov = FALSE, env.mat = NULL)
-
+# Use only first 10 of each list, for speed:
+Tlist <- makeListTmatrix(growObjList = grlist[1:10], survObjList = svlist[1:10], nBigMatrix = 20, minSize = -5, maxSize = 20, cov = FALSE, envMat = NULL)
+Flist <- makeListFmatrix(fecObjList = fvlist[1:10], nBigMatrix = 20, minSize = -5, maxSize = 20, cov = FALSE, envMat = NULL)
 res <- getIPMoutput(Tmatrixlist = Tlist, targetSize = 10, Fmatrixlist = Flist)
 names(res)
 
-
-## plot out with different colours for different rows
+# Plot out with different colours for different rows:
 par(mfrow=c(2,2),bty="l",pty="s")
-plot(Tlist[[1]]@meshpoints,res$LE[1,],xlab="Size", ylab="Life expectancy", type="l", 
+plot(Tlist[[1]]@meshpoints,res$LE[1, ],xlab="Continuous (e.g. size) stage", ylab="Life expectancy", type="l", 
 	ylim=range(res$LE,na.rm=TRUE))
 for (j in 1:nrow(res$LE)) points(Tlist[[1]]@meshpoints,res$LE[j,],col=j, type="l")
 
-plot(Tlist[[1]]@meshpoints,res$pTime[1,],xlab="Size", ylab="Passage Time", type="l", 
-	ylim=range(res$pTime,na.rm=TRUE))
-for (j in 1:nrow(res$pTime)) points(Tlist[[1]]@meshpoints,res$pTime[j,],col=j, type="l")
+plot(Tlist[[1]]@meshpoints,res$pTime[1, ], xlab = "Continuous (e.g. size) stage", ylab = "Passage time", type = "l", ylim = range(res$pTime, na.rm=TRUE))
+for (j in 1:nrow(res$pTime)) points(Tlist[[1]]@meshpoints, res$pTime[j, ], col = j, type = "l")
 
-plot(Tlist[[1]]@meshpoints,res$stableStage[1,],xlab="Size", ylab="Stable size dist", type="l", 
-	ylim=range(res$stableStage,na.rm=TRUE))
-for (j in 1:nrow(res$stableStage)) points(Tlist[[1]]@meshpoints,res$stableStage[j,],col=j, type="l")
+plot(Tlist[[1]]@meshpoints, res$stableStage[1, ], xlab = "Continuous (e.g. size) stage", ylab = "Stable stage distribution", type = "l", ylim = range(res$stableStage, na.rm=TRUE))
+for (j in 1:nrow(res$stableStage)) points(Tlist[[1]]@meshpoints, res$stableStage[j, ],col = j, type = "l")
 
-hist(res$lambda,xlab=expression(lambda),ylab="", main="",col="grey")
-
-#TODO - add warning to function
-
+hist(res$lambda, xlab = expression(lambda), ylab = "", main = "", col = "grey")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

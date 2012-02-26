@@ -27,7 +27,7 @@ discreteTrans = 1, integrateType = "midpoint",correction = "none")
     numeric, maximum size of the T matrix, defaults to 50.
   }
   \item{envMatrix}{
-    env.matrix object defining transitions between environmental states
+    envMatrix object defining transitions between environmental states
     for each size.
   }
   \item{growObj}{

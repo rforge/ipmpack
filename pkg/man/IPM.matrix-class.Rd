@@ -2,10 +2,10 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{IPM.matrix-class}
-\alias{LifeExpect,IPM.matrix,env.matrix-method}
+\alias{LifeExpect,IPM.matrix,envMatrix-method}
 \alias{MeanLifeExpect,IPM.matrix-method}
 \alias{PassageTime,numeric,IPM.matrix-method}
-\alias{StochPassageTime,numeric,IPM.matrix,env.matrix-method}
+\alias{StochPassageTime,numeric,IPM.matrix,envMatrix-method}
 \alias{Survivorship,IPM.matrix-method}
 \alias{VarLifeExpect,IPM.matrix-method}
 \alias{varPassageTime,numeric,IPM.matrix-method}
@@ -37,10 +37,10 @@ Class \code{"\linkS4class{vector}"}, by class "matrix", distance 4, with explici
 }
 \section{Methods}{
   \describe{
-    \item{LifeExpect}{\code{signature(IPM.matrix = "IPM.matrix", env.matrix = "env.matrix")}: ... }
+    \item{LifeExpect}{\code{signature(IPM.matrix = "IPM.matrix", envMatrix = "envMatrix")}: ... }
     \item{MeanLifeExpect}{\code{signature(IPM.matrix = "IPM.matrix")}: ... }
     \item{PassageTime}{\code{signature(chosen.size = "numeric", IPM.matrix = "IPM.matrix")}: ... }
-    \item{StochPassageTime}{\code{signature(chosen.size = "numeric", IPM.matrix = "IPM.matrix", env.matrix = "env.matrix")}: ... }
+    \item{StochPassageTime}{\code{signature(chosen.size = "numeric", IPM.matrix = "IPM.matrix", envMatrix = "envMatrix")}: ... }
     \item{Survivorship}{\code{signature(IPM.matrix = "IPM.matrix")}: ... }
     \item{VarLifeExpect}{\code{signature(IPM.matrix = "IPM.matrix")}: ... }
     \item{varPassageTime}{\code{signature(chosen.size = "numeric", IPM.matrix = "IPM.matrix")}: ... }

@@ -9,7 +9,7 @@
   create a list of T matrices
 }
 \usage{
-makeListTmatrix(growObjList, survObjList, nBigMatrix, minSize, maxSize, cov = FALSE, env.mat = NULL)
+makeListTmatrix(growObjList, survObjList, nBigMatrix, minSize, maxSize, cov = FALSE, envMat = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,7 +31,7 @@ makeListTmatrix(growObjList, survObjList, nBigMatrix, minSize, maxSize, cov = FA
   \item{cov}{
     level of the covariate
   }
-  \item{env.mat}{
+  \item{envMat}{
     environmental matrix - defaults to NULL
   }
 }
@@ -68,7 +68,7 @@ grlist <- makePostGrowthObjs(dataf=dff,  nitt=5000)
 
 #use only first 10 for speed
 Tlist <- makeListTmatrix(growObjList=grlist[1:10], survObjList=svlist[1:10],
-nBigMatrix=20, minSize=-5, maxSize=20, cov = FALSE, env.mat = NULL)
+nBigMatrix=20, minSize=-5, maxSize=20, cov = FALSE, envMat = NULL)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

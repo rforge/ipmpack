@@ -9,7 +9,7 @@ Uses posteriors (or other) lists of growth, fecundity and survival objects to
 create a list of Fmatrices
 }
 \usage{
-makeListFmatrix(fecObjList, nBigMatrix, minSize, maxSize, cov = FALSE, env.mat = NULL)
+makeListFmatrix(fecObjList, nBigMatrix, minSize, maxSize, cov = FALSE, envMat = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,7 +28,7 @@ makeListFmatrix(fecObjList, nBigMatrix, minSize, maxSize, cov = FALSE, env.mat =
   \item{cov}{
     level of covariate
   }
-  \item{env.mat}{
+  \item{envMat}{
 	environmental matrix, defaults to NULL
 }
 }
@@ -60,7 +60,7 @@ fvlist <- makePostFecObjs(dataf=dff, nitt=5000)
 
 #only first 10 for speed
 Flist <- makeListFmatrix(fecObjList=fvlist[1:10],
-nBigMatrix=20, minSize=-5, maxSize=20, cov = FALSE, env.mat = NULL)
+nBigMatrix=20, minSize=-5, maxSize=20, cov = FALSE, envMat = NULL)
 
 #make pics of two of them at random...
 image(Flist[[1]]@meshpoints, Flist[[1]]@meshpoints, t(Flist[[1]]), 

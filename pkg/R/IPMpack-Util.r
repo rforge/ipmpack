@@ -52,16 +52,16 @@ getIPMoutput <- function(Tmatrixlist,targetSize=c(),Fmatrixlist=NULL){
 #            - maxSize - the maximum size
 #            - cov - do you want to fit a discrete covariate
 #            - fecObjList - list of fecundity objects
-#            - env.mat - matrix of env transitions (only if cov=TRUE)
-#            - n.size.to.age - numeric describing how many size to age defined (0 - 100s)
+#            - envMat - matrix of env transitions (only if cov=TRUE)
+#            - nSizeToAge - numeric describing how many size to age defined (0 - 100s)
 # 
 #
 # Returns - a list 
 
 getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		nBigMatrix,minSize,maxSize,discreteTrans = 1,
-		cov=FALSE,fecObjList=NULL, env.mat=NULL,
-		n.size.to.age=0, size.start=10,
+		cov=FALSE,fecObjList=NULL, envMat=NULL,
+		nSizeToAge=0, sizeStart=10,
 		integrateType="midpoint", correction="none"){
 	
 	# adjust the sample lengths to they are all the same
@@ -86,7 +86,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 	
 	#set up storage
 	if (is.data.frame(discreteTrans)) ndisc <- ncol(discreteTrans) else ndisc <- 0
-	if (class(env.mat)!="NULL") nEnv <- env.mat@nEnvClass else nEnv <- 1
+	if (class(envMat)!="NULL") nEnv <- envMat@nEnvClass else nEnv <- 1
 	LE <- pTime <- matrix(NA,nsamp,(nBigMatrix+ndisc)*nEnv)
 	if (class(fecObjList)=="NULL") {
 		lambda <- stableStage <- c()
@@ -94,8 +94,8 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		stableStage <- matrix(NA,nsamp,(nBigMatrix+ndisc)*nEnv)
 		lambda <- rep(NA,nsamp)
 	}
-	if (n.size.to.age==0) { resAge <- resSize <- c() } else { resAge <- resSize <- matrix(NA,nsamp,n.size.to.age)} 
-	if (length(size.start)==0) { if (minSize<0) size.start <- 0.5*minSize else size.start <- 2*minSize }
+	if (nSizeToAge==0) { resAge <- resSize <- c() } else { resAge <- resSize <- matrix(NA,nsamp,nSizeToAge)} 
+	if (length(sizeStart)==0) { if (minSize<0) sizeStart <- 0.5*minSize else sizeStart <- 2*minSize }
 	
 	#go!
 	for (k in 1:nsamp) {
@@ -109,7 +109,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		} else {
 			Tmatrix <- create.compound.Tmatrix(nEnvClass = nEnv,
 					nBigMatrix = nBigMatrix, minSize = minSize, 
-					maxSize = maxSize, envMatrix=env.mat,growObj = growObjList[[k]],
+					maxSize = maxSize, envMatrix=envMat,growObj = growObjList[[k]],
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
 					integrateType=integrateType, correction=correction)    
 	
@@ -128,7 +128,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 			} else {
 				Fmatrix <- create.compound.Fmatrix(nEnvClass = nEnv,
 						nBigMatrix = nBigMatrix, minSize = minSize, 
-						maxSize = maxSize, envMatrix=env.mat,
+						maxSize = maxSize, envMatrix=envMat,
 						fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)
 			}
 
@@ -144,9 +144,9 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		}
 		
 		# get size to age results
-		if (n.size.to.age>0) { 
+		if (nSizeToAge>0) { 
 			res2 <- SizeToAge(Tmatrix=Tmatrix,startingSize=minSize*1.3,
-					targetSize=seq(size.start,maxSize*0.9,length=n.size.to.age))
+					targetSize=seq(sizeStart,maxSize*0.9,length=nSizeToAge))
 			resAge[k,] <- res2$timeInYears
 			resSize[k,] <- res2$targetSize
 		}
@@ -340,7 +340,7 @@ makeEnvObj <- function(dataf){
 	cx <- as.numeric(colnames(mats))
 	desired.mat[cbind(rep(rx,length(cx)),rep(cx,each=length(rx)))]=c(as.matrix(mats))
 	
-	rc <- new("env.matrix",
+	rc <- new("envMatrix",
 			nEnvClass = nEnvClass)
 	
 	rc@.Data <- t(t(desired.mat)/colSums(desired.mat))

@@ -11,7 +11,7 @@ Function to calculate life expectancy in a discretely stochastic environment
   environments (rows). 
 }
 \usage{
-LifeExpect(IPM.matrix, env.matrix)
+LifeExpect(IPM.matrix, envMatrix)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,8 +19,8 @@ LifeExpect(IPM.matrix, env.matrix)
     an IPM.matrix object describing growth and survival transitions
     across size and environment
 }
-  \item{env.matrix}{
-    an env.matrix object describing transition between environments
+  \item{envMatrix}{
+    an envMatrix object describing transition between environments
 }
 }
 \details{

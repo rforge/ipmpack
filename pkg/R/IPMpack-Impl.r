@@ -914,11 +914,11 @@ makePostFecObjs <- function(dataf,
 #            - minSize - the minimum size
 #            - maxSize - the maximum size
 #            - cov - is a discrete covariate considered
-#            - env.mat - enviromental matrix for transition between
+#            - envMat - enviromental matrix for transition between
 # 
 # Returns    - a list of Tmatrices
 makeListTmatrix <- function(growObjList,survObjList,
-		nBigMatrix,minSize,maxSize, cov=FALSE, env.mat=NULL) {
+		nBigMatrix,minSize,maxSize, cov=FALSE, envMat=NULL) {
 	
 	if (length(growObjList)>length(survObjList)) { 
 		survObjList <- sample(survObjList,size=length(growObjList),replace=TRUE)
@@ -936,9 +936,9 @@ makeListTmatrix <- function(growObjList,survObjList,
 					maxSize = maxSize, growObj = growObjList[[k]],
 					survObj = survObjList[[k]]) 
 		} else {
-			Tmatrixlist[[k]] <- create.compound.Tmatrix(nEnvClass = length(env.mat[1,]),
+			Tmatrixlist[[k]] <- create.compound.Tmatrix(nEnvClass = length(envMat[1,]),
 					nBigMatrix = nBigMatrix, minSize = minSize, 
-					maxSize = maxSize, envMatrix=env.mat,
+					maxSize = maxSize, envMatrix=envMat,
 					growObj = growObjList[[k]],
 					survObj = survObjList[[k]])    
 		}
@@ -949,7 +949,7 @@ makeListTmatrix <- function(growObjList,survObjList,
 
 # Function to take a list of growth and survival objects and make a list of Fmatrices
 
-makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE, env.mat=NULL) {
+makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE, envMat=NULL) {
 	
 	nsamp <- max(length(fecObjList))
 	if (length(fecObjList)<nsamp)  
@@ -962,9 +962,9 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE, en
 					maxSize = maxSize, 
 					fecObj=fecObjList[[k]])
 		} else {
-			Fmatrixlist[[k]] <- create.compound.Fmatrix(nEnvClass = length(env.mat[1,]),
+			Fmatrixlist[[k]] <- create.compound.Fmatrix(nEnvClass = length(envMat[1,]),
 					nBigMatrix = nBigMatrix, minSize = minSize, 
-					maxSize = maxSize, envMatrix=env.mat,
+					maxSize = maxSize, envMatrix=envMat,
 					fecObj=fecObjList[[k]])
 		}
 		
