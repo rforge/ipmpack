@@ -2,15 +2,15 @@
 \alias{timeToSize}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function to project how long it takes to get from a starting distribution to an final size
+Function to project how long it takes to get from a starting distribution to a target size
 }
 \description{
 Provided with a starting vector reflecting starting individual sizes, this function projects forward via the 
-provided IPM until a defined proportion of the population has reach the chosen end.size. Only works for single environment
+provided IPM until a defined proportion of the population has reach the chosen endSize. Only works for single environment
 or compound matrices (not time-varying covariates apart from a single discrete one). 
 }
 \usage{
-timeToSize(startingSizes, IPM, end.size, starting.env = 1, maxt = 100, prop.reach = 0.01)
+timeToSize(startingSizes, IPM, endSize, startingEnv = 1, maxT = 100, propReach = 0.01)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,17 +20,17 @@ timeToSize(startingSizes, IPM, end.size, starting.env = 1, maxt = 100, prop.reac
   \item{IPM}{
 the IPM Tmatrix 
 }
-  \item{end.size}{
+  \item{endSize}{
 the end size
 }
-  \item{starting.env}{
+  \item{startingEnv}{
 vector of starting env, same length as startingSizes, or length=1 if compound matrices are not being used. 
 }
-  \item{maxt}{
-the max number of time-steps tested
+  \item{maxT}{
+the max number of time steps tested
 }
-  \item{prop.reach}{
-the proportion of the starting pop that have to be > than the end.size for it to count
+  \item{propReach}{
+the proportion of the starting pop that have to be > than the endSize for it to count
 }
 }
 \details{
@@ -38,7 +38,7 @@ Plots and returned values of survivorship from preliminary runs will give a noti
 }
 \value{
  \item{ts.dist}{ the time-series of size distribution}
- \item{time.reach }{the time for n.reach to be at sizes > end.size }
+ \item{time.reach }{the time for n.reach to be at sizes > endSize }
  \item{survivorship}{survivorship over the course of the time elapsed for that pop}
 }
 \references{
@@ -59,25 +59,25 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff <- generateData()
-start.sizes <- rnorm(100,2,1)
-Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size,na.rm=TRUE),
-maxSize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
+startSizes <- rnorm(100, 2, 1)
+Tmatrix <-create.IPM.Tmatrix(minSize = min(dff$size, na.rm=TRUE),
+maxSize <- max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
 
 #CURRENTLY NOT WORKING VERY WELL
-rc <- timeToSize(startingSizes=start.sizes, IPM=Tmatrix, end.size=10, 
-starting.env = 1, maxt = 1000, prop.reach = 0.005)
+rc <- timeToSize(startingSizes=startSizes, IPM = Tmatrix, endSize= 10, 
+startingEnv = 1, maxT = 1000, propReach = 0.005)
 
 names(rc)
 
 par(mfrow=c(2,2),bty="l")
-#make picture with lines for dist of pop on different time-points
-matplot(Tmatrix@meshpoints,rc$ts.dist, type="l", xlab="size", ylab="n individuals")
+## Make picture with lines for distribution of population on different time points
+matplot(Tmatrix@meshpoints, rc$ts.dist, type = "l", xlab = "size", ylab = "Number of individuals")
 
-#look at time it has taken prop.reach to attain the chosen end.size
+## Examine time elapsed for propReach to attain the chosen endSize
 rc$time.reach
 
-#plot out the survivorship
-plot(rc$survivorship, type="l",log="y",xlab="time-step", ylab="prop original population survival")
+## Plot out the survivorship
+plot(rc$survivorship, type = "l", log = "y", xlab = "time step", ylab = "Probability original population survival"), ylim = (0,1), col = "dark gray")
 
 }
 \keyword{ ~kwd1 }

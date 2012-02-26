@@ -154,7 +154,7 @@ setClass("fecObjMultiCov",
 
 ## DISCRETE TRANSITION MATRIX OBJECTS ##
 # Create a generic discrete transition matrix object
-setClass("DiscreteTrans",
+setClass("discreteTrans",
 		representation(nclasses="numeric",
 				discrete.trans="matrix",
 				discrete.surv="matrix",
@@ -549,7 +549,7 @@ setClass("IPM.matrix",
 #                 temporal stochasticity case
 #   growObj - a growth object
 #   survObj - a survival object
-#   DiscreteTrans - discrete transition object, defaults to 1
+#   discreteTrans - discrete transition object, defaults to 1
 #   integrateType - what type of integration?
 #                    current options are "midpoint" (using pdf)
 #                    or "cumul" (using cdf)
@@ -566,7 +566,7 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 		chosen.cov = 1,
 		growObj,
 		survObj,
-		DiscreteTrans =1,
+		discreteTrans =1,
 		integrateType = "midpoint",
 		correction="none") {
 	# boundary points b and mesh points y
@@ -612,21 +612,21 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 			names.discrete="")
 	rc[,] <-get.matrix
 	
-	# In case of discrete classes, take the IPM constructed above and add discrete classes defined in DiscreteTrans
-	if (class(DiscreteTrans)=="DiscreteTrans") {
+	# In case of discrete classes, take the IPM constructed above and add discrete classes defined in discreteTrans
+	if (class(discreteTrans)=="discreteTrans") {
 		
-		ndisc <- ncol(DiscreteTrans@discrete.surv)
-		surv.to.discrete <- predict(DiscreteTrans@surv.to.discrete,data.frame(size=y,size2=(y*y)),type="response")
+		ndisc <- ncol(discreteTrans@discrete.surv)
+		surv.to.discrete <- predict(discreteTrans@surv.to.discrete,data.frame(size=y,size2=(y*y)),type="response")
 		cont.to.cont <- get.matrix*matrix(1-surv.to.discrete,nrow=nBigMatrix,ncol=nBigMatrix,byrow=T)
-		disc.to.disc <- DiscreteTrans@discrete.trans[1:ndisc,1:ndisc]*matrix(c(DiscreteTrans@discrete.surv),nrow=ndisc,ncol=ndisc,byrow=T)
+		disc.to.disc <- discreteTrans@discrete.trans[1:ndisc,1:ndisc]*matrix(c(discreteTrans@discrete.surv),nrow=ndisc,ncol=ndisc,byrow=T)
 		disc.to.cont <- matrix(NA,ncol=ndisc,nrow=nBigMatrix)
 		cont.to.disc <- matrix(NA,nrow=ndisc,ncol=nBigMatrix)
 		
 		for (j in 1:ndisc) {
-			tmp<-dnorm(y,DiscreteTrans@mean.to.cont[j],DiscreteTrans@sd.to.cont[j])*h
+			tmp<-dnorm(y,discreteTrans@mean.to.cont[j],discreteTrans@sd.to.cont[j])*h
 			if (correction=="constant") tmp<-tmp/sum(tmp) 
-			disc.to.cont[,j] <- DiscreteTrans@discrete.surv[,j]*DiscreteTrans@discrete.trans["continuous",j]*tmp
-			cont.to.disc[j,] <- DiscreteTrans@distrib.to.discrete[j,]*surv(y,chosen.cov,survObj)*surv.to.discrete
+			disc.to.cont[,j] <- discreteTrans@discrete.surv[,j]*discreteTrans@discrete.trans["continuous",j]*tmp
+			cont.to.disc[j,] <- discreteTrans@distrib.to.discrete[j,]*surv(y,chosen.cov,survObj)*surv.to.discrete
 		}
 		
 		get.disc.matrix <- rbind(cbind(disc.to.disc,cont.to.disc),
@@ -641,7 +641,7 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 				ncol =1*nBigMatrix+ndisc,
 				meshpoints = y,
 				env.index = rep(1:n.env.class,each=nBigMatrix),
-				names.discrete=rownames(DiscreteTrans@discrete.trans)[1:ndisc])
+				names.discrete=rownames(discreteTrans@discrete.trans)[1:ndisc])
 		
 		rc[,] <-get.disc.matrix   
 	}
@@ -664,7 +664,7 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 #   envMatrix - a matrix describing transiions between env
 #   growObj - a growth object
 #   survObj - a survival object
-#   DiscreteTrans - discrete transition object, defaults to 1
+#   discreteTrans - discrete transition object, defaults to 1
 #   integrateType - what type of integration?
 #                    current options are "midpoint" (using pdf)
 #                    or "cumul" (using cdf)
@@ -682,7 +682,7 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 		envMatrix,
 		growObj,
 		survObj,
-		DiscreteTrans=1,
+		discreteTrans=1,
 		integrateType="midpoint",
 		correction="none") {
 	
@@ -701,7 +701,7 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 	h<-y[2]-y[1]
 	
 	#establish how how many discrete classes there are
-	if (class(DiscreteTrans)=="DiscreteTrans") ndisc <- ncol(DiscreteTrans@discrete.surv) else ndisc <- 0
+	if (class(discreteTrans)=="discreteTrans") ndisc <- ncol(discreteTrans@discrete.surv) else ndisc <- 0
 	
 	#indexes for slotting in IPMs
 	indexes <- rep(1:n.env.class,each=(nBigMatrix+ndisc))
@@ -739,27 +739,27 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 		nmes <- ""
 		
 		
-		# In case of discrete classes, take the IPM constructed above and add discrete classes defined in DiscreteTrans
-		if (class(DiscreteTrans)=="DiscreteTrans") {
-			nmes <- rownames(DiscreteTrans@discrete.trans)
-			surv.to.discrete <- predict(DiscreteTrans@surv.to.discrete,data.frame(size=y,size2=(y*y)),type="response")
+		# In case of discrete classes, take the IPM constructed above and add discrete classes defined in discreteTrans
+		if (class(discreteTrans)=="discreteTrans") {
+			nmes <- rownames(discreteTrans@discrete.trans)
+			surv.to.discrete <- predict(discreteTrans@surv.to.discrete,data.frame(size=y,size2=(y*y)),type="response")
 			cont.to.cont <- get.matrix*matrix(1-surv.to.discrete,nrow=nBigMatrix,ncol=nBigMatrix,byrow=T)
-			disc.to.disc <- DiscreteTrans@discrete.trans[1:ndisc,1:ndisc]*matrix(c(DiscreteTrans@discrete.surv),
+			disc.to.disc <- discreteTrans@discrete.trans[1:ndisc,1:ndisc]*matrix(c(discreteTrans@discrete.surv),
 					nrow=ndisc,ncol=ndisc,byrow=T)
 			disc.to.cont <- matrix(NA,ncol=ndisc,nrow=nBigMatrix)
 			cont.to.disc <- matrix(NA,nrow=ndisc,ncol=nBigMatrix)
 			
-			#print(DiscreteTrans@mean.to.cont)
-			#print(DiscreteTrans@sd.to.cont)
+			#print(discreteTrans@mean.to.cont)
+			#print(discreteTrans@sd.to.cont)
 			
 			for (j in 1:ndisc) {
-				tmp<-dnorm(y,DiscreteTrans@mean.to.cont[j],DiscreteTrans@sd.to.cont[j])*h
+				tmp<-dnorm(y,discreteTrans@mean.to.cont[j],discreteTrans@sd.to.cont[j])*h
 				if (correction=="constant") tmp<-tmp/sum(tmp)
 				
 				#print(tmp)
 				
-				disc.to.cont[,j] <- DiscreteTrans@discrete.surv[,j]*DiscreteTrans@discrete.trans["continuous",j]*tmp
-				cont.to.disc[j,] <- DiscreteTrans@distrib.to.discrete[j,]*surv(y,cov=k,survObj)*surv.to.discrete
+				disc.to.cont[,j] <- discreteTrans@discrete.surv[,j]*discreteTrans@discrete.trans["continuous",j]*tmp
+				cont.to.disc[j,] <- discreteTrans@distrib.to.discrete[j,]*surv(y,cov=k,survObj)*surv.to.discrete
 			}
 			
 			get.matrix <- rbind(cbind(disc.to.disc,cont.to.disc),cbind(disc.to.cont,cont.to.cont))
@@ -1451,24 +1451,24 @@ setMethod("StochPassageTime",
 #  Parameters - startingSizes - vector of starting sizes
 #             - IPM the IPM (Tmatrix if only intrested in grow surv; Tmatrix + Fmatrix otherwise)
 #             - n.time.steps - number of time steps
-#             - starting.env - vector of starting env, same length as startingSizes, or length=1
+#             - startingEnv - vector of starting env, same length as startingSizes, or length=1
 #
 # Returns - a list including starting numbers in each IPM size class (n.new.dist0) and
 #                            final numbers in each IPM size class (n.new.dist)
 #
 #
-predictFutureDistribution <- function(startingSizes,IPM, n.time.steps, starting.env=1) {
+predictFutureDistribution <- function(startingSizes,IPM, n.time.steps, startingEnv=1) {
 	
 	# turn starting sizes into the resolution of the IPM bins
 	
 	# setup slightly different for coompound or non compound dists
 	if (IPM@n.env.class>1) {
-		if (length(starting.env)==1) starting.env <- rep(starting.env, length(startingSizes))
+		if (length(startingEnv)==1) startingEnv <- rep(startingEnv, length(startingSizes))
 		compound <- TRUE
 		env.index <- IPM@env.index
 		n.new.dist <- rep(0,length(IPM[1,]))
 		for (ev in 1:IPM@n.env.class) { 
-			index.new.dist <- findInterval(startingSizes[starting.env==ev],IPM@meshpoints)+1
+			index.new.dist <- findInterval(startingSizes[startingEnv==ev],IPM@meshpoints)+1
 			index.new.dist[index.new.dist>length(IPM@meshpoints)] <- length(IPM@meshpoints)
 			loc.sizes <- table(index.new.dist); 
 			n.new.dist[ev==IPM@env.index][as.numeric(names(loc.sizes))] <- loc.sizes
@@ -1510,34 +1510,34 @@ predictFutureDistribution <- function(startingSizes,IPM, n.time.steps, starting.
 ##
 #  Parameters - startingSizes - vector of starting sizes (in any order)
 #             - IPM the IPM (just a Tmatrix)
-#             - end.size - the end size
-#             - starting.env - vector of starting env, same length as startingSizes, or length=1
-#             - maxt - the max number of time-steps tested
-#             - prop.reach - the proportion of the starting pop that have to be > than the end.size for it to count
+#             - endSize - the end size
+#             - startingEnv - vector of starting env, same length as startingSizes, or length=1
+#             - maxT - the max number of time-steps tested
+#             - propReach - the proportion of the starting pop that have to be > than the endSize for it to count
 #                  (plots and returned values of survivorship from preliminary runs will give a notion of how low this has to be)
 #
 # Returns - a list containing: ts.dist - the time-series of size distribution
-#                              time.reach - the time for n.reach to be at sizes > end.size
+#                              time.reach - the time for n.reach to be at sizes > endSize
 #                              survivorship - survivorship over the course of the time elapsed for that pop
 #                              
 #
 # THE PROBLEM WITH THIS FUNCTION IS THAT EITHER 1) YOU MAKE IT IN ONE TIME-STEP; OR 2) EVERYONE IS DEAD SO TUNING
-# prop.reach BECOMES THE KEY - AND THE EXACT VALUE TO PROVIDE VALUES 1 < x < maxt CAN BE LUDICRIOUSLY SENSITIVE
+# propReach BECOMES THE KEY - AND THE EXACT VALUE TO PROVIDE VALUES 1 < x < maxT CAN BE LUDICRIOUSLY SENSITIVE
 #
-timeToSize <- function(startingSizes,IPM,end.size, starting.env=1, maxt=100, prop.reach=0.01) {
+timeToSize <- function(startingSizes,IPM,endSize, startingEnv=1, maxT=100, propReach=0.01) {
 	
-	cutoff <- which(IPM@meshpoints>end.size,arr.ind=TRUE)[1]
-	n.reach <- prop.reach*length(startingSizes)
+	cutoff <- which(IPM@meshpoints>endSize,arr.ind=TRUE)[1]
+	n.reach <- propReach*length(startingSizes)
 	
 	# setup slightly different for coompound or non compound dists
 	if (IPM@n.env.class>1) {
-		#if starting.env is not a vector, assume all start in starting.env
-		if (length(starting.env)==1) starting.env <- rep(starting.env, length(startingSizes))
+		#if startingEnv is not a vector, assume all start in startingEnv
+		if (length(startingEnv)==1) startingEnv <- rep(startingEnv, length(startingSizes))
 		compound <- TRUE
 		env.index <- IPM@env.index
 		n.new.dist <- rep(0,length(IPM[1,]))
 		for (ev in 1:IPM@n.env.class) { 
-			index.new.dist <- findInterval(startingSizes[starting.env==ev],IPM@meshpoints)+1
+			index.new.dist <- findInterval(startingSizes[startingEnv==ev],IPM@meshpoints)+1
 			index.new.dist[index.new.dist>length(IPM@meshpoints)] <- length(IPM@meshpoints)
 			loc.sizes <- table(index.new.dist); 
 			n.new.dist[ev==IPM@env.index][as.numeric(names(loc.sizes))] <- loc.sizes
@@ -1554,10 +1554,10 @@ timeToSize <- function(startingSizes,IPM,end.size, starting.env=1, maxt=100, pro
 		n.new.dist0 <- n.new.dist
 	}
 	
-	ts.dist <- matrix(NA,length(n.new.dist),maxt)
+	ts.dist <- matrix(NA,length(n.new.dist),maxT)
 	
-	survivorship <- rep(NA,maxt)
-	for (t in 1:maxt) { 
+	survivorship <- rep(NA,maxT)
+	for (t in 1:maxT) { 
 		#print(t)
 		n.new.dist <- IPM@.Data%*%n.new.dist
 		#plot(n.new.dist)
@@ -1583,7 +1583,7 @@ timeToSize <- function(startingSizes,IPM,end.size, starting.env=1, maxt=100, pro
 		
 	}
 	
-	if (t==maxt) time.reach <- maxt
+	if (t==maxT) time.reach <- maxT
 	
 	par(mfrow=c(2,2),bty="l")
 	plot(IPM@meshpoints,n.new.dist0[env.index==1],type="l",xlab="size", ylab="n", ylim=range(c(n.new.dist0,n.new.dist)))

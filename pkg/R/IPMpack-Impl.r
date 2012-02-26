@@ -554,9 +554,9 @@ makeFecObjManyCov <- function(dataf,
 # Parameters - dataf - dataframe with headings of at least
 #                      size, sizeNext, surv, fec, stage, stageNext, number
 #
-# Returns - an object of class DiscreteTrans
+# Returns - an object of class discreteTrans
 #
-makeDiscreteTrans <- function(dataf) {
+makediscreteTrans <- function(dataf) {
 	
 	#order stage names from discrete to continuous
 	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
@@ -595,7 +595,7 @@ makeDiscreteTrans <- function(dataf) {
 	colnames(discrete.trans) <- stages	
 	
 	#define new object
-	disTrans <- new("DiscreteTrans")
+	disTrans <- new("discreteTrans")
 	disTrans@nclasses <- nclasses
 	disTrans@discrete.trans <- discrete.trans
 	disTrans@discrete.surv <- discrete.surv

@@ -13,7 +13,7 @@ Function to build compound T matrix
 \usage{
 create.compound.Tmatrix(n.env.class = 2, nBigMatrix = 50,
 minSize = -1, maxSize = 50, envMatrix, growObj, survObj,
-DiscreteTrans = 1, integrateType = "midpoint",correction = "none")
+discreteTrans = 1, integrateType = "midpoint",correction = "none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -39,8 +39,8 @@ DiscreteTrans = 1, integrateType = "midpoint",correction = "none")
   \item{survObj}{
     survival object
   }
-  \item{DiscreteTrans}{
-    object of class DiscreteTrans, or numeric
+  \item{discreteTrans}{
+    object of class discreteTrans, or numeric
   }
   \item{integrateType}{
     integration type, defaults to "midpoint" (which uses prob. density
@@ -102,11 +102,11 @@ abline(v=length(Tmatrix@meshpoints)*(1:Tmatrix@n.env.class))
 dff<-generateDataDiscrete()
 dff$covariate <- sample(1:3,size=nrow(dff),replace=TRUE)
 dff$covariateNext <- sample(1:3,size=nrow(dff),replace=TRUE)
-discM <- makeDiscreteTrans(dff)
+discM <- makediscreteTrans(dff)
 Tmatrix <-create.compound.Tmatrix(minSize=min(dff$size,na.rm=TRUE),
 maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
 growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"),
-survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"),DiscreteTrans=discM)
+survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"),discreteTrans=discM)
 
 
 

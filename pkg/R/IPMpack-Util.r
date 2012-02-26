@@ -59,7 +59,7 @@ getIPMoutput <- function(Tmatrixlist,targetSize=c(),Fmatrixlist=NULL){
 # Returns - a list 
 
 getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
-		nBigMatrix,minSize,maxSize,DiscreteTrans = 1,
+		nBigMatrix,minSize,maxSize,discreteTrans = 1,
 		cov=FALSE,fecObjList=NULL, env.mat=NULL,
 		n.size.to.age=0, size.start=10,
 		integrateType="midpoint", correction="none"){
@@ -85,7 +85,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 	}
 	
 	#set up storage
-	if (is.data.frame(DiscreteTrans)) ndisc <- ncol(DiscreteTrans) else ndisc <- 0
+	if (is.data.frame(discreteTrans)) ndisc <- ncol(discreteTrans) else ndisc <- 0
 	if (class(env.mat)!="NULL") n.env <- env.mat@n.env.class else n.env <- 1
 	LE <- ptime <- matrix(NA,nsamp,(nBigMatrix+ndisc)*n.env)
 	if (class(fecObjList)=="NULL") {
@@ -103,14 +103,14 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		if (!cov) {
 			Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, growObj = growObjList[[k]],
-					survObj = survObjList[[k]],DiscreteTrans=DiscreteTrans,
+					survObj = survObjList[[k]],discreteTrans=discreteTrans,
 					integrateType=integrateType, correction=correction) 
 			
 		} else {
 			Tmatrix <- create.compound.Tmatrix(n.env.class = n.env,
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=env.mat,growObj = growObjList[[k]],
-					survObj = survObjList[[k]],DiscreteTrans=DiscreteTrans,
+					survObj = survObjList[[k]],discreteTrans=discreteTrans,
 					integrateType=integrateType, correction=correction)    
 	
 		}

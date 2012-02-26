@@ -14,7 +14,7 @@ also allows compound matrices to be produced following levels of a discrete cova
 }
 \usage{
 getIPMoutputDirect(survObjList, growObjList, targetSize = c(), 
-	nBigMatrix, minSize, maxSize, DiscreteTrans = 1,cov = FALSE, 
+	nBigMatrix, minSize, maxSize, discreteTrans = 1,cov = FALSE, 
 	fecObjList = NULL, env.mat = NULL, n.size.to.age = 0, 
 	size.start = 10, integrateType = "midpoint",correction = "none")
 }
@@ -38,8 +38,8 @@ minimum size
   \item{maxSize}{
 maximum size
 }
-  \item{DiscreteTrans}{
-    object of class DiscreteTrans, or numeric
+  \item{discreteTrans}{
+    object of class discreteTrans, or numeric
   }
   \item{cov}{
 boolean identifying if a discrete covariate should be fitted; if cov=TRUE, 

@@ -1,5 +1,5 @@
-\name{makeDiscreteTrans}
-\alias{makeDiscreteTrans}
+\name{makediscreteTrans}
+\alias{makediscreteTrans}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Functions to build matrix for transitions between discrete stages
   and between discrete and continuous stages}
@@ -22,7 +22,7 @@
   
 }
 \usage{
-makeDiscreteTrans(dataf)
+makediscreteTrans(dataf)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -35,7 +35,7 @@ makeDiscreteTrans(dataf)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-  an object of class "DiscreteTrans" with columns corresponding to all the discrete and the one continuous stage
+  an object of class "discreteTrans" with columns corresponding to all the discrete and the one continuous stage
 }
 \references{
 Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81 p694-708
@@ -59,8 +59,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff <- generateDataDiscrete()
-discTrans <- makeDiscreteTrans(dff)
-create.IPM.Tmatrix(nBigMatrix = 10,growObj=makeGrowthObj(dff),survObj=makeSurvObj(dff),DiscreteTrans=discTrans)
+discTrans <- makediscreteTrans(dff)
+create.IPM.Tmatrix(nBigMatrix = 10,growObj=makeGrowthObj(dff),survObj=makeSurvObj(dff),discreteTrans=discTrans)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

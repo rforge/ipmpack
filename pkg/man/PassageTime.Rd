@@ -72,7 +72,7 @@ abline(v=targetSize,col="red")
 Tmatrix <-create.compound.Tmatrix(minSize=min(dff$size,na.rm=TRUE),
 maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
 growObj=makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"),
-survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"),DiscreteTrans=1)
+survObj=makeSurvObj(dff,explanatoryVariables="size+size2+covariate"),discreteTrans=1)
 targetSize=8
 passage=PassageTime(targetSize,Tmatrix)
 

@@ -10,7 +10,7 @@
   the environment. 
 }
 \usage{
-predictFutureDistribution(startingSizes, IPM, n.time.steps, starting.env = 1)
+predictFutureDistribution(startingSizes, IPM, n.time.steps, startingEnv = 1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,12 +24,12 @@ predictFutureDistribution(startingSizes, IPM, n.time.steps, starting.env = 1)
   \item{n.time.steps}{
     a numeric defining the number of time-steps for which projection is required
 }
-  \item{starting.env}{
+  \item{startingEnv}{
     vector defining the desired starting environment, of length one or
     length startingSizes; ignored if no
     environmental states are provided; otherwise if the length is less
     than startingSizes assumes all individuals start in the same
-    environment, given by starting.env[1]. 
+    environment, given by startingEnv[1]. 
 }
 }
 \details{
@@ -73,7 +73,7 @@ IPM@.Data <- Tmatrix+Fmatrix
 
 #project five steps
 a5 <- predictFutureDistribution(startingSizes=startPop,IPM=IPM,
-n.time.steps=5,starting.env=1)
+n.time.steps=5,startingEnv=1)
 
 #plot
  plot(IPM@meshpoints,a1$n.new.dist,type="l",

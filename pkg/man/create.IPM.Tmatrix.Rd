@@ -11,7 +11,7 @@ Function to build T matrices
 }
 \usage{
 create.IPM.Tmatrix(n.env.class = 1, nBigMatrix = 50,
-minSize = -1, maxSize = 50, chosen.cov = 1, growObj, survObj, DiscreteTrans, 
+minSize = -1, maxSize = 50, chosen.cov = 1, growObj, survObj, discreteTrans, 
 integrateType, correction)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -39,8 +39,8 @@ integrateType, correction)
   \item{survObj}{
     survival object
   }
-  \item{DiscreteTrans}{
-    object of class DiscreteTrans, or numeric
+  \item{discreteTrans}{
+    object of class discreteTrans, or numeric
   }
   \item{integrateType}{
     integration type, defaults to "midpoint" (which uses prob. density
@@ -56,7 +56,7 @@ integrateType, correction)
   The number of bins (nBigMatrix) is combined with the minimum and
   maximum size to define the meshpoints of the IPM. Bins should be
   sufficient and the size range should encompass the size range of the
-  data. If a "DiscreteTrans" exists, then discrete stages will be added
+  data. If a "discreteTrans" exists, then discrete stages will be added
   to the IPM structure. If multiple discrete covariate levels are available,
   chosen.cov identifies the covariate value for which an IPM is
   required; if a series of covariates are being modeled, chosen.cov is a
@@ -64,7 +64,7 @@ integrateType, correction)
 }
 \value{
   an object of class IPM.matrix with dimensions nBigMatrix*nBigMatrix, or
-  nbig.matrix+nrow(DiscreteTrans)
+  nbig.matrix+nrow(discreteTrans)
 }
 \references{
 Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81 p694-708
@@ -86,7 +86,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{create.IPM.Fmatrix}}, \code{\link{diagnosticsTmatrix}}, \code{\link{makeDiscreteTrans}}  
+\code{\link{create.IPM.Fmatrix}}, \code{\link{diagnosticsTmatrix}}, \code{\link{makediscreteTrans}}  
 }
 \examples{
 dff<-generateData()
