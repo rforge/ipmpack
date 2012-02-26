@@ -12,7 +12,7 @@
 
 }
 \usage{
-makePostFecObjs(dataf,fec.constants,explanatoryVariables,Family,Transform,mean.offspring.size,var.offspring.size,offspring.splitter,fec.by.discrete,nitt)
+makePostFecObjs(dataf,fec.constants,explanatoryVariables,Family,Transform,mean.offspring.size,var.offspring.size,OffspringSplitter,fec.by.discrete,nitt)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -45,7 +45,7 @@ makePostFecObjs(dataf,fec.constants,explanatoryVariables,Family,Transform,mean.o
     function will use to data to assess the mean offspring size}
   \item{var.offspring.size}{numeric vector, defining mean offspring size. Defaults to NA, in which case the
     function will use to data to assess the mean offspring size}
-  \item{offspring.splitter}{dataframe, with column headings for EVERY
+  \item{OffspringSplitter}{dataframe, with column headings for EVERY
     category, so always at minimum containing a column called "continuous" but also
     including every discrete category that will enter into the Fmatrix (and, if
     compatibility is required, the Tmatrix), with values defining the number of

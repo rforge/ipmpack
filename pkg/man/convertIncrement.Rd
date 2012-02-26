@@ -2,38 +2,37 @@
 \alias{convertIncrement}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Convert size increment according to time elapsed
+Convert size increment according to time elapsed between censuses.
 }
 \description{
-This function adjust the intervals of census data that is not annual to report output on population dynamics on an annual basis 
+Adjusts the intervals of census data that is not annual to report output on population dynamics on an annual basis.
 }
 \usage{
-convertIncrement(dataf, nyrs = 1)
+convertIncrement(dataf, nYrs = 1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{
-    a data-frame with columns `size' `sizeNext', `exactDate', `exactDateNext' 
+    a data-frame with columns `size' `sizeNext', `exactDate', `exactDateNext'.
 }
-  \item{nyrs}{
+  \item{nYrs}{
     the number of years between sequential measurements (i.e. if census
-    interval is 5, nyrs=5, if census interval is 3 times a year, nyrs=0.333)
+    interval is 5, nYrs = 5, if census interval is 3 times a year, nYrs = 0.333).
 }
 }
 \details{
-In some data sets the time-interval between census measurements can be different than a year. In some species demographic information is recorded several times within a year, while in others, particularly in "slow-living" species (e.g. trees) the census frequency is greater than  a year and/or vary across intervals. This function takes a data frame \code{dataf} and uses columns with the term \code{extractData} to adjust the size increment to the number of years given in \code{nyears}.  Defaults to annual.  %%  ~~  none  If necessary, more details than the description above ~~
+In some data sets the time interval between census measurements can be different than one year. In some species demographic information is recorded several times within a year, while in others, particularly in "slow-living" species (e.g. trees) the census frequency is greater than one year and/or vary across intervals. This function takes a data frame \code{dataf} and uses columns with the term \code{extractData} to adjust the size increment to the number of years given in \code{nyears}. It defaults to annual.  %%  ~~  none  If necessary, more details than the description above ~~
 }
 \value{
-Returns the adjusted increments.%% ...
+  Returns the adjusted increments.%% ...
 }
 \references{
+Sampling three times/year (nYrs=0.333): Smith, Caswell & Mettler-Cherry. Stochastic flood and precipitation regimes and the population dynamics of a threatened floodplain plant. Ecological Applications 15, p1036-1052.
 
-Sampling 3 times/year (nyrs=0.333): Smith, Caswell & Mettler-Cherry. Stochastic flood and precipitation regimes and the population dynamics of a threatened floodplain plant. Ecological Applications 15 p1036-1052
-
-Sampling every five years (nyrs=5): van Mantgem & Stepheson. 2005. The accuracy of matrix population model projections for coniferous trees in the Sierra Nevada, California. Journal of Ecology 93 p737-747
+Sampling every five years (nYrs=5): van Mantgem & Stepheson. 2005. The accuracy of matrix population model projections for coniferous trees in the Sierra Nevada, California. Journal of Ecology 93, p737-747.
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~

@@ -13,7 +13,7 @@
 makeFecObj(dataf, fec.constants=as.numeric(NA),
 	explanatoryVariables="size", Family="gaussian", 
 	Transform="none", fecNames=NA, mean.offspring.size=NA, 
-	var.offspring.size=NA, offspring.splitter=data.frame(continuous=1), 
+	var.offspring.size=NA, OffspringSplitter=data.frame(continuous=1), 
 	fec.by.discrete=data.frame(NA))
 }
 %- maybe also 'usage' for other objects documented here.
@@ -31,7 +31,7 @@ makeFecObj(dataf, fec.constants=as.numeric(NA),
   \item{fecNames}{a character vector containing the names of the columns of the dataframe from which fecundity data will be analysed (one column at a time). If the fecNames argument is not specified (as by defaul, NA), fecNames will be filled by the names of all column names that contain "fec".} 
   \item{mean.offspring.size}{numeric vector, defining mean offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size}
   \item{var.offspring.size}{numeric vector, defining mean offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size}
-  \item{offspring.splitter}{dataframe with values defining the number of
+  \item{OffspringSplitter}{dataframe with values defining the number of
     offspring going into the indicated offspring category; will be re-scaled to
     sum to 1 within the function. This argument needs to be entered as a data.frame, and the names in the data.frame need to precisely match the used stage names in the data file.}
   \item{fec.by.discrete}{data.frame defining number of offspring produced by each
@@ -70,7 +70,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff<-generateDataDiscrete()
-fv1 <- makeFecObj(dff,offspring.splitter=data.frame(continuous=0.2,seed.age.1=0.8),
+fv1 <- makeFecObj(dff,OffspringSplitter=data.frame(continuous=0.2,seed.age.1=0.8),
 	fec.by.discrete=data.frame(dormant=0,seed.age.1=4.2,seed.old=0))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

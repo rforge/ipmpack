@@ -132,7 +132,7 @@ setClass("survObjLog.multiyear",
 setClass("fecObj",
 		representation(fit.fec = "list",
 				fec.constants = "numeric",
-				offspring.splitter = "data.frame",
+				OffspringSplitter = "data.frame",
 				mean.offspring.size = "numeric",
 				var.offspring.size = "numeric",
 				fec.by.discrete = "data.frame",
@@ -143,7 +143,7 @@ setClass("fecObj",
 setClass("fecObjMultiCov",
 		representation(fit.fec = "list",
 				fec.constants = "numeric",
-				offspring.splitter = "data.frame",
+				OffspringSplitter = "data.frame",
 				mean.offspring.size = "numeric",
 				var.offspring.size = "numeric",
 				fec.by.discrete = "data.frame",
@@ -849,20 +849,20 @@ create.IPM.Fmatrix <- function(fecObj,
 		tmp <- tmp1[2:(nBigMatrix+1)]-tmp1[1:nBigMatrix]
 	}
 	if (correction=="constant") tmp<-tmp/sum(tmp)
-	to.cont<-tmp%*%t(as.numeric(fecObj@offspring.splitter["continuous"])*prodFecValues)
+	to.cont<-tmp%*%t(as.numeric(fecObj@OffspringSplitter["continuous"])*prodFecValues)
 	get.matrix <- to.cont
-	ndisc <- length(fecObj@offspring.splitter)-1
+	ndisc <- length(fecObj@OffspringSplitter)-1
 	
 	namesDiscrete <- "NA"
 	if (ndisc>0) {
-		namesDiscrete <- colnames(fecObj@offspring.splitter[1:ndisc])
+		namesDiscrete <- colnames(fecObj@OffspringSplitter[1:ndisc])
 		
-		to.discrete <- as.numeric(fecObj@offspring.splitter)[1:ndisc]%*%t(prodFecValues)
+		to.discrete <- as.numeric(fecObj@OffspringSplitter)[1:ndisc]%*%t(prodFecValues)
 		
 		from.discrete <- matrix(0,ncol=ndisc,nrow=ndisc+nBigMatrix)
 		if (names(fecObj@fec.by.discrete)[1]!="NA.") {
-			if (sum(names(fecObj@fec.by.discrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fec.by.discrete are not 100% the same discrete class names in your data.frame offspring.splitter. They should also be in alphabetical order.")
-			from.discrete <- c(as.numeric(fecObj@offspring.splitter)[1:ndisc],as.numeric(fecObj@offspring.splitter)[ndisc+1]*tmp)%*%as.matrix(fecObj@fec.by.discrete)
+			if (sum(names(fecObj@fec.by.discrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fec.by.discrete are not 100% the same discrete class names in your data.frame OffspringSplitter. They should also be in alphabetical order.")
+			from.discrete <- c(as.numeric(fecObj@OffspringSplitter)[1:ndisc],as.numeric(fecObj@OffspringSplitter)[ndisc+1]*tmp)%*%as.matrix(fecObj@fec.by.discrete)
 		}
 		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
 	}
@@ -929,7 +929,7 @@ create.compound.Fmatrix <- function(n.env.class = 2,
 	h<-y[2]-y[1]
 	
 	#establish how how many discrete classes there are
-	if (ncol(fecObj@offspring.splitter)>1) ndisc <- ncol(fecObj@offspring.splitter)-1 else ndisc <- 0
+	if (ncol(fecObj@OffspringSplitter)>1) ndisc <- ncol(fecObj@OffspringSplitter)-1 else ndisc <- 0
 	
 	#indexes for slotting in IPMs
 	indexes <- rep(1:n.env.class,each=(nBigMatrix+ndisc))

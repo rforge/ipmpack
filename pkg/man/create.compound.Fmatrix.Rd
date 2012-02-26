@@ -2,13 +2,10 @@
 \alias{create.compound.Fmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function to build compound F matrix
+Builds a compound F matrix.
 }
 \description{
-  Uses fecundity object, and environmental
-  transition objects to construct a matrix
-  defining probabilities for transitions between sizes due to fecundity
-  given both size and environmental state and discrete stages (e.g. seedbank). 
+  Uses fecundity object, and environmental transition objects to construct a matrix defining probabilities for transitions between sizes due to fecundity given both a continuous state (e.g. size) and environmental state, as well as a discrete stage if necessary (e.g. seedbank). 
 }
 \usage{
 create.compound.Fmatrix(n.env.class = 2, nBigMatrix = 50,
@@ -17,27 +14,27 @@ minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType, correction)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{n.env.class}{
-    numeric, number of environmental classes, defaults to 2
+    numeric, number of environmental classes, defaults to 2.
   }
   \item{nBigMatrix}{
-    numeric, number of size bins in the T matrix, defaults to 50
+    numeric, number of size bins in the T matrix, defaults to 50.
   }
   \item{minSize}{
-    numeric, minimum size of the T matrix, defaults to -1
+    numeric, minimum size of the T matrix, defaults to -1.
   }
   \item{maxSize}{
-    numeric, maximum size of the T matrix, defaults to 50
+    numeric, maximum size of the T matrix, defaults to 50.
   }
   \item{envMatrix}{
     env.matrix object defining transitions between environmental states
-    for each size
+    for each size.
   }
   \item{fecObj}{
     fecundity object
   }
   \item{integrateType}{
-    integration type, defaults to "midpoint" (which uses prob. density
-    function); other option is "cumul" (which uses the cumul. density function)
+    integration type, defaults to "midpoint" (which uses probability density
+    function); other option is "cumul" (which uses the cumulative density function).
   }
   \item{correction}{
     correction type, defaults to "none"; option is "constant" which will
@@ -55,15 +52,15 @@ minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType, correction)
 
 }
 \references{
-For information on F matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112
+For information on F matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
 
-For midpoint: Zuidema, Jongejans, Chien, During & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355
+For midpoint: Zuidema, Jongejans, Chien, During & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98, p345-355.
 
-For multiple-vital rate integration on fecundity: Yang, Jongejans, Yang & Bishop. 2011. The effect of consumers and mutualists of Vaccinum membranaceum at Mount St. Helens: dependence on successional context. PLoS One 10 p1-11
+For multiple-vital rate integration on fecundity: Yang, Jongejans, Yang & Bishop. 2011. The effect of consumers and mutualists of Vaccinum membranaceum at Mount St. Helens: dependence on successional context. PLoS One 10, p1-11.
 
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
@@ -75,27 +72,23 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{create.compound.Fmatrix}},\code{\link{create.IPM.Tmatrix}}
 }
 \examples{
-#without discrete stages
-dff<-generateData()
-Fmatrix <-create.compound.Fmatrix(nBigMatrix=20,minSize=min(dff$size,na.rm=TRUE),maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
-fecObj=makeFecObj(dff, explanatoryVariables="size+size2+covariate", Transform="log"))
+# Data with only continuous stage
+dff <- generateData()
+Fmatrix <-create.compound.Fmatrix(nBigMatrix = 20, minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm=TRUE), envMatrix = makeEnvObj(dff), fecObj = makeFecObj(dff, explanatoryVariables = "size+size2+covariate", Transform = "log"))
 
-image(1:nrow(Fmatrix),1:ncol(Fmatrix),t(log(Fmatrix)), xlab="Size at t",ylab="Size at t+1",axes=FALSE)
-axis(1,at=1:nrow(Fmatrix),lab=round(rep(Fmatrix@meshpoints,Fmatrix@n.env.class),2))
-axis(2,at=1:nrow(Fmatrix),lab=round(rep(Fmatrix@meshpoints,Fmatrix@n.env.class),2))
-abline(h=length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
-abline(v=length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
+image(1:nrow(Fmatrix), 1:ncol(Fmatrix), t(log(Fmatrix)), xlab="Continuous state (e.g. size) at t", ylab="Continuous state (e.g. size) at t+1", axes = FALSE)
+axis(1, at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints, Fmatrix@n.env.class), 2))
+axis(2,at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints,Fmatrix@n.env.class), 2))
+abline(h = length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
+abline(v = length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
 
-#with discrete stages
-dff<-generateDataDiscrete()
-dff$covariate <- sample(1:3,size=nrow(dff),replace=TRUE)
-dff$covariateNext <- sample(1:3,size=nrow(dff),replace=TRUE)
-fv1 <- makeFecObj(dff,
-explanatoryVariables="size",Transform="log",
-offspring.splitter=data.frame(continuous=0.9,dormant=0.1))
-Fmatrix <-create.compound.Fmatrix(minSize=min(dff$size,na.rm=TRUE),
-maxSize=max(dff$size,na.rm=TRUE),envMatrix=makeEnvObj(dff),
-fecObj=fv1)
+# Data with continuous and discrete stages
+dff <- generateDataDiscrete()
+dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
+dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
+fv1 <- makeFecObj(dff, explanatoryVariables = "size", Transform = "log", OffspringSplitter=data.frame(continuous = 0.9, dormant = 0.1))
+Fmatrix <- create.compound.Fmatrix(minSize = min(dff$size, na.rm=TRUE),
+maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), fecObj = fv1)
 
 
 }

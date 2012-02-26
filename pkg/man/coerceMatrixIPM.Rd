@@ -2,12 +2,11 @@
 \alias{coerceMatrixIPM}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Coerces a matrix population model to IPM.matrix object
+Coerces a matrix population model to a IPM.matrix object.
 }
 \description{
-Forces MPM (or survival-growth transition matrix, or
-similar) into an IPM.matrix object for use with passage time,
-life expectancy, etc. methods. 
+Forces a MPM (a matrix population model, or survival-growth transition matrix, or similar) into an IPM.matrix object for use with passage time,
+life expectancy methods, etc. 
 }
 \usage{
 coerceMatrixIPM(amat)
@@ -15,20 +14,20 @@ coerceMatrixIPM(amat)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{amat}{
-    A matrix population model; or subset (Tmatrix, Fmatrix, Cmatrix) with any number of bins
+    A matrix population model; or subset (Tmatrix, Fmatrix) with any number of bins.
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-  an object of class IPM.matrix
+  an object of class IPM.matrix.
 }
 \references{
 %% ~put references to the literature/web site here ~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
@@ -41,14 +40,13 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 
-#build simple matrix model with three classes, no retrogression and stasis only in the third stage, which is the only reproductive one in the life cycle.
-amat <- matrix(0,3,3)
-amat[cbind(2:3,1:2)] <- 0.5
-amat[cbind(3,3)] <- 0.8
-amat[1,3] <-5
+# Build a simple matrix model with three classes, no retrogression and stasis only in the third stage, which is the only reproductive one in the life cycle.
+aMat <- matrix(0,3,3)
+aMat[cbind(2:3,1:2)] <- 0.5
+aMat[cbind(3,3)] <- 0.8
+aMat[1,3] <-5
 
-IPM.amat <- coerceMatrixIPM(amat)
-
+IPM.amat <- coerceMatrixIPM(aMat)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

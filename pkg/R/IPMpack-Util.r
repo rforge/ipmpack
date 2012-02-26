@@ -507,15 +507,15 @@ makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10,
 ## elapsed in the desired yaerly increments, adding an additional column denoted 'increment'. 
 #
 # Parameters - dataf - a dataframe with headings size, sizeNext, exactDate,exactDatel
-#            - nyrs - the number of years between censuses desired (e.g. for CTFS data, 5 years)
+#            - nYrs - the number of years between censuses desired (e.g. for CTFS data, 5 years)
 #
 # Returns - a dataframe with the same headings
-convertIncrement <- function(dataf, nyrs=1) {
+convertIncrement <- function(dataf, nYrs=1) {
 	incr <- dataf$sizeNext - dataf$size
 	if (class(dataf$exactDatel) == "Date")  {
-		timeElapsed <- (difftime(dataf$exactDatel,dataf$exactDate)[[1]])/(365*nyrs)
+		timeElapsed <- (difftime(dataf$exactDatel,dataf$exactDate)[[1]])/(365*nYrs)
 	} else {
-		timeElapsed <- (dataf$exactDatel-dataf$exactDate)/(365*nyrs)
+		timeElapsed <- (dataf$exactDatel-dataf$exactDate)/(365*nYrs)
 	}
 	incrNew <- incr / timeElapsed
 	dataf$sizeNext <- dataf$size + incrNew
