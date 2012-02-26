@@ -51,15 +51,19 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{MeanLifeExpect}} \code{\link{create.compound.Tmatrix}}
 }
 \examples{
-dff <- generateData()
-Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size, na.rm = TRUE),
+##with a single continuous state variable (e.g. size)
+dff<-generateData()
+Tmatrix<-create.IPM.Tmatrix(minSize=min(dff$size, na.rm = TRUE),
 maxSize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff))
-PassageTime(5,Tmatrix)
+plot(Tmatrix@meshpoints,le[1,],ylab="Life expectancy",xlab="Size",type="l", ylim=range(le))
+points(Tmatrix@meshpoints,le[2,],type="l",col=2)
 
-Tmatrix <-create.compound.Tmatrix(minSize=min(dff$size,na.rm=TRUE),maxSize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff,explanatoryVariables="size+size2+covariate"),
+
+##with a compound matrix (discrete stages not yet defined)
+Tmatrix<-create.compound.Tmatrix(minSize=min(dff$size,na.rm=TRUE),maxSize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff,explanatoryVariables="size+size2+covariate"),
 survObj=makeSurvObj(dff),envMatrix=makeEnvObj(dff))
-le <- LifeExpect(Tmatrix,makeEnvObj(dff))
+le<-LifeExpect(Tmatrix,makeEnvObj(dff))
 plot(Tmatrix@meshpoints,le[1,],ylab="Life expectancy",xlab="Size",type="l", ylim=range(le))
 points(Tmatrix@meshpoints,le[2,],type="l",col=2)
 

@@ -22,23 +22,25 @@ PassageTime(chosen.size, IPM.matrix)
 }
 }
 \details{
-  Passage time for values exactly equal to the chosen.size are one year, because of how the conditionals are
+  Passage time for values exactly equal to the chosen size (targetSize) are one year, because of way the conditionals are
   framed. Values slightly less than the target size may on average take
   longer due to variance in growth, mortality, leading to
   discontinuities in the pattern of passage time over age. Passage time
-  from values > than the chosen.size should be ignored (space to the right of the red vertical line in example below) 
+  from values > than targetSize should be ignored (space to the right of the red vertical line in example below), unless dealing with an organism that is able to display shrinkage
 }
 \value{
   A vector of times in the units of the chosen time-steps corresponding to each of the IPM meshpoints
 }
 \references{
 Caswell, 2001. Matrix population models: analysis, construction and
-interpretation. 2nd ed. Sinauer. 
+interpretation. 2nd ed. Sinauer. p119
 
 Metcalf, Horvitz, Tuljapurkar & Clark. 2009. A time to grow and a time to die: a new way to analyze the dynamics of size, light, age and death of
 tropical trees. Ecology 90, p2766-2778
 
 For bias in this estimation where variance in growth is small relative to the size range: Zuidema, Jongejans, Chien, During & Schieving. 2010. Integral Projection Models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98, p345-355
+
+For species with shrinkage: Salguero-Gomez & Casper. 2010. Keeping shrinkage in the demographic loop. Journal of Ecology 98, p313-323
 
 }
 \author{
@@ -54,6 +56,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{MeanLifeExpect}}, ~~~
 }
 \examples{
+##with a single continuous state variable (e.g. size)
 dff <- generateData()
 Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size, na.rm = TRUE),
 maxSize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),

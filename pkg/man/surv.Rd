@@ -46,7 +46,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff<-generateData()
 sv1<-makeSurvObj(dff)
-surv(1,1,sv1)
+surv(1:50,1,sv1)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

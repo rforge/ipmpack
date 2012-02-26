@@ -31,8 +31,8 @@ wrapHossfeld(par, dataf)
 %% ...
 }
 \references{
-Zuidema et al. 2010. Integral Projection Models for trees: a new parametrization method and a validation of model output. 
-Journal of Ecology, 98, 345-355
+Zuidema, Jongejans, Chien, During & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
@@ -50,13 +50,13 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 #simulate data and create a column for growth increment
 dff<-generateData()
-dff$incr <- dff$sizeNext-dff$size
+dff$incr<-dff$sizeNext-dff$size
 
 #current sum of squares
-wrapHossfeld(c(1,1,1), dff)
+wrapHossfeld(c(1,1,1),dff)
 
 #use optim to get best parameters values [not run]
-#tmp <- optim(c(1,1,1),wrapHossfeld,dataf=dff,method="Nelder-Mead")
+tmp<-optim(c(1,1,1),wrapHossfeld,dataf=dff,method="Nelder-Mead")
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
