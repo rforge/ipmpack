@@ -54,7 +54,7 @@ booean describing whether size is on a log scale or not (for plotting)
 \details{
 }
 \value{
-  \item{ptime}{
+  \item{pTime}{
 	passage time to chosen.size from every size in the chosen discrete time step interval; 
 	estimation for sizes larger than the chosen.size should be discarded. 
 	

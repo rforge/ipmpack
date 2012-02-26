@@ -19,12 +19,12 @@ getIPMoutput <- function(Tmatrixlist,targetSize=c(),Fmatrixlist=NULL){
 	}
 	nsamps <- length(Tmatrixlist)
 	h1 <- Tmatrixlist[[1]]@meshpoints[2]-Tmatrixlist[[1]]@meshpoints[1]
-	stable.size <- LE <- ptime <- matrix(NA,nsamps,length(Tmatrixlist[[1]]@.Data[1,]))
+	stable.size <- LE <- pTime <- matrix(NA,nsamps,length(Tmatrixlist[[1]]@.Data[1,]))
 	lambda <- rep(NA,nsamps)
 	for (k in 1:nsamps) {
 		Tmatrix <- Tmatrixlist[[k]]
 		LE[k,]<-MeanLifeExpect(Tmatrix) 
-		ptime[k,]<-PassageTime(targetSize,Tmatrix) 
+		pTime[k,]<-PassageTime(targetSize,Tmatrix) 
 		
 		if (class(Fmatrixlist)!="NULL") {
 			IPM <- Tmatrix + Fmatrixlist[[k]]
@@ -35,7 +35,7 @@ getIPMoutput <- function(Tmatrixlist,targetSize=c(),Fmatrixlist=NULL){
 		}
 	}
 	
-	return(list(LE=LE,ptime=ptime,lambda=lambda,stable.size=stable.size))
+	return(list(LE=LE,pTime=pTime,lambda=lambda,stable.size=stable.size))
 	
 }
 
@@ -87,7 +87,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 	#set up storage
 	if (is.data.frame(discreteTrans)) ndisc <- ncol(discreteTrans) else ndisc <- 0
 	if (class(env.mat)!="NULL") nEnv <- env.mat@nEnvClass else nEnv <- 1
-	LE <- ptime <- matrix(NA,nsamp,(nBigMatrix+ndisc)*nEnv)
+	LE <- pTime <- matrix(NA,nsamp,(nBigMatrix+ndisc)*nEnv)
 	if (class(fecObjList)=="NULL") {
 		lambda <- stable.size <- c()
 	} else {
@@ -116,7 +116,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		}
 		
 		LE[k,] <- MeanLifeExpect(Tmatrix) 
-		ptime[k,] <- PassageTime(targetSize,Tmatrix) 
+		pTime[k,] <- PassageTime(targetSize,Tmatrix) 
 		if (k==1) h1 <- diff(Tmatrix@meshpoints)[1]
 		
 		if (class(fecObjList)!="NULL") {
@@ -153,7 +153,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		
 	}
 	
-	return(list(LE=LE,ptime=ptime,lambda=lambda,stable.size=stable.size,
+	return(list(LE=LE,pTime=pTime,lambda=lambda,stable.size=stable.size,
 					meshpoints=Tmatrix@meshpoints,resAge=resAge,resSize=resSize,
 					surv.par=surv.par,grow.par=grow.par))
 	
@@ -180,8 +180,8 @@ SizeToAge <- function(Tmatrix,startingSize,targetSize) {
 	
 	#loop over to see where its going
 	for (k in 1:length(targetSize)) {
-		ptime <- PassageTime(targetSize[k],Tmatrix)
-		timeInYears[k] <- ptime[start.index]
+		pTime <- PassageTime(targetSize[k],Tmatrix)
+		timeInYears[k] <- pTime[start.index]
 	}
 	
 	return(list(timeInYears=timeInYears,targetSize=targetSize,startingSize=startingSize))
@@ -389,7 +389,7 @@ generateData <- function(){
 # size, sizeNext, surv, fec, stage, stageNext number
 # Stage contains names including "continuous", and then a range
 # of names for discrete stages, e.g., in this example,
-#  "dormant" "seed.age.1"   "seed.old" 
+#  "dormant" "seedAge1"   "seedOld" 
 #
 # 
 generateDataDiscrete <- function(){
@@ -411,10 +411,10 @@ generateDataDiscrete <- function(){
 	dataf <- rbind(data.frame(size=size,sizeNext=sizeNext,surv=surv,
 					fec=fec,stage=stage,stageNext=stageNext,number=number),
 			data.frame(size=NA,sizeNext=NA,surv=rep(c(1,0),2),fec=0,
-					stage=rep(c("seed.age.1","seed.old"),each=2),stageNext=rep(c("seed.old","dead"),2),
+					stage=rep(c("seedAge1","seedOld"),each=2),stageNext=rep(c("seedOld","dead"),2),
 					number=c(202,220,115,121)),
 			data.frame(size=NA,sizeNext=rnorm(113,3,2),surv=1,fec=0,
-					stage=c(rep("seed.age.1",33),rep("seed.old",30),rep(NA,50)),
+					stage=c(rep("seedAge1",33),rep("seedOld",30),rep(NA,50)),
 					stageNext=c("continuous"),number=1))
 	
 	return(dataf)
@@ -536,7 +536,7 @@ convertIncrement <- function(dataf, nYrs=1) {
 #            - do.plot - figures desired? - default is TRUE
 #
 # Returns - list including LE - Life Expectancy
-#                          ptime - passage time to chosen size
+#                          pTime - passage time to chosen size
 #                          Tmatrix - Tmatrix
 #                          growObj -
 #                          survObj - survival object
@@ -600,10 +600,10 @@ run.Simple.Model <- function(dataf,
 	}
 	
 	# Get the passage time to the targeted size class
-	ptime <- PassageTime(chosen.size,tmp); #print(ptime)
+	pTime <- PassageTime(chosen.size,tmp); #print(pTime)
 	if (do.plot) { 
-		plot(conv(tmp@meshpoints),ptime,type = "l",xlab = "Size at start",log=axes,
-				ylab = "Time to reach chosen size",ylim=range(ptime[tmp@meshpoints<chosen.size],na.rm=TRUE),
+		plot(conv(tmp@meshpoints),pTime,type = "l",xlab = "Size at start",log=axes,
+				ylab = "Time to reach chosen size",ylim=range(pTime[tmp@meshpoints<chosen.size],na.rm=TRUE),
 				xlim=conv(range(tmp@meshpoints[tmp@meshpoints<chosen.size],na.rm=TRUE)), main="Time to reach particular size")
 		abline(v = conv(chosen.size),col = 2) #show the target size in red
 	}
@@ -611,7 +611,7 @@ run.Simple.Model <- function(dataf,
 	
 	
 	
-	return(list(ptime=ptime,LE=LE,Tmatrix=tmp,growObj=gr1, survObj=sv1))
+	return(list(pTime=pTime,LE=LE,Tmatrix=tmp,growObj=gr1, survObj=sv1))
 }
 
 

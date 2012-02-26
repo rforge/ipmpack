@@ -2,11 +2,11 @@
 \alias{generateDataStoch}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Function to generate data with stochastic covariates
+  Generates data with stochastic covariates.
 }
 \description{
-  Simulates growth, survival, fecundity to create a data-frame of the
-  form required by the functions and methods used in the package
+  Simulates growth, survival, fecundity to create a dataframe of the
+  form required by the functions and methods used in IPMpack.
 }
 \usage{
 generateDataStoch()
@@ -16,16 +16,16 @@ generateDataStoch()
 }
 \value{
   A dataframe with headings:
-  	- "size": continuous variable, indicating current size
-  	- "sizeNext": continuous variable, indicating size in the next time step
-  	- "surv": boolean, indicating whether individual survived or not to the next time-step
-  	- "covariate1", "covariate2", "covariate3", ...: discrete or continuous covariates
-  	- "fec": continuous variable, indicating fecundity, that is, per-capita contributions via sexual reproduction
+  	- "size": continuous variable, indicating current size.
+  	- "sizeNext": continuous variable, indicating size in the next time step.
+  	- "surv": boolean, indicating whether individual survived or not to the next time step.
+  	- "covariate1", "covariate2", "covariate3", ...: discrete or continuous covariates.
+  	- "fec": continuous variable, indicating fecundity, that is, per-capita contributions via sexual reproduction.
 }
 \references{
-Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p377-502
+Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p377-502.
 
-Rees & Ellner. 2009. Integral projection models for populations in temporally varying environments. The American Naturalist 79 p575-594
+Rees & Ellner. 2009. Integral projection models for populations in temporally varying environments. The American Naturalist 79, p575-594.
 
 }
 \author{

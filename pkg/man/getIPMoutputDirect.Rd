@@ -73,7 +73,7 @@ list of fecundity objects (facultative)
 \value{
   \item{LE}{matrix of life expectancies, columns correspond to
   meshpoints, rows corresponding to each element of the list of T matrices}
-  \item{ptime}{matrix of passage times to the targetSize from each of
+  \item{pTime}{matrix of passage times to the targetSize from each of
     the meshpoints (columns) and for each element in the T matrix list (columns)}
   \item{lambda}{vector of lambda corresponding to value obtained
     combining each element of the list of T matrices with the
@@ -124,9 +124,9 @@ plot(res$meshpoints,res$LE[1,],xlab="Size", ylab="Life expectancy", type="l",
 	ylim=range(res$LE,na.rm=TRUE))
 for (j in 1:nrow(res$LE)) points(res$meshpoints,res$LE[j,],col=j, type="l")
 
-plot(res$meshpoints,res$ptime[1,],xlab="Size", ylab="Passage Time", type="l", 
-	ylim=range(res$ptime,na.rm=TRUE))
-for (j in 1:nrow(res$ptime)) points(res$meshpoints,res$ptime[j,],col=j, type="l")
+plot(res$meshpoints,res$pTime[1,],xlab="Size", ylab="Passage Time", type="l", 
+	ylim=range(res$pTime,na.rm=TRUE))
+for (j in 1:nrow(res$pTime)) points(res$meshpoints,res$pTime[j,],col=j, type="l")
 
 plot(res$meshpoints,Re(res$stable.size[1,]),xlab="Size", ylab="Stable size dist", type="l", 
 	ylim=range(Re(res$stable.size),na.rm=TRUE))

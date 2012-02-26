@@ -2,33 +2,33 @@
 \alias{generateData}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Function to generate random data in the form used by IPMpack
+  Generates random data in the form used by IPMpack.
 }
 \description{
-  Simulates growth, survival and fecundity to create a data-frame of the form required by the functions and methods used in IPMpack. Demographic stage data is only continuous. 
+  Simulates growth, survival and fecundity to create a dataframe of the form required by the functions and methods used in IPMpack. Demographic stage data is only continuous.
 }
 \usage{
 generateData()
 }
 %- maybe also 'usage' for other objects documented here.
 \details{
-Note that the random data created includes only one discrete covariate structuring the population (e.g., habitat type [shaded, open], age [0, 1, 2, 3 years old...], time since fire [0, 1, 2, 3 years...], etc); user can include into the data frame additional discrete covariates if necessary. To include continuous covariates (e.g., precipitation, temperature, light incidence, hurricane recurrence interval, etc) in randomized data, refer to generateDataStoch(). For randomized datasets with complex life cycles that include discrete stages (e.g., seedbank), refer to generateDataDiscrete()
+Note that the random data created includes only one discrete covariate structuring the population (e.g., habitat type [shaded, open], age [0, 1, 2, 3 years old...], time since fire [0, 1, 2, 3 years...], etc); user can include into the data frame additional discrete covariates if necessary. To include continuous covariates (e.g., precipitation, temperature, light incidence, hurricane recurrence interval, etc) in randomized data, refer to generateDataStoch(). For randomized datasets with complex life cycles that include discrete stages (e.g., seedbank), refer to generateDataDiscrete().
 }
 \value{
   A dataframe with headings:
-  	- "size": continuous variable, indicating current size
-  	- "sizeNext" continuous variable, indicating size in the next time step
-  	- "surv": boolean, indicating whether individual survived or not to the next time-step
-  	- "covariate": discrete covariate
+  	- "size": continuous variable, indicating current size.
+  	- "sizeNext" continuous variable, indicating size in the next time step.
+  	- "surv": boolean, indicating whether individual survived or not to the next time step.
+  	- "covariate": discrete covariate.
   	- "covariateNext": discrete covariate in the next
-  time-step
-  	- "fec": continuous variable, indicating fecundity
+  time step.
+  	- "fec": continuous variable, indicating fecundity.
 }
 \references{
 %% ~put references to the literature/web site here ~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
@@ -40,7 +40,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{generateDataStoch}},\code{\link{generateDataDiscrete}}
 }
 \examples{
-dff<-generateData()
+dff <- generateData()
 head(dff)
 
 }
