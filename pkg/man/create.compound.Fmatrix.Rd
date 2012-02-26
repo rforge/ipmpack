@@ -72,7 +72,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 \code{\link{create.compound.Fmatrix}},\code{\link{create.IPM.Tmatrix}}
 }
 \examples{
-# Data with only continuous stage
+# Data with only continuous stage and two habitats
 dff <- generateData()
 Fmatrix <-create.compound.Fmatrix(nBigMatrix = 20, minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm=TRUE), envMatrix = makeEnvObj(dff), fecObj = makeFecObj(dff, explanatoryVariables = "size+size2+covariate", Transform = "log"))
 
@@ -89,8 +89,6 @@ dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 fv1 <- makeFecObj(dff, explanatoryVariables = "size", Transform = "log", OffspringSplitter=data.frame(continuous = 0.9, dormant = 0.1))
 Fmatrix <- create.compound.Fmatrix(minSize = min(dff$size, na.rm=TRUE),
 maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), fecObj = fv1)
-
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

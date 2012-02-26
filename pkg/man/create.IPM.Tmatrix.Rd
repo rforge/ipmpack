@@ -2,12 +2,10 @@
 \alias{create.IPM.Tmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function to build T matrices
+Builds T matrices.
 }
 \description{
-  Uses growth and survival objects to construct a matrix
-  defining probabilities for transitions between sizes due to growth
-  and survival. Extensions for transition to discrete classes are possible
+  Uses growth and survival objects to construct a matrix defining probabilities for transitions between sizes due to growth and survival. Extensions for transition to discrete classes are possible.
 }
 \usage{
 create.IPM.Tmatrix(n.env.class = 1, nBigMatrix = 50,
@@ -18,33 +16,33 @@ integrateType, correction)
 \arguments{
   \item{n.env.class}{
     numeric, number of environmental classes, always = 1 for
-    non-compound matrices
+    non-compound matrices.
   }
   \item{nBigMatrix}{
-    numeric, number of size bins in the T matrix, defaults to 50
+    numeric, number of size bins in the T matrix, defaults to 50.
   }
   \item{minSize}{
-    numeric, minimum size of the T matrix, defaults to -1
+    numeric, minimum size of the T matrix, defaults to -1.
   }
   \item{maxSize}{
-    numeric, maximum size of the T matrix, defaults to 50
+    numeric, maximum size of the T matrix, defaults to 50.
   }
   \item{chosen.cov}{
     numeric indicating level of the discrete covariate, or vector
-    setting values where multiple covarites are modeled
+    setting values where multiple covarites are modeled.
   }
   \item{growObj}{
-    growth object
+    growth object.
   }
   \item{survObj}{
-    survival object
+    survival object.
   }
   \item{discreteTrans}{
-    object of class discreteTrans, or numeric
+    object of class discreteTrans, or numeric.
   }
   \item{integrateType}{
-    integration type, defaults to "midpoint" (which uses prob. density
-    function); other option is "cumul" (which uses the cumul. density function)
+    integration type, defaults to "midpoint" (which uses probability density
+    function); other option is "cumul" (which uses the cumulative density function).
   }
   \item{correction}{
     correction type, defaults to "none"; option is "constant" which will
@@ -64,20 +62,18 @@ integrateType, correction)
 }
 \value{
   an object of class IPM.matrix with dimensions nBigMatrix*nBigMatrix, or
-  nbig.matrix+nrow(discreteTrans)
+  nbig.matrix+nrow(discreteTrans).
 }
 \references{
-Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81 p694-708
+Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81, p694-708.
 
-Ellner & Rees. 2006. Integral projection models for species with complex demography. The American Naturalist 167 p410-428
+Ellner & Rees. 2006. Integral projection models for species with complex demography. The American Naturalist 167, p410-428.
 
-For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112
-
-
+For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
 %% ~put references to the literature/web site here ~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
@@ -89,13 +85,12 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{create.IPM.Fmatrix}}, \code{\link{diagnosticsTmatrix}}, \code{\link{makediscreteTrans}}  
 }
 \examples{
-dff<-generateData()
-Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size,na.rm=TRUE),maxSize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
+dff <- generateData()
+Tmatrix <- create.IPM.Tmatrix(minSize = min(dff$size, na.rm=TRUE), maxSize=max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
 
 slotNames(Tmatrix)
 
-image(Tmatrix@meshpoints,Tmatrix@meshpoints,Tmatrix, xlab="Size at t+1",ylab="Size at t")
-
+image(Tmatrix@meshpoints, Tmatrix@meshpoints, t(Tmatrix), xlab="Continuous (e.g. size) stage at t", ylab = "Continuous (e.g. size) stage at t+1")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
