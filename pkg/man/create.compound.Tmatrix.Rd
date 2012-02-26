@@ -8,13 +8,13 @@ Builds a compound T matrix.
   Uses growth, survival, discreteTrans, and environmental transition objects to construct a matrix defining probabilities for transitions between continuous stages (e.g. size) due to growth and survival given both size and environmental state and discrete stages. 
 }
 \usage{
-create.compound.Tmatrix(n.env.class = 2, nBigMatrix = 50,
+create.compound.Tmatrix(nEnvClass = 2, nBigMatrix = 50,
 minSize = -1, maxSize = 50, envMatrix, growObj, survObj,
 discreteTrans = 1, integrateType = "midpoint",correction = "none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{n.env.class}{
+  \item{nEnvClass}{
     numeric, number of environmental classes, defaults to 2.
   }
   \item{nBigMatrix}{
@@ -55,8 +55,8 @@ between ages is reflected by a similar matrix.
 }
 \value{
   an object of class IPM.matrix with dimensions
-  nBigMatrix*n.env.class, or if discrete transitions exist
-  (nBigMatrix+n.disc)*n.env.class
+  nBigMatrix*nEnvClass, or if discrete transitions exist
+  (nBigMatrix+n.disc)*nEnvClass
 }
 \references{
 For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
@@ -90,10 +90,10 @@ dff <- generateData()
 Tmatrix <- create.compound.Tmatrix(minSize = min(dff$size,na.rm=TRUE), maxSize = max(dff$size,na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"))
 
 image(1:nrow(Tmatrix), 1:ncol(Tmatrix), t(log(Tmatrix)), xlab="Continuous stage (e.g. size) at t",ylab="Continuous stage (e.g. size) at t+1", axes = FALSE)
-axis(1, at = 1:nrow(Tmatrix), lab = round(rep(Tmatrix@meshpoints,Tmatrix@n.env.class), 2))
-axis(2, at = 1:nrow(Tmatrix), lab = round(rep(Tmatrix@meshpoints,Tmatrix@n.env.class), 2))
-abline(h = length(Tmatrix@meshpoints)*(1:Tmatrix@n.env.class))
-abline(v = length(Tmatrix@meshpoints)*(1:Tmatrix@n.env.class))
+axis(1, at = 1:nrow(Tmatrix), lab = round(rep(Tmatrix@meshpoints,Tmatrix@nEnvClass), 2))
+axis(2, at = 1:nrow(Tmatrix), lab = round(rep(Tmatrix@meshpoints,Tmatrix@nEnvClass), 2))
+abline(h = length(Tmatrix@meshpoints)*(1:Tmatrix@nEnvClass))
+abline(v = length(Tmatrix@meshpoints)*(1:Tmatrix@nEnvClass))
 
 # Data with continuous and discrete stages
 dff <- generateDataDiscrete()

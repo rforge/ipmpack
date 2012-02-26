@@ -86,12 +86,12 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 	
 	#set up storage
 	if (is.data.frame(discreteTrans)) ndisc <- ncol(discreteTrans) else ndisc <- 0
-	if (class(env.mat)!="NULL") n.env <- env.mat@n.env.class else n.env <- 1
-	LE <- ptime <- matrix(NA,nsamp,(nBigMatrix+ndisc)*n.env)
+	if (class(env.mat)!="NULL") nEnv <- env.mat@nEnvClass else nEnv <- 1
+	LE <- ptime <- matrix(NA,nsamp,(nBigMatrix+ndisc)*nEnv)
 	if (class(fecObjList)=="NULL") {
 		lambda <- stable.size <- c()
 	} else {
-		stable.size <- matrix(NA,nsamp,(nBigMatrix+ndisc)*n.env)
+		stable.size <- matrix(NA,nsamp,(nBigMatrix+ndisc)*nEnv)
 		lambda <- rep(NA,nsamp)
 	}
 	if (n.size.to.age==0) { resAge <- resSize <- c() } else { resAge <- resSize <- matrix(NA,nsamp,n.size.to.age)} 
@@ -107,7 +107,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 					integrateType=integrateType, correction=correction) 
 			
 		} else {
-			Tmatrix <- create.compound.Tmatrix(n.env.class = n.env,
+			Tmatrix <- create.compound.Tmatrix(nEnvClass = nEnv,
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=env.mat,growObj = growObjList[[k]],
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
@@ -126,7 +126,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 						fecObj=fecObjList[[k]],
 						integrateType=integrateType, correction=correction)
 			} else {
-				Fmatrix <- create.compound.Fmatrix(n.env.class = n.env,
+				Fmatrix <- create.compound.Fmatrix(nEnvClass = nEnv,
 						nBigMatrix = nBigMatrix, minSize = minSize, 
 						maxSize = maxSize, envMatrix=env.mat,
 						fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)
@@ -333,15 +333,15 @@ makeEnvObj <- function(dataf){
 	nextEnv <- dataf$covariateNext-minval+1
 	
 	
-	n.env.class <- max(c(startEnv,nextEnv))
-	desired.mat <- matrix(0,n.env.class,n.env.class) 
+	nEnvClass <- max(c(startEnv,nextEnv))
+	desired.mat <- matrix(0,nEnvClass,nEnvClass) 
 	mats<-table(startEnv,nextEnv)
 	rx <- as.numeric(rownames(mats));#print(rx)
 	cx <- as.numeric(colnames(mats))
 	desired.mat[cbind(rep(rx,length(cx)),rep(cx,each=length(rx)))]=c(as.matrix(mats))
 	
 	rc <- new("env.matrix",
-			n.env.class = n.env.class)
+			nEnvClass = nEnvClass)
 	
 	rc@.Data <- t(t(desired.mat)/colSums(desired.mat))
 	
@@ -658,7 +658,7 @@ plotResultsStochStruct <- function(tvals,st,covtest,n.runin=15,log="y",...) {
 coerceMatrixIPM <- function(amat) {
 	
 	newmat <- as(amat,"IPM.matrix")
-	newmat@n.env.class <- 1
+	newmat@nEnvClass <- 1
 	newmat@nBigMatrix <- length(newmat[1,])
 	newmat@meshpoints <- 1:newmat@nBigMatrix
 	newmat@env.index <- 1
@@ -673,12 +673,12 @@ coerceMatrixIPM <- function(amat) {
 #
 # Parameters - dataf - a dataframe
 #            - bins - the lower and upper edge of desired bins
-#            - n.env - the environment level (currently just defaults)
+#            - nEnv - the environment level (currently just defaults)
 #
 # Returns - an object of class IPM.matrix with dim length(bins)*length(bins) containing
 #         - survival transitions
 #
-create.MPM.Tmatrix <- function(dataf, bins, n.env=1) {
+create.MPM.Tmatrix <- function(dataf, bins, nEnv=1) {
 	
 	loc.now <- findInterval(dataf$size[!is.na(dataf$size) & !is.na(dataf$sizeNext)],bins)+1
 	loc.next <- findInterval(dataf$sizeNext[!is.na(dataf$size) & !is.na(dataf$sizeNext)],bins)+1    
@@ -690,12 +690,12 @@ create.MPM.Tmatrix <- function(dataf, bins, n.env=1) {
 	MPM <- t(t(MPM)/as.numeric(table(loc.now)))
 	
 	rc <- new("IPM.matrix",
-			n.env.class = 1, 
+			nEnvClass = 1, 
 			nBigMatrix = nbins,
 			nrow = 1*nbins,
 			ncol =1*nbins,
 			meshpoints = 1:nbins,
-			env.index = rep(1:n.env, each=nbins))
+			env.index = rep(1:nEnv, each=nbins))
 	
 	rc[,] <- MPM  
 	
@@ -708,7 +708,7 @@ create.MPM.Tmatrix <- function(dataf, bins, n.env=1) {
 # Parameters - dataf - a dataframe
 #            - bins - the lower and upper edge of desired bins
 #            - p.est - probability of seed establishment
-#            - n.env - the environment level (currently just defaults)
+#            - nEnv - the environment level (currently just defaults)
 #
 # Returns - an object of class IPM.matrix with dim length(bins)*length(bins) containing
 #         - fecundity transitions
@@ -716,7 +716,7 @@ create.MPM.Tmatrix <- function(dataf, bins, n.env=1) {
 # ! assumes no relationship between adult size class and their baby's size class
 #
 
-create.MPM.Fmatrix <- function(dataf, bins,offspringClasses=1, offspringProp=1, n.env=1) {
+create.MPM.Fmatrix <- function(dataf, bins,offspringClasses=1, offspringProp=1, nEnv=1) {
 	
 	loc.now <- findInterval(dataf$size[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],bins)+1
 	n.now <- sapply(split(dataf$fec[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],loc.now),median)
@@ -730,12 +730,12 @@ create.MPM.Fmatrix <- function(dataf, bins,offspringClasses=1, offspringProp=1, 
 	for (j in 1:length(offspringClasses)) MPM[offspringClasses[j],as.numeric(names(n.now))] <-  offspringProp[j]*n.now
 	
 	rc <- new("IPM.matrix",
-			n.env.class = 1, 
+			nEnvClass = 1, 
 			nBigMatrix = nbins,
 			nrow = 1*nbins,
 			ncol =1*nbins,
 			meshpoints = 1:nbins,
-			env.index = rep(1:n.env, each=nbins))
+			env.index = rep(1:nEnv, each=nbins))
 	
 	rc[,] <- MPM  
 	

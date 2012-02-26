@@ -936,7 +936,7 @@ makeListTmatrix <- function(growObjList,survObjList,
 					maxSize = maxSize, growObj = growObjList[[k]],
 					survObj = survObjList[[k]]) 
 		} else {
-			Tmatrixlist[[k]] <- create.compound.Tmatrix(n.env.class = length(env.mat[1,]),
+			Tmatrixlist[[k]] <- create.compound.Tmatrix(nEnvClass = length(env.mat[1,]),
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=env.mat,
 					growObj = growObjList[[k]],
@@ -962,7 +962,7 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE, en
 					maxSize = maxSize, 
 					fecObj=fecObjList[[k]])
 		} else {
-			Fmatrixlist[[k]] <- create.compound.Fmatrix(n.env.class = length(env.mat[1,]),
+			Fmatrixlist[[k]] <- create.compound.Fmatrix(nEnvClass = length(env.mat[1,]),
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=env.mat,
 					fecObj=fecObjList[[k]])

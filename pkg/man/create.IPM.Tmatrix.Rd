@@ -8,13 +8,13 @@ Builds T matrices.
   Uses growth and survival objects to construct a matrix defining probabilities for transitions between sizes due to growth and survival. Extensions for transition to discrete classes are possible.
 }
 \usage{
-create.IPM.Tmatrix(n.env.class = 1, nBigMatrix = 50,
+create.IPM.Tmatrix(nEnvClass = 1, nBigMatrix = 50,
 minSize = -1, maxSize = 50, chosen.cov = 1, growObj, survObj, discreteTrans, 
 integrateType, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{n.env.class}{
+  \item{nEnvClass}{
     numeric, number of environmental classes, always = 1 for
     non-compound matrices.
   }

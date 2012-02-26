@@ -8,14 +8,14 @@
 Uses fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calves) by reproductive stages due to sexual reproduction.
 }
 \usage{
-create.IPM.Fmatrix(fecObj, n.env.class = 1, nBigMatrix = 50, minSize = -1, maxSize = 50, chosen.cov = 1, integrateType="midpoint", correction="none")
+create.IPM.Fmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSize = 50, chosen.cov = 1, integrateType="midpoint", correction="none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{fecObj}{
     fecundity object.
   }
-  \item{n.env.class}{
+  \item{nEnvClass}{
     numeric, number of environmental classes, always = 1 for
     non-compound matrices.
   }

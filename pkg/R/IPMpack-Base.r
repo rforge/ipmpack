@@ -521,14 +521,14 @@ growSurv <- function(size,sizeNext,cov,growthObj,survObj){
 
 #Class for the matrix that holds the env matrix 
 setClass("env.matrix",
-		representation(n.env.class = "numeric"), #number of covariate levels
+		representation(nEnvClass = "numeric"), #number of covariate levels
 		contains="matrix")
 
 
 #Class for the matrix that holds the IPM
 setClass("IPM.matrix",
 		representation(n.discrete = "numeric", #number of discrete classes
-				n.env.class = "numeric", #number of covariate levels
+				nEnvClass = "numeric", #number of covariate levels
 				nBigMatrix = "numeric", #the resolution of the IPM
 				meshpoints = "numeric",
 				env.index = "numeric",
@@ -541,7 +541,7 @@ setClass("IPM.matrix",
 #(single one at a time) and growth and survival objects
 #
 #Parameters -
-#   n.env.class - the number of env classes, cannot be !=1, defaults to 1 
+#   nEnvClass - the number of env classes, cannot be !=1, defaults to 1 
 #   nBigMatrix - the number of size bins in the model
 #   minSize - lower end of desired size range
 #   maxSize - upper end of desired size range
@@ -559,7 +559,7 @@ setClass("IPM.matrix",
 #
 #Returns -
 #  an IPM object (with or without discrete classes)
-create.IPM.Tmatrix <- function(n.env.class = 1,
+create.IPM.Tmatrix <- function(nEnvClass = 1,
 		nBigMatrix = 50,
 		minSize = -1,
 		maxSize = 50,
@@ -603,12 +603,12 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 	
 	rc <- new("IPM.matrix",
 			n.discrete =0,
-			n.env.class = 1, 
+			nEnvClass = 1, 
 			nBigMatrix = nBigMatrix,
 			nrow = 1*nBigMatrix,
 			ncol =1*nBigMatrix,
 			meshpoints = y,
-			env.index = rep(1:n.env.class,each=nBigMatrix),
+			env.index = rep(1:nEnvClass,each=nBigMatrix),
 			names.discrete="")
 	rc[,] <-get.matrix
 	
@@ -635,12 +635,12 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 	
 		rc <- new("IPM.matrix",
 				n.discrete = ndisc,
-				n.env.class = 1, 
+				nEnvClass = 1, 
 				nBigMatrix = nBigMatrix,
 				nrow = 1*nBigMatrix+ndisc,
 				ncol =1*nBigMatrix+ndisc,
 				meshpoints = y,
-				env.index = rep(1:n.env.class,each=nBigMatrix),
+				env.index = rep(1:nEnvClass,each=nBigMatrix),
 				names.discrete=rownames(discreteTrans@discrete.trans)[1:ndisc])
 		
 		rc[,] <-get.disc.matrix   
@@ -657,7 +657,7 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 #and growth and survival objects
 #
 #Parameters -
-#   n.env.class - the number of env classes, defaults to 2, should match dim envMatrix
+#   nEnvClass - the number of env classes, defaults to 2, should match dim envMatrix
 #   nBigMatrix - the number of size bins in the model
 #   minSize - lower end of desired size range
 #   maxSize - upper end of desired size range
@@ -675,7 +675,7 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 #  an IPM object
 
 
-create.compound.Tmatrix <- function(n.env.class = 2,
+create.compound.Tmatrix <- function(nEnvClass = 2,
 		nBigMatrix = 50,
 		minSize = -1,
 		maxSize = 50,
@@ -688,9 +688,9 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 	
 	
 	#warnings...
-	if (n.env.class!=nrow(envMatrix)) {
-		print(paste("Dim of envMatrix not equal to n.env.class. Adjusted to",nrow(envMatrix)))
-		n.env.class <- nrow(envMatrix)
+	if (nEnvClass!=nrow(envMatrix)) {
+		print(paste("Dim of envMatrix not equal to nEnvClass. Adjusted to",nrow(envMatrix)))
+		nEnvClass <- nrow(envMatrix)
 	}
 	
 	# boundary points b and mesh points y
@@ -704,15 +704,15 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 	if (class(discreteTrans)=="discreteTrans") ndisc <- ncol(discreteTrans@discrete.surv) else ndisc <- 0
 	
 	#indexes for slotting in IPMs
-	indexes <- rep(1:n.env.class,each=(nBigMatrix+ndisc))
+	indexes <- rep(1:nEnvClass,each=(nBigMatrix+ndisc))
 	
 	#megamatrix
-	megamatrix <- matrix(0,(nBigMatrix+ndisc)*n.env.class,(nBigMatrix+ndisc)*n.env.class) 
+	megamatrix <- matrix(0,(nBigMatrix+ndisc)*nEnvClass,(nBigMatrix+ndisc)*nEnvClass) 
 	
 	#print(indexes)
 	
 	#loop over habitats / environments
-	for (k in 1:n.env.class) { 
+	for (k in 1:nEnvClass) { 
 		#IPM for individuals starting in env k
 		
 		if (integrateType=="midpoint") { 
@@ -766,7 +766,7 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 		}
 		
 		# transit them
-		subset <- c(1:n.env.class)[envMatrix[,k]>0]
+		subset <- c(1:nEnvClass)[envMatrix[,k]>0]
 		for (j in subset) { 
 			megamatrix[indexes==j,indexes==k] <- get.matrix*envMatrix[j,k]; 
 		}
@@ -774,12 +774,12 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 	}
 	
 	rc <- new("IPM.matrix",
-			n.env.class = n.env.class, 
+			nEnvClass = nEnvClass, 
 			nBigMatrix = nBigMatrix,
-			nrow = n.env.class*(nBigMatrix+ndisc),
-			ncol =n.env.class*(nBigMatrix+ndisc),
+			nrow = nEnvClass*(nBigMatrix+ndisc),
+			ncol =nEnvClass*(nBigMatrix+ndisc),
 			meshpoints = y,
-			env.index = rep(1:n.env.class,each=nBigMatrix,
+			env.index = rep(1:nEnvClass,each=nBigMatrix,
 					names.discrete=nmes))
 	
 	rc[,] <- megamatrix
@@ -796,7 +796,7 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 #precedes growth; could do otherwise...)
 #
 #Parameters -
-#   n.env.class - the number of env classes, cannot be !=1, defaults to 1 
+#   nEnvClass - the number of env classes, cannot be !=1, defaults to 1 
 #   nBigMatrix - the number of size bins in the model
 #   minSize - lower end of desired size range
 #   maxSize - upper end of desired size range
@@ -809,7 +809,7 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 
 
 create.IPM.Fmatrix <- function(fecObj,
-		n.env.class = 1,
+		nEnvClass = 1,
 		nBigMatrix = 50,
 		minSize = -1,
 		maxSize = 50,
@@ -872,12 +872,12 @@ create.IPM.Fmatrix <- function(fecObj,
 	
 	rc <- new("IPM.matrix",
 			n.discrete = ndisc,
-			n.env.class = 1, 
+			nEnvClass = 1, 
 			nBigMatrix = nBigMatrix,
 			nrow = 1*nBigMatrix+ndisc,
 			ncol =1*nBigMatrix+ndisc,
 			meshpoints = y,
-			env.index = rep(1:n.env.class,each=nBigMatrix),
+			env.index = rep(1:nEnvClass,each=nBigMatrix),
 			names.discrete=namesDiscrete)
 	rc[,] <-get.matrix   
 	
@@ -894,7 +894,7 @@ create.IPM.Fmatrix <- function(fecObj,
 #and growth and survival objects
 #
 #Parameters -
-#   n.env.class - the number of env classes, defaults to 2, should match dim envMatrix
+#   nEnvClass - the number of env classes, defaults to 2, should match dim envMatrix
 #   nBigMatrix - the number of size bins in the model
 #   minSize - lower end of desired size range
 #   maxSize - upper end of desired size range
@@ -906,7 +906,7 @@ create.IPM.Fmatrix <- function(fecObj,
 #  an IPM object
 
 
-create.compound.Fmatrix <- function(n.env.class = 2,
+create.compound.Fmatrix <- function(nEnvClass = 2,
 		nBigMatrix = 50,
 		minSize = -1,
 		maxSize = 50,
@@ -916,9 +916,9 @@ create.compound.Fmatrix <- function(n.env.class = 2,
 		correction="none") {
 	
 	#warnings...
-	if (n.env.class!=nrow(envMatrix)) {
-		print(paste("Dim of envMatrix not equal to n.env.class. Adjusted to",nrow(envMatrix)))
-		n.env.class <- nrow(envMatrix)
+	if (nEnvClass!=nrow(envMatrix)) {
+		print(paste("Dim of envMatrix not equal to nEnvClass. Adjusted to",nrow(envMatrix)))
+		nEnvClass <- nrow(envMatrix)
 	}
 	
 	# boundary points b and mesh points y
@@ -932,17 +932,17 @@ create.compound.Fmatrix <- function(n.env.class = 2,
 	if (ncol(fecObj@OffspringSplitter)>1) ndisc <- ncol(fecObj@OffspringSplitter)-1 else ndisc <- 0
 	
 	#indexes for slotting in IPMs
-	indexes <- rep(1:n.env.class,each=(nBigMatrix+ndisc))
+	indexes <- rep(1:nEnvClass,each=(nBigMatrix+ndisc))
 	#print(indexes)
 	
 	
 	#megamatrix
-	megamatrix <- matrix(0,(nBigMatrix+ndisc)*n.env.class,(nBigMatrix+ndisc)*n.env.class) 
+	megamatrix <- matrix(0,(nBigMatrix+ndisc)*nEnvClass,(nBigMatrix+ndisc)*nEnvClass) 
 	
 	#loop over habitats / environments
-	for (k in 1:n.env.class) {
+	for (k in 1:nEnvClass) {
 		
-		get.matrix <- create.IPM.Fmatrix(n.env.class =1,
+		get.matrix <- create.IPM.Fmatrix(nEnvClass =1,
 				nBigMatrix = nBigMatrix,
 				minSize = minSize,
 				maxSize = maxSize,
@@ -955,7 +955,7 @@ create.compound.Fmatrix <- function(n.env.class = 2,
 		#print(get.matrix[1:5,1:5])
 		
 		# transit them
-		subset <- c(1:n.env.class)[envMatrix[,k]>0]                 
+		subset <- c(1:nEnvClass)[envMatrix[,k]>0]                 
 		for (j in subset) {
 			megamatrix[indexes==j,indexes==k] <- get.matrix@.Data*envMatrix[j,k]; 
 		}
@@ -967,12 +967,12 @@ create.compound.Fmatrix <- function(n.env.class = 2,
 	
 	
 	rc <- new("IPM.matrix",
-			n.env.class = n.env.class, 
+			nEnvClass = nEnvClass, 
 			nBigMatrix = nBigMatrix,
-			nrow = n.env.class*(nBigMatrix+ndisc),
-			ncol =n.env.class*(nBigMatrix+ndisc),
+			nrow = nEnvClass*(nBigMatrix+ndisc),
+			ncol =nEnvClass*(nBigMatrix+ndisc),
 			meshpoints = y,
-			env.index = rep(1:n.env.class,each=nBigMatrix),
+			env.index = rep(1:nEnvClass,each=nBigMatrix),
 			names.discrete=get.matrix@names.discrete)
 	
 	
@@ -1006,7 +1006,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 	#Create a new Tmatrix with 0.5*min and 1.5*max and 1.5*meshpoints
 	if (Tmatrix@meshpoints[1]>0)
 		new.min <- Tmatrix@meshpoints[1]/2 else new.min <- Tmatrix@meshpoints[1]*1.5
-	Tmatrix1 <- create.IPM.Tmatrix(n.env.class = 1,
+	Tmatrix1 <- create.IPM.Tmatrix(nEnvClass = 1,
 			nBigMatrix = floor(length(Tmatrix@meshpoints)*1.5),
 			minSize = new.min, maxSize = 1.5*max(Tmatrix@meshpoints),
 			chosen.cov = 1, growObj=growObj,survObj=survObj,
@@ -1163,7 +1163,7 @@ setMethod("MeanLifeExpect",
 		function(IPM.matrix){
 			require(MASS)
 			nBigMatrix <- length(IPM.matrix@.Data[1,]) #this nBigMatrix actually contains discrete, env, etc
-			#tmp <-  ginv(diag(IPM.matrix@n.env.class*nBigMatrix)-IPM.matrix)
+			#tmp <-  ginv(diag(IPM.matrix@nEnvClass*nBigMatrix)-IPM.matrix)
 			tmp <-  ginv(diag(nBigMatrix)-IPM.matrix)
 			lifeExpect <- colSums(tmp)
 			return(lifeExpect)
@@ -1182,7 +1182,7 @@ setMethod("VarLifeExpect",
 		function(IPM.matrix){
 			require(MASS)
 			nBigMatrix <- length(IPM.matrix@.Data[1,])
-			#tmp <-  ginv(diag(IPM.matrix@n.env.class*nBigMatrix)-IPM.matrix)
+			#tmp <-  ginv(diag(IPM.matrix@nEnvClass*nBigMatrix)-IPM.matrix)
 			tmp <-  ginv(diag(nBigMatrix)-IPM.matrix)
 			#varlifeExpect <- (2*diag(tmp)-diag(length(IPM.matrix[,1])))%*%tmp-(tmp*tmp)
 			#varLifeExpect <- colSums(varlifeExpect)
@@ -1210,7 +1210,7 @@ setMethod("Survivorship",
 		c("IPM.matrix","numeric","numeric"),
 		function(IPM.matrix, size1, maxAge=300){
 			nBigMatrix <- length(IPM.matrix@.Data[1,])
-			#n <- IPM.matrix@n.env.class*nBigMatrix
+			#n <- IPM.matrix@nEnvClass*nBigMatrix
 			n <- nBigMatrix
 			A1 <- tmp <-  IPM.matrix
 			stage.agesurv <- matrix(NA,n,maxAge)
@@ -1316,7 +1316,7 @@ setMethod("varPassageTime",
 
 
 #Generic for life expectancy in a modeled stoch env  -NEEDS DOUBLE-CHECKING
-#parameters - a compound IPM of dim n.env.class*nBigMatrix
+#parameters - a compound IPM of dim nEnvClass*nBigMatrix
 #           - an environmental matrix
 # returns - the life expectancy for each of the sizes in the IPM (columns)
 #           for each of the starting env states
@@ -1330,7 +1330,7 @@ setMethod("LifeExpect",
 			
 			matrix.dim <- length(IPM.matrix[1,])
 			nstages <- IPM.matrix@nBigMatrix
-			nstates <- IPM.matrix@n.env.class
+			nstates <- IPM.matrix@nEnvClass
 			
 			pis <- Re(eigen(env.matrix)$vector[,1])
 			pis <- pis/(sum(pis))
@@ -1416,7 +1416,7 @@ setMethod("StochPassageTime",
 											IPM.matrix@meshpoints)==min(abs(chosen.size-
 													IPM.matrix@meshpoints)),arr.ind=TRUE)
 			#expand out to find that size in every env
-			locs.all <- loc*c(1:IPM.matrix@n.env.class)
+			locs.all <- loc*c(1:IPM.matrix@nEnvClass)
 			matrix.dim <- length(IPM.matrix[1,])
 			
 			Tprime <- IPM.matrix
@@ -1462,12 +1462,12 @@ predictFutureDistribution <- function(startingSizes,IPM, n.time.steps, startingE
 	# turn starting sizes into the resolution of the IPM bins
 	
 	# setup slightly different for coompound or non compound dists
-	if (IPM@n.env.class>1) {
+	if (IPM@nEnvClass>1) {
 		if (length(startingEnv)==1) startingEnv <- rep(startingEnv, length(startingSizes))
 		compound <- TRUE
 		env.index <- IPM@env.index
 		n.new.dist <- rep(0,length(IPM[1,]))
-		for (ev in 1:IPM@n.env.class) { 
+		for (ev in 1:IPM@nEnvClass) { 
 			index.new.dist <- findInterval(startingSizes[startingEnv==ev],IPM@meshpoints)+1
 			index.new.dist[index.new.dist>length(IPM@meshpoints)] <- length(IPM@meshpoints)
 			loc.sizes <- table(index.new.dist); 
@@ -1530,13 +1530,13 @@ timeToSize <- function(startingSizes,IPM,endSize, startingEnv=1, maxT=100, propR
 	n.reach <- propReach*length(startingSizes)
 	
 	# setup slightly different for coompound or non compound dists
-	if (IPM@n.env.class>1) {
+	if (IPM@nEnvClass>1) {
 		#if startingEnv is not a vector, assume all start in startingEnv
 		if (length(startingEnv)==1) startingEnv <- rep(startingEnv, length(startingSizes))
 		compound <- TRUE
 		env.index <- IPM@env.index
 		n.new.dist <- rep(0,length(IPM[1,]))
-		for (ev in 1:IPM@n.env.class) { 
+		for (ev in 1:IPM@nEnvClass) { 
 			index.new.dist <- findInterval(startingSizes[startingEnv==ev],IPM@meshpoints)+1
 			index.new.dist[index.new.dist>length(IPM@meshpoints)] <- length(IPM@meshpoints)
 			loc.sizes <- table(index.new.dist); 
@@ -1568,7 +1568,7 @@ timeToSize <- function(startingSizes,IPM,endSize, startingEnv=1, maxT=100, propR
 			survivorship[t] <- sum(n.new.dist)/length(startingSizes)
 		} else {
 			tot <-sumN <- 0
-			for (ev in 1:IPM@n.env.class) {
+			for (ev in 1:IPM@nEnvClass) {
 				tot <- tot+sum(n.new.dist[env.index==ev][cutoff:length(IPM@meshpoints)])
 				sumN <- sumN + sum(n.new.dist[env.index==ev])
 			}

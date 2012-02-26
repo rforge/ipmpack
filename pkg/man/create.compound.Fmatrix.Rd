@@ -8,12 +8,12 @@ Builds a compound F matrix.
   Uses fecundity object, and environmental transition objects to construct a matrix defining probabilities for transitions between sizes due to fecundity given both a continuous state (e.g. size) and environmental state, as well as a discrete stage if necessary (e.g. seedbank). 
 }
 \usage{
-create.compound.Fmatrix(n.env.class = 2, nBigMatrix = 50,
+create.compound.Fmatrix(nEnvClass = 2, nBigMatrix = 50,
 minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{n.env.class}{
+  \item{nEnvClass}{
     numeric, number of environmental classes, defaults to 2.
   }
   \item{nBigMatrix}{
@@ -47,8 +47,8 @@ minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType, correction)
 }
 \value{
   an object of class IPM.matrix with dimensions
-  nBigMatrix*n.env.class, or if discrete transitions exist
-  (nBigMatrix+n.disc)*n.env.class
+  nBigMatrix*nEnvClass, or if discrete transitions exist
+  (nBigMatrix+n.disc)*nEnvClass
 
 }
 \references{
@@ -77,10 +77,10 @@ dff <- generateData()
 Fmatrix <-create.compound.Fmatrix(nBigMatrix = 20, minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm=TRUE), envMatrix = makeEnvObj(dff), fecObj = makeFecObj(dff, explanatoryVariables = "size+size2+covariate", Transform = "log"))
 
 image(1:nrow(Fmatrix), 1:ncol(Fmatrix), t(log(Fmatrix)), xlab="Continuous state (e.g. size) at t", ylab="Continuous state (e.g. size) at t+1", axes = FALSE)
-axis(1, at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints, Fmatrix@n.env.class), 2))
-axis(2,at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints,Fmatrix@n.env.class), 2))
-abline(h = length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
-abline(v = length(Fmatrix@meshpoints)*(1:Fmatrix@n.env.class))
+axis(1, at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints, Fmatrix@nEnvClass), 2))
+axis(2,at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints,Fmatrix@nEnvClass), 2))
+abline(h = length(Fmatrix@meshpoints)*(1:Fmatrix@nEnvClass))
+abline(v = length(Fmatrix@meshpoints)*(1:Fmatrix@nEnvClass))
 
 # Data with continuous and discrete stages
 dff <- generateDataDiscrete()

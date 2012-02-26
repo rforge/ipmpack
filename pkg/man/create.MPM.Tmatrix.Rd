@@ -2,47 +2,43 @@
 \alias{create.MPM.Tmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function to build discrete T matrix
+Builds a discrete T matrix from the types of data structures used in IPMpack.
 }
 \description{
-A method that uses bins to construct a discrete survival transition matrix of class IPM using the
-data structures used by IPMpack
+A method that uses bins to construct a discrete survival matrix population model of class IPM using the data structures used by IPMpack.
 }
 \usage{
-create.MPM.Tmatrix(dataf,bins,n.env=1)
+create.MPM.Tmatrix(dataf, bins, nEnv = 1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{
-	a dataframe with columns `size',
-    `sizeNext' (`size' is size at t, `sizeNext' is size at t+1); facultatively, dataf may include `covariate'
-    and `covariatel' for discrete covariates, indicating values at t,
-    and at t+1, respectively; these must take values of sequential integers, starting at
-    `1'. }
+	a dataframe with columns `size', `sizeNext' (`size' is size at t, `sizeNext' is size at t+1); facultatively, dataf may include `covariate' and `covariatel' for discrete covariates, indicating values at t, and at t+1, respectively; these must take values of sequential integers, starting at `1'.
+	}
 \item{bins}{
-  limits of the desired size classes
+  numeric, limits of the desired discrete (size) classes.
 }
-\item{n.env}{
-  currently not used
+\item{nEnv}{
+  currently not used.
 }
 }
 \details{
   The number of individuals moving from one bin to the next in one
-  time-step is identified and probabilities entered into a matrix. To
-  get a classic Matrix Population model this can be added to values
+  time step is identified and probabilities entered into a matrix cell. To
+  get a classic matrix population model this can be added to values
   defined by create.MPM.Fmatrix. Note that the assumption that all
   individuals for whom is.na(sizeNext) died.   
 }
 \value{
-  an object of class IPM.matrix
+  an object of class IPM.matrix.
 }
 \references{
-For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112
+For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
 
-For information on collapsing large matrices: Salguero-Gomez & Plotkin. 2010. Matrix dimensions bias demographic inferences: implications for comparative plant demography. The American Naturalist 176 p710-720
+For information on collapsing large matrices: Salguero-Gomez & Plotkin. 2010. Matrix dimensions bias demographic inferences: implications for comparative plant demography. The American Naturalist 176, p710-720.
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
@@ -55,9 +51,9 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff<-generateData()
-Tmatrix <-create.MPM.Tmatrix(dff,bins=c(1,4,10,15))
+matrixCuts <- c(1, 4, 10, 15)
+Tmatrix <-create.MPM.Tmatrix(dff,bins=matrixCuts)
 Tmatrix
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

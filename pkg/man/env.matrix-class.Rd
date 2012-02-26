@@ -16,7 +16,7 @@ Objects can be created by calls of the form \code{new("env.matrix", data, nrow, 
 \section{Slots}{
   \describe{
     \item{\code{.Data}:}{Object of class \code{"matrix"} ~~ }
-    \item{\code{n.env.class}:}{Object of class \code{"numeric"} ~~ }
+    \item{\code{nEnvClass}:}{Object of class \code{"numeric"} ~~ }
   }
 }
 \section{Extends}{
