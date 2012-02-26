@@ -1197,31 +1197,31 @@ setMethod("VarLifeExpect",
 #Generic for survivorship
 #parameters - IPM.matrix - an IPM
 #           - size1 - a size at age 1
-#           - maxage - a maxage
+#           - maxAge - a maxAge
 # returns - a list including the survivorship up to the max age,
 #                      this broken down by stage,
 #                       and mortality over age 
 
 ## WON'T WORK WITH DISCRETE STAGES AS IS!!
 setGeneric("Survivorship",
-		function(IPM.matrix, size1, maxage) standardGeneric("Survivorship"))
+		function(IPM.matrix, size1, maxAge) standardGeneric("Survivorship"))
 
 setMethod("Survivorship",
 		c("IPM.matrix","numeric","numeric"),
-		function(IPM.matrix, size1, maxage=300){
+		function(IPM.matrix, size1, maxAge=300){
 			nBigMatrix <- length(IPM.matrix@.Data[1,])
 			#n <- IPM.matrix@n.env.class*nBigMatrix
 			n <- nBigMatrix
 			A1 <- tmp <-  IPM.matrix
-			stage.agesurv <- matrix(NA,n,maxage)
-			surv.curv <- rep (NA,maxage)
+			stage.agesurv <- matrix(NA,n,maxAge)
+			surv.curv <- rep (NA,maxAge)
 			
 			#identify the starting size you want to track
 			loc <- which(abs(size1-IPM.matrix@meshpoints)==min(abs(size1-IPM.matrix@meshpoints)),arr.ind=T)
 			popvec <- matrix(0,n,1)
 			popvec[loc,1] <- 1
 			
-			for (a in 1:maxage) {
+			for (a in 1:maxAge) {
 				surv.curv[a]<-sum(A1[,loc]); 
 				stage.agesurv[c(1:n),a]<-A1[,]%*%popvec
 				A1<-A1%*%tmp
