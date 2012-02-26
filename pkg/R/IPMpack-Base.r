@@ -1629,7 +1629,7 @@ R0.calc<-function(Tmatrix,Fmatrix){
 # Parameters - Amat - an IPM object
 #            - tol - tolerance (i.e. precision required)
 #
-# Returns list containing lambda and stable.size
+# Returns list containing lambda and stableStage
 #
 #ROB WILL MODIFY THIS CODE TO INCLUDE REPRODUCTIVE VALUES
 largeMatrixCalc <- function(Tmatrix,Fmatrix, tol=1.e-8){

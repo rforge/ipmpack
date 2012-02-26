@@ -19,7 +19,7 @@ getIPMoutput <- function(Tmatrixlist,targetSize=c(),Fmatrixlist=NULL){
 	}
 	nsamps <- length(Tmatrixlist)
 	h1 <- Tmatrixlist[[1]]@meshpoints[2]-Tmatrixlist[[1]]@meshpoints[1]
-	stable.size <- LE <- pTime <- matrix(NA,nsamps,length(Tmatrixlist[[1]]@.Data[1,]))
+	stableStage <- LE <- pTime <- matrix(NA,nsamps,length(Tmatrixlist[[1]]@.Data[1,]))
 	lambda <- rep(NA,nsamps)
 	for (k in 1:nsamps) {
 		Tmatrix <- Tmatrixlist[[k]]
@@ -29,13 +29,13 @@ getIPMoutput <- function(Tmatrixlist,targetSize=c(),Fmatrixlist=NULL){
 		if (class(Fmatrixlist)!="NULL") {
 			IPM <- Tmatrix + Fmatrixlist[[k]]
 			lambda[k] <- Re(eigen(IPM)$value[1])
-			stable.size[k,] <- eigen(IPM)$vector[,1]
+			stableStage[k,] <- eigen(IPM)$vector[,1]
 			#normalize stable size distribution
-			stable.size[k,] <- stable.size[k,]/(h1*sum(stable.size[k,]))
+			stableStage[k,] <- stableStage[k,]/(h1*sum(stableStage[k,]))
 		}
 	}
 	
-	return(list(LE=LE,pTime=pTime,lambda=lambda,stable.size=stable.size))
+	return(list(LE=LE,pTime=pTime,lambda=lambda,stableStage=stableStage))
 	
 }
 
@@ -89,9 +89,9 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 	if (class(env.mat)!="NULL") nEnv <- env.mat@nEnvClass else nEnv <- 1
 	LE <- pTime <- matrix(NA,nsamp,(nBigMatrix+ndisc)*nEnv)
 	if (class(fecObjList)=="NULL") {
-		lambda <- stable.size <- c()
+		lambda <- stableStage <- c()
 	} else {
-		stable.size <- matrix(NA,nsamp,(nBigMatrix+ndisc)*nEnv)
+		stableStage <- matrix(NA,nsamp,(nBigMatrix+ndisc)*nEnv)
 		lambda <- rep(NA,nsamp)
 	}
 	if (n.size.to.age==0) { resAge <- resSize <- c() } else { resAge <- resSize <- matrix(NA,nsamp,n.size.to.age)} 
@@ -136,9 +136,9 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 			
 			IPM <- Tmatrix + Fmatrix
 			lambda[k] <- Re(eigen(IPM)$value[1])
-			stable.size[k,] <- eigen(IPM)$vector[,1]
+			stableStage[k,] <- eigen(IPM)$vector[,1]
 			#normalize stable size distribution
-			stable.size[k,] <- stable.size[k,]/(h1*sum(stable.size[k,]))
+			stableStage[k,] <- stableStage[k,]/(h1*sum(stableStage[k,]))
 			
 			#print("here2")
 		}
@@ -153,7 +153,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		
 	}
 	
-	return(list(LE=LE,pTime=pTime,lambda=lambda,stable.size=stable.size,
+	return(list(LE=LE,pTime=pTime,lambda=lambda,stableStage=stableStage,
 					meshpoints=Tmatrix@meshpoints,resAge=resAge,resSize=resSize,
 					surv.par=surv.par,grow.par=grow.par))
 	

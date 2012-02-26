@@ -78,7 +78,7 @@ list of fecundity objects (facultative)
   \item{lambda}{vector of lambda corresponding to value obtained
     combining each element of the list of T matrices with the
     corresponding element in the list of F matrices; if no F matrix list is provided, this is a vector of NAs}
-  \item{stable.size}{matrix of stable size distributions rows corresponding to values obtained
+  \item{stableStage}{matrix of stable size distributions rows corresponding to values obtained
     combining each element of the list of T matrices with the
     corresponding element in the list of F matrices; if no F matrix list
     is provided, this is a matrix of NAs}
@@ -128,9 +128,9 @@ plot(res$meshpoints,res$pTime[1,],xlab="Size", ylab="Passage Time", type="l",
 	ylim=range(res$pTime,na.rm=TRUE))
 for (j in 1:nrow(res$pTime)) points(res$meshpoints,res$pTime[j,],col=j, type="l")
 
-plot(res$meshpoints,Re(res$stable.size[1,]),xlab="Size", ylab="Stable size dist", type="l", 
-	ylim=range(Re(res$stable.size),na.rm=TRUE))
-for (j in 1:nrow(res$stable.size)) points(res$meshpoints,Re(res$stable.size[j,]),col=j, type="l")
+plot(res$meshpoints,Re(res$stableStage[1,]),xlab="Size", ylab="Stable size dist", type="l", 
+	ylim=range(Re(res$stableStage),na.rm=TRUE))
+for (j in 1:nrow(res$stableStage)) points(res$meshpoints,Re(res$stableStage[j,]),col=j, type="l")
 
 hist(res$lambda,xlab=expression(lambda),ylab="", main="",col="grey")
 
