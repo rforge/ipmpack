@@ -10,7 +10,7 @@ discrete covariate, and return a list of these.
 }
 \usage{
 makeListIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,
-	integrate.type="midpoint", correction="none",
+	integrateType="midpoint", correction="none",
 	explSurv="size+size2+covariate",explGrow="size+size2+covariate", 
 	regType="constantVar",responseType="sizeNext",explFec="size",fec.constants=1)
 }
@@ -31,7 +31,7 @@ makeListIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,
   \item{maxSize}{
 	largest size
 	}
-  \item{integrate.type}{
+  \item{integrateType}{
 	integration type
 	}
   \item{correction}{

@@ -12,7 +12,7 @@ Function to build compound F matrix
 }
 \usage{
 create.compound.Fmatrix(n.env.class = 2, nBigMatrix = 50,
-minSize = -1, maxSize = 50, envMatrix, fecObj, integrate.type, correction)
+minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -35,7 +35,7 @@ minSize = -1, maxSize = 50, envMatrix, fecObj, integrate.type, correction)
   \item{fecObj}{
     fecundity object
   }
-  \item{integrate.type}{
+  \item{integrateType}{
     integration type, defaults to "midpoint" (which uses prob. density
     function); other option is "cumul" (which uses the cumul. density function)
   }

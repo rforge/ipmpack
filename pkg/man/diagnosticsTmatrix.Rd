@@ -10,7 +10,7 @@ Function to create a series of diagnostic graphs for a T matrix
   resolution and size range are being used. 
 }
 \usage{
-diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrate.type, correction)
+diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrateType, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,7 +26,7 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrate.type, correction)
   \item{dff}{
     the dataframe from which the survival and growth objects were constructed, with the usual headings
 }
-  \item{integrate.type}{
+  \item{integrateType}{
     integration type, defaults to "midpoint" (which uses prob. density
     function); other option is "cumul" (which uses the cumul. density function)
   }

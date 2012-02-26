@@ -12,7 +12,7 @@ Function to build T matrices
 \usage{
 create.IPM.Tmatrix(n.env.class = 1, nBigMatrix = 50,
 minSize = -1, maxSize = 50, chosen.cov = 1, growObj, survObj, DiscreteTrans, 
-integrate.type, correction)
+integrateType, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -42,7 +42,7 @@ integrate.type, correction)
   \item{DiscreteTrans}{
     object of class DiscreteTrans, or numeric
   }
-  \item{integrate.type}{
+  \item{integrateType}{
     integration type, defaults to "midpoint" (which uses prob. density
     function); other option is "cumul" (which uses the cumul. density function)
   }

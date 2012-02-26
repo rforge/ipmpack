@@ -9,7 +9,7 @@ Get synthetic values including life expectancy, passage time, and, if a
 fecundity matrix is available, lambda, stable size, reproductive output, etc. For example, posterior distribution of T matrices, or values across environments, etc. 
 }
 \usage{
-getIPMoutput(Tmatrixlist, target.size = c(), 
+getIPMoutput(Tmatrixlist, targetSize = c(), 
 	Fmatrixlist = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -17,7 +17,7 @@ getIPMoutput(Tmatrixlist, target.size = c(),
   \item{Tmatrixlist}{
     List of survival-size (T) matrices for which summary statistics desired
 }
-  \item{target.size}{
+  \item{targetSize}{
     Target size for passage time - if none is provided defaults to the median of the IPM meshpoints
 }
   \item{Fmatrixlist}{
@@ -30,7 +30,7 @@ getIPMoutput(Tmatrixlist, target.size = c(),
 \value{
   \item{LE}{matrix of life expectancies, columsn correspond to
   meshpoints, rows corresponding to each element of the list of Tmatrices}
-  \item{ptime}{matrix of passage times to the target.size from each of
+  \item{ptime}{matrix of passage times to the targetSize from each of
     the meshpoints (columns) and for each element in the Tmatrix list
     (columns)}
   \item{lambda}{vector of lambda corresonding to value obtained
@@ -77,7 +77,7 @@ nBigMatrix=20, minSize=-5, maxSize=20, cov = FALSE, env.mat = NULL)
 
 Flist <- makeListFmatrix(fecObjList=fvlist[1:10], nBigMatrix=20, minSize=-5, maxSize=20, cov = FALSE, env.mat = NULL)
 
-res <- getIPMoutput(Tmatrixlist=Tlist, target.size = 10, Fmatrixlist = Flist)
+res <- getIPMoutput(Tmatrixlist=Tlist, targetSize = 10, Fmatrixlist = Flist)
 names(res)
 
 

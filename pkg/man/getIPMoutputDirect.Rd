@@ -13,10 +13,10 @@ but can be a slightly swifter approach than getIPMoutput since matrices are not 
 also allows compound matrices to be produced following levels of a discrete covariate (e.g., habitat) (using cov=TRUE). 
 }
 \usage{
-getIPMoutputDirect(survObjList, growObjList, target.size = c(), 
+getIPMoutputDirect(survObjList, growObjList, targetSize = c(), 
 	nBigMatrix, minSize, maxSize, DiscreteTrans = 1,cov = FALSE, 
 	fecObjList = NULL, env.mat = NULL, n.size.to.age = 0, 
-	size.start = 10, integrate.type = "midpoint",correction = "none")
+	size.start = 10, integrateType = "midpoint",correction = "none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -26,7 +26,7 @@ getIPMoutputDirect(survObjList, growObjList, target.size = c(),
   \item{growObjList}{
 	list of growth objects
 }
-  \item{target.size}{
+  \item{targetSize}{
     Target size for passage time. If none is provided defaults to the median of the IPM meshpoints
 }
   \item{nBigMatrix}{
@@ -57,7 +57,7 @@ list of fecundity objects (facultative)
   \item{size.start}{
     starting size for size to age
 }
-  \item{integrate.type}{
+  \item{integrateType}{
     integration type, defaults to "midpoint" (which uses prob. density
     function); other option is "cumul" (which uses the cumul. density function)
   }
@@ -73,7 +73,7 @@ list of fecundity objects (facultative)
 \value{
   \item{LE}{matrix of life expectancies, columns correspond to
   meshpoints, rows corresponding to each element of the list of T matrices}
-  \item{ptime}{matrix of passage times to the target.size from each of
+  \item{ptime}{matrix of passage times to the targetSize from each of
     the meshpoints (columns) and for each element in the T matrix list (columns)}
   \item{lambda}{vector of lambda corresponding to value obtained
     combining each element of the list of T matrices with the
@@ -110,7 +110,7 @@ grlist <- makePostGrowthObjs(dataf=dff, explanatoryVariables="size+size2", meanB
 fvlist <- makePostFecObjs(dataf=dff, explanatoryVariables="size+size2", Transform="log",nitt=5000)
 
 #Just use first 10 for speed
-res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
+res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], targetSize = 10,
 nBigMatrix=20, minSize=-2, maxSize=15, cov = FALSE, fecObjList =fvlist[1:10],
 env.mat = NULL, n.size.to.age = 5, size.start = -1)
 
@@ -139,7 +139,7 @@ hist(res$lambda,xlab=expression(lambda),ylab="", main="",col="grey")
 # same but for matrix with discrete classes #
 svlist <- makePostSurvivalObjs(dataf=dff, explanatoryVariables="size+size2+covariate", meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
 env1 <- makeEnvObj(dff)
-res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
+res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], targetSize = 10,
 nBigMatrix=20, minSize=-2, maxSize=15, cov = TRUE, fecObjList =fvlist[1:10],
 env.mat = env1, n.size.to.age = 5, size.start = -1)
 
@@ -152,7 +152,7 @@ svlist <- makePostSurvivalObjs(dataf=dff, explanatoryVariables="size+size2", mea
 grlist <- makePostGrowthObjs(dataf=dff, explanatoryVariables="size+size2", meanB = rep(0, 3), varB = rep(1e+10),  nitt=5000)
 fvlist <- makePostFecObjs(dataf=dff, explanatoryVariables="size+size2", Transform="log",nitt=5000)
 
-res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], target.size = 10,
+res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], targetSize = 10,
 nBigMatrix=20, minSize=-2, maxSize=15, cov = FALSE, fecObjList =fvlist[1:10],
 n.size.to.age = 5, size.start = -1)
 

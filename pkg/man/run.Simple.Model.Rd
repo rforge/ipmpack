@@ -10,7 +10,7 @@ This function takes a dataframe, a chosen size, a minimum and maximum size onto 
 \usage{
 run.Simple.Model(dataf, chosen.size, minSize = c(), maxSize = c(), 
 nBigMatrix = 500, do.plot = TRUE, is.log = TRUE,  
-integrate.type = "midpoint", correction="none")
+integrateType = "midpoint", correction="none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -41,7 +41,7 @@ boolean describing whether plots should be produced
 booean describing whether size is on a log scale or not (for plotting)
 }
 
-  \item{integrate.type}{
+  \item{integrateType}{
     integration type, defaults to "midpoint" (which uses prob. density
     function); other option is "cumul" (which uses the cumul. density function)
   }

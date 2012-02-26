@@ -8,7 +8,7 @@
 Uses fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calfs) by reproductive stages due to sexual reproduction
 }
 \usage{
-create.IPM.Fmatrix(fecObj, n.env.class = 1, nBigMatrix = 50, minSize = -1, maxSize = 50, chosen.cov = 1, integrate.type="midpoint", correction="none")
+create.IPM.Fmatrix(fecObj, n.env.class = 1, nBigMatrix = 50, minSize = -1, maxSize = 50, chosen.cov = 1, integrateType="midpoint", correction="none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,7 +32,7 @@ create.IPM.Fmatrix(fecObj, n.env.class = 1, nBigMatrix = 50, minSize = -1, maxSi
     numeric indicating level of the discrete covariate, or vector
     setting values where multiple covariates are modeled
   }
-  \item{integrate.type}{
+  \item{integrateType}{
     integration type, defaults to "midpoint" (which uses prob. density
     function); other option is "cumul" (which uses the cumul. density function)
   }

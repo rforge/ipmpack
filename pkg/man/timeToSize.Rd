@@ -10,11 +10,11 @@ provided IPM until a defined proportion of the population has reach the chosen e
 or compound matrices (not time-varying covariates apart from a single discrete one). 
 }
 \usage{
-timeToSize(starting.sizes, IPM, end.size, starting.env = 1, maxt = 100, prop.reach = 0.01)
+timeToSize(startingSizes, IPM, end.size, starting.env = 1, maxt = 100, prop.reach = 0.01)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{starting.sizes}{
+  \item{startingSizes}{
 	vector of starting sizes reflecting sizes of individuals in the starting population (in any order)
 }
   \item{IPM}{
@@ -24,7 +24,7 @@ the IPM Tmatrix
 the end size
 }
   \item{starting.env}{
-vector of starting env, same length as starting.sizes, or length=1 if compound matrices are not being used. 
+vector of starting env, same length as startingSizes, or length=1 if compound matrices are not being used. 
 }
   \item{maxt}{
 the max number of time-steps tested
@@ -64,7 +64,7 @@ Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size,na.rm=TRUE),
 maxSize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff), survObj=makeSurvObj(dff))
 
 #CURRENTLY NOT WORKING VERY WELL
-rc <- timeToSize(starting.sizes=start.sizes, IPM=Tmatrix, end.size=10, 
+rc <- timeToSize(startingSizes=start.sizes, IPM=Tmatrix, end.size=10, 
 starting.env = 1, maxt = 1000, prop.reach = 0.005)
 
 names(rc)

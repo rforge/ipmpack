@@ -9,17 +9,17 @@ Function for estimating size-age relationships
 sizes, from which a size to age pattern can be determined. 
 }
 \usage{
-SizeToAge(Tmatrix, starting.size, target.size)
+SizeToAge(Tmatrix, startingSize, targetSize)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Tmatrix}{
     object of class IPM.matrix describing growth survival transitions. 
 }
-  \item{starting.size}{
+  \item{startingSize}{
     numeric, size at age 1, or size from which age-size relationship is desired
 }
-  \item{target.size}{
+  \item{targetSize}{
     vector of size(s) for which first passage time is required
 }
 }
@@ -29,8 +29,8 @@ SizeToAge(Tmatrix, starting.size, target.size)
 \value{
   \item{timeInYears}{Time taken to reach target sizes in unit of the time-step
   of the model}
-  \item{target.size}{Vector of target sizes}
-  \item{starting.size}{Size at age 1}
+  \item{targetSize}{Vector of target sizes}
+  \item{startingSize}{Size at age 1}
 
 }
 \references{
@@ -66,9 +66,9 @@ dff <- generateData()
 Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size, na.rm = TRUE),
 maxSize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
 survObj=makeSurvObj(dff))
-target.size=8
-starting.size=0
-SizeToAge(Tmatrix, starting.size, target.size)
+targetSize=8
+startingSize=0
+SizeToAge(Tmatrix, startingSize, targetSize)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

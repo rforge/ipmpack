@@ -550,7 +550,7 @@ setClass("IPM.matrix",
 #   growObj - a growth object
 #   survObj - a survival object
 #   DiscreteTrans - discrete transition object, defaults to 1
-#   integrate.type - what type of integration?
+#   integrateType - what type of integration?
 #                    current options are "midpoint" (using pdf)
 #                    or "cumul" (using cdf)
 #   correction - do you not want to correct for integration errors ('none')
@@ -567,7 +567,7 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 		growObj,
 		survObj,
 		DiscreteTrans =1,
-		integrate.type = "midpoint",
+		integrateType = "midpoint",
 		correction="none") {
 	# boundary points b and mesh points y
 	b<-minSize+c(0:nBigMatrix)*(maxSize-minSize)/nBigMatrix;
@@ -577,13 +577,13 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 	h<-y[2]-y[1]
 	
 	# fill in matrix                          
-	if (integrate.type=="midpoint") { 
+	if (integrateType=="midpoint") { 
 		get.matrix <- 
 				t(outer(y,y,growSurv,cov=chosen.cov,
 								growthObj=growObj,survObj=survObj))*h  
 		
 	}
-	if (integrate.type=="cumul") {
+	if (integrateType=="cumul") {
 		get.matrix.cum <- 
 				t(outer(y,b,growthCum,cov=chosen.cov,
 								growthObj=growObj))
@@ -665,7 +665,7 @@ create.IPM.Tmatrix <- function(n.env.class = 1,
 #   growObj - a growth object
 #   survObj - a survival object
 #   DiscreteTrans - discrete transition object, defaults to 1
-#   integrate.type - what type of integration?
+#   integrateType - what type of integration?
 #                    current options are "midpoint" (using pdf)
 #                    or "cumul" (using cdf)
 #   correction - do you not want to correct for integration errors ('none')
@@ -683,7 +683,7 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 		growObj,
 		survObj,
 		DiscreteTrans=1,
-		integrate.type="midpoint",
+		integrateType="midpoint",
 		correction="none") {
 	
 	
@@ -715,12 +715,12 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 	for (k in 1:n.env.class) { 
 		#IPM for individuals starting in env k
 		
-		if (integrate.type=="midpoint") { 
+		if (integrateType=="midpoint") { 
 			get.matrix <- (maxSize-minSize)*
 					t(outer(y,y,growSurv,cov=as.factor(k),
 									growthObj=growObj,survObj=survObj))/nBigMatrix  
 		}
-		if (integrate.type=="cumul") {
+		if (integrateType=="cumul") {
 			get.matrix.cum <- 
 					t(outer(y,b,growthCum,cov=as.factor(k),
 									growthObj=growObj))
@@ -802,7 +802,7 @@ create.compound.Tmatrix <- function(n.env.class = 2,
 #   maxSize - upper end of desired size range
 #   chosen.cov - current level of covariate
 #   fecObj - a fecundity object
-#   integrate.type - options include "midpoint" "cumul" 
+#   integrateType - options include "midpoint" "cumul" 
 #   etc...
 #Returns -
 #  an IPM object
@@ -814,7 +814,7 @@ create.IPM.Fmatrix <- function(fecObj,
 		minSize = -1,
 		maxSize = 50,
 		chosen.cov = 1,
-		integrate.type="midpoint",
+		integrateType="midpoint",
 		correction="none") {
 	
 	# boundary points b and mesh points y
@@ -844,7 +844,7 @@ create.IPM.Fmatrix <- function(fecObj,
 	
 	#Kids normal dist
 	tmp<-dnorm(y,fecObj@mean.offspring.size,sqrt(fecObj@var.offspring.size))*h
-	if (integrate.type=="cumul") { 
+	if (integrateType=="cumul") { 
 		tmp1 <- dnorm(b,fecObj@mean.offspring.size,sqrt(fecObj@var.offspring.size))
 		tmp <- tmp1[2:(nBigMatrix+1)]-tmp1[1:nBigMatrix]
 	}
@@ -900,7 +900,7 @@ create.IPM.Fmatrix <- function(fecObj,
 #   maxSize - upper end of desired size range
 #   envMatrix - a matrix describing transiions between env
 #   fecObj - a fecundity object
-#   integrate.type - NOT YET IMPLEMENTED
+#   integrateType - NOT YET IMPLEMENTED
 #
 #Returns -
 #  an IPM object
@@ -912,7 +912,7 @@ create.compound.Fmatrix <- function(n.env.class = 2,
 		maxSize = 50,
 		envMatrix,
 		fecObj,
-		integrate.type="midpoint",
+		integrateType="midpoint",
 		correction="none") {
 	
 	#warnings...
@@ -948,7 +948,7 @@ create.compound.Fmatrix <- function(n.env.class = 2,
 				maxSize = maxSize,
 				chosen.cov = k,
 				fecObj=fecObj,
-				integrate.type=integrate.type,
+				integrateType=integrateType,
 				correction=correction)
 		
 		#print(range(get.matrix))
@@ -993,12 +993,12 @@ create.compound.Fmatrix <- function(n.env.class = 2,
 #            - growObj - growth object used to build it
 #            - survObj - survival object used to build it
 #            - dff - the data from which it was built
-#            - integrate.type - "midpoint", or "cumul" - should
+#            - integrateType - "midpoint", or "cumul" - should
 #                 correspond to what the IPM was built with
 #            - do you want to implement the corrections for integration? 
 # Returns - 
 #
-diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrate.type="midpoint", correction="none") {
+diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midpoint", correction="none") {
 	
 	#Print the range of the Tmatrix (should be on 0-1)
 	print("Range of Tmatrix is "); print(range(c(Tmatrix)))
@@ -1010,7 +1010,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrate.type="mid
 			nBigMatrix = floor(length(Tmatrix@meshpoints)*1.5),
 			minSize = new.min, maxSize = 1.5*max(Tmatrix@meshpoints),
 			chosen.cov = 1, growObj=growObj,survObj=survObj,
-			integrate.type=integrate.type, correction=correction)
+			integrateType=integrateType, correction=correction)
 	
 	#Is the size range sufficient? 
 	par(mfrow=c(2,3),bty="l")
@@ -1043,7 +1043,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrate.type="mid
 	testSizes <- seq(min(Tmatrix@meshpoints),max(Tmatrix@meshpoints),length=5000)
 	
 	#growth plots for midpoint integration
-	if (integrate.type=="midpoint") {
+	if (integrateType=="midpoint") {
 		
 		for (j in 1:3) {
 			#prob survive
@@ -1095,7 +1095,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrate.type="mid
 	}
 	
 	#growth plots for cumul integration
-	if (integrate.type=="cumul")  {
+	if (integrateType=="cumul")  {
 		if (class(growObj)!="growthObj.logincr") rval <- 3.5 else rval <- 0.5
 		for (j in 1:3) {
 			#prob survive
@@ -1448,27 +1448,27 @@ setMethod("StochPassageTime",
 ## distribution and IPM (with a single covariate)
 #
 #
-#  Parameters - starting.sizes - vector of starting sizes
+#  Parameters - startingSizes - vector of starting sizes
 #             - IPM the IPM (Tmatrix if only intrested in grow surv; Tmatrix + Fmatrix otherwise)
 #             - n.time.steps - number of time steps
-#             - starting.env - vector of starting env, same length as starting.sizes, or length=1
+#             - starting.env - vector of starting env, same length as startingSizes, or length=1
 #
 # Returns - a list including starting numbers in each IPM size class (n.new.dist0) and
 #                            final numbers in each IPM size class (n.new.dist)
 #
 #
-predictFutureDistribution <- function(starting.sizes,IPM, n.time.steps, starting.env=1) {
+predictFutureDistribution <- function(startingSizes,IPM, n.time.steps, starting.env=1) {
 	
 	# turn starting sizes into the resolution of the IPM bins
 	
 	# setup slightly different for coompound or non compound dists
 	if (IPM@n.env.class>1) {
-		if (length(starting.env)==1) starting.env <- rep(starting.env, length(starting.sizes))
+		if (length(starting.env)==1) starting.env <- rep(starting.env, length(startingSizes))
 		compound <- TRUE
 		env.index <- IPM@env.index
 		n.new.dist <- rep(0,length(IPM[1,]))
 		for (ev in 1:IPM@n.env.class) { 
-			index.new.dist <- findInterval(starting.sizes[starting.env==ev],IPM@meshpoints)+1
+			index.new.dist <- findInterval(startingSizes[starting.env==ev],IPM@meshpoints)+1
 			index.new.dist[index.new.dist>length(IPM@meshpoints)] <- length(IPM@meshpoints)
 			loc.sizes <- table(index.new.dist); 
 			n.new.dist[ev==IPM@env.index][as.numeric(names(loc.sizes))] <- loc.sizes
@@ -1476,7 +1476,7 @@ predictFutureDistribution <- function(starting.sizes,IPM, n.time.steps, starting
 		n.new.dist0 <- n.new.dist
 	} else {
 		compound <- FALSE
-		index.new.dist <- findInterval(starting.sizes,IPM@meshpoints)+1
+		index.new.dist <- findInterval(startingSizes,IPM@meshpoints)+1
 		index.new.dist[index.new.dist>length(IPM@meshpoints)] <- length(IPM@meshpoints)
 		loc.sizes <- table(index.new.dist); 
 		env.index <- rep(1,length(IPM@meshpoints))
@@ -1508,10 +1508,10 @@ predictFutureDistribution <- function(starting.sizes,IPM, n.time.steps, starting
 
 ## Function to see how long it takes to get from a starting distribution to an final size
 ##
-#  Parameters - starting.sizes - vector of starting sizes (in any order)
+#  Parameters - startingSizes - vector of starting sizes (in any order)
 #             - IPM the IPM (just a Tmatrix)
 #             - end.size - the end size
-#             - starting.env - vector of starting env, same length as starting.sizes, or length=1
+#             - starting.env - vector of starting env, same length as startingSizes, or length=1
 #             - maxt - the max number of time-steps tested
 #             - prop.reach - the proportion of the starting pop that have to be > than the end.size for it to count
 #                  (plots and returned values of survivorship from preliminary runs will give a notion of how low this has to be)
@@ -1524,20 +1524,20 @@ predictFutureDistribution <- function(starting.sizes,IPM, n.time.steps, starting
 # THE PROBLEM WITH THIS FUNCTION IS THAT EITHER 1) YOU MAKE IT IN ONE TIME-STEP; OR 2) EVERYONE IS DEAD SO TUNING
 # prop.reach BECOMES THE KEY - AND THE EXACT VALUE TO PROVIDE VALUES 1 < x < maxt CAN BE LUDICRIOUSLY SENSITIVE
 #
-timeToSize <- function(starting.sizes,IPM,end.size, starting.env=1, maxt=100, prop.reach=0.01) {
+timeToSize <- function(startingSizes,IPM,end.size, starting.env=1, maxt=100, prop.reach=0.01) {
 	
 	cutoff <- which(IPM@meshpoints>end.size,arr.ind=TRUE)[1]
-	n.reach <- prop.reach*length(starting.sizes)
+	n.reach <- prop.reach*length(startingSizes)
 	
 	# setup slightly different for coompound or non compound dists
 	if (IPM@n.env.class>1) {
 		#if starting.env is not a vector, assume all start in starting.env
-		if (length(starting.env)==1) starting.env <- rep(starting.env, length(starting.sizes))
+		if (length(starting.env)==1) starting.env <- rep(starting.env, length(startingSizes))
 		compound <- TRUE
 		env.index <- IPM@env.index
 		n.new.dist <- rep(0,length(IPM[1,]))
 		for (ev in 1:IPM@n.env.class) { 
-			index.new.dist <- findInterval(starting.sizes[starting.env==ev],IPM@meshpoints)+1
+			index.new.dist <- findInterval(startingSizes[starting.env==ev],IPM@meshpoints)+1
 			index.new.dist[index.new.dist>length(IPM@meshpoints)] <- length(IPM@meshpoints)
 			loc.sizes <- table(index.new.dist); 
 			n.new.dist[ev==IPM@env.index][as.numeric(names(loc.sizes))] <- loc.sizes
@@ -1545,7 +1545,7 @@ timeToSize <- function(starting.sizes,IPM,end.size, starting.env=1, maxt=100, pr
 		n.new.dist0 <- n.new.dist
 	} else {
 		compound <- FALSE
-		index.new.dist <- findInterval(starting.sizes,IPM@meshpoints)+1
+		index.new.dist <- findInterval(startingSizes,IPM@meshpoints)+1
 		index.new.dist[index.new.dist>length(IPM@meshpoints)] <- length(IPM@meshpoints)
 		loc.sizes <- table(index.new.dist); 
 		env.index <- rep(1,length(IPM@meshpoints))
@@ -1565,14 +1565,14 @@ timeToSize <- function(starting.sizes,IPM,end.size, starting.env=1, maxt=100, pr
 		
 		if (!compound) {
 			tot <- sum(n.new.dist[cutoff:length(IPM@meshpoints)])
-			survivorship[t] <- sum(n.new.dist)/length(starting.sizes)
+			survivorship[t] <- sum(n.new.dist)/length(startingSizes)
 		} else {
 			tot <-sumN <- 0
 			for (ev in 1:IPM@n.env.class) {
 				tot <- tot+sum(n.new.dist[env.index==ev][cutoff:length(IPM@meshpoints)])
 				sumN <- sumN + sum(n.new.dist[env.index==ev])
 			}
-			survivorship[t] <- sumN/length(starting.sizes)
+			survivorship[t] <- sumN/length(startingSizes)
 		}
 		
 		
@@ -1674,7 +1674,7 @@ largeMatrixCalc <- function(Tmatrix,Fmatrix, tol=1.e-8){
 
 sensParams <- function(growObj,survObj,fecObj,
 		nBigMatrix,minSize,maxSize,
-		integrate.type="midpoint",
+		integrateType="midpoint",
 		correction="none") { 
 	
 	delta<-0.0001;
@@ -1707,9 +1707,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	
 	# build the IPM and get the lamdba value
 	Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-			growObj=growObj,survObj=survObj, integrate.type=integrate.type, correction=correction)
+			growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
 	Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-			fecObj=fecObj,integrate.type=integrate.type, correction=correction)
+			fecObj=fecObj,integrateType=integrateType, correction=correction)
 	IPM <- Tmatrix+Fmatrix
 	lambda1 <- Re(eigen(IPM)$value[1]);#print(lambda1)
 	
@@ -1717,9 +1717,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	for (param.test in 1:length(growObj@fit$coeff)){
 		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test]*(1+delta);
 		Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				growObj=growObj,survObj=survObj, integrate.type=integrate.type, correction=correction)
+				growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
 		Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				fecObj=fecObj, integrate.type=integrate.type, correction=correction)
+				fecObj=fecObj, integrateType=integrateType, correction=correction)
 		IPM <- Tmatrix+Fmatrix
 		lambda2 <- Re(eigen(IPM)$value[1]); #print(lambda2)
 		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test]/(1+delta);
@@ -1731,9 +1731,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	resids <- growObj@fit$residuals
 	growObj@fit$residuals <- rnorm(length(growObj@fit$residuals),0,sd(growObj@fit$residuals)*(1+delta))
 	Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-			growObj=growObj,survObj=survObj, integrate.type=integrate.type, correction=correction)
+			growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
 	Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-			fecObj=fecObj, integrate.type=integrate.type, correction=correction)
+			fecObj=fecObj, integrateType=integrateType, correction=correction)
 	IPM <- Tmatrix + Fmatrix
 	lambda2 <- Re(eigen(IPM)$value[1]); #print(lambda2)
 	growObj@fit$residuals <- resids
@@ -1745,9 +1745,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	for (param.test in 1:length(survObj@fit$coeff)){
 		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test]*(1+delta);
 		Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				growObj=growObj,survObj=survObj, integrate.type=integrate.type, correction=correction)
+				growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
 		Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				fecObj=fecObj,integrate.type=integrate.type, correction=correction)
+				fecObj=fecObj,integrateType=integrateType, correction=correction)
 		IPM <- Tmatrix+Fmatrix
 		lambda2 <- Re(eigen(IPM)$value[1]);
 		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test]/(1+delta);
@@ -1762,9 +1762,9 @@ sensParams <- function(growObj,survObj,fecObj,
 		for (param.test in 1:length(chs)) {
 			fecObj@fec.constants[chs[param.test]] <- fecObj@fec.constants[chs[param.test]]*(1+delta);
 			Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-					growObj=growObj,survObj=survObj, integrate.type=integrate.type, correction=correction)
+					growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
 			Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-					fecObj=fecObj,integrate.type=integrate.type, correction=correction)
+					fecObj=fecObj,integrateType=integrateType, correction=correction)
 			IPM <- Tmatrix+Fmatrix
 			lambda2 <- Re(eigen(IPM)$value[1]);
 			fecObj@fec.constants[chs[param.test]] <- fecObj@fec.constants[chs[param.test]]/(1+delta);
@@ -1781,9 +1781,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	for (param.test in 1:length(fecObj@fit.fec[[i]]$coeff)){
 		fecObj@fit.fec[[i]]$coefficients[param.test] <- fecObj@fit.fec[[i]]$coefficients[param.test]*(1+delta);
 		Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				growObj=growObj,survObj=survObj, integrate.type=integrate.type, correction=correction)
+				growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
 		Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				fecObj=fecObj,integrate.type=integrate.type, correction=correction)
+				fecObj=fecObj,integrateType=integrateType, correction=correction)
 		IPM <- Tmatrix+Fmatrix
 		lambda2 <- Re(eigen(IPM)$value[1]);
 		fecObj@fit.fec[[i]]$coefficients[param.test] <- fecObj@fit.fec[[i]]$coefficients[param.test]/(1+delta);
@@ -1849,7 +1849,7 @@ setMethod("StochGrowthRateSampleList",
 StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 		growthObj,survObj,fecObj,
 		nBigMatrix,minSize,maxSize, n.microsites,
-		integrate.type="midpoint",correction="none"){
+		integrateType="midpoint",correction="none"){
 	require(MASS)
 	
 	
@@ -1873,12 +1873,12 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 		tpS <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosen.cov = covariate[t,],
 				growObj = growthObj, survObj = survObj,
-				integrate.type=integrate.type, correction=correction)
+				integrateType=integrateType, correction=correction)
 		
 		tpF <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, #chosen.cov = covariate[t,],
 				fecObj = tmp.fecObj,
-				integrate.type=integrate.type, correction=correction)
+				integrateType=integrateType, correction=correction)
 		
 		#print(range(tpF))
 		#print(tmp.fecObj)	
@@ -1910,7 +1910,7 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
 		growthObj,survObj,fecObj,
 		nBigMatrix,minSize,maxSize,
-		n.microsites,integrate.type="midpoint",correction="none"){
+		n.microsites,integrateType="midpoint",correction="none"){
 	require(MASS)
 	
 	nt <- rep(1,nBigMatrix)
@@ -1930,11 +1930,11 @@ TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
 		tpS <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosen.cov = covariate[t,],
 				growObj = growthObj, survObj = survObj,
-				integrate.type=integrate.type, correction=correction)
+				integrateType=integrateType, correction=correction)
 		tpF <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, #chosen.cov = covariate[t,],
 				fecObj = tmp.fecObj,
-				integrate.type=integrate.type, correction=correction)
+				integrateType=integrateType, correction=correction)
 		
 		IPM.here <- tpF+tpS
 		nt1<-IPM.here %*% nt	

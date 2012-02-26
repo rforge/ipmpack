@@ -14,7 +14,7 @@ dependence is specified.
 \usage{
 StochGrowthRateManyCov(covariate, n.runin, Tmax,
 growthObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
-n.microsites, integrate.type,correction)
+n.microsites, integrateType,correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -51,7 +51,7 @@ n.microsites, integrate.type,correction)
     seedling establishment, and if length(n.microsites)>1, then the
     number of microsites available for establishment at time t is n.microsites[min(t,length(n.microsites))] 
 }
-  \item{integrate.type}{
+  \item{integrateType}{
     integration type, defaults to "midpoint" (which uses prob. density
     function); other option is "cumul" (which uses the cumul. density function)
   }

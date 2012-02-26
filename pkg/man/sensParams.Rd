@@ -10,7 +10,7 @@
   (compound T and F matrices not possible yet; nor matrices with discrete stages)
 }
 \usage{
-sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, integrate.type, correction)
+sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, integrateType, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,7 +32,7 @@ sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, integrate.typ
   \item{maxSize}{
     numeric, maximum size used for meshpoints of the T matrix
   }
-  \item{integrate.type}{
+  \item{integrateType}{
     integration type
   }
   \item{correction}{
