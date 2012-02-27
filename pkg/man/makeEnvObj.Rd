@@ -13,7 +13,8 @@ makeEnvObj(dataf)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{a dataframe with columns `covariate'
-    and `covariatel' indicating environmental covariate values at t, and at t+1, respectively; these must take values of sequential integers, starting at`1'.}
+    and `covariatel' indicating environmental covariate values at times t, and at t+1, respectively; these must take values of sequential integers, starting at`1'.
+    }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
