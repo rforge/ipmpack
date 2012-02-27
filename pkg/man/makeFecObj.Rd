@@ -8,7 +8,8 @@
 }
 \description{
   Allows a series of different glms to be fit all on the way to fecundity, e.g., probability of
-  flowering, number of flower heads produced, etc. 
+  flowering, number of flower heads produced, etc. Currently only pre-census fecundity relationships can be handled.  
+  
 }
 \usage{
 makeFecObj(dataf, fec.constants=as.numeric(NA),

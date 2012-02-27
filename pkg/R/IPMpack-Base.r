@@ -1193,31 +1193,22 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 #Generic for mean life expectancy
 #parameters - an IPM
 # returns - the life expectancy for every starting size. 
-setGeneric("MeanLifeExpect",
-		function(IPM.matrix) standardGeneric("MeanLifeExpect"))
-
-setMethod("MeanLifeExpect",
-		c("IPM.matrix"),
-		function(IPM.matrix){
+MeanLifeExpect <- function(IPM.matrix){
 			require(MASS)
 			nBigMatrix <- length(IPM.matrix@.Data[1,]) #this nBigMatrix actually contains discrete, env, etc
 			#tmp <-  ginv(diag(IPM.matrix@nEnvClass*nBigMatrix)-IPM.matrix)
 			tmp <-  ginv(diag(nBigMatrix)-IPM.matrix)
 			lifeExpect <- colSums(tmp)
 			return(lifeExpect)
-		})
+		}
 
 
 
 #Generic for variance life expectancy (p119 Caswell)
 #parameters - an IPM
 # returns - the variance in life expectancy for every starting size. 
-setGeneric("VarLifeExpect",
-		function(IPM.matrix) standardGeneric("VarLifeExpect"))
 
-setMethod("VarLifeExpect",
-		c("IPM.matrix"),
-		function(IPM.matrix){
+VarLifeExpect <- function(IPM.matrix){
 			require(MASS)
 			nBigMatrix <- length(IPM.matrix@.Data[1,])
 			#tmp <-  ginv(diag(IPM.matrix@nEnvClass*nBigMatrix)-IPM.matrix)
@@ -1226,7 +1217,7 @@ setMethod("VarLifeExpect",
 			#varLifeExpect <- colSums(varlifeExpect)
 			varLifeExpect <- colSums(2*(tmp%*%tmp)-tmp)-colSums(tmp)*colSums(tmp)                  
 			return(varLifeExpect)
-		})
+		}
 
 
 
@@ -1241,12 +1232,8 @@ setMethod("VarLifeExpect",
 #                       and mortality over age 
 
 ## WON'T WORK WITH DISCRETE STAGES AS IS!!
-setGeneric("Survivorship",
-		function(IPM.matrix, size1, maxAge) standardGeneric("Survivorship"))
 
-setMethod("Survivorship",
-		c("IPM.matrix","numeric","numeric"),
-		function(IPM.matrix, size1, maxAge=300){
+Survivorship <- function(IPM.matrix, size1, maxAge=300){
 			nBigMatrix <- length(IPM.matrix@.Data[1,])
 			#n <- IPM.matrix@nEnvClass*nBigMatrix
 			n <- nBigMatrix
@@ -1268,7 +1255,7 @@ setMethod("Survivorship",
 			mortality <- -log(surv.curv[2:length(surv.curv)]/surv.curv[1:(length(surv.curv)-1)])
 			
 			return(list(surv.curv=surv.curv,stage.agesurv=stage.agesurv, mortality = mortality))
-		})
+		}
 
 
 
@@ -1278,12 +1265,8 @@ setMethod("Survivorship",
 #parameters - an IPM
 #           - a size for which passage time is required            
 # returns - the passage time to this size from each of the sizes in the IPM 
-setGeneric("PassageTime",
-		function(chosen.size,IPM.matrix) standardGeneric("PassageTime"))
 
-setMethod("PassageTime",
-		c("numeric","IPM.matrix"),
-		function(chosen.size,IPM.matrix){
+PassageTime <- function(chosen.size,IPM.matrix){
 			require(MASS)
 			
 			loc <- which(abs(chosen.size-IPM.matrix@meshpoints) ==
@@ -1312,7 +1295,7 @@ setMethod("PassageTime",
 			time.to.absorb <- colSums(eta1)
 			time.to.absorb[loc:length(time.to.absorb)] <- 0
 			return(time.to.absorb)
-		})
+		}
 
 
 
@@ -1321,12 +1304,7 @@ setMethod("PassageTime",
 #parameters - an IPM
 #           - a size for which passage time is required            
 # returns - the variance passage time to this size from each of the sizes in the IPM 
-setGeneric("varPassageTime",
-		function(chosen.size,IPM.matrix) standardGeneric("varPassageTime"))
-
-setMethod("varPassageTime",
-		c("numeric","IPM.matrix"),
-		function(chosen.size,IPM.matrix){
+varPassageTime <- function(chosen.size,IPM.matrix){
 			require(MASS)
 			
 			loc <- which(abs(chosen.size-IPM.matrix@meshpoints)==min(abs(chosen.size-IPM.matrix@meshpoints)),arr.ind=TRUE)
@@ -1348,7 +1326,7 @@ setMethod("varPassageTime",
 			vartimeAbsorb <- colSums(2*(eta1%*%eta1)-eta1)-colSums(eta1)*colSums(eta1)                  
 			
 			return(vartimeAbsorb)
-		})
+		}
 
 
 
@@ -1358,12 +1336,7 @@ setMethod("varPassageTime",
 #           - an environmental matrix
 # returns - the life expectancy for each of the sizes in the IPM (columns)
 #           for each of the starting env states
-setGeneric("LifeExpect",
-		function(IPM.matrix,envMatrix) standardGeneric("LifeExpect"))
-
-setMethod("LifeExpect",
-		c("IPM.matrix", "envMatrix"),
-		function(IPM.matrix,envMatrix){
+LifeExpect <- function(IPM.matrix,envMatrix){
 			require(MASS)
 			
 			matrix.dim <- length(IPM.matrix[1,])
@@ -1430,7 +1403,7 @@ setMethod("LifeExpect",
 			}
 			
 			return(lifeexp.markov)
-		})
+		}
 
 
 ##Function to estimate Stochastic Passage Time
