@@ -64,7 +64,9 @@ growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"),
 survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans = discM)
 MeanLifeExpect(Tmatrix)
 
-plot(MeanLifeExpect(Tmatrix), ylab = "Mean life expectancy", xlab = "Continuous (e.g. size) and discrete (e.g. seedbank) stages", type = "l", col = "dark gray", ylim = c(0,max(MeanLifeExpect(Tmatrix))))
+plot(MeanLifeExpect(Tmatrix), 
+ylab = "Mean life expectancy", 
+xlab = "Continuous (e.g. size) and discrete (e.g. seedbank) stages", type = "l", col = "dark gray", ylim = c(0,max(MeanLifeExpect(Tmatrix))))
 
 
 }
