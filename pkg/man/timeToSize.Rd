@@ -60,8 +60,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff <- generateData()
 startSizes <- rnorm(100, 2, 1)
-Tmatrix <-create.IPM.Tmatrix(minSize = min(dff$size, na.rm=TRUE),
-maxSize <- max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
+Tmatrix <-create.IPM.Tmatrix(minSize = 1.2*min(dff$size, na.rm=TRUE),
+maxSize= 1.2*max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
 
 #CURRENTLY NOT WORKING VERY WELL
 rc <- timeToSize(startingSizes=startSizes, IPM = Tmatrix, endSize= 10, 
@@ -77,9 +77,9 @@ matplot(Tmatrix@meshpoints, rc$ts.dist, type = "l", xlab = "size", ylab = "Numbe
 rc$time.reach
 
 ## Plot out the survivorship
-plot(rc$survivorship, type = "l", log = "y", 
+plot(rc$survivorship, type = "l", #log = "y", 
 xlab = "time step", ylab = "Probability original population survival", 
-ylim = (0,1), col = "gray")
+ylim = c(0,1), col = "gray")
 
 }
 \keyword{ ~kwd1 }
