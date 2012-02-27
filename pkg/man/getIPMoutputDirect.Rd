@@ -130,28 +130,13 @@ for (j in 1:nrow(res$stableStage)) points(res$meshpoints, Re(res$stableStage[j, 
 hist(res$lambda, xlab = expression(lambda), ylab = "", main = "", col = "grey")
 
 ## For continuous (e.g. size) and discrete (e.g. seedbank) stages:
-
-svlist <- makePostSurvivalObjs(dataf = dff, explanatoryVariables = "size+size2+covariate", meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
-env1 <- makeEnvObj(dff)
-res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList = grlist[1:10], targetSize = 10, nBigMatrix = 20, minSize = -2, maxSize = 15, cov = TRUE, fecObjList =fvlist[1:10], envMat = env1, nSizeToAge = 5, sizeStart = -1)
-
-
-
-# same but for matrix with discrete classes #
 dff <- generateDataDiscrete()
 
 svlist <- makePostSurvivalObjs(dataf=dff, explanatoryVariables="size+size2", meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
-grlist <- makePostGrowthObjs(dataf=dff, explanatoryVariables="size+size2", meanB = rep(0, 3), varB = rep(1e+10),  nitt=5000)
-fvlist <- makePostFecObjs(dataf=dff, explanatoryVariables="size+size2", Transform="log",nitt=5000)
+grlist <- makePostGrowthObjs(dataf=dff, explanatoryVariables = "size+size2", meanB = rep(0, 3), varB = rep(1e+10), nitt=5000)
+fvlist <- makePostFecObjs(dataf = dff, explanatoryVariables = "size+size2", Transform = "log", nitt=5000)
 
-res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], targetSize = 10,
-nBigMatrix=20, minSize=-2, maxSize=15, cov = FALSE, fecObjList =fvlist[1:10],
-nSizeToAge = 5, sizeStart = -1)
-
-
-
-
-
+res <- getIPMoutputDirect(survObjList = svlist[1:10], growObjList = grlist[1:10], targetSize = 10, nBigMatrix = 20, minSize = -2, maxSize = 15, cov = FALSE, fecObjList = fvlist[1:10], nSizeToAge = 5, sizeStart = -1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
