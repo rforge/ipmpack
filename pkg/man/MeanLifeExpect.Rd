@@ -67,8 +67,6 @@ MeanLifeExpect(Tmatrix)
 plot(MeanLifeExpect(Tmatrix), 
 ylab = "Mean life expectancy", 
 xlab = "Continuous (e.g. size) and discrete (e.g. seedbank) stages", type = "l", col = "dark gray", ylim = c(0,max(MeanLifeExpect(Tmatrix))))
-
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

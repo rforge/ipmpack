@@ -8,7 +8,7 @@ MakeS list IPMs where there is a discrete covariate.
 Wrapper function to build the IPM corresponding to every level of the discrete covariate, and return a list of these. 
 }
 \usage{
-makeListIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,	integrateType = "midpoint", correction = "none", explSurv = "size+size2+covariate", explGrow = "size+size2+covariate", regType = "constantVar", responseType = "sizeNext", explFec = "size", fec.constants = 1)
+makeListIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,	integrateType = "midpoint", correction = "none", explSurv = "size+size2+covariate", explGrow = "size+size2+covariate", regType = "constantVar", responseType = "sizeNext", explFec = "size", fecConstants = 1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -46,7 +46,7 @@ makeListIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,	integrateType =
  \item{explFec}{
 	explanatory variables used in the fecundity.
 	}
- \item{fec.constants}{
+ \item{fecConstants}{
 	constant multipliers for the fecundity model.
 	}
 }

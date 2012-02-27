@@ -137,7 +137,7 @@ setClass("survObjOverDisp",
 # Create a generic fecundity object
 setClass("fecObj",
 		representation(fit.fec = "list",
-				fec.constants = "numeric",
+				fecConstants = "numeric",
 				OffspringSplitter = "data.frame",
 				mean.offspring.size = "numeric",
 				var.offspring.size = "numeric",
@@ -148,7 +148,7 @@ setClass("fecObj",
 # Create a generic fecundity object for multiple covariates
 setClass("fecObjMultiCov",
 		representation(fit.fec = "list",
-				fec.constants = "numeric",
+				fecConstants = "numeric",
 				OffspringSplitter = "data.frame",
 				mean.offspring.size = "numeric",
 				var.offspring.size = "numeric",
@@ -863,11 +863,11 @@ create.IPM.Fmatrix <- function(fecObj,
 	#print(head(newd))
 	for (i in 1:length(fecObj@fit.fec)) if (length(grep("logsize",fecObj@fit.fec[[i]]$formula))>0) newd$logsize <- log(y)
 	
-	fecObj@fec.constants[is.na(fecObj@fec.constants)] <- 1
+	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1
 	
-	fecValues <- matrix(c(rep(1,length(fecObj@fit.fec)),fecObj@fec.constants),
+	fecValues <- matrix(c(rep(1,length(fecObj@fit.fec)),fecObj@fecConstants),
 			ncol=nBigMatrix,nrow=length(fecObj@fit.fec)+
-					length(fecObj@fec.constants))
+					length(fecObj@fecConstants))
 	
 	#print(fecValues)
 	
@@ -1691,13 +1691,13 @@ sensParams <- function(growObj,survObj,fecObj,
 	# define numbers of parameters
 	npar <- length(growObj@fit$coeff)+1+
 			length(survObj@fit$coeff)+
-			(sum(!is.na(fecObj@fec.constants)))+nfec	
+			(sum(!is.na(fecObj@fecConstants)))+nfec	
 	#print(npar)
 	
 	# create a named vector to hold them 
 	elam <- rep(0,npar);
 	nmes <- c(paste("grow",names(growObj@fit$coeff)), "sd growth",paste("surv",names(survObj@fit$coeff)),
-			paste("reprod constant",which(!is.na(fecObj@fec.constants), arr.ind=TRUE)),
+			paste("reprod constant",which(!is.na(fecObj@fecConstants), arr.ind=TRUE)),
 			fec.coeff.names)
 	
 	names(elam) <- nmes[1:npar]
@@ -1755,19 +1755,19 @@ sensParams <- function(growObj,survObj,fecObj,
 	}
 	
 	#change the constant fecundity objects
-	chs <- which(!is.na(fecObj@fec.constants), arr.ind=TRUE)
+	chs <- which(!is.na(fecObj@fecConstants), arr.ind=TRUE)
 	if (length(chs)>0) { 
 		count <- count + param.test;
 		for (param.test in 1:length(chs)) {
-			fecObj@fec.constants[chs[param.test]] <- fecObj@fec.constants[chs[param.test]]*(1+delta);
+			fecObj@fecConstants[chs[param.test]] <- fecObj@fecConstants[chs[param.test]]*(1+delta);
 			Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 					growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
 			Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 					fecObj=fecObj,integrateType=integrateType, correction=correction)
 			IPM <- Tmatrix+Fmatrix
 			lambda2 <- Re(eigen(IPM)$value[1]);
-			fecObj@fec.constants[chs[param.test]] <- fecObj@fec.constants[chs[param.test]]/(1+delta);
-			slam[param.test+count]<-(lambda2-lambda1)/(fecObj@fec.constants[param.test]*delta);
+			fecObj@fecConstants[chs[param.test]] <- fecObj@fecConstants[chs[param.test]]/(1+delta);
+			slam[param.test+count]<-(lambda2-lambda1)/(fecObj@fecConstants[param.test]*delta);
 			elam[param.test+count]<-(lambda2-lambda1)/(log(1+delta));
 			
 		}
@@ -1849,18 +1849,18 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 	
 	nt<-rep(1,nBigMatrix)
 	Rt<-rep(NA,Tmax)
-	fecObj@fec.constants[is.na(fecObj@fec.constants)] <- 1 
+	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1 
 	tmp.fecObj <- fecObj
 	
 	#print("fec.const start")
-	#print(fecObj@fec.constants)
+	#print(fecObj@fecConstants)
 	
 	#density dep? 
 	if (sum(n.microsites)>0) { dd <- TRUE } else { dd <- FALSE}
 	
 	
 	for (t in 1:Tmax) {
-		if (dd) tmp.fecObj@fec.constants <- c(fecObj@fec.constants, 
+		if (dd) tmp.fecObj@fecConstants <- c(fecObj@fecConstants, 
 					min(n.microsites[min(t,length(n.microsites))]/nt[1],1))
 		
 		
@@ -1909,17 +1909,17 @@ TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
 	
 	nt <- rep(1,nBigMatrix)
 	rc <- matrix(NA,nBigMatrix,Tmax)
-	fecObj@fec.constants[is.na(fecObj@fec.constants)] <- 1 
+	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1 
 	tmp.fecObj <- fecObj
 	#density dep? 
 	if (sum(n.microsites)>0) { dd <- TRUE } else { dd <- FALSE}
 	
 	
 	for (t in 1:Tmax) {
-		if (dd) tmp.fecObj@fec.constants <- c(fecObj@fec.constants, 
+		if (dd) tmp.fecObj@fecConstants <- c(fecObj@fecConstants, 
 					min(n.microsites[min(t,length(n.microsites))]/nt[1],1))
 		
-		#print(tmp.fecObj@fec.constants)
+		#print(tmp.fecObj@fecConstants)
 		
 		tpS <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosen.cov = covariate[t,],

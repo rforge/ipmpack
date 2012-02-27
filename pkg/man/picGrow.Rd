@@ -1,7 +1,8 @@
 \name{picGrow}
 \alias{picGrow}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{  Function to make pictures of data with growth models
+\title{
+  Makes pictures of data with growth models
 }
 \description{
 Takes the data file and a growth object and shows the model fit over the data. 
@@ -12,31 +13,25 @@ picGrow(dataf, growObj)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{a dataframe with columns `size' and
-    `sizeNext'(`size' is size at t, `sizeNext' is size at t+1);
-    facultatively, dataf may include `covariate'
-    and `covariateNext' for a single discrete covariate, indicating values at t,
-    and at t+1, respectively; these must take values of sequential integers, starting at
-    `1'. For models fitting growth increment, 'incr' or 'logincr' may be directly provided as
-    a column in the dataframe, otherwise they are calculated as
-    dataf$sizeNext-dataf$size or log(dataf$sizeNext-dataf$size),
-  respectively. }
+    `sizeNext'(`size' is continuous stage variable at t, `sizeNext' is stage variable at t+1); facultatively, dataf may include `covariate' and `covariateNext' for a single discrete covariate, indicating values at t, and at t+1, respectively; these must take values of sequential integers, starting at `1'. For models fitting growth increment, 'incr' or 'logincr' may be directly provided as a column in the dataframe, otherwise they are calculated as dataf$sizeNext-dataf$size or log(dataf$sizeNext-dataf$size), respectively.
+    }
 
   \item{growObj}{
-	an object of class growthObj that contains a fit for which R has methods for the function "predict"
+	an object of class growthObj that contains a fit for which R has methods for the function "predict".
 }
 }
 \details{
 Note that this model will only work with growth objects that contain objects
-of class glm or lm, i.e. ones for which R has defined methods for the function "predict"
+of class glm or lm, i.e. ones for which R has defined methods for the function "predict".
 }
 \value{
-Returns nothing
+Returns nothing.
 }
 \references{
 %% ~put references to the literature/web site here ~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
@@ -48,9 +43,9 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{makeGrowthObj}}, \code{\link{picSurv}}
 }
 \examples{
-dff<-generateData()
+dff <- generateData()
 gr1 <- makeGrowthObj(dff)
-picGrow(dff,gr1)
+picGrow(dff, gr1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

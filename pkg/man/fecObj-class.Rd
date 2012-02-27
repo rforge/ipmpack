@@ -14,11 +14,11 @@ Objects can be created by calls of the form \code{new("fecObj", ...)}.
 \section{Slots}{
   \describe{
 
-   "fec.constants"      
+   "fecConstants"      
 "OffspringSplitter"  "mean.offspring.size" "var.offspring.size"  "fec.by.discrete"     "Transform"
     
     \item{\code{fit.fec}:}{Object of class \code{"list"} ~~ }
-    \item{\code{fec.constants}:}{Object of class \code{"numeric"} ~~ }
+    \item{\code{fecConstants}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{OffspringSplitter}:}{Object of class \code{"data.frame"} ~~ }
     \item{\code{mean.offspring.size}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{var.offspring.size}:}{Object of class \code{"numeric"} ~~ }

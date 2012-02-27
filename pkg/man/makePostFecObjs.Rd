@@ -12,7 +12,7 @@
 
 }
 \usage{
-makePostFecObjs(dataf,fec.constants,explanatoryVariables,Family,Transform,mean.offspring.size,var.offspring.size,OffspringSplitter,fec.by.discrete,nitt)
+makePostFecObjs(dataf,fecConstants,explanatoryVariables,Family,Transform,mean.offspring.size,var.offspring.size,OffspringSplitter,fec.by.discrete,nitt)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,7 +21,7 @@ makePostFecObjs(dataf,fec.constants,explanatoryVariables,Family,Transform,mean.o
       nine are currently possible (and note that ANY name containing
       "fec" will be included and these MUST NOT be transformed via log,
       etc, since the fecundity object produced will assume that it has total reproductive output.)}
-  \item{fec.constants}{a numeric vector containing the value by which
+  \item{fecConstants}{a numeric vector containing the value by which
     each of the fecundity transforms will be multplied \emph{in the
       order defined by the alphabetical order of column names
       containing "fec"}; these might capture for example the probability

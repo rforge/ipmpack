@@ -365,7 +365,7 @@ makeSurvObjManyCov <- function(dataf,
 # 3. fecundity models  #######################################################################################################
 
 makeFecObj <- function(dataf,
-		fec.constants=as.numeric(NA),
+		fecConstants=as.numeric(NA),
 		explanatoryVariables="size",
 		Family="gaussian",
 		Transform="none",
@@ -450,7 +450,7 @@ makeFecObj <- function(dataf,
 		offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
 		mean.offspring.size <- mean(offspringdata$sizeNext)
 		var.offspring.size <- var(offspringdata$sizeNext) }
-	f1@fec.constants <- fec.constants
+	f1@fecConstants <- fecConstants
 	f1@mean.offspring.size <- mean.offspring.size
 	f1@var.offspring.size <- var.offspring.size
 	f1@OffspringSplitter <- OffspringSplitter 
@@ -464,7 +464,7 @@ makeFecObj <- function(dataf,
 ## NO different from the above yet, except in what it produces
 
 makeFecObjManyCov <- function(dataf,
-		fec.constants=as.numeric(NA),
+		fecConstants=as.numeric(NA),
 		explanatoryVariables="size",
 		Family="gaussian",
 		Transform="none",
@@ -533,7 +533,7 @@ makeFecObjManyCov <- function(dataf,
 		offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
 		mean.offspring.size <- mean(offspringdata$sizeNext)
 		var.offspring.size <- var(offspringdata$sizeNext) }
-	f1@fec.constants <- fec.constants
+	f1@fecConstants <- fecConstants
 	f1@mean.offspring.size <- mean.offspring.size
 	f1@var.offspring.size <- var.offspring.size
 	f1@OffspringSplitter <- OffspringSplitter 
@@ -795,7 +795,7 @@ makePostSurvivalObjs <- function(dataf,
 #
 # Returns - list including list of growth objects, + list of survival objects
 makePostFecObjs <- function(dataf,
-		fec.constants=as.numeric(NA),
+		fecConstants=as.numeric(NA),
 		explanatoryVariables="size",
 		Family="gaussian",
 		Transform="none",
@@ -891,7 +891,7 @@ makePostFecObjs <- function(dataf,
 					
 		}
 		
-		fv[[k]]@fec.constants <- fec.constants
+		fv[[k]]@fecConstants <- fecConstants
 		fv[[k]]@mean.offspring.size <- mean.offspring.size
 		fv[[k]]@var.offspring.size <- var.offspring.size
 		fv[[k]]@OffspringSplitter <- OffspringSplitter
