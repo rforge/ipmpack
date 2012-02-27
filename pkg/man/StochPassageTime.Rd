@@ -40,7 +40,7 @@ StochPassageTime(chosen.size, IPM.matrix, envMatrix)
 Caswell, 2001. Matrix population models: analysis, construction and
 interpretation. 2nd ed. Sinauer. 
 
-Metcalf, Horvitz, Tuljapurkar & Clark. 2009. A time to grow and a time to die: a new way to analyze the dynamics of size, light, age and death of
+Metcalf, Horvitz, Tuljapurkar, Clark. 2009. A time to grow and a time to die: a new way to analyze the dynamics of size, light, age and death of
 tropical trees. Ecology 90, p2766-2778
 
 For bias in this estimation where variance in growth is small relative to the size range: Zuidema, Jongejans, Chien, During & Schieving. 2010. Integral Projection Models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98, p345-355

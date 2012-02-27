@@ -1433,21 +1433,9 @@ setMethod("LifeExpect",
 		})
 
 
+##Function to estimate Stochastic Passage Time
 
-
-
-
-#Generic for first passage time in a stochastic environment
-#parameters - a compound IPM (megamatrix)
-#           - an environmental transition matrix 
-#           - a size for which passage time is required            
-# returns - the passage time to this size from each of the sizes in the IPM 
-setGeneric("StochPassageTime",
-		function(chosen.size,IPM.matrix,envMatrix) standardGeneric("StochPassageTime"))
-
-setMethod("StochPassageTime",
-		c("numeric","IPM.matrix","envMatrix"),
-		function(chosen.size,IPM.matrix,envMatrix){
+StochPassageTime <- function(chosen.size,IPM.matrix,envMatrix){
 			require(MASS)
 			#get the right index for the size you want
 			loc <- which(abs(chosen.size-
