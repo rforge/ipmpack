@@ -2,10 +2,10 @@
 \alias{growth}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Growth 
+Estimates growth probabilities. 
 }
 \description{
-Generic function to predict the pdf (probability density function) of size at t+1 given size at t and a growth object
+Generic function to predict the pdf (probability density function) of continuous (e.g. size) stage at t+1 given stage at t and a growth object.
 }
 \usage{
 growth(size, sizeNext, cov, growthObj)
@@ -13,31 +13,31 @@ growth(size, sizeNext, cov, growthObj)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{size}{
-    vector of current sizes
+    vector of current sizes.
 }
   \item{sizeNext}{
-    vector of sizes in the next time-step
+    vector of sizes in the next time-step.
 }
   \item{cov}{
-    covariate level in this time-step (numeric of length 1)
+    covariate level in this time-step (numeric of length 1).
 }
   \item{growthObj}{
-    a growth object
+    a growth object.
 }
 }
 \details{
-  Models defining size at t+1, or growth increment, or log growth increment are defined; with various
-  underlying statistical models allowing decreasing variance in size, etc... 
+  Models defining continuous (size) stage at t+1, or growth increment, or log growth increment are defined; with various
+  underlying statistical models allowing decreasing variance in size, etc.
 }
 \value{
-  a vector of length sizeNext giving the pdf (probability density function) of each value of sizeNext
+  a vector of length sizeNext giving the pdf (probability density function) of each value of sizeNext.
 }
 \references{
-Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81 p694-708
+Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81, p694-708.
 
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
@@ -51,7 +51,10 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff <- generateData()
 gr1 <- makeGrowthObj(dff)
-growth(1,1:5,1,gr1)
+sizeRange <- c(1:20)
+sizeInit <- 1
+growth(sizeInit, sizeRange, 1, gr1)
+plot(growth(sizeInit, sizeRange, 1, gr1), type="l", col = "dark gray", xlab = "Continuous (e.g. size) stage at time t+1", ylab = paste("Probability of growth to a specific size in t+1 from size ", sizeInit, " at time t"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

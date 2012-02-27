@@ -42,7 +42,7 @@ Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured po
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
-Code developed following Mark Rees, Dylan Childs & Karen Rose
+Code developed following Mark Rees, Dylan Childs & Karen Rose.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -51,13 +51,13 @@ Code developed following Mark Rees, Dylan Childs & Karen Rose
  \code{\link{growth}},  \code{\link{surv}}
 }
 \examples{
-dff<-generateData()
-gr1<-makeGrowthObj(dff)
+dff <- generateData()
+gr1 <- makeGrowthObj(dff)
 sv1 <- makeSurvObj(dff)
 sizeRange <- c(1:20)
 sizeInit <- 1
 growSurv(sizeInit, sizeRange, 1, gr1, sv1)
-plot(growSurv(1, sizeRange, 1, gr1, sv1), type="l", col="dark gray", xlab = "Continuous (e.g. size) stage at time t+1", ylab = paste("Probability of survival to a specific size in t+1 from size ", sizeInit, " at time t"))
+plot(growSurv(sizeInit, sizeRange, 1, gr1, sv1), type="l", col = "dark gray", xlab = "Continuous (e.g. size) stage at time t+1", ylab = paste("Probability of survival to a specific size in t+1 from size ", sizeInit, " at time t"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

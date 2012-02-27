@@ -2,11 +2,10 @@
 \alias{largeMatrixCalc}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Calculate population growth rate (lambda) and stable size distribution in a computationally efficient way when the number of bins in the IPM is large
+Calculate population growth rate (lambda) and stable stage distribution in a computationally efficient way when the number of bins in the IPM is large.
 }
 \description{
-Method to calculate lambda and stable size distribution where a large
-number of bins are used in the IPM, as it may be the case with species that vary largely in size, or models that include size x age interactions.
+Method to calculate population growth rate (lambda) and stable stage distribution where a large number of bins are used in the IPM, as it may be the case with species that vary largely in size, or models that include size x age interactions.
 }
 \usage{
 largeMatrixCalc(Tmatrix, Fmatrix, tol = 1e-08)
@@ -14,35 +13,35 @@ largeMatrixCalc(Tmatrix, Fmatrix, tol = 1e-08)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Tmatrix}{
-	object of class IPM.matrix describing survival transitions
+	object of class IPM.matrix describing survival transitions.
 }
   \item{Fmatrix}{
-	object of class IPM.matrix describing fecundity transitions
+	object of class IPM.matrix describing fecundity transitions.
 }
   \item{tol}{
-    tolerance for convergence, defaults to 1e-08
+    tolerance for convergence, defaults to 1e-08.
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
- \item{lambda}{Population rate of increase}
-  \item{stableDist}{Stable size distribution}
-  \item{h1}{size bin width}
+ \item{lambda}{Population rate of increase.}
+  \item{stableDist}{Stable stage distribution.}
+  \item{h1}{size bin width.}
 }
 \references{
-Rees & Ellner. 2009. Integral projection models for populations in temporally varying environments. The American Naturalist 79 p575-594
+Rees & Ellner. 2009. Integral projection models for populations in temporally varying environments. The American Naturalist 79, p575-594.
 
-Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p377-502
+Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p377-502.
 
-Garcia, Dahlgren & Ehrlen. 2011. No evidence of senescence in a 300-year-old mountain herb. Journal of Ecology 99 p1424Ð1430
+Garcia, Dahlgren & Ehrlen. 2011. No evidence of senescence in a 300-year-old mountain herb. Journal of Ecology 99, p1424Ð1430.
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
-Modified from Appendix A in Rees & Ellner 2009 (see references)
+Modified from Appendix A in Rees & Ellner 2009 (see references).
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -52,19 +51,17 @@ Modified from Appendix A in Rees & Ellner 2009 (see references)
 }
 \examples{
 dff <- generateData()
-Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size,na.rm=TRUE),
-maxSize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff),
-survObj=makeSurvObj(dff))
-Fmatrix <-create.IPM.Fmatrix(minSize=min(dff$size,na.rm=TRUE),
-maxSize=max(dff$size,na.rm=TRUE),fecObj=makeFecObj(dff))
+Tmatrix <- create.IPM.Tmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
+Fmatrix <- create.IPM.Fmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE),fecObj = makeFecObj(dff))
 
-largeMatrixCalc(Tmatrix,Fmatrix)
+largeMatrixCalc(Tmatrix, Fmatrix)
 
-plot(largeMatrixCalc(Tmatrix,Fmatrix)$stableDist,ylab="Frequency",xlab="Size",type="l",col="blue",lty=1,ylim=c(0:1))
-#ROB WILL CHANGE THE APPROPRIATE SECTION IN BASE SO REPRODUCTIVE OUTPUT IS ALSO ATTAINABLE, AND THEN IMPLEMENT A FEW GRAPHS IN THE EXAMPLE SECTION HERE
-#Add line for reproductive effort with dash line and red color
-#points(largeMatrixCalc(Tmatrix,Fmatrix)$reprodValue-0.1,type="l",col="red",lty=2)
-legend(1, 0.9,c("Stable distribution","Reproductive value"),col=c("blue","red"),lty=c(1,2),merge=TRUE)
+plot(largeMatrixCalc(Tmatrix, Fmatrix)$stableDist, ylab = "Stable stage distribution", xlab = "Continuous (e.g. size) stage", type = "l", col = "blue", lty = 1, ylim = c(0:1))
+
+%ROB TO DO: I will change the appropriate section in base so reproductive output is also attainable and plottable here for IPMpack v.2.0
+%#Add line for reproductive effort with dash line and red color
+%#points(largeMatrixCalc(Tmatrix,Fmatrix)$reprodValue-0.1,type="l",col="red",lty=2)
+%legend(1, 0.9,c("Stable distribution","Reproductive value"),col=c("blue","red"),lty=c(1,2),merge=TRUE)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
