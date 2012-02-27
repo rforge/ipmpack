@@ -762,13 +762,10 @@ makePostSurvivalObjs <- function(dataf,
 	
 	#fit survival model 
 	#avoid fitting a prior unless you need to (takes longer with)
-	if (sum(meanB!=0)>1 | sum(varB!=1e10)>1) { 
-		fit<-MCMCglmm(Formula, data=dataf[!is.na(dataf$surv),],
-				verbose=FALSE,family="categorical",
-				prior=list(B=list(mu=meanB,V=diag(length(meanB))*varB)), nitt=nitt)
-	} else { 
-		fit<-MCMCglmm(Formula, data=dataf[!is.na(dataf$surv),], verbose=FALSE,family="categorical")        
-	}
+    fit<-MCMCglmm(Formula, data=dataf[!is.na(dataf$surv),], 
+			verbose=FALSE,prior=list(R=list(V=1, fix=1)),
+			family="categorical")        
+	
 	dummy.fit <- glm(Formula, data=dataf,family=binomial)
 	
 	#create list survival models reflecting posterior
@@ -872,7 +869,8 @@ makePostFecObjs <- function(dataf,
 		Formula <- as.formula(Formula)
 		
 		fit[[i]] <- MCMCglmm(Formula,
-				data=dataf[!is.na(dataf[,fecNames[i]]),], verbose=FALSE, nitt=nitt,family=Family[i])
+				data=dataf[!is.na(dataf[,fecNames[i]]),], 
+				verbose=FALSE, nitt=nitt,family=Family[i])
 		
 		dummy.fit[[i]] <- glm(Formula,
 				data=dataf[!is.na(dataf[,fecNames[i]]),],family=Family[i])
