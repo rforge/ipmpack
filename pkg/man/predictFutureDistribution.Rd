@@ -57,15 +57,16 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 
 #define starting pop of interest
-startPop <- rnorm(1000,4,1)
+startPop <- rnorm(1000,2,1)
 
 #build T and F matrix
 dff <- generateData()
-Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size, na.rm = TRUE),
-maxSize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
-survObj=makeSurvObj(dff))
-Fmatrix <-create.IPM.Fmatrix(minSize=min(dff$size, na.rm = TRUE),
-maxSize=max(dff$size, na.rm = TRUE), fecObj=makeFecObj(dff))
+Tmatrix <-create.IPM.Tmatrix(minSize=1.1*min(dff$size, na.rm = TRUE),
+maxSize=1.1*max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
+survObj=makeSurvObj(dff), correction="constant")
+Fmatrix <-create.IPM.Fmatrix(minSize=1.1*min(dff$size, na.rm = TRUE),
+maxSize=1.1*max(dff$size, na.rm = TRUE), 
+fecObj=makeFecObj(dff,fec.constants=0.7,Transform="log"), correction="constant")
 
 #make an IPM.matrix object containing Tmatrix+Fmatrix by replacing the Tmatrix
 IPM <- Tmatrix
@@ -76,10 +77,13 @@ a5 <- predictFutureDistribution(startingSizes=startPop,IPM=IPM,
 n.time.steps=5,startingEnv=1)
 
 #plot
- plot(IPM@meshpoints,a1$n.new.dist,type="l",
- ylim=range(c(a1$n.new.dist,a1$n.new.dist0)), xlab="Size", ylab="Number of individuals")
- points(IPM@meshpoints,a5$n.new.dist0,type="l",lty=2,col="red")
+ plot(IPM@meshpoints,a5$n.new.dist0,type="l",
+ ylim=range(c(a5$n.new.dist,a5$n.new.dist0)), xlab="Size", ylab="Number of individuals")
+ points(IPM@meshpoints,a5$n.new.dist,type="l",lty=2,col="red")
 legend("topright", legend=c("Start distribution", "Distribution in 5 steps"), col=c(1,2),lty=c(1,2))
+
+## without the correction="constant", loss of individuals from the 
+## matrix boundaries can make this very strange-looking
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

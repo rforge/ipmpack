@@ -77,7 +77,9 @@ matplot(Tmatrix@meshpoints, rc$ts.dist, type = "l", xlab = "size", ylab = "Numbe
 rc$time.reach
 
 ## Plot out the survivorship
-plot(rc$survivorship, type = "l", log = "y", xlab = "time step", ylab = "Probability original population survival"), ylim = (0,1), col = "dark gray")
+plot(rc$survivorship, type = "l", log = "y", 
+xlab = "time step", ylab = "Probability original population survival", 
+ylim = (0,1), col = "gray")
 
 }
 \keyword{ ~kwd1 }

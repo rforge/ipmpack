@@ -865,9 +865,13 @@ create.IPM.Fmatrix <- function(fecObj,
 	
 	fecObj@fec.constants[is.na(fecObj@fec.constants)] <- 1
 	
-	fecValues <- matrix(c(rep(1,length(fecObj@fit.fec)),fecObj@fec.constants),ncol=nBigMatrix,nrow=length(fecObj@fit.fec)+length(fecObj@fec.constants))
+	fecValues <- matrix(c(rep(1,length(fecObj@fit.fec)),fecObj@fec.constants),
+			ncol=nBigMatrix,nrow=length(fecObj@fit.fec)+
+					length(fecObj@fec.constants))
 	
-	for (i in 1:length(fecObj@fit.fec)) fecValues[i,]<-predict(fecObj@fit.fec[[i]],newd,type="response")
+	#print(fecValues)
+	
+	for (i in 1:length(fecObj@fit.fec)) fecValues[i,] <- predict(fecObj@fit.fec[[i]],newd,type="response")
 	
 	#Transforms
 	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fecValues[i,]<-exp(fecValues[i,])
