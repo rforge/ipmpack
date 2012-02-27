@@ -49,6 +49,7 @@ growth
 }
 \examples{
 dff <- generateData()
+gr1 <- makeGrowthObj(dff)
 sizeRange <- c(1:20)
 sizeInit <- 1
 growthCum(sizeInit, sizeRange, 1, gr1)

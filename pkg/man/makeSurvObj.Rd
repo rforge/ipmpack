@@ -1,5 +1,5 @@
-\name{makeSurvObj.Rd}
-\alias{makeSurvObj.Rd}
+\name{makeSurvObj}
+\alias{makeSurvObj}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{Functions to build survival objects}

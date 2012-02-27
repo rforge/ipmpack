@@ -27,7 +27,7 @@
 #
 #
 makeGrowthObj <- function(dataf,
-		explanatoryVariables="size+size2",
+		explanatoryVariables="size",
 		responseType="sizeNext",
 		regType="constantVar"){
 	

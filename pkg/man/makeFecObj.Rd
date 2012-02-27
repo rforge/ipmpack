@@ -1,5 +1,6 @@
 \name{makeFecObj}
 \alias{makeFecObj}
+\alias{makeFecObjManyCov}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
