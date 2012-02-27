@@ -7,10 +7,9 @@
 \description{
   Model takes a data-frame and fits a Bayesian model to the chosen
   "responseType" (sizeNext, incr, etc) using the chosen explanatory
-  variable, and the package MCMCglmm; then
-  create the resulting list of growth objects necessary to get Bayes
-  posterior of IPM outputs
-}
+  variable, and the package MCMCglmm; then creates the resulting list of growth objects necessary to get Bayes
+  posteriors of IPM outputs. Note that priors are not yet implemented and growth methods for multiple covariates likewise. 
+ }
 \usage{
 makePostGrowthObjs(dataf, explanatoryVariables,responseType,
 meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
@@ -42,7 +41,7 @@ meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
 
 }
 \details{
-Note that the use of priors is schematic here, and the function does not return output
+Note that the use of priors is not yet implemented, and the function does not return output
 of Bayes analysis which might be useful for assessment; in development. 
 
 }
@@ -70,6 +69,8 @@ grlist <- makePostGrowthObjs(dataf=dff,
 			explanatoryVariables="size+size2+covariate",
             responseType="sizeNext",
             meanB=rep(0,3),varB=rep(1e10),nitt = 5000)
+            
+grlist[[1]]
 }
 
 % Add one or more standard keywords, see file 'KEYWORDS' in the

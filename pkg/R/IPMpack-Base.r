@@ -1,7 +1,7 @@
 
 
 ##can you do this to get rid of teh warnings? check 
-require(nlme)
+#require(nlme) #apparently doesn't help!
 
 logit <- function(x) { u<-exp(pmin(x,50)); return(u/(1+u))}
 
@@ -126,6 +126,12 @@ setClass("survObjMultiCov",
 setClass("survObjLog.multiyear",
 		representation(fit="glm"))
 
+# Create a generic survival object for use where over-dispersion
+# modeled, using Diggles approximate correction for the transform
+setClass("survObjOverDisp",
+		representation(fit="glm"))
+
+
 
 ## FECUNDITY OBJECTS ##
 # Create a generic fecundity object
@@ -190,6 +196,34 @@ setMethod("surv",
 							survObj@fit$formula))>0) newd$logsize2=(log(size))^2
 			
 			u <- predict(survObj@fit,newd,type="response")
+			return(u);
+		})
+
+#Method to obtain probability of survival using
+# logistic regression on size with a single covariate
+#  where the logistic regression was modeled with over-dispersion
+#  (e.g., using MCMCglmm) - !over-dispersion assumed to be set to 1
+#
+#Parameters -
+#   size = current size (vector)
+#   cov = current discrete covariate (.e.g. light..., single value)
+#   survObj = a survival object, containig e.g. a glm fitted to data
+#
+#Returns -
+#  survival probability for given sizes and covariate level
+setMethod("surv", 
+		c("numeric","numeric","survObjOverDisp"),
+		function(size,cov,survObj){
+			newd <- data.frame(size=size,size2=size^2,size3=size^3,
+					covariate=as.factor(rep(cov,length(size)))) 
+			if (length(grep("logsize",
+							survObj@fit$formula))>0) newd$logsize=log(size)
+			if (length(grep("logsize2",
+							survObj@fit$formula))>0) newd$logsize2=(log(size))^2
+			
+			u <- predict(survObj@fit,newd,type="link")
+			c2 <- ((16 * sqrt(3))/(15 * pi))^2  #from MCMCglmm course notes, search for c2
+			u <- logit(u/sqrt(1+c2)) 
 			return(u);
 		})
 

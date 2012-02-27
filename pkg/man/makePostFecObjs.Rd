@@ -87,7 +87,7 @@ dff<-generateData()
 fvlist <- makePostFecObjs(dataf=dff,explanatoryVariables="size+size2+covariate",
                                nitt = 5000)
                                
-                               
+fvlist[[1]]                               
                                
 
 }

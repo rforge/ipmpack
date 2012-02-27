@@ -772,7 +772,7 @@ makePostSurvivalObjs <- function(dataf,
 	sv <- list()
 	for (k in 1:length(fit$Sol[,1])) {
 		dummy.fit$coefficients <- fit$Sol[k,]
-		sv[[k]] <-  new("survObj")
+		sv[[k]] <-  new("survObjOverDisp")
 		sv[[k]]@fit <- dummy.fit       
 	}
 	
