@@ -5,7 +5,7 @@
 Builds a compound F matrix.
 }
 \description{
-  Uses fecundity object, and environmental transition objects to construct a matrix defining probabilities for transitions between sizes due to fecundity given both a continuous state (e.g. size) and environmental state, as well as a discrete stage if necessary (e.g. seedbank). 
+  Uses fecundity object, and environmental transition objects to construct a matrix defining probabilities for transitions between sizes due to fecundity given both a continuous state (e.g. size) and environmental state, as well as a discrete stage if necessary (e.g. seedbank). Currently only pre-census fertility can be handled.  
 }
 \usage{
 create.compound.Fmatrix(nEnvClass = 2, nBigMatrix = 50,
