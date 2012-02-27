@@ -2,11 +2,10 @@
 \alias{growSurv}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function combining growth and survival
+Combines growth and survival.
 }
 \description{
-Function to predict the pdf of size at t+1 given size at t and survival
-probability as a function of size at t, given a growth and survival object
+Predicts the probability density function of continuous (e.g. size) stage at time t+1 given stage values at time t and survival probability as a function of stage values at time t, given a growth and survival object.
 }
 \usage{
 growSurv(size, sizeNext, cov, growthObj, survObj)
@@ -14,33 +13,33 @@ growSurv(size, sizeNext, cov, growthObj, survObj)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{size}{
-    vector of current size(s)
+    vector of current size(s).
 }
   \item{sizeNext}{
-    vector of future size(s)
+    vector of future size(s).
 }
   \item{cov}{
-    covariate level (numeric of length 1)
+    covariate level (numeric of length 1).
 }
   \item{growthObj}{
-    a growth object
+    a growth object.
 }
 \item{survObj}{
-  a survival object
+  a survival object.
 }
 }
 \details{
 \code{create.IPM.Tmatrix} and variants there-of apply \code{outer} to this function to efficiently obtain the IPM T matrix. 
 }
 \value{
-numeric defining the pdf (probability density function)
+numeric defining the pdf (probability density function).
 }
 \references{
-Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81 p694-708
+Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81, p694-708.
 
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 Code developed following Mark Rees, Dylan Childs & Karen Rose
@@ -55,7 +54,10 @@ Code developed following Mark Rees, Dylan Childs & Karen Rose
 dff<-generateData()
 gr1<-makeGrowthObj(dff)
 sv1 <- makeSurvObj(dff)
-growSurv(1,1:5,1,gr1,sv1)
+sizeRange <- c(1:20)
+sizeInit <- 1
+growSurv(sizeInit, sizeRange, 1, gr1, sv1)
+plot(growSurv(1, sizeRange, 1, gr1, sv1), type="l", col="dark gray", xlab = "Continuous (e.g. size) stage at time t+1", ylab = paste("Probability of survival to a specific size in t+1 from size ", sizeInit, " at time t"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
