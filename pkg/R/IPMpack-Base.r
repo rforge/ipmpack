@@ -1461,7 +1461,7 @@ StochPassageTime <- function(chosen.size,IPM.matrix,envMatrix){
 			time.to.absorb <-colSums(eta1)
 			
 			return(time.to.absorb)
-		})
+		}
 
 
 
