@@ -1808,12 +1808,7 @@ sensParams <- function(growObj,survObj,fecObj,
 #
 # Returns lambda_s (no density dependence)
 
-setGeneric("StochGrowthRateSampleList",
-		function(list.IPM.matrix, n.runin, Tmax) standardGeneric("StochGrowthRateSampleList"))
-
-setMethod("StochGrowthRateSampleList",
-		c("list","numeric","numeric"),
-		function(list.IPM.matrix,n.runin,Tmax){
+StochGrowthRateSampleList <- function(list.IPM.matrix,n.runin,Tmax){
 			require(MASS)
 			
 			nmatrices <- length(list.IPM.matrix)
@@ -1832,7 +1827,7 @@ setMethod("StochGrowthRateSampleList",
 			
 			res <- mean(Rt[n.runin:Tmax],na.rm=TRUE)
 			return(res)
-		})
+		}
 
 
 # Approach to get stoch rate
