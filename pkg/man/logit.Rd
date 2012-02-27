@@ -1,10 +1,11 @@
 \name{logit}
 \alias{logit}
 %- Also NEED an '\alias' for EACH other topic documented here.
-\title{ Function to run a logistic transform
+\title{
+Implements a logistic transform.
 }
 \description{
-Provided a vector or numeric changes it into a vector on 0-1 using the logit transform
+Provided a vector or numeric changes it into a vector on 0-1 using the logit transform.
 }
 \usage{
 logit(x)
@@ -12,7 +13,7 @@ logit(x)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
 \item{x}{
-vector of numbers for which the transform is required
+vector of numbers for which the transform is required.
 }
 }
 \details{
@@ -29,7 +30,7 @@ vector of numbers for which the transform is required
 %% ~put references to the literature/web site here ~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
@@ -42,7 +43,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 x <- rnorm(100)
-plot(sort(x),logit(sort(x)), type="l", xlab="x", ylab="Transformed x")
+plot(sort(x), logit(sort(x)), type = "l", xlab = "x", ylab = 
+"Transformed x", col = "dark gray")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
