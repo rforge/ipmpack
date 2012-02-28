@@ -8,7 +8,7 @@ Builds list of F (sexual reproduction) matrices from lists of growth, survival a
 Uses posteriors (or other) lists of growth, fecundity and survival objects to create a list of F (sexual reproduction) matrices.
 }
 \usage{
-makeListFmatrix(fecObjList, nBigMatrix, minSize, maxSize, cov = FALSE, envMat = NULL)
+makeListFmatrix(fecObjList, nBigMatrix, minSize, maxSize, cov = FALSE, envMat = NULL, integrateType = "midpoint",correction = "none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -30,6 +30,15 @@ makeListFmatrix(fecObjList, nBigMatrix, minSize, maxSize, cov = FALSE, envMat = 
   \item{envMat}{
 	environmental matrix, defaults to NULL.
 }
+  \item{integrateType}{
+    integration type, defaults to "midpoint" (which uses probability density
+    function); other option is "cumul" (which uses the cumulative density function).
+  }
+  \item{correction}{
+    correction type, defaults to "none"; option is "constant" which will
+    multiply every column of the IPM by a constant sufficient to adjust
+    values to those predicted for survival at that size. 
+  }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~

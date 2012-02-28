@@ -877,7 +877,7 @@ makePostFecObjs <- function(dataf,
 		
 	}
 	
-	print(length(fit[[1]]$Sol[,1]))	
+	#print(length(fit[[1]]$Sol[,1]))	
 	
 	#create list of growth models reflecing posterior
 	fv <- list()
@@ -918,7 +918,8 @@ makePostFecObjs <- function(dataf,
 # 
 # Returns    - a list of Tmatrices
 makeListTmatrix <- function(growObjList,survObjList,
-		nBigMatrix,minSize,maxSize, cov=FALSE, envMat=NULL) {
+		nBigMatrix,minSize,maxSize, cov=FALSE, envMat=NULL,
+		integrateType="midpoint",correction="none") {
 	
 	if (length(growObjList)>length(survObjList)) { 
 		survObjList <- sample(survObjList,size=length(growObjList),replace=TRUE)
@@ -934,13 +935,13 @@ makeListTmatrix <- function(growObjList,survObjList,
 		if (!cov) {
 			Tmatrixlist[[k]] <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, growObj = growObjList[[k]],
-					survObj = survObjList[[k]]) 
+					survObj = survObjList[[k]],integrateType=integrateType, correction=correction) 
 		} else {
 			Tmatrixlist[[k]] <- create.compound.Tmatrix(nEnvClass = length(envMat[1,]),
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=envMat,
 					growObj = growObjList[[k]],
-					survObj = survObjList[[k]])    
+					survObj = survObjList[[k]],integrateType=integrateType, correction=correction)    
 		}
 	}
 	
@@ -949,7 +950,8 @@ makeListTmatrix <- function(growObjList,survObjList,
 
 # Function to take a list of growth and survival objects and make a list of Fmatrices
 
-makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE, envMat=NULL) {
+makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE, 
+		envMat=NULL,integrateType="midpoint",correction="none") {
 	
 	nsamp <- max(length(fecObjList))
 	if (length(fecObjList)<nsamp)  
@@ -960,12 +962,12 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE, en
 		if (!cov) { 
 			Fmatrixlist[[k]] <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, 
-					fecObj=fecObjList[[k]])
+					fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)
 		} else {
 			Fmatrixlist[[k]] <- create.compound.Fmatrix(nEnvClass = length(envMat[1,]),
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=envMat,
-					fecObj=fecObjList[[k]])
+					fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)
 		}
 		
 		Fmatrixlist[[k]] <-  Fmatrixlist[[k]]

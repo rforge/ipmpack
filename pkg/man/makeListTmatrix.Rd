@@ -8,7 +8,7 @@
   Uses posteriors (or other) lists of growth and survival objects to create a list of T matrices.
 }
 \usage{
-makeListTmatrix(growObjList, survObjList, nBigMatrix, minSize, maxSize, cov = FALSE, envMat = NULL)
+makeListTmatrix(growObjList, survObjList, nBigMatrix, minSize, maxSize, cov = FALSE, envMat = NULL, integrateType = "midpoint",correction = "none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,6 +32,15 @@ makeListTmatrix(growObjList, survObjList, nBigMatrix, minSize, maxSize, cov = FA
   }
   \item{envMat}{
     environmental matrix - defaults to NULL.
+  }
+  \item{integrateType}{
+    integration type, defaults to "midpoint" (which uses probability density
+    function); other option is "cumul" (which uses the cumulative density function).
+  }
+  \item{correction}{
+    correction type, defaults to "none"; option is "constant" which will
+    multiply every column of the IPM by a constant sufficient to adjust
+    values to those predicted for survival at that size. 
   }
 }
 \details{
