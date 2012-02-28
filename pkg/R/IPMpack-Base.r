@@ -906,7 +906,10 @@ create.IPM.Fmatrix <- function(fecObj,
 	}
 	
 	#warning about negative numbers
-	if (min(get.matrix)<0) print("Warning: fertility values < 0 exist in matrix, consider transforms.") 
+	if (min(get.matrix)<0) { 
+		print("Warning: fertility values < 0 exist in matrix, consider transforms. Negative values set to zero") 
+		get.matrix[get.matrix<0] <- 0
+	}
 	
 	rc <- new("IPM.matrix",
 			n.discrete = ndisc,
@@ -1000,8 +1003,7 @@ create.compound.Fmatrix <- function(nEnvClass = 2,
 		
 	}
 	
-	#warning about negative numbers
-	if (min(megamatrix)<0) print("Warning: fertility values < 0 exist in matrix, consider transforms.") 
+	#warning about negative numbers should appear from create.IPM.Fmatrix
 	
 	
 	rc <- new("IPM.matrix",
