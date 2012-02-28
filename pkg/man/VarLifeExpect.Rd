@@ -2,10 +2,10 @@
 \alias{VarLifeExpect}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function to calculate variation in life expectancy in a discretely stochastic environment
+Calculates variation in life expectancy in a discretely stochastic environment.
 }
 \description{
-  Provided a T matrix, defining survival transitions across size, this function provides a vector with variance in life expectancy in units of the time-step used, for each of the size bins
+  Provided a T matrix, defining survival transitions across size, this function provides a vector with variance in life expectancy in units of the time-step used, for each of the size bins.
 }
 \usage{
 VarLifeExpect(IPM.matrix)
@@ -13,27 +13,27 @@ VarLifeExpect(IPM.matrix)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{IPM.matrix}{
-    an IPM.matrix object defining survival transitions
+    an IPM.matrix object defining survival transitions.
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-  a vector of variance in life-expectancies each corresponding to Tmatrix@meshpoints
+  a vector of variance in life-expectancies each corresponding to Tmatrix@meshpoints.
 
 }
 \references{
 Caswell, 2001. Matrix population models: analysis, construction and
-interpretation. 2nd ed. Sinauer. p110-132
+interpretation. 2nd ed. Sinauer. p110-132.
 
-Cochran & Ellner. 1995. Simple methods for calculating age-based life history parameters for stage-structured populations. Ecological Monographs 62 p345-364.
+Cochran & Ellner. 1995. Simple methods for calculating age-based life history parameters for stage-structured populations. Ecological Monographs 62, p345-364.
 
-Tuljapurkar & Horvitz, 2006. From stage to age in variable environments. Life expectancy and survivorship. Ecology 87 p1497-1509
+Tuljapurkar & Horvitz, 2006. From stage to age in variable environments. Life expectancy and survivorship. Ecology 87, p1497-1509.
 
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
@@ -46,22 +46,19 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 }
 \examples{
-##with a single continuous state variable (e.g. size)
+# With a single continuous (e.g. size) stage
 dff <- generateData()
-Tmatrix <-create.IPM.Tmatrix(minSize=min(dff$size, na.rm = TRUE),
-maxSize=max(dff$size, na.rm = TRUE),growObj=makeGrowthObj(dff),
-survObj=makeSurvObj(dff))
-vle<-VarLifeExpect(Tmatrix)
+Tmatrix <- create.IPM.Tmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
+vle <- VarLifeExpect(Tmatrix)
 
-plot(Tmatrix@meshpoints,vle,ylab="Variation life expectancy",xlab="Size",type="l",ylim=c(0,max(vle)))
+plot(Tmatrix@meshpoints, vle, ylab = "Variation life expectancy", xlab = "Continuous (e.g. size) stage", type = "l", ylim = c(0,max(vle)))
 
 
-##with a compound matrix (discrete stages not yet defined)
-Tmatrix<-create.compound.Tmatrix(minSize=min(dff$size,na.rm=TRUE),maxSize=max(dff$size,na.rm=TRUE),growObj=makeGrowthObj(dff,explanatoryVariables="size+size2+covariate"),
-survObj=makeSurvObj(dff),envMatrix=makeEnvObj(dff))
-le<-LifeExpect(Tmatrix,makeEnvObj(dff))
+# With a compound matrix (discrete stages not yet defined)
+Tmatrix <- create.compound.Tmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff), envMatrix = makeEnvObj(dff))
+le <- LifeExpect(Tmatrix, makeEnvObj(dff))
 
-plot(Tmatrix@meshpoints,vle,ylab="Variation life expectancy",xlab="Size",type="l", ylim=range(vle))
+plot(Tmatrix@meshpoints, vle, ylab = "Variation life expectancy", xlab = "Continuous (e.g. size) stage", type = "l", ylim = range(vle))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

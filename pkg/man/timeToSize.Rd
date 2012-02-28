@@ -2,12 +2,10 @@
 \alias{timeToSize}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function to project how long it takes to get from a starting distribution to a target size
+Projects how long it takes to get from a starting distribution to a target continuous stage value.
 }
 \description{
-Provided with a starting vector reflecting starting individual sizes, this function projects forward via the 
-provided IPM until a defined proportion of the population has reach the chosen endSize. Only works for single environment
-or compound matrices (not time-varying covariates apart from a single discrete one). 
+Provided with a starting vector reflecting starting individual sizes, this function projects forward via the provided IPM until a defined proportion of the population has reach the chosen endSize. Only works for single environment or compound matrices (not time-varying covariates apart from a single discrete one). 
 }
 \usage{
 timeToSize(startingSizes, IPM, endSize, startingEnv = 1, maxT = 100, propReach = 0.01)
@@ -15,26 +13,26 @@ timeToSize(startingSizes, IPM, endSize, startingEnv = 1, maxT = 100, propReach =
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{startingSizes}{
-	vector of starting sizes reflecting sizes of individuals in the starting population (in any order)
+	vector of starting sizes reflecting sizes of individuals in the starting population (in any order).
 }
   \item{IPM}{
-the IPM Tmatrix 
+the IPM Tmatrix.
 }
   \item{endSize}{
-the end size
+the end size.
 }
   \item{startingEnv}{
-vector of starting env, same length as startingSizes, or length=1 if compound matrices are not being used. 
+vector of starting env, same length as startingSizes, or length = 1 if compound matrices are not being used. 
 }
   \item{maxT}{
-the max number of time steps tested
+the max number of time steps tested.
 }
   \item{propReach}{
-the proportion of the starting pop that have to be > than the endSize for it to count
+the proportion of the starting pop that have to be > than the endSize for it to count.
 }
 }
 \details{
-Plots and returned values of survivorship from preliminary runs will give a notion of how low this has to be
+Plots and returned values of survivorship from preliminary runs will give a notion of how low this has to be.
 }
 \value{
  \item{ts.dist}{ the time-series of size distribution}
@@ -43,10 +41,10 @@ Plots and returned values of survivorship from preliminary runs will give a noti
 }
 \references{
 Caswell, 2001. Matrix population models: analysis, construction and
-interpretation. Sinauer. 
+interpretation. 2nd ed. Sinauer. 
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
@@ -60,16 +58,15 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff <- generateData()
 startSizes <- rnorm(100, 2, 1)
-Tmatrix <-create.IPM.Tmatrix(minSize = 1.2*min(dff$size, na.rm=TRUE),
-maxSize= 1.2*max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
+Tmatrix <- create.IPM.Tmatrix(minSize = 1.2*min(dff$size, na.rm=TRUE),
+maxSize = 1.2*max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
 
-#CURRENTLY NOT WORKING VERY WELL
-rc <- timeToSize(startingSizes=startSizes, IPM = Tmatrix, endSize= 10, 
+rc <- timeToSize(startingSizes = startSizes, IPM = Tmatrix, endSize = 10, 
 startingEnv = 1, maxT = 1000, propReach = 0.005)
 
 names(rc)
 
-par(mfrow=c(2,2),bty="l")
+par(mfrow=c(2,2), bty = "l")
 ## Make picture with lines for distribution of population on different time points
 matplot(Tmatrix@meshpoints, rc$ts.dist, type = "l", xlab = "size", ylab = "Number of individuals")
 
@@ -80,7 +77,6 @@ rc$time.reach
 plot(rc$survivorship, type = "l", #log = "y", 
 xlab = "time step", ylab = "Probability original population survival", 
 ylim = c(0,1), col = "gray")
-
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

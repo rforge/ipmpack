@@ -2,11 +2,11 @@
 \alias{wrapHossfeld}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Fitting Hossfeld growth function
+Fitting Hossfeld growth function.
 }
 \description{
 Function to define deviance of a Hossfeld function for use with optim to
-generate a Hossfeld growth object
+generate a Hossfeld growth object.
 }
 \usage{
 wrapHossfeld(par, dataf)
@@ -14,10 +14,10 @@ wrapHossfeld(par, dataf)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{par}{
-    vector of length three
+    vector of length three.
 }
   \item{dataf}{
-    dataframe with columns size and incr
+    dataframe with columns size and incr.
 }
 }
 \details{
@@ -31,11 +31,11 @@ wrapHossfeld(par, dataf)
 %% ...
 }
 \references{
-Zuidema, Jongejans, Chien, During & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98 p345-355
+Zuidema, Jongejans, Chien, During & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98, p345-355.
 
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
@@ -48,16 +48,15 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
  }
 \examples{
 
-#simulate data and create a column for growth increment
+# Simulate data and create a column for growth increment
 dff<-generateData()
-dff$incr<-dff$sizeNext-dff$size
+dff$incr <- dff$sizeNext - dff$size
 
-#current sum of squares
-wrapHossfeld(c(1,1,1),dff)
+# Current sum of squares
+wrapHossfeld(c(1, 1, 1), dff)
 
-#use optim to get best parameters values [not run]
-tmp<-optim(c(1,1,1),wrapHossfeld,dataf=dff,method="Nelder-Mead")
-
+# Use optim to get best parameters values [not run]
+tmp <- optim(c(1, 1, 1), wrapHossfeld, dataf = dff, method = "Nelder-Mead")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
