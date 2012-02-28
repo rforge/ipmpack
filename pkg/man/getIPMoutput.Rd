@@ -82,8 +82,8 @@ for (j in 1:nrow(res$LE)) points(Tlist[[1]]@meshpoints,res$LE[j,],col=j, type="l
 plot(Tlist[[1]]@meshpoints,res$pTime[1, ], xlab = "Continuous (e.g. size) stage", ylab = "Passage time", type = "l", ylim = range(res$pTime, na.rm=TRUE))
 for (j in 1:nrow(res$pTime)) points(Tlist[[1]]@meshpoints, res$pTime[j, ], col = j, type = "l")
 
-plot(Tlist[[1]]@meshpoints, res$stableStage[1, ], xlab = "Continuous (e.g. size) stage", ylab = "Stable stage distribution", type = "l", ylim = range(res$stableStage, na.rm=TRUE))
-for (j in 1:nrow(res$stableStage)) points(Tlist[[1]]@meshpoints, res$stableStage[j, ],col = j, type = "l")
+plot(Tlist[[1]]@meshpoints, Re(res$stableStage[1, ]), xlab = "Continuous (e.g. size) stage", ylab = "Stable stage distribution", type = "l", ylim = range(Re(res$stableStage), na.rm=TRUE))
+for (j in 1:nrow(res$stableStage)) points(Tlist[[1]]@meshpoints, Re(res$stableStage[j, ]),col = j, type = "l")
 
 hist(res$lambda, xlab = expression(lambda), ylab = "", main = "", col = "grey")
 }
