@@ -870,7 +870,7 @@ makePostFecObjs <- function(dataf,
 		
 		fit[[i]] <- MCMCglmm(Formula,
 				data=dataf[!is.na(dataf[,fecNames[i]]),], 
-				verbose=FALSE, nitt=nitt,family=Family[i],nitt=nitt)
+				verbose=FALSE, nitt=nitt,family=Family[i])
 		
 		dummy.fit[[i]] <- glm(Formula,
 				data=dataf[!is.na(dataf[,fecNames[i]]),],family=Family[i])
