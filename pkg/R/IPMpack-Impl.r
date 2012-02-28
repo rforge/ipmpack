@@ -764,7 +764,7 @@ makePostSurvivalObjs <- function(dataf,
 	#avoid fitting a prior unless you need to (takes longer with)
     fit<-MCMCglmm(Formula, data=dataf[!is.na(dataf$surv),], 
 			verbose=FALSE,prior=list(R=list(V=1, fix=1)),
-			family="categorical")        
+			family="categorical",nitt=nitt)        
 	
 	dummy.fit <- glm(Formula, data=dataf,family=binomial)
 	
@@ -870,13 +870,14 @@ makePostFecObjs <- function(dataf,
 		
 		fit[[i]] <- MCMCglmm(Formula,
 				data=dataf[!is.na(dataf[,fecNames[i]]),], 
-				verbose=FALSE, nitt=nitt,family=Family[i])
+				verbose=FALSE, nitt=nitt,family=Family[i],nitt=nitt)
 		
 		dummy.fit[[i]] <- glm(Formula,
 				data=dataf[!is.na(dataf[,fecNames[i]]),],family=Family[i])
 		
 	}
 	
+	print(length(fit[[1]]$Sol[,1]))	
 	
 	#create list of growth models reflecing posterior
 	fv <- list()
@@ -898,6 +899,7 @@ makePostFecObjs <- function(dataf,
 		fv[[k]]@fec.by.discrete <- fec.by.discrete
 		fv[[k]]@Transform <- Transform 
 	}
+	print(k)
 	
 	return(fv)
 	
