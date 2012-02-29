@@ -43,7 +43,6 @@ The models build use only \code{lm} or \code{glm} (and not \code{mcmcGLMM} for e
 Plotting calls the functions \code{plotGrowthModelComp} or \code{plotSurvModelComp} to plot the objects.  These functions can also be called after building the model comparison lists that are returned.  If called outside of the initial building functions, they need to receive the \code{GrowthObjects} or \code{SurvObjects} list in the outputList from the build function.  See \code{plotGrowthModelComp} and \code{plotSurvModelComp} for more details.  
 \value{
   a list with a summary table of class \code{dataframe} with models and scores and list of containing the objects of class grObj and survObj for each model.
-
 }
 \references{
 }
