@@ -759,10 +759,10 @@ create.MPM.Fmatrix <- function(dataf, bins,offspringClasses=1, offspringProp=1, 
 			covDf$size3 <- sizeSorted ^ 3
 		}
 		if(expVar[i] == "logsize") {
-			covDf$size2 <- log(sizeSorted)
+			covDf$logsize <- log(sizeSorted)
 		}
 		if(expVar[i] == "logsize2") {
-			covDf$size2 <- log(sizeSorted ^ 2)
+			covDf$logsize2 <- log(sizeSorted ^ 2)
 		}
 	}
 	return(covDf)
@@ -801,7 +801,7 @@ growthModelComp <- function(dataf,
 	
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
-		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, testType = testType,  plotLegend = TRUE, mainTitle)
+		plotGrowthModelComp(grObj, summaryTable, dataf, expVars, testType,  plotLegend = TRUE, mainTitle)
 	}
 	return(outputList)
 }
@@ -834,7 +834,7 @@ survModelComp <- function(dataf,
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
 		## this is the surv picture    
-		plotSurvModelComp( svObj, summaryTable, dataf, expVars, testType = testType, plotLegend = TRUE, mainTitle)
+		plotSurvModelComp( svObj, summaryTable, dataf, expVars, testType, plotLegend = TRUE, mainTitle)
 	}
 	return(outputList)
 }	
@@ -842,7 +842,7 @@ survModelComp <- function(dataf,
 # Plot functions for model comparison.  Plots the series of fitted models for growth and survival objects.  
 # Can plot a legend with the model covariates and model test criterion scores (defaults to AIC).
 
-plotGrowthModelComp <- function(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, testType = "AIC", plotLegend = TRUE, mainTitle = "") {
+plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, testType = "AIC", plotLegend = TRUE, mainTitle = "") {
 	treatN <- length(grObj)
 	sizeSorted <- unique(sort(dataf$size))
 	plot(dataf$size, dataf$sizeNext, pch = 19, xlab = "Size at t", ylab = "Size at t + 1", main = mainTitle, cex = 0.8)
@@ -856,7 +856,7 @@ plotGrowthModelComp <- function(grObj = grObj, summaryTable = summaryTable, data
 	}
 }
 
-plotSurvModelComp <- function(svObj = survObj, summaryTable = summaryTable, dataf = dataf,  expVars, testType = "AIC", plotLegend = TRUE, mainTitle = "") {
+plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "AIC", plotLegend = TRUE, mainTitle = "") {
 	treatN <- length(svObj)
 	ncuts <- 20  # survival bins
 	os <- order(dataf$size)  # order size
