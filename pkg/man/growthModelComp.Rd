@@ -20,7 +20,7 @@ survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), regre
     vector, list of covariates.  Defaults to \code{c("1",  "size", "size + size2")}.
   }
   \item{regressionType}{
-    character string identifying whether the type of regression run will have constant or changing variance.  Defaults to \code{constantVar}.
+    character string identifying whether the type of regression run will have constant or changing variance (for \code{growthModelComp}.  Defaults to \code{constantVar}.
   }
   \item{respType}{
     character string identifying the response variable for the growthModelComp.  wither \code{"sizeNext"}, \code{"logincr"} or \code{"incr"}. Defaults to \code{sizeNext}. 

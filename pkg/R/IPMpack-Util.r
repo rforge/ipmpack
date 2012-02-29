@@ -809,23 +809,18 @@ growthModelComp <- function(dataf,
 
 survModelComp <- function(dataf, 
 		expVars = c("1", "size", "size + size2"), 
-		regressionType = "constantVar",
 		testType = "AIC",
 		makePlot = FALSE,
 		mainTitle = "") {
-	
 	varN <- length(expVars)
-	typeN <- length(regressionType)
-	treatN <- varN * typeN
+	treatN <- varN
 	summaryTable <- data.frame()
 	svObj <- vector("list", length = treatN)
 	i <- 1
 	for(v in 1:varN) {
-		for(t in 1:typeN) {
-			svObj[[i]] <- makeSurvObj(dataf, explanatoryVariables = expVars[v]) 
-			summaryTable <- rbind(summaryTable, cbind(expVars[v], regressionType[t], match.fun(testType)(svObj[[i]]@fit)))
-			i <- i + 1
-		}
+		svObj[[i]] <- makeSurvObj(dataf, explanatoryVariables = expVars[v]) 
+		summaryTable <- rbind(summaryTable, cbind(expVars[v], match.fun(testType)(svObj[[i]]@fit)))
+		i <- i + 1
 	}
 	summaryTable <- as.data.frame(summaryTable)
 	names(summaryTable) <- c("Exp. Vars", "Reg. Type", testType)
