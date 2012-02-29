@@ -790,7 +790,7 @@ growthModelComp <- function(dataf,
 	i <- 1
 	for(v in 1:varN) {
 		for(t in 1:typeN) {
-			grObj[[i]] <- makeGrowthObj(dataf, regType = regressionType[t], explanatoryVariables = expVars[v], respType) 
+			grObj[[i]] <- makeGrowthObj(dataf = dataf, regType = regressionType[t], explanatoryVariables = expVars[v], respType = respType) 
 			summaryTable <- rbind(summaryTable, cbind(expVars[v], regressionType[t], respType, match.fun(testType)(grObj[[i]]@fit)))
 			i <- i + 1
 		}
@@ -818,7 +818,7 @@ survModelComp <- function(dataf,
 	svObj <- vector("list", length = treatN)
 	i <- 1
 	for(v in 1:varN) {
-		svObj[[i]] <- makeSurvObj(dataf, explanatoryVariables = expVars[v]) 
+		svObj[[i]] <- makeSurvObj(dataf = dataf, explanatoryVariables = expVars[v]) 
 		summaryTable <- rbind(summaryTable, cbind(expVars[v], match.fun(testType)(svObj[[i]]@fit)))
 		i <- i + 1
 	}
