@@ -29,7 +29,7 @@ integrateType, correction)
   }
   \item{chosen.cov}{
     numeric indicating level of the discrete covariate, or vector
-    setting values where multiple covarites are modeled.
+    setting values where multiple covariates are modeled.
   }
   \item{growObj}{
     growth object.
