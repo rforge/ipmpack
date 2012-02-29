@@ -8,7 +8,7 @@ Compares growth and survival objects built from different covariate sets.
 }
 \description{
 Function compares model fits for growth and survival objects built with different linear combinations of covariates.  Growth can have multiple response forms. 
-Returns a list containing a summary table of covariates and scores, and a nother list containing all of the growth (or survival) objects used in the comparison.}
+Returns a list containing a summary table of covariates and scores, and another list containing all of the growth (or survival) objects used in the comparison.}
 \usage{
 growthModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), regressionType = "constantVar", respType = "sizeNext", testType = "AIC", makePlot = FALSE, mainTitle = "")
 		

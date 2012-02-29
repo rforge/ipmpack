@@ -797,7 +797,7 @@ growthModelComp <- function(dataf,
 	}
 	summaryTable <- as.data.frame(summaryTable)
 	names(summaryTable) <- c("Exp. Vars", "Reg. Type", "Resp. Type", testType)
-	outputList <- list(Summary = summaryTable, Growth0bjects = grObj)
+	outputList <- list(summaryTable = summaryTable, growthObjects = grObj)
 	
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
@@ -829,7 +829,7 @@ survModelComp <- function(dataf,
 	}
 	summaryTable <- as.data.frame(summaryTable)
 	names(summaryTable) <- c("Exp. Vars", "Reg. Type", testType)
-	outputList <- list(Summary = summaryTable, Surv0bjects = svObj)
+	outputList <- list(summaryTable = summaryTable, survObjects = svObj)
 	
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
@@ -842,7 +842,8 @@ survModelComp <- function(dataf,
 # Plot functions for model comparison.  Plots the series of fitted models for growth and survival objects.  
 # Can plot a legend with the model covariates and model test criterion scores (defaults to AIC).
 
-plotGrowthModelComp <- function(dataf, treatN, expVars, grObj, testType, summaryTable, plotLegend = TRUE, mainTitle = "") {
+plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, respType = "sizeNext", plotLegend = TRUE, mainTitle = "") {
+	treatN <- length(grObj)
 	sizeSorted <- unique(sort(dataf$size))
 	plot(dataf$size, dataf$sizeNext, pch = 19, xlab = "Size at t", ylab = "Size at t + 1", main = mainTitle, cex = 0.8)
 	for(p in 1:treatN) {
@@ -855,7 +856,8 @@ plotGrowthModelComp <- function(dataf, treatN, expVars, grObj, testType, summary
 	}
 }
 
-plotSurvModelComp <- function(dataf, treatN, svObj, expVars, testType, summaryTable, plotLegend = TRUE, mainTitle = "") {
+plotSurvModelComp <- function( svObj, dataf, treatN, expVars, summaryTable, plotLegend = TRUE, mainTitle = "") {
+	treatN <- length(svObj)
 	ncuts <- 20  # survival bins
 	os <- order(dataf$size)  # order size
 	osSurv <- (dataf$surv)[os] # order survival data according to size
