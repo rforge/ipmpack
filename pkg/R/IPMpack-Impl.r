@@ -372,19 +372,19 @@ makeFecObj <- function(dataf,
 		fecNames=NA,
 		mean.offspring.size=NA,
 		var.offspring.size=NA,
-		OffspringSplitter=data.frame(continuous=1),
+		offspringSplitter=data.frame(continuous=1),
 		fec.by.discrete=data.frame(NA)){
 	
 	#order stage names from discrete to continuous
 	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
 	stages <- stages[stages!="dead"] 
 	stages <- c(stages[stages!="continuous"],"continuous") 
-	if ((sum(names(OffspringSplitter)%in%stages)/length(OffspringSplitter))<1) {
-		stop("Error - the variable names in your OffspringSplitter data.frame are not all part of the levels of stage or stageNext in your data file. Please fix this by adjusting your OffspringSplitter entry to include the correct variable names, e.g. OffspringSplitter=data.frame(continuous=.7,seedAge1=.3)")
+	if ((sum(names(offspringSplitter)%in%stages)/length(offspringSplitter))<1) {
+		stop("Error - the variable names in your offspringSplitter data.frame are not all part of the levels of stage or stageNext in your data file. Please fix this by adjusting your offspringSplitter entry to include the correct variable names, e.g. offspringSplitter=data.frame(continuous=.7,seedAge1=.3)")
 	}
 	dummy<-rep(0,length(stages));names(dummy)<-stages;dummy<-as.data.frame(t(as.matrix(dummy)))
-	for (i in names(OffspringSplitter)) dummy[i]<-OffspringSplitter[i]
-	OffspringSplitter <- dummy
+	for (i in names(offspringSplitter)) dummy[i]<-offspringSplitter[i]
+	offspringSplitter <- dummy
 	
 	##warnings
 	if (length(dataf$stage)==0) {
@@ -394,16 +394,16 @@ makeFecObj <- function(dataf,
 		dataf$stageNext[is.na(dataf$sizeNext)] <- "dead"
 	}
 	
-	if (ncol(OffspringSplitter)>1 & (ncol(OffspringSplitter)-1)!=ncol(fec.by.discrete)) {
+	if (ncol(offspringSplitter)>1 & (ncol(offspringSplitter)-1)!=ncol(fec.by.discrete)) {
 		print("Warning - offspring splitter indicates more than just continuous stages. No fecundity by the discrete stages supplied in fec.by.discrete; assumed that is 0")
-		#fec.by.discrete <- matrix(0,col(OffspringSplitter)-1,col(OffspringSplitter)-1)
-		fec.by.discrete <- OffspringSplitter[,1:(ncol(OffspringSplitter)-1)]
+		#fec.by.discrete <- matrix(0,col(offspringSplitter)-1,col(offspringSplitter)-1)
+		fec.by.discrete <- offspringSplitter[,1:(ncol(offspringSplitter)-1)]
 		fec.by.discrete[] <- 0
 	}
 	
-	if (sum(OffspringSplitter)!=1) {
+	if (sum(offspringSplitter)!=1) {
 		print("Warning - offspring splitter does not sum to 1. It is now rescaled to sum to 1.")
-		OffspringSplitter <- OffspringSplitter / sum(OffspringSplitter) 
+		offspringSplitter <- offspringSplitter / sum(offspringSplitter) 
 	}
 	
 	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
@@ -453,7 +453,7 @@ makeFecObj <- function(dataf,
 	f1@fecConstants <- fecConstants
 	f1@mean.offspring.size <- mean.offspring.size
 	f1@var.offspring.size <- var.offspring.size
-	f1@OffspringSplitter <- OffspringSplitter 
+	f1@offspringSplitter <- offspringSplitter 
 	f1@fec.by.discrete <- fec.by.discrete
 	f1@Transform <- Transform
 	return(f1)
@@ -470,7 +470,7 @@ makeFecObjManyCov <- function(dataf,
 		Transform="none",
 		mean.offspring.size=NA,
 		var.offspring.size=NA,
-		OffspringSplitter=data.frame(continuous=1),
+		offspringSplitter=data.frame(continuous=1),
 		fec.by.discrete=data.frame(NA)){
 	
 	##warnings
@@ -481,12 +481,12 @@ makeFecObjManyCov <- function(dataf,
 		dataf$stageNext[is.na(dataf$sizeNext)] <- "dead"
 	}
 	
-	if(ncol(OffspringSplitter)>1 & (ncol(OffspringSplitter)-1)!=ncol(fec.by.discrete)) {
+	if(ncol(offspringSplitter)>1 & (ncol(offspringSplitter)-1)!=ncol(fec.by.discrete)) {
 		print("Warning - offspring splitter indicates more than just continuous stages. No fecundity by the discrete stages supplied in fec.by.discrete; assumed that is 0")
-		fec.by.discrete <- matrix(0,col(OffspringSplitter)-1,col(OffspringSplitter)-1)
+		fec.by.discrete <- matrix(0,col(offspringSplitter)-1,col(offspringSplitter)-1)
 	}
 	
-	if(sum(OffspringSplitter)!=1) {
+	if(sum(offspringSplitter)!=1) {
 		print("Warning - offspring splitter does not sum to 1. It is now rescaled to sum to 1.")
 		
 	}
@@ -536,7 +536,7 @@ makeFecObjManyCov <- function(dataf,
 	f1@fecConstants <- fecConstants
 	f1@mean.offspring.size <- mean.offspring.size
 	f1@var.offspring.size <- var.offspring.size
-	f1@OffspringSplitter <- OffspringSplitter 
+	f1@offspringSplitter <- offspringSplitter 
 	f1@fec.by.discrete <- fec.by.discrete
 	f1@Transform <- Transform
 	return(f1)
@@ -556,7 +556,7 @@ makeFecObjManyCov <- function(dataf,
 #
 # Returns - an object of class discreteTrans
 #
-makediscreteTrans <- function(dataf) {
+makeDiscreteTrans <- function(dataf) {
 	
 	#order stage names from discrete to continuous
 	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
@@ -801,7 +801,7 @@ makePostFecObjs <- function(dataf,
 		Transform="none",
 		mean.offspring.size=NA,
 		var.offspring.size=NA,
-		OffspringSplitter=data.frame(continuous=1),
+		offspringSplitter=data.frame(continuous=1),
 		fec.by.discrete=data.frame(NA),nitt=50000) {
 	
 	require(MCMCglmm)
@@ -814,9 +814,9 @@ makePostFecObjs <- function(dataf,
 		dataf$stageNext[is.na(dataf$sizeNext)] <- "dead"
 	}
 	
-	if(ncol(OffspringSplitter)>1 & (ncol(OffspringSplitter)-1)!=ncol(fec.by.discrete)) {
+	if(ncol(offspringSplitter)>1 & (ncol(offspringSplitter)-1)!=ncol(fec.by.discrete)) {
 		print("Warning - offspring splitter indicates more than just continuous stages. No fecundity by the discrete stages supplied in fec.by.discrete; assumed that is 0")
-		fec.by.discrete <- matrix(0,col(OffspringSplitter)-1,col(OffspringSplitter)-1)
+		fec.by.discrete <- matrix(0,col(offspringSplitter)-1,col(offspringSplitter)-1)
 	}
 	
     #setup for discrete covariates if data suggests may be implemented by the
@@ -895,7 +895,7 @@ makePostFecObjs <- function(dataf,
 		fv[[k]]@fecConstants <- fecConstants
 		fv[[k]]@mean.offspring.size <- mean.offspring.size
 		fv[[k]]@var.offspring.size <- var.offspring.size
-		fv[[k]]@OffspringSplitter <- OffspringSplitter
+		fv[[k]]@offspringSplitter <- offspringSplitter
 		fv[[k]]@fec.by.discrete <- fec.by.discrete
 		fv[[k]]@Transform <- Transform 
 	}

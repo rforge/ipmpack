@@ -47,7 +47,7 @@ create.IPM.Fmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSize
 %%
 }
 \value{
-  an object of class IPM.matrix of dimensions nBigMatrix or nBigMatrix+ndiscrete classes (defined by fecObj@OffspringSplitter-1).
+  an object of class IPM.matrix of dimensions nBigMatrix or nBigMatrix+ndiscrete classes (defined by fecObj@offspringSplitter-1).
 }
 \references{
 For information on F matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.

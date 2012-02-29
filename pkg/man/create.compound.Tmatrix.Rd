@@ -99,7 +99,7 @@ abline(v = length(Tmatrix@meshpoints)*(1:Tmatrix@nEnvClass))
 dff <- generateDataDiscrete()
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
-discM <- makediscreteTrans(dff)
+discM <- makeDiscreteTrans(dff)
 Tmatrix <- create.compound.Tmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans=discM)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -86,7 +86,7 @@ abline(v = length(Fmatrix@meshpoints)*(1:Fmatrix@nEnvClass))
 dff <- generateDataDiscrete()
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
-fv1 <- makeFecObj(dff, explanatoryVariables = "size", Transform = "log", OffspringSplitter=data.frame(continuous = 0.9, dormant = 0.1))
+fv1 <- makeFecObj(dff, explanatoryVariables = "size", Transform = "log", offspringSplitter=data.frame(continuous = 0.9, dormant = 0.1))
 Fmatrix <- create.compound.Fmatrix(minSize = min(dff$size, na.rm=TRUE),
 maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), fecObj = fv1)
 }

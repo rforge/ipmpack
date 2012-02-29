@@ -1,5 +1,5 @@
-\name{makediscreteTrans}
-\alias{makediscreteTrans}
+\name{makeDiscreteTrans}
+\alias{makeDiscreteTrans}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds matrix for transitions between discrete (e.g. seedbank) and continuous (e.g. size) stages.
@@ -11,7 +11,7 @@ Builds matrix for transitions between discrete (e.g. seedbank) and continuous (e
   The dataframe must contain columns  "stage" and "stageNext" with values of the names of the discrete classes and the name "continuous" where appropriate, in the current and subsequent time step. Continuous categories are also defined by their measurements, contained in "size" and "sizeNext". This is necessary for defining the mean and variance of the continuous stage of individuals emerging from discrete stages.
 }
 \usage{
-makediscreteTrans(dataf)
+makeDiscreteTrans(dataf)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -45,7 +45,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \examples{
 dff <- generateDataDiscrete()
-discTrans <- makediscreteTrans(dff)
+discTrans <- makeDiscreteTrans(dff)
 create.IPM.Tmatrix(nBigMatrix = 10, growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff), discreteTrans = discTrans)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
