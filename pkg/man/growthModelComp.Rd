@@ -28,39 +28,24 @@ survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), regre
   \item{testType}{
     character string identifying the metric used to compare models.  Can be any string that uses \code{loglike} from the lm or glm object.  For example \code{"AIC"} or \code{"BIC"}.  Defaults to \code{"AIC"}.
   }
-  \item{envMatrix}{
-    envMatrix object defining transitions between environmental states
-    for each size.
+  \item{makePlot}{
+    logical whether to make plots with the comparison building. Defaults to \code{FALSE}.
   }
-  \item{fecObj}{
-    fecundity object
+  \item{mainTitle}{
+    string to place as the \code{main} attribute in plots (if \code{makePlot = TRUE}.  defaults to \code{NULL}.
   }
-  \item{integrateType}{
-    integration type, defaults to "midpoint" (which uses probability density
-    function); other option is "cumul" (which uses the cumulative density function).
-  }
-  \item{correction}{
-    correction type, defaults to "none"; option is "constant" which will
-    multiply every column of the IPM by a constant sufficient to adjust
-    values to those predicted for survival at that size. 
-  }
-}
+ }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+Both \code{growthModelComp} and \code{survModelComp} use a dataframe that has variables \code{size} and \code{sizeNext} to build a series of nested models.  The default will build growth or survival objects with an intercept, an intercept and size, an an intercept with size and size^2 terms. Covariates can also be added, and require that these variables have the term "cov" in the variable name.
+
+The models build use only \code{lm} or \code{glm} (and not \code{mcmcGLMM} for example) to estimate maximum likelihood estimates of functions.  The testType (default \code{"AIC"} uses the \code{loglike} output from the lm or glm objects to score the model.  
+
+Plotting calls the functions \code{plotGrowthModelComp} or \code{plotSurvModelComp} to plot the objects.  These functions can also be called after building the model comparison lists that are returned.  If called outside of the initial building functions, they need to receive the \code{GrowthObjects} or \code{SurvObjects} list in the outputList from the build function.  See \code{plotGrowthModelComp} and \code{plotSurvModelComp} for more details.  
 \value{
-  an object of class IPM.matrix with dimensions
-  nBigMatrix*nEnvClass, or if discrete transitions exist
-  (nBigMatrix+n.disc)*nEnvClass
+  a list with a summary table of class \code{dataframe} with models and scores and list of containing the objects of class grObj and survObj for each model.
 
 }
 \references{
-For information on F matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
-
-For midpoint: Zuidema, Jongejans, Chien, During & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98, p345-355.
-
-For multiple-vital rate integration on fecundity: Yang, Jongejans, Yang & Bishop. 2011. The effect of consumers and mutualists of Vaccinum membranaceum at Mount St. Helens: dependence on successional context. PLoS One 10, p1-11.
-
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
@@ -72,26 +57,15 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{create.compound.Fmatrix}},\code{\link{create.IPM.Tmatrix}}
+\code{\link{makeGrowthObj}},\code{\link{makeSurvObj}},\code{\link{plotGrowthModelComp}}, \code{\link{plotSurvModelComp}}
 }
 \examples{
-# Data with only continuous stage and two habitats
+# Data with size and sizeNext
 dff <- generateData()
-Fmatrix <-create.compound.Fmatrix(nBigMatrix = 20, minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm=TRUE), envMatrix = makeEnvObj(dff), fecObj = makeFecObj(dff, explanatoryVariables = "size+size2+covariate", Transform = "log"))
 
-image(1:nrow(Fmatrix), 1:ncol(Fmatrix), t(log(Fmatrix)), xlab="Continuous state (e.g. size) at t", ylab="Continuous state (e.g. size) at t+1", axes = FALSE)
-axis(1, at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints, Fmatrix@nEnvClass), 2))
-axis(2,at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints,Fmatrix@nEnvClass), 2))
-abline(h = length(Fmatrix@meshpoints)*(1:Fmatrix@nEnvClass))
-abline(v = length(Fmatrix@meshpoints)*(1:Fmatrix@nEnvClass))
+growthModelComp(dff, makePlot = TRUE)
+survModelComp(dff, makePlot = TRUE)
 
-# Data with continuous and discrete stages
-dff <- generateDataDiscrete()
-dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
-dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
-fv1 <- makeFecObj(dff, explanatoryVariables = "size", Transform = "log", offspringSplitter=data.frame(continuous = 0.9, dormant = 0.1))
-Fmatrix <- create.compound.Fmatrix(minSize = min(dff$size, na.rm=TRUE),
-maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), fecObj = fv1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

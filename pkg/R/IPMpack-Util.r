@@ -75,7 +75,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		if (length(fecObjList)<nsamp)  
 			fecObjList <- sample(fecObjList,size=nsamp,replace=TRUE)
 	}
-		
+	
 	# store chosen parameters
 	surv.par <- matrix(NA,nsamp,length(survObjList[[1]]@fit$coefficients))
 	grow.par <- matrix(NA,nsamp,length(growObjList[[1]]@fit$coefficients)+1)
@@ -112,7 +112,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 					maxSize = maxSize, envMatrix=envMat,growObj = growObjList[[k]],
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
 					integrateType=integrateType, correction=correction)    
-	
+			
 		}
 		
 		LE[k,] <- MeanLifeExpect(Tmatrix) 
@@ -131,8 +131,8 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 						maxSize = maxSize, envMatrix=envMat,
 						fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)
 			}
-
-	
+			
+			
 			
 			IPM <- Tmatrix + Fmatrix
 			lambda[k] <- Re(eigen(IPM)$value[1])
@@ -627,18 +627,18 @@ run.Simple.Model <- function(dataf,
 # Returns - 
 #
 plotResultsStochStruct <- function(tvals,st,covtest,n.runin=15,log="y",...) { 
-		
+	
 	par(mfrow=c(2,2),bty="l")
 	plot(tvals[n.runin:length(tvals)],
 			colSums(st$rc[,n.runin:length(tvals)]+1),
-				xlab="Time", 
+			xlab="Time", 
 			ylab="Population size",type="l",log=log,...)
 	abline(v=1:max(tvals),lty=3)
 	covtestplot <- exp(mean(colSums(st$rc[,n.runin:length(tvals)])) +
 					((covtest-mean(covtest))/sd(covtest))*
 					sd(colSums(st$rc[,n.runin:length(tvals)])))
 	points(tvals,covtestplot+1,type="l",lty=3,col=2)
-
+	
 	if (log=="y") st$rc <- log(st$rc)
 	
 	image(tvals[n.runin:length(tvals)],
@@ -746,21 +746,25 @@ create.MPM.Fmatrix <- function(dataf, bins,offspringClasses=1, offspringProp=1, 
 # TODO: make able to use 'covariates'
 .makeCovDf <- function(size, explanatoryVariables) {
 	sizeSorted <- sort(size)
-	expVars <- expVarSplit[grep("size", expVarSplit)]
+	splitVars <- strsplit(explanatoryVariables, split = "\\+")
+	expVar <- unlist(splitVars[grep("size", splitVars)])
 	covDf <- data.frame(size = sizeSorted)
-	for(i in 1:length(expVars)) {
-		if(expVars[i] == "size2") {
+	for(i in 1:length(expVar)) {
+		if(is.null(expVar[i])) next
+		expVar[i] <- sub('[[:space:]]', '', expVar[i])
+		if(expVar[i] == "size2") {
 			covDf$size2 <- sizeSorted ^ 2
 		}
-		if(expVars[i] == "size3"){
+		if(expVar[i] == "size3"){
 			covDf$size3 <- sizeSorted ^ 3
 		}
-		if(expVars[i] == "logsize") {
+		if(expVar[i] == "logsize") {
 			covDf$size2 <- log(sizeSorted)
 		}
-		if(expVars[i] == "logsize2") {
+		if(expVar[i] == "logsize2") {
 			covDf$size2 <- log(sizeSorted ^ 2)
 		}
+	}
 	return(covDf)
 }
 
@@ -797,7 +801,7 @@ growthModelComp <- function(dataf,
 	
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
-		plotGrowthModelComp(dataf = dataf, mainTitle = mainTitle, treatN = treatN, expVars = expVars, grObj = grObj, testType = testType, summaryTable = summaryTable, plotLegend = TRUE, mainTitle)
+		plotGrowthModelComp(dataf = dataf, treatN = treatN, expVars = expVars, grObj = grObj, testType = testType, summaryTable = summaryTable, plotLegend = TRUE, mainTitle)
 	}
 	return(outputList)
 }
@@ -838,6 +842,19 @@ survModelComp <- function(dataf,
 # Plot functions for model comparison.  Plots the series of fitted models for growth and survival objects.  
 # Can plot a legend with the model covariates and model test criterion scores (defaults to AIC).
 
+plotGrowthModelComp <- function(dataf, treatN, expVars, grObj, testType, summaryTable, plotLegend = TRUE, mainTitle = "") {
+	sizeSorted <- unique(sort(dataf$size))
+	plot(dataf$size, dataf$sizeNext, pch = 19, xlab = "Size at t", ylab = "Size at t + 1", main = mainTitle, cex = 0.8)
+	for(p in 1:treatN) {
+		newd <- .makeCovDf(sizeSorted, expVars[p])
+		pred.size <- predict(grObj[[p]]@fit, newd, type = "response")
+		lines(sizeSorted, pred.size, type = "l", col = (p + 1))
+	}
+	if(plotLegend) {
+		legend("topleft", legend = sprintf("%s: %s = %.1f", expVars, testType, as.numeric(as.character(summaryTable[,4]))), col = c(2:(p + 1)), lty = 1, xjust = 1)
+	}
+}
+
 plotSurvModelComp <- function(dataf, treatN, svObj, expVars, testType, summaryTable, plotLegend = TRUE, mainTitle = "") {
 	ncuts <- 20  # survival bins
 	os <- order(dataf$size)  # order size
@@ -845,21 +862,14 @@ plotSurvModelComp <- function(dataf, treatN, svObj, expVars, testType, summaryTa
 	osSize<-(dataf$size)[os] # ordered size data
 	binnedSize <- tapply(osSize, as.numeric(cut(osSize, ncuts)), mean, na.rm = TRUE); # bin Size data
 	binnedSurv <- tapply(osSurv, as.numeric(cut(osSize, ncuts)), mean, na.rm = TRUE) #bin Survival probabilities
-	plot(as.numeric(psz), as.numeric(ps), pch = 19, xlab = "Size at t", ylab = "Survival to t + 1", main = mainTitle, cex = 0.8)
+	plot(binnedSize, binnedSurv, pch = 19, xlab = "Size at t", ylab = "Survival to t + 1", main = mainTitle, cex = 0.8)
 	for(p in 1:treatN) {
+		newd <- .makeCovDf(osSize, expVars[p])
 		lines(dataf$size[order(dataf$size)], surv(dataf$size[os], 1, svObj[[p]]), col = (p + 1))           
 	}
-	if(plotLegend) legend("bottomleft", legend = sprintf("%s: %s = %.1f", expVars, testType, as.numeric(as.character(summaryTable[,3]))), col = c(2:(p + 1)), lty = 1, xjust = 1)
+	if(plotLegend) {
+		legend("bottomleft", legend = sprintf("%s: %s = %.1f", expVars, testType, as.numeric(as.character(summaryTable[,3]))), col = c(2:(p + 1)), lty = 1, xjust = 1)
+	}
 }
 
-plotGrowthModelComp <- function(dataf, mainTitle, treatN, expVars, grObj, testType, summaryTable, plotLegend = TRUE, mainTitle = "") {
-	sizeSorted <- unique(sort(dataf$size))
-	plot(dataf$size, dataf$sizeNext, pch = 19, xlab = "Size at t", ylab = "Size at t + 1", main = mainTitle, cex = 0.8)
-	for(p in 1:treatN) {
-		newd <- makeCovDf(sizeSorted, expVars[v])
-		pred.size <- predict(grObj[[p]]@fit, newd, type = "response")
-		lines(sizeSorted, pred.size, type = "l", col = (p + 1))
-	}
-	if(plotLegend) legend("topleft", legend = sprintf("%s: %s = %.1f", expVars, testType, as.numeric(as.character(summaryTable[,3]))), col = c(2:(p + 1)), lty = 1, xjust = 1)
-}
 
