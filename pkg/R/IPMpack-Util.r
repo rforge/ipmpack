@@ -842,7 +842,7 @@ survModelComp <- function(dataf,
 # Plot functions for model comparison.  Plots the series of fitted models for growth and survival objects.  
 # Can plot a legend with the model covariates and model test criterion scores (defaults to AIC).
 
-plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, testType, respType = "sizeNext", plotLegend = TRUE, mainTitle = "") {
+plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, respType = "sizeNext", plotLegend = TRUE, mainTitle = "") {
 	treatN <- length(grObj)
 	sizeSorted <- unique(sort(dataf$size))
 	plot(dataf$size, dataf$sizeNext, pch = 19, xlab = "Size at t", ylab = "Size at t + 1", main = mainTitle, cex = 0.8)
@@ -856,7 +856,7 @@ plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, testType, r
 	}
 }
 
-plotSurvModelComp <- function( svObj, dataf, treatN, testType, expVars, summaryTable, plotLegend = TRUE, mainTitle = "") {
+plotSurvModelComp <- function(svObj, summaryTable, dataf, expVars, plotLegend = TRUE, mainTitle = "") {
 	treatN <- length(svObj)
 	ncuts <- 20  # survival bins
 	os <- order(dataf$size)  # order size

@@ -10,9 +10,9 @@ Plots compared models built with \code{growthModelComp} and \code{survModelComp}
 Function plots compared models built with \code{growthModelComp} and \code{survModelComp}. This can be invoked directly from \code{growthModelComp} and \code{survModelComp} with the argument \code{makePlot = TRUE}.
 }
 \usage{
-plotGrowthModelComp(dataf, treatN, expVars, grObj, testType, summaryTable, plotLegend = TRUE, mainTitle = "")
+plotGrowthModelComp(grObj,summaryTable, dataf, respType = "sizeNext", expVars, plotLegend = TRUE, mainTitle = "")
 		
-plotSurvModelComp(dataf, treatN, svObj, expVars, testType, summaryTable, plotLegend = TRUE, mainTitle = "") 
+plotSurvModelComp(svObj, summaryTable, dataf, expVars,  plotLegend = TRUE, mainTitle = "") 
 
 }
 %- maybe also 'usage' for other objects documented here.
