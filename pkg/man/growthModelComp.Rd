@@ -12,7 +12,7 @@ Returns a list containing a summary table of covariates and scores, and another 
 \usage{
 growthModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), regressionType = "constantVar", respType = "sizeNext", testType = "AIC", makePlot = FALSE, mainTitle = "")
 		
-survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), regressionType = "constantVar", testType = "AIC", makePlot = FALSE, mainTitle = "")
+survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), testType = "AIC", makePlot = FALSE, mainTitle = "")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -36,7 +36,8 @@ survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), regre
   }
  }
 \details{
-Both \code{growthModelComp} and \code{survModelComp} use a dataframe that has variables \code{size} and \code{sizeNext} to build a series of nested models.  The default will build growth or survival objects with an intercept, an intercept and size, an an intercept with size and size^2 terms. Covariates can also be added, and require that these variables have the term "cov" in the variable name.
+Both \code{growthModelComp} and \code{survModelComp} use a dataframe that has variables \code{size} and \code{sizeNext} to build a series of nested models.  The default will build growth or survival objects with an intercept, an intercept and size, an an intercept with size and size^2 terms. 
+%Covariates can also be added, and require that these variables have the term "cov" in the variable name. This is not TRUE? right? 
 
 The models build use only \code{lm} or \code{glm} (and not \code{mcmcGLMM} for example) to estimate maximum likelihood estimates of functions.  The testType (default \code{"AIC"} uses the \code{loglike} output from the lm or glm objects to score the model.  
 
