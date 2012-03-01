@@ -10,9 +10,9 @@ Compares growth and survival objects built from different covariate sets.
 Function compares model fits for growth and survival objects built with different linear combinations of covariates currently restricted to transforms of growth.  Growth can have multiple response forms. 
 Returns a list containing a summary table of covariates and scores, and another list containing all of the growth (or survival) objects used in the comparison.}
 \usage{
-growthModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), regressionType = "constantVar", respType = "sizeNext", testType = "AIC", makePlot = FALSE, mainTitle = "")
+growthModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), regressionType = "constantVar", respType = "sizeNext", testType = "AIC", makePlot = FALSE, mainTitle = "",...)
 		
-survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), testType = "AIC", makePlot = FALSE, mainTitle = "")
+survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), testType = "AIC", makePlot = FALSE, mainTitle = "",...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -33,6 +33,9 @@ survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), testT
   }
   \item{mainTitle}{
     string to place as the \code{main} attribute in plots (if \code{makePlot = TRUE}.  defaults to \code{NULL}.
+  }
+  \item{...}{
+	extra arguments to pass to the plot function.
   }
  }
 \details{

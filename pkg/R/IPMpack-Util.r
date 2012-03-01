@@ -781,7 +781,7 @@ growthModelComp <- function(dataf,
 		respType = "sizeNext",
 		testType = "AIC",
 		makePlot = FALSE,
-		mainTitle = "") {
+		mainTitle = "",...) {
 	varN <- length(expVars)
 	typeN <- length(regressionType)
 	treatN <- varN * typeN
@@ -801,7 +801,7 @@ growthModelComp <- function(dataf,
 	
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
-		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, respType = respType, testType = testType,  plotLegend = TRUE, mainTitle = mainTitle)
+		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, respType = respType, testType = testType,  plotLegend = TRUE, mainTitle = mainTitle,...)
 	}
 	return(outputList)
 }
@@ -811,7 +811,7 @@ survModelComp <- function(dataf,
 		expVars = c("1", "size", "size + size2"), 
 		testType = "AIC",
 		makePlot = FALSE,
-		mainTitle = "") {
+		mainTitle = "",...) {
 	varN <- length(expVars)
 	treatN <- varN
 	summaryTable <- data.frame()
@@ -829,7 +829,7 @@ survModelComp <- function(dataf,
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
 		## this is the surv picture    
-		plotSurvModelComp(svObj = svObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, testType = testType, plotLegend = TRUE, mainTitle = mainTitle)
+		plotSurvModelComp(svObj = svObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, testType = testType, plotLegend = TRUE, mainTitle = mainTitle,...)
 	}
 	return(outputList)
 }	
@@ -837,7 +837,7 @@ survModelComp <- function(dataf,
 # Plot functions for model comparison.  Plots the series of fitted models for growth and survival objects.  
 # Can plot a legend with the model covariates and model test criterion scores (defaults to AIC).
 
-plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, testType = "AIC", respType = respType, plotLegend = TRUE, mainTitle = "") {
+plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, testType = "AIC", respType = respType, plotLegend = TRUE, mainTitle = "",...) {
 	treatN <- length(grObj)
 	sizeSorted <- unique(sort(dataf$size))
 	if(respType == "sizeNext") {
@@ -852,7 +852,7 @@ plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, testType = 
 		y.lab <- "log(growth)"
 		dataSizeNext <- log(dataf$sizeNext - dataf$size)
 	}
-	plot(dataf$size, dataSizeNext, pch = 19, xlab = "Size at t", ylab = y.lab, main = mainTitle, cex = 0.8)
+	plot(dataf$size, dataSizeNext, pch = 19, xlab = "Size at t", ylab = y.lab, main = mainTitle, cex = 0.8,...)
 	for(p in 1:treatN) {
 		newd <- .makeCovDf(sizeSorted, expVars[p])
 		pred.size <- predict(grObj[[p]]@fit, newd, type = "response")
@@ -863,7 +863,7 @@ plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, testType = 
 	}
 }
 
-plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "AIC", plotLegend = TRUE, mainTitle = "") {
+plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "AIC", plotLegend = TRUE, mainTitle = "",...) {
 	treatN <- length(svObj)
 	ncuts <- 20  # survival bins
 	os <- order(dataf$size)  # order size
@@ -871,7 +871,7 @@ plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "
 	osSize<-(dataf$size)[os] # ordered size data
 	binnedSize <- tapply(osSize, as.numeric(cut(osSize, ncuts)), mean, na.rm = TRUE); # bin Size data
 	binnedSurv <- tapply(osSurv, as.numeric(cut(osSize, ncuts)), mean, na.rm = TRUE) #bin Survival probabilities
-	plot(binnedSize, binnedSurv, pch = 19, xlab = "Size at t", ylab = "Survival to t + 1", main = mainTitle, cex = 0.8)
+	plot(binnedSize, binnedSurv, pch = 19, xlab = "Size at t", ylab = "Survival to t + 1", main = mainTitle, cex = 0.8,...)
 	for(p in 1:treatN) {
 		newd <- .makeCovDf(osSize, expVars[p])
 		lines(dataf$size[order(dataf$size)], surv(dataf$size[os], 1, svObj[[p]]), col = (p + 1))           
