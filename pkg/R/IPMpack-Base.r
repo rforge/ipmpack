@@ -333,22 +333,19 @@ setMethod("growth",
 		c("numeric","numeric","numeric","growthObj.truncincr"),
 		function(size,sizeNext,cov,growthObj){
 			require(truncnorm)
-			newd <- data.frame(size=size,size2=size^2,size3=size^3,
+			
+			newd <- data.frame(blank=size*0,Intercept=size^0,
+					size=size,size2=size^2,size3=size^3,
 					logsize=log(size),logsize2=(log(size))^2,
 					covariate=as.factor(rep(cov,length(size))))
 			
 			
-			m1 <-match(names(growthObj@fit),colnames(newd)); m1 <- m1[!is.na(m1)]
-			if (length(growthObj@fit)<4) { 
-				mux <- matrix(growthObj@fit[1],1,length(size))
-				if (length(growthObj@fit)==3)  
-						mux <-mux + t(newd[,m1])*growthObj@fit[2:(length(growthObj@fit)-1)] 
-				#print(dim(mux))
-			}	else { 		
-				mux <- colSums(growthObj@fit[1]+t(newd[,m1])*growthObj@fit[2:(length(growthObj@fit)-1)])
-			}
-		
-			
+			m1 <-match(names(growthObj@fit),colnames(newd)); 
+			m1 <- c(1,2,m1[!is.na(m1)])
+			print(m1)
+			#print(m1)
+			mux <- colSums(t(newd[,m1])*c(0,growthObj@fit[1:(length(growthObj@fit)-1)]))
+					
 			sigmax <- exp(growthObj@fit["logSigma"])
 			u <- dtruncnorm(sizeNext,a=size,b=Inf,mean=size+mux,sd=sigmax)  
 			return(u); 
