@@ -790,7 +790,7 @@ growthModelComp <- function(dataf,
 	i <- 1
 	for(v in 1:varN) {
 		for(t in 1:typeN) {
-			grObj[[i]] <- makeGrowthObj(dataf = dataf, regType = regressionType[t], explanatoryVariables = expVars[v], respType = respType) 
+			grObj[[i]] <- makeGrowthObj(dataf = dataf, regType = regressionType[t], explanatoryVariables = expVars[v], responseType = respType) 
 			summaryTable <- rbind(summaryTable, cbind(expVars[v], regressionType[t], respType, match.fun(testType)(grObj[[i]]@fit)))
 			i <- i + 1
 		}
@@ -801,7 +801,7 @@ growthModelComp <- function(dataf,
 	
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
-		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars =expVars, testType = testType,  plotLegend = TRUE, mainTitle = mainTitle)
+		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, respType = respType, testType = testType,  plotLegend = TRUE, mainTitle = mainTitle)
 	}
 	return(outputList)
 }
@@ -837,10 +837,22 @@ survModelComp <- function(dataf,
 # Plot functions for model comparison.  Plots the series of fitted models for growth and survival objects.  
 # Can plot a legend with the model covariates and model test criterion scores (defaults to AIC).
 
-plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, testType = "AIC", plotLegend = TRUE, mainTitle = "") {
+plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, testType = "AIC", respType = respType, plotLegend = TRUE, mainTitle = "") {
 	treatN <- length(grObj)
 	sizeSorted <- unique(sort(dataf$size))
-	plot(dataf$size, dataf$sizeNext, pch = 19, xlab = "Size at t", ylab = "Size at t + 1", main = mainTitle, cex = 0.8)
+	if(respType == "sizeNext") {
+		y.lab <- "Size at t + 1"
+		dataSizeNext <- dataf$sizeNext
+	}
+	if(respType == "incr") {
+		y.lab <- "Growth"
+		dataSizeNext <- dataf$sizeNext - dataf$size
+	}
+	if(respType == "logsize"){
+		y.lab <- "log(growth)"
+		dataSizeNext <- log(dataf$sizeNext - dataf$size)
+	}
+	plot(dataf$size, dataSizeNext, pch = 19, xlab = "Size at t", ylab = y.lab, main = mainTitle, cex = 0.8)
 	for(p in 1:treatN) {
 		newd <- .makeCovDf(sizeSorted, expVars[p])
 		pred.size <- predict(grObj[[p]]@fit, newd, type = "response")

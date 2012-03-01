@@ -31,56 +31,49 @@ makeGrowthObj <- function(dataf,
 		responseType="sizeNext",
 		regType="constantVar"){
 	
-	
-	if (responseType=="incr" & length(dataf$incr)==0) {
-		print("building incr as sizeNext-size")
-		dataf$incr <- dataf$sizeNext-dataf$size
+	if (responseType=="incr" & length(dataf$incr) == 0) {
+		print("building incr as sizeNext - size")
+		dataf$incr <- dataf$sizeNext - dataf$size
+	}
+	if (responseType=="logincr" & length(dataf$logincr) == 0) {
+		print("building logincr as log(sizeNext - size) - pre-build if this is not appropriate")
+		dataf$logincr <- log(dataf$sizeNext - dataf$size)
 	}
 	
-	if (responseType=="logincr" & length(dataf$logincr)==0) {
-		print("building logincr as log(sizeNext-size) - pre-build if this is not appropriate")
-		dataf$logincr <- log(dataf$sizeNext-dataf$size)
-	}
-	
-	Formula<-paste(responseType,'~',explanatoryVariables,sep='')
-	
+	Formula <- paste(responseType, '~', explanatoryVariables, sep = '')
 	#create appropriate size based covariates
-	dataf$size2 <- dataf$size^2
-	dataf$size3 <- dataf$size^3
-	if (length(grep("logsize",Formula))>0) dataf$logsize <- log(dataf$size)
+	dataf$size2 <- dataf$size ^ 2
+	dataf$size3 <- dataf$size ^ 3
+	if (length(grep("logsize", Formula)) > 0) dataf$logsize <- log(dataf$size)
 	
 	#setup for discrete covariates if data suggests may be implemented by the
 	#presence of "covariate" and "covariateNext"
-		if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
+		if ("covariate" %in% strsplit(as.character(explanatoryVariables), "[+-\\*]")[[1]]&length(dataf$covariate) > 0) { 
 		dataf$covariate <- as.factor(dataf$covariate)
 		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
-		
 	}
-	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) { 
+	if ("covariateNext" %in% strsplit(as.character(explanatoryVariables), "[+-\\*]")[[1]]&length(dataf$covariateNext) > 0) { 
 		dataf$covariateNext <- as.factor(dataf$covariateNext)
 		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
 	}
-	
-	
 	#eval fit
-	if (regType=="constantVar")  {
-		fit <-lm(Formula, data=dataf)
+	if (regType == "constantVar")  {
+		fit <- lm(Formula, data=dataf)
 	} else { 
-		if (regType=="declineVar"){
+		if (regType == "declineVar"){
 			fit<-gls(formula(Formula),
-					na.action=na.omit,weight=varExp(form=~fitted(.)),data=dataf)
+					na.action = na.omit, weight = varExp(form =~ fitted(.)), data = dataf)
 		}
 	}
-	
 	#make the objects
 	#with sizeNext as response
-	if (responseType=="sizeNext") { 
+	if (responseType == "sizeNext") { 
 		
-		if (class(fit)=="lm") { 
+		if (class(fit) == "lm") { 
 			gr1 <- new("growthObj")
 			gr1@fit <- fit
 		} else {
-			if (class(fit)=="gls") { 
+			if (class(fit) == "gls") { 
 				gr1 <- new("growthObj.declinevar")
 				gr1@fit <- fit
 			} else {
@@ -89,13 +82,13 @@ makeGrowthObj <- function(dataf,
 			}
 		}
 	} else {
-		if (responseType=="incr") { 
+		if (responseType == "incr") { 
 			
-			if (class(fit)=="lm") { 
+			if (class(fit) == "lm") { 
 				gr1 <- new("growthObj.incr")
 				gr1@fit <- fit
 			} else {
-				if (class(fit)=="gls") { 
+				if (class(fit) == "gls") { 
 					gr1 <- new("growthObj.incr.declinevar")
 					gr1@fit <- fit
 				} else {
@@ -103,15 +96,14 @@ makeGrowthObj <- function(dataf,
 									please use lm or gls for declining variance models")
 				}
 			}
-			
 		} else {
-			if (responseType=="logincr") {
+			if (responseType == "logincr") {
 				
-				if (class(fit)=="lm") { 
+				if (class(fit) == "lm") { 
 					gr1 <- new("growthObj.logincr")
 					gr1@fit <- fit
 				} else {
-					if (class(fit)=="gls") { 
+					if (class(fit) == "gls") { 
 						gr1 <- new("growthObj.logincr.declinevar")
 						gr1@fit <- fit
 					} else {
@@ -119,13 +111,10 @@ makeGrowthObj <- function(dataf,
 										please use lm or gls for declining variance models")
 					}
 				}
-				
 			}
-		}}
-	
-	
+		}
+	}
 	return(gr1)
-	
 }
 
 
@@ -147,47 +136,45 @@ makeGrowthObj <- function(dataf,
 #
 #
 makeGrowthObjManyCov <- function(dataf,
-		explanatoryVariables="size+size2+covariate1",
-		responseType="sizeNext",
-		regType="constantVar"){
+		explanatoryVariables = "size+size2+covariate1",
+		responseType = "sizeNext",
+		regType = "constantVar"){
 	
-	
-	if (responseType=="incr" & length(dataf$incr)==0) {
+	if (responseType == "incr" & length(dataf$incr) == 0) {
 		print("building incr as sizeNext-size")
 		dataf$incr <- dataf$sizeNext-dataf$size
 	}
 	
-	if (responseType=="logincr" & length(dataf$logincr)==0) {
+	if (responseType == "logincr" & length(dataf$logincr) == 0) {
 		print("building logincr as log(sizeNext-size) - pre-build if this is not appropriate")
 		dataf$logincr <- log(dataf$sizeNext-dataf$size)
 	}
-	
-	
-	Formula<-paste(responseType,'~',explanatoryVariables,sep='')
+	Formula <- paste(responseType, '~', explanatoryVariables, sep = '')
 	
 	#create appropriate size based covariates
-	dataf$size2 <- dataf$size^2
-	dataf$size3 <- dataf$size^3
-	if (length(grep("logsize",Formula))>0) dataf$logsize <- log(dataf$size)
+	dataf$size2 <- dataf$size ^ 2
+	dataf$size3 <- dataf$size ^ 3
+	if (length(grep("logsize", Formula)) > 0) dataf$logsize <- log(dataf$size)
 	
 	#eval fit
-	if (regType=="constantVar")  {
-		fit <-lm(Formula, data=dataf)
+	if (regType == "constantVar")  {
+		fit <- lm(Formula, data = dataf[!is.na(dataf$logincr),])
 	} else { 
-		if (regType=="declineVar"){
-			fit<-gls(formula(Formula),
-					na.action=na.omit,weight=varExp(form=~fitted(.)),data=dataf)
-		}}
+		if (regType == "declineVar"){
+			fit <- gls(formula(Formula),
+					na.action = na.omit, weight = varExp(form =  ~fitted(.)), data = dataf)
+		}
+	}
 	
 	#make the objects
 	#with sizeNext as response
-	if (responseType=="sizeNext") { 
+	if (responseType == "sizeNext") { 
 		
-		if (class(fit)=="lm") { 
+		if (class(fit) == "lm") { 
 			gr1 <- new("growthObjMultiCov")
 			gr1@fit <- fit
 		} else {
-			if (class(fit)=="gls") { 
+			if (class(fit) == "gls") { 
 				gr1 <- new("growthObjMultiCov.declinevar")
 				gr1@fit <- fit
 			} else {
@@ -196,13 +183,13 @@ makeGrowthObjManyCov <- function(dataf,
 			}
 		}
 	} else {
-		if (responseType=="incr") { 
+		if (responseType == "incr") { 
 			
-			if (class(fit)=="lm") { 
+			if (class(fit) == "lm") { 
 				gr1 <- new("growthObjMultiCov.incr")
 				gr1@fit <- fit
 			} else {
-				if (class(fit)=="gls") { 
+				if (class(fit) == "gls") { 
 					gr1 <- new("growthObjMultiCov.incr.declinevar")
 					gr1@fit <- fit
 				} else {
@@ -212,13 +199,13 @@ makeGrowthObjManyCov <- function(dataf,
 			}
 			
 		} else {
-			if (responseType=="logincr") {
+			if (responseType == "logincr") {
 				
-				if (class(fit)=="lm") { 
+				if (class(fit) == "lm") { 
 					gr1 <- new("growthObjMultiCov.logincr")
 					gr1@fit <- fit
 				} else {
-					if (class(fit)=="gls") { 
+					if (class(fit) == "gls") { 
 						gr1 <- new("growthObjMultiCov.logincr.declinevar")
 						gr1@fit <- fit
 					} else {
@@ -226,13 +213,10 @@ makeGrowthObjManyCov <- function(dataf,
 										please use lm or gls for declining variance models")
 					}
 				}
-				
 			}
-		}}
-	
-	
+		}
+	}
 	return(gr1)
-	
 }
 
 
