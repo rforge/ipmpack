@@ -243,18 +243,34 @@ makeGrowthObjHossfeld <- function(dataf) {
 
 
 # Function to create a truncated increment growth model 
+# currently only defined for increment, leftVal is min
 #
 # Paramteres - dataf - a dataframe
 #
-# Retrurns - 
+#
+# Retrurns - growth object with truncated increment
 #
 #no covariate, and one polynom, linear regression on increment
-makeGrowthObjIncrTrunc <- function(dataf) {
+makeGrowthObjIncrTrunc <- function(dataf,
+		responseType = "incr",
+		explanatoryVariables = "size",leftVal=0) {
 	require(censReg)
+	
 	dataf$size2 <- dataf$size^2
-	#dataf$size <- log(dataf$size)
-	if (length(dataf$incr)==0) dataf$incr <- dataf$sizeNext-dataf$size
-	fit <- censReg(incr~size+size2,data=dataf, left=0)
+	
+	Formula <- paste(responseType, '~', explanatoryVariables, sep = '')
+
+	if (length(grep("logsize", Formula)) > 0) dataf$logsize <- log(dataf$size)
+			
+	if (responseType == "incr") { 
+		if (length(dataf$incr) == 0) {
+			print("building incr as sizeNext-size")
+			dataf$incr <- dataf$sizeNext-dataf$size
+			dataf$incr[dataf$incr<leftVal] <- NA
+		}}
+		
+		
+	fit <- censReg(as.formula(Formula),data=dataf, left=leftVal)
 	gr1 <- new("growthObj.truncincr")
 	gr1@fit <- fit$estimate
 	return(gr1)
