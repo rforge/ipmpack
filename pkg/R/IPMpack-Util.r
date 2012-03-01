@@ -231,9 +231,9 @@ picSurv <- function(dataf,survObj,ncuts=20,...) {
 			points(as.numeric(psz),as.numeric(ps),pch=19,col=k)
 			newd <- data.frame(size=sizes,size2=sizes^2,size3=sizes^3,
 					covariate=rep(as.factor(ud[k]),length(sizes)))
-			if(length(grep("logsize",survObj@fit$formula)))
+			if(length(grep("logsize",survObj@fit$formula))==1)
 				newd$logsize=log(sizes)
-			if(length(grep("logsize2",survObj@fit$formula)))
+			if(length(grep("logsize2",survObj@fit$formula))==1)
 				newd$logsize=(log(sizes))^2
 			
 			pred.surv <- predict(survObj@fit,newd,type="response")
@@ -308,9 +308,9 @@ picGrow <- function(dataf,growObj) {
 				covariate=as.factor(rep(ud[k],length(sizes))))
 		#print(ud[k])
 		
-		if(length(grep("logsize",growObj@fit$formula)))
+		if(length(grep("logsize",growObj@fit$formula))==1)
 			newd$logsize=log(sizes)
-		if(length(grep("logsize2",growObj@fit$formula)))
+		if(length(grep("logsize2",growObj@fit$formula))==1)
 			newd$logsize=(log(sizes))^2
 		
 		pred.size <- predict(growObj@fit,newd,type="response")
