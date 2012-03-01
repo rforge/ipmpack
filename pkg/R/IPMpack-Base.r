@@ -339,8 +339,11 @@ setMethod("growth",
 			
 			
 			m1 <-match(names(growthObj@fit),colnames(newd)); m1 <- m1[!is.na(m1)]
-			if (length(growthObj@fit)==2) { 
-				mux <- rep(growthObj@fit[1],nrow(newd)) 
+			if (length(growthObj@fit)<4) { 
+				mux <- matrix(growthObj@fit[1],1,length(size))
+				if (length(growthObj@fit)==3)  
+						mux <-mux + t(newd[,m1])*growthObj@fit[2:(length(growthObj@fit)-1)] 
+				#print(dim(mux))
 			}	else { 		
 				mux <- colSums(growthObj@fit[1]+t(newd[,m1])*growthObj@fit[2:(length(growthObj@fit)-1)])
 			}
