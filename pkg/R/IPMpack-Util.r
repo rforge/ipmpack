@@ -823,7 +823,7 @@ survModelComp <- function(dataf,
 		i <- i + 1
 	}
 	summaryTable <- as.data.frame(summaryTable)
-	names(summaryTable) <- c("Exp. Vars", "Reg. Type", testType)
+	names(summaryTable) <- c("Exp. Vars", testType)
 	outputList <- list(summaryTable = summaryTable, survObjects = svObj)
 	
 	# PLOT SECTION #
@@ -877,7 +877,7 @@ plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "
 		lines(dataf$size[order(dataf$size)], surv(dataf$size[os], 1, svObj[[p]]), col = (p + 1))           
 	}
 	if(plotLegend) {
-		legend("bottomleft", legend = sprintf("%s: %s = %.1f", expVars, testType, as.numeric(as.character(summaryTable[,3]))), col = c(2:(p + 1)), lty = 1, xjust = 1)
+		legend("bottomleft", legend = sprintf("%s: %s = %.1f", expVars, testType, as.numeric(as.character(summaryTable[,2]))), col = c(2:(p + 1)), lty = 1, xjust = 1)
 	}
 }
 
