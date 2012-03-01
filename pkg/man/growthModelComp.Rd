@@ -12,7 +12,7 @@ Returns a list containing a summary table of covariates and scores, and another 
 \usage{
 growthModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), regressionType = "constantVar", respType = "sizeNext", testType = "AIC", makePlot = FALSE, mainTitle = "",...)
 		
-survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), testType = "AIC", makePlot = FALSE, mainTitle = "",...)
+survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), testType = "AIC", makePlot = FALSE, mainTitle = "",ncuts=20,...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -33,6 +33,9 @@ survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), testT
   }
   \item{mainTitle}{
     string to place as the \code{main} attribute in plots (if \code{makePlot = TRUE}.  defaults to \code{NULL}.
+  }
+  \item{ncuts}{
+ for survModelComp, number of cuts in the data-set to be used in plotting
   }
   \item{...}{
 	extra arguments to pass to the plot function.

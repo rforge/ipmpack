@@ -811,7 +811,7 @@ survModelComp <- function(dataf,
 		expVars = c("1", "size", "size + size2"), 
 		testType = "AIC",
 		makePlot = FALSE,
-		mainTitle = "",...) {
+		mainTitle = "",ncuts=20,...) {
 	varN <- length(expVars)
 	treatN <- varN
 	summaryTable <- data.frame()
@@ -829,7 +829,7 @@ survModelComp <- function(dataf,
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
 		## this is the surv picture    
-		plotSurvModelComp(svObj = svObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, testType = testType, plotLegend = TRUE, mainTitle = mainTitle,...)
+		plotSurvModelComp(svObj = svObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, testType = testType, plotLegend = TRUE, mainTitle = mainTitle,ncuts=ncuts,...)
 	}
 	return(outputList)
 }	
@@ -863,14 +863,14 @@ plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, testType = 
 	}
 }
 
-plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "AIC", plotLegend = TRUE, mainTitle = "",...) {
+plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "AIC", plotLegend = TRUE, mainTitle = "",ncuts=20,...) {
 	treatN <- length(svObj)
 	ncuts <- 20  # survival bins
 	os <- order(dataf$size)  # order size
 	osSurv <- (dataf$surv)[os] # order survival data according to size
 	osSize<-(dataf$size)[os] # ordered size data
-	binnedSize <- tapply(osSize, as.numeric(cut(osSize, ncuts)), mean, na.rm = TRUE); # bin Size data
-	binnedSurv <- tapply(osSurv, as.numeric(cut(osSize, ncuts)), mean, na.rm = TRUE) #bin Survival probabilities
+	binnedSize <- tapply(osSize, as.numeric(cut(osSize, ncuts=ncuts)), mean, na.rm = TRUE); # bin Size data
+	binnedSurv <- tapply(osSurv, as.numeric(cut(osSize, ncuts=ncuts)), mean, na.rm = TRUE) #bin Survival probabilities
 	plot(binnedSize, binnedSurv, pch = 19, xlab = "Size at t", ylab = "Survival to t + 1", main = mainTitle, cex = 0.8,...)
 	for(p in 1:treatN) {
 		newd <- .makeCovDf(osSize, expVars[p])
