@@ -848,7 +848,7 @@ plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, testType = 
 		y.lab <- "Growth"
 		dataSizeNext <- dataf$sizeNext - dataf$size
 	}
-	if(respType == "logsize"){
+	if(respType == "logincr"){
 		y.lab <- "log(growth)"
 		dataSizeNext <- log(dataf$sizeNext - dataf$size)
 	}
