@@ -55,11 +55,11 @@ svList <- getListRegObjects(sv1, nsamp=10)
 
 res <- getIPMoutputDirect(survObjList = svList,
                                growObjList = grList,
-                               targetSize = 10,
+                               targetSize = 6,
                                nBigMatrix = 100,
                                minSize = 1.1*min(dff$size,na.rm=TRUE),
                                maxSize = 1.1*max(dff$size,na.rm=TRUE),
-                               integrateType="midpoint", 
+                               integrateType="midpoint",correction="constant", 
                                storePar=FALSE)
 
 
