@@ -112,7 +112,7 @@ setClass("growthObjMultiCov.logincr.declinevar",
 setClass("growthObj.Hossfeld",
 		representation(paras="numeric",
 				sd="numeric", 
-				logLik="numeric"))
+				logLik="numeric", hessian="matrix"))
 
 ## SURVIVAL OBJECTS ##
 # Create a generic survival object
