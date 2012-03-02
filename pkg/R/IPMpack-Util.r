@@ -62,7 +62,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		nBigMatrix,minSize,maxSize,discreteTrans = 1,
 		cov=FALSE,fecObjList=NULL, envMat=NULL,
 		nSizeToAge=0, sizeStart=10,
-		integrateType="midpoint", correction="none"){
+		integrateType="midpoint", correction="none", storePar=TRUE){
 	
 	# adjust the sample lengths to they are all the same
 	if (length(targetSize)==0)  targetSize <- 0.2*(minSize+maxSize)
@@ -77,12 +77,13 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 	}
 	
 	# store chosen parameters
+	if (storePar){
 	surv.par <- matrix(NA,nsamp,length(survObjList[[1]]@fit$coefficients))
 	grow.par <- matrix(NA,nsamp,length(growObjList[[1]]@fit$coefficients)+1)
 	for (k in 1:nsamp) {
 		surv.par[k,] <- survObjList[[k]]@fit$coefficients
 		grow.par[k,] <- c(growObjList[[k]]@fit$coefficients,sd(growObjList[[k]]@fit$residuals))
-	}
+	}} else { surv.par <- grow.par <- c()}
 	
 	#set up storage
 	if (is.data.frame(discreteTrans)) ndisc <- ncol(discreteTrans) else ndisc <- 0
