@@ -273,6 +273,7 @@ makeGrowthObjIncrTrunc <- function(dataf,
 	fit <- censReg(as.formula(Formula),data=dataf, left=leftVal)
 	gr1 <- new("growthObj.truncincr")
 	gr1@fit <- fit$estimate
+	gr1@varcov <- vcov(fit)
 	return(gr1)
 }
 
