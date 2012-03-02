@@ -883,3 +883,71 @@ plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "
 }
 
 
+
+
+## Function to add pdf to model comparison pics
+addPdfGrowthPic <- function(respType = "sizeNext",
+		sizesPlotAt=c(20,50,60),
+		sizeRange=c(20,400),
+		incrRange=c(-10,50), 
+		scalar=100,
+		growthObjList,
+		cols=1:5,
+		cov=1,
+		minShow=1e-2,
+		jitt=2,  #how far apart should pdfs be if you are plotting several
+		...){
+	
+	nval <- length(growthObjList)
+	sizes <- seq(sizeRange[1],sizeRange[2],length=500)
+	incr <- seq(incrRange[1],incrRange[2],length=500)
+	logincr <- log(incr); logincr[!is.finite(logincr)] <- NA
+	
+	for (j in 1:nval) {
+		#print(j)
+		for (k in 1:length(sizesPlotAt)) {           
+			if (respType=="sizeNext") {
+				pred <- growth(sizesPlotAt[k],sizes,cov,growthObjList[[j]])*scalar
+				pred[pred<minShow] <- NA
+				points(sizesPlotAt[k]+pred+jitt*(j-1),
+						sizes,type="l", col=cols[j],...)                
+			}
+			if (respType=="incr") {
+				pred <- growth(sizesPlotAt[k],sizesPlotAt[k]+incr,cov,growthObjList[[j]])*scalar
+				pred[pred<minShow] <- NA
+				points(sizesPlotAt[k]+pred+jitt*(j-1),
+						incr,type="l", col=cols[j],...)
+			}
+			if (respType=="logincr") {
+				pred <- growth(sizesPlotAt[k],sizesPlotAt[k]+logincr,cov,growthObjList[[j]])*scalar
+				pred[pred<minShow] <- NA
+				#print(range(pred,na.rm=TRUE))
+				points(sizesPlotAt[k]+pred+jitt*(j-1),
+						logincr,type="l", col=cols[j],...)
+			}
+		}}
+}
+
+## Function to fit of these and output a list of growth objects
+getListRegObjects <- function(Obj,nsamp=1000) {
+	
+	require(mvtnorm)
+	require(MASS)
+	
+	#generate new set parameters from mvn
+	npar <- length(Obj@fit$coefficients)
+	newpar <- rmvnorm(nsamp, mean = Obj@fit$coefficients, sigma = vcov(Obj@fit))
+	
+	objList <- list()
+	
+	for (j in 1:nsamp) {
+		objList[[j]] <- Obj
+		objList[[j]]@fit$coefficients <- newpar[j,]
+	}
+	
+	return(objList)
+}
+
+
+
+
