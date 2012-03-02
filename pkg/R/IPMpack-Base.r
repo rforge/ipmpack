@@ -342,7 +342,7 @@ setMethod("growth",
 			
 			m1 <-match(names(growthObj@fit),colnames(newd)); 
 			m1 <- c(1,2,m1[!is.na(m1)])
-			print(m1)
+			#print(m1)
 			#print(m1)
 			mux <- colSums(t(newd[,m1])*c(0,growthObj@fit[1:(length(growthObj@fit)-1)]))
 					
