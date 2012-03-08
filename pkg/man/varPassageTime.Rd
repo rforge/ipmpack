@@ -8,14 +8,14 @@ Estimates variation in passage time.
 Function to take a T matrix (either compound or not) and estimate variance in passage time to a chosen continuous stage value.
 }
 \usage{
-varPassageTime(chosen.size, IPM.matrix)
+varPassageTime(chosenSize, IPMmatrix)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{chosen.size}{
+  \item{chosenSize}{
 The continuous stage value of interest.
 }
-  \item{IPM.matrix}{
+  \item{IPMmatrix}{
 The Tmatrix (compound or not).
 }
 }
@@ -46,12 +46,12 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{PassageTime}}, \code{\link{create.IPM.Tmatrix}} 
+\code{\link{PassageTime}}, \code{\link{createIPMTmatrix}} 
 }
 \examples{
 # With continuous (e.g. size) stage
 dff <- generateData()
-Tmatrix <- create.IPM.Tmatrix(minSize = min(dff$size, na.rm = TRUE),
+Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize <- max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
 targetSize <- 8
 vP <- varPassageTime(targetSize, Tmatrix)
@@ -60,7 +60,7 @@ plot(Tmatrix@meshpoints, vP, type = "l", xlab="Continuous (e.g. Size) stage", yl
 abline(v = targetSize, col = "red")
 
 # With a compound matrix (discrete stages not yet defined)
-Tmatrix <- create.compound.Tmatrix(minSize=min(dff$size, na.rm = TRUE),
+Tmatrix <- createCompoundTmatrix(minSize=min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff),
 growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"),
 survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans = 1)

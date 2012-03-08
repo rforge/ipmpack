@@ -3,20 +3,18 @@
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Adds probability density functions of density function of size or
-increment given current size and growth to plots
+Adds probability density functions of density function of size or increment given current size and growth to plots.
 }
 \description{
-Function generates pdfs corresponding to chosen sizes and adds them to a
-Figure using growth methods.}
+Function generates pdfs (probability density functions) corresponding to chosen sizes and adds them to a figure using growth methods.}
 \usage{
-addPdfGrowthPic(respType = "sizeNext",sizesPlotAt=c(20,50,60),
-                            sizeRange=c(20,400),incrRange=c(-10,50), 
-                            scalar=100,growthObjList,
-                            cols=1:5,
-                            cov=1,
-                            minShow=1e-2,
-                            jitt=2,  
+addPdfGrowthPic(respType = "sizeNext", sizesPlotAt = c(20, 50, 60),
+                            sizeRange = c(20, 400), incrRange=c(-10, 50), 
+                            scalar = 100, growthObjList,
+                            cols = 1:5,
+                            cov = 1,
+                            minShow = 1e-2,
+                            jitt = 2,  
                             ...)
 		
 survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), testType = "AIC", makePlot = FALSE, mainTitle = "",...)
@@ -42,7 +40,7 @@ survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), testT
     list of growth objects for which pdfs are desired to be plotted
   }
   \item{cols}{
-    colours corresonding to the list of growth objects for plotting
+    colours corresponding to the list of growth objects for plotting
   }
   \item{cov}{
     covariate value (if growth objects contain a discrete covariate, or
@@ -84,8 +82,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 dff <- generateData()
 
 a1 <- growthModelComp(dff, makePlot = TRUE)
-addPdfGrowthPic(respType = "sizeNext",sizesPlotAt=c(2,6,10),scalar=1,jitt=0.1,
-                            sizeRange=c(-5,25),growthObjList=a1$growthObjects,cols=2:5)
+addPdfGrowthPic(respType = "sizeNext", sizesPlotAt = c(2, 6, 10), scalar = 1, jitt = 0.1,
+                            sizeRange = c(-5, 25), growthObjList = a1$growthObjects, cols = 2:5)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

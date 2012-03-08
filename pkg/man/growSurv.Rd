@@ -29,7 +29,7 @@ growSurv(size, sizeNext, cov, growthObj, survObj)
 }
 }
 \details{
-\code{create.IPM.Tmatrix} and variants there-of apply \code{outer} to this function to efficiently obtain the IPM T matrix. 
+\code{createIPMTmatrix} and variants there-of apply \code{outer} to this function to efficiently obtain the IPM T matrix. 
 }
 \value{
 numeric defining the pdf (probability density function).

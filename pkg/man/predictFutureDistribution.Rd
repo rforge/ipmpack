@@ -17,7 +17,7 @@ predictFutureDistribution(startingSizes, IPM, n.time.steps, startingEnv = 1)
     vector containing the sizes of the desired starting population.
 }
   \item{IPM}{
-    an IPM.matrix object (T matrix if only interested in survival projections, T matrix+ F matrix otherwise).
+    an IPMmatrix object (T matrix if only interested in survival projections, T matrix+ F matrix otherwise).
 }
   \item{n.time.steps}{
     a numeric defining the number of time steps for which projection is required.
@@ -30,7 +30,7 @@ predictFutureDistribution(startingSizes, IPM, n.time.steps, startingEnv = 1)
 Currently this does not accept IPMs with discrete stages (e.g. seedbank).
 }
 \value{
- \item{n.new.dist0}{starting frequency distribution along meshpoints in IPM.matrix.}
+ \item{n.new.dist0}{starting frequency distribution along meshpoints in IPMmatrix.}
  \item{n.new.dist}{final frequency distribution.}
 }
 \references{
@@ -55,13 +55,13 @@ startPop <- rnorm(1000,2,1)
 
 # Build T and F matrix
 dff <- generateData()
-Tmatrix <- create.IPM.Tmatrix(minSize = 1.1*min(dff$size, na.rm = TRUE),
+Tmatrix <- createIPMTmatrix(minSize = 1.1*min(dff$size, na.rm = TRUE),
 maxSize = 1.1*max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff), correction = "constant")
-Fmatrix <- create.IPM.Fmatrix(minSize = 1.1*min(dff$size, na.rm = TRUE),
+Fmatrix <- createIPMFmatrix(minSize = 1.1*min(dff$size, na.rm = TRUE),
 maxSize = 1.1*max(dff$size, na.rm = TRUE), fecObj = makeFecObj(dff, fecConstants = 0.7, Transform="log"), correction="constant")
 
-# Make an IPM.matrix object containing T matrix + F matrix by replacing the T matrix
+# Make an IPMmatrix object containing T matrix + F matrix by replacing the T matrix
 IPM <- Tmatrix
 IPM@.Data <- Tmatrix + Fmatrix
 

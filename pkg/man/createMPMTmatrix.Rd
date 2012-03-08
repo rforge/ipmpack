@@ -1,5 +1,5 @@
-\name{create.MPM.Tmatrix}
-\alias{create.MPM.Tmatrix}
+\name{createMPMTmatrix}
+\alias{createMPMTmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds a discrete T matrix from the types of data structures used in IPMpack.
@@ -8,7 +8,7 @@ Builds a discrete T matrix from the types of data structures used in IPMpack.
 A method that uses bins to construct a discrete survival matrix population model of class IPM using the data structures used by IPMpack.
 }
 \usage{
-create.MPM.Tmatrix(dataf, bins, nEnv = 1)
+createMPMTmatrix(dataf, bins, nEnv = 1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,14 +23,11 @@ create.MPM.Tmatrix(dataf, bins, nEnv = 1)
 }
 }
 \details{
-  The number of individuals moving from one bin to the next in one
-  time step is identified and probabilities entered into a matrix cell. To
-  get a classic matrix population model this can be added to values
-  defined by create.MPM.Fmatrix. Note that the assumption that all
+  The number of individuals moving from one bin to the next in one time step is identified and probabilities entered into a matrix cell. To obtain a classic matrix population model this can be added to values defined by createMPMFmatrix. Note that the assumption that all
   individuals for whom is.na(sizeNext) died.   
 }
 \value{
-  an object of class IPM.matrix.
+  an object of class IPMmatrix.
 }
 \references{
 For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
@@ -47,12 +44,12 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{create.IPM.Tmatrix}}, \code{\link{create.MPM.Fmatrix}}
+\code{\link{createIPMTmatrix}}, \code{\link{createMPMFmatrix}}
 }
 \examples{
-dff<-generateData()
+dff <- generateData()
 matrixCuts <- c(1, 4, 10, 15)
-Tmatrix <-create.MPM.Tmatrix(dff,bins=matrixCuts)
+Tmatrix <- createMPMTmatrix(dff, bins = matrixCuts)
 Tmatrix
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -1,5 +1,5 @@
-\name{create.IPM.Tmatrix}
-\alias{create.IPM.Tmatrix}
+\name{createIPMTmatrix}
+\alias{createIPMTmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds T matrices.
@@ -8,7 +8,7 @@ Builds T matrices.
   Uses growth and survival objects to construct a matrix defining probabilities for transitions between sizes due to growth and survival. Extensions for transition to discrete classes are possible.
 }
 \usage{
-create.IPM.Tmatrix(nEnvClass = 1, nBigMatrix = 50,
+createIPMTmatrix(nEnvClass = 1, nBigMatrix = 50,
 minSize = -1, maxSize = 50, chosen.cov = 1, growObj, survObj, discreteTrans, 
 integrateType, correction)
 }
@@ -61,7 +61,7 @@ integrateType, correction)
   vector of these covariates, and growth will reflect these values.  
 }
 \value{
-  an object of class IPM.matrix with dimensions nBigMatrix*nBigMatrix, or
+  an object of class IPMmatrix with dimensions nBigMatrix*nBigMatrix, or
   nbig.matrix+nrow(discreteTrans).
 }
 \references{
@@ -82,11 +82,11 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{create.IPM.Fmatrix}}, \code{\link{diagnosticsTmatrix}}, \code{\link{makeDiscreteTrans}}  
+\code{\link{createIPMFmatrix}}, \code{\link{diagnosticsTmatrix}}, \code{\link{makeDiscreteTrans}}  
 }
 \examples{
 dff <- generateData()
-Tmatrix <- create.IPM.Tmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize=max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
+Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize=max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
 
 slotNames(Tmatrix)
 

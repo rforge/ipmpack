@@ -13,7 +13,7 @@ convertIncrement(dataf, nYrs = 1)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{
-    a data-frame with columns `size' `sizeNext', `exactDate', `exactDateNext'.
+    a dataframe with columns `size' `sizeNext', `exactDate', `exactDateNext'.
 }
   \item{nYrs}{
     the number of years between sequential measurements (i.e. if census
@@ -27,9 +27,9 @@ In some data sets the time interval between census measurements can be different
   Returns the adjusted increments.%% ...
 }
 \references{
-Sampling three times/year (nYrs=0.333): Smith, Caswell & Mettler-Cherry. Stochastic flood and precipitation regimes and the population dynamics of a threatened floodplain plant. Ecological Applications 15, p1036-1052.
+Sampling three times/year (nYrs = 0.333): Smith, Caswell & Mettler-Cherry. Stochastic flood and precipitation regimes and the population dynamics of a threatened floodplain plant. Ecological Applications 15, p1036-1052.
 
-Sampling every five years (nYrs=5): van Mantgem & Stepheson. 2005. The accuracy of matrix population model projections for coniferous trees in the Sierra Nevada, California. Journal of Ecology 93, p737-747.
+Sampling every five years (nYrs = 5): van Mantgem & Stepheson. 2005. The accuracy of matrix population model projections for coniferous trees in the Sierra Nevada, California. Journal of Ecology 93, p737-747.
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.

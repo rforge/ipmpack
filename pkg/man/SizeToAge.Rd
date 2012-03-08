@@ -14,7 +14,7 @@ SizeToAge(Tmatrix, startingSize, targetSize)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Tmatrix}{
-    object of class IPM.matrix describing growth survival transitions. 
+    object of class IPMmatrix describing growth survival transitions. 
 }
   \item{startingSize}{
     numeric, size at age 1, or size from which age-size relationship is desired.
@@ -56,7 +56,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \examples{
 dff <- generateData()
-Tmatrix <- create.IPM.Tmatrix(minSize = min(dff$size, na.rm = TRUE),
+Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff))
 targetSize <- 8

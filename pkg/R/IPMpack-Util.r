@@ -102,13 +102,13 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 	for (k in 1:nsamp) {
 		
 		if (!cov) {
-			Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, growObj = growObjList[[k]],
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
 					integrateType=integrateType, correction=correction) 
 			
 		} else {
-			Tmatrix <- create.compound.Tmatrix(nEnvClass = nEnv,
+			Tmatrix <- createCompoundTmatrix(nEnvClass = nEnv,
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=envMat,growObj = growObjList[[k]],
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
@@ -122,12 +122,12 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		
 		if (class(fecObjList)!="NULL") {
 			if (!cov) { 
-				Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+				Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 						maxSize = maxSize, 
 						fecObj=fecObjList[[k]],
 						integrateType=integrateType, correction=correction)
 			} else {
-				Fmatrix <- create.compound.Fmatrix(nEnvClass = nEnv,
+				Fmatrix <- createCompoundFmatrix(nEnvClass = nEnv,
 						nBigMatrix = nBigMatrix, minSize = minSize, 
 						maxSize = maxSize, envMatrix=envMat,
 						fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)
@@ -486,10 +486,10 @@ makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10,
 	IPM.list <- list()
 	for (k in 1:length(covs)) { 
 		
-		tpF <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
+		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosen.cov = k,
 				fecObj = fv1,integrateType=integrateType, correction=correction)
-		tpS <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
+		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosen.cov = k,growObj = gr1, survObj = sv1,
 				integrateType=integrateType, correction=correction)
 		IPM.list[[k]] <- tpF+tpS
@@ -529,7 +529,7 @@ convertIncrement <- function(dataf, nYrs=1) {
 ## fits for a dataf object
 #
 # Parameters - dataf - dataframe with right headings, i.e. size, sizeNext, surv
-#            - chosen.size - size for which passage time desired
+#            - chosenSize - size for which passage time desired
 #            - minSize - lower limit for IPM - defaults to fraction of smallest observed 
 #            - maxSize - upper limit for IPM - default to produce of largest observed
 #            - nBigMatrix - numerical resolution of IPM - defaults to 500
@@ -543,7 +543,7 @@ convertIncrement <- function(dataf, nYrs=1) {
 #                          survObj - survival object
 #
 run.Simple.Model <- function(dataf,
-		chosen.size,
+		chosenSize,
 		minSize=c(),
 		maxSize=c(),
 		nBigMatrix=500,
@@ -587,7 +587,7 @@ run.Simple.Model <- function(dataf,
 	}
 	
 	# Make IPM Tmatrix with these objects, and chosen size range, and resolution (nBigMatrix)
-	tmp <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize, maxSize = maxSize,
+	tmp <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, maxSize = maxSize,
 			growObj = gr1, survObj = sv1,integrateType=integrateType, correction=correction)
 	
 	# Get the mean life expect from every size value in IPM
@@ -601,12 +601,12 @@ run.Simple.Model <- function(dataf,
 	}
 	
 	# Get the passage time to the targeted size class
-	pTime <- PassageTime(chosen.size,tmp); #print(pTime)
+	pTime <- PassageTime(chosenSize,tmp); #print(pTime)
 	if (do.plot) { 
 		plot(conv(tmp@meshpoints),pTime,type = "l",xlab = "Size at start",log=axes,
-				ylab = "Time to reach chosen size",ylim=range(pTime[tmp@meshpoints<chosen.size],na.rm=TRUE),
-				xlim=conv(range(tmp@meshpoints[tmp@meshpoints<chosen.size],na.rm=TRUE)), main="Time to reach particular size")
-		abline(v = conv(chosen.size),col = 2) #show the target size in red
+				ylab = "Time to reach chosen size",ylim=range(pTime[tmp@meshpoints<chosenSize],na.rm=TRUE),
+				xlim=conv(range(tmp@meshpoints[tmp@meshpoints<chosenSize],na.rm=TRUE)), main="Time to reach particular size")
+		abline(v = conv(chosenSize),col = 2) #show the target size in red
 	}
 	
 	
@@ -654,11 +654,11 @@ plotResultsStochStruct <- function(tvals,st,covtest,n.runin=15,log="y",...) {
 #
 # Parameters - a matrix
 #
-# Returns an object of class "IPM.matrix"
+# Returns an object of class "IPMmatrix"
 #
 coerceMatrixIPM <- function(amat) {
 	
-	newmat <- as(amat,"IPM.matrix")
+	newmat <- as(amat,"IPMmatrix")
 	newmat@nEnvClass <- 1
 	newmat@nBigMatrix <- length(newmat[1,])
 	newmat@meshpoints <- 1:newmat@nBigMatrix
@@ -669,17 +669,17 @@ coerceMatrixIPM <- function(amat) {
 }
 
 
-# Function to build a discrete Tmatrix, with the same slots as an IPM.matrix
+# Function to build a discrete Tmatrix, with the same slots as an IPMmatrix
 # provided with bins and the usual type of data-frame (columns size, sizeNext, surv)
 #
 # Parameters - dataf - a dataframe
 #            - bins - the lower and upper edge of desired bins
 #            - nEnv - the environment level (currently just defaults)
 #
-# Returns - an object of class IPM.matrix with dim length(bins)*length(bins) containing
+# Returns - an object of class IPMmatrix with dim length(bins)*length(bins) containing
 #         - survival transitions
 #
-create.MPM.Tmatrix <- function(dataf, bins, nEnv=1) {
+createMPMTmatrix <- function(dataf, bins, nEnv=1) {
 	
 	loc.now <- findInterval(dataf$size[!is.na(dataf$size) & !is.na(dataf$sizeNext)],bins)+1
 	loc.next <- findInterval(dataf$sizeNext[!is.na(dataf$size) & !is.na(dataf$sizeNext)],bins)+1    
@@ -690,7 +690,7 @@ create.MPM.Tmatrix <- function(dataf, bins, nEnv=1) {
 	MPM[,] <- table(loc.next,loc.now)
 	MPM <- t(t(MPM)/as.numeric(table(loc.now)))
 	
-	rc <- new("IPM.matrix",
+	rc <- new("IPMmatrix",
 			nEnvClass = 1, 
 			nBigMatrix = nbins,
 			nrow = 1*nbins,
@@ -703,7 +703,7 @@ create.MPM.Tmatrix <- function(dataf, bins, nEnv=1) {
 	return(rc)
 }
 
-# Function to build a usual discrete Fmatrix, with the same slots as an IPM.matrix
+# Function to build a usual discrete Fmatrix, with the same slots as an IPMmatrix
 # provided with bins and the usual type of data-frame
 #
 # Parameters - dataf - a dataframe
@@ -711,13 +711,13 @@ create.MPM.Tmatrix <- function(dataf, bins, nEnv=1) {
 #            - p.est - probability of seed establishment
 #            - nEnv - the environment level (currently just defaults)
 #
-# Returns - an object of class IPM.matrix with dim length(bins)*length(bins) containing
+# Returns - an object of class IPMmatrix with dim length(bins)*length(bins) containing
 #         - fecundity transitions
 #
 # ! assumes no relationship between adult size class and their baby's size class
 #
 
-create.MPM.Fmatrix <- function(dataf, bins,offspringClasses=1, offspringProp=1, nEnv=1) {
+createMPMFmatrix <- function(dataf, bins,offspringClasses=1, offspringProp=1, nEnv=1) {
 	
 	loc.now <- findInterval(dataf$size[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],bins)+1
 	n.now <- sapply(split(dataf$fec[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],loc.now),median)
@@ -730,7 +730,7 @@ create.MPM.Fmatrix <- function(dataf, bins,offspringClasses=1, offspringProp=1, 
 	MPM <- matrix(0,nbins,nbins)
 	for (j in 1:length(offspringClasses)) MPM[offspringClasses[j],as.numeric(names(n.now))] <-  offspringProp[j]*n.now
 	
-	rc <- new("IPM.matrix",
+	rc <- new("IPMmatrix",
 			nEnvClass = 1, 
 			nBigMatrix = nbins,
 			nrow = 1*nbins,

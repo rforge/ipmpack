@@ -8,12 +8,12 @@ Calculates life expectancy in a discretely stochastic environment.
   Provided a compound T matrix that describes survival transitions across continuous (e.g. size) stage and across discrete environmental states, this function provides a matrix defining life expectancy in units of the time step used in the census, for each of the size bins in each of the environments (rows). 
 }
 \usage{
-LifeExpect(IPM.matrix, envMatrix)
+LifeExpect(IPMmatrix, envMatrix)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{IPM.matrix}{
-    an IPM.matrix object describing growth and survival transitions
+  \item{IPMmatrix}{
+    an IPMmatrix object describing growth and survival transitions
     across size and environment.
 }
   \item{envMatrix}{
@@ -44,12 +44,12 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{MeanLifeExpect}} \code{\link{create.compound.Tmatrix}}
+\code{\link{MeanLifeExpect}} \code{\link{createCompoundTmatrix}}
 }
 \examples{
 # With a single continuous state variable (e.g. size)
 dff <- generateData()
-Tmatrix <- create.IPM.Tmatrix(minSize = min(dff$size, na.rm = TRUE),
+Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff))
 le <- LifeExpect(Tmatrix,makeEnvObj(dff))
@@ -58,7 +58,7 @@ plot(Tmatrix@meshpoints, le, ylab = "Life expectancy", xlab ="Continuous (e.g. s
 
 # With a compound matrix (discrete stages not yet defined)
 dff <- generateData()
-Tmatrix <- create.compound.Tmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff), envMatrix = makeEnvObj(dff))
+Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff), envMatrix = makeEnvObj(dff))
 le <- LifeExpect(Tmatrix, makeEnvObj(dff))
 
 plot(Tmatrix@meshpoints, le[1, ], ylab = "Life expectancy", xlab = "Continuous (e.g. size) stage in t", ylim = c(0,max(le)), type = "l", col = "blue")

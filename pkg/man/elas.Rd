@@ -4,7 +4,7 @@
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Estimate matrix element sensitivities and elasticities.
+  Estimates matrix element sensitivities and elasticities.
 }
 \description{
   Estimates sensitivities and elasticities of each element of a discretized IPM.
@@ -47,23 +47,22 @@ Modified following code developed by Mark Rees & Dylan Childs
 }
 \examples{
 dff <- generateData()
-Tmatrix <- create.IPM.Tmatrix(minSize = min(dff$size, na.rm=TRUE),
+Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm=TRUE),
 maxSize = max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff))
 
-Fmatrix <- create.IPM.Fmatrix(minSize = min(dff$size, na.rm = TRUE),
+Fmatrix <- createIPMFmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), fecObj = makeFecObj(dff))
 
 IPM <- Tmatrix + Fmatrix
 
-par(mfrow = c(1,2))
+par(mfrow = c(1, 2))
 
 senst <- sens(IPM)
-image(Tmatrix@meshpoints,Tmatrix@meshpoints,t(senst), 
-	main="Sensitivity", xlab="Continuous (e.g. size) stage in t", ylab = "Continuous (e.g. size) stage in t+1")
+image(Tmatrix@meshpoints,Tmatrix@meshpoints,t(senst), main = "Sensitivity", xlab="Continuous (e.g. size) stage in t", ylab = "Continuous (e.g. size) stage in t+1")
 
 elast <- elas(IPM)
-image(Tmatrix@meshpoints, Tmatrix@meshpoints, t(elast), main="Elasticity", xlab="Continuous (e.g. size) stage in t", ylab = "Continuous (e.g. size) stage in t+1")
+image(Tmatrix@meshpoints, Tmatrix@meshpoints, t(elast), main = "Elasticity", xlab="Continuous (e.g. size) stage in t", ylab = "Continuous (e.g. size) stage in t+1")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

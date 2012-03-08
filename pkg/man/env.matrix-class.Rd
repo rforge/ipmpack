@@ -2,8 +2,8 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{envMatrix-class}
-\alias{LifeExpect,IPM.matrix,envMatrix-method}
-\alias{StochPassageTime,numeric,IPM.matrix,envMatrix-method}
+\alias{LifeExpect,IPMmatrix,envMatrix-method}
+\alias{StochPassageTime,numeric,IPMmatrix,envMatrix-method}
 
 \title{Class "envMatrix"}
 \description{
@@ -27,8 +27,8 @@ Class \code{"\linkS4class{vector}"}, by class "matrix", distance 4, with explici
 }
 \section{Methods}{
   \describe{
-    \item{LifeExpect}{\code{signature(IPM.matrix = "IPM.matrix", envMatrix = "envMatrix")}: ... }
-    \item{StochPassageTime}{\code{signature(chosen.size = "numeric", IPM.matrix = "IPM.matrix", envMatrix = "envMatrix")}: ... }
+    \item{LifeExpect}{\code{signature(IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
+    \item{StochPassageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
 	 }
 }
 \references{

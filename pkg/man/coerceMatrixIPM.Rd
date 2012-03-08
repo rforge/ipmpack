@@ -2,10 +2,10 @@
 \alias{coerceMatrixIPM}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Coerces a matrix population model to a IPM.matrix object.
+Coerces a matrix population model to a IPMmatrix object.
 }
 \description{
-Forces a MPM (a matrix population model, or survival-growth transition matrix, or similar) into an IPM.matrix object for use with passage time,
+Forces a MPM (a matrix population model, or survival-growth transition matrix, or similar) into an IPMmatrix object for use with passage time,
 life expectancy methods, etc. 
 }
 \usage{
@@ -14,14 +14,14 @@ coerceMatrixIPM(amat)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{amat}{
-    A matrix population model; or subset (Tmatrix, Fmatrix) with any number of bins.
+    A matrix population model; or subset (T matrix, F matrix) with any number of bins.
 }
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-  an object of class IPM.matrix.
+  an object of class IPMmatrix.
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -46,7 +46,7 @@ aMat[cbind(2:3,1:2)] <- 0.5
 aMat[cbind(3,3)] <- 0.8
 aMat[1,3] <-5
 
-IPM.amat <- coerceMatrixIPM(aMat)
+IPMamat <- coerceMatrixIPM(aMat)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

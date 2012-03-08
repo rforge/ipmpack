@@ -58,7 +58,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 \examples{
 dff <- generateData()
 startSizes <- rnorm(100, 2, 1)
-Tmatrix <- create.IPM.Tmatrix(minSize = 1.2*min(dff$size, na.rm=TRUE),
+Tmatrix <- createIPMTmatrix(minSize = 1.2*min(dff$size, na.rm=TRUE),
 maxSize = 1.2*max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
 
 rc <- timeToSize(startingSizes = startSizes, IPM = Tmatrix, endSize = 10, 

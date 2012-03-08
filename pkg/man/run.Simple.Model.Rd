@@ -8,7 +8,7 @@ Runs a simple model using default survival and growth functions.
 Takes a dataframe, a chosen size, a minimum and maximum size onto which integrate, and a number of bins, and creates a T matrix and plots passage time and life expectancy (does not include fecundity).
 }
 \usage{
-run.Simple.Model(dataf, chosen.size, minSize = c(), maxSize = c(), 
+run.Simple.Model(dataf, chosenSize, minSize = c(), maxSize = c(), 
 nBigMatrix = 500, do.plot = TRUE, is.log = TRUE,  
 integrateType = "midpoint", correction="none")
 }
@@ -17,7 +17,7 @@ integrateType = "midpoint", correction="none")
   \item{dataf}{
   a dataframe with columns size, sizeNext (which is continuous stage in the next time step), and surv, at a minimum.%%     
   }
-  \item{chosen.size}{
+  \item{chosenSize}{
 	the target size for which passage time estimates are desired.
 }
   \item{minSize}{
@@ -47,7 +47,7 @@ boolean describing whether continuous stage is on a log scale or not (for plotti
 }
 \value{
   \item{pTime}{
-	passage time to chosen.size from every size in the chosen discrete time step interval; estimation for sizes larger than the chosen.size should be discarded. 
+	passage time to chosenSize from every size in the chosen discrete time step interval; estimation for sizes larger than the chosenSize should be discarded. 
   }
   \item{LE}{
 	life expectancy  in the chosen discrete time step interval.
@@ -80,7 +80,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \examples{
 dff<-generateData()
-a1<-run.Simple.Model(dataf=dff, chosen.size=3,do.plot=TRUE)
+a1<-run.Simple.Model(dataf=dff, chosenSize=3,do.plot=TRUE)
 names(a1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

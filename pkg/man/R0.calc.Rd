@@ -13,10 +13,10 @@ R0.calc(Tmatrix, Fmatrix)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Tmatrix}{
-    a matrix (not necessarily of class IPM.matrix).
+    a matrix (not necessarily of class IPMmatrix).
 }
   \item{Fmatrix}{
-    a matrix (not necessarily of class IPM.matrix).
+    a matrix (not necessarily of class IPMmatrix).
 }
 }
 \details{
@@ -39,14 +39,14 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{create.IPM.Tmatrix}},\code{\link{create.IPM.Fmatrix}}  
+\code{\link{createIPMTmatrix}},\code{\link{createIPMFmatrix}}  
 }
 \examples{
 dff <- generateData()
-Tmatrix <- create.IPM.Tmatrix(minSize = min(dff$size, na.rm = TRUE),
+Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), 
 survObj = makeSurvObj(dff), correction="constant")
-Fmatrix <- create.IPM.Fmatrix(minSize = min(dff$size, na.rm = TRUE),
+Fmatrix <- createIPMFmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), fecObj = makeFecObj(dff), correction="constant")
 R0.calc(Tmatrix, Fmatrix)
 }

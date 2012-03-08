@@ -565,7 +565,7 @@ setClass("envMatrix",
 
 
 #Class for the matrix that holds the IPM
-setClass("IPM.matrix",
+setClass("IPMmatrix",
 		representation(n.discrete = "numeric", #number of discrete classes
 				nEnvClass = "numeric", #number of covariate levels
 				nBigMatrix = "numeric", #the resolution of the IPM
@@ -598,7 +598,7 @@ setClass("IPM.matrix",
 #
 #Returns -
 #  an IPM object (with or without discrete classes)
-create.IPM.Tmatrix <- function(nEnvClass = 1,
+createIPMTmatrix <- function(nEnvClass = 1,
 		nBigMatrix = 50,
 		minSize = -1,
 		maxSize = 50,
@@ -644,7 +644,7 @@ create.IPM.Tmatrix <- function(nEnvClass = 1,
 		get.matrix <- t((t(get.matrix)/nvals)*surv(size=y,cov=chosen.cov,survObj=survObj))    
 	}
 	
-	rc <- new("IPM.matrix",
+	rc <- new("IPMmatrix",
 			n.discrete =0,
 			nEnvClass = 1, 
 			nBigMatrix = nBigMatrix,
@@ -676,7 +676,7 @@ create.IPM.Tmatrix <- function(nEnvClass = 1,
 				cbind(disc.to.cont,cont.to.cont))
 		
 	
-		rc <- new("IPM.matrix",
+		rc <- new("IPMmatrix",
 				n.discrete = ndisc,
 				nEnvClass = 1, 
 				nBigMatrix = nBigMatrix,
@@ -718,7 +718,7 @@ create.IPM.Tmatrix <- function(nEnvClass = 1,
 #  an IPM object
 
 
-create.compound.Tmatrix <- function(nEnvClass = 2,
+createCompoundTmatrix <- function(nEnvClass = 2,
 		nBigMatrix = 50,
 		minSize = -1,
 		maxSize = 50,
@@ -820,7 +820,7 @@ create.compound.Tmatrix <- function(nEnvClass = 2,
 		
 	}
 	
-	rc <- new("IPM.matrix",
+	rc <- new("IPMmatrix",
 			nEnvClass = nEnvClass, 
 			nBigMatrix = nBigMatrix,
 			nrow = nEnvClass*(nBigMatrix+ndisc),
@@ -855,7 +855,7 @@ create.compound.Tmatrix <- function(nEnvClass = 2,
 #  an IPM object
 
 
-create.IPM.Fmatrix <- function(fecObj,
+createIPMFmatrix <- function(fecObj,
 		nEnvClass = 1,
 		nBigMatrix = 50,
 		minSize = -1,
@@ -924,7 +924,7 @@ create.IPM.Fmatrix <- function(fecObj,
 		get.matrix[get.matrix<0] <- 0
 	}
 	
-	rc <- new("IPM.matrix",
+	rc <- new("IPMmatrix",
 			n.discrete = ndisc,
 			nEnvClass = 1, 
 			nBigMatrix = nBigMatrix,
@@ -960,7 +960,7 @@ create.IPM.Fmatrix <- function(fecObj,
 #  an IPM object
 
 
-create.compound.Fmatrix <- function(nEnvClass = 2,
+createCompoundFmatrix <- function(nEnvClass = 2,
 		nBigMatrix = 50,
 		minSize = -1,
 		maxSize = 50,
@@ -996,7 +996,7 @@ create.compound.Fmatrix <- function(nEnvClass = 2,
 	#loop over habitats / environments
 	for (k in 1:nEnvClass) {
 		
-		get.matrix <- create.IPM.Fmatrix(nEnvClass =1,
+		get.matrix <- createIPMFmatrix(nEnvClass =1,
 				nBigMatrix = nBigMatrix,
 				minSize = minSize,
 				maxSize = maxSize,
@@ -1016,10 +1016,10 @@ create.compound.Fmatrix <- function(nEnvClass = 2,
 		
 	}
 	
-	#warning about negative numbers should appear from create.IPM.Fmatrix
+	#warning about negative numbers should appear from createIPMFmatrix
 	
 	
-	rc <- new("IPM.matrix",
+	rc <- new("IPMmatrix",
 			nEnvClass = nEnvClass, 
 			nBigMatrix = nBigMatrix,
 			nrow = nEnvClass*(nBigMatrix+ndisc),
@@ -1059,7 +1059,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 	#Create a new Tmatrix with 0.5*min and 1.5*max and 1.5*meshpoints
 	if (Tmatrix@meshpoints[1]>0)
 		new.min <- Tmatrix@meshpoints[1]/2 else new.min <- Tmatrix@meshpoints[1]*1.5
-	Tmatrix1 <- create.IPM.Tmatrix(nEnvClass = 1,
+	Tmatrix1 <- createIPMTmatrix(nEnvClass = 1,
 			nBigMatrix = floor(length(Tmatrix@meshpoints)*1.5),
 			minSize = new.min, maxSize = 1.5*max(Tmatrix@meshpoints),
 			chosen.cov = 1, growObj=growObj,survObj=survObj,
@@ -1208,11 +1208,11 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 #Generic for mean life expectancy
 #parameters - an IPM
 # returns - the life expectancy for every starting size. 
-MeanLifeExpect <- function(IPM.matrix){
+MeanLifeExpect <- function(IPMmatrix){
 			require(MASS)
-			nBigMatrix <- length(IPM.matrix@.Data[1,]) #this nBigMatrix actually contains discrete, env, etc
-			#tmp <-  ginv(diag(IPM.matrix@nEnvClass*nBigMatrix)-IPM.matrix)
-			tmp <-  ginv(diag(nBigMatrix)-IPM.matrix)
+			nBigMatrix <- length(IPMmatrix@.Data[1,]) #this nBigMatrix actually contains discrete, env, etc
+			#tmp <-  ginv(diag(IPMmatrix@nEnvClass*nBigMatrix)-IPMmatrix)
+			tmp <-  ginv(diag(nBigMatrix)-IPMmatrix)
 			lifeExpect <- colSums(tmp)
 			return(lifeExpect)
 		}
@@ -1223,12 +1223,12 @@ MeanLifeExpect <- function(IPM.matrix){
 #parameters - an IPM
 # returns - the variance in life expectancy for every starting size. 
 
-VarLifeExpect <- function(IPM.matrix){
+VarLifeExpect <- function(IPMmatrix){
 			require(MASS)
-			nBigMatrix <- length(IPM.matrix@.Data[1,])
-			#tmp <-  ginv(diag(IPM.matrix@nEnvClass*nBigMatrix)-IPM.matrix)
-			tmp <-  ginv(diag(nBigMatrix)-IPM.matrix)
-			#varlifeExpect <- (2*diag(tmp)-diag(length(IPM.matrix[,1])))%*%tmp-(tmp*tmp)
+			nBigMatrix <- length(IPMmatrix@.Data[1,])
+			#tmp <-  ginv(diag(IPMmatrix@nEnvClass*nBigMatrix)-IPMmatrix)
+			tmp <-  ginv(diag(nBigMatrix)-IPMmatrix)
+			#varlifeExpect <- (2*diag(tmp)-diag(length(IPMmatrix[,1])))%*%tmp-(tmp*tmp)
 			#varLifeExpect <- colSums(varlifeExpect)
 			varLifeExpect <- colSums(2*(tmp%*%tmp)-tmp)-colSums(tmp)*colSums(tmp)                  
 			return(varLifeExpect)
@@ -1239,7 +1239,7 @@ VarLifeExpect <- function(IPM.matrix){
 
 
 #Generic for survivorship
-#parameters - IPM.matrix - an IPM
+#parameters - IPMmatrix - an IPM
 #           - size1 - a size at age 1
 #           - maxAge - a maxAge
 # returns - a list including the survivorship up to the max age,
@@ -1248,16 +1248,16 @@ VarLifeExpect <- function(IPM.matrix){
 
 ## WON'T WORK WITH DISCRETE STAGES AS IS!!
 
-Survivorship <- function(IPM.matrix, size1, maxAge=300){
-			nBigMatrix <- length(IPM.matrix@.Data[1,])
-			#n <- IPM.matrix@nEnvClass*nBigMatrix
+Survivorship <- function(IPMmatrix, size1, maxAge=300){
+			nBigMatrix <- length(IPMmatrix@.Data[1,])
+			#n <- IPMmatrix@nEnvClass*nBigMatrix
 			n <- nBigMatrix
-			A1 <- tmp <-  IPM.matrix
+			A1 <- tmp <-  IPMmatrix
 			stage.agesurv <- matrix(NA,n,maxAge)
 			surv.curv <- rep (NA,maxAge)
 			
 			#identify the starting size you want to track
-			loc <- which(abs(size1-IPM.matrix@meshpoints)==min(abs(size1-IPM.matrix@meshpoints)),arr.ind=T)
+			loc <- which(abs(size1-IPMmatrix@meshpoints)==min(abs(size1-IPMmatrix@meshpoints)),arr.ind=T)
 			popvec <- matrix(0,n,1)
 			popvec[loc,1] <- 1
 			
@@ -1281,17 +1281,17 @@ Survivorship <- function(IPM.matrix, size1, maxAge=300){
 #           - a size for which passage time is required            
 # returns - the passage time to this size from each of the sizes in the IPM 
 
-PassageTime <- function(chosen.size,IPM.matrix){
+PassageTime <- function(chosenSize,IPMmatrix){
 			require(MASS)
 			
-			loc <- which(abs(chosen.size-IPM.matrix@meshpoints) ==
-							min(abs(chosen.size - IPM.matrix@meshpoints)),arr.ind=TRUE)[1]
-			matrix.dim <- length(IPM.matrix[1,])
+			loc <- which(abs(chosenSize-IPMmatrix@meshpoints) ==
+							min(abs(chosenSize - IPMmatrix@meshpoints)),arr.ind=TRUE)[1]
+			matrix.dim <- length(IPMmatrix[1,])
 			
-			Tprime <- IPM.matrix
+			Tprime <- IPMmatrix
 			Tprime[,loc] <- 0
 			
-			Mprime <- 1-colSums(IPM.matrix)
+			Mprime <- 1-colSums(IPMmatrix)
 			Mprime[loc]<-0
 			Mprime <- rbind(Mprime,rep(0,matrix.dim))
 			Mprime[2,loc] <- 1
@@ -1302,8 +1302,8 @@ PassageTime <- function(chosen.size,IPM.matrix){
 			Bprime[2,][Bprime[2,]==0] <- 1
 			
 			diagBprime <- diag(Bprime[2,])
-			#plot(IPM.matrix@meshpoints,diag(diagBprime),type="l",log="y")
-			#abline(v=chosen.size)
+			#plot(IPMmatrix@meshpoints,diag(diagBprime),type="l",log="y")
+			#abline(v=chosenSize)
 			Tc <- diagBprime%*%Tprime%*%ginv(diagBprime)
 			eta1 <- ginv(diag(matrix.dim)-Tc)             
 			
@@ -1319,16 +1319,16 @@ PassageTime <- function(chosen.size,IPM.matrix){
 #parameters - an IPM
 #           - a size for which passage time is required            
 # returns - the variance passage time to this size from each of the sizes in the IPM 
-varPassageTime <- function(chosen.size,IPM.matrix){
+varPassageTime <- function(chosenSize,IPMmatrix){
 			require(MASS)
 			
-			loc <- which(abs(chosen.size-IPM.matrix@meshpoints)==min(abs(chosen.size-IPM.matrix@meshpoints)),arr.ind=TRUE)
-			matrix.dim <- length(IPM.matrix[1,])
+			loc <- which(abs(chosenSize-IPMmatrix@meshpoints)==min(abs(chosenSize-IPMmatrix@meshpoints)),arr.ind=TRUE)
+			matrix.dim <- length(IPMmatrix[1,])
 			
-			Tprime <- IPM.matrix
+			Tprime <- IPMmatrix
 			Tprime[,loc] <- 0
 			
-			Mprime <- 1-colSums(IPM.matrix)
+			Mprime <- 1-colSums(IPMmatrix)
 			Mprime[loc]<-0
 			Mprime <- rbind(Mprime,rep(0,matrix.dim))
 			Mprime[2,loc] <- 1
@@ -1351,12 +1351,12 @@ varPassageTime <- function(chosen.size,IPM.matrix){
 #           - an environmental matrix
 # returns - the life expectancy for each of the sizes in the IPM (columns)
 #           for each of the starting env states
-LifeExpect <- function(IPM.matrix,envMatrix){
+LifeExpect <- function(IPMmatrix,envMatrix){
 			require(MASS)
 			
-			matrix.dim <- length(IPM.matrix[1,])
-			nstages <- IPM.matrix@nBigMatrix
-			nstates <- IPM.matrix@nEnvClass
+			matrix.dim <- length(IPMmatrix[1,])
+			nstages <- IPMmatrix@nBigMatrix
+			nstates <- IPMmatrix@nEnvClass
 			
 			pis <- Re(eigen(envMatrix)$vector[,1])
 			pis <- pis/(sum(pis))
@@ -1364,7 +1364,7 @@ LifeExpect <- function(IPM.matrix,envMatrix){
 			#print(pis)
 			
 			#ckron <- kronecker(envMatrix,diag(nstages))  #doesnt work??
-			m <- IPM.matrix  #%*%ckron  #eq 29 in carols paper
+			m <- IPMmatrix  #%*%ckron  #eq 29 in carols paper
 			
 			Itilda <- diag(matrix.dim)
 			
@@ -1379,8 +1379,8 @@ LifeExpect <- function(IPM.matrix,envMatrix){
 			qatildas[,,]<-0
 			for (i in 1:nstates) {
 				indext <-((i-1)*nstages+1):(nstages*i) 
-				qatildas[indext,,i] <- IPM.matrix[indext,indext]/envMatrix[i,i]
-				#print( IPM.matrix[cbind(indext,indext)]/envMatrix[i,i] )
+				qatildas[indext,,i] <- IPMmatrix[indext,indext]/envMatrix[i,i]
+				#print( IPMmatrix[cbind(indext,indext)]/envMatrix[i,i] )
 			}                            #array of qatildas, eqn 26
 			#need to remove env effect since mega-matrix pre-built 
 			
@@ -1423,20 +1423,20 @@ LifeExpect <- function(IPM.matrix,envMatrix){
 
 ##Function to estimate Stochastic Passage Time
 
-StochPassageTime <- function(chosen.size,IPM.matrix,envMatrix){
+StochPassageTime <- function(chosenSize,IPMmatrix,envMatrix){
 			require(MASS)
 			#get the right index for the size you want
-			loc <- which(abs(chosen.size-
-											IPM.matrix@meshpoints)==min(abs(chosen.size-
-													IPM.matrix@meshpoints)),arr.ind=TRUE)
+			loc <- which(abs(chosenSize-
+											IPMmatrix@meshpoints)==min(abs(chosenSize-
+													IPMmatrix@meshpoints)),arr.ind=TRUE)
 			#expand out to find that size in every env
-			locs.all <- loc*c(1:IPM.matrix@nEnvClass)
-			matrix.dim <- length(IPM.matrix[1,])
+			locs.all <- loc*c(1:IPMmatrix@nEnvClass)
+			matrix.dim <- length(IPMmatrix[1,])
 			
-			Tprime <- IPM.matrix
+			Tprime <- IPMmatrix
 			Tprime[,locs.all] <- 0
 			
-			dhat <- 1-colSums(IPM.matrix)
+			dhat <- 1-colSums(IPMmatrix)
 			dhat[locs.all]<-0
 			dhat <- rbind(dhat,rep(0,matrix.dim))
 			dhat[2,locs.all] <- 1
@@ -1720,9 +1720,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	slam <- elam
 	
 	# build the IPM and get the lamdba value
-	Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 			growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
-	Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 			fecObj=fecObj,integrateType=integrateType, correction=correction)
 	IPM <- Tmatrix+Fmatrix
 	lambda1 <- Re(eigen(IPM)$value[1]);#print(lambda1)
@@ -1730,9 +1730,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	# change the growth parameters
 	for (param.test in 1:length(growObj@fit$coeff)){
 		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test]*(1+delta);
-		Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
-		Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				fecObj=fecObj, integrateType=integrateType, correction=correction)
 		IPM <- Tmatrix+Fmatrix
 		lambda2 <- Re(eigen(IPM)$value[1]); #print(lambda2)
@@ -1744,9 +1744,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	param.test <- param.test+1
 	resids <- growObj@fit$residuals
 	growObj@fit$residuals <- rnorm(length(growObj@fit$residuals),0,sd(growObj@fit$residuals)*(1+delta))
-	Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 			growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
-	Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 			fecObj=fecObj, integrateType=integrateType, correction=correction)
 	IPM <- Tmatrix + Fmatrix
 	lambda2 <- Re(eigen(IPM)$value[1]); #print(lambda2)
@@ -1758,9 +1758,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	count <- param.test
 	for (param.test in 1:length(survObj@fit$coeff)){
 		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test]*(1+delta);
-		Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
-		Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				fecObj=fecObj,integrateType=integrateType, correction=correction)
 		IPM <- Tmatrix+Fmatrix
 		lambda2 <- Re(eigen(IPM)$value[1]);
@@ -1775,9 +1775,9 @@ sensParams <- function(growObj,survObj,fecObj,
 		count <- count + param.test;
 		for (param.test in 1:length(chs)) {
 			fecObj@fecConstants[chs[param.test]] <- fecObj@fecConstants[chs[param.test]]*(1+delta);
-			Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+			Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 					growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
-			Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+			Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 					fecObj=fecObj,integrateType=integrateType, correction=correction)
 			IPM <- Tmatrix+Fmatrix
 			lambda2 <- Re(eigen(IPM)$value[1]);
@@ -1794,9 +1794,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	for (i in 1:length(fecObj@fit.fec)){
 	for (param.test in 1:length(fecObj@fit.fec[[i]]$coeff)){
 		fecObj@fit.fec[[i]]$coefficients[param.test] <- fecObj@fit.fec[[i]]$coefficients[param.test]*(1+delta);
-		Tmatrix <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
-		Fmatrix <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				fecObj=fecObj,integrateType=integrateType, correction=correction)
 		IPM <- Tmatrix+Fmatrix
 		lambda2 <- Re(eigen(IPM)$value[1]);
@@ -1817,23 +1817,23 @@ sensParams <- function(growObj,survObj,fecObj,
 # Generic approach to get stoch rate
 # by sampling list IPM
 #
-# Parameters - list.IPM.matrix - list of IPMs corresponding to different year types
+# Parameters - list.IPMmatrix - list of IPMs corresponding to different year types
 #            - n.runin - the burnin before establishing lambda_s
 #            - Tmax - the total time-horizon for getting lambda_s
 #
 # Returns lambda_s (no density dependence)
 
-StochGrowthRateSampleList <- function(list.IPM.matrix,n.runin,Tmax){
+StochGrowthRateSampleList <- function(list.IPMmatrix,n.runin,Tmax){
 			require(MASS)
 			
-			nmatrices <- length(list.IPM.matrix)
+			nmatrices <- length(list.IPMmatrix)
 			
-			nt<-rep(1,length(list.IPM.matrix[[1]][,1]))
+			nt<-rep(1,length(list.IPMmatrix[[1]][,1]))
 			Rt<-rep(NA,Tmax)
 			
 			for (t in 1:Tmax) {
 				year.type <- sample(1:nmatrices,size=1,replace=FALSE)
-				nt1<-list.IPM.matrix[[year.type]] %*% nt	
+				nt1<-list.IPMmatrix[[year.type]] %*% nt	
 				sum.nt1<-sum(nt1)
 				Rt[t]<-log(sum.nt1)
 				nt<-nt1/sum.nt1
@@ -1879,12 +1879,12 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 					min(n.microsites[min(t,length(n.microsites))]/nt[1],1))
 		
 		
-		tpS <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
+		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosen.cov = covariate[t,],
 				growObj = growthObj, survObj = survObj,
 				integrateType=integrateType, correction=correction)
 		
-		tpF <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
+		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, #chosen.cov = covariate[t,],
 				fecObj = tmp.fecObj,
 				integrateType=integrateType, correction=correction)
@@ -1936,11 +1936,11 @@ TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
 		
 		#print(tmp.fecObj@fecConstants)
 		
-		tpS <- create.IPM.Tmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
+		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosen.cov = covariate[t,],
 				growObj = growthObj, survObj = survObj,
 				integrateType=integrateType, correction=correction)
-		tpF <- create.IPM.Fmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
+		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, #chosen.cov = covariate[t,],
 				fecObj = tmp.fecObj,
 				integrateType=integrateType, correction=correction)

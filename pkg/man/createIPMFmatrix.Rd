@@ -1,5 +1,5 @@
-\name{create.IPM.Fmatrix}
-\alias{create.IPM.Fmatrix}
+\name{createIPMFmatrix}
+\alias{createIPMFmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here. 
 \title{
   Builds F matrices.
@@ -8,7 +8,7 @@
 Uses fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calves) by reproductive stages due to sexual reproduction. Currently only pre-census fertility can be handled. 
 }
 \usage{
-create.IPM.Fmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSize = 50, chosen.cov = 1, integrateType="midpoint", correction="none")
+createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSize = 50, chosen.cov = 1, integrateType="midpoint", correction="none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -47,7 +47,7 @@ create.IPM.Fmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSize
 %%
 }
 \value{
-  an object of class IPM.matrix of dimensions nBigMatrix or nBigMatrix+ndiscrete classes (defined by fecObj@offspringSplitter-1).
+  an object of class IPMmatrix of dimensions nBigMatrix or nBigMatrix+ndiscrete classes (defined by fecObj@offspringSplitter-1).
 }
 \references{
 For information on F matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
@@ -66,13 +66,13 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{create.IPM.Tmatrix}}
+\code{\link{createIPMTmatrix}}
 }
 \examples{
 # Data with only continuous stage and one habitat
 dff <- generateData()
 fv1 <- makeFecObj(dff, explanatoryVariables = "size", Transform = "log")
-Fmatrix <- create.IPM.Fmatrix(fecObj = fv1, nBigMatrix = 20, minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE))
+Fmatrix <- createIPMFmatrix(fecObj = fv1, nBigMatrix = 20, minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE))
 
 slotNames(Fmatrix)
 

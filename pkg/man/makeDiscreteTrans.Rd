@@ -6,7 +6,7 @@ Builds matrix for transitions between discrete (e.g. seedbank) and continuous (e
 }
 \description{
   Function that takes a data frame reflecting a population that includes continuous (e.g., size) and discrete (e.g., diapause)
-  classes of individuals, and builds a transition matrix from this for movement between discrete and continuous stages (providing just a single value for the continuous stages; the detail of movement between continuous stages (e.g., sizes) is generated elsewhere). This object can then be used as an argument in the function to "create.IPM.Tmatrix" to build a T matrix that contains both discrete and continuous stages. 
+  classes of individuals, and builds a transition matrix from this for movement between discrete and continuous stages (providing just a single value for the continuous stages; the detail of movement between continuous stages (e.g., sizes) is generated elsewhere). This object can then be used as an argument in the function to "createIPMTmatrix" to build a T matrix that contains both discrete and continuous stages. 
 
   The dataframe must contain columns  "stage" and "stageNext" with values of the names of the discrete classes and the name "continuous" where appropriate, in the current and subsequent time step. Continuous categories are also defined by their measurements, contained in "size" and "sizeNext". This is necessary for defining the mean and variance of the continuous stage of individuals emerging from discrete stages.
 }
@@ -40,13 +40,13 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{create.IPM.Tmatrix}}
+\code{\link{createIPMTmatrix}}
 
 }
 \examples{
 dff <- generateDataDiscrete()
 discTrans <- makeDiscreteTrans(dff)
-create.IPM.Tmatrix(nBigMatrix = 10, growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff), discreteTrans = discTrans)
+createIPMTmatrix(nBigMatrix = 10, growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff), discreteTrans = discTrans)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -13,10 +13,10 @@ largeMatrixCalc(Tmatrix, Fmatrix, tol = 1e-08)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Tmatrix}{
-	object of class IPM.matrix describing survival transitions.
+	object of class IPMmatrix describing survival transitions.
 }
   \item{Fmatrix}{
-	object of class IPM.matrix describing fecundity transitions.
+	object of class IPMmatrix describing fecundity transitions.
 }
   \item{tol}{
     tolerance for convergence, defaults to 1e-08.
@@ -51,8 +51,8 @@ Modified from Appendix A in Rees & Ellner 2009 (see references).
 }
 \examples{
 dff <- generateData()
-Tmatrix <- create.IPM.Tmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
-Fmatrix <- create.IPM.Fmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE),fecObj = makeFecObj(dff))
+Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
+Fmatrix <- createIPMFmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE),fecObj = makeFecObj(dff))
 
 largeMatrixCalc(Tmatrix, Fmatrix)
 

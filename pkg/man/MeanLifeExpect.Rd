@@ -8,12 +8,12 @@
   Provided a T matrix, which defines survival transitions across stages, this function outputs a vector defining life expectancy in units of the time step used (see convertIncrement()), for each of the size bins.
 }
 \usage{
-MeanLifeExpect(IPM.matrix)
+MeanLifeExpect(IPMmatrix)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{IPM.matrix}{
-    an IPM.matrix object defining survival transitions.
+  \item{IPMmatrix}{
+    an IPMmatrix object defining survival transitions.
 }
 }
 \details{
@@ -38,17 +38,17 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{LifeExpect}}, \code{\link{create.IPM.Tmatrix}} 
+\code{\link{LifeExpect}}, \code{\link{createIPMTmatrix}} 
 }
 \examples{
 # With a single continuous state variable (e.g. size):
 dff <- generateData()
-Tmatrix <- create.IPM.Tmatrix(minSize = min(dff$size, na.rm = TRUE),
+Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj=makeGrowthObj(dff),
 survObj = makeSurvObj(dff))
 MeanLifeExpect(Tmatrix)
 
-Tmatrix <- create.IPM.Tmatrix(minSize = min(dff$size, na.rm = TRUE),
+Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff))
 
@@ -59,7 +59,7 @@ dff <- generateDataDiscrete()
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 discM <- makeDiscreteTrans(dff)
-Tmatrix <- create.compound.Tmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff),
+Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff),
 growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"),
 survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans = discM)
 MeanLifeExpect(Tmatrix)

@@ -1,5 +1,5 @@
-\name{create.compound.Tmatrix}
-\alias{create.compound.Tmatrix}
+\name{createCompoundTmatrix}
+\alias{createCompoundTmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds a compound T matrix.
@@ -8,7 +8,7 @@ Builds a compound T matrix.
   Uses growth, survival, discreteTrans, and environmental transition objects to construct a matrix defining probabilities for transitions between continuous stages (e.g. size) due to growth and survival given both size and environmental state and discrete stages. 
 }
 \usage{
-create.compound.Tmatrix(nEnvClass = 2, nBigMatrix = 50,
+createCompoundTmatrix(nEnvClass = 2, nBigMatrix = 50,
 minSize = -1, maxSize = 50, envMatrix, growObj, survObj,
 discreteTrans = 1, integrateType = "midpoint",correction = "none")
 }
@@ -54,7 +54,7 @@ This structure can also be used to define size x age IPMs, where the transition
 between ages is reflected by a similar matrix.
 }
 \value{
-  an object of class IPM.matrix with dimensions
+  an object of class IPMmatrix with dimensions
   nBigMatrix*nEnvClass, or if discrete transitions exist
   (nBigMatrix+n.disc)*nEnvClass
 }
@@ -82,12 +82,12 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{create.compound.Fmatrix}},\code{\link{create.IPM.Tmatrix}}
+\code{\link{createCompoundFmatrix}},\code{\link{createIPMTmatrix}}
 }
 \examples{
 # Data with only continuous stage and two habitats
 dff <- generateData()
-Tmatrix <- create.compound.Tmatrix(minSize = min(dff$size,na.rm=TRUE), maxSize = max(dff$size,na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"))
+Tmatrix <- createCompoundTmatrix(minSize = min(dff$size,na.rm=TRUE), maxSize = max(dff$size,na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"))
 
 image(1:nrow(Tmatrix), 1:ncol(Tmatrix), t(log(Tmatrix)), xlab="Continuous stage (e.g. size) at t",ylab="Continuous stage (e.g. size) at t+1", axes = FALSE)
 axis(1, at = 1:nrow(Tmatrix), lab = round(rep(Tmatrix@meshpoints,Tmatrix@nEnvClass), 2))
@@ -100,7 +100,7 @@ dff <- generateDataDiscrete()
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 discM <- makeDiscreteTrans(dff)
-Tmatrix <- create.compound.Tmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans=discM)
+Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans=discM)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

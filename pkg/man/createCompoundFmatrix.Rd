@@ -1,5 +1,5 @@
-\name{create.compound.Fmatrix}
-\alias{create.compound.Fmatrix}
+\name{createCompoundFmatrix}
+\alias{createCompoundFmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds a compound F matrix.
@@ -8,7 +8,7 @@ Builds a compound F matrix.
   Uses fecundity object, and environmental transition objects to construct a matrix defining probabilities for transitions between sizes due to fecundity given both a continuous state (e.g. size) and environmental state, as well as a discrete stage if necessary (e.g. seedbank). Currently only pre-census fertility can be handled.  
 }
 \usage{
-create.compound.Fmatrix(nEnvClass = 2, nBigMatrix = 50,
+createCompoundFmatrix(nEnvClass = 2, nBigMatrix = 50,
 minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType, correction)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -30,7 +30,7 @@ minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType, correction)
     for each size.
   }
   \item{fecObj}{
-    fecundity object
+    fecundity object.
   }
   \item{integrateType}{
     integration type, defaults to "midpoint" (which uses probability density
@@ -46,7 +46,7 @@ minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType, correction)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-  an object of class IPM.matrix with dimensions
+  an object of class IPMmatrix with dimensions
   nBigMatrix*nEnvClass, or if discrete transitions exist
   (nBigMatrix+n.disc)*nEnvClass
 
@@ -69,12 +69,12 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{create.compound.Fmatrix}},\code{\link{create.IPM.Tmatrix}}
+\code{\link{createCompoundFmatrix}},\code{\link{createIPMTmatrix}}
 }
 \examples{
 # Data with only continuous stage and two habitats
 dff <- generateData()
-Fmatrix <-create.compound.Fmatrix(nBigMatrix = 20, minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm=TRUE), envMatrix = makeEnvObj(dff), fecObj = makeFecObj(dff, explanatoryVariables = "size+size2+covariate", Transform = "log"))
+Fmatrix <-createCompoundFmatrix(nBigMatrix = 20, minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm=TRUE), envMatrix = makeEnvObj(dff), fecObj = makeFecObj(dff, explanatoryVariables = "size+size2+covariate", Transform = "log"))
 
 image(1:nrow(Fmatrix), 1:ncol(Fmatrix), t(log(Fmatrix)), xlab="Continuous state (e.g. size) at t", ylab="Continuous state (e.g. size) at t+1", axes = FALSE)
 axis(1, at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints, Fmatrix@nEnvClass), 2))
@@ -87,7 +87,7 @@ dff <- generateDataDiscrete()
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 fv1 <- makeFecObj(dff, explanatoryVariables = "size", Transform = "log", offspringSplitter=data.frame(continuous = 0.9, dormant = 0.1))
-Fmatrix <- create.compound.Fmatrix(minSize = min(dff$size, na.rm=TRUE),
+Fmatrix <- createCompoundFmatrix(minSize = min(dff$size, na.rm=TRUE),
 maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), fecObj = fv1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

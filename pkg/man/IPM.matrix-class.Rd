@@ -1,21 +1,21 @@
-\name{IPM.matrix-class}
+\name{IPMmatrix-class}
 \Rdversion{1.1}
 \docType{class}
-\alias{IPM.matrix-class}
-\alias{LifeExpect,IPM.matrix,envMatrix-method}
-\alias{MeanLifeExpect,IPM.matrix-method}
-\alias{PassageTime,numeric,IPM.matrix-method}
-\alias{StochPassageTime,numeric,IPM.matrix,envMatrix-method}
-\alias{Survivorship,IPM.matrix-method}
-\alias{VarLifeExpect,IPM.matrix-method}
-\alias{varPassageTime,numeric,IPM.matrix-method}
+\alias{IPMmatrix-class}
+\alias{LifeExpect,IPMmatrix,envMatrix-method}
+\alias{MeanLifeExpect,IPMmatrix-method}
+\alias{PassageTime,numeric,IPMmatrix-method}
+\alias{StochPassageTime,numeric,IPMmatrix,envMatrix-method}
+\alias{Survivorship,IPMmatrix-method}
+\alias{VarLifeExpect,IPMmatrix-method}
+\alias{varPassageTime,numeric,IPMmatrix-method}
 
-\title{Class "IPM.matrix"}
+\title{Class "IPMmatrix"}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the class is. ~~
 }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("IPM.matrix", data, nrow, ncol, byrow, dimnames, ...)}.
+Objects can be created by calls of the form \code{new("IPMmatrix", data, nrow, ncol, byrow, dimnames, ...)}.
 %%  ~~ describe objects here ~~ 
 }
 \section{Slots}{
@@ -37,13 +37,13 @@ Class \code{"\linkS4class{vector}"}, by class "matrix", distance 4, with explici
 }
 \section{Methods}{
   \describe{
-    \item{LifeExpect}{\code{signature(IPM.matrix = "IPM.matrix", envMatrix = "envMatrix")}: ... }
-    \item{MeanLifeExpect}{\code{signature(IPM.matrix = "IPM.matrix")}: ... }
-    \item{PassageTime}{\code{signature(chosen.size = "numeric", IPM.matrix = "IPM.matrix")}: ... }
-    \item{StochPassageTime}{\code{signature(chosen.size = "numeric", IPM.matrix = "IPM.matrix", envMatrix = "envMatrix")}: ... }
-    \item{Survivorship}{\code{signature(IPM.matrix = "IPM.matrix")}: ... }
-    \item{VarLifeExpect}{\code{signature(IPM.matrix = "IPM.matrix")}: ... }
-    \item{varPassageTime}{\code{signature(chosen.size = "numeric", IPM.matrix = "IPM.matrix")}: ... }
+    \item{LifeExpect}{\code{signature(IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
+    \item{MeanLifeExpect}{\code{signature(IPMmatrix = "IPMmatrix")}: ... }
+    \item{PassageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix")}: ... }
+    \item{StochPassageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
+    \item{Survivorship}{\code{signature(IPMmatrix = "IPMmatrix")}: ... }
+    \item{VarLifeExpect}{\code{signature(IPMmatrix = "IPMmatrix")}: ... }
+    \item{varPassageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix")}: ... }
 	 }
 }
 \references{
@@ -63,6 +63,6 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %%  ~~or \code{\linkS4class{CLASSNAME}} for links to other classes ~~~
 }
 \examples{
-showClass("IPM.matrix")
+showClass("IPMmatrix")
 }
 \keyword{classes}

@@ -8,12 +8,12 @@
   Estimates the stochastic growth rate (lambda_s) by iteration; operates by sampling a list of IPMs.
 }
 \usage{
-StochGrowthRateSampleList(list.IPM.matrix, n.runin, Tmax)
+StochGrowthRateSampleList(list.IPMmatrix, n.runin, Tmax)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{list.IPM.matrix}{
- a list of IPM.matrix objects corresponding to possible states of the environment.
+  \item{list.IPMmatrix}{
+ a list of IPMmatrix objects corresponding to possible states of the environment.
 }
   \item{n.runin}{
     numeric, the size of the burnin,
@@ -48,7 +48,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 \examples{
 dff <- generateData()
 IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 10, minSize = -5, maxSize = 15,fecConstants=1e6, correction="constant")
-StochGrowthRateSampleList(list.IPM.matrix = IPMlist,n.runin = 100, Tmax = 5000) 
+StochGrowthRateSampleList(list.IPMmatrix = IPMlist,n.runin = 100, Tmax = 5000) 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

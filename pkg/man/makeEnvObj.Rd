@@ -39,7 +39,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 
 \seealso{
 \code{\link{makeFecObj}}, \code{\link{makeSurvObj}}, 
-\code{\link{create.IPM.Tmatrix}}, \code{\link{create.IPM.Fmatrix}}
+\code{\link{createIPMTmatrix}}, \code{\link{createIPMFmatrix}}
 
 }
 \examples{
