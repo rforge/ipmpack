@@ -1081,8 +1081,8 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 	title("Survival")
 	
 	#Do resolution and size range affect results for Life Expect? 
-	LE <- meanlifeExpect(Tmatrix)
-	LE1 <- meanlifeExpect(Tmatrix1)
+	LE <- meanLifeExpect(Tmatrix)
+	LE1 <- meanLifeExpect(Tmatrix1)
 	plot(Tmatrix@meshpoints,LE,type="l",
 			xlim=range(Tmatrix1@meshpoints),ylim=range(c(LE,LE1)),xlab="Sizes", ylab="Life expectancy")
 	points(Tmatrix1@meshpoints,LE1,type="l",col=2)
@@ -1208,7 +1208,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 #Generic for mean life expectancy
 #parameters - an IPM
 # returns - the life expectancy for every starting size. 
-meanlifeExpect <- function(IPMmatrix){
+meanLifeExpect <- function(IPMmatrix){
 			require(MASS)
 			nBigMatrix <- length(IPMmatrix@.Data[1,]) #this nBigMatrix actually contains discrete, env, etc
 			#tmp <-  ginv(diag(IPMmatrix@nEnvClass*nBigMatrix)-IPMmatrix)

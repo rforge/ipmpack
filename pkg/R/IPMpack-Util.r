@@ -23,7 +23,7 @@ getIPMoutput <- function(Tmatrixlist,targetSize=c(),Fmatrixlist=NULL){
 	lambda <- rep(NA,nsamps)
 	for (k in 1:nsamps) {
 		Tmatrix <- Tmatrixlist[[k]]
-		LE[k,]<-meanlifeExpect(Tmatrix) 
+		LE[k,]<-meanLifeExpect(Tmatrix) 
 		pTime[k,]<-passageTime(targetSize,Tmatrix) 
 		
 		if (class(Fmatrixlist)!="NULL") {
@@ -116,7 +116,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 			
 		}
 		
-		LE[k,] <- meanlifeExpect(Tmatrix) 
+		LE[k,] <- meanLifeExpect(Tmatrix) 
 		pTime[k,] <- passageTime(targetSize,Tmatrix) 
 		if (k==1) h1 <- diff(Tmatrix@meshpoints)[1]
 		
@@ -591,7 +591,7 @@ runSimpleModel <- function(dataf,
 			growObj = gr1, survObj = sv1,integrateType=integrateType, correction=correction)
 	
 	# Get the mean life expect from every size value in IPM
-	LE <- meanlifeExpect(tmp)
+	LE <- meanLifeExpect(tmp)
 	varLE <- varLifeExpect(tmp); #print(varLE)
 	if (do.plot) { 
 		plot(conv(tmp@meshpoints), LE,type = "l",xlab = "Size", ylab = "Mean life expectancy",log=axes,
