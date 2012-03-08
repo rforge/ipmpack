@@ -1,15 +1,15 @@
-\name{growthObjIncr-class}
+\name{growthObj.incr-class}
 \Rdversion{1.1}
 \docType{class}
-\alias{growthObjIncr-class}
-\alias{growth,numeric,numeric,numeric,growthObjIncr-method}
+\alias{growthObj.incr-class}
+\alias{growth,numeric,numeric,numeric,growthObj.incr-method}
 
-\title{Class "growthObjIncr"}
+\title{Class "growthObj.incr"}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the class is. ~~
 }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("growthObjIncr", ...)}.
+Objects can be created by calls of the form \code{new("growthObj.incr", ...)}.
 %%  ~~ describe objects here ~~ 
 }
 \section{Slots}{
@@ -19,7 +19,7 @@ Objects can be created by calls of the form \code{new("growthObjIncr", ...)}.
 }
 \section{Methods}{
   \describe{
-    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjIncr")}: ... }
+    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.incr")}: ... }
 	 }
 }
 \references{
@@ -39,6 +39,6 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %%  ~~or \code{\linkS4class{CLASSNAME}} for links to other classes ~~~
 }
 \examples{
-showClass("growthObjIncr")
+showClass("growthObj.incr")
 }
 \keyword{classes}

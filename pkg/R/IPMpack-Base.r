@@ -69,32 +69,32 @@ setClass("growthObjMultiCov",
 		representation(fit="lm"))
 
 # Create a generic growth object with normal errors on increment
-setClass("growthObjIncr",
+setClass("growthObj.incr",
 		representation(fit="lm"))
 
 setClass("growthObjMultiCov.incr",
 		representation(fit="lm"))
 
 # Create a generic growth object with truncated normal errors on increment
-setClass("growthObjTruncIncr",
+setClass("growthObj.truncincr",
 		representation(fit="numeric",varcov="matrix"))
 
 # Create a generic growth object with log normal errors on increment
-setClass("growthObjLogIncr",
+setClass("growthObj.logincr",
 		representation(fit="lm"))
 
 setClass("growthObjMultiCov.logincr",
 		representation(fit="lm"))
 
 # Create a generic growth object with declining errors 
-setClass("growthObjDeclineVar",
+setClass("growthObj.declinevar",
 		representation(fit="gls"))
 
 setClass("growthObjMultiCov.declinevar",
 		representation(fit="gls"))
 
 # Create a generic growth object with declining errors for increment
-setClass("growthObjIncrDeclineVar",
+setClass("growthObj.incr.declinevar",
 		representation(fit="gls"))
 
 setClass("growthObjMultiCov.incr.declinevar",
@@ -109,7 +109,7 @@ setClass("growthObjMultiCov.logincr.declinevar",
 
 
 # Create a generic growth object containing the Hossfeld parameters 
-setClass("growthObjHossfeld",
+setClass("growthObj.Hossfeld",
 		representation(paras="numeric",
 				sd="numeric", 
 				logLik="numeric", hessian="matrix"))
@@ -309,7 +309,7 @@ setMethod("growth",
 
 # growth for predicting next incr 
 setMethod("growth", 
-		c("numeric","numeric","numeric","growthObjIncr"),
+		c("numeric","numeric","numeric","growthObj.incr"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,
 					covariate=as.factor(rep(cov,length(size))))
@@ -330,7 +330,7 @@ setMethod("growth",
 
 # growth for predicting next truncated incr 
 setMethod("growth", 
-		c("numeric","numeric","numeric","growthObjTruncIncr"),
+		c("numeric","numeric","numeric","growthObj.truncincr"),
 		function(size,sizeNext,cov,growthObj){
 			require(truncnorm)
 			
@@ -376,7 +376,7 @@ setMethod("growth",
 
 # growth for predicting next logincr with a polynomial or log
 setMethod("growth", 
-		c("numeric","numeric","numeric","growthObjLogIncr"),
+		c("numeric","numeric","numeric","growthObj.logincr"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,
 					covariate=as.factor(rep(cov,length(size))))
@@ -437,7 +437,7 @@ setMethod("growthCum",
 # growth for predicting next incr with a polynomial or log
 # using pnorm (i.e. getting cumulative at boundary points and doing difference)
 setMethod("growthCum", 
-		c("numeric","numeric","numeric","growthObjIncr"),
+		c("numeric","numeric","numeric","growthObj.incr"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,#logsize=log(size),
 					covariate=as.factor(rep(cov,length(size))))
@@ -454,7 +454,7 @@ setMethod("growthCum",
 
 # growth for predicting next truncated incr with cumulative 
 setMethod("growthCum", 
-		c("numeric","numeric","numeric","growthObjTruncIncr"),
+		c("numeric","numeric","numeric","growthObj.truncincr"),
 		function(size,sizeNext,cov,growthObj){
 			require(truncnorm)
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,
@@ -472,7 +472,7 @@ setMethod("growthCum",
 # growth for predicting next logincr with a polynomial or log
 # using pnorm (i.e. getting cumulative at boundary points and doing difference)
 setMethod("growthCum", 
-		c("numeric","numeric","numeric","growthObjLogIncr"),
+		c("numeric","numeric","numeric","growthObj.logincr"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,#logsize=log(size),
 					covariate=as.factor(rep(cov,length(size))))
@@ -489,7 +489,7 @@ setMethod("growthCum",
 #Simple growth methods, using  declining variance in growth
 # using pnorm (i.e. getting cumulative at boundary points and doing difference)
 setMethod("growthCum", 
-		c("numeric","numeric","numeric","growthObjDeclineVar"),
+		c("numeric","numeric","numeric","growthObj.declinevar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,covariate=as.factor(rep(cov,length(size))))
 			mux <- predict(growthObj@fit,newd,type="response")
@@ -505,7 +505,7 @@ setMethod("growthCum",
 
 #Simple growth methods, using  declining variance in growth
 setMethod("growth", 
-		c("numeric","numeric","numeric","growthObjDeclineVar"),
+		c("numeric","numeric","numeric","growthObj.declinevar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,covariate=as.factor(rep(cov,length(size))))
 			mux <- predict(growthObj@fit,newd,type="response")
@@ -521,7 +521,7 @@ setMethod("growth",
 
 #same but with declining variance in growth on incrment
 setMethod("growth", 
-		c("numeric","numeric","numeric","growthObjIncrDeclineVar"),
+		c("numeric","numeric","numeric","growthObj.incr.declinevar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,covariate=as.factor(rep(cov,length(size))))
 			mux <- predict(growthObj@fit,newd,type="response")
@@ -534,7 +534,7 @@ setMethod("growth",
 
 
 ## Define a new growth method for Hossfeld growth (classic midpoint rule approach)
-setMethod("growth", c("numeric", "numeric", "numeric", "growthObjHossfeld"), 
+setMethod("growth", c("numeric", "numeric", "numeric", "growthObj.Hossfeld"), 
 		function(size, sizeNext, cov, growthObj) { 
 			mux <- size+Hossfeld(size, growthObj@paras) 
 			sigmax <- growthObj@sd 
@@ -1039,7 +1039,7 @@ createCompoundFmatrix <- function(nEnvClass = 2,
 
 # For a single Tmatrix (!not compound and no discrete stages!), this functions makes a series
 # of diagnostic plots - this is defined for growthObj,
-# growthObjIncr - modification required
+# growthObj.incr - modification required
 # if other objects used
 #
 # Parameters - the Tmatrix
@@ -1127,14 +1127,14 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 			#predict mean
 			mux <- predict(growObj@fit,newd,type="response")
 			#add to size if it is a incr object
-			if (class(growObj)=="growthObjIncr") mux <- Tmatrix@meshpoints[loctest[j]]+mux
+			if (class(growObj)=="growthObj.incr") mux <- Tmatrix@meshpoints[loctest[j]]+mux
 			#define variance if it is not a declinevar object
-			if (class(growObj)!="growthObjDeclineVar" &
-					class(growObj)!="growthObjIncrDeclineVar" &
+			if (class(growObj)!="growthObj.declinevar" &
+					class(growObj)!="growthObj.incr.declinevar" &
 					class(growObj)!="growthObjLogIncr.declinevar")
 				sigmax2 <- summary(growObj@fit)$sigma^2 else (print("undefined growth variance class"))
 			#plot using mean 
-			if (class(growObj)!="growthObjLogIncr"){
+			if (class(growObj)!="growthObj.logincr"){
 				points(testSizes,dnorm(testSizes,mux,sqrt(sigmax2)),type="l",col=2)
 			} else {
 				points(testSizes,dlnorm(testSizes-Tmatrix@meshpoints[loctest[j]],mux,
@@ -1149,7 +1149,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 	
 	#growth plots for cumul integration
 	if (integrateType=="cumul")  {
-		if (class(growObj)!="growthObjLogIncr") rval <- 3.5 else rval <- 0.5
+		if (class(growObj)!="growthObj.logincr") rval <- 3.5 else rval <- 0.5
 		for (j in 1:3) {
 			#prob survive
 			ps <- surv(Tmatrix@meshpoints[loctest[j]],Tmatrix@env.index[1],survObj)
@@ -1178,9 +1178,9 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 					newd$covariate <- as.factor(newd$covariate)
 			
 			mux <- predict(growObj@fit,newd,type="response")
-			if (class(growObj)=="growthObjIncr") mux <- Tmatrix@meshpoints[loctest[j]]+mux
+			if (class(growObj)=="growthObj.incr") mux <- Tmatrix@meshpoints[loctest[j]]+mux
 			sigmax2 <- summary(growObj@fit)$sigma^2
-			if (class(growObj)!="growthObjLogIncr"){
+			if (class(growObj)!="growthObj.logincr"){
 				points(testSizes,dnorm(testSizes,mux,sqrt(sigmax2))*h,type="l",col=2)
 			} else {
 				points(testSizes,dlnorm(testSizes-Tmatrix@meshpoints[loctest[j]],mux,sqrt(sigmax2))*h,type="l",col=2)

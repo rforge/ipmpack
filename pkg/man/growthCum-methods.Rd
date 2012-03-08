@@ -2,10 +2,10 @@
 \docType{methods}
 \alias{growthCum-methods}
 \alias{growthCum,numeric,numeric,numeric,growthObj-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjDeclineVar-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjIncr-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjLogIncr-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjTruncIncr-method}
+\alias{growthCum,numeric,numeric,numeric,growthObj.declinevar-method}
+\alias{growthCum,numeric,numeric,numeric,growthObj.incr-method}
+\alias{growthCum,numeric,numeric,numeric,growthObj.logincr-method}
+\alias{growthCum,numeric,numeric,numeric,growthObj.truncincr-method}
 \title{ ~~ Methods for Function \code{growthCum}  ~~}
 \description{
  ~~ Methods for function \code{growthCum}  ~~
@@ -17,19 +17,19 @@
 %%  ~~describe this method here~~
 }
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjDeclineVar")}}{
+\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.declinevar")}}{
 %%  ~~describe this method here~~
 }
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjIncr")}}{
+\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.incr")}}{
 %%  ~~describe this method here~~
 }
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjLogIncr")}}{
+\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.logincr")}}{
 %%  ~~describe this method here~~
 }
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjTruncIncr")}}{
+\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.truncincr")}}{
 %%  ~~describe this method here~~
 }
 }}

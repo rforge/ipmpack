@@ -1,16 +1,16 @@
-\name{growthObjTruncIncr-class}
+\name{growthObj.truncincr-class}
 \Rdversion{1.1}
 \docType{class}
-\alias{growthObjTruncIncr-class}
-\alias{growth,numeric,numeric,numeric,growthObjTruncIncr-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjTruncIncr-method}
+\alias{growthObj.truncincr-class}
+\alias{growth,numeric,numeric,numeric,growthObj.truncincr-method}
+\alias{growthCum,numeric,numeric,numeric,growthObj.truncincr-method}
 
-\title{Class \code{"growthObjTruncIncr"}}
+\title{Class \code{"growthObj.truncincr"}}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the class is. ~~
 }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("growthObjTruncIncr", ...)}.
+Objects can be created by calls of the form \code{new("growthObj.truncincr", ...)}.
 %%  ~~ describe objects here ~~ 
 }
 \section{Slots}{
@@ -20,8 +20,8 @@ Objects can be created by calls of the form \code{new("growthObjTruncIncr", ...)
 }
 \section{Methods}{
   \describe{
-    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjTruncIncr")}: ... }
-    \item{growthCum}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjTruncIncr")}: ... }
+    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.truncincr")}: ... }
+    \item{growthCum}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.truncincr")}: ... }
 	 }
 }
 \references{
@@ -41,6 +41,6 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %%  ~~or \code{\linkS4class{CLASSNAME}} for links to other classes ~~~
 }
 \examples{
-showClass("growthObjTruncIncr")
+showClass("growthObj.truncincr")
 }
 \keyword{classes}

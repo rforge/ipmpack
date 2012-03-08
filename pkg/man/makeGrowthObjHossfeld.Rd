@@ -1,5 +1,5 @@
-\name{makeGrowthObjHossfeld}
-\alias{makeGrowthObjHossfeld}
+\name{makegrowthObj.Hossfeld}
+\alias{makegrowthObj.Hossfeld}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Function to make a Hossfeld Growth Object
@@ -10,7 +10,7 @@ to increment - if length(dataf$incr) is zero, it will calculate dataf$increment 
 size and sizeNext; otherwise it will take the column provided
 }
 \usage{
-makeGrowthObjHossfeld(dataf)
+makegrowthObj.Hossfeld(dataf)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -22,7 +22,7 @@ makeGrowthObjHossfeld(dataf)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-Returns a growth object of class growthObjHossfeld for which growth methods exist. 
+Returns a growth object of class growthObj.Hossfeld for which growth methods exist. 
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -41,7 +41,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff<-generateData()
-gr1 <- makeGrowthObjHossfeld(dff)
+gr1 <- makegrowthObj.Hossfeld(dff)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
