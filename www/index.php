@@ -143,7 +143,7 @@ row represents one measurement in the population:</p>
                     <ul style="text-align:justify;line-height:1.75;font-size:18px">
                       <li>Clonality IPMs.</li>
                       <li>Multiple continuous state variables (e.g. size × age).</li>
-                      <li>etc. (suggestions very welcome)</li>
+                      <li>etc. (suggestions are very welcome)</li>
                     </ul>
                   </td>
                 </tr>
@@ -167,7 +167,7 @@ row represents one measurement in the population:</p>
                     <a href="#top" class="totop">Back to top</a>
                   </td>
                   <td style="vertical-align:top;padding:40px" width="420px">
-				    Papers using IPMpack (please contact us if you paper if you want your paper included in this list)
+				    Papers using IPMpack (please contact us if you want your paper to be included in this list)
                   </td>
                 </tr>
               </tbody>
