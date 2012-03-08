@@ -46,7 +46,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{meanlifeExpect}}, ~~~
+\code{\link{meanLifeExpect}}, ~~~
 }
 \examples{
 # With a single continuous state variable (e.g. size)
