@@ -9,7 +9,7 @@ Adds probability density functions of density function of size or increment give
 Function generates pdfs (probability density functions) corresponding to chosen sizes and adds them to a figure using growth methods.}
 \usage{
 addPdfGrowthPic(respType = "sizeNext", sizesPlotAt = c(20, 50, 60),
-                            sizeRange = c(20, 400), incrRange=c(-10, 50), 
+                            sizeRange = c(20, 400), incrRange = c(-10, 50), 
                             scalar = 100, growthObjList,
                             cols = 1:5,
                             cov = 1,
@@ -82,8 +82,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 dff <- generateData()
 
 a1 <- growthModelComp(dff, makePlot = TRUE)
-addPdfGrowthPic(respType = "sizeNext", sizesPlotAt = c(2, 6, 10), scalar = 1, jitt = 0.1,
-                            sizeRange = c(-5, 25), growthObjList = a1$growthObjects, cols = 2:5)
+addPdfGrowthPic(respType = "sizeNext", sizesPlotAt = c(2, 6, 10), scalar = 1, jitt = 0.1, sizeRange = c(-5, 25), growthObjList = a1$growthObjects, cols = 2:5)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -3,7 +3,7 @@
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Function to get growth objects reflecting distribution of parameters from lm or glm
+Calculates growth objects reflecting distribution of parameters from lm or glm.
 }
 \description{
 Function generates pdfs corresponding to estimated parameters and the
@@ -71,8 +71,6 @@ res <- getIPMoutputDirect(survObjList = svList,
 
      plot(res$meshpoints, res$pTime[1, ], xlab="Continuous (e.g. Size) stage", ylab = "Passage time", type = "l", ylim = range(res$pTime, na.rm=TRUE))
      for (j in 1:nrow(res$pTime)) points(res$meshpoints,res$pTime[j, ],col=j,  type = "l")
-
-
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

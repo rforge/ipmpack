@@ -139,9 +139,9 @@ setClass("fecObj",
 		representation(fit.fec = "list",
 				fecConstants = "numeric",
 				offspringSplitter = "data.frame",
-				mean.offspring.size = "numeric",
-				var.offspring.size = "numeric",
-				fec.by.discrete = "data.frame",
+				meanOffspringSize = "numeric",
+				varOffspringSize = "numeric",
+				fecByDiscrete = "data.frame",
 				Transform = "character")
 )
 
@@ -150,9 +150,9 @@ setClass("fecObjMultiCov",
 		representation(fit.fec = "list",
 				fecConstants = "numeric",
 				offspringSplitter = "data.frame",
-				mean.offspring.size = "numeric",
-				var.offspring.size = "numeric",
-				fec.by.discrete = "data.frame",
+				meanOffspringSize = "numeric",
+				varOffspringSize = "numeric",
+				fecByDiscrete = "data.frame",
 				Transform = "character")
 )
 
@@ -894,9 +894,9 @@ createIPMFmatrix <- function(fecObj,
 	prodFecValues<-apply(fecValues,2,prod)
 	
 	#Kids normal dist
-	tmp<-dnorm(y,fecObj@mean.offspring.size,sqrt(fecObj@var.offspring.size))*h
+	tmp<-dnorm(y,fecObj@meanOffspringSize,sqrt(fecObj@varOffspringSize))*h
 	if (integrateType=="cumul") { 
-		tmp1 <- dnorm(b,fecObj@mean.offspring.size,sqrt(fecObj@var.offspring.size))
+		tmp1 <- dnorm(b,fecObj@meanOffspringSize,sqrt(fecObj@varOffspringSize))
 		tmp <- tmp1[2:(nBigMatrix+1)]-tmp1[1:nBigMatrix]
 	}
 	if (correction=="constant") tmp<-tmp/sum(tmp)
@@ -911,9 +911,9 @@ createIPMFmatrix <- function(fecObj,
 		to.discrete <- as.numeric(fecObj@offspringSplitter)[1:ndisc]%*%t(prodFecValues)
 		
 		from.discrete <- matrix(0,ncol=ndisc,nrow=ndisc+nBigMatrix)
-		if (names(fecObj@fec.by.discrete)[1]!="NA.") {
-			if (sum(names(fecObj@fec.by.discrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fec.by.discrete are not 100% the same discrete class names in your data.frame offspringSplitter. They should also be in alphabetical order.")
-			from.discrete <- c(as.numeric(fecObj@offspringSplitter)[1:ndisc],as.numeric(fecObj@offspringSplitter)[ndisc+1]*tmp)%*%as.matrix(fecObj@fec.by.discrete)
+		if (names(fecObj@fecByDiscrete)[1]!="NA.") {
+			if (sum(names(fecObj@fecByDiscrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fecByDiscrete are not 100% the same discrete class names in your data.frame offspringSplitter. They should also be in alphabetical order.")
+			from.discrete <- c(as.numeric(fecObj@offspringSplitter)[1:ndisc],as.numeric(fecObj@offspringSplitter)[ndisc+1]*tmp)%*%as.matrix(fecObj@fecByDiscrete)
 		}
 		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
 	}
@@ -1423,7 +1423,7 @@ lifeExpect <- function(IPMmatrix,envMatrix){
 
 ##Function to estimate Stochastic Passage Time
 
-StochpassageTime <- function(chosenSize,IPMmatrix,envMatrix){
+stochPassageTime <- function(chosenSize,IPMmatrix,envMatrix){
 			require(MASS)
 			#get the right index for the size you want
 			loc <- which(abs(chosenSize-

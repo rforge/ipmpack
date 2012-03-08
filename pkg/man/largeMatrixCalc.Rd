@@ -2,7 +2,7 @@
 \alias{largeMatrixCalc}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Calculate population growth rate (lambda) and stable stage distribution in a computationally efficient way when the number of bins in the IPM is large.
+Calculates population growth rate (lambda) and stable stage distribution in a computationally efficient way when the number of bins in the IPM is large.
 }
 \description{
 Method to calculate population growth rate (lambda) and stable stage distribution where a large number of bins are used in the IPM, as it may be the case with species that vary largely in size, or models that include size x age interactions.

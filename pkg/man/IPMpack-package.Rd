@@ -3,7 +3,7 @@
 \alias{IPMpack}
 \docType{package}
 \title{
-Construction and analysis of integral projection models and associated measures of population growth, structure, perturbations (sensitivities and elasticities), overall population dynamics, age-specific parameters, etc. 
+Construction and analysis of integral projection models and associated measures of population growth, structure, perturbations (sensitivities and elasticities), overall population dynamics, age-specific metrics, etc. 
 }
 \description{
 %More about what it does (maybe more than one line)

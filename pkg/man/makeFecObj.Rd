@@ -14,9 +14,9 @@
 \usage{
 makeFecObj(dataf, fecConstants=as.numeric(NA),
 	explanatoryVariables="size", Family="gaussian", 
-	Transform="none", fecNames=NA, mean.offspring.size=NA, 
-	var.offspring.size=NA, offspringSplitter=data.frame(continuous=1), 
-	fec.by.discrete=data.frame(NA))
+	Transform="none", fecNames=NA, meanOffspringSize=NA, 
+	varOffspringSize=NA, offspringSplitter=data.frame(continuous=1), 
+	fecByDiscrete=data.frame(NA))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,14 +31,14 @@ makeFecObj(dataf, fecConstants=as.numeric(NA),
     transforms to be used for the response variables, e.g., log, sqrt, -1, etc. Again, these must appear  \emph{in the order defined by the alphabetical order of column names
       containing "fec" or in the order of column names specified in fecNames} }
   \item{fecNames}{a character vector containing the names of the columns of the dataframe from which fecundity data will be analysed (one column at a time). If the fecNames argument is not specified (as by defaul, NA), fecNames will be filled by the names of all column names that contain "fec".} 
-  \item{mean.offspring.size}{numeric vector, defining mean offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size}
-  \item{var.offspring.size}{numeric vector, defining mean offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size}
+  \item{meanOffspringSize}{numeric vector, defining mean offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size}
+  \item{varOffspringSize}{numeric vector, defining mean offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size}
   \item{offspringSplitter}{dataframe with values defining the number of
     offspring going into the indicated offspring category; will be re-scaled to
     sum to 1 within the function. This argument needs to be entered as a data.frame, and the names in the data.frame need to precisely match the used stage names in the data file.}
-  \item{fec.by.discrete}{data.frame defining number of offspring produced by each
+  \item{fecByDiscrete}{data.frame defining number of offspring produced by each
     discrete class ; defaults to 0. If specified, ALL discrete classes MUST appear in alphabetical order, 
-    so NO "continuous". e.g. fec.by.discrete=data.frame(dormant=0,seedAge1=4.2,seedOld=0)}     
+    so NO "continuous". e.g. fecByDiscrete=data.frame(dormant=0,seedAge1=4.2,seedOld=0)}     
 }
   
 \details{
@@ -47,7 +47,7 @@ makeFecObj(dataf, fecConstants=as.numeric(NA),
   define the functional form of each relationship, as well as the
   distribution and any transforms. There is also a possibility of
   defining reproduction from discrete sizes into each of
-  the subfunction outcomes; defined in the matrix fec.by.discrete. NOTE
+  the subfunction outcomes; defined in the matrix fecByDiscrete. NOTE
   THAT by default all column headings containing "fec" will be considered as
   contributing to the fecundity product, unless otherwise specified in the argument fecNames. 
 }
@@ -59,7 +59,7 @@ makeFecObj(dataf, fecConstants=as.numeric(NA),
 %% ~put references to the literature/web site here ~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
@@ -72,8 +72,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff<-generateDataDiscrete()
-fv1 <- makeFecObj(dff,offspringSplitter=data.frame(continuous=0.2,seedAge1=0.8),
-	fec.by.discrete=data.frame(dormant=0,seedAge1=4.2,seedOld=0))
+fv1 <- makeFecObj(dff, offspringSplitter = data.frame(continuous = 0.2, seedAge1 = 0.8),
+	fecByDiscrete = data.frame(dormant = 0, seedAge1 = 4.2, seedOld = 0))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

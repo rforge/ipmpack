@@ -12,7 +12,7 @@
 
 }
 \usage{
-makePostFecObjs(dataf,fecConstants,explanatoryVariables,Family,Transform,mean.offspring.size,var.offspring.size,offspringSplitter,fec.by.discrete,nitt)
+makePostFecObjs(dataf,fecConstants,explanatoryVariables,Family,Transform,meanOffspringSize,varOffspringSize,offspringSplitter,fecByDiscrete,nitt)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -41,9 +41,9 @@ makePostFecObjs(dataf,fecConstants,explanatoryVariables,Family,Transform,mean.of
     etc. Again, these must appear  \emph{in the
       order defined by the alphabetical order of column names
       containing "fec"} }
-  \item{mean.offspring.size}{numeric vector, defining mean offspring size. Defaults to NA, in which case the
+  \item{meanOffspringSize}{numeric vector, defining mean offspring size. Defaults to NA, in which case the
     function will use to data to assess the mean offspring size}
-  \item{var.offspring.size}{numeric vector, defining mean offspring size. Defaults to NA, in which case the
+  \item{varOffspringSize}{numeric vector, defining mean offspring size. Defaults to NA, in which case the
     function will use to data to assess the mean offspring size}
   \item{offspringSplitter}{dataframe, with column headings for EVERY
     category, so always at minimum containing a column called "continuous" but also
@@ -52,8 +52,8 @@ makePostFecObjs(dataf,fecConstants,explanatoryVariables,Family,Transform,mean.of
     offspring going into each offspring category; will be re-scaled to
     sum to 1 within the function. THESE MUST appear in alphabetical
     order.}
-  \item{fec.by.discrete}{data.frame defining number of offspring produced by each
-    discrete class ; defaults to 0. If specified, ALL discrete classes MUST appear in alphabetical order, so NO "continuous". e.g. fec.by.discrete=data.frame(dormant=0,seedAge1=4.2,seedOld=0)}     
+  \item{fecByDiscrete}{data.frame defining number of offspring produced by each
+    discrete class ; defaults to 0. If specified, ALL discrete classes MUST appear in alphabetical order, so NO "continuous". e.g. fecByDiscrete=data.frame(dormant=0,seedAge1=4.2,seedOld=0)}     
   \item{nitt}{
     number of iterations
     }

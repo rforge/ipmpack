@@ -4,7 +4,7 @@
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Estimates matrix element sensitivities and elasticities.
+Estimates matrix element sensitivities and elasticities.
 }
 \description{
   Estimates sensitivities and elasticities of each element of a discretized IPM.

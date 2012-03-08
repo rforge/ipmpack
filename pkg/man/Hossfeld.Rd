@@ -2,7 +2,7 @@
 \alias{Hossfeld}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Hossfeld function defining growth.
+Creates a Hossfeld function defining growth.
 }
 \description{
 Functional form describing growth according to a Hossfeld function.
@@ -50,8 +50,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 dff <- generateData()
 sizeRange <- c(1:20)
 sizeInit <- 1
-Hossfeld(sizeRange, rep(1,3))
-plot(Hossfeld(1:10, rep(1,3)), type = "l", ylab = "Predicted increment from t to t+1", xlab = "Continuous (size) stage in time t", col = "dark gray")
+Hossfeld(sizeRange, rep(1, 3))
+plot(Hossfeld(1:10, rep(1, 3)), type = "l", ylab = "Predicted increment from t to t+1", xlab = "Continuous (size) stage in time t", col = "dark gray")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

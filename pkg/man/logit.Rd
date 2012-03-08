@@ -43,8 +43,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \examples{
 x <- rnorm(100)
-plot(sort(x), logit(sort(x)), type = "l", xlab = "x", ylab = 
-"Transformed x", col = "dark gray")
+plot(sort(x), logit(sort(x)), type = "l", xlab = "State x", ylab = 
+"Transformed state x", col = "dark gray")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

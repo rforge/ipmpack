@@ -2,7 +2,7 @@
 \alias{createIPMFmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here. 
 \title{
-  Builds F matrices.
+Builds F matrices.
 }
 \description{
 Uses fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calves) by reproductive stages due to sexual reproduction. Currently only pre-census fertility can be handled. 

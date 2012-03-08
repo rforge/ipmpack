@@ -2,7 +2,7 @@
 \alias{growthCum}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Model of growth allowing cumulative bin estimation.
+Models growth allowing for cumulative bin estimation.
 }
 \description{
 Generic function to predict the cdf (cummulative density function) of continuous (e.g. size) stage at t+1 given stage at t and a growth object.

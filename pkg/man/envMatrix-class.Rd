@@ -3,7 +3,7 @@
 \docType{class}
 \alias{envMatrix-class}
 \alias{lifeExpect,IPMmatrix,envMatrix-method}
-\alias{StochpassageTime,numeric,IPMmatrix,envMatrix-method}
+\alias{stochPassageTime,numeric,IPMmatrix,envMatrix-method}
 
 \title{Class "envMatrix"}
 \description{
@@ -28,14 +28,14 @@ Class \code{"\linkS4class{vector}"}, by class "matrix", distance 4, with explici
 \section{Methods}{
   \describe{
     \item{lifeExpect}{\code{signature(IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
-    \item{StochpassageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
+    \item{stochPassageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
 	 }
 }
 \references{
 %%  ~~put references to the literature/web site here~~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
