@@ -1,5 +1,5 @@
-\name{run.Simple.Model}
-\alias{run.Simple.Model}
+\name{runSimpleModel}
+\alias{runSimpleModel}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Runs a simple model using default survival and growth functions. 
@@ -8,7 +8,7 @@ Runs a simple model using default survival and growth functions.
 Takes a dataframe, a chosen size, a minimum and maximum size onto which integrate, and a number of bins, and creates a T matrix and plots passage time and life expectancy (does not include fecundity).
 }
 \usage{
-run.Simple.Model(dataf, chosenSize, minSize = c(), maxSize = c(), 
+runSimpleModel(dataf, chosenSize, minSize = c(), maxSize = c(), 
 nBigMatrix = 500, do.plot = TRUE, is.log = TRUE,  
 integrateType = "midpoint", correction="none")
 }
@@ -80,7 +80,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \examples{
 dff<-generateData()
-a1<-run.Simple.Model(dataf=dff, chosenSize=3,do.plot=TRUE)
+a1<-runSimpleModel(dataf=dff, chosenSize=3,do.plot=TRUE)
 names(a1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

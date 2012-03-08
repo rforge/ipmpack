@@ -1,5 +1,5 @@
-\name{meanLifeExpect}
-\alias{meanLifeExpect}
+\name{meanlifeExpect}
+\alias{meanlifeExpect}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Calculates mean life expectancy.
@@ -8,7 +8,7 @@
   Provided a T matrix, which defines survival transitions across stages, this function outputs a vector defining life expectancy in units of the time step used (see convertIncrement()), for each of the size bins.
 }
 \usage{
-meanLifeExpect(IPMmatrix)
+meanlifeExpect(IPMmatrix)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -38,7 +38,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{LifeExpect}}, \code{\link{createIPMTmatrix}} 
+\code{\link{lifeExpect}}, \code{\link{createIPMTmatrix}} 
 }
 \examples{
 # With a single continuous state variable (e.g. size):
@@ -46,13 +46,13 @@ dff <- generateData()
 Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj=makeGrowthObj(dff),
 survObj = makeSurvObj(dff))
-meanLifeExpect(Tmatrix)
+meanlifeExpect(Tmatrix)
 
 Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff))
 
-plot(meanLifeExpect(Tmatrix), ylab = "Mean life expectancy", xlab = "Continuous (e.g. size) stage", type = "l", col="dark gray", ylim = c(0,max(meanLifeExpect(Tmatrix))))
+plot(meanlifeExpect(Tmatrix), ylab = "Mean life expectancy", xlab = "Continuous (e.g. size) stage", type = "l", col="dark gray", ylim = c(0,max(meanlifeExpect(Tmatrix))))
 
 # With continuous (e.g. size) and discrete (e.g. seedbank) stages:
 dff <- generateDataDiscrete()
@@ -62,11 +62,11 @@ discM <- makeDiscreteTrans(dff)
 Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff),
 growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"),
 survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans = discM)
-meanLifeExpect(Tmatrix)
+meanlifeExpect(Tmatrix)
 
-plot(meanLifeExpect(Tmatrix), 
+plot(meanlifeExpect(Tmatrix), 
 ylab = "Mean life expectancy", 
-xlab = "Continuous (e.g. size) and discrete (e.g. seedbank) stages", type = "l", col = "dark gray", ylim = c(0,max(meanLifeExpect(Tmatrix))))
+xlab = "Continuous (e.g. size) and discrete (e.g. seedbank) stages", type = "l", col = "dark gray", ylim = c(0,max(meanlifeExpect(Tmatrix))))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -23,7 +23,7 @@ getIPMoutput <- function(Tmatrixlist,targetSize=c(),Fmatrixlist=NULL){
 	lambda <- rep(NA,nsamps)
 	for (k in 1:nsamps) {
 		Tmatrix <- Tmatrixlist[[k]]
-		LE[k,]<-meanLifeExpect(Tmatrix) 
+		LE[k,]<-meanlifeExpect(Tmatrix) 
 		pTime[k,]<-PassageTime(targetSize,Tmatrix) 
 		
 		if (class(Fmatrixlist)!="NULL") {
@@ -53,7 +53,7 @@ getIPMoutput <- function(Tmatrixlist,targetSize=c(),Fmatrixlist=NULL){
 #            - cov - do you want to fit a discrete covariate
 #            - fecObjList - list of fecundity objects
 #            - envMat - matrix of env transitions (only if cov=TRUE)
-#            - nSizeToAge - numeric describing how many size to age defined (0 - 100s)
+#            - nsizeToAge - numeric describing how many size to age defined (0 - 100s)
 # 
 #
 # Returns - a list 
@@ -61,7 +61,7 @@ getIPMoutput <- function(Tmatrixlist,targetSize=c(),Fmatrixlist=NULL){
 getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		nBigMatrix,minSize,maxSize,discreteTrans = 1,
 		cov=FALSE,fecObjList=NULL, envMat=NULL,
-		nSizeToAge=0, sizeStart=10,
+		nsizeToAge=0, sizeStart=10,
 		integrateType="midpoint", correction="none", storePar=TRUE){
 	
 	# adjust the sample lengths to they are all the same
@@ -95,7 +95,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		stableStage <- matrix(NA,nsamp,(nBigMatrix+ndisc)*nEnv)
 		lambda <- rep(NA,nsamp)
 	}
-	if (nSizeToAge==0) { resAge <- resSize <- c() } else { resAge <- resSize <- matrix(NA,nsamp,nSizeToAge)} 
+	if (nsizeToAge==0) { resAge <- resSize <- c() } else { resAge <- resSize <- matrix(NA,nsamp,nsizeToAge)} 
 	if (length(sizeStart)==0) { if (minSize<0) sizeStart <- 0.5*minSize else sizeStart <- 2*minSize }
 	
 	#go!
@@ -116,7 +116,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 			
 		}
 		
-		LE[k,] <- meanLifeExpect(Tmatrix) 
+		LE[k,] <- meanlifeExpect(Tmatrix) 
 		pTime[k,] <- PassageTime(targetSize,Tmatrix) 
 		if (k==1) h1 <- diff(Tmatrix@meshpoints)[1]
 		
@@ -145,9 +145,9 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		}
 		
 		# get size to age results
-		if (nSizeToAge>0) { 
-			res2 <- SizeToAge(Tmatrix=Tmatrix,startingSize=minSize*1.3,
-					targetSize=seq(sizeStart,maxSize*0.9,length=nSizeToAge))
+		if (nsizeToAge>0) { 
+			res2 <- sizeToAge(Tmatrix=Tmatrix,startingSize=minSize*1.3,
+					targetSize=seq(sizeStart,maxSize*0.9,length=nsizeToAge))
 			resAge[k,] <- res2$timeInYears
 			resSize[k,] <- res2$targetSize
 		}
@@ -172,7 +172,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 #
 # Returns - list containing vector of targets, vector of corresponding times, and the startingSize
 #
-SizeToAge <- function(Tmatrix,startingSize,targetSize) {
+sizeToAge <- function(Tmatrix,startingSize,targetSize) {
 	
 	#locate where the first size is in the meshpoints of Tmatrix
 	diffv <- abs(startingSize-Tmatrix@meshpoints)
@@ -542,7 +542,7 @@ convertIncrement <- function(dataf, nYrs=1) {
 #                          growObj -
 #                          survObj - survival object
 #
-run.Simple.Model <- function(dataf,
+runSimpleModel <- function(dataf,
 		chosenSize,
 		minSize=c(),
 		maxSize=c(),
@@ -591,8 +591,8 @@ run.Simple.Model <- function(dataf,
 			growObj = gr1, survObj = sv1,integrateType=integrateType, correction=correction)
 	
 	# Get the mean life expect from every size value in IPM
-	LE <- meanLifeExpect(tmp)
-	varLE <- VarLifeExpect(tmp); #print(varLE)
+	LE <- meanlifeExpect(tmp)
+	varLE <- varLifeExpect(tmp); #print(varLE)
 	if (do.plot) { 
 		plot(conv(tmp@meshpoints), LE,type = "l",xlab = "Size", ylab = "Mean life expectancy",log=axes,
 				xlim=xrange, main="Life expectancy", ylim=range(c(pmax((LE-(sqrt(varLE))),0), (LE+(sqrt(varLE)))))) 
@@ -622,7 +622,7 @@ run.Simple.Model <- function(dataf,
 # structure run
 #
 # Parameters - tvals - time points
-#            - st - output of TrackPopStructManyCovSeedBank or TrackPopStructManyCov
+#            - st - output of trackPopStructManyCovSeedBank or trackPopStructManyCov
 #            - covtest - the key covariate for germination / flowering
 #            - n.runin - how many to leave off pics
 # Returns - 

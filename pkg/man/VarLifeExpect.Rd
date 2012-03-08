@@ -1,5 +1,5 @@
-\name{VarLifeExpect}
-\alias{VarLifeExpect}
+\name{varLifeExpect}
+\alias{varLifeExpect}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Calculates variation in life expectancy in a discretely stochastic environment.
@@ -8,7 +8,7 @@ Calculates variation in life expectancy in a discretely stochastic environment.
   Provided a T matrix, defining survival transitions across size, this function provides a vector with variance in life expectancy in units of the time-step used, for each of the size bins.
 }
 \usage{
-VarLifeExpect(IPMmatrix)
+varLifeExpect(IPMmatrix)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,7 +20,7 @@ VarLifeExpect(IPMmatrix)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-  a vector of variance in life-expectancies each corresponding to Tmatrix@meshpoints.
+  a vector of variance in life expectancies each corresponding to Tmatrix@meshpoints.
 
 }
 \references{
@@ -42,21 +42,21 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{meanLifeExpect}}, \code{\link{createIPMTmatrix}} 
+\code{\link{meanlifeExpect}}, \code{\link{createIPMTmatrix}} 
 
 }
 \examples{
 # With a single continuous (e.g. size) stage
 dff <- generateData()
 Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
-vle <- VarLifeExpect(Tmatrix)
+vle <- varLifeExpect(Tmatrix)
 
 plot(Tmatrix@meshpoints, vle, ylab = "Variation life expectancy", xlab = "Continuous (e.g. size) stage", type = "l", ylim = c(0,max(vle)))
 
 
 # With a compound matrix (discrete stages not yet defined)
 Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff), envMatrix = makeEnvObj(dff))
-le <- LifeExpect(Tmatrix, makeEnvObj(dff))
+le <- lifeExpect(Tmatrix, makeEnvObj(dff))
 
 plot(Tmatrix@meshpoints, vle, ylab = "Variation life expectancy", xlab = "Continuous (e.g. size) stage", type = "l", ylim = range(vle))
 }

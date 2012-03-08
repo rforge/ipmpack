@@ -75,7 +75,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{TrackPopStructManyCov}},\code{\link{TrackPopStructManyCov}}
+\code{\link{trackPopStructManyCov}},\code{\link{trackPopStructManyCov}}
 }
 \examples{
 

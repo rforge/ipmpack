@@ -13,7 +13,7 @@ also allows compound matrices to be produced following levels of a discrete cova
 \usage{
 getIPMoutputDirect(survObjList, growObjList, targetSize = c(), 
 	nBigMatrix, minSize, maxSize, discreteTrans = 1,cov = FALSE, 
-	fecObjList = NULL, envMat = NULL, nSizeToAge = 0, 
+	fecObjList = NULL, envMat = NULL, nsizeToAge = 0, 
 	sizeStart = 10, integrateType = "midpoint",correction = "none", storePar=TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -49,7 +49,7 @@ list of fecundity objects (facultative).
   \item{envMat}{
     environmental matrix (facultative unless cov=TRUE).
 }
-  \item{nSizeToAge}{
+  \item{nsizeToAge}{
     numeric describing how many size to age defined (0 - 100s).
 }
   \item{sizeStart}{
@@ -85,7 +85,7 @@ list of fecundity objects (facultative).
     is provided, this is a matrix of NAs.}
   \item{meshpoints} {matrix meshpoints.}
   \item{resSize} {matrix providing target sizes for size to age estimate (assuming age=1
-    at sizeStart), of length nSizeToAge space equally between the smallest and largest meshpoints.}
+    at sizeStart), of length nsizeToAge space equally between the smallest and largest meshpoints.}
   \item{resAge} {matrix providing time in time-steps to get to resSize,
     rows corresonding sequential elements in the list of T matrices.} 
   \item{surv.par} {matrix of posteriors of survival parameters (columns,
@@ -115,7 +115,7 @@ fvlist <- makePostFecObjs(dataf=dff, explanatoryVariables="size+size2", Transfor
 #Just use first 10 for speed
 res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], targetSize = 10,
 nBigMatrix=20, minSize = -2, maxSize = 15, cov = FALSE, fecObjList = fvlist[1:10],
-envMat = NULL, nSizeToAge = 5, sizeStart = -1)
+envMat = NULL, nsizeToAge = 5, sizeStart = -1)
 
 names(res)
 
@@ -139,7 +139,7 @@ svlist <- makePostSurvivalObjs(dataf=dff, explanatoryVariables="size+size2", mea
 grlist <- makePostGrowthObjs(dataf=dff, explanatoryVariables = "size+size2", meanB = rep(0, 3), varB = rep(1e+10), nitt=5000)
 fvlist <- makePostFecObjs(dataf = dff, explanatoryVariables = "size+size2", Transform = "log", nitt=5000)
 
-res <- getIPMoutputDirect(survObjList = svlist[1:10], growObjList = grlist[1:10], targetSize = 10, nBigMatrix = 20, minSize = -2, maxSize = 15, cov = FALSE, fecObjList = fvlist[1:10], nSizeToAge = 5, sizeStart = -1)
+res <- getIPMoutputDirect(survObjList = svlist[1:10], growObjList = grlist[1:10], targetSize = 10, nBigMatrix = 20, minSize = -2, maxSize = 15, cov = FALSE, fecObjList = fvlist[1:10], nsizeToAge = 5, sizeStart = -1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

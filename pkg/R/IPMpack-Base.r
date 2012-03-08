@@ -1081,8 +1081,8 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 	title("Survival")
 	
 	#Do resolution and size range affect results for Life Expect? 
-	LE <- meanLifeExpect(Tmatrix)
-	LE1 <- meanLifeExpect(Tmatrix1)
+	LE <- meanlifeExpect(Tmatrix)
+	LE1 <- meanlifeExpect(Tmatrix1)
 	plot(Tmatrix@meshpoints,LE,type="l",
 			xlim=range(Tmatrix1@meshpoints),ylim=range(c(LE,LE1)),xlab="Sizes", ylab="Life expectancy")
 	points(Tmatrix1@meshpoints,LE1,type="l",col=2)
@@ -1208,7 +1208,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 #Generic for mean life expectancy
 #parameters - an IPM
 # returns - the life expectancy for every starting size. 
-meanLifeExpect <- function(IPMmatrix){
+meanlifeExpect <- function(IPMmatrix){
 			require(MASS)
 			nBigMatrix <- length(IPMmatrix@.Data[1,]) #this nBigMatrix actually contains discrete, env, etc
 			#tmp <-  ginv(diag(IPMmatrix@nEnvClass*nBigMatrix)-IPMmatrix)
@@ -1223,13 +1223,13 @@ meanLifeExpect <- function(IPMmatrix){
 #parameters - an IPM
 # returns - the variance in life expectancy for every starting size. 
 
-VarLifeExpect <- function(IPMmatrix){
+varLifeExpect <- function(IPMmatrix){
 			require(MASS)
 			nBigMatrix <- length(IPMmatrix@.Data[1,])
 			#tmp <-  ginv(diag(IPMmatrix@nEnvClass*nBigMatrix)-IPMmatrix)
 			tmp <-  ginv(diag(nBigMatrix)-IPMmatrix)
-			#varlifeExpect <- (2*diag(tmp)-diag(length(IPMmatrix[,1])))%*%tmp-(tmp*tmp)
-			#varLifeExpect <- colSums(varlifeExpect)
+			#varLifeExpect <- (2*diag(tmp)-diag(length(IPMmatrix[,1])))%*%tmp-(tmp*tmp)
+			#varLifeExpect <- colSums(varLifeExpect)
 			varLifeExpect <- colSums(2*(tmp%*%tmp)-tmp)-colSums(tmp)*colSums(tmp)                  
 			return(varLifeExpect)
 		}
@@ -1248,7 +1248,7 @@ VarLifeExpect <- function(IPMmatrix){
 
 ## WON'T WORK WITH DISCRETE STAGES AS IS!!
 
-Survivorship <- function(IPMmatrix, size1, maxAge=300){
+survivorship <- function(IPMmatrix, size1, maxAge=300){
 			nBigMatrix <- length(IPMmatrix@.Data[1,])
 			#n <- IPMmatrix@nEnvClass*nBigMatrix
 			n <- nBigMatrix
@@ -1351,7 +1351,7 @@ varPassageTime <- function(chosenSize,IPMmatrix){
 #           - an environmental matrix
 # returns - the life expectancy for each of the sizes in the IPM (columns)
 #           for each of the starting env states
-LifeExpect <- function(IPMmatrix,envMatrix){
+lifeExpect <- function(IPMmatrix,envMatrix){
 			require(MASS)
 			
 			matrix.dim <- length(IPMmatrix[1,])
@@ -1604,7 +1604,7 @@ timeToSize <- function(startingSizes,IPM,endSize, startingEnv=1, maxT=100, propR
 	points(IPM@meshpoints,n.new.dist[env.index==1],type="l",col=2)
 	abline(v=IPM@meshpoints[cutoff],lty=3)
 	
-	plot(survivorship[1:t], xlab="Time", ylab="Survivorship", type="l")
+	plot(survivorship[1:t], xlab="Time", ylab="survivorship", type="l")
 	
 	if (time.reach>5) { 
 		image(1:time.reach,IPM@meshpoints,t(log(ts.dist)),xlab="Time steps", ylab="Number in each size class")
@@ -1627,7 +1627,7 @@ timeToSize <- function(startingSizes,IPM,endSize, startingEnv=1, maxT=100, propR
 # Parameters - Fmatrix, Tmatrix
 #
 # Returns R0
-R0.calc<-function(Tmatrix,Fmatrix){
+R0Calc<-function(Tmatrix,Fmatrix){
 	require(MASS)
 	Imatrix <- length(Tmatrix[1,])
 	Nmatrix <- ginv(Imatrix-Tmatrix);
@@ -1916,7 +1916,7 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 # Returns matrix with time as columns, and pop struct as rows
 
 
-TrackPopStructManyCov<-function(covariate,n.runin,Tmax,
+trackPopStructManyCov<-function(covariate,n.runin,Tmax,
 		growthObj,survObj,fecObj,
 		nBigMatrix,minSize,maxSize,
 		n.microsites,integrateType="midpoint",correction="none"){
