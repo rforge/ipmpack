@@ -22,7 +22,7 @@ makeGrowthObjHossfeld(dataf)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-Returns a growth object of class growthObj.Hossfeld for which growth methods exist. 
+Returns a growth object of class growthObjHossfeld for which growth methods exist. 
 }
 \references{
 %% ~put references to the literature/web site here ~
