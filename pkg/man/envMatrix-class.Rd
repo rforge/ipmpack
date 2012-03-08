@@ -3,7 +3,7 @@
 \docType{class}
 \alias{envMatrix-class}
 \alias{lifeExpect,IPMmatrix,envMatrix-method}
-\alias{StochPassageTime,numeric,IPMmatrix,envMatrix-method}
+\alias{StochpassageTime,numeric,IPMmatrix,envMatrix-method}
 
 \title{Class "envMatrix"}
 \description{
@@ -28,7 +28,7 @@ Class \code{"\linkS4class{vector}"}, by class "matrix", distance 4, with explici
 \section{Methods}{
   \describe{
     \item{lifeExpect}{\code{signature(IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
-    \item{StochPassageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
+    \item{StochpassageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
 	 }
 }
 \references{

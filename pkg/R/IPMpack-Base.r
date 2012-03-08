@@ -1281,7 +1281,7 @@ survivorship <- function(IPMmatrix, size1, maxAge=300){
 #           - a size for which passage time is required            
 # returns - the passage time to this size from each of the sizes in the IPM 
 
-PassageTime <- function(chosenSize,IPMmatrix){
+passageTime <- function(chosenSize,IPMmatrix){
 			require(MASS)
 			
 			loc <- which(abs(chosenSize-IPMmatrix@meshpoints) ==
@@ -1319,7 +1319,7 @@ PassageTime <- function(chosenSize,IPMmatrix){
 #parameters - an IPM
 #           - a size for which passage time is required            
 # returns - the variance passage time to this size from each of the sizes in the IPM 
-varPassageTime <- function(chosenSize,IPMmatrix){
+varpassageTime <- function(chosenSize,IPMmatrix){
 			require(MASS)
 			
 			loc <- which(abs(chosenSize-IPMmatrix@meshpoints)==min(abs(chosenSize-IPMmatrix@meshpoints)),arr.ind=TRUE)
@@ -1423,7 +1423,7 @@ lifeExpect <- function(IPMmatrix,envMatrix){
 
 ##Function to estimate Stochastic Passage Time
 
-StochPassageTime <- function(chosenSize,IPMmatrix,envMatrix){
+StochpassageTime <- function(chosenSize,IPMmatrix,envMatrix){
 			require(MASS)
 			#get the right index for the size you want
 			loc <- which(abs(chosenSize-
@@ -1823,7 +1823,7 @@ sensParams <- function(growObj,survObj,fecObj,
 #
 # Returns lambda_s (no density dependence)
 
-StochGrowthRateSampleList <- function(list.IPMmatrix,n.runin,Tmax){
+stochGrowthRateSampleList <- function(list.IPMmatrix,n.runin,Tmax){
 			require(MASS)
 			
 			nmatrices <- length(list.IPMmatrix)
@@ -1855,9 +1855,9 @@ StochGrowthRateSampleList <- function(list.IPMmatrix,n.runin,Tmax){
 # Returns lambda_s 
 
 
-StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
+stochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 		growthObj,survObj,fecObj,
-		nBigMatrix,minSize,maxSize, n.microsites,
+		nBigMatrix,minSize,maxSize, nMicrosites,
 		integrateType="midpoint",correction="none"){
 	require(MASS)
 	
@@ -1871,12 +1871,12 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 	#print(fecObj@fecConstants)
 	
 	#density dep? 
-	if (sum(n.microsites)>0) { dd <- TRUE } else { dd <- FALSE}
+	if (sum(nMicrosites)>0) { dd <- TRUE } else { dd <- FALSE}
 	
 	
 	for (t in 1:Tmax) {
 		if (dd) tmp.fecObj@fecConstants <- c(fecObj@fecConstants, 
-					min(n.microsites[min(t,length(n.microsites))]/nt[1],1))
+					min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1))
 		
 		
 		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
@@ -1919,7 +1919,7 @@ StochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 trackPopStructManyCov<-function(covariate,n.runin,Tmax,
 		growthObj,survObj,fecObj,
 		nBigMatrix,minSize,maxSize,
-		n.microsites,integrateType="midpoint",correction="none"){
+		nMicrosites,integrateType="midpoint",correction="none"){
 	require(MASS)
 	
 	nt <- rep(1,nBigMatrix)
@@ -1927,12 +1927,12 @@ trackPopStructManyCov<-function(covariate,n.runin,Tmax,
 	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1 
 	tmp.fecObj <- fecObj
 	#density dep? 
-	if (sum(n.microsites)>0) { dd <- TRUE } else { dd <- FALSE}
+	if (sum(nMicrosites)>0) { dd <- TRUE } else { dd <- FALSE}
 	
 	
 	for (t in 1:Tmax) {
 		if (dd) tmp.fecObj@fecConstants <- c(fecObj@fecConstants, 
-					min(n.microsites[min(t,length(n.microsites))]/nt[1],1))
+					min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1))
 		
 		#print(tmp.fecObj@fecConstants)
 		

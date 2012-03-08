@@ -10,7 +10,7 @@
 }
 \usage{
 trackPopStructManyCov(covariate, n.runin, Tmax, growthObj, survObj, fecObj, 
-nBigMatrix, minSize, maxSize, n.microsites, integrateType, correction)
+nBigMatrix, minSize, maxSize, nMicrosites, integrateType, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -42,8 +42,8 @@ nBigMatrix, minSize, maxSize, n.microsites, integrateType, correction)
   \item{maxSize}{
     numeric, maximum size in the IPM.
 }
-  \item{n.microsites}{
-    vector, if sum(n.microsites) > 0 then density dependence is assumed to operate on seedling establishment, and if length(n.microsites) > 1, then the number of microsites available for establishment at time t is n.microsites[min(t,length(n.microsites))].
+  \item{nMicrosites}{
+    vector, if sum(nMicrosites) > 0 then density dependence is assumed to operate on seedling establishment, and if length(nMicrosites) > 1, then the number of microsites available for establishment at time t is nMicrosites[min(t,length(nMicrosites))].
 }
   \item{integrateType}{
     integration type, defaults to "midpoint" (which uses probability density
@@ -78,7 +78,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{StochGrowthRateManyCov}}
+\code{\link{stochGrowthRateManyCov}}
 }
 \examples{
 
@@ -96,7 +96,7 @@ tvals <- seq(1, 20, by = 1/12)
 covtest <- (1 + 0.5*sin(2*pi*tvals))
 covmattest <- data.frame(covariate1 = rnorm(length(covtest), covtest, 0.5) - 1, covariate2 = rnorm(length(covtest),covtest,0.5) - 1, covariate3 = rnorm(length(covtest), covtest,0.5) - 1)
 
-st <- trackPopStructManyCov(covariate = covmattest, n.runin = 2*10, Tmax = length(tvals), growthObj = gr1, survObj = sv1, fecObj = fv1, nBigMatrix = 100, minSize = 2*min(dff$size, na.rm = TRUE), maxSize = 1.5*max(dff$size, na.rm = TRUE), n.microsites = 10)
+st <- trackPopStructManyCov(covariate = covmattest, n.runin = 2*10, Tmax = length(tvals), growthObj = gr1, survObj = sv1, fecObj = fv1, nBigMatrix = 100, minSize = 2*min(dff$size, na.rm = TRUE), maxSize = 1.5*max(dff$size, na.rm = TRUE), nMicrosites = 10)
 
 # Function to plot output
 plotResultsStochStruct(tvals = tvals, st = st, covtest = covtest)

@@ -1,5 +1,5 @@
-\name{StochGrowthRateSampleList}
-\alias{StochGrowthRateSampleList}
+\name{stochGrowthRateSampleList}
+\alias{stochGrowthRateSampleList}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Estimating the stochastic population growth rate (lambda_s).
@@ -8,7 +8,7 @@
   Estimates the stochastic growth rate (lambda_s) by iteration; operates by sampling a list of IPMs.
 }
 \usage{
-StochGrowthRateSampleList(list.IPMmatrix, n.runin, Tmax)
+stochGrowthRateSampleList(list.IPMmatrix, n.runin, Tmax)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -48,7 +48,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 \examples{
 dff <- generateData()
 IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 10, minSize = -5, maxSize = 15,fecConstants=1e6, correction="constant")
-StochGrowthRateSampleList(list.IPMmatrix = IPMlist,n.runin = 100, Tmax = 5000) 
+stochGrowthRateSampleList(list.IPMmatrix = IPMlist,n.runin = 100, Tmax = 5000) 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

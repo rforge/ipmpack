@@ -24,7 +24,7 @@ getIPMoutput <- function(Tmatrixlist,targetSize=c(),Fmatrixlist=NULL){
 	for (k in 1:nsamps) {
 		Tmatrix <- Tmatrixlist[[k]]
 		LE[k,]<-meanlifeExpect(Tmatrix) 
-		pTime[k,]<-PassageTime(targetSize,Tmatrix) 
+		pTime[k,]<-passageTime(targetSize,Tmatrix) 
 		
 		if (class(Fmatrixlist)!="NULL") {
 			IPM <- Tmatrix + Fmatrixlist[[k]]
@@ -117,7 +117,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		}
 		
 		LE[k,] <- meanlifeExpect(Tmatrix) 
-		pTime[k,] <- PassageTime(targetSize,Tmatrix) 
+		pTime[k,] <- passageTime(targetSize,Tmatrix) 
 		if (k==1) h1 <- diff(Tmatrix@meshpoints)[1]
 		
 		if (class(fecObjList)!="NULL") {
@@ -181,7 +181,7 @@ sizeToAge <- function(Tmatrix,startingSize,targetSize) {
 	
 	#loop over to see where its going
 	for (k in 1:length(targetSize)) {
-		pTime <- PassageTime(targetSize[k],Tmatrix)
+		pTime <- passageTime(targetSize[k],Tmatrix)
 		timeInYears[k] <- pTime[start.index]
 	}
 	
@@ -601,7 +601,7 @@ runSimpleModel <- function(dataf,
 	}
 	
 	# Get the passage time to the targeted size class
-	pTime <- PassageTime(chosenSize,tmp); #print(pTime)
+	pTime <- passageTime(chosenSize,tmp); #print(pTime)
 	if (do.plot) { 
 		plot(conv(tmp@meshpoints),pTime,type = "l",xlab = "Size at start",log=axes,
 				ylab = "Time to reach chosen size",ylim=range(pTime[tmp@meshpoints<chosenSize],na.rm=TRUE),
