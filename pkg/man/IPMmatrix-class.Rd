@@ -3,7 +3,7 @@
 \docType{class}
 \alias{IPMmatrix-class}
 \alias{lifeExpect,IPMmatrix,envMatrix-method}
-\alias{meanlifeExpect,IPMmatrix-method}
+\alias{meanLifeExpect,IPMmatrix-method}
 \alias{passageTime,numeric,IPMmatrix-method}
 \alias{stochPassageTime,numeric,IPMmatrix,envMatrix-method}
 \alias{survivorship,IPMmatrix-method}
@@ -38,7 +38,7 @@ Class \code{"\linkS4class{vector}"}, by class "matrix", distance 4, with explici
 \section{Methods}{
   \describe{
     \item{lifeExpect}{\code{signature(IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
-    \item{meanlifeExpect}{\code{signature(IPMmatrix = "IPMmatrix")}: ... }
+    \item{meanLifeExpect}{\code{signature(IPMmatrix = "IPMmatrix")}: ... }
     \item{passageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix")}: ... }
     \item{stochPassageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
     \item{survivorship}{\code{signature(IPMmatrix = "IPMmatrix")}: ... }
