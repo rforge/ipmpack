@@ -167,7 +167,10 @@ row represents one measurement in the population:</p>
                     <a href="#top" class="totop">Back to top</a>
                   </td>
                   <td style="vertical-align:top;padding:40px" width="420px">
-				    Papers using IPMpack (please contact us if you want your paper to be included in this list)
+				    Papers using IPMpack (please contact us if you want your paper to be included in this list):
+					<p><i>in progress</i></p>
+					<br><br><br><br>
+					<p>A list of all known IPM papers can be downloaded here: <a href="IPMpublications.xlsx">IPMpublications</a>.
                   </td>
                 </tr>
               </tbody>
