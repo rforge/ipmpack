@@ -164,6 +164,7 @@ row represents one measurement in the population:</p>
 					<p class="Refs">Metcalf CJE, Horvitz CC, Tuljapurkar S & Clark DA (2009) <b>A time to grow and a time to die: a  new way to analyze the dynamics of size, light, age and death of tropical trees.</b> <i>Ecology</i> 90:2766–2778 <a href="http://dx.doi.org/10.1890/08-1645.1" rel="nofollow" style="color:#84002E" target="_blank">doi</a>.<br><br></p>
 					<p class="Refs">Rees M & Rose KE (2002) <b>Evolution of flowering strategies in <i>Oenothera glazioviana</i>: an integral projection model approach.</b> <i>Proc. Roy. Soc. B.</i> 269:1509-1515 <a href="http://rspb.royalsocietypublishing.org/content/269/1499/1509.full.pdf" rel="nofollow" style="color:#84002E" target="_blank">pdf</a>.<br><br></p>
                     <p class="Refs">Tuljapurkar S (1990) <b>Population Dynamics in Variable Environments</b>. Springer, Berlin, Germany.<br><br></p>
+					<p class="Refs">Zuidema PA, Jongejans E, Chien PD, During HJ & Schieving F (2010) <b>Integral Projection Models for trees: a new parameterization method and a validation of model output.</b> <i>Journal of Ecology</i> 98:345-355 <a href="http://dx.doi.org/10.1111/j.1365-2745.2009.01626.x" rel="nofollow" style="color:#84002E" target="_blank">doi</a>
                     <a href="#top" class="totop">Back to top</a>
                   </td>
                   <td style="vertical-align:top;padding:40px" width="420px">
