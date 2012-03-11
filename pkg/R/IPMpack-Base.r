@@ -87,7 +87,7 @@ setClass("growthObjMultiCov.logincr",
 		representation(fit="lm"))
 
 # Create a generic growth object with declining errors 
-setClass("growthObj.declinevar",
+setClass("growthObjDeclineVar",
 		representation(fit="gls"))
 
 setClass("growthObjMultiCov.declinevar",
@@ -109,7 +109,7 @@ setClass("growthObjMultiCov.logincr.declinevar",
 
 
 # Create a generic growth object containing the Hossfeld parameters 
-setClass("growthObj.Hossfeld",
+setClass("growthObjHossfeld",
 		representation(paras="numeric",
 				sd="numeric", 
 				logLik="numeric", hessian="matrix"))
@@ -489,7 +489,7 @@ setMethod("growthCum",
 #Simple growth methods, using  declining variance in growth
 # using pnorm (i.e. getting cumulative at boundary points and doing difference)
 setMethod("growthCum", 
-		c("numeric","numeric","numeric","growthObj.declinevar"),
+		c("numeric","numeric","numeric","growthObjDeclineVar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,covariate=as.factor(rep(cov,length(size))))
 			mux <- predict(growthObj@fit,newd,type="response")
@@ -505,7 +505,7 @@ setMethod("growthCum",
 
 #Simple growth methods, using  declining variance in growth
 setMethod("growth", 
-		c("numeric","numeric","numeric","growthObj.declinevar"),
+		c("numeric","numeric","numeric","growthObjDeclineVar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,covariate=as.factor(rep(cov,length(size))))
 			mux <- predict(growthObj@fit,newd,type="response")
@@ -534,7 +534,7 @@ setMethod("growth",
 
 
 ## Define a new growth method for Hossfeld growth (classic midpoint rule approach)
-setMethod("growth", c("numeric", "numeric", "numeric", "growthObj.Hossfeld"), 
+setMethod("growth", c("numeric", "numeric", "numeric", "growthObjHossfeld"), 
 		function(size, sizeNext, cov, growthObj) { 
 			mux <- size+Hossfeld(size, growthObj@paras) 
 			sigmax <- growthObj@sd 
@@ -1129,7 +1129,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 			#add to size if it is a incr object
 			if (class(growObj)=="growthObj.incr") mux <- Tmatrix@meshpoints[loctest[j]]+mux
 			#define variance if it is not a declinevar object
-			if (class(growObj)!="growthObj.declinevar" &
+			if (class(growObj)!="growthObjDeclineVar" &
 					class(growObj)!="growthObj.incr.declinevar" &
 					class(growObj)!="growthObjLogIncr.declinevar")
 				sigmax2 <- summary(growObj@fit)$sigma^2 else (print("undefined growth variance class"))

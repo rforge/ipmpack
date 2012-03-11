@@ -1,16 +1,16 @@
-\name{growthObj.Hossfeld-class}
+\name{growthObjHossfeld-class}
 \Rdversion{1.1}
 \docType{class}
-\alias{growthObj.Hossfeld-class}
-\alias{growth,numeric,numeric,numeric,growthObj.Hossfeld-method}
-\alias{growthIntegrate,numeric,numeric,numeric,numeric,growthObj.Hossfeld-method}
+\alias{growthObjHossfeld-class}
+\alias{growth,numeric,numeric,numeric,growthObjHossfeld-method}
+\alias{growthIntegrate,numeric,numeric,numeric,numeric,growthObjHossfeld-method}
 
-\title{Class "growthObj.Hossfeld"}
+\title{Class "growthObjHossfeld"}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the class is. ~~
 }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("growthObj.Hossfeld", ...)}.
+Objects can be created by calls of the form \code{new("growthObjHossfeld", ...)}.
 %%  ~~ describe objects here ~~ 
 }
 \section{Slots}{
@@ -22,8 +22,8 @@ Objects can be created by calls of the form \code{new("growthObj.Hossfeld", ...)
 }
 \section{Methods}{
   \describe{
-    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.Hossfeld")}: ... }
-    \item{growthIntegrate}{\code{signature(size = "numeric", sizeNext = "numeric", h = "numeric", cov = "numeric", growthObj = "growthObj.Hossfeld")}: ... }
+    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjHossfeld")}: ... }
+    \item{growthIntegrate}{\code{signature(size = "numeric", sizeNext = "numeric", h = "numeric", cov = "numeric", growthObj = "growthObjHossfeld")}: ... }
 	 }
 }
 \references{
@@ -43,6 +43,6 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %%  ~~or \code{\linkS4class{CLASSNAME}} for links to other classes ~~~
 }
 \examples{
-showClass("growthObj.Hossfeld")
+showClass("growthObjHossfeld")
 }
 \keyword{classes}

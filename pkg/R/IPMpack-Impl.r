@@ -74,7 +74,7 @@ makeGrowthObj <- function(dataf,
 			gr1@fit <- fit
 		} else {
 			if (class(fit) == "gls") { 
-				gr1 <- new("growthObj.declinevar")
+				gr1 <- new("growthObjDeclineVar")
 				gr1@fit <- fit
 			} else {
 				print("unknown formula;
@@ -229,12 +229,12 @@ makeGrowthObjManyCov <- function(dataf,
 # Returns - a Hossfeld growth object
 
 #no covariate, and one polynom, linear regression
-makegrowthObj.Hossfeld <- function(dataf) {  
+makegrowthObjHossfeld <- function(dataf) {  
 	if (length(dataf$incr)==0) dataf$incr <- dataf$sizeNext-dataf$size
 	dataf$incr[dataf$incr<0] <- 0
 	tmp <- optim(c(1, 1, 1), wrapHossfeld, dataf = dataf, method = "Nelder-Mead")
 	print(tmp$convergence)
-	gr1 <- new("growthObj.Hossfeld")
+	gr1 <- new("growthObjHossfeld")
 	gr1@paras <- tmp$par
 	resids <- Hossfeld(dataf$size, tmp$par) - dataf$incr 
 	gr1@sd <- sd(resids, na.rm = T)
