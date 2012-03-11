@@ -30,7 +30,7 @@ makeGrowthObjIncrTrunc(dataf)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-An object of class growthObj.truncincr, an S4 object which contains the slots: 
+An object of class growthObjTruncIncr, an S4 object which contains the slots: 
    \item{fit}{an object of class \code{lm} or \code{glm} or \code{gls} that can be used with predict in the survival methods}
 Slots can be listed by using slotNames(growthObj)   
 }

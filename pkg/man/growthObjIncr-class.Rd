@@ -1,25 +1,25 @@
-\name{growthObj.incr.declinevar-class}
+\name{growthObjIncr-class}
 \Rdversion{1.1}
 \docType{class}
-\alias{growthObj.incr.declinevar-class}
-\alias{growth,numeric,numeric,numeric,growthObj.incr.declinevar-method}
+\alias{growthObjIncr-class}
+\alias{growth,numeric,numeric,numeric,growthObjIncr-method}
 
-\title{Class "growthObj.incr.declinevar"}
+\title{Class "growthObjIncr"}
 \description{
 %%  ~~ A concise (1-5 lines) description of what the class is. ~~
 }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("growthObj.incr.declinevar", ...)}.
+Objects can be created by calls of the form \code{new("growthObjIncr", ...)}.
 %%  ~~ describe objects here ~~ 
 }
 \section{Slots}{
   \describe{
-    \item{\code{fit}:}{Object of class \code{"gls"} ~~ }
+    \item{\code{fit}:}{Object of class \code{"lm"} ~~ }
   }
 }
 \section{Methods}{
   \describe{
-    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.incr.declinevar")}: ... }
+    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjIncr")}: ... }
 	 }
 }
 \references{
@@ -39,6 +39,6 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %%  ~~or \code{\linkS4class{CLASSNAME}} for links to other classes ~~~
 }
 \examples{
-showClass("growthObj.incr.declinevar")
+showClass("growthObjIncr")
 }
 \keyword{classes}

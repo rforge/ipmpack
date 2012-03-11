@@ -85,11 +85,11 @@ makeGrowthObj <- function(dataf,
 		if (responseType == "incr") { 
 			
 			if (class(fit) == "lm") { 
-				gr1 <- new("growthObj.incr")
+				gr1 <- new("growthObjIncr")
 				gr1@fit <- fit
 			} else {
 				if (class(fit) == "gls") { 
-					gr1 <- new("growthObj.incr.declinevar")
+					gr1 <- new("growthObjIncrDeclineVar")
 					gr1@fit <- fit
 				} else {
 					print("unknown formula;
@@ -100,7 +100,7 @@ makeGrowthObj <- function(dataf,
 			if (responseType == "logincr") {
 				
 				if (class(fit) == "lm") { 
-					gr1 <- new("growthObj.logincr")
+					gr1 <- new("growthObjLogIncr")
 					gr1@fit <- fit
 				} else {
 					if (class(fit) == "gls") { 
@@ -271,7 +271,7 @@ makeGrowthObjIncrTrunc <- function(dataf,
 		
 		
 	fit <- censReg(as.formula(Formula),data=dataf, left=leftVal)
-	gr1 <- new("growthObj.truncincr")
+	gr1 <- new("growthObjTruncIncr")
 	gr1@fit <- fit$estimate
 	gr1@varcov <- vcov(fit)
 	return(gr1)
@@ -707,8 +707,8 @@ makePostGrowthObjs <- function(dataf,
 		dummy.fit$coefficients <- fit$Sol[k,]
 		dummy.fit$residuals <- rnorm(length(dummy.fit$residuals),0,sqrt(fit$VCV[k,1]))
 		if (responseType=="sizeNext") gr[[k]] <-  new("growthObj")
-		if (responseType=="incr") gr[[k]] <-  new("growthObj.incr")
-		if (responseType=="logincr") gr[[k]] <-  new("growthObj.logincr")
+		if (responseType=="incr") gr[[k]] <-  new("growthObjIncr")
+		if (responseType=="logincr") gr[[k]] <-  new("growthObjLogIncr")
 		gr[[k]]@fit <- dummy.fit       
 	}
 	

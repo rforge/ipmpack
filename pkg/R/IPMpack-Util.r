@@ -317,7 +317,7 @@ picGrow <- function(dataf,growObj) {
 		pred.size <- predict(growObj@fit,newd,type="response")
 		if (class(growObj)=="growthObj" | class(growObj)=="growthObjDeclineVar") {
 			points(sizes,pred.size,type="l",col=k)
-		} else { if (class(growObj)=="growthObj.incr") {
+		} else { if (class(growObj)=="growthObjIncr") {
 				points(sizes,sizes+pred.size,type="l",col=k)
 			}}
 	}
