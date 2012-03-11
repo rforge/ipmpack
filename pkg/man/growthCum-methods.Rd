@@ -2,7 +2,7 @@
 \docType{methods}
 \alias{growthCum-methods}
 \alias{growthCum,numeric,numeric,numeric,growthObj-method}
-\alias{growthCum,numeric,numeric,numeric,growthObj.declinevar-method}
+\alias{growthCum,numeric,numeric,numeric,growthObjDeclineVar-method}
 \alias{growthCum,numeric,numeric,numeric,growthObj.incr-method}
 \alias{growthCum,numeric,numeric,numeric,growthObj.logincr-method}
 \alias{growthCum,numeric,numeric,numeric,growthObj.truncincr-method}
@@ -17,7 +17,7 @@
 %%  ~~describe this method here~~
 }
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.declinevar")}}{
+\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjDeclineVar")}}{
 %%  ~~describe this method here~~
 }
 

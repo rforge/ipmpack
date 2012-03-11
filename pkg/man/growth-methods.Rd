@@ -2,7 +2,7 @@
 \docType{methods}
 \alias{growth-methods}
 \alias{growth,numeric,numeric,numeric,growthObj-method}
-\alias{growth,numeric,numeric,numeric,growthObj.declinevar-method}
+\alias{growth,numeric,numeric,numeric,growthObjDeclineVar-method}
 \alias{growth,numeric,numeric,numeric,growthObj.Hossfeld-method}
 \alias{growth,numeric,numeric,numeric,growthObj.incr-method}
 \alias{growth,numeric,numeric,numeric,growthObj.incr.declinevar-method}
@@ -24,7 +24,7 @@ range of transforms of the current size, and potentially one discrete covariate.
 supplies mean sizeNext directly; the density function around this is normal. 
 }
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj.declinevar")}}{
+\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjDeclineVar")}}{
 Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
 range of transforms of the current size, and potentially one discrete covariate. The prediction 
 supplies mean sizeNext directly; the density function around this is normal and the sd may change with size. 
