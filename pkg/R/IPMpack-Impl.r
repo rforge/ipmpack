@@ -444,7 +444,7 @@ makeFecObj <- function(dataf,
 		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
 		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
 		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
-		f1@fit.fec[[i]] <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
+		f1@fitFec[[i]] <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
 	}
 	
 	if (is.na(meanOffspringSize)) {
@@ -527,7 +527,7 @@ makeFecObjManyCov <- function(dataf,
 		#print(range(dataf[,"size"], na.rm=TRUE))
 		#print(range(dataf[,"covariate"]))
 		
-		f1@fit.fec[[i]] <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
+		f1@fitFec[[i]] <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
 	}
 	
 	if (is.na(meanOffspringSize)) {
@@ -889,7 +889,7 @@ makePostFecObjs <- function(dataf,
 			dummy.fit[[i]]$coefficients <- fit[[i]]$Sol[k,]
 			##TODO check over-ride
 			dummy.fit[[i]]$residuals <- rnorm(length(dummy.fit[[i]]$residuals),0,sqrt(fit[[i]]$VCV[k,1]))
-			fv[[k]]@fit.fec[[i]] <- dummy.fit[[i]]
+			fv[[k]]@fitFec[[i]] <- dummy.fit[[i]]
 					
 		}
 		

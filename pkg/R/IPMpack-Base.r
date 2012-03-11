@@ -136,7 +136,7 @@ setClass("survObjOverDisp",
 ## FECUNDITY OBJECTS ##
 # Create a generic fecundity object
 setClass("fecObj",
-		representation(fit.fec = "list",
+		representation(fitFec = "list",
 				fecConstants = "numeric",
 				offspringSplitter = "data.frame",
 				meanOffspringSize = "numeric",
@@ -147,7 +147,7 @@ setClass("fecObj",
 
 # Create a generic fecundity object for multiple covariates
 setClass("fecObjMultiCov",
-		representation(fit.fec = "list",
+		representation(fitFec = "list",
 				fecConstants = "numeric",
 				offspringSplitter = "data.frame",
 				meanOffspringSize = "numeric",
@@ -874,17 +874,17 @@ createIPMFmatrix <- function(fecObj,
 	newd <- data.frame(size=y,size2=y^2,size3=y^3)
 	if (length(as.numeric(chosen.cov))==1) newd$covariate <- as.factor(rep(chosen.cov,length(y)))
 	#print(head(newd))
-	for (i in 1:length(fecObj@fit.fec)) if (length(grep("logsize",fecObj@fit.fec[[i]]$formula))>0) newd$logsize <- log(y)
+	for (i in 1:length(fecObj@fitFec)) if (length(grep("logsize",fecObj@fitFec[[i]]$formula))>0) newd$logsize <- log(y)
 	
 	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1
 	
-	fecValues <- matrix(c(rep(1,length(fecObj@fit.fec)),fecObj@fecConstants),
-			ncol=nBigMatrix,nrow=length(fecObj@fit.fec)+
+	fecValues <- matrix(c(rep(1,length(fecObj@fitFec)),fecObj@fecConstants),
+			ncol=nBigMatrix,nrow=length(fecObj@fitFec)+
 					length(fecObj@fecConstants))
 	
 	#print(fecValues)
 	
-	for (i in 1:length(fecObj@fit.fec)) fecValues[i,] <- predict(fecObj@fit.fec[[i]],newd,type="response")
+	for (i in 1:length(fecObj@fitFec)) fecValues[i,] <- predict(fecObj@fitFec[[i]],newd,type="response")
 	
 	#Transforms
 	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fecValues[i,]<-exp(fecValues[i,])
@@ -1696,10 +1696,10 @@ sensParams <- function(growObj,survObj,fecObj,
 	#nfec objects
 	nfec <- 0
 	fec.coeff.names <- c()
-	for (i in 1:length(fecObj@fit.fec)){
-		nfec <- nfec + length(fecObj@fit.fec[[i]]$coeff)	
+	for (i in 1:length(fecObj@fitFec)){
+		nfec <- nfec + length(fecObj@fitFec[[i]]$coeff)	
 	    fec.coeff.names <- c(fec.coeff.names,
-				paste("reprod",i,names(fecObj@fit.fec[[i]]$coeff)))
+				paste("reprod",i,names(fecObj@fitFec[[i]]$coeff)))
 	
 	}
 	
@@ -1791,17 +1791,17 @@ sensParams <- function(growObj,survObj,fecObj,
 	
 	# change the reprod prob parameters in sequence
 	count <- count + param.test;
-	for (i in 1:length(fecObj@fit.fec)){
-	for (param.test in 1:length(fecObj@fit.fec[[i]]$coeff)){
-		fecObj@fit.fec[[i]]$coefficients[param.test] <- fecObj@fit.fec[[i]]$coefficients[param.test]*(1+delta);
+	for (i in 1:length(fecObj@fitFec)){
+	for (param.test in 1:length(fecObj@fitFec[[i]]$coeff)){
+		fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]*(1+delta);
 		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
 		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				fecObj=fecObj,integrateType=integrateType, correction=correction)
 		IPM <- Tmatrix+Fmatrix
 		lambda2 <- Re(eigen(IPM)$value[1]);
-		fecObj@fit.fec[[i]]$coefficients[param.test] <- fecObj@fit.fec[[i]]$coefficients[param.test]/(1+delta);
-		slam[param.test+count]<-(lambda2-lambda1)/(fecObj@fit.fec[[i]]$coefficients[param.test]*delta);
+		fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]/(1+delta);
+		slam[param.test+count]<-(lambda2-lambda1)/(fecObj@fitFec[[i]]$coefficients[param.test]*delta);
 		elam[param.test+count]<-(lambda2-lambda1)/(log(1+delta));		
 	}
 	count <- count + param.test;

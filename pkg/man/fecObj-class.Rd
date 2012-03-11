@@ -17,7 +17,7 @@ Objects can be created by calls of the form \code{new("fecObj", ...)}.
    "fecConstants"      
 "offspringSplitter"  "meanOffspringSize" "varOffspringSize"  "fecByDiscrete"     "Transform"
     
-    \item{\code{fit.fec}:}{Object of class \code{"list"} ~~ }
+    \item{\code{fitFec}:}{Object of class \code{"list"} ~~ }
     \item{\code{fecConstants}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{offspringSplitter}:}{Object of class \code{"data.frame"} ~~ }
     \item{\code{meanOffspringSize}:}{Object of class \code{"numeric"} ~~ }
