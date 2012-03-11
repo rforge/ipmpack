@@ -8,12 +8,12 @@
   Calculates the fraction of the cohort surviving across age for a chosen starting continuous stage value.
 }
 \usage{
-survivorship(IPMMatrix, size1, maxAge)
+survivorship(IPMmatrix, size1, maxAge)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{IPM.matrix}{
-    an IPM.matrix object describing growth and survival transitions across stage (e.g. size) and environment.
+  \item{IPMmatrix}{
+    an IPMmatrix object describing growth and survival transitions across stage (e.g. size) and environment.
   }  \item{size1}{
     a starting size for age 1.
   }
@@ -48,18 +48,18 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{LifeExpect}}
+\code{\link{lifeExpect}}
 }
 \examples{
 # For only continuous stages (e.g. size)
 dff <- generateData()
-Tmatrix <- create.IPM.Tmatrix(minSize = min(dff$size, na.rm = TRUE),
+Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
-su <- Survivorship(Tmatrix, 1, 300)
-plot(su$surv.curv, type = "l", col = "dark gray", ylab = "Survivorship", xlab= "Continuous (e.g. size) stage", ylim = c(0,1))
+su <- survivorship(Tmatrix, 1, 300)
+plot(su$surv.curv, type = "l", col = "dark gray", ylab = "survivorship", xlab= "Continuous (e.g. size) stage", ylim = c(0,1))
 
 # For continuous (e.g. size) and discrete (e.g. seedbank) stages
-Tmatrix <- create.compound.Tmatrix(minSize = min(dff$size,na.rm = TRUE),
+Tmatrix <- createCompoundTmatrix(minSize = min(dff$size,na.rm = TRUE),
 maxSize = max(dff$size,na.rm = TRUE), envMatrix = makeEnvObj(dff),
 growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"),
 survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans = 1)
