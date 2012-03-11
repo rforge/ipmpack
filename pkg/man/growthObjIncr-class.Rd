@@ -6,7 +6,7 @@
 
 \title{Class "growthObjIncr"}
 \description{
-%%  ~~ A concise (1-5 lines) description of what the class is. ~~
+A class object description
 }
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("growthObjIncr", ...)}.
