@@ -11,7 +11,7 @@ Functions to build growth objects for constant environments, or
   object are defined.
   }
 \usage{
-makeGrowthObjIncrTrunc(dataf, explanatoryVariables = "size, responseType = "incr", leftVal = 0)
+makeGrowthObjIncrTrunc(dataf, explanatoryVariables = "size", responseType = "incr", leftVal = 0)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,14 +32,14 @@ makeGrowthObjIncrTrunc(dataf, explanatoryVariables = "size, responseType = "incr
   \item{responseType}{possible values include `sizeNext' (size in one
     discrete time step) and `incr' and `logincr'}
   \item{leftVal}{\code{numeric} giving the left side truncation value. Defaults to 0.}
-
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
-}
+Truncated growth object description.}
 \value{
 An object of class growthObjTruncIncr, an S4 object which contains the slots: 
+
    \item{fit}{an object of class \code{lm} or \code{glm} or \code{gls} that can be used with predict in the survival methods}
+   
 Slots can be listed by using slotNames(growthObj)   
 }
 \references{
