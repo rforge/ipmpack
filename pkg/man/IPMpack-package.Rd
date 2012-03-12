@@ -14,10 +14,10 @@ Construction and analysis of integral projection models and associated measures 
 Package: \tab IPMpack\cr
 Type: \tab Package\cr
 Version: \tab 1.0\cr
-Date: \tab 2010-12-09\cr
-License: \tab What license is it under?\cr
+Date: \tab 2012-21-03\cr
+License: \tab GPL\cr
 LazyLoad: \tab yes\cr
-Depends: \tab methods\cr
+Depends: \tab MCMCglmm, Matrix, MASS, nlme\cr
 }
 %~~ An overview of how to use the package, including the most important ~~
 %~~ functions ~~

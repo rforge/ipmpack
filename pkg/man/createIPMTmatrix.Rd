@@ -9,7 +9,7 @@ Builds T matrices.
 }
 \usage{
 createIPMTmatrix(nEnvClass = 1, nBigMatrix = 50,
-minSize = -1, maxSize = 50, chosen.cov = 1, growObj, survObj, discreteTrans, 
+minSize = -1, maxSize = 50, chosenCov = 1, growObj, survObj, discreteTrans, 
 integrateType, correction)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -27,7 +27,7 @@ integrateType, correction)
   \item{maxSize}{
     numeric, maximum size of the T matrix, defaults to 50.
   }
-  \item{chosen.cov}{
+  \item{chosenCov}{
     numeric indicating level of the discrete covariate, or vector
     setting values where multiple covariates are modeled.
   }
@@ -56,8 +56,8 @@ integrateType, correction)
   sufficient and the size range should encompass the size range of the
   data. If a "discreteTrans" exists, then discrete stages will be added
   to the IPM structure. If multiple discrete covariate levels are available,
-  chosen.cov identifies the covariate value for which an IPM is
-  required; if a series of covariates are being modeled, chosen.cov is a
+  chosenCov identifies the covariate value for which an IPM is
+  required; if a series of covariates are being modeled, chosenCov is a
   vector of these covariates, and growth will reflect these values.  
 }
 \value{

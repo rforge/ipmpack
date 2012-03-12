@@ -8,7 +8,7 @@ Builds F matrices.
 Uses fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calves) by reproductive stages due to sexual reproduction. Currently only pre-census fertility can be handled. 
 }
 \usage{
-createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSize = 50, chosen.cov = 1, integrateType="midpoint", correction="none")
+createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSize = 50, chosenCov = 1, integrateType="midpoint", correction="none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,7 +28,7 @@ createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSize =
   \item{maxSize}{
     numeric, maximum size of the T matrix, defaults to 50.
   }
-  \item{chosen.cov}{
+  \item{chosenCov}{
     numeric indicating level of the discrete covariate, or vector
     setting values where multiple covariates are modeled.
   }

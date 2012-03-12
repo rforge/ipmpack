@@ -487,10 +487,10 @@ makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10,
 	for (k in 1:length(covs)) { 
 		
 		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, chosen.cov = k,
+				maxSize = maxSize, chosenCov = k,
 				fecObj = fv1,integrateType=integrateType, correction=correction)
 		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, chosen.cov = k,growObj = gr1, survObj = sv1,
+				maxSize = maxSize, chosenCov = k,growObj = gr1, survObj = sv1,
 				integrateType=integrateType, correction=correction)
 		IPM.list[[k]] <- tpF+tpS
 	}

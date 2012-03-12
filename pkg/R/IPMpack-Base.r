@@ -584,7 +584,7 @@ setClass("IPMmatrix",
 #   nBigMatrix - the number of size bins in the model
 #   minSize - lower end of desired size range
 #   maxSize - upper end of desired size range
-#   chosen.cov - current level of covariate - can be vector for continuous
+#   chosenCov - current level of covariate - can be vector for continuous
 #                 temporal stochasticity case
 #   growObj - a growth object
 #   survObj - a survival object
@@ -602,7 +602,7 @@ createIPMTmatrix <- function(nEnvClass = 1,
 		nBigMatrix = 50,
 		minSize = -1,
 		maxSize = 50,
-		chosen.cov = 1,
+		chosenCov = 1,
 		growObj,
 		survObj,
 		discreteTrans =1,
@@ -618,20 +618,20 @@ createIPMTmatrix <- function(nEnvClass = 1,
 	# fill in matrix                          
 	if (integrateType=="midpoint") { 
 		get.matrix <- 
-				t(outer(y,y,growSurv,cov=chosen.cov,
+				t(outer(y,y,growSurv,cov=chosenCov,
 								growthObj=growObj,survObj=survObj))*h  
 		
 	}
 	if (integrateType=="cumul") {
 		get.matrix.cum <- 
-				t(outer(y,b,growthCum,cov=chosen.cov,
+				t(outer(y,b,growthCum,cov=chosenCov,
 								growthObj=growObj))
 		get.matrix <- get.matrix.cum[2:(nBigMatrix+1),]-get.matrix.cum[1:nBigMatrix,]
 		#fix last size
 		get.matrix[nBigMatrix,nBigMatrix] <- get.matrix[nBigMatrix,nBigMatrix]+
 				(1-sum(get.matrix[,nBigMatrix]))
 		#put in survival
-		get.matrix <- t(t(get.matrix)*surv(size=y,cov=chosen.cov,survObj=survObj))
+		get.matrix <- t(t(get.matrix)*surv(size=y,cov=chosenCov,survObj=survObj))
 	}
 	
 	#fix any integration issues reducing survival by dividing by col sums and multiply by survival
@@ -639,9 +639,9 @@ createIPMTmatrix <- function(nEnvClass = 1,
 		nvals <- colSums(get.matrix); 
 		loc0 <- which(nvals==0, arr.ind=TRUE)
         #if colsum is zero, place appropriate survival on diagonal (assume no change)
-		if (length(loc0)>0) get.matrix[cbind(loc0,loc0)] <-  surv(size=y[loc0],cov=chosen.cov,survObj=survObj)
+		if (length(loc0)>0) get.matrix[cbind(loc0,loc0)] <-  surv(size=y[loc0],cov=chosenCov,survObj=survObj)
 		nvals[loc0] <- 1
-		get.matrix <- t((t(get.matrix)/nvals)*surv(size=y,cov=chosen.cov,survObj=survObj))    
+		get.matrix <- t((t(get.matrix)/nvals)*surv(size=y,cov=chosenCov,survObj=survObj))    
 	}
 	
 	rc <- new("IPMmatrix",
@@ -669,7 +669,7 @@ createIPMTmatrix <- function(nEnvClass = 1,
 			tmp<-dnorm(y,discreteTrans@mean.to.cont[j],discreteTrans@sd.to.cont[j])*h
 			if (correction=="constant") tmp<-tmp/sum(tmp) 
 			disc.to.cont[,j] <- discreteTrans@discrete.surv[,j]*discreteTrans@discrete.trans["continuous",j]*tmp
-			cont.to.disc[j,] <- discreteTrans@distrib.to.discrete[j,]*surv(y,chosen.cov,survObj)*surv.to.discrete
+			cont.to.disc[j,] <- discreteTrans@distrib.to.discrete[j,]*surv(y,chosenCov,survObj)*surv.to.discrete
 		}
 		
 		get.disc.matrix <- rbind(cbind(disc.to.disc,cont.to.disc),
@@ -777,7 +777,7 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 			nvals <- colSums(get.matrix); 
 			loc0 <- which(nvals==0, arr.ind=TRUE)
 			#if colsum is zero, place appropriate survival on diagonal (assume no change)
-			if (length(loc0)>0) get.matrix[cbind(loc0,loc0)] <-  surv(size=y[loc0],cov=chosen.cov,survObj=survObj)
+			if (length(loc0)>0) get.matrix[cbind(loc0,loc0)] <-  surv(size=y[loc0],cov=chosenCov,survObj=survObj)
 			nvals[loc0] <- 1
 			get.matrix <- t((t(get.matrix)/nvals)*surv(size=y,cov=as.factor(k),survObj=survObj))    
 		}
@@ -847,7 +847,7 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 #   nBigMatrix - the number of size bins in the model
 #   minSize - lower end of desired size range
 #   maxSize - upper end of desired size range
-#   chosen.cov - current level of covariate
+#   chosenCov - current level of covariate
 #   fecObj - a fecundity object
 #   integrateType - options include "midpoint" "cumul" 
 #   etc...
@@ -860,7 +860,7 @@ createIPMFmatrix <- function(fecObj,
 		nBigMatrix = 50,
 		minSize = -1,
 		maxSize = 50,
-		chosen.cov = 1,
+		chosenCov = 1,
 		integrateType="midpoint",
 		correction="none") {
 	
@@ -872,7 +872,7 @@ createIPMFmatrix <- function(fecObj,
 	h<-y[2]-y[1]
 	#size<-y
 	newd <- data.frame(size=y,size2=y^2,size3=y^3)
-	if (length(as.numeric(chosen.cov))==1) newd$covariate <- as.factor(rep(chosen.cov,length(y)))
+	if (length(as.numeric(chosenCov))==1) newd$covariate <- as.factor(rep(chosenCov,length(y)))
 	#print(head(newd))
 	for (i in 1:length(fecObj@fitFec)) if (length(grep("logsize",fecObj@fitFec[[i]]$formula))>0) newd$logsize <- log(y)
 	
@@ -1000,7 +1000,7 @@ createCompoundFmatrix <- function(nEnvClass = 2,
 				nBigMatrix = nBigMatrix,
 				minSize = minSize,
 				maxSize = maxSize,
-				chosen.cov = k,
+				chosenCov = k,
 				fecObj=fecObj,
 				integrateType=integrateType,
 				correction=correction)
@@ -1062,7 +1062,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 	Tmatrix1 <- createIPMTmatrix(nEnvClass = 1,
 			nBigMatrix = floor(length(Tmatrix@meshpoints)*1.5),
 			minSize = new.min, maxSize = 1.5*max(Tmatrix@meshpoints),
-			chosen.cov = 1, growObj=growObj,survObj=survObj,
+			chosenCov = 1, growObj=growObj,survObj=survObj,
 			integrateType=integrateType, correction=correction)
 	
 	#Is the size range sufficient? 
@@ -1880,12 +1880,12 @@ stochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 		
 		
 		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, chosen.cov = covariate[t,],
+				maxSize = maxSize, chosenCov = covariate[t,],
 				growObj = growthObj, survObj = survObj,
 				integrateType=integrateType, correction=correction)
 		
 		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, #chosen.cov = covariate[t,],
+				maxSize = maxSize, #chosenCov = covariate[t,],
 				fecObj = tmp.fecObj,
 				integrateType=integrateType, correction=correction)
 		
@@ -1937,11 +1937,11 @@ trackPopStructManyCov<-function(covariate,n.runin,Tmax,
 		#print(tmp.fecObj@fecConstants)
 		
 		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, chosen.cov = covariate[t,],
+				maxSize = maxSize, chosenCov = covariate[t,],
 				growObj = growthObj, survObj = survObj,
 				integrateType=integrateType, correction=correction)
 		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, #chosen.cov = covariate[t,],
+				maxSize = maxSize, #chosenCov = covariate[t,],
 				fecObj = tmp.fecObj,
 				integrateType=integrateType, correction=correction)
 		
