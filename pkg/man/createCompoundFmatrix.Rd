@@ -48,7 +48,7 @@ minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType, correction)
 \value{
   an object of class IPMmatrix with dimensions
   nBigMatrix*nEnvClass, or if discrete transitions exist
-  (nBigMatrix+n.disc)*nEnvClass
+  (nBigMatrix+nDisc)*nEnvClass
 
 }
 \references{

@@ -566,7 +566,7 @@ setClass("envMatrix",
 
 #Class for the matrix that holds the IPM
 setClass("IPMmatrix",
-		representation(n.discrete = "numeric", #number of discrete classes
+		representation(nDiscrete = "numeric", #number of discrete classes
 				nEnvClass = "numeric", #number of covariate levels
 				nBigMatrix = "numeric", #the resolution of the IPM
 				meshpoints = "numeric",
@@ -645,7 +645,7 @@ createIPMTmatrix <- function(nEnvClass = 1,
 	}
 	
 	rc <- new("IPMmatrix",
-			n.discrete =0,
+			nDiscrete =0,
 			nEnvClass = 1, 
 			nBigMatrix = nBigMatrix,
 			nrow = 1*nBigMatrix,
@@ -677,7 +677,7 @@ createIPMTmatrix <- function(nEnvClass = 1,
 		
 	
 		rc <- new("IPMmatrix",
-				n.discrete = nDisc,
+				nDiscrete = nDisc,
 				nEnvClass = 1, 
 				nBigMatrix = nBigMatrix,
 				nrow = 1*nBigMatrix+nDisc,
@@ -925,7 +925,7 @@ createIPMFmatrix <- function(fecObj,
 	}
 	
 	rc <- new("IPMmatrix",
-			n.discrete = nDisc,
+			nDiscrete = nDisc,
 			nEnvClass = 1, 
 			nBigMatrix = nBigMatrix,
 			nrow = 1*nBigMatrix+nDisc,

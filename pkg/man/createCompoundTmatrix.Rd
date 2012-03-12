@@ -55,8 +55,8 @@ between ages is reflected by a similar matrix.
 }
 \value{
   an object of class IPMmatrix with dimensions
-  nBigMatrix*nEnvClass, or if discrete transitions exist
-  (nBigMatrix+n.disc)*nEnvClass
+  nBigMatrix * nEnvClass, or if discrete transitions exist
+  (nBigMatrix + nDisc) * nEnvClass
 }
 \references{
 For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
@@ -87,20 +87,20 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 \examples{
 # Data with only continuous stage and two habitats
 dff <- generateData()
-Tmatrix <- createCompoundTmatrix(minSize = min(dff$size,na.rm=TRUE), maxSize = max(dff$size,na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"))
+Tmatrix <- createCompoundTmatrix(minSize = min(dff$size,na.rm = TRUE), maxSize = max(dff$size,na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"))
 
-image(1:nrow(Tmatrix), 1:ncol(Tmatrix), t(log(Tmatrix)), xlab="Continuous stage (e.g. size) at t",ylab="Continuous stage (e.g. size) at t+1", axes = FALSE)
+image(1:nrow(Tmatrix), 1:ncol(Tmatrix), t(log(Tmatrix)), xlab = "Continuous stage (e.g. size) at t", ylab = "Continuous stage (e.g. size) at t+1", axes = FALSE)
 axis(1, at = 1:nrow(Tmatrix), lab = round(rep(Tmatrix@meshpoints,Tmatrix@nEnvClass), 2))
 axis(2, at = 1:nrow(Tmatrix), lab = round(rep(Tmatrix@meshpoints,Tmatrix@nEnvClass), 2))
-abline(h = length(Tmatrix@meshpoints)*(1:Tmatrix@nEnvClass))
-abline(v = length(Tmatrix@meshpoints)*(1:Tmatrix@nEnvClass))
+abline(h = length(Tmatrix@meshpoints) * (1:Tmatrix@nEnvClass))
+abline(v = length(Tmatrix@meshpoints) * (1:Tmatrix@nEnvClass))
 
 # Data with continuous and discrete stages
 dff <- generateDataDiscrete()
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 discM <- makeDiscreteTrans(dff)
-Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans=discM)
+Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans = discM)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

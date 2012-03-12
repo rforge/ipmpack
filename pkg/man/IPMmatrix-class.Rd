@@ -25,7 +25,7 @@ Objects can be created by calls of the form \code{new("IPMmatrix", data, nrow, n
     \item{\code{nBigMatrix}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{meshpoints}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{env.index}:}{Object of class \code{"numeric"} ~~ }
-    \item{\code{n.discrete}:}{Object of class \code{"numeric"} ~~ }
+    \item{\code{nDiscrete}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{names.discrete}:}{Object of class \code{"character"} ~~ }
   }
 }
