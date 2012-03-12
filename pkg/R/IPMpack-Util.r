@@ -86,13 +86,13 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 	}} else { surv.par <- grow.par <- c()}
 	
 	#set up storage
-	if (is.data.frame(discreteTrans)) ndisc <- ncol(discreteTrans) else ndisc <- 0
+	if (is.data.frame(discreteTrans)) nDisc <- ncol(discreteTrans) else nDisc <- 0
 	if (class(envMat)!="NULL") nEnv <- envMat@nEnvClass else nEnv <- 1
-	LE <- pTime <- matrix(NA,nsamp,(nBigMatrix+ndisc)*nEnv)
+	LE <- pTime <- matrix(NA,nsamp,(nBigMatrix+nDisc)*nEnv)
 	if (class(fecObjList)=="NULL") {
 		lambda <- stableStage <- c()
 	} else {
-		stableStage <- matrix(NA,nsamp,(nBigMatrix+ndisc)*nEnv)
+		stableStage <- matrix(NA,nsamp,(nBigMatrix+nDisc)*nEnv)
 		lambda <- rep(NA,nsamp)
 	}
 	if (nsizeToAge==0) { resAge <- resSize <- c() } else { resAge <- resSize <- matrix(NA,nsamp,nsizeToAge)} 

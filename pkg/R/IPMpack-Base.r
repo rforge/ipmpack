@@ -658,14 +658,14 @@ createIPMTmatrix <- function(nEnvClass = 1,
 	# In case of discrete classes, take the IPM constructed above and add discrete classes defined in discreteTrans
 	if (class(discreteTrans)=="discreteTrans") {
 		
-		ndisc <- ncol(discreteTrans@discrete.surv)
+		nDisc <- ncol(discreteTrans@discrete.surv)
 		surv.to.discrete <- predict(discreteTrans@surv.to.discrete,data.frame(size=y,size2=(y*y)),type="response")
 		cont.to.cont <- get.matrix*matrix(1-surv.to.discrete,nrow=nBigMatrix,ncol=nBigMatrix,byrow=T)
-		disc.to.disc <- discreteTrans@discrete.trans[1:ndisc,1:ndisc]*matrix(c(discreteTrans@discrete.surv),nrow=ndisc,ncol=ndisc,byrow=T)
-		disc.to.cont <- matrix(NA,ncol=ndisc,nrow=nBigMatrix)
-		cont.to.disc <- matrix(NA,nrow=ndisc,ncol=nBigMatrix)
+		disc.to.disc <- discreteTrans@discrete.trans[1:nDisc,1:nDisc]*matrix(c(discreteTrans@discrete.surv),nrow=nDisc,ncol=nDisc,byrow=T)
+		disc.to.cont <- matrix(NA,ncol=nDisc,nrow=nBigMatrix)
+		cont.to.disc <- matrix(NA,nrow=nDisc,ncol=nBigMatrix)
 		
-		for (j in 1:ndisc) {
+		for (j in 1:nDisc) {
 			tmp<-dnorm(y,discreteTrans@mean.to.cont[j],discreteTrans@sd.to.cont[j])*h
 			if (correction=="constant") tmp<-tmp/sum(tmp) 
 			disc.to.cont[,j] <- discreteTrans@discrete.surv[,j]*discreteTrans@discrete.trans["continuous",j]*tmp
@@ -677,14 +677,14 @@ createIPMTmatrix <- function(nEnvClass = 1,
 		
 	
 		rc <- new("IPMmatrix",
-				n.discrete = ndisc,
+				n.discrete = nDisc,
 				nEnvClass = 1, 
 				nBigMatrix = nBigMatrix,
-				nrow = 1*nBigMatrix+ndisc,
-				ncol =1*nBigMatrix+ndisc,
+				nrow = 1*nBigMatrix+nDisc,
+				ncol =1*nBigMatrix+nDisc,
 				meshpoints = y,
 				env.index = rep(1:nEnvClass,each=nBigMatrix),
-				names.discrete=rownames(discreteTrans@discrete.trans)[1:ndisc])
+				names.discrete=rownames(discreteTrans@discrete.trans)[1:nDisc])
 		
 		rc[,] <-get.disc.matrix   
 	}
@@ -744,13 +744,13 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 	h<-y[2]-y[1]
 	
 	#establish how how many discrete classes there are
-	if (class(discreteTrans)=="discreteTrans") ndisc <- ncol(discreteTrans@discrete.surv) else ndisc <- 0
+	if (class(discreteTrans)=="discreteTrans") nDisc <- ncol(discreteTrans@discrete.surv) else nDisc <- 0
 	
 	#indexes for slotting in IPMs
-	indexes <- rep(1:nEnvClass,each=(nBigMatrix+ndisc))
+	indexes <- rep(1:nEnvClass,each=(nBigMatrix+nDisc))
 	
 	#megamatrix
-	megamatrix <- matrix(0,(nBigMatrix+ndisc)*nEnvClass,(nBigMatrix+ndisc)*nEnvClass) 
+	megamatrix <- matrix(0,(nBigMatrix+nDisc)*nEnvClass,(nBigMatrix+nDisc)*nEnvClass) 
 	
 	#print(indexes)
 	
@@ -791,15 +791,15 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 			nmes <- rownames(discreteTrans@discrete.trans)
 			surv.to.discrete <- predict(discreteTrans@surv.to.discrete,data.frame(size=y,size2=(y*y)),type="response")
 			cont.to.cont <- get.matrix*matrix(1-surv.to.discrete,nrow=nBigMatrix,ncol=nBigMatrix,byrow=T)
-			disc.to.disc <- discreteTrans@discrete.trans[1:ndisc,1:ndisc]*matrix(c(discreteTrans@discrete.surv),
-					nrow=ndisc,ncol=ndisc,byrow=T)
-			disc.to.cont <- matrix(NA,ncol=ndisc,nrow=nBigMatrix)
-			cont.to.disc <- matrix(NA,nrow=ndisc,ncol=nBigMatrix)
+			disc.to.disc <- discreteTrans@discrete.trans[1:nDisc,1:nDisc]*matrix(c(discreteTrans@discrete.surv),
+					nrow=nDisc,ncol=nDisc,byrow=T)
+			disc.to.cont <- matrix(NA,ncol=nDisc,nrow=nBigMatrix)
+			cont.to.disc <- matrix(NA,nrow=nDisc,ncol=nBigMatrix)
 			
 			#print(discreteTrans@mean.to.cont)
 			#print(discreteTrans@sd.to.cont)
 			
-			for (j in 1:ndisc) {
+			for (j in 1:nDisc) {
 				tmp<-dnorm(y,discreteTrans@mean.to.cont[j],discreteTrans@sd.to.cont[j])*h
 				if (correction=="constant") tmp<-tmp/sum(tmp)
 				
@@ -823,11 +823,11 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 	rc <- new("IPMmatrix",
 			nEnvClass = nEnvClass, 
 			nBigMatrix = nBigMatrix,
-			nrow = nEnvClass*(nBigMatrix+ndisc),
-			ncol =nEnvClass*(nBigMatrix+ndisc),
+			nrow = nEnvClass*(nBigMatrix + nDisc),
+			ncol = nEnvClass*(nBigMatrix + nDisc),
 			meshpoints = y,
-			env.index = rep(1:nEnvClass,each=nBigMatrix,
-					names.discrete=nmes))
+			env.index = rep(1:nEnvClass, each = nBigMatrix,
+					names.discrete = nmes))
 	
 	rc[,] <- megamatrix
 	
@@ -902,18 +902,18 @@ createIPMFmatrix <- function(fecObj,
 	if (correction=="constant") tmp<-tmp/sum(tmp)
 	to.cont<-tmp%*%t(as.numeric(fecObj@offspringSplitter["continuous"])*prodFecValues)
 	get.matrix <- to.cont
-	ndisc <- length(fecObj@offspringSplitter)-1
+	nDisc <- length(fecObj@offspringSplitter)-1
 	
 	namesDiscrete <- "NA"
-	if (ndisc>0) {
-		namesDiscrete <- colnames(fecObj@offspringSplitter[1:ndisc])
+	if (nDisc>0) {
+		namesDiscrete <- colnames(fecObj@offspringSplitter[1:nDisc])
 		
-		to.discrete <- as.numeric(fecObj@offspringSplitter)[1:ndisc]%*%t(prodFecValues)
+		to.discrete <- as.numeric(fecObj@offspringSplitter)[1:nDisc]%*%t(prodFecValues)
 		
-		from.discrete <- matrix(0,ncol=ndisc,nrow=ndisc+nBigMatrix)
+		from.discrete <- matrix(0,ncol=nDisc,nrow=nDisc+nBigMatrix)
 		if (names(fecObj@fecByDiscrete)[1]!="NA.") {
 			if (sum(names(fecObj@fecByDiscrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fecByDiscrete are not 100% the same discrete class names in your data.frame offspringSplitter. They should also be in alphabetical order.")
-			from.discrete <- c(as.numeric(fecObj@offspringSplitter)[1:ndisc],as.numeric(fecObj@offspringSplitter)[ndisc+1]*tmp)%*%as.matrix(fecObj@fecByDiscrete)
+			from.discrete <- c(as.numeric(fecObj@offspringSplitter)[1:nDisc],as.numeric(fecObj@offspringSplitter)[nDisc+1]*tmp)%*%as.matrix(fecObj@fecByDiscrete)
 		}
 		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
 	}
@@ -925,11 +925,11 @@ createIPMFmatrix <- function(fecObj,
 	}
 	
 	rc <- new("IPMmatrix",
-			n.discrete = ndisc,
+			n.discrete = nDisc,
 			nEnvClass = 1, 
 			nBigMatrix = nBigMatrix,
-			nrow = 1*nBigMatrix+ndisc,
-			ncol =1*nBigMatrix+ndisc,
+			nrow = 1*nBigMatrix+nDisc,
+			ncol =1*nBigMatrix+nDisc,
 			meshpoints = y,
 			env.index = rep(1:nEnvClass,each=nBigMatrix),
 			names.discrete=namesDiscrete)
@@ -983,15 +983,15 @@ createCompoundFmatrix <- function(nEnvClass = 2,
 	h<-y[2]-y[1]
 	
 	#establish how how many discrete classes there are
-	if (ncol(fecObj@offspringSplitter)>1) ndisc <- ncol(fecObj@offspringSplitter)-1 else ndisc <- 0
+	if (ncol(fecObj@offspringSplitter)>1) nDisc <- ncol(fecObj@offspringSplitter)-1 else nDisc <- 0
 	
 	#indexes for slotting in IPMs
-	indexes <- rep(1:nEnvClass,each=(nBigMatrix+ndisc))
+	indexes <- rep(1:nEnvClass,each=(nBigMatrix+nDisc))
 	#print(indexes)
 	
 	
 	#megamatrix
-	megamatrix <- matrix(0,(nBigMatrix+ndisc)*nEnvClass,(nBigMatrix+ndisc)*nEnvClass) 
+	megamatrix <- matrix(0,(nBigMatrix+nDisc)*nEnvClass,(nBigMatrix+nDisc)*nEnvClass) 
 	
 	#loop over habitats / environments
 	for (k in 1:nEnvClass) {
@@ -1022,8 +1022,8 @@ createCompoundFmatrix <- function(nEnvClass = 2,
 	rc <- new("IPMmatrix",
 			nEnvClass = nEnvClass, 
 			nBigMatrix = nBigMatrix,
-			nrow = nEnvClass*(nBigMatrix+ndisc),
-			ncol =nEnvClass*(nBigMatrix+ndisc),
+			nrow = nEnvClass*(nBigMatrix+nDisc),
+			ncol =nEnvClass*(nBigMatrix+nDisc),
 			meshpoints = y,
 			env.index = rep(1:nEnvClass,each=nBigMatrix),
 			names.discrete=get.matrix@names.discrete)

@@ -6,9 +6,7 @@
 Construction and analysis of integral projection models and associated measures of population growth, structure, perturbations (sensitivities and elasticities), overall population dynamics, age-specific metrics, etc. 
 }
 \description{
-%More about what it does (maybe more than one line)
-%~~ A concise (1-5 lines) description of the package ~~
-}
+IPM package, a series of analytical tools for building, diagnosing, and projecting populations models based on continuous and descrete vital rates.}
 \details{
 \tabular{ll}{
 Package: \tab IPMpack\cr
