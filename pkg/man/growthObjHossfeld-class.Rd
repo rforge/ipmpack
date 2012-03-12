@@ -18,6 +18,7 @@ Objects can be created by calls of the form \code{new("growthObjHossfeld", ...)}
     \item{\code{logLik}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{paras}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{sd}:}{Object of class \code{"numeric"} ~~ }
+    \item{\code{hessian}:}{Object of class \code{"matrix"} ~~ }
   }
 }
 \section{Methods}{

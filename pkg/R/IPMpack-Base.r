@@ -63,73 +63,74 @@ setGeneric("growthCum",
 ## GROWTH OBJECTS ##
 # Create a generic growth object containing a lm
 setClass("growthObj",
-		representation(fit="lm"))
+		representation(fit = "lm"))
 
 setClass("growthObjMultiCov",
-		representation(fit="lm"))
+		representation(fit = "lm"))
 
 # Create a generic growth object with normal errors on increment
 setClass("growthObjIncr",
-		representation(fit="lm"))
+		representation(fit = "lm"))
 
 setClass("growthObjMultiCov.incr",
-		representation(fit="lm"))
+		representation(fit = "lm"))
 
 # Create a generic growth object with truncated normal errors on increment
 setClass("growthObjTruncIncr",
-		representation(fit="numeric",varcov="matrix"))
+		representation(fit = "numeric", varcov="matrix"))
 
 # Create a generic growth object with log normal errors on increment
 setClass("growthObjLogIncr",
-		representation(fit="lm"))
+		representation(fit = "lm"))
 
 setClass("growthObjMultiCov.logincr",
-		representation(fit="lm"))
+		representation(fit = "lm"))
 
 # Create a generic growth object with declining errors 
 setClass("growthObjDeclineVar",
-		representation(fit="gls"))
+		representation(fit = "gls"))
 
 setClass("growthObjMultiCov.declinevar",
-		representation(fit="gls"))
+		representation(fit = "gls"))
 
 # Create a generic growth object with declining errors for increment
 setClass("growthObjIncrDeclineVar",
-		representation(fit="gls"))
+		representation(fit = "gls"))
 
 setClass("growthObjMultiCov.incr.declinevar",
-		representation(fit="gls"))
+		representation(fit = "gls"))
 
 # Create a generic growth object with declining errors for logincrement
 setClass("growthObjLogIncr.declinevar",
-		representation(fit="gls"))
+		representation(fit = "gls"))
 
 setClass("growthObjMultiCov.logincr.declinevar",
-		representation(fit="gls"))
+		representation(fit = "gls"))
 
 
 # Create a generic growth object containing the Hossfeld parameters 
 setClass("growthObjHossfeld",
 		representation(paras="numeric",
 				sd="numeric", 
-				logLik="numeric", hessian="matrix"))
+				logLik="numeric", 
+				hessian="matrix"))
 
 ## SURVIVAL OBJECTS ##
 # Create a generic survival object
 setClass("survObj",
-		representation(fit="glm"))
+		representation(fit = "glm"))
 
 setClass("survObjMultiCov",
-		representation(fit="glm"))
+		representation(fit = "glm"))
 
 # Create a generic survival object with a log covariate, and 5 years
 setClass("survObjLog.multiyear",
-		representation(fit="glm"))
+		representation(fit = "glm"))
 
 # Create a generic survival object for use where over-dispersion
 # modeled, using Diggles approximate correction for the transform
 setClass("survObjOverDisp",
-		representation(fit="glm"))
+		representation(fit = "glm"))
 
 
 

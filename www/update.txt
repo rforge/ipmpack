@@ -47,7 +47,7 @@
 *sizeToAge
 ---stochGrowthRateManyCov
 ---stochGrowthRateSampleList
----stochPassageTime
+---stochpassageTime
 *surv
 *survivorship
 *surv-method
