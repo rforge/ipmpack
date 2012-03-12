@@ -22,7 +22,6 @@ The Tmatrix (compound or not).
 \details{
 Note how variation in passage time for values exactly equal to the chosen size (targetSize) are low, because of way the conditionals are framed. Passage time from values > than targetSize should be ignored (space to the right of the red vertical line in example below), unless dealing with an organism that is able to display retrogression.
 }
-}
 \value{
 Numeric vector corresponding to variance in passage time from each of the meshpoints in the IPM (so both size, and if a compound matrix, size from different environments). 
 }

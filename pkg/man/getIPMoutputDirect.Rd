@@ -86,7 +86,7 @@ list of fecundity objects (facultative).
   \item{meshpoints}{matrix meshpoints.}
   \item{resSize}{matrix providing target sizes for size to age estimate (assuming age=1
     at sizeStart), of length nsizeToAge space equally between the smallest and largest meshpoints.}
-  \item{resAge} {matrix providing time in time-steps to get to resSize,
+  \item{resAge}{matrix providing time in time-steps to get to resSize,
     rows corresonding sequential elements in the list of T matrices.} 
   \item{surv.par}{matrix of posteriors of survival parameters (columns,
     each sample is a row).}
