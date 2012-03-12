@@ -63,7 +63,7 @@ dff <- generateData()
 # this may later lead to error messages with glm. User might have
 # to re-start R to run other parts of the package:
 svlist <- makePostSurvivalObjs(dataf = dff, explanatoryVariables = "size",
-meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
+meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
 grlist <- makePostGrowthObjs(dataf = dff,  nitt = 5000)
 fvlist <- makePostFecObjs(dataf = dff, nitt = 5000)
 

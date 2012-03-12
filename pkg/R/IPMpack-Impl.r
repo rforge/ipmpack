@@ -733,13 +733,13 @@ makePostGrowthObjs <- function(dataf,
 # Returns - list including list of growth objects, + list of survival objects
 makePostSurvivalObjs <- function(dataf,
 		explanatoryVariables="size+size2",
-		meanB=rep(0,3),varB=rep(1e10), nitt=50000) {
+		meanB = rep(0, 3), varB=rep(1e10), nitt = 50000) {
 	
 	require(MCMCglmm)
 	#build appropriate size based covariates
-	dataf$size2 <- dataf$size^2
-	dataf$size3 <- dataf$size^3
-	if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
+	dataf$size2 <- dataf$size ^ 2
+	dataf$size3 <- dataf$size ^ 3
+	if (length(grep("logsize",explanatoryVariables)) > 0) dataf$logsize <- log(dataf$size)
 	
 	#setup for discrete covariates if data suggests may be implemented by the
 	#presence of "covariate" and "covariateNext"
@@ -764,8 +764,8 @@ makePostSurvivalObjs <- function(dataf,
 	#fit survival model 
 	#avoid fitting a prior unless you need to (takes longer with)
     fit<-MCMCglmm(Formula, data=dataf[!is.na(dataf$surv),], 
-			verbose=FALSE,prior=list(R=list(V=1, fix=1)),
-			family="categorical",nitt=nitt)        
+			verbose=FALSE, prior = list(R = list(V = 1, fix = 1)),
+			family="categorical", nitt = nitt)        
 	
 	dummy.fit <- glm(Formula, data=dataf,family=binomial)
 	
