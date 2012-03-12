@@ -1423,7 +1423,7 @@ lifeExpect <- function(IPMmatrix,envMatrix){
 
 ##Function to estimate Stochastic Passage Time
 
-stochPassageTime <- function(chosenSize,IPMmatrix,envMatrix){
+stochpassageTime <- function(chosenSize,IPMmatrix,envMatrix){
 			require(MASS)
 			#get the right index for the size you want
 			loc <- which(abs(chosenSize-

@@ -11,7 +11,7 @@ Functions to build growth objects for constant environments, or
   object are defined.
   }
 \usage{
-makeGrowthObjIncrTrunc(dataf)
+makeGrowthObjIncrTrunc(dataf, explanatoryVariables = "size, responseType = "incr", leftVal = 0)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,6 +24,14 @@ makeGrowthObjIncrTrunc(dataf)
     a column in the dataframe, otherwise they are calculated as
     dataf$sizeNext-dataf$size or log(dataf$sizeNext-dataf$size),
   respectively. }
+ \item{explanatoryVariables}{a formula describing the desired
+    explanatory variables (interactions, etc) in classical R
+    style, i.e. separated by `+', `*', `:'. Possible covariates include `size', 'size2' (size^2), `size3'
+    (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
+    `covariate1', `covariate2' through to whatever the desired number of covariates is.}
+  \item{responseType}{possible values include `sizeNext' (size in one
+    discrete time step) and `incr' and `logincr'}
+  \item{leftVal}{\code{numeric} giving the left side truncation value. Defaults to 0.}
 
 }
 \details{

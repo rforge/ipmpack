@@ -5,7 +5,7 @@
 %\alias{lifeExpect,IPMmatrix,envMatrix-method}
 %\alias{meanLifeExpect,IPMmatrix-method}
 %\alias{passageTime,numeric,IPMmatrix-method}
-%\alias{stochPassageTime,numeric,IPMmatrix,envMatrix-method}
+%\alias{stochpassageTime,numeric,IPMmatrix,envMatrix-method}
 %\alias{survivorship,IPMmatrix-method}
 %\alias{varLifeExpect,IPMmatrix-method}
 %\alias{varpassageTime,numeric,IPMmatrix-method}
@@ -40,7 +40,7 @@ Class \code{"\linkS4class{vector}"}, by class "matrix", distance 4, with explici
     \item{lifeExpect}{\code{signature(IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
     \item{meanLifeExpect}{\code{signature(IPMmatrix = "IPMmatrix")}: ... }
     \item{passageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix")}: ... }
-    \item{stochPassageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
+    \item{stochpassageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
     \item{survivorship}{\code{signature(IPMmatrix = "IPMmatrix")}: ... }
     \item{varLifeExpect}{\code{signature(IPMmatrix = "IPMmatrix")}: ... }
     \item{varpassageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix")}: ... }

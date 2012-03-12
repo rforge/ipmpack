@@ -1,5 +1,5 @@
-\name{PassageTime}
-\alias{PassageTime}
+\name{passageTime}
+\alias{passageTime}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Defines passage time to a chosen continuous stage.
@@ -8,7 +8,7 @@ Defines passage time to a chosen continuous stage.
   Estimates the time in units of the chosen time-steps (see convertIncrement()) that it will take to reach a chosen continuous (e.g. size) stage for the first time conditional on surviving from each of the meshpoints of the IPM; currently not defined for matrices with discrete as well as continuous stage categories. 
 }
 \usage{
-PassageTime(chosenSize, IPMmatrix)
+passageTime(chosenSize, IPMmatrix)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -53,7 +53,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 dff <- generateData()
 Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
 targetSize <- 8
-passage <- PassageTime(targetSize, Tmatrix)
+passage <- passageTime(targetSize, Tmatrix)
 
 plot(passage, ylab = "Passage time", xlab = "Continuous (e.g. size) stage", type = "l", col = "dark gray", ylim = c(0, max(passage)))
 abline(v = targetSize, col="red")
@@ -61,7 +61,7 @@ abline(v = targetSize, col="red")
 # With a compound matrix (discrete stages not yet defined)
 Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans = 1)
 targetSize <- 8
-passage <- PassageTime(targetSize, Tmatrix)
+passage <- passageTime(targetSize, Tmatrix)
 
 plot(passage, ylab = "Passage time", xlab = "Discrete (e.g. size) and continuous (e.g. seedbank) stages", type = "l", col = "dark gray", ylim = c(0, max(passage)))
 abline(v = targetSize, col="red")

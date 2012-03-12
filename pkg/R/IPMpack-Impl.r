@@ -252,11 +252,12 @@ makegrowthObjHossfeld <- function(dataf) {
 #
 #no covariate, and one polynom, linear regression on increment
 makeGrowthObjIncrTrunc <- function(dataf,
+		explanatoryVariables = "size",
 		responseType = "incr",
-		explanatoryVariables = "size",leftVal=0) {
+		leftVal = 0) {
 	require(censReg)
 	
-	dataf$size2 <- dataf$size^2
+	dataf$size2 <- dataf$size ^ 2
 	
 	Formula <- paste(responseType, '~', explanatoryVariables, sep = '')
 
@@ -265,11 +266,10 @@ makeGrowthObjIncrTrunc <- function(dataf,
 	if (responseType == "incr") { 
 		if (length(dataf$incr) == 0) {
 			print("building incr as sizeNext-size")
-			dataf$incr <- dataf$sizeNext-dataf$size
+			dataf$incr <- dataf$sizeNext - dataf$size
 			dataf$incr[dataf$incr<leftVal] <- NA
 		}}
-		
-		
+				
 	fit <- censReg(as.formula(Formula),data=dataf, left=leftVal)
 	gr1 <- new("growthObjTruncIncr")
 	gr1@fit <- fit$estimate
@@ -618,7 +618,7 @@ makeDiscreteTrans <- function(dataf) {
 #            size.thresh - the size above which tree death is being augmented
 #            prop.dead - the proportion of these expected to be dead
 
-DeathDataAugment <- function (dataf, size.thresh, prop.dead) { 
+deathDataAugment <- function (dataf, size.thresh, prop.dead) { 
 	
 	n.now <- sum(dataf$size>size.thresh)
 	n.new.dead <- ceiling(prop.dead*n.now/(1-prop.dead))
