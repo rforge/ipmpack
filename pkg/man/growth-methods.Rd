@@ -1,16 +1,16 @@
 \name{growth-methods}
 \docType{methods}
 \alias{growth-methods}
-\alias{growth,numeric,numeric,numeric,growthObj-method}
-\alias{growth,numeric,numeric,numeric,growthObjDeclineVar-method}
-\alias{growth,numeric,numeric,numeric,growthObjHossfeld-method}
-\alias{growth,numeric,numeric,numeric,growthObjIncr-method}
-\alias{growth,numeric,numeric,numeric,growthObjIncrDeclineVar-method}
-\alias{growth,numeric,numeric,numeric,growthObjIncrmanycov-method}
-\alias{growth,numeric,numeric,numeric,growthObjLogIncr-method}
-\alias{growth,numeric,numeric,numeric,growthObjLogIncrdeclinevar-method}
-\alias{growth,numeric,numeric,numeric,growthObjLogIncrmanycov-method}
-\alias{growth,numeric,numeric,numeric,growthObj.manycov-method}
+%\alias{growth,numeric,numeric,numeric,growthObj-method}
+%\alias{growth,numeric,numeric,numeric,growthObjDeclineVar-method}
+%\alias{growth,numeric,numeric,numeric,growthObjHossfeld-method}
+%\alias{growth,numeric,numeric,numeric,growthObjIncr-method}
+%\alias{growth,numeric,numeric,numeric,growthObjIncrDeclineVar-method}
+%\alias{growth,numeric,numeric,numeric,growthObjIncrmanycov-method}
+%\alias{growth,numeric,numeric,numeric,growthObjLogIncr-method}
+%\alias{growth,numeric,numeric,numeric,growthObjLogIncrdeclinevar-method}
+%\alias{growth,numeric,numeric,numeric,growthObjLogIncrmanycov-method}
+%\alias{growth,numeric,numeric,numeric,growthObj.manycov-method}
 \title{ Methods for Function growth  ~~}
 \description{
  Methods for defining the growth component of the IPM
