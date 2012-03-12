@@ -11,14 +11,15 @@ Function plots compared models built with \code{growthModelComp} and \code{survM
 }
 \usage{
 plotGrowthModelComp(grObj,summaryTable, dataf, respType = "sizeNext", expVars, plotLegend = TRUE, mainTitle = "")
-		
 plotSurvModelComp(svObj, summaryTable, dataf, expVars,  plotLegend = TRUE, mainTitle = "") 
-
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{grObj/survObj}{
-    a list with the objects of the class growth object or survival object equal to \code{treatN}. 
+  \item{grObj}{
+    a list with the objects of the class growth object  equal to \code{treatN}. 
+  }
+  \item{svObj}{
+    a list with the objects of the class  survival object equal to \code{treatN}. 
   }
   \item{summaryTable}{
     dataframe output from \code{growthModelComp} and \code{survModelComp} that contains linear predictor and testType scores (see \code{growthModelComp} and \code{survModelComp}).
@@ -41,6 +42,7 @@ plotSurvModelComp(svObj, summaryTable, dataf, expVars,  plotLegend = TRUE, mainT
  }
 \details{
 Plots multiple growth and survival objects returned from \code{growthModelComp} and \code{survModelComp}.  See \code{plotGrowthModelComp} and \code{plotSurvModelComp} for more details.  
+}
 \value{
 a plot object.
 }

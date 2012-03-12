@@ -70,7 +70,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \examples{
 dff <- generateData()
-svlist <- makePostSurvivalObjs(dataf = dff, meanB = rep(0, 3), varB = rep(1e+10), nitt = 1000)
+svlist <- makePostSurvivalObjs(dataf = dff, meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
 grlist <- makePostGrowthObjs(dataf = dff, nitt = 5000)
 
 # Only first 10 for speed

@@ -1,5 +1,6 @@
 \name{addPdfGrowthPic}
 \alias{addPdfGrowthPic}
+\alias{survModelComp}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
