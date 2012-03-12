@@ -1,8 +1,8 @@
 \name{surv-methods}
 \docType{methods}
 \alias{surv-methods}
-\alias{surv,numeric,numeric,survObj-method}
-\alias{surv,numeric,numeric,survObj.manycov-method}
+%\alias{surv,numeric,numeric,survObj-method}
+%\alias{surv,numeric,numeric,survObj.manycov-method}
 \title{ ~~ Methods for Function surv  ~~}
 \description{
  ~~ Methods for function \code{surv}  ~~

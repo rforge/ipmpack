@@ -1,14 +1,14 @@
 \name{IPMmatrix-class}
 \Rdversion{1.1}
 \docType{class}
-\alias{IPMmatrix-class}
-\alias{lifeExpect,IPMmatrix,envMatrix-method}
-\alias{meanLifeExpect,IPMmatrix-method}
-\alias{passageTime,numeric,IPMmatrix-method}
-\alias{stochPassageTime,numeric,IPMmatrix,envMatrix-method}
-\alias{survivorship,IPMmatrix-method}
-\alias{varLifeExpect,IPMmatrix-method}
-\alias{varpassageTime,numeric,IPMmatrix-method}
+%\alias{IPMmatrix-class}
+%\alias{lifeExpect,IPMmatrix,envMatrix-method}
+%\alias{meanLifeExpect,IPMmatrix-method}
+%\alias{passageTime,numeric,IPMmatrix-method}
+%\alias{stochPassageTime,numeric,IPMmatrix,envMatrix-method}
+%\alias{survivorship,IPMmatrix-method}
+%\alias{varLifeExpect,IPMmatrix-method}
+%\alias{varpassageTime,numeric,IPMmatrix-method}
 
 \title{Class "IPMmatrix"}
 \description{
