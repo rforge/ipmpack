@@ -10,8 +10,8 @@ Plots compared models built with \code{growthModelComp} and \code{survModelComp}
 Function plots compared models built with \code{growthModelComp} and \code{survModelComp}. This can be invoked directly from \code{growthModelComp} and \code{survModelComp} with the argument \code{makePlot = TRUE}.
 }
 \usage{
-plotGrowthModelComp(grObj,summaryTable, dataf, respType = "sizeNext", expVars, plotLegend = TRUE, mainTitle = "")
-plotSurvModelComp(svObj, summaryTable, dataf, expVars,  plotLegend = TRUE, mainTitle = "") 
+plotGrowthModelComp(grObj,summaryTable, dataf, expVars, respType = "sizeNext", testType = "AIC", plotLegend = TRUE, mainTitle = "")
+plotSurvModelComp(svObj, summaryTable, dataf, expVars, testType = "AIC",  plotLegend = TRUE, mainTitle = "") 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -32,6 +32,9 @@ plotSurvModelComp(svObj, summaryTable, dataf, expVars,  plotLegend = TRUE, mainT
   }
    \item{respType}{
     character string identifying the response variable for the growthModelComp.  wither \code{"sizeNext"}, \code{"logincr"} or \code{"incr"}. Defaults to \code{sizeNext}. 
+  }
+  \item{testType}{
+    character string identifying the metric used to compare models.  Can be any string that uses \code{loglike} from the lm or glm object.  For example \code{"AIC"} or \code{"BIC"}.  Defaults to \code{"AIC"}.
   }
   \item{plotLegend}{
     logical indicated whether a legend is created. If \code{TRUE}, positions the legend in \code{"topleft"} for growth models and \code{"bottomleft"} for survival models. 

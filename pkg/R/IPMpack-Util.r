@@ -802,7 +802,7 @@ growthModelComp <- function(dataf,
 	
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
-		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, respType = respType,  plotLegend = TRUE, mainTitle = mainTitle,...)
+		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, respType = respType, testType = "AIC",  plotLegend = TRUE, mainTitle = mainTitle,...)
 	}
 	return(outputList)
 }
@@ -830,7 +830,7 @@ survModelComp <- function(dataf,
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
 		## this is the surv picture    
-		plotSurvModelComp(svObj = svObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, plotLegend = TRUE, mainTitle = mainTitle, ncuts = ncuts,...)
+		plotSurvModelComp(svObj = svObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, testType = "AIC", plotLegend = TRUE, mainTitle = mainTitle, ncuts = ncuts,...)
 	}
 	return(outputList)
 }	
@@ -838,7 +838,7 @@ survModelComp <- function(dataf,
 # Plot functions for model comparison.  Plots the series of fitted models for growth and survival objects.  
 # Can plot a legend with the model covariates and model test criterion scores (defaults to AIC).
 
-plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, respType = "sizeNext", plotLegend = TRUE, mainTitle = "",...) {
+plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, respType = "sizeNext", testType = "AIC", plotLegend = TRUE, mainTitle = "",...) {
 	treatN <- length(grObj)
 	sizeSorted <- unique(sort(dataf$size))
 	if(respType == "sizeNext") {
@@ -864,7 +864,7 @@ plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, respType = 
 	}
 }
 
-plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, plotLegend = TRUE, mainTitle = "", ncuts = 20, ...) {
+plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "AIC", plotLegend = TRUE, mainTitle = "", ncuts = 20, ...) {
 	treatN <- length(svObj)
 	#ncuts <- 20  # survival bins
 	os <- order(dataf$size)  # order size
