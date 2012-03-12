@@ -802,7 +802,7 @@ growthModelComp <- function(dataf,
 	
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
-		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, respType = respType, testType = testType,  plotLegend = TRUE, mainTitle = mainTitle,...)
+		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, respType = respType,  plotLegend = TRUE, mainTitle = mainTitle,...)
 	}
 	return(outputList)
 }
@@ -830,7 +830,7 @@ survModelComp <- function(dataf,
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
 		## this is the surv picture    
-		plotSurvModelComp(svObj = svObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, testType = testType, plotLegend = TRUE, mainTitle = mainTitle, ncuts = ncuts,...)
+		plotSurvModelComp(svObj = svObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, plotLegend = TRUE, mainTitle = mainTitle, ncuts = ncuts,...)
 	}
 	return(outputList)
 }	
