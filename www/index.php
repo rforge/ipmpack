@@ -94,7 +94,7 @@ $themeroot='http://r-forge.r-project.org/themes/rforge/';
                   <td class="main">
                     <p class="parag"><b>IPMpack</b> is an R package (R Development Core Team 2011) that allows users to build and analyse Integral Projection Models. An IPM is a demographic tool to explore the dynamics of populations where individuals' fates depend on state variables that are continuous (e.g. weight, diameter at breast height, height, limb length, rosette diameter...) or quasi-continuous (number of leaves, age, number of reproductive structures) and may be a mixture of discrete (e.g. seedbank) and continuous. IPMs track the distribution of individuals $n$ across these state variables between census times (e.g., year $t$ and year $t+1$) by projecting from models that define the underlying vital rates (e.g., survival, growth, reproduction) as a function of the (quasi-)continuous state variables. Version 1.0 of the package is now available on CRAN /  R-Forge. For those who wish to try it, it can be installed by opening the R console and typing: <br></p>
 										<p><code>install.packages("IPMpack", repos = "http://R-Forge.R-project.org", type = "source")</code>
-<br></p>
+					<p><br></p>
 
                     <a href="#top" class="totop">Back to top</a>
                   </td>
@@ -142,7 +142,7 @@ row represents one measurement in the population:</p>
                     <p style="text-align:justify;line-height:1.75;font-size:18px">Future versions will include:</p>
                     <ul style="text-align:justify;line-height:1.75;font-size:18px">
                       <li>Clonality IPMs.</li>
-                      <li>Multiple continuous state variables (e.g. size × age).</li>
+                      <li>Multiple continuous state variables in the same IPM.</li>
                       <li>etc. (suggestions are very welcome)</li>
                     </ul>
                   </td>
@@ -165,13 +165,16 @@ row represents one measurement in the population:</p>
 					<p class="Refs">Rees M & Rose KE (2002) <b>Evolution of flowering strategies in <i>Oenothera glazioviana</i>: an integral projection model approach.</b> <i>Proc. Roy. Soc. B.</i> 269:1509-1515 <a href="http://rspb.royalsocietypublishing.org/content/269/1499/1509.full.pdf" rel="nofollow" style="color:#84002E" target="_blank">pdf</a>.<br><br></p>
                     <p class="Refs">Tuljapurkar S (1990) <b>Population Dynamics in Variable Environments</b>. Springer, Berlin, Germany.<br><br></p>
 					<p class="Refs">Zuidema PA, Jongejans E, Chien PD, During HJ & Schieving F (2010) <b>Integral Projection Models for trees: a new parameterization method and a validation of model output.</b> <i>Journal of Ecology</i> 98:345-355 <a href="http://dx.doi.org/10.1111/j.1365-2745.2009.01626.x" rel="nofollow" style="color:#84002E" target="_blank">doi</a>
+                    <p><br></p>
                     <a href="#top" class="totop">Back to top</a>
                   </td>
                   <td style="vertical-align:top;padding:40px" width="420px">
 				    Papers using IPMpack (please contact us if you want your paper to be included in this list):
 					<p><i>in progress</i></p>
-					<br><br><br><br>
+					<p><br><br><br></p>
 					<p>A list of all known IPM papers can be downloaded here: <a href="IPMpublications.xlsx">IPMpublications</a>.
+					<p><br><br><br></p>
+					<p>Photo credits: <i>Xanthoparmelia</i> lichens by Ann Pringle, crocs by Owen Jones, <i>Succisa pratensis</i> by Lidewij Keser.
                   </td>
                 </tr>
               </tbody>
