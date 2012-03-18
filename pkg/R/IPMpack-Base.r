@@ -123,10 +123,6 @@ setClass("survObj",
 setClass("survObjMultiCov",
 		representation(fit = "glm"))
 
-# Create a generic survival object with a log covariate, and 5 years
-setClass("survObjLog.multiyear",
-		representation(fit = "glm"))
-
 # Create a generic survival object for use where over-dispersion
 # modeled, using Diggles approximate correction for the transform
 setClass("survObjOverDisp",
