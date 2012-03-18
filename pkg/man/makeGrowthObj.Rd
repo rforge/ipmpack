@@ -60,7 +60,7 @@ See manual for details on building case-specific growth objects; which may conta
 }
 \examples{
 #generate data
-dff<-generateData()
+dff <- generateData()
 #make simple linear regression growth object relating size to size at t+1
 (gr1 <- makeGrowthObj(dataf=dff, explanatoryVariables="size", responseType="sizeNext"))
 #same but relating size to incr

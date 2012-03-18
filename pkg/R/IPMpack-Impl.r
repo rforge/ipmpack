@@ -575,22 +575,22 @@ makeDiscreteTrans <- function(dataf) {
 	#loop over discrete stages and fill 
 	for (j in stages[1:(length(stages)-1)]) {
 		for (i in stages) discrete.trans[i,j] <- sum(dataf[dataf$stage==j & dataf$stageNext==i,]$number,na.rm=TRUE)
-		discrete.surv[,j] <- sum(discrete.trans[,j],na.rm=T)/sum(dataf[dataf$stage==j,]$number,na.rm=TRUE)
-		discrete.trans[,j] <- discrete.trans[,j]/sum(discrete.trans[,j],na.rm=TRUE)
-		mean.to.cont[,j] <- mean(dataf[dataf$stage==j&dataf$stageNext==i,]$sizeNext,na.rm=TRUE)
-		sd.to.cont[,j] <- sd(dataf[dataf$stage==j&dataf$stageNext==i,]$sizeNext,na.rm=TRUE)
+		discrete.surv[,j] <- sum(discrete.trans[,j],na.rm=T) / sum(dataf[dataf$stage == j,]$number, na.rm = TRUE)
+		discrete.trans[,j] <- discrete.trans[,j] / sum(discrete.trans[,j], na.rm = TRUE)
+		mean.to.cont[,j] <- mean(dataf[dataf$stage == j & dataf$stageNext == i,]$sizeNext, na.rm = TRUE)
+		sd.to.cont[,j] <- sd(dataf[dataf$stage == j & dataf$stageNext == i, ]$sizeNext,na.rm = TRUE)
 	}
 	
-	for (i in stages[1:(length(stages)-1)])
-		distrib.to.discrete[i,] <- sum(dataf[dataf$stage=="continuous"&dataf$stageNext==i,]$number,na.rm=TRUE)
+	for (i in stages[1:(length(stages) - 1)])
+		distrib.to.discrete[i,] <- sum(dataf[dataf$stage == "continuous" & dataf$stageNext == i,]$number, na.rm = TRUE)
 	distrib.to.discrete <- distrib.to.discrete/sum(distrib.to.discrete,na.rm=TRUE)
 	
 	
-	subdata <- subset(dataf,dataf$stage=="continuous"&dataf$surv==1)
+	subdata <- subset(dataf, dataf$stage == "continuous" & dataf$surv == 1)
 	subdata$cont.to.discrete <- 1
-	subdata$cont.to.discrete[subdata$stageNext=="continuous"] <- 0
-	subdata$size2 <- subdata$size^2
-	surv.to.discrete <- glm(cont.to.discrete~size+size2,family=binomial,data=subdata)
+	subdata$cont.to.discrete[subdata$stageNext == "continuous"] <- 0
+	subdata$size2 <- subdata$size ^ 2
+	surv.to.discrete <- glm(cont.to.discrete ~ size + size2, family = binomial, data = subdata)
 			
 	rownames(discrete.trans) <- stages	
 	colnames(discrete.trans) <- stages	
@@ -620,13 +620,13 @@ makeDiscreteTrans <- function(dataf) {
 
 .deathDataAugment <- function (dataf, size.thresh, prop.dead) { 
 	
-	n.now <- sum(dataf$size>size.thresh)
-	n.new.dead <- ceiling(prop.dead*n.now/(1-prop.dead))
-	new.size <- rnorm(n.new.dead,size.thresh,sd(dataf$size[dataf$size>size.thresh]))
+	n.now <- sum(dataf$size > size.thresh)
+	n.new.dead <- ceiling(prop.dead * n.now / (1 - prop.dead))
+	new.size <- rnorm(n.new.dead,size.thresh, sd(dataf$size[dataf$size > size.thresh]))
 	
-	datanew <- data.frame(size =new.size, sizeNext=rep(NA,n.new.dead), surv=rep(0,n.new.dead), 
-			covariate = rep(0,n.new.dead), covariateNext = rep(0,n.new.dead),
-			fec = rep(NA,n.new.dead)) 
+	datanew <- data.frame(size = new.size, sizeNext = rep(NA, n.new.dead), surv = rep(0, n.new.dead), 
+			covariate = rep(0, n.new.dead), covariateNext = rep(0, n.new.dead),
+			fec = rep(NA, n.new.dead)) 
 	
 	dataf.new <- rbind(dataf,datanew)
 	
@@ -660,34 +660,34 @@ makeDiscreteTrans <- function(dataf) {
 #
 # Returns - list including list of growth objects, + list of survival objects
 makePostGrowthObjs <- function(dataf,
-		explanatoryVariables="size+size2+covariate",
-		responseType="sizeNext",
-		meanB=rep(0,3),varB=rep(1e10),burnin=3000,nitt=50000) {
+		explanatoryVariables = "size+size2+covariate",
+		responseType = "sizeNext",
+		meanB=rep(0,3), varB = rep(1e10), burnin = 3000, nitt = 50000) {
 	
 	require(MCMCglmm)
 	
-	if (responseType=="incr" & length(dataf$incr)==0) {
+	if (responseType == "incr" & length(dataf$incr) == 0) {
 		print("building incr as sizeNext-size")
-		dataf$incr <- dataf$sizeNext-dataf$size
+		dataf$incr <- dataf$sizeNext - dataf$size
 	}
 	
-	if (responseType=="logincr" & length(dataf$logincr)==0) {
+	if (responseType == "logincr" & length(dataf$logincr) == 0) {
 		print("building logincr as log(sizeNext-size) - pre-build if this is not appropriate")
-		dataf$logincr <- log(dataf$sizeNext-dataf$size)
+		dataf$logincr <- log(dataf$sizeNext - dataf$size)
 	}
 	
-	dataf$size2 <- dataf$size^2
-	dataf$size3 <- dataf$size^3
-	if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
+	dataf$size2 <- dataf$size ^ 2
+	dataf$size3 <- dataf$size ^ 3
+	if (length(grep("logsize", explanatoryVariables)) > 0) dataf$logsize <- log(dataf$size)
 	
 	#setup for discrete covariates if data suggests may be implemented by the
 	#presence of "covariate" and "covariateNext"
-	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
+	if ("covariate" %in% strsplit(as.character(explanatoryVariables), "[+-\\*]")[[1]] & length(dataf$covariate) > 0) { 
 		dataf$covariate <- as.factor(dataf$covariate)
 		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
 		
 	}
-	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) { 
+	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables), "[+-\\*]")[[1]]&length(dataf$covariateNext) > 0) { 
 		dataf$covariateNext <- as.factor(dataf$covariateNext)
 		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
 	}
@@ -697,15 +697,15 @@ makePostGrowthObjs <- function(dataf,
 	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizeNext),]
 	
 	#fit growth model
-	Formula<-as.formula(paste(responseType,'~',explanatoryVariables,sep=''))
-	fit<-MCMCglmm(Formula, data=dataf, verbose=FALSE, burnin=burnin,nitt=nitt)
-	dummy.fit <- lm(Formula,data=dataf)
+	Formula <- as.formula(paste(responseType, '~', explanatoryVariables, sep = ''))
+	fit <- MCMCglmm(Formula, data = dataf, verbose = FALSE, burnin = burnin, nitt = nitt)
+	dummy.fit <- lm(Formula, data = dataf)
 	
-	#create list of growth models reflecing posterior
+	#create list of growth models reflecting posterior
 	gr <- list()
 	for (k in 1:length(fit$Sol[,1])) {
 		dummy.fit$coefficients <- fit$Sol[k,]
-		dummy.fit$residuals <- rnorm(length(dummy.fit$residuals),0,sqrt(fit$VCV[k,1]))
+		dummy.fit$residuals <- rnorm(length(dummy.fit$residuals), 0, sqrt(fit$VCV[k, 1]))
 		if (responseType=="sizeNext") gr[[k]] <-  new("growthObj")
 		if (responseType=="incr") gr[[k]] <-  new("growthObjIncr")
 		if (responseType=="logincr") gr[[k]] <-  new("growthObjLogIncr")

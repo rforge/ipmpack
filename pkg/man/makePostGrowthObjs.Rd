@@ -67,7 +67,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{makePostSurvivalObjs}}, makePostSurvObjs 
 }
 \examples{
-dff<-generateData()
+dff <- generateData()
 grlist <- makePostGrowthObjs(dataf=dff,
 			explanatoryVariables="size+size2+covariate",
             responseType="sizeNext",

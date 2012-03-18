@@ -79,7 +79,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-dff<-generateData()
+dff <- generateData()
 a1<-runSimpleModel(dataf=dff, chosenSize=3,do.plot=TRUE)
 names(a1)
 }

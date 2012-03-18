@@ -43,7 +43,7 @@ Note that the dataframe generated contains no covariates (either discrete or con
 \code{\link{generateDataStoch}},\code{\link{generateData}}
 }
 \examples{
-dff<-generateDataDiscrete()
+dff <- generateDataDiscrete()
 head(dff)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -40,7 +40,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-dff<-generateData()
+dff <- generateData()
 gr1 <- makegrowthObjHossfeld(dff)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

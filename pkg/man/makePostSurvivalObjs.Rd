@@ -53,7 +53,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-dff<-generateData()
+dff <- generateData()
 svlist <- makePostSurvivalObjs(dataf=dff,
 explanatoryVariables="size+size2+covariate",
 meanB = rep(0, 3), varB = rep(1e+10), burnin=100,nitt = 500)

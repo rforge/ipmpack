@@ -71,7 +71,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 
 }
 \examples{
-dff<-generateDataDiscrete()
+dff <- generateDataDiscrete()
 fv1 <- makeFecObj(dff, offspringSplitter = data.frame(continuous = 0.2, seedAge1 = 0.8),
 	fecByDiscrete = data.frame(dormant = 0, seedAge1 = 4.2, seedOld = 0))
 }

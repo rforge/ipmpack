@@ -86,7 +86,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{makeListIPMs}}, \code{\link{makePostGrowthObjs}}, \code{\link{makeFecObj}}
 }
 \examples{
-dff<-generateData()
+dff <- generateData()
 fvlist <- makePostFecObjs(dataf=dff,explanatoryVariables="size+size2+covariate",
                                burnin=100,nitt = 500)
                                

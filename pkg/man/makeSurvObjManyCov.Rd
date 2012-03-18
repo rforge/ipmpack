@@ -48,7 +48,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 #generate data
-dff<-generateData()
+dff <- generateData()
 #make simple logistic regression survival object relating survival to size at t
 sv1 <- makeSurvObjManyCov(dff, explanatoryVariables="size")
 #assess fit for model with discrete environmental classes fitted

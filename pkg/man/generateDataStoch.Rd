@@ -41,7 +41,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{generateData}},\code{\link{generateDataDiscrete}}
 }
 \examples{
-dff<-generateDataStoch()
+dff <- generateDataStoch()
 head(dff)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -49,7 +49,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 \examples{
 
 # Simulate data and create a column for growth increment
-dff<-generateData()
+dff <- generateData()
 dff$incr <- dff$sizeNext - dff$size
 
 # Current sum of squares

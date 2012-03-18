@@ -59,7 +59,7 @@ Uses the package cenReg
 }
 \examples{
 #generate data
-dff<-generateData()
+dff <- generateData()
 #make simple linear regression growth object relating size to size at t+1
 #(gr1 <- makeGrowthObjIncrTrunc(dataf=dff))
 
