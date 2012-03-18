@@ -1,11 +1,11 @@
 \name{growthCum-methods}
 \docType{methods}
 \alias{growthCum-methods}
-%\alias{growthCum,numeric,numeric,numeric,growthObj-method}
-%\alias{growthCum,numeric,numeric,numeric,growthObjDeclineVar-method}
-%\alias{growthCum,numeric,numeric,numeric,growthObjIncr-method}
-%\alias{growthCum,numeric,numeric,numeric,growthObjLogIncr-method}
-%\alias{growthCum,numeric,numeric,numeric,growthObjTruncIncr-method}
+\alias{growthCum,numeric,numeric,numeric,growthObj-method}
+\alias{growthCum,numeric,numeric,numeric,growthObjDeclineVar-method}
+\alias{growthCum,numeric,numeric,numeric,growthObjIncr-method}
+\alias{growthCum,numeric,numeric,numeric,growthObjLogIncr-method}
+\alias{growthCum,numeric,numeric,numeric,growthObjTruncIncr-method}
 \title{ ~~ Methods for Function \code{growthCum}  ~~}
 \description{
  ~~ Methods for function \code{growthCum}  ~~
