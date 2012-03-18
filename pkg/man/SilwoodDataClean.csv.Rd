@@ -30,7 +30,7 @@ if died, one if survived, NAs if not know).
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
-data(/Users/cjessicametcalf/Documents/IPM/data/SilwoodDataClean.csv)
+data(SilwoodDataClean.csv)
 
 }
 \keyword{datasets}
