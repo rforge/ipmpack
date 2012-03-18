@@ -778,7 +778,7 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 			nvals <- colSums(get.matrix); 
 			loc0 <- which(nvals==0, arr.ind=TRUE)
 			#if colsum is zero, place appropriate survival on diagonal (assume no change)
-			if (length(loc0)>0) get.matrix[cbind(loc0,loc0)] <-  surv(size=y[loc0],cov=chosenCov,survObj=survObj)
+			if (length(loc0)>0) get.matrix[cbind(loc0,loc0)] <-  surv(size=y[loc0],cov=k,survObj=survObj)
 			nvals[loc0] <- 1
 			get.matrix <- t((t(get.matrix)/nvals)*surv(size=y,cov=as.factor(k),survObj=survObj))    
 		}

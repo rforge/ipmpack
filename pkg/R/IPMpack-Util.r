@@ -15,7 +15,7 @@ getIPMoutput <- function(Tmatrixlist,targetSize=c(),Fmatrixlist=NULL){
 	
 	if (length(targetSize)==0)  { 
 		print("no target size for passage time provided; taking meshpoint median")
-		targetSize <- median(TmatrixList[[1]]@meshpoints)
+		targetSize <- median(Tmatrixlist[[1]]@meshpoints)
 	}
 	nsamps <- length(Tmatrixlist)
 	h1 <- Tmatrixlist[[1]]@meshpoints[2]-Tmatrixlist[[1]]@meshpoints[1]
