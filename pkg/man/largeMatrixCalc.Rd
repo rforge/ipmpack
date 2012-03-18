@@ -31,7 +31,7 @@ largeMatrixCalc(Tmatrix, Fmatrix, tol = 1e-08)
   \item{h1}{size bin width.}
 }
 \references{
-Rees & Ellner. 2009. Integral projection models for populations in temporally varying environments. The American Naturalist 79, p575-594.
+Rees and Ellner. 2009. Integral projection models for populations in temporally varying environments. The American Naturalist 79, p575-594.
 
 Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p377-502.
 

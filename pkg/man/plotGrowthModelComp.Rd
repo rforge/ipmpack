@@ -45,6 +45,9 @@ plotSurvModelComp(svObj, summaryTable, dataf, expVars, testType = "AIC",  plotLe
   \item{ncuts}{
   number of consecutive size values for which to take means of size and survival for plotting.
   }
+  \item{...}{
+additional arguments to plot (ylim, col, etc)	
+  }
  }
 \details{
 Plots multiple growth and survival objects returned from \code{growthModelComp} and \code{survModelComp}.  See \code{plotGrowthModelComp} and \code{plotSurvModelComp} for more details.  
