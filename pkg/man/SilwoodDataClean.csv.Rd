@@ -2,15 +2,15 @@
 \alias{SilwoodDataClean}
 \docType{data}
 \title{
-Silwood Monocarpic Plant Demographic Data
+%%   ~~ data name/kind ... ~~
 }
 \description{
-Data-frame containing size and survival or flowering from two years of
-data from species from Silwood Park. 
+Silwood Monocarp Dataset
 }
 \usage{data(SilwoodDataClean)}
 \format{
-  The format is csv
+  The format is:
+ chr "SilwoodDataClean"
 }
 \details{
 data-frame with headings exactDate (date measurement) exactDateNext
@@ -21,6 +21,7 @@ census time) ll (length of longest leaf) llNext (length of longest leaf
 at next census) rosetteDiam (rosette Diameter) rosetteDiamNext (rosette
 diameter at next census) flowered (0 for not flowered, 1 if did) surv (0
 if died, one if survived, NAs if not know). 
+%%  ~~ If necessary, more details than the __description__ above ~~
 }
 \source{
 %%  ~~ reference to a publication or URL from which the data were obtained ~~
@@ -31,6 +32,7 @@ if died, one if survived, NAs if not know).
 \examples{
 data(SilwoodDataClean)
 plot(SilwoodDataClean$rtcr,SilwoodDataClean$rtcrNext,xlab="size now", ylab="size next", pch=19,log="xy")
-
+## maybe str(SilwoodDataClean) ; plot(SilwoodDataClean) ...
 }
 \keyword{datasets}
+
