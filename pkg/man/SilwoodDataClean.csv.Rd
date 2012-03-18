@@ -29,7 +29,7 @@ if died, one if survived, NAs if not know).
 %%  ~~ possibly secondary sources and usages ~~
 }
 \examples{
-data(SilwoodDataClean.csv)
+data(SilwoodDataClean)
 plot(SilwoodDataClean$rtcr,SilwoodDataClean$rtcrNext,xlab="size now", ylab="size next", pch=19)
 
 }
