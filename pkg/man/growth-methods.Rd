@@ -10,6 +10,7 @@
 \alias{growth,numeric,numeric,numeric,growthObjIncr-method}
 \alias{growth,numeric,numeric,numeric,growthObjIncrDeclineVar-method}
 \alias{growth,numeric,numeric,numeric,growthObjLogIncr-method}
+\alias{growth,numeric,numeric,numeric,growthObjLogIncr.declinevar-method}
 \alias{growth,numeric,numeric,numeric,growthObjTruncIncr-method}
 \title{ ~~ Methods for Function \code{growth}  ~~}
 \description{
