@@ -1,5 +1,5 @@
-\name{SilwoodDataClean.csv}
-\alias{SilwoodDataClean.csv}
+\name{SilwoodDataClean}
+\alias{SilwoodDataClean}
 \docType{data}
 \title{
 Silwood Monocarpic Plant Demographic Data
@@ -8,7 +8,7 @@ Silwood Monocarpic Plant Demographic Data
 Data-frame containing size and survival or flowering from two years of
 data from species from Silwood Park. 
 }
-\usage{data(SilwoodDataClean.csv)}
+\usage{data(SilwoodDataClean)}
 \format{
   The format is csv
 }
@@ -30,7 +30,7 @@ if died, one if survived, NAs if not know).
 }
 \examples{
 data(SilwoodDataClean)
-plot(SilwoodDataClean$rtcr,SilwoodDataClean$rtcrNext,xlab="size now", ylab="size next", pch=19)
+plot(SilwoodDataClean$rtcr,SilwoodDataClean$rtcrNext,xlab="size now", ylab="size next", pch=19,log="xy")
 
 }
 \keyword{datasets}
