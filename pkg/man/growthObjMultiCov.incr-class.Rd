@@ -2,10 +2,11 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{growthObjMultiCov.incr-class}
-\alias{growth,numeric,numeric,data.frame,growthObjMultiCov.incr-method}
+%\alias{growth,numeric,numeric,data.frame,growthObjMultiCov.incr-method}
 
 \title{Class \code{"growthObjMultiCov.incr"}}
 \description{
+A class object description
 %%  ~~ A concise (1-5 lines) description of what the class is. ~~
 }
 \section{Objects from the Class}{

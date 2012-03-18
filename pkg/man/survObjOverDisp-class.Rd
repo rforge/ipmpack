@@ -6,6 +6,7 @@
 
 \title{Class \code{"survObjOverDisp"}}
 \description{
+A class object description
 %%  ~~ A concise (1-5 lines) description of what the class is. ~~
 }
 \section{Objects from the Class}{

@@ -2,8 +2,8 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{growthObjHossfeld-class}
-\alias{growth,numeric,numeric,numeric,growthObjHossfeld-method}
-\alias{growthIntegrate,numeric,numeric,numeric,numeric,growthObjHossfeld-method}
+%\alias{growth,numeric,numeric,numeric,growthObjHossfeld-method}
+%\alias{growthIntegrate,numeric,numeric,numeric,numeric,growthObjHossfeld-method}
 
 \title{Class "growthObjHossfeld"}
 \description{

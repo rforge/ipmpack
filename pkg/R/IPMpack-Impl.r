@@ -618,7 +618,7 @@ makeDiscreteTrans <- function(dataf) {
 #            size.thresh - the size above which tree death is being augmented
 #            prop.dead - the proportion of these expected to be dead
 
-deathDataAugment <- function (dataf, size.thresh, prop.dead) { 
+.deathDataAugment <- function (dataf, size.thresh, prop.dead) { 
 	
 	n.now <- sum(dataf$size>size.thresh)
 	n.new.dead <- ceiling(prop.dead*n.now/(1-prop.dead))

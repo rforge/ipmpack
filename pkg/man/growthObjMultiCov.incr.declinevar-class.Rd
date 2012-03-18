@@ -5,6 +5,7 @@
 
 \title{Class \code{"growthObjMultiCov.incr.declinevar"}}
 \description{
+A class object description
 %%  ~~ A concise (1-5 lines) description of what the class is. ~~
 }
 \section{Objects from the Class}{

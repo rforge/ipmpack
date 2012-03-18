@@ -5,7 +5,7 @@
 
 \title{Class \code{"IPMmatrix"}}
 \description{
-%%  ~~ A concise (1-5 lines) description of what the class is. ~~
+Class IPMmatrix contains a matrix describing transitions between sizes or discrete stages; other slots described integration resolution, etc. 
 }
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("IPMmatrix", ...)}.

@@ -5,6 +5,7 @@
 
 \title{Class \code{"fecObjMultiCov"}}
 \description{
+A class object description for fertility objects with multiple covariates
 %%  ~~ A concise (1-5 lines) description of what the class is. ~~
 }
 \section{Objects from the Class}{

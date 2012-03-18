@@ -5,7 +5,7 @@
 
 \title{Class \code{"discreteTrans"}}
 \description{
-%%  ~~ A concise (1-5 lines) description of what the class is. ~~
+Matrix defining transitions between discrete stages; slots define the names of stages, etc.
 }
 \section{Objects from the Class}{
 Objects can be created by calls of the form \code{new("discreteTrans", ...)}.
