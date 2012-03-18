@@ -2,10 +2,10 @@
 \alias{SilwoodDataClean}
 \docType{data}
 \title{
-%%   ~~ data name/kind ... ~~
+Silwood Monocarp Dataset
 }
 \description{
-Silwood Monocarp Dataset
+Demographic measurements from several monocarpic plants from Silwood
 }
 \usage{data(SilwoodDataClean)}
 \format{
