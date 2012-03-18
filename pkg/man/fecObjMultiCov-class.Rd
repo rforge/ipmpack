@@ -1,0 +1,47 @@
+\name{fecObjMultiCov-class}
+\Rdversion{1.1}
+\docType{class}
+\alias{fecObjMultiCov-class}
+
+\title{Class \code{"fecObjMultiCov"}}
+\description{
+%%  ~~ A concise (1-5 lines) description of what the class is. ~~
+}
+\section{Objects from the Class}{
+Objects can be created by calls of the form \code{new("fecObjMultiCov", ...)}.
+%%  ~~ describe objects here ~~ 
+}
+\section{Slots}{
+  \describe{
+    \item{\code{fitFec}:}{Object of class \code{"list"} ~~ }
+    \item{\code{fecConstants}:}{Object of class \code{"numeric"} ~~ }
+    \item{\code{offspringSplitter}:}{Object of class \code{"data.frame"} ~~ }
+    \item{\code{meanOffspringSize}:}{Object of class \code{"numeric"} ~~ }
+    \item{\code{varOffspringSize}:}{Object of class \code{"numeric"} ~~ }
+    \item{\code{fecByDiscrete}:}{Object of class \code{"data.frame"} ~~ }
+    \item{\code{Transform}:}{Object of class \code{"character"} ~~ }
+  }
+}
+\section{Methods}{
+No methods defined with class "fecObjMultiCov" in the signature.
+}
+\references{
+%%  ~~put references to the literature/web site here~~
+}
+\author{
+%%  ~~who you are~~
+}
+\note{
+%%  ~~further notes~~
+}
+
+%% ~Make other sections like Warning with \section{Warning }{....} ~
+
+\seealso{
+%%  ~~objects to See Also as \code{\link{~~fun~~}}, ~~~
+%%  ~~or \code{\linkS4class{CLASSNAME}} for links to other classes ~~~
+}
+\examples{
+showClass("fecObjMultiCov")
+}
+\keyword{classes}

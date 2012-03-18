@@ -15,10 +15,18 @@ Methods to predict probability of survival given a linear predictor based on
 various transforms of size and potentially a single discrete covariate. 
 }
 
+
 \item{\code{signature(size = "numeric", cov = "data.frame", survObj = "survObjMultiCov")}}{
 Methods to predict probability of survival given a linear predictor based on 
 various transforms of size and a dataframe of other covariates.  
 }
+
+\item{\code{signature(size = "numeric", cov = "numeric", survObj = "survObjOverDisp")}}{
+Methods to predict probability of survival given a linear predictor based on 
+various transforms of size and acovariate, where over-dispersion has been fitted, using a correction.  
+
+}
+
 }}
 \keyword{methods}
 \keyword{ ~~ other possible keyword(s) ~~ }
