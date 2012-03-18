@@ -371,7 +371,7 @@ setMethod("growth",
 		})
 
 
-# growth for predicting next logincr with a polynomial or log
+# growth for predicting next logincr 
 setMethod("growth", 
 		c("numeric","numeric","numeric","growthObjLogIncr"),
 		function(size,sizeNext,cov,growthObj){
@@ -384,6 +384,26 @@ setMethod("growth",
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <- summary(growthObj@fit)$sigma
 			u <- dlnorm(sizeNext-size,mux,sigmax,log=FALSE)  
+			return(u);
+		})
+
+
+# growth for predicting next logincr with decline var
+setMethod("growth", 
+		c("numeric","numeric","numeric","growthObjLogIncr.declinevar"),
+		function(size,sizeNext,cov,growthObj){
+			newd <- data.frame(size=size,size2=size^2,size3=size^3,
+					covariate=as.factor(rep(cov,length(size))))
+			
+			if (length(grep("logsize",
+							growthObj@fit$formula))>0) newd$logsize=log(size)
+			
+			mux <- predict(growthObj@fit,newd,type="response")
+			sigmax2 <- summary(growthObj@fit)$sigma^2
+			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
+			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
+		
+			u <- dlnorm(sizeNext-size,mux,sqrt(sigmax2),log=FALSE)  
 			return(u);
 		})
 

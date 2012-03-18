@@ -73,11 +73,18 @@ supplies mean incr which is added to size to obtain sizeNext; the density functi
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjLogIncr")}}{
-Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
-range of transforms of the current size, and potentially one discrete covariate. The prediction 
-supplies mean logincr which is exponentiated and added to size to obtain sizeNext; the density function around this is log normal. 
+Methods to predict the probability density of \code{sizeNext} via linear prediction based around a  range of transforms of the current size, and potentially one discrete covariate. The prediction 
+supplies mean logincr which is exponentiated and added to size to obtain sizeNext; the density function around this is log normal; and variance changes with size. 
 %%  ~~describe this method here~~
 }
+
+\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjLogIncr.declinevar")}}{
+Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
+range of transforms of the current size, and potentially one discrete covariate. The prediction 
+supplies logincr which is exponentiated and added to size to obtain sizeNext; the density function around this is lognormal; 
+the sd may change with size. 
+}
+
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjTruncIncr")}}{
 Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
