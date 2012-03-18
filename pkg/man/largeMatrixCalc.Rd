@@ -35,7 +35,7 @@ Rees and Ellner. 2009. Integral projection models for populations in temporally 
 
 Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p377-502.
 
-Garcia, Dahlgren, Ehrlen. 2011. No evidence of senescence in a 300-year-old mountain herb. Journal of Ecology 99, p1424Ð1430.
+Garcia, Dahlgren, Ehrlen. 2011. No evidence of senescence in a 300-year-old mountain herb. Journal of Ecology 99, p1424-1430.
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.

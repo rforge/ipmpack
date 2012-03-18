@@ -63,7 +63,7 @@ For information on T matrix: Caswell. 2001. Matrix population models: constructi
 
 For habitat x stage modeling: Horvitz and Schemske. 1995. Spatiotemporal variation in demographic transitions of a tropical understory herb. Projection matrix analysis. Ecological Monographs 65, p155-192.
 
-For age x size modeling: Garcia, Dahlgren and Ehrlen. 2011. No evidence of senescence in a 300-year-old mountain herb. Journal of Ecology 99, p1424Ð1430.
+For age x size modeling: Garcia, Dahlgren and Ehrlen. 2011. No evidence of senescence in a 300-year-old mountain herb. Journal of Ecology 99, p1424-1430.
 
 For general information:
 
