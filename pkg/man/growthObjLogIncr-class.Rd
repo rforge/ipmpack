@@ -2,8 +2,8 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{growthObjLogIncr-class}
-\alias{growth,numeric,numeric,numeric,growthObjLogIncr-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjLogIncr-method}
+%\alias{growth,numeric,numeric,numeric,growthObjLogIncr-method}
+%\alias{growthCum,numeric,numeric,numeric,growthObjLogIncr-method}
 
 \title{Class \code{"growthObjLogIncr"}}
 \description{

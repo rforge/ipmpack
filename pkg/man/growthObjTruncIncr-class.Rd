@@ -2,8 +2,8 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{growthObjTruncIncr-class}
-\alias{growth,numeric,numeric,numeric,growthObjTruncIncr-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjTruncIncr-method}
+%\alias{growth,numeric,numeric,numeric,growthObjTruncIncr-method}
+%\alias{growthCum,numeric,numeric,numeric,growthObjTruncIncr-method}
 
 \title{Class \code{"growthObjTruncIncr"}}
 \description{

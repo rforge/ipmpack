@@ -2,7 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{growthObjIncr-class}
-\alias{growth,numeric,numeric,numeric,growthObjIncr-method}
+%\alias{growth,numeric,numeric,numeric,growthObjIncr-method}
 
 \title{Class "growthObjIncr"}
 \description{

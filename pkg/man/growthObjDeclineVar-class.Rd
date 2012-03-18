@@ -2,7 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{growthObjDeclineVar-class}
-\alias{growth,numeric,numeric,numeric,growthObjDeclineVar-method}
+%\alias{growth,numeric,numeric,numeric,growthObjDeclineVar-method}
 
 \title{Class "growthObjDeclineVar"}
 \description{
