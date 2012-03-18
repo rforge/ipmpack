@@ -31,6 +31,7 @@ if died, one if survived, NAs if not know).
 }
 \examples{
 data(SilwoodDataClean)
+print(head(SilwoodDataClean))
 plot(SilwoodDataClean$rtcr,SilwoodDataClean$rtcrNext,xlab="size now", ylab="size next", pch=19,log="xy")
 ## maybe str(SilwoodDataClean) ; plot(SilwoodDataClean) ...
 }
