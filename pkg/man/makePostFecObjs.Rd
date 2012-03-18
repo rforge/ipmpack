@@ -12,7 +12,7 @@
 
 }
 \usage{
-makePostFecObjs(dataf,fecConstants,explanatoryVariables,Family,Transform,meanOffspringSize,varOffspringSize,offspringSplitter,fecByDiscrete,nitt)
+makePostFecObjs(dataf,fecConstants,explanatoryVariables,Family,Transform,meanOffspringSize,varOffspringSize,offspringSplitter,fecByDiscrete,burnin,nitt)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -54,6 +54,9 @@ makePostFecObjs(dataf,fecConstants,explanatoryVariables,Family,Transform,meanOff
     order.}
   \item{fecByDiscrete}{data.frame defining number of offspring produced by each
     discrete class ; defaults to 0. If specified, ALL discrete classes MUST appear in alphabetical order, so NO "continuous". e.g. fecByDiscrete=data.frame(dormant=0,seedAge1=4.2,seedOld=0)}     
+  \item{burnin}{
+    numeric defining burn in for MCMCglmm
+}
   \item{nitt}{
     number of iterations
     }
@@ -85,7 +88,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff<-generateData()
 fvlist <- makePostFecObjs(dataf=dff,explanatoryVariables="size+size2+covariate",
-                               nitt = 5000)
+                               burnin=100,nitt = 500)
                                
 fvlist[[1]]                               
                                

@@ -8,11 +8,11 @@
   Model takes a data-frame and fits a Bayesian model to the chosen
   "responseType" (sizeNext, incr, etc) using the chosen explanatory
   variable, and the package MCMCglmm; then creates the resulting list of growth objects necessary to get Bayes
-  posteriors of IPM outputs. Note that priors are not yet implemented and growth methods for multiple covariates likewise. 
+  posteriors of IPM outputs. Note that priors are not yet implemented and growth methods for multiple covariates likewise.  
  }
 \usage{
 makePostGrowthObjs(dataf, explanatoryVariables,responseType,
-meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
+meanB = rep(0, 3), varB = rep(1e+10), burnin=3000,nitt = 50000)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -35,6 +35,9 @@ meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
     vector defining the variance of the prior of the coeff for growth,
     as for the mean
   }
+  \item{burnin}{
+    numeric defining burn in for MCMCglmm
+}
   \item{nitt}{
     numeric defining the number of iterations
 }
@@ -68,7 +71,7 @@ dff<-generateData()
 grlist <- makePostGrowthObjs(dataf=dff,
 			explanatoryVariables="size+size2+covariate",
             responseType="sizeNext",
-            meanB=rep(0,3),varB=rep(1e10),nitt = 5000)
+            meanB=rep(0,3),varB=rep(1e10),burnin=100,nitt = 500)
             
 grlist[[1]]
 }

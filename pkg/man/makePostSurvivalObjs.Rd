@@ -9,7 +9,7 @@
 }
 \usage{
 makePostSurvivalObjs(dataf, explanatoryVariables="size+size2",
-meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
+meanB = rep(0, 3), varB = rep(1e+10),burnin=3000, nitt = 50000)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,6 +24,9 @@ meanB = rep(0, 3), varB = rep(1e+10), nitt = 50000)
   \item{varB}{
     vector defining the variance of the prior of the coefficients for survival,as for the mean. CURRENTLY NOT IMPLEMENTED.
   }
+  \item{burnin}{
+    numeric defining burn in for MCMCglmm
+}
   \item{nitt}{
     numeric defining the number of iterations
   }
@@ -53,7 +56,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff<-generateData()
 svlist <- makePostSurvivalObjs(dataf=dff,
 explanatoryVariables="size+size2+covariate",
-meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
+meanB = rep(0, 3), varB = rep(1e+10), burnin=100,nitt = 500)
 
 plot(1:20,surv(1:20,1,svlist[[1]]), type="n", xlab="size", ylab="survival")
 for (k in 1:length(svlist)) 

@@ -662,7 +662,7 @@ makeDiscreteTrans <- function(dataf) {
 makePostGrowthObjs <- function(dataf,
 		explanatoryVariables="size+size2+covariate",
 		responseType="sizeNext",
-		meanB=rep(0,3),varB=rep(1e10),nitt=50000) {
+		meanB=rep(0,3),varB=rep(1e10),burnin=3000,nitt=50000) {
 	
 	require(MCMCglmm)
 	
@@ -698,7 +698,7 @@ makePostGrowthObjs <- function(dataf,
 	
 	#fit growth model
 	Formula<-as.formula(paste(responseType,'~',explanatoryVariables,sep=''))
-	fit<-MCMCglmm(Formula, data=dataf, verbose=FALSE, nitt=nitt)
+	fit<-MCMCglmm(Formula, data=dataf, verbose=FALSE, burnin=burnin,nitt=nitt)
 	dummy.fit <- lm(Formula,data=dataf)
 	
 	#create list of growth models reflecing posterior
@@ -733,7 +733,7 @@ makePostGrowthObjs <- function(dataf,
 # Returns - list including list of growth objects, + list of survival objects
 makePostSurvivalObjs <- function(dataf,
 		explanatoryVariables="size+size2",
-		meanB = rep(0, 3), varB=rep(1e10), nitt = 50000) {
+		meanB = rep(0, 3), varB=rep(1e10),burnin=3000, nitt = 50000) {
 	
 	require(MCMCglmm)
 	#build appropriate size based covariates
@@ -765,7 +765,7 @@ makePostSurvivalObjs <- function(dataf,
 	#avoid fitting a prior unless you need to (takes longer with)
     fit<-MCMCglmm(Formula, data=dataf[!is.na(dataf$surv),], 
 			verbose=FALSE, prior = list(R = list(V = 1, fix = 1)),
-			family="categorical", nitt = nitt)        
+			family="categorical", burnin=burnin,nitt = nitt)        
 	
 	dummy.fit <- glm(Formula, data=dataf,family=binomial)
 	
@@ -803,7 +803,7 @@ makePostFecObjs <- function(dataf,
 		meanOffspringSize=NA,
 		varOffspringSize=NA,
 		offspringSplitter=data.frame(continuous=1),
-		fecByDiscrete=data.frame(NA),nitt=50000) {
+		fecByDiscrete=data.frame(NA),burnin=3000,nitt=50000) {
 	
 	require(MCMCglmm)
 	
@@ -871,7 +871,7 @@ makePostFecObjs <- function(dataf,
 		
 		fit[[i]] <- MCMCglmm(Formula,
 				data=dataf[!is.na(dataf[,fecNames[i]]),], 
-				verbose=FALSE, nitt=nitt,family=Family[i])
+				verbose=FALSE, burnin=burnin,nitt=nitt,family=Family[i])
 		
 		dummy.fit[[i]] <- glm(Formula,
 				data=dataf[!is.na(dataf[,fecNames[i]]),],family=Family[i])
