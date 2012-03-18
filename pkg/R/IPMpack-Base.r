@@ -355,7 +355,7 @@ setMethod("growth",
 
 # Same for many covariates on increment
 setMethod("growth", 
-		c("numeric","numeric","numeric","growthObjMultiCov.incr"),
+		c("numeric","numeric","data.frame","growthObjMultiCov.incr"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- cov
 			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
@@ -394,7 +394,7 @@ setMethod("growth",
 
 # Same for many covariates on log increment
 setMethod("growth", 
-		c("numeric","numeric","numeric","growthObjMultiCov.logincr"),
+		c("numeric","numeric","data.frame","growthObjMultiCov.logincr"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- cov
 			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
