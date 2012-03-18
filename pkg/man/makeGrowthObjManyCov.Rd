@@ -52,7 +52,7 @@ See manual for details on building case-specific growth objects.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeGrowthObjSubsetCovariates}}, \code{\link{makeSurvObj}}, \code{\link{makeFecObj}}
+\code{\link{makeSurvObj}}, \code{\link{makeFecObj}}
 }
 \examples{
 #generate data

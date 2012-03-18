@@ -10,8 +10,8 @@ Plots compared models built with \code{growthModelComp} and \code{survModelComp}
 Function plots compared models built with \code{growthModelComp} and \code{survModelComp}. This can be invoked directly from \code{growthModelComp} and \code{survModelComp} with the argument \code{makePlot = TRUE}.
 }
 \usage{
-plotGrowthModelComp(grObj,summaryTable, dataf, expVars, respType = "sizeNext", testType = "AIC", plotLegend = TRUE, mainTitle = "")
-plotSurvModelComp(svObj, summaryTable, dataf, expVars, testType = "AIC",  plotLegend = TRUE, mainTitle = "") 
+plotGrowthModelComp(grObj,summaryTable, dataf, expVars, respType = "sizeNext", testType = "AIC", plotLegend = TRUE, mainTitle = "",...)
+plotSurvModelComp(svObj, summaryTable, dataf, expVars, testType = "AIC",  plotLegend = TRUE, mainTitle = "",ncuts=20,...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -41,6 +41,9 @@ plotSurvModelComp(svObj, summaryTable, dataf, expVars, testType = "AIC",  plotLe
   }
   \item{mainTitle}{
     string to place as the \code{main} attribute in plots (if \code{makePlot = TRUE}.  defaults to \code{NULL}.
+  }
+  \item{ncuts}{
+  number of consecutive size values for which to take means of size and survival for plotting.
   }
  }
 \details{

@@ -1,6 +1,5 @@
 \name{addPdfGrowthPic}
 \alias{addPdfGrowthPic}
-\alias{survModelComp}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -18,7 +17,6 @@ addPdfGrowthPic(respType = "sizeNext", sizesPlotAt = c(20, 50, 60),
                             jitt = 2,  
                             ...)
 		
-survModelComp <- function(dataf, expVars = c("1", "size", "size + size2"), testType = "AIC", makePlot = FALSE, mainTitle = "",...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

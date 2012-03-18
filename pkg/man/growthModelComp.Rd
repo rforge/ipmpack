@@ -16,6 +16,9 @@ survModelComp(dataf, expVars = c("1", "size", "size + size2"), testType = "AIC",
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
+  \item{dataf}{
+ 	dataframe with columns size, surv, and the growth response variable of choice
+   }
   \item{expVars}{
     vector, list of covariates.  Defaults to \code{c("1",  "size", "size + size2")}.
   }
@@ -37,6 +40,9 @@ survModelComp(dataf, expVars = c("1", "size", "size + size2"), testType = "AIC",
   \item{ncuts}{
  for survModelComp, number of cuts in the data-set to be used in plotting
   }
+  \item{...}{
+ 	additional arguments for plotting (ylim, col, etc)
+   }
  }
 \details{
 Both \code{growthModelComp} and \code{survModelComp} use a dataframe that has variables \code{size} and \code{sizeNext} to build a series of nested models.  The default will build growth or survival objects with an intercept, an intercept and size, an an intercept with size and size^2 terms. 
