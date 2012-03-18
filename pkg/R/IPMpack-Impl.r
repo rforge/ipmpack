@@ -699,13 +699,13 @@ makePostGrowthObjs <- function(dataf,
 	#fit growth model
 	Formula <- as.formula(paste(responseType, '~', explanatoryVariables, sep = ''))
 	fit <- MCMCglmm(Formula, data = dataf, verbose = FALSE, burnin = burnin, nitt = nitt)
-	dummy.fit <- lm(Formula, data = dataf)
+	dummyFit <- lm(Formula, data = dataf)
 	
 	#create list of growth models reflecting posterior
 	gr <- list()
 	for (k in 1:length(fit$Sol[,1])) {
-		dummy.fit$coefficients <- fit$Sol[k,]
-		dummy.fit$residuals <- rnorm(length(dummy.fit$residuals), 0, sqrt(fit$VCV[k, 1]))
+		dummyFit$coefficients <- fit$Sol[k,]
+		dummyFit <- alteredFit(dummyFit = dummyFit, newCoef = fit$Sol[k,],  desiredSd = sqrt(fit$VCV[k, 1]), residDf = 1000)
 		if (responseType=="sizeNext") gr[[k]] <-  new("growthObj")
 		if (responseType=="incr") gr[[k]] <-  new("growthObjIncr")
 		if (responseType=="logincr") gr[[k]] <-  new("growthObjLogIncr")
@@ -714,6 +714,17 @@ makePostGrowthObjs <- function(dataf,
 	
 	return(gr)
 	
+}
+
+# replace the growth object fit with a new, desired variance for predict
+alteredFit <- function(dummyFit = dummyFit, newCoef = dummyFit$coefficients, desiredSd = 1, residDf = 1000) {
+	suppressWarnings(warning(""))
+	dummyFit$coefficients <- newCoef
+	dummyFit$residuals <- rnorm(residDf + dummyFit$rank, 0, sd = desiredSd)	
+	# Error in rnorm(residDf, 0, sd = desiredSd) : object 'residDf' not found
+
+	dummyFit$df.residual <- residDf
+	return(dummyFit)	
 }
 
 
