@@ -8,10 +8,9 @@ Silwood Monocarpic Plant Demographic Data
 Data-frame containing size and survival or flowering from two years of
 data from species from Silwood Park. 
 }
-\usage{data(/Users/cjessicametcalf/Documents/IPM/data/SilwoodDataClean.csv)}
+\usage{data(SilwoodDataClean.csv)}
 \format{
-  The format is:
- chr "/Users/cjessicametcalf/Documents/IPM/data/SilwoodDataClean.csv"
+  The format is csv
 }
 \details{
 data-frame with headings exactDate (date measurement) exactDateNext
@@ -31,6 +30,7 @@ if died, one if survived, NAs if not know).
 }
 \examples{
 data(SilwoodDataClean.csv)
+plot(SilwoodDataClean$rtcr,SilwoodDataClean$rtcrNext,xlab="size now", ylab="size next", pch=19)
 
 }
 \keyword{datasets}
