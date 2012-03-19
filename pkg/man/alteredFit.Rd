@@ -44,12 +44,11 @@
 # Data with size and sizeNext
 	dff <- generateData()
 	gr1 <- makeGrowthObj(dff)
-	print(sigma.hat(gr1@fit))
+	print(sd(gr1@fit$residuals))
 	print(coef(gr1@fit))
 	newFit <- alteredFit(dummyFit = gr1@fit, newCoef = c(0.24, 0.55), desiredSd = 4)
-	print(sigma.hat(newFit))
+	print(sd(newFit$residuals))
 	print(coef(newFit))
-	
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 		% R documentation directory.
