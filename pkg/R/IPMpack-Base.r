@@ -1644,11 +1644,11 @@ timeToSize <- function(startingSizes,IPM,endSize, startingEnv=1, maxT=100, propR
 # Parameters - Fmatrix, Tmatrix
 #
 # Returns R0
-R0Calc<-function(Tmatrix,Fmatrix){
+R0Calc<-function(Tmatrix, Fmatrix){
 	require(MASS)
-	Imatrix <- matrix(0,length(Tmatrix[1,]),length(Tmatrix[1,])); 
+	Imatrix <- matrix(0, length(Tmatrix[1,]), length(Tmatrix[1,])); 
 	diag(Imatrix) <- 1
-	Nmatrix <- ginv(Imatrix-Tmatrix);
+	Nmatrix <- ginv(Imatrix - Tmatrix);
 	Rmatrix <- Fmatrix %*% Nmatrix
 	ave.R0 <- Re(eigen(Rmatrix)$values[1])
 	return(ave.R0)
@@ -1664,32 +1664,33 @@ R0Calc<-function(Tmatrix,Fmatrix){
 # Returns list containing lambda and stableStage
 #
 #ROB WILL MODIFY THIS CODE TO INCLUDE REPRODUCTIVE VALUES
-largeMatrixCalc <- function(Tmatrix,Fmatrix, tol=1.e-8){
+largeMatrixCalc <- function(Tmatrix, Fmatrix, tol = 1.e-8){
 	require(Matrix)
-	A2 <- Matrix(Tmatrix+Fmatrix);
-	nt <- Matrix(1,length(Tmatrix[1,]),1);
+	A2 <- Matrix(Tmatrix + Fmatrix);
+	nt <- Matrix(1,length(Tmatrix[1,]), 1);
 	nt1 <- nt; 
 	
 	h1 <- diff(Tmatrix@meshpoints)[1]
 	
 	qmax <- 1000;
 	lam <- 1; 
-	while(qmax>tol) {
-		nt1 <- A2%*%nt;
-		qmax <- sum(abs((nt1-lam*nt)@x));  
+	while(qmax > tol) {
+		nt1 <- A2 %*% nt;
+		qmax <- sum(abs((nt1 - lam * nt)@x));  
 		lam <- sum(nt1@x); 
-		nt@x <- (nt1@x)/lam; #slight cheat  
+		nt@x <- (nt1@x) / lam; #slight cheat  
 		#cat(lam,qmax,"\n");
 	} 
-	nt <- matrix(nt@x,length(Tmatrix[1,]),1); 
-	stableDist <- nt/(h1*sum(nt)); #normalize so that integral=1
+	nt <- matrix(nt@x, length(Tmatrix[1,]), 1); 
+	stableDist <- nt / (h1 * sum(nt)); #normalize so that integral=1
 	lamStable <- lam; 
 	
 	# Check works   
-	qmax <- sum(abs(lam*nt-(Tmatrix+Fmatrix)%*%nt)); 
-	cat("Convergence: ",qmax," should be less than ",tol,"\n"); 
+	qmax <- sum(abs(lam * nt - (Tmatrix + Fmatrix) %*% nt))
+	cat("Convergence: ", qmax, " should be less than ", tol, "\n")
 	
-	return(list(lam=lam,stableDist=stableDist,h1=h1)) 
+	
+	return(list(lam = lam, stableDist = stableDist, h1 = h1)) 
 	
 }
 
