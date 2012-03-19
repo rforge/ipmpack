@@ -251,31 +251,31 @@ makegrowthObjHossfeld <- function(dataf) {
 # Retrurns - growth object with truncated increment
 #
 #no covariate, and one polynom, linear regression on increment
-makeGrowthObjIncrTrunc <- function(dataf,
-		explanatoryVariables = "size",
-		responseType = "incr",
-		leftVal = 0) {
-	require(censReg)
-	
-	dataf$size2 <- dataf$size ^ 2
-	
-	Formula <- paste(responseType, '~', explanatoryVariables, sep = '')
-
-	if (length(grep("logsize", Formula)) > 0) dataf$logsize <- log(dataf$size)
-			
-	if (responseType == "incr") { 
-		if (length(dataf$incr) == 0) {
-			print("building incr as sizeNext-size")
-			dataf$incr <- dataf$sizeNext - dataf$size
-			dataf$incr[dataf$incr<leftVal] <- NA
-		}}
-				
-	fit <- censReg(as.formula(Formula),data=dataf, left=leftVal)
-	gr1 <- new("growthObjTruncIncr")
-	gr1@fit <- fit$estimate
-	gr1@varcov <- vcov(fit)
-	return(gr1)
-}
+#makeGrowthObjIncrTrunc <- function(dataf,
+#		explanatoryVariables = "size",
+#		responseType = "incr",
+#		leftVal = 0) {
+#	require(censReg)
+#	
+#	dataf$size2 <- dataf$size ^ 2
+#	
+#	Formula <- paste(responseType, '~', explanatoryVariables, sep = '')
+#
+#	if (length(grep("logsize", Formula)) > 0) dataf$logsize <- log(dataf$size)
+#			
+#	if (responseType == "incr") { 
+#		if (length(dataf$incr) == 0) {
+#			print("building incr as sizeNext-size")
+#			dataf$incr <- dataf$sizeNext - dataf$size
+#			dataf$incr[dataf$incr<leftVal] <- NA
+#		}}
+#				
+#	fit <- censReg(as.formula(Formula),data=dataf, left=leftVal)
+#	gr1 <- new("growthObjTruncIncr")
+#	gr1@fit <- fit$estimate
+#	gr1@varcov <- vcov(fit)
+#	return(gr1)
+#}
 
 
 
