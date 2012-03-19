@@ -1646,7 +1646,8 @@ timeToSize <- function(startingSizes,IPM,endSize, startingEnv=1, maxT=100, propR
 # Returns R0
 R0Calc<-function(Tmatrix,Fmatrix){
 	require(MASS)
-	Imatrix <- length(Tmatrix[1,])
+	Imatrix <- matrix(0,length(Tmatrix[1,]),length(Tmatrix[1,])); 
+	diag(Imatrix) <- 1
 	Nmatrix <- ginv(Imatrix-Tmatrix);
 	Rmatrix <- Fmatrix %*% Nmatrix
 	ave.R0 <- Re(eigen(Rmatrix)$values[1])
