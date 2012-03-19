@@ -8,14 +8,14 @@
 	Function replaces a growth object fit with new coefficients and new residuals that are read by \code{predict} when making the IPM.
 	}
 \usage{
-	alteredFit <- function(grObjOld, 
-		newCoef = groObjOld@fit$coefficients, 
+	alteredFit <- function(dummyFit	, 
+		newCoef = dummyFit$coefficients, 
 		desiredSd = 1) 
 }
 %- maybe also 'usage' for other objects documented here.
 		\arguments{
-			\item{grObjOld}{
-				object of class \code{grObj} that has a \code{fit} slot of class \code{lm} that will have coefficients and/or residuals replaced. 
+			\item{dummyFit}{
+				object of class \code{lm} that has coefficients and/or residuals to be replaced. 
 			}
 			\item{newCoef}{
 				vector, the value of the new coefficients. Defaults to old coefficients.
@@ -25,10 +25,10 @@
 			}
 }
 \details{
-	Note that the longer the vector of dummy residuals, the more accurate the desired sd will be.  To make a highly accurate sd, merely use a grObjOld with a high sample size. This cannot yet be adjusted in generateData().
+	Note that the longer the vector of dummyFit$residuals, the more accurate the desired sd will be.  To make a highly accurate sd, merely use a grObjOld with a high sample size. This cannot yet be adjusted in generateData().
 }
 \value{
-	\code{grObjNew}, an object of class \code{grObj} with a \code{fit} slot of class \code{lm} with identical values as those of the \code{groObjOld}, save for new residuals and, potentially, new coefficients.
+	\code{dummyFit}, an object of class \code{lm} with new residuals and, potentially, new coefficients.
 }
 \references{
 }
@@ -46,9 +46,9 @@
 	gr1 <- makeGrowthObj(dff)
 	print(sigma.hat(gr1@fit))
 	print(coef(gr1@fit))
-	gr1New <- alteredFit(grObjOld = gr1, newCoef = c(0.24, 0.55), desiredSd = 4)
-	print(sigma.hat(gr1New@fit))
-	print(coef(gr1New@fit))
+	newFit <- alteredFit(dummyFit = gr1@fit, newCoef = c(0.24, 0.55), desiredSd = 4)
+	print(sigma.hat(newFit))
+	print(coef(newFit))
 	
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

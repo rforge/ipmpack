@@ -717,17 +717,14 @@ makePostGrowthObjs <- function(dataf,
 }
 
 # replace the growth object fit with a new, desired variance for predict
-alteredFit <- function(grObjOld, 
-		newCoef = grObjOld@fit$coefficients, 
+alteredFit <- function(dummyFit = dummyFit, 
+		newCoef = dummyFit$coefficients, 
 		desiredSd = 1) {
-	dummyFit <- grObjOld@fit
-	dummyFit$coefficients <- newCoef
+	dummyFit$coefficients[] <- newCoef
 	dummyFit$residuals <- rnorm(length(dummyFit$residuals), mean = 0, sd = desiredSd)	
 	# need to use qr here to assign dummyFit so that there is no warning when decomposed for n
 	# Error in rnorm(residDf, 0, sd = desiredSd) : object 'residDf' not found
-	grObjNew <- grObjOld
-	grObjNew@fit <- dummyFit
-	return(grObjNew)	
+	return(dummyFit)	
 }
 
 
