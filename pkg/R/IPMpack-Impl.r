@@ -705,11 +705,11 @@ makePostGrowthObjs <- function(dataf,
 	gr <- list()
 	for (k in 1:length(fit$Sol[,1])) {
 		dummyFit$coefficients <- fit$Sol[k,]
-		dummyFit <- alteredFit(dummyFit = dummyFit, newCoef = fit$Sol[k,],  desiredSd = sqrt(fit$VCV[k, 1]), residDf = 1000)
+		dummyFit <- alteredFit(dummyFit = dummyFit, newCoef = fit$Sol[k,],  desiredSd = sqrt(fit$VCV[k, 1]))
 		if (responseType=="sizeNext") gr[[k]] <-  new("growthObj")
 		if (responseType=="incr") gr[[k]] <-  new("growthObjIncr")
 		if (responseType=="logincr") gr[[k]] <-  new("growthObjLogIncr")
-		gr[[k]]@fit <- dummy.fit       
+		gr[[k]]@fit <- dummyFit       
 	}
 	
 	return(gr)

@@ -1,14 +1,13 @@
 \name{alteredFit}
 \alias{alteredFit}
-
-		\title{
+	\title{
 		Allows the insertion of new coefficients and new variances into the \code{fit} slot of growth objects.
 		}
 \description{
 	Function replaces a growth object fit with new coefficients and new residuals that are read by \code{predict} when making the IPM.
 	}
 \usage{
-	alteredFit <- function(dummyFit	, 
+	alteredFit(dummyFit, 
 		newCoef = dummyFit$coefficients, 
 		desiredSd = 1) 
 }

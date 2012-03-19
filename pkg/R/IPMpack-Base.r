@@ -91,25 +91,20 @@ setClass("growthObjDeclineVar",
 		representation(fit = "gls"))
 
 setClass("growthObjMultiCov.declinevar",
-		package = "nlme",
 		representation(fit = "gls"))
 
 # Create a generic growth object with declining errors for increment
 setClass("growthObjIncrDeclineVar",
-		package = "nlme",
 		representation(fit = "gls"))
 
 setClass("growthObjMultiCov.incr.declinevar",
-		package = "nlme",
 		representation(fit = "gls"))
 
 # Create a generic growth object with declining errors for logincrement
 setClass("growthObjLogIncr.declinevar",
-		package = "nlme",
 		representation(fit = "gls"))
 
 setClass("growthObjMultiCov.logincr.declinevar",
-		package = "nlme",
 		representation(fit = "gls"))
 
 
