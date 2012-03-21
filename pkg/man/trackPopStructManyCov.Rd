@@ -93,22 +93,18 @@ fv1 <- makeFecObj(dff, explanatoryVariables = "size+size2")
 # here set to be seasonal environment. NOTE that the order of covariates
 # is the same as in dff
 tvals <- seq(1, 20, by = 1/12)
-covtest <- (1 + 0.5*sin(2*pi*tvals))
-covmattest <- data.frame(covariate1 = rnorm(length(covtest), covtest, 0.5) - 1, 
-covariate2 = rnorm(length(covtest),covtest,0.5) - 1, 
-covariate3 = rnorm(length(covtest), covtest,0.5) - 1)
+covTest <- (1 + 0.5*sin(2*pi*tvals))
+covMatTest <- data.frame(covariate1 = rnorm(length(covTest), covTest, 0.5) - 1, 
+covariate2 = rnorm(length(covTest),covTest,0.5) - 1, 
+covariate3 = rnorm(length(covTest), covTest,0.5) - 1)
 
-<<<<<<< .mine
-st <- trackPopStructManyCov(covariate = covmattest, nRunIn = 2*10, tMax = length(tvals), growthObj = gr1, survObj = sv1, fecObj = fv1, nBigMatrix = 100, minSize = 2*min(dff$size, na.rm = TRUE), maxSize = 1.5*max(dff$size, na.rm = TRUE), nMicrosites = 10)
-=======
-st <- trackPopStructManyCov(covariate = covmattest, n.runin = 2*10, 
-Tmax = length(tvals), growthObj = gr1, survObj = sv1, fecObj = fv1, 
+st <- trackPopStructManyCov(covariate = covMatTest, nRunIn = 2*10, 
+tMax = length(tvals), growthObj = gr1, survObj = sv1, fecObj = fv1, 
 nBigMatrix = 100, minSize = 2*min(dff$size, na.rm = TRUE), 
 maxSize = 1.5*max(dff$size, na.rm = TRUE), nMicrosites = 10)
->>>>>>> .r429
 
 # Function to plot output
-plotResultsStochStruct(tvals = tvals, st = st, covtest = covtest)
+plotResultsStochStruct(tvals = tvals, st = st, covTest = covTest)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
