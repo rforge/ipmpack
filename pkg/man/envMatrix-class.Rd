@@ -3,7 +3,7 @@
 \docType{class}
 \alias{envMatrix-class}
 \alias{lifeExpect,IPMmatrix,envMatrix-method}
-\alias{stochpassageTime,numeric,IPMmatrix,envMatrix-method}
+\alias{stochPassageTime,numeric,IPMmatrix,envMatrix-method}
 
 \title{Class "envMatrix"}
 \description{

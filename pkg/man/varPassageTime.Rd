@@ -1,5 +1,5 @@
-\name{varpassageTime}
-\alias{varpassageTime}
+\name{varPassageTime}
+\alias{varPassageTime}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Estimates variation in passage time.
@@ -8,7 +8,7 @@ Estimates variation in passage time.
 Function to take a T matrix (either compound or not) and estimate variance in passage time to a chosen continuous stage value.
 }
 \usage{
-varpassageTime(chosenSize, IPMmatrix)
+varPassageTime(chosenSize, IPMmatrix)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -53,7 +53,7 @@ dff <- generateData()
 Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize <- max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
 targetSize <- 8
-vP <- varpassageTime(targetSize, Tmatrix)
+vP <- varPassageTime(targetSize, Tmatrix)
 
 plot(Tmatrix@meshpoints, vP, type = "l", xlab="Continuous (e.g. Size) stage", ylab = "Variance in passage time", col = "dark gray")
 abline(v = targetSize, col = "red")
@@ -64,7 +64,7 @@ maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff),
 growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"),
 survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans = 1)
 targetSize <- 8
-vP <- varpassageTime(targetSize, Tmatrix)
+vP <- varPassageTime(targetSize, Tmatrix)
 
 plot(vP, ylab = "Passage time", xlab = "Continuous (e.g. size) stage", type = "l", col = "dark gray", ylim = c(0, max(vP)))
 abline(v = targetSize, col = "red")

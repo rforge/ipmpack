@@ -1461,7 +1461,7 @@ passageTime <- function(chosenSize,IPMmatrix){
 #parameters - an IPM
 #           - a size for which passage time is required            
 # returns - the variance passage time to this size from each of the sizes in the IPM 
-varpassageTime <- function(chosenSize,IPMmatrix){
+varPassageTime <- function(chosenSize,IPMmatrix){
 			require(MASS)
 			
 			loc <- which(abs(chosenSize-IPMmatrix@meshpoints)==min(abs(chosenSize-IPMmatrix@meshpoints)),arr.ind=TRUE)
@@ -1565,7 +1565,7 @@ lifeExpect <- function(IPMmatrix,envMatrix){
 
 ##Function to estimate Stochastic Passage Time
 
-stochpassageTime <- function(chosenSize,IPMmatrix,envMatrix){
+stochPassageTime <- function(chosenSize,IPMmatrix,envMatrix){
 			require(MASS)
 			#get the right index for the size you want
 			loc <- which(abs(chosenSize-

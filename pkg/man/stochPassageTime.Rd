@@ -1,5 +1,5 @@
-\name{stochpassageTime}
-\alias{stochpassageTime}
+\name{stochPassageTime}
+\alias{stochPassageTime}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Estimates passage time in a discretely varying environment.
@@ -8,7 +8,7 @@ Estimates passage time in a discretely varying environment.
   Estimates the time in units of the chosen time steps (see convertIncrement()) that it will take to reach a chosen continuous stage value for the first time conditional on surviving from each of the meshpoints of the IPM for each starting environment. 
 }
 \usage{
-stochpassageTime(chosenSize, IPMmatrix, envMatrix)
+stochPassageTime(chosenSize, IPMmatrix, envMatrix)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -54,7 +54,7 @@ Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize=max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+covariate"), envMatrix = makeEnvObj(dff))
 targetSize <- 8
 
-passage=stochpassageTime(targetSize, Tmatrix, makeEnvObj(dff))
+passage=stochPassageTime(targetSize, Tmatrix, makeEnvObj(dff))
 
 plot(passage, ylab = "Passage time", xlab = "Continuous (e.g. size) stage", type="l", col = "dark gray", ylim = c(0,max(passage)))
 abline(v = targetSize, col="red")
