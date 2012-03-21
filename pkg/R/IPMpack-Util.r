@@ -623,11 +623,11 @@ runSimpleModel <- function(dataf,
 #
 # Parameters - tvals - time points
 #            - st - output of trackPopStructManyCovSeedBank or trackPopStructManyCov
-#            - covtest - the key covariate for germination / flowering
+#            - covTest - the key covariate for germination / flowering
 #            - nRunIn - how many to leave off pics
 # Returns - 
 #
-plotResultsStochStruct <- function(tvals,st,covtest,nRunIn=15,log="y",...) { 
+plotResultsStochStruct <- function(tvals,st,covTest,nRunIn=15,log="y",...) { 
 	
 	par(mfrow=c(2,2),bty="l")
 	plot(tvals[nRunIn:length(tvals)],
@@ -635,10 +635,10 @@ plotResultsStochStruct <- function(tvals,st,covtest,nRunIn=15,log="y",...) {
 			xlab="Time", 
 			ylab="Population size",type="l",log=log,...)
 	abline(v=1:max(tvals),lty=3)
-	covtestplot <- exp(mean(colSums(st$rc[,nRunIn:length(tvals)])) +
-					((covtest-mean(covtest))/sd(covtest))*
+	covTestplot <- exp(mean(colSums(st$rc[,nRunIn:length(tvals)])) +
+					((covTest-mean(covTest))/sd(covTest))*
 					sd(colSums(st$rc[,nRunIn:length(tvals)])))
-	points(tvals,covtestplot+1,type="l",lty=3,col=2)
+	points(tvals,covTestplot+1,type="l",lty=3,col=2)
 	
 	if (log=="y") st$rc <- log(st$rc)
 	
