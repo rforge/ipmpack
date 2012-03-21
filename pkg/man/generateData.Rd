@@ -8,7 +8,7 @@
   Simulates growth, survival and fecundity to create a dataframe of the form required by the functions and methods used in IPMpack. Demographic stage data is only continuous.
 }
 \usage{
-generateData()
+generateData(nsamp=1000)
 }
 %- maybe also 'usage' for other objects documented here.
 \details{
@@ -40,7 +40,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 \code{\link{generateDataStoch}},\code{\link{generateDataDiscrete}}
 }
 \examples{
-dff <- generateData()
+dff <- generateData(nsamp=2000)
 head(dff)
 
 }

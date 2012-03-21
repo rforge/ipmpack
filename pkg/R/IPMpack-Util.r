@@ -361,13 +361,13 @@ makeEnvObj <- function(dataf){
 # size, sizeNext, surv, covariate, covariateNext, fec,
 #
 #
-generateData <- function(){
-	covariate <- sample(0:1, size=1000, replace=TRUE, prob = c(0.2, 0.8))
-	covariateNext <- sample(0:1, size=1000, replace=TRUE, prob = c(0.8, 0.2))
-	size <- rnorm(1000,5,2)
+generateData <- function(nsamp=1000){
+	covariate <- sample(0:1, size=nsamp, replace=TRUE, prob = c(0.2, 0.8))
+	covariateNext <- sample(0:1, size=nsamp, replace=TRUE, prob = c(0.8, 0.2))
+	size <- rnorm(nsamp,5,2)
 	#size <- exp(rnorm(1000, -1, 1.1))
-	sizeNext <- 1+0.8*size-0.9*covariate+rnorm(1000,0,1)
-	seedlings <- sample(1:1000,size=100,replace=TRUE)
+	sizeNext <- 1+0.8*size-0.9*covariate+rnorm(nsamp,0,1)
+	seedlings <- sample(1:nsamp,size=100,replace=TRUE)
 	size[seedlings] <- NA; sizeNext[seedlings] <- rnorm(100,-2,0.1)
 	fec <- surv <- rep(NA, length(size))
 	surv[!is.na(size)] <- rbinom(sum(!is.na(size)),1,logit(-1+0.2*size[!is.na(size)]))
@@ -375,7 +375,7 @@ generateData <- function(){
 	fec[size<quantile(size,0.20,na.rm=TRUE) | fec<0] <- 0
 	fec <- fec*10
 	
-	stage <- stageNext <- rep("continuous",1000)
+	stage <- stageNext <- rep("continuous",nsamp)
 	stage[is.na(size)] <- NA
 	stageNext[is.na(sizeNext)] <- "dead"
 	
