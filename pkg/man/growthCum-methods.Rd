@@ -18,6 +18,7 @@ cov = "numeric", growthObj = "growthObj")}}{
 %%  ~~describe this method here~~
 }
 
+
 \item{\code{signature(size = "numeric", sizeNext = "numeric", 
 cov = "numeric", growthObj = "growthObjDeclineVar")}}{
 %%  ~~describe this method here~~
@@ -37,6 +38,13 @@ cov = "numeric", growthObj = "growthObjLogIncr")}}{
 cov = "numeric", growthObj = "growthObjTruncIncr")}}{
 %%  ~~describe this method here~~
 }
+
+
+\item{\code{signature(size = "numeric", sizeNext = "numeric", 
+cov = "numeric", growthObj = "growthObjLogIncr.declinevar")}}{
+%%  ~~describe this method here~~
+}
+
 \item{\code{signature(size = "numeric", sizeNext = "numeric", 
 cov = "numeric", growthObj = "growthObjHossfeld")}}{
 %%  ~~describe this method here~~
