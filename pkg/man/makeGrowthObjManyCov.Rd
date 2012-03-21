@@ -65,9 +65,9 @@ gr1 <- makeGrowthObjManyCov(dataf=dff, explanatoryVariables="size+covariate1",
 	responseType="incr")
 growth(1,1,data.frame(size=1,size2=1,covariate1=1),gr1)
 
-gr1 <- makeGrowthObjManyCov(dataf=dff, explanatoryVariables="size+covariate1", 
-	responseType="sizeNext",regType = "declineVar")
-growth(1,1,data.frame(size=1,size2=1,covariate1=1),gr1)
+#gr1 <- makeGrowthObjManyCov(dataf=dff, explanatoryVariables="size+covariate1", 
+#	responseType="sizeNext",regType = "declineVar")
+#growth(1,1,data.frame(size=1,size2=1,covariate1=1),gr1)
 
 
 }

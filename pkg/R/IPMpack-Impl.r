@@ -138,7 +138,7 @@ makeGrowthObj <- function(dataf,
 #
 #
 makeGrowthObjManyCov <- function(dataf,
-		explanatoryVariables = "size+size2+covariate",
+		explanatoryVariables = "size+size2+covariate1",
 		responseType = "sizeNext",
 		regType = "constantVar"){
 	
