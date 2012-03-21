@@ -1,6 +1,7 @@
 \name{growth}
 \alias{growth}
-%- Also NEED an '\alias' for EACH other topic documented here.
+
+
 \title{
 Estimates growth probabilities. 
 }

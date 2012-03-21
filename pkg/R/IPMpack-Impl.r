@@ -40,7 +40,7 @@ makeGrowthObj <- function(dataf,
 		dataf$logincr <- log(dataf$sizeNext - dataf$size)
 	}
 	
-	Formula <- paste(responseType, '~', explanatoryVariables, sep = '')
+	Formula <- as.formula(paste(responseType, '~', explanatoryVariables, sep = ''))
 	#create appropriate size based covariates
 	dataf$size2 <- dataf$size ^ 2
 	dataf$size3 <- dataf$size ^ 3
@@ -48,11 +48,11 @@ makeGrowthObj <- function(dataf,
 	
 	#setup for discrete covariates if data suggests may be implemented by the
 	#presence of "covariate" and "covariateNext"
-		if ("covariate" %in% strsplit(as.character(explanatoryVariables), "[+-\\*]")[[1]]&length(dataf$covariate) > 0) { 
+		if ("covariate" %in% strsplit(as.character(explanatoryVariables), "[+-\\*]")[[1]] & length(dataf$covariate) > 0) { 
 		dataf$covariate <- as.factor(dataf$covariate)
 		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
 	}
-	if ("covariateNext" %in% strsplit(as.character(explanatoryVariables), "[+-\\*]")[[1]]&length(dataf$covariateNext) > 0) { 
+	if ("covariateNext" %in% strsplit(as.character(explanatoryVariables), "[+-\\*]")[[1]] & length(dataf$covariateNext) > 0) { 
 		dataf$covariateNext <- as.factor(dataf$covariateNext)
 		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
 	}
@@ -63,8 +63,7 @@ makeGrowthObj <- function(dataf,
 		if (regType == "declineVar"){
 			require(nlme)
 			Formula <- as.formula(Formula)	
-			fit<-gls(Formula,
-				na.action = na.omit, weight = varExp(form =~ fitted(.)), data = dataf)
+			fit <- gls(Formula, na.action = na.omit, weight = varExp(form =~ fitted(.)), data = dataf)
 		}
 	}
 	#make the objects

@@ -1,6 +1,6 @@
 
 
-##can you do this to get rid of teh warnings? check 
+##can you do this to get rid of the warnings? check 
 #require(nlme) #apparently doesn't help!
 
 logit <- function(x) { u<-exp(pmin(x,50)); return(u/(1+u))}
@@ -692,7 +692,7 @@ setMethod("growthCum", c("numeric", "numeric", "numeric", "growthObjHossfeld"),
 # Method combining growth and survival for doing outer (not a generic, so that don't have to
 # define for all the different classes / growth and surv take care of that)
 growSurv <- function(size,sizeNext,cov,growthObj,survObj){
-	growth(size,sizeNext,cov,growthObj)*surv(size,cov,survObj)
+	growth(size, sizeNext, cov, growthObj) * surv(size,cov,survObj)
 }
 
 
