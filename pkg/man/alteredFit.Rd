@@ -24,7 +24,7 @@
 			}
 }
 \details{
-	Note that the longer the vector of dummyFit$residuals, the more accurate the desired sd will be.  To make a highly accurate sd, merely use a grObjOld with a high sample size. This cannot yet be adjusted in generateData().
+	Note that the longer the vector of dummyFit$residuals, the more accurate the desired sd will be.  To make a highly accurate sd, merely use a grObjOld with a high sample size, e.g., by increasing nsamp in generateData.
 }
 \value{
 	\code{dummyFit}, an object of class \code{lm} with new residuals and, potentially, new coefficients.
@@ -41,7 +41,7 @@
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 \examples{
 # Data with size and sizeNext
-	dff <- generateData()
+	dff <- generateData(nsamp=100000)
 	gr1 <- makeGrowthObj(dff)
 	print(sd(gr1@fit$residuals))
 	print(coef(gr1@fit))
