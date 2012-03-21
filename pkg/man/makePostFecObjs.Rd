@@ -12,10 +12,10 @@
 
 }
 \usage{
-makePostFecObjs(dataf,fecConstants,
-	explanatoryVariables,Family,Transform,meanOffspringSize,
-		varOffspringSize,offspringSplitter,fecByDiscrete,
-		burnin,nitt)
+makePostFecObjs(dataf, fecConstants,
+	explanatoryVariables, Family, Transform, meanOffspringSize,
+		varOffspringSize, offspringSplitter, fecByDiscrete,
+		burnin, nitt)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

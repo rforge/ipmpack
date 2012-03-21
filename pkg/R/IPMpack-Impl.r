@@ -946,14 +946,14 @@ makeListTmatrix <- function(growObjList,survObjList,
 	
 	nsamp <- length(growObjList)
 	
-	Tmatrixlist <- list()
+	TmatrixList <- list()
 	for ( k in 1:length(growObjList)) { 
 		if (!cov) {
-			Tmatrixlist[[k]] <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			TmatrixList[[k]] <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, growObj = growObjList[[k]],
 					survObj = survObjList[[k]],integrateType=integrateType, correction=correction) 
 		} else {
-			Tmatrixlist[[k]] <- createCompoundTmatrix(nEnvClass = length(envMat[1,]),
+			TmatrixList[[k]] <- createCompoundTmatrix(nEnvClass = length(envMat[1,]),
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=envMat,
 					growObj = growObjList[[k]],
@@ -961,7 +961,7 @@ makeListTmatrix <- function(growObjList,survObjList,
 		}
 	}
 	
-	return(Tmatrixlist)
+	return(TmatrixList)
 }
 
 # Function to take a list of growth and survival objects and make a list of Fmatrices
@@ -973,22 +973,22 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE,
 	if (length(fecObjList)<nsamp)  
 		fecObjList <- sample(fecObjList,size=nsamp,replace=TRUE)
 	
-	Fmatrixlist <- list()
+	FmatrixList <- list()
 	for ( k in 1:nsamp) {
 		if (!cov) { 
-			Fmatrixlist[[k]] <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			FmatrixList[[k]] <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, 
 					fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)
 		} else {
-			Fmatrixlist[[k]] <- createCompoundFmatrix(nEnvClass = length(envMat[1,]),
+			FmatrixList[[k]] <- createCompoundFmatrix(nEnvClass = length(envMat[1,]),
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=envMat,
 					fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)
 		}
 		
-		Fmatrixlist[[k]] <-  Fmatrixlist[[k]]
+		FmatrixList[[k]] <-  FmatrixList[[k]]
 	}
-	return(Fmatrixlist)
+	return(FmatrixList)
 }
 
 

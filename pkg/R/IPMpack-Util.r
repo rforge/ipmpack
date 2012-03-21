@@ -5,29 +5,29 @@
 # of T (survival + growth) and F (fecundity) matrices
 # (usually from Bayes fit) 
 #
-# Parameters - Tmatrixlist
+# Parameters - TmatrixList
 #            - targetSize - the size you want passage time estimated for.
-#            - Fmatrixlist
+#            - FmatrixList
 #
 # Returns - a list 
 
-getIPMoutput <- function(Tmatrixlist,targetSize=c(),Fmatrixlist=NULL){
+getIPMoutput <- function(TmatrixList,targetSize=c(),FmatrixList=NULL){
 	
 	if (length(targetSize)==0)  { 
 		print("no target size for passage time provided; taking meshpoint median")
-		targetSize <- median(Tmatrixlist[[1]]@meshpoints)
+		targetSize <- median(TmatrixList[[1]]@meshpoints)
 	}
-	nsamps <- length(Tmatrixlist)
-	h1 <- Tmatrixlist[[1]]@meshpoints[2]-Tmatrixlist[[1]]@meshpoints[1]
-	stableStage <- LE <- pTime <- matrix(NA,nsamps,length(Tmatrixlist[[1]]@.Data[1,]))
+	nsamps <- length(TmatrixList)
+	h1 <- TmatrixList[[1]]@meshpoints[2]-TmatrixList[[1]]@meshpoints[1]
+	stableStage <- LE <- pTime <- matrix(NA,nsamps,length(TmatrixList[[1]]@.Data[1,]))
 	lambda <- rep(NA,nsamps)
 	for (k in 1:nsamps) {
-		Tmatrix <- Tmatrixlist[[k]]
+		Tmatrix <- TmatrixList[[k]]
 		LE[k,]<-meanLifeExpect(Tmatrix) 
 		pTime[k,]<-passageTime(targetSize,Tmatrix) 
 		
-		if (class(Fmatrixlist)!="NULL") {
-			IPM <- Tmatrix + Fmatrixlist[[k]]
+		if (class(FmatrixList)!="NULL") {
+			IPM <- Tmatrix + FmatrixList[[k]]
 			lambda[k] <- Re(eigen(IPM)$value[1])
 			stableStage[k,] <- eigen(IPM)$vector[,1]
 			#normalize stable size distribution
@@ -621,30 +621,30 @@ runSimpleModel <- function(dataf,
 # Function to plot the results of a stochastic simulation
 # structure run
 #
-# Parameters - tvals - time points
+# Parameters - tVals - time points
 #            - st - output of trackPopStructManyCovSeedBank or trackPopStructManyCov
 #            - covTest - the key covariate for germination / flowering
 #            - nRunIn - how many to leave off pics
 # Returns - 
 #
-plotResultsStochStruct <- function(tvals,st,covTest,nRunIn=15,log="y",...) { 
+plotResultsStochStruct <- function(tVals,st,covTest,nRunIn=15,log="y",...) { 
 	
 	par(mfrow=c(2,2),bty="l")
-	plot(tvals[nRunIn:length(tvals)],
-			colSums(st$rc[,nRunIn:length(tvals)]+1),
+	plot(tVals[nRunIn:length(tVals)],
+			colSums(st$rc[,nRunIn:length(tVals)]+1),
 			xlab="Time", 
 			ylab="Population size",type="l",log=log,...)
-	abline(v=1:max(tvals),lty=3)
-	covTestplot <- exp(mean(colSums(st$rc[,nRunIn:length(tvals)])) +
+	abline(v=1:max(tVals),lty=3)
+	covTestplot <- exp(mean(colSums(st$rc[,nRunIn:length(tVals)])) +
 					((covTest-mean(covTest))/sd(covTest))*
-					sd(colSums(st$rc[,nRunIn:length(tvals)])))
-	points(tvals,covTestplot+1,type="l",lty=3,col=2)
+					sd(colSums(st$rc[,nRunIn:length(tVals)])))
+	points(tVals,covTestplot+1,type="l",lty=3,col=2)
 	
 	if (log=="y") st$rc <- log(st$rc)
 	
-	image(tvals[nRunIn:length(tvals)],
+	image(tVals[nRunIn:length(tVals)],
 			st$IPM.here@meshpoints,
-			t(st$rc[,nRunIn:length(tvals)]+1),
+			t(st$rc[,nRunIn:length(tVals)]+1),
 			ylab="Size", xlab="Time")
 }
 

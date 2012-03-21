@@ -92,19 +92,19 @@ fv1 <- makeFecObj(dff, explanatoryVariables = "size+size2")
 # Generate time series of covariates for which growth rate is required
 # here set to be seasonal environment. NOTE that the order of covariates
 # is the same as in dff
-tvals <- seq(1, 20, by = 1/12)
-covTest <- (1 + 0.5*sin(2*pi*tvals))
+tVals <- seq(1, 20, by = 1/12)
+covTest <- (1 + 0.5*sin(2*pi*tVals))
 covMatTest <- data.frame(covariate1 = rnorm(length(covTest), covTest, 0.5) - 1, 
 covariate2 = rnorm(length(covTest),covTest,0.5) - 1, 
 covariate3 = rnorm(length(covTest), covTest,0.5) - 1)
 
 st <- trackPopStructManyCov(covariate = covMatTest, nRunIn = 2*10, 
-tMax = length(tvals), growthObj = gr1, survObj = sv1, fecObj = fv1, 
+tMax = length(tVals), growthObj = gr1, survObj = sv1, fecObj = fv1, 
 nBigMatrix = 100, minSize = 2*min(dff$size, na.rm = TRUE), 
 maxSize = 1.5*max(dff$size, na.rm = TRUE), nMicrosites = 10)
 
 # Function to plot output
-plotResultsStochStruct(tvals = tvals, st = st, covTest = covTest)
+plotResultsStochStruct(tVals = tVals, st = st, covTest = covTest)
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

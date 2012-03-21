@@ -9,17 +9,17 @@ Gets synthetic values including life expectancy, passage time, and, if a
 fecundity matrix is available, population growth rate (lambda), stable stage distribution, reproductive output, etc. 
 }
 \usage{
-getIPMoutput(Tmatrixlist, targetSize = c(), Fmatrixlist = NULL)
+getIPMoutput(TmatrixList, targetSize = c(), FmatrixList = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{Tmatrixlist}{
+  \item{TmatrixList}{
     List of survival-size (T) matrices for which summary statistics desired.
 }
   \item{targetSize}{
     Target size for passage time. If none is provided defaults to the median of the IPM meshpoints.
 }
-  \item{Fmatrixlist}{
+  \item{FmatrixList}{
     List of fecundity (F) matrices corresponding to the list of T matrices, facultative. When this information is included, population growth rate (lambda), and stable stage distribution will also be provided.
 }
 }
@@ -72,7 +72,7 @@ Tlist <- makeListTmatrix(growObjList = grlist[1:10], survObjList = svlist[1:10],
 nBigMatrix = 20, minSize = -5, maxSize = 20, cov = FALSE, envMat = NULL)
 Flist <- makeListFmatrix(fecObjList = fvlist[1:10], nBigMatrix = 20, minSize = -5, 
 maxSize = 20, cov = FALSE, envMat = NULL)
-res <- getIPMoutput(Tmatrixlist = Tlist, targetSize = 10, Fmatrixlist = Flist)
+res <- getIPMoutput(TmatrixList = Tlist, targetSize = 10, FmatrixList = Flist)
 names(res)
 
 # Plot out with different colours for different rows:
