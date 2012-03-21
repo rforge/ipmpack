@@ -69,7 +69,8 @@ Modified following code developed by Rees & Rose 2002 (above).
 \examples{
 dff <- generateData()
 res <- sensParams(growObj = makeGrowthObj(dff), 
-survObj = makeSurvObj(dff), fecObj = makeFecObj(dff), nBigMatrix = 50, minSize = min(dff$size, na.rm=TRUE), maxSize = max(dff$size, na.rm = TRUE))
+survObj = makeSurvObj(dff), fecObj = makeFecObj(dff), nBigMatrix = 50, 
+minSize = min(dff$size, na.rm=TRUE), maxSize = max(dff$size, na.rm = TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
 barplot(res$slam, 
@@ -85,7 +86,8 @@ fv1 <- makeFecObj(dff, explanatoryVariables = c("size+size2","size"),
 Family = c("gaussian","binomial"))
 
 res <- sensParams(growObj=makeGrowthObj(dff), survObj = makeSurvObj(dff), 
-fecObj = fv1, nBigMatrix = 50, minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE))
+fecObj = fv1, nBigMatrix = 50, minSize = min(dff$size, na.rm = TRUE), 
+maxSize = max(dff$size, na.rm = TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
 barplot(res$slam, 

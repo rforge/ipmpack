@@ -55,19 +55,23 @@ survObj = makeSurvObj(dff))
 le <- lifeExpect(Tmatrix,makeEnvObj(dff))
 
 plot(Tmatrix@meshpoints, le, ylab = "Life expectancy", 
-	xlab ="Continuous (e.g. size) stage in t", ylim = c(0, max(le)), type = "l", col = "dark gray")
+	xlab ="Continuous (e.g. size) stage in t", ylim = c(0, max(le)), 
+	type = "l", col = "dark gray")
 
 # With a compound matrix (discrete stages not yet defined)
 dff <- generateData()
 Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), 
-	maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), 
+	maxSize = max(dff$size, na.rm = TRUE), 
+	growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), 
 		survObj = makeSurvObj(dff), envMatrix = makeEnvObj(dff))
 le <- lifeExpect(Tmatrix, makeEnvObj(dff))
 
-plot(Tmatrix@meshpoints, le[1, ], ylab = "Life expectancy", xlab = "Continuous (e.g. size) stage in t", 
+plot(Tmatrix@meshpoints, le[1, ], ylab = "Life expectancy", 
+xlab = "Continuous (e.g. size) stage in t", 
 	ylim = c(0,max(le)), type = "l", col = "blue")
 points(Tmatrix@meshpoints, le[2, ], type = "l", col = "dark green", lty = 2)
-legend(min(dff$size, na.rm = TRUE), min(dff$sizeNext, na.rm = TRUE)+3,c("Habitat 1","Habitat 2"),
+legend(min(dff$size, na.rm = TRUE), 
+min(dff$sizeNext, na.rm = TRUE)+3,c("Habitat 1","Habitat 2"),
 	col=c("blue","dark green"),lty = c(1,2), merge = TRUE)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
