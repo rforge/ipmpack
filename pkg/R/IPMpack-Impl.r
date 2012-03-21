@@ -61,8 +61,10 @@ makeGrowthObj <- function(dataf,
 		fit <- lm(Formula, data=dataf)
 	} else { 
 		if (regType == "declineVar"){
-			fit<-gls(formula(Formula),
-					na.action = na.omit, weight = varExp(form =~ fitted(.)), data = dataf)
+			require(nlme)
+			Formula <- as.formula(Formula)	
+			fit<-gls(Formula,
+				na.action = na.omit, weight = varExp(form =~ fitted(.)), data = dataf)
 		}
 	}
 	#make the objects
@@ -136,7 +138,7 @@ makeGrowthObj <- function(dataf,
 #
 #
 makeGrowthObjManyCov <- function(dataf,
-		explanatoryVariables = "size+size2+covariate1",
+		explanatoryVariables = "size+size2+covariate",
 		responseType = "sizeNext",
 		regType = "constantVar"){
 	
@@ -161,7 +163,9 @@ makeGrowthObjManyCov <- function(dataf,
 		fit <- lm(Formula, data = dataf)
 	} else { 
 		if (regType == "declineVar"){
-			fit <- gls(formula(Formula),
+			require(nlme)
+			Formula <- as.formula(Formula)	
+			fit <- gls(Formula,
 					na.action = na.omit, weight = varExp(form =  ~fitted(.)), data = dataf)
 		}
 	}

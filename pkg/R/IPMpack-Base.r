@@ -240,7 +240,8 @@ setMethod("surv",
 		c("numeric","data.frame","survObjMultiCov"),
 		function(size,cov,survObj){
 			newd <- cov
-			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			#newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			if (length(size)>1) newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
 			newd$size <- size
 			newd$size2 <- size^2
 			newd$size3 <- size^3
@@ -287,7 +288,8 @@ setMethod("growth",
 		c("numeric","numeric","data.frame","growthObjMultiCov"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- cov
-			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			if (length(size)>1) newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			#newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
 			newd$size <- size
 			newd$size2 <- size^2
 			newd$size3 <- size^3
@@ -354,7 +356,8 @@ setMethod("growth",
 		c("numeric","numeric","data.frame","growthObjMultiCov.incr"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- cov
-			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			#newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			if (length(size)>1) newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
 			newd$size <- size
 			newd$size2 <- size^2
 			newd$size3 <- size^3
@@ -396,7 +399,7 @@ setMethod("growth",
 					covariate=as.factor(rep(cov,length(size))))
 			
 			if (length(grep("logsize",
-							growthObj@fit$formula))>0) newd$logsize=log(size)
+							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
@@ -415,7 +418,7 @@ setMethod("growthCum",
 					covariate=as.factor(rep(cov,length(size))))
 			
 			if (length(grep("logsize",
-							growthObj@fit$formula))>0) newd$logsize=log(size)
+							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
@@ -431,17 +434,19 @@ setMethod("growth",
 		c("numeric","numeric","data.frame","growthObjMultiCov.declinevar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- cov
-			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			if (length(size)>1) newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
 			newd$size <- size
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
 			if (length(grep("logsize",
-							growthObj@fit$formula))>0) newd$logsize=log(size)
+							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			if (length(grep("logsize2",
-							growthObj@fit$formula))>0) newd$logsize2=(log(size))^2
+							names(growthObj@fit$coefficients)))>0) newd$logsize2=(log(size))^2
 			
-			mux <- predict(growthObj@fit,newd,type="response")
+			#print(head(newd))
+			mux <- predict(growthObj@fit,newdata=newd,type="response")
+			
 			sigmax2 <- summary(growthObj@fit)$sigma^2
 			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
@@ -458,15 +463,17 @@ setMethod("growth",
 		c("numeric","numeric","data.frame","growthObjMultiCov.incr.declinevar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- cov
-			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			#newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			if (length(size)>1) newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
 			newd$size <- size
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
 			if (length(grep("logsize",
-							growthObj@fit$formula))>0) newd$logsize=log(size)
+							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			if (length(grep("logsize2",
-							growthObj@fit$formula))>0) newd$logsize2=(log(size))^2
+							names(growthObj@fit$coefficients)))>0) newd$logsize2=(log(size))^2
+			
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
@@ -484,7 +491,7 @@ setMethod("growth",
 		c("numeric","numeric","data.frame","growthObjMultiCov.logincr"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- cov
-			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			if (length(size)>1) newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
 			newd$size <- size
 			newd$size2 <- size^2
 			newd$size3 <- size^3
@@ -507,15 +514,15 @@ setMethod("growth",
 		c("numeric","numeric","data.frame","growthObjMultiCov.logincr.declinevar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- cov
-			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			if (length(size)>1) newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
 			newd$size <- size
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
 			if (length(grep("logsize",
-							growthObj@fit$formula))>0) newd$logsize=log(size)
+							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			if (length(grep("logsize2",
-							growthObj@fit$formula))>0) newd$logsize2=(log(size))^2
+							names(growthObj@fit$coefficients)))>0) newd$logsize=(log(size))^2
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
@@ -605,6 +612,10 @@ setMethod("growthCum",
 		c("numeric","numeric","numeric","growthObjDeclineVar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,covariate=as.factor(rep(cov,length(size))))
+	
+			if (length(grep("logsize",
+							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
+			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
 			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
@@ -621,6 +632,10 @@ setMethod("growth",
 		c("numeric","numeric","numeric","growthObjDeclineVar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,covariate=as.factor(rep(cov,length(size))))
+			
+			if (length(grep("logsize",
+							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
+			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
 			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
@@ -637,6 +652,10 @@ setMethod("growth",
 		c("numeric","numeric","numeric","growthObjIncrDeclineVar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,covariate=as.factor(rep(cov,length(size))))
+		
+			if (length(grep("logsize",
+							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
+			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
 			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
