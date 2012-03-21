@@ -86,7 +86,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \examples{
 dff <- generateData()
-IPMlist <- makeListIPMs(dff)
+IPMlist <- makeListIPMs(dff, Transform="log")
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
