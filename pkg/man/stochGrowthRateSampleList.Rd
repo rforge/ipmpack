@@ -8,17 +8,17 @@
   Estimates the stochastic growth rate (lambda_s) by iteration; operates by sampling a list of IPMs.
 }
 \usage{
-stochGrowthRateSampleList(list.IPMmatrix, n.runin, Tmax)
+stochGrowthRateSampleList(listIPMmatrix, nRunIn, tMax)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{list.IPMmatrix}{
+  \item{listIPMmatrix}{
  a list of IPMmatrix objects corresponding to possible states of the environment.
 }
-  \item{n.runin}{
+  \item{nRunIn}{
     numeric, the size of the burnin,
 }
-  \item{Tmax}{
+  \item{tMax}{
     numeric, the total samples desired.
 }
 }
@@ -26,7 +26,7 @@ stochGrowthRateSampleList(list.IPMmatrix, n.runin, Tmax)
 %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
-a numeric converging on high enough log lambda_s for sufficient Tmax; note that if the population size declines to zero, this may return NAs because of logging.
+a numeric converging on high enough log lambda_s for sufficient tMax; note that if the population size declines to zero, this may return NAs because of logging.
 
 }
 \references{
@@ -49,7 +49,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 dff <- generateData()
 IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 10, minSize = -5, 
 maxSize = 15,fecConstants=1e6, correction="constant")
-stochGrowthRateSampleList(list.IPMmatrix = IPMlist,n.runin = 100, Tmax = 5000) 
+stochGrowthRateSampleList(listIPMmatrix = IPMlist,nRunIn = 100, tMax = 5000) 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

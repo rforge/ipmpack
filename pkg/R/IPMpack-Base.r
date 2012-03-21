@@ -1961,30 +1961,30 @@ sensParams <- function(growObj,survObj,fecObj,
 # Generic approach to get stoch rate
 # by sampling list IPM
 #
-# Parameters - list.IPMmatrix - list of IPMs corresponding to different year types
-#            - n.runin - the burnin before establishing lambda_s
-#            - Tmax - the total time-horizon for getting lambda_s
+# Parameters - listIPMmatrix - list of IPMs corresponding to different year types
+#            - nRunIn - the burnin before establishing lambda_s
+#            - tMax - the total time-horizon for getting lambda_s
 #
 # Returns lambda_s (no density dependence)
 
-stochGrowthRateSampleList <- function(list.IPMmatrix,n.runin,Tmax){
+stochGrowthRateSampleList <- function(listIPMmatrix,nRunIn,tMax){
 			require(MASS)
 			
-			nmatrices <- length(list.IPMmatrix)
+			nmatrices <- length(listIPMmatrix)
 			
-			nt<-rep(1,length(list.IPMmatrix[[1]][,1]))
-			Rt<-rep(NA,Tmax)
+			nt<-rep(1,length(listIPMmatrix[[1]][,1]))
+			Rt<-rep(NA,tMax)
 			
-			for (t in 1:Tmax) {
+			for (t in 1:tMax) {
 				year.type <- sample(1:nmatrices,size=1,replace=FALSE)
-				nt1<-list.IPMmatrix[[year.type]] %*% nt	
+				nt1<-listIPMmatrix[[year.type]] %*% nt	
 				sum.nt1<-sum(nt1)
 				Rt[t]<-log(sum.nt1)
 				nt<-nt1/sum.nt1
 				
 			}
 			
-			res <- mean(Rt[n.runin:Tmax],na.rm=TRUE)
+			res <- mean(Rt[nRunIn:tMax],na.rm=TRUE)
 			return(res)
 		}
 
@@ -1993,13 +1993,13 @@ stochGrowthRateSampleList <- function(list.IPMmatrix,n.runin,Tmax){
 # with time-varying covariates
 #
 # Parameters - covariate - the covariates (temperature, etc)
-#            - n.runin - the burnin before establishing lambda_s
-#            - Tmax - the total time-horizon for getting lambda_s
+#            - nRunIn - the burnin before establishing lambda_s
+#            - tMax - the total time-horizon for getting lambda_s
 #
 # Returns lambda_s 
 
 
-stochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
+stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 		growthObj,survObj,fecObj,
 		nBigMatrix,minSize,maxSize, nMicrosites,
 		integrateType="midpoint",correction="none"){
@@ -2007,7 +2007,7 @@ stochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 	
 	
 	nt<-rep(1,nBigMatrix)
-	Rt<-rep(NA,Tmax)
+	Rt<-rep(NA,tMax)
 	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1 
 	tmp.fecObj <- fecObj
 	
@@ -2018,7 +2018,7 @@ stochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 	if (sum(nMicrosites)>0) { dd <- TRUE } else { dd <- FALSE}
 	
 	
-	for (t in 1:Tmax) {
+	for (t in 1:tMax) {
 		if (dd) tmp.fecObj@fecConstants <- c(fecObj@fecConstants, 
 					min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1))
 		
@@ -2044,7 +2044,7 @@ stochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 		
 	}
 	
-	res <- mean(Rt[n.runin:Tmax],na.rm=TRUE)
+	res <- mean(Rt[nRunIn:tMax],na.rm=TRUE)
 	return(res)
 }
 
@@ -2054,27 +2054,27 @@ stochGrowthRateManyCov <- function(covariate,n.runin,Tmax,
 # dep in seedling establishment (i.e limited no microsites)
 #
 # Parameters - covariate - the covariates (temperature, etc)
-#            - n.runin - the burnin before establishing lambda_s
-#            - Tmax - the total time-horizon for getting lambda_s
+#            - nRunIn - the burnin before establishing lambda_s
+#            - tMax - the total time-horizon for getting lambda_s
 #
 # Returns matrix with time as columns, and pop struct as rows
 
 
-trackPopStructManyCov<-function(covariate,n.runin,Tmax,
+trackPopStructManyCov<-function(covariate,nRunIn,tMax,
 		growthObj,survObj,fecObj,
 		nBigMatrix,minSize,maxSize,
 		nMicrosites,integrateType="midpoint",correction="none"){
 	require(MASS)
 	
 	nt <- rep(1,nBigMatrix)
-	rc <- matrix(NA,nBigMatrix,Tmax)
+	rc <- matrix(NA,nBigMatrix,tMax)
 	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1 
 	tmp.fecObj <- fecObj
 	#density dep? 
 	if (sum(nMicrosites)>0) { dd <- TRUE } else { dd <- FALSE}
 	
 	
-	for (t in 1:Tmax) {
+	for (t in 1:tMax) {
 		if (dd) tmp.fecObj@fecConstants <- c(fecObj@fecConstants, 
 					min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1))
 		
