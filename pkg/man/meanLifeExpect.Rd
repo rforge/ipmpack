@@ -75,7 +75,6 @@ plot(Tmatrix@meshpoints,mLE[1:length(Tmatrix@meshpoints)],
 points(Tmatrix@meshpoints,
 	mLE[(length(Tmatrix@meshpoints)+1):(2*length(Tmatrix@meshpoints))], 
 		type="l",col="green")
-}
 	
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
