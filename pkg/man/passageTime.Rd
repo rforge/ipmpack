@@ -57,7 +57,7 @@ survObj = makeSurvObj(dff), correction="constant")
 targetSize <- 8
 passage <- passageTime(targetSize, Tmatrix)
 
-plot(passage, ylab = "Passage time", xlab = "Continuous (e.g. size) stage", 
+plot(Tmatrix@meshpoints, passage, ylab = "Passage time", xlab = "Continuous (e.g. size) stage", 
 	type = "l", col = "dark gray", ylim = c(0, max(passage)), 
 	xlim=c(Tmatrix@meshpoints[1],targetSize+1))
 abline(v = targetSize, col="red")
