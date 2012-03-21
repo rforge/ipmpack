@@ -52,12 +52,12 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff <- generateData()
 Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize=max(dff$size, na.rm = TRUE), 
-growObj = makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"), 
+growObj = makeGrowthObj(dff, explanatoryVariables="size+covariate"), 
 survObj = makeSurvObj(dff, explanatoryVariables = "size+covariate"), 
-envMatrix = makeEnvObj(dff))
+envMatrix = makeEnvObj(dff), correction="constant")
 targetSize <- 8
 
-passage=stochPassageTime(targetSize, Tmatrix, makeEnvObj(dff))
+passage <- stochPassageTime(targetSize, Tmatrix, makeEnvObj(dff))
 
 plot(Tmatrix@meshpoints,passage[1:length(Tmatrix@meshpoints)], 
 	ylab = "Passage time", xlab = "Continuous (e.g. size) stage", 
