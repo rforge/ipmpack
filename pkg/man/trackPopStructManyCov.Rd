@@ -9,18 +9,18 @@
   Provided a set of time-varying covariates, projects the population forward, and stores state of the population. 
 }
 \usage{
-trackPopStructManyCov(covariate, n.runin, Tmax, growthObj, survObj, fecObj, 
+trackPopStructManyCov(covariate, nRunIn, tMax, growthObj, survObj, fecObj, 
 nBigMatrix, minSize, maxSize, nMicrosites, integrateType, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{covariate}{
-    matrix with Tmax rows, and as many columns as there are relevant covariates.
+    matrix with tMax rows, and as many columns as there are relevant covariates.
 }
-  \item{n.runin}{
+  \item{nRunIn}{
     numeric, number of initial samples to discard.
 }
-  \item{Tmax}{
+  \item{tMax}{
     numeric, total number of time-steps to run (same as ncol(covariate)).
 }
   \item{growthObj}{
@@ -63,7 +63,7 @@ nBigMatrix, minSize, maxSize, nMicrosites, integrateType, correction)
 \item{rc }{matrix of the numbers of individuals in each size and seed
   class (row) over time (columns).}
 \item{IPM.here}{IPM constructed corresponding to pop structure and
-  covariates at Tmax.}
+  covariates at tMax.}
 }
 \references{
 %% ~put references to the literature/web site here ~
@@ -98,10 +98,14 @@ covmattest <- data.frame(covariate1 = rnorm(length(covtest), covtest, 0.5) - 1,
 covariate2 = rnorm(length(covtest),covtest,0.5) - 1, 
 covariate3 = rnorm(length(covtest), covtest,0.5) - 1)
 
+<<<<<<< .mine
+st <- trackPopStructManyCov(covariate = covmattest, nRunIn = 2*10, tMax = length(tvals), growthObj = gr1, survObj = sv1, fecObj = fv1, nBigMatrix = 100, minSize = 2*min(dff$size, na.rm = TRUE), maxSize = 1.5*max(dff$size, na.rm = TRUE), nMicrosites = 10)
+=======
 st <- trackPopStructManyCov(covariate = covmattest, n.runin = 2*10, 
 Tmax = length(tvals), growthObj = gr1, survObj = sv1, fecObj = fv1, 
 nBigMatrix = 100, minSize = 2*min(dff$size, na.rm = TRUE), 
 maxSize = 1.5*max(dff$size, na.rm = TRUE), nMicrosites = 10)
+>>>>>>> .r429
 
 # Function to plot output
 plotResultsStochStruct(tvals = tvals, st = st, covtest = covtest)

@@ -10,19 +10,19 @@ growth, survival and fecundity objects, and calculates the stochastic population
 dependence is specified.
 }
 \usage{
-stochGrowthRateManyCov(covariate, n.runin, Tmax,
+stochGrowthRateManyCov(covariate, nRunIn, tMax,
 growthObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
 nMicrosites, integrateType,correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{covariate}{
-    matrix with Tmax rows, and as many columns as there are relevant covariates.
+    matrix with tMax rows, and as many columns as there are relevant covariates.
 }
-  \item{n.runin}{
+  \item{nRunIn}{
     numeric, number of initial samples to discard.
 }
-  \item{Tmax}{
+  \item{tMax}{
     numeric, total number of time-steps to run (same as ncol(covariate)).
 }
   \item{growthObj}{
@@ -57,7 +57,7 @@ nMicrosites, integrateType,correction)
 Forms of density dependence beyond density dependence in seedling establishment not yet defined.
 }
 \value{
-numeric, converging on log lambda_s (no density dependence) or invasion rate (density dependence) for large enough Tmax, and if covariate distribution is stationary. 
+numeric, converging on log lambda_s (no density dependence) or invasion rate (density dependence) for large enough tMax, and if covariate distribution is stationary. 
 }
 \references{
 Ellner & Rees. 2007. Stochastic stable population growth in integral projection models: theory and application. Journal of Mathematical Biology 54, p227-256.
@@ -95,10 +95,14 @@ covariate2 = rnorm(length(covtest), covtest,0.5) - 1,
 covariate3 = rnorm(length(covtest), covtest,0.5) - 1)
 
 # Calculate
+<<<<<<< .mine
+r<-stochGrowthRateManyCov(covariate = covmattest, nRunIn = 5*10, tMax = length(tvals), growthObj = gr1, survObj = sv1, fecObj = fv1, nBigMatrix = 100, minSize = 2*min(dff$size, na.rm = TRUE), maxSize = 1.5*max(dff$size, na.rm = TRUE), nMicrosites = 10)
+=======
 r<-stochGrowthRateManyCov(covariate = covmattest, n.runin = 5*10, 
 Tmax = length(tvals), growthObj = gr1, survObj = sv1, fecObj = fv1, 
 nBigMatrix = 100, minSize = 2*min(dff$size, na.rm = TRUE), 
 maxSize = 1.5*max(dff$size, na.rm = TRUE), nMicrosites = 10)
+>>>>>>> .r429
 r
 
 }
