@@ -1568,11 +1568,11 @@ lifeExpect <- function(IPMmatrix,envMatrix){
 stochPassageTime <- function(chosenSize,IPMmatrix,envMatrix){
 			require(MASS)
 			#get the right index for the size you want
-			loc <- which(abs(chosenSize-
-											IPMmatrix@meshpoints)==min(abs(chosenSize-
+			loc <- which(abs(chosenSize-IPMmatrix@meshpoints)==min(abs(chosenSize-
 													IPMmatrix@meshpoints)),arr.ind=TRUE)
 			#expand out to find that size in every env
-			locs.all <- loc*c(1:IPMmatrix@nEnvClass)
+			#locs.all <- loc*c(1:IPMmatrix@nEnvClass)
+			locs.all <- loc+((IPMmatrix@nBigMatrix)*(0:(envMatrix@nEnvClass-1)))
 			matrix.dim <- length(IPMmatrix[1,])
 			
 			Tprime <- IPMmatrix
