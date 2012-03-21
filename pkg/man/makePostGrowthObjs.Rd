@@ -45,7 +45,10 @@ meanB = rep(0, 3), varB = rep(1e+10), burnin=3000,nitt = 50000)
 }
 \details{
 Note that the use of priors is not yet implemented, and the function does not return output
-of Bayes analysis which might be useful for assessment; in development. 
+of Bayes analysis which might be useful for assessment; in development. Additionally, new growth objects
+are created using the function alteredFit based on the supplied data-set. For small data-sets, this may 
+result in additional variability in the variance in growth corresponding to each growth object. See help in alteredFit to explore 
+the likely bias. 
 
 }
 \value{
@@ -64,7 +67,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makePostSurvivalObjs}}, makePostSurvObjs 
+\code{\link{makePostSurvivalObjs}}, \code{\link{alteredFit}}, \code{\link{makeListTmatrix}}
 }
 \examples{
 dff <- generateData()

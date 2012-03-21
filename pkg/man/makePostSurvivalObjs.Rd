@@ -50,6 +50,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
+\code{\link{makePostGrowthObjs}}, \code{\link{makeListTmatrix}}
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
