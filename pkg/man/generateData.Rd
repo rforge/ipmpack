@@ -10,6 +10,11 @@
 \usage{
 generateData(nsamp=1000)
 }
+\arguments{
+	\item{nsamp}{
+		number of samples desired in the base population, defaults to 1000
+	}
+}
 %- maybe also 'usage' for other objects documented here.
 \details{
 Note that the random data created includes only one discrete covariate structuring the population (e.g., habitat type [shaded, open], age [0, 1, 2, 3 years old...], time since fire [0, 1, 2, 3 years...], etc); user can include into the data frame additional discrete covariates if necessary. To include continuous covariates (e.g., precipitation, temperature, light incidence, hurricane recurrence interval, etc) in randomized data, refer to generateDataStoch(). For randomized datasets with complex life cycles that include discrete stages (e.g., seedbank), refer to generateDataDiscrete().
