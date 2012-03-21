@@ -464,7 +464,8 @@ generateDataStoch <- function(){
 makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10, 
 		integrateType="midpoint", correction="none",
 		explSurv="size+size2+covariate",explGrow="size+size2+covariate", 
-		regType="constantVar",responseType="sizeNext",explFec="size",fecConstants=1) {
+		regType="constantVar",responseType="sizeNext",explFec="size",Family="gaussian", 
+		Transform="none",fecConstants=1) {
 	
 	#convert to 1:n for indexing later
 	dataf$covariate <- as.factor(dataf$covariate)
@@ -476,7 +477,8 @@ makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10,
 			explanatoryVariables=explGrow,
 			responseType=responseType,
 			regType=regType)
-	fv1 <- makeFecObj(dataf,explanatoryVariables=explFec, fecConstants=fecConstants) 
+	fv1 <- makeFecObj(dataf,explanatoryVariables=explFec, Family=Family, Transform=Transform, 
+			fecConstants=fecConstants) 
 	
 	covs <- unique(dataf$covariate)
 	covs <- covs[!is.na(covs)]
