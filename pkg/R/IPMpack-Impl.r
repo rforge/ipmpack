@@ -150,7 +150,8 @@ makeGrowthObjManyCov <- function(dataf,
 		print("building logincr as log(sizeNext-size) - pre-build if this is not appropriate")
 		dataf$logincr <- log(dataf$sizeNext-dataf$size)
 	}
-	Formula <- paste(responseType, '~', explanatoryVariables, sep = '')
+	
+	Formula <- as.formula(paste(responseType, '~', explanatoryVariables, sep = ''))
 	
 	#create appropriate size based covariates
 	dataf$size2 <- dataf$size ^ 2
