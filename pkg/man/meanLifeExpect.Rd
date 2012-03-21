@@ -68,7 +68,8 @@ survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"),
 discreteTrans = discM)
 mLE <- meanLifeExpect(Tmatrix)
 
-
+# showing three environments on different panels, life expectancy of discrete stages
+# shown at level of the first size class
 par(mfrow=c(max(Tmatrix@env.index),1))
 
 xvals <- c(rep(Tmatrix@meshpoints[1],discM@nclasses-1),Tmatrix@meshpoints)
