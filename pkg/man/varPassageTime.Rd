@@ -57,22 +57,11 @@ targetSize <- 8
 vP <- varPassageTime(targetSize, Tmatrix)
 
 plot(Tmatrix@meshpoints, vP, type = "l", xlab="Continuous (e.g. Size) stage", 
-ylab = "Variance in passage time", col = "dark gray")
+	xlim=c(Tmatrix@meshpoints[1],targetSize),
+	ylab = "Variance in passage time", col = "dark gray")
 abline(v = targetSize, col = "red")
 
-# With a compound matrix (discrete stages not yet defined)
-Tmatrix <- createCompoundTmatrix(minSize=min(dff$size, na.rm = TRUE),
-maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff),
-growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"),
-survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), 
-discreteTrans = 1)
-targetSize <- 8
-vP <- varPassageTime(targetSize, Tmatrix)
-
-plot(vP, ylab = "Passage time", xlab = "Continuous (e.g. size) stage", 
-type = "l", col = "dark gray", ylim = c(0, max(vP)))
-abline(v = targetSize, col = "red")
-
+## not sure variance works with this....
 
 
 }

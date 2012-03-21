@@ -59,10 +59,15 @@ targetSize <- 8
 
 passage=stochPassageTime(targetSize, Tmatrix, makeEnvObj(dff))
 
-plot(passage, ylab = "Passage time", 
-xlab = "Continuous (e.g. size) stage", type="l", col = "dark gray", 
-ylim = c(0,max(passage)))
-abline(v = targetSize, col="red")
+plot(Tmatrix@meshpoints,passage[1:length(Tmatrix@meshpoints)], 
+	ylab = "Passage time", xlab = "Continuous (e.g. size) stage", 
+	type = "l", col = "dark gray", 
+	xlim=c(Tmatrix@meshpoints[1],targetSize),
+	ylim = c(0, max(passage)))
+abline(v = targetSize, col = "red")
+points(Tmatrix@meshpoints,
+	passage[(length(Tmatrix@meshpoints)+1):(2*length(Tmatrix@meshpoints))], 
+		type="l",col="green")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

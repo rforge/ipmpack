@@ -20,7 +20,7 @@ passageTime(chosenSize, IPMmatrix)
 }
 }
 \details{
-  Passage time for values exactly equal to the chosen size (targetSize) are one year, because of way the conditionals are framed. Values slightly less than the target size may on average take longer due to variance in growth, mortality, leading to discontinuities in the pattern of passage time over age. Passage time from values > than targetSize should be ignored (space to the right of the red vertical line in example below), unless dealing with an organism that is able to display retrogression.
+  Passage time for values exactly equal to the chosen size (targetSize) are one year, because of way the conditionals are framed. Values slightly less than the target size may on average take longer due to variance in growth, mortality, leading to discontinuities in the pattern of passage time over age. Passage time from values > than targetSize should be ignored (space to the right of the red vertical line in example below), unless dealing with an organism that is able to display retrogression. Use stochPassageTime for compound matrices. 
 }
 \value{
   A vector of times in the units of the chosen time-steps corresponding to each of the IPM meshpoints.
@@ -53,7 +53,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 dff <- generateData()
 Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), 
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), 
-survObj = makeSurvObj(dff))
+survObj = makeSurvObj(dff), correction="constant")
 targetSize <- 8
 passage <- passageTime(targetSize, Tmatrix)
 
@@ -61,19 +61,6 @@ plot(passage, ylab = "Passage time", xlab = "Continuous (e.g. size) stage",
 type = "l", col = "dark gray", ylim = c(0, max(passage)))
 abline(v = targetSize, col="red")
 
-# With a compound matrix (discrete stages not yet defined)
-Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), 
-maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), 
-growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), 
-survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), 
-discreteTrans = 1)
-targetSize <- 8
-passage <- passageTime(targetSize, Tmatrix)
-
-plot(passage, ylab = "Passage time", 
-xlab = "Discrete (e.g. size) and continuous (e.g. seedbank) stages", 
-type = "l", col = "dark gray", ylim = c(0, max(passage)))
-abline(v = targetSize, col="red")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -66,12 +66,17 @@ maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff),
 growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"),
 survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), 
 discreteTrans = discM)
-meanLifeExpect(Tmatrix)
+mLE <- meanLifeExpect(Tmatrix)
 
-plot(meanLifeExpect(Tmatrix), 
-ylab = "Mean life expectancy", 
-xlab = "Continuous (e.g. size) and discrete (e.g. seedbank) stages", 
-type = "l", col = "dark gray", ylim = c(0,max(meanLifeExpect(Tmatrix))))
+plot(Tmatrix@meshpoints,mLE[1:length(Tmatrix@meshpoints)], 
+	ylab = "Mean life expectancy", 
+	xlab = "Continuous (e.g. size) and discrete (e.g. seedbank) stages", 
+	type = "l", col = "dark gray", ylim = c(0,max(mLE)))
+points(Tmatrix@meshpoints,
+	mLE[(length(Tmatrix@meshpoints)+1):(2*length(Tmatrix@meshpoints))], 
+		type="l",col="green")
+}
+	
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
