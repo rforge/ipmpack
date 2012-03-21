@@ -90,10 +90,15 @@ fv1 <- makeFecObjManyCov(dff, explanatoryVariables = "size+size2")
 # Here set to be seasonal environment. Names of covariates must be same as in dff
 tvals <- seq(1,20,by = 1/12)
 covtest <- (1 + 0.5*sin(2*pi*tvals))
-covmattest <- data.frame(covariate1 = rnorm(length(covtest),covtest,0.5) - 1, covariate2 = rnorm(length(covtest), covtest,0.5) - 1, covariate3 = rnorm(length(covtest), covtest,0.5) - 1)
+covmattest <- data.frame(covariate1 = rnorm(length(covtest),covtest,0.5) - 1, 
+covariate2 = rnorm(length(covtest), covtest,0.5) - 1, 
+covariate3 = rnorm(length(covtest), covtest,0.5) - 1)
 
 # Calculate
-r<-stochGrowthRateManyCov(covariate = covmattest, n.runin = 5*10, Tmax = length(tvals), growthObj = gr1, survObj = sv1, fecObj = fv1, nBigMatrix = 100, minSize = 2*min(dff$size, na.rm = TRUE), maxSize = 1.5*max(dff$size, na.rm = TRUE), nMicrosites = 10)
+r<-stochGrowthRateManyCov(covariate = covmattest, n.runin = 5*10, 
+Tmax = length(tvals), growthObj = gr1, survObj = sv1, fecObj = fv1, 
+nBigMatrix = 100, minSize = 2*min(dff$size, na.rm = TRUE), 
+maxSize = 1.5*max(dff$size, na.rm = TRUE), nMicrosites = 10)
 r
 
 }

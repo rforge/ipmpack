@@ -29,11 +29,11 @@ meanB = rep(0, 3), varB = rep(1e+10), burnin=3000,nitt = 50000)
   \item{responseType}{possible values include `sizeNext' (size in one
     discrete time step) and `incr' and `logincr'}  
   \item{meanB}{
-    vector defining the means of the priors of the coefficients for growth (should be the same length as desired coeff)
+    vector defining the means of the priors of the coefficients for growth (should be the same length as desired coeff). CURRENTLY NOT IMPLEMENTED.
   }
   \item{varB}{
     vector defining the variance of the prior of the coeff for growth,
-    as for the mean
+    as for the mean. CURRENTLY NOT IMPLEMENTED.
   }
   \item{burnin}{
     numeric defining burn in for MCMCglmm

@@ -59,7 +59,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 dff <- generateData()
 startSizes <- rnorm(100, 2, 1)
 Tmatrix <- createIPMTmatrix(minSize = 1.2*min(dff$size, na.rm=TRUE),
-maxSize = 1.2*max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
+maxSize = 1.2*max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), 
+survObj = makeSurvObj(dff))
 
 rc <- timeToSize(startingSizes = startSizes, IPM = Tmatrix, endSize = 10, 
 startingEnv = 1, maxT = 1000, propReach = 0.005)
@@ -67,8 +68,10 @@ startingEnv = 1, maxT = 1000, propReach = 0.005)
 names(rc)
 
 par(mfrow=c(2,2), bty = "l")
-## Make picture with lines for distribution of population on different time points
-matplot(Tmatrix@meshpoints, rc$ts.dist, type = "l", xlab = "size", ylab = "Number of individuals")
+## Make picture with lines for distribution of 
+## population on different time points
+matplot(Tmatrix@meshpoints, rc$ts.dist, type = "l", xlab = "size", 
+ylab = "Number of individuals")
 
 ## Examine time elapsed for propReach to attain the chosen endSize
 rc$time.reach

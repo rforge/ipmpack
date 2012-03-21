@@ -12,7 +12,10 @@
 
 }
 \usage{
-makePostFecObjs(dataf,fecConstants,explanatoryVariables,Family,Transform,meanOffspringSize,varOffspringSize,offspringSplitter,fecByDiscrete,burnin,nitt)
+makePostFecObjs(dataf,fecConstants,
+	explanatoryVariables,Family,Transform,meanOffspringSize,
+		varOffspringSize,offspringSplitter,fecByDiscrete,
+		burnin,nitt)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -87,7 +90,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff <- generateData()
-fvlist <- makePostFecObjs(dataf=dff,explanatoryVariables="size+size2+covariate",
+fvlist <- makePostFecObjs(dataf=dff,
+	explanatoryVariables="size+size2+covariate",
                                burnin=100,nitt = 500)
                                
 fvlist[[1]]                               

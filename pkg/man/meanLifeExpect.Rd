@@ -52,21 +52,26 @@ Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff))
 
-plot(meanLifeExpect(Tmatrix), ylab = "Mean life expectancy", xlab = "Continuous (e.g. size) stage", type = "l", col="dark gray", ylim = c(0,max(meanLifeExpect(Tmatrix))))
+plot(meanLifeExpect(Tmatrix), ylab = "Mean life expectancy", 
+xlab = "Continuous (e.g. size) stage", type = "l", col="dark gray", 
+ylim = c(0,max(meanLifeExpect(Tmatrix))))
 
 # With continuous (e.g. size) and discrete (e.g. seedbank) stages:
 dff <- generateDataDiscrete()
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 discM <- makeDiscreteTrans(dff)
-Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff),
+Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), 
+maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff),
 growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"),
-survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans = discM)
+survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), 
+discreteTrans = discM)
 meanLifeExpect(Tmatrix)
 
 plot(meanLifeExpect(Tmatrix), 
 ylab = "Mean life expectancy", 
-xlab = "Continuous (e.g. size) and discrete (e.g. seedbank) stages", type = "l", col = "dark gray", ylim = c(0,max(meanLifeExpect(Tmatrix))))
+xlab = "Continuous (e.g. size) and discrete (e.g. seedbank) stages", 
+type = "l", col = "dark gray", ylim = c(0,max(meanLifeExpect(Tmatrix))))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

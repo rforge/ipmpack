@@ -51,12 +51,17 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff <- generateData()
 Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE),
-maxSize=max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+covariate"), envMatrix = makeEnvObj(dff))
+maxSize=max(dff$size, na.rm = TRUE), 
+growObj = makeGrowthObj(dff, explanatoryVariables="size+size2+covariate"), 
+survObj = makeSurvObj(dff, explanatoryVariables = "size+covariate"), 
+envMatrix = makeEnvObj(dff))
 targetSize <- 8
 
 passage=stochPassageTime(targetSize, Tmatrix, makeEnvObj(dff))
 
-plot(passage, ylab = "Passage time", xlab = "Continuous (e.g. size) stage", type="l", col = "dark gray", ylim = c(0,max(passage)))
+plot(passage, ylab = "Passage time", 
+xlab = "Continuous (e.g. size) stage", type="l", col = "dark gray", 
+ylim = c(0,max(passage)))
 abline(v = targetSize, col="red")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

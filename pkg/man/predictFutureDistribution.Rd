@@ -59,7 +59,9 @@ Tmatrix <- createIPMTmatrix(minSize = 1.1*min(dff$size, na.rm = TRUE),
 maxSize = 1.1*max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff), correction = "constant")
 Fmatrix <- createIPMFmatrix(minSize = 1.1*min(dff$size, na.rm = TRUE),
-maxSize = 1.1*max(dff$size, na.rm = TRUE), fecObj = makeFecObj(dff, fecConstants = 0.7, Transform="log"), correction="constant")
+maxSize = 1.1*max(dff$size, na.rm = TRUE), 
+fecObj = makeFecObj(dff, fecConstants = 0.7, Transform="log"), 
+correction="constant")
 
 # Make an IPMmatrix object containing T matrix + F matrix by replacing the T matrix
 IPM <- Tmatrix

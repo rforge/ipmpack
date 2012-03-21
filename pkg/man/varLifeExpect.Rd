@@ -48,17 +48,24 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 \examples{
 # With a single continuous (e.g. size) stage
 dff <- generateData()
-Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
+Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), 
+maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), 
+survObj = makeSurvObj(dff))
 vle <- varLifeExpect(Tmatrix)
 
-plot(Tmatrix@meshpoints, vle, ylab = "Variation life expectancy", xlab = "Continuous (e.g. size) stage", type = "l", ylim = c(0,max(vle)))
+plot(Tmatrix@meshpoints, vle, ylab = "Variation life expectancy", 
+xlab = "Continuous (e.g. size) stage", type = "l", ylim = c(0,max(vle)))
 
 
 # With a compound matrix (discrete stages not yet defined)
-Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff), envMatrix = makeEnvObj(dff))
+Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), 
+maxSize = max(dff$size, na.rm = TRUE), 
+growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), 
+survObj = makeSurvObj(dff), envMatrix = makeEnvObj(dff))
 le <- lifeExpect(Tmatrix, makeEnvObj(dff))
 
-plot(Tmatrix@meshpoints, vle, ylab = "Variation life expectancy", xlab = "Continuous (e.g. size) stage", type = "l", ylim = range(vle))
+plot(Tmatrix@meshpoints, vle, ylab = "Variation life expectancy", 
+xlab = "Continuous (e.g. size) stage", type = "l", ylim = range(vle))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

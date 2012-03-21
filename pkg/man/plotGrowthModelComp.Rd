@@ -10,8 +10,11 @@ Plots compared models built with \code{growthModelComp} and \code{survModelComp}
 Function plots compared models built with \code{growthModelComp} and \code{survModelComp}. This can be invoked directly from \code{growthModelComp} and \code{survModelComp} with the argument \code{makePlot = TRUE}.
 }
 \usage{
-plotGrowthModelComp(grObj,summaryTable, dataf, expVars, respType = "sizeNext", testType = "AIC", plotLegend = TRUE, mainTitle = "",...)
-plotSurvModelComp(svObj, summaryTable, dataf, expVars, testType = "AIC",  plotLegend = TRUE, mainTitle = "",ncuts=20,...) 
+plotGrowthModelComp(grObj,summaryTable, dataf, expVars, 
+respType = "sizeNext", testType = "AIC", 
+plotLegend = TRUE, mainTitle = "",...)
+plotSurvModelComp(svObj, summaryTable, dataf, expVars, 
+testType = "AIC",  plotLegend = TRUE, mainTitle = "",ncuts=20,...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -74,7 +77,9 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 dff <- generateData()
 
 grModels <- growthModelComp(dff, makePlot = FALSE)
-plotGrowthModelComp(grObj = grModels$growthObjects, summaryTable = grModels$summaryTable, dataf = dff, respType = "sizeNext", expVars = as.character(grModels$summaryTable[,1]))
+plotGrowthModelComp(grObj = grModels$growthObjects, 
+summaryTable = grModels$summaryTable, dataf = dff, 
+respType = "sizeNext", expVars = as.character(grModels$summaryTable[,1]))
 
 
 }

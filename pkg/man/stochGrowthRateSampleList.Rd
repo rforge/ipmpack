@@ -47,7 +47,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \examples{
 dff <- generateData()
-IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 10, minSize = -5, maxSize = 15,fecConstants=1e6, correction="constant")
+IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 10, minSize = -5, 
+maxSize = 15,fecConstants=1e6, correction="constant")
 stochGrowthRateSampleList(list.IPMmatrix = IPMlist,n.runin = 100, Tmax = 5000) 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

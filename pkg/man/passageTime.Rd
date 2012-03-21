@@ -51,19 +51,28 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 \examples{
 # With a single continuous state variable (e.g. size)
 dff <- generateData()
-Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
+Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), 
+maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), 
+survObj = makeSurvObj(dff))
 targetSize <- 8
 passage <- passageTime(targetSize, Tmatrix)
 
-plot(passage, ylab = "Passage time", xlab = "Continuous (e.g. size) stage", type = "l", col = "dark gray", ylim = c(0, max(passage)))
+plot(passage, ylab = "Passage time", xlab = "Continuous (e.g. size) stage", 
+type = "l", col = "dark gray", ylim = c(0, max(passage)))
 abline(v = targetSize, col="red")
 
 # With a compound matrix (discrete stages not yet defined)
-Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans = 1)
+Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), 
+maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), 
+growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), 
+survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), 
+discreteTrans = 1)
 targetSize <- 8
 passage <- passageTime(targetSize, Tmatrix)
 
-plot(passage, ylab = "Passage time", xlab = "Discrete (e.g. size) and continuous (e.g. seedbank) stages", type = "l", col = "dark gray", ylim = c(0, max(passage)))
+plot(passage, ylab = "Passage time", 
+xlab = "Discrete (e.g. size) and continuous (e.g. seedbank) stages", 
+type = "l", col = "dark gray", ylim = c(0, max(passage)))
 abline(v = targetSize, col="red")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
