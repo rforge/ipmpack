@@ -655,9 +655,7 @@ setMethod("growth",
 		
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
-			#print(head(newd))
-				
-			
+							
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
 			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
