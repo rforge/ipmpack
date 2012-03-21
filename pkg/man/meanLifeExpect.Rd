@@ -68,14 +68,21 @@ survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"),
 discreteTrans = discM)
 mLE <- meanLifeExpect(Tmatrix)
 
-plot(Tmatrix@meshpoints,mLE[1:length(Tmatrix@meshpoints)], 
-	ylab = "Mean life expectancy", 
-	xlab = "Continuous (e.g. size) and discrete (e.g. seedbank) stages", 
-	type = "l", col = "dark gray", ylim = c(0,max(mLE)))
-points(Tmatrix@meshpoints,
-	mLE[(length(Tmatrix@meshpoints)+1):(2*length(Tmatrix@meshpoints))], 
-		type="l",col="green")
+
+par(mfrow=c(max(Tmatrix@env.index),1))
+
+xvals <- c(rep(Tmatrix@meshpoints[1],discM@nclasses-1),Tmatrix@meshpoints)
+
+for (k in 1:max(Tmatrix@env.index)) { 
+	indx <- ((k-1)*(discM@nclasses-1+length(Tmatrix@meshpoints))+1):
+		(k*(discM@nclasses-1+length(Tmatrix@meshpoints)))
 	
+	plot(xvals,mLE[indx], 
+		ylab = "Mean life expectancy", 
+		xlab = "Continuous (e.g. size) and discrete (e.g. seedbank) stages", 
+		type = "l", col = "dark gray", ylim = c(0,max(mLE)), 
+		main=paste("habitat ",k,sep=""))	
+	}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
