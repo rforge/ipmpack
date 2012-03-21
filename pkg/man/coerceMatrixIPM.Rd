@@ -40,7 +40,9 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \examples{
 
-# Build a simple matrix model with three classes, no retrogression and stasis only in the third stage, which is the only reproductive one in the life cycle.
+# Build a simple matrix model with three classes, 
+# no retrogression and stasis only in the third stage, 
+# which is the only reproductive one in the life cycle.
 aMat <- matrix(0, 3, 3)
 aMat[cbind(2:3, 1:2)] <- 0.5
 aMat[cbind(3, 3)] <- 0.8

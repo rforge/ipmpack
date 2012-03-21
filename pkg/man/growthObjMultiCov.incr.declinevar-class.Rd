@@ -18,7 +18,9 @@ Objects can be created by calls of the form \code{new("growthObjMultiCov.incr.de
   }
 }
 \section{Methods}{
-No methods defined with class "growthObjMultiCov.incr.declinevar" in the signature.
+ \describe{
+    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "data.frame", growthObj = "growthObjMultiCov.incr")}: ... }
+	 }
 }
 \references{
 %%  ~~put references to the literature/web site here~~

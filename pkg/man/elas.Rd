@@ -59,10 +59,14 @@ IPM <- Tmatrix + Fmatrix
 par(mfrow = c(1, 2))
 
 senst <- sens(IPM)
-image(Tmatrix@meshpoints, Tmatrix@meshpoints,t(senst), main = "Sensitivity", xlab = "Continuous (e.g. size) stage in t", ylab = "Continuous (e.g. size) stage in t+1")
+image(Tmatrix@meshpoints, Tmatrix@meshpoints,t(senst), 
+	main = "Sensitivity", xlab = "Continuous (e.g. size) stage in t", 
+		ylab = "Continuous (e.g. size) stage in t+1")
 
 elast <- elas(IPM)
-image(Tmatrix@meshpoints, Tmatrix@meshpoints, t(elast), main = "Elasticity", xlab = "Continuous (e.g. size) stage in t", ylab = "Continuous (e.g. size) stage in t+1")
+image(Tmatrix@meshpoints, Tmatrix@meshpoints, t(elast), main = "Elasticity", 
+	xlab = "Continuous (e.g. size) stage in t", 
+		ylab = "Continuous (e.g. size) stage in t+1")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

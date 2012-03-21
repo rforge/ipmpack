@@ -13,23 +13,32 @@
 \section{Methods}{
 \describe{
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj")}}{
+\item{\code{signature(size = "numeric", sizeNext = "numeric", 
+cov = "numeric", growthObj = "growthObj")}}{
 %%  ~~describe this method here~~
 }
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjDeclineVar")}}{
+\item{\code{signature(size = "numeric", sizeNext = "numeric", 
+cov = "numeric", growthObj = "growthObjDeclineVar")}}{
 %%  ~~describe this method here~~
 }
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjIncr")}}{
+\item{\code{signature(size = "numeric", sizeNext = "numeric", 
+cov = "numeric", growthObj = "growthObjIncr")}}{
 %%  ~~describe this method here~~
 }
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjLogIncr")}}{
+\item{\code{signature(size = "numeric", sizeNext = "numeric", 
+cov = "numeric", growthObj = "growthObjLogIncr")}}{
 %%  ~~describe this method here~~
 }
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjTruncIncr")}}{
+\item{\code{signature(size = "numeric", sizeNext = "numeric", 
+cov = "numeric", growthObj = "growthObjTruncIncr")}}{
+%%  ~~describe this method here~~
+}
+\item{\code{signature(size = "numeric", sizeNext = "numeric", 
+cov = "numeric", growthObj = "growthObjHossfeld")}}{
 %%  ~~describe this method here~~
 }
 }}

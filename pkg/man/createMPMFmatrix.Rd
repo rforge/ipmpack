@@ -54,7 +54,8 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 \examples{
 dff <- generateData()
 matrixCuts <- c(1, 4, 10, 15)
-Fmatrix <- createMPMFmatrix(dff, bins = matrixCuts, offspringClasses = c(1,2), offspringProp = c(0.5, 0.5))
+Fmatrix <- createMPMFmatrix(dff, bins = matrixCuts, 
+	offspringClasses = c(1,2), offspringProp = c(0.5, 0.5))
 Fmatrix
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -25,12 +25,6 @@ Class \code{"\linkS4class{array}"}, by class "matrix", distance 2.
 Class \code{"\linkS4class{structure}"}, by class "matrix", distance 3.
 Class \code{"\linkS4class{vector}"}, by class "matrix", distance 4, with explicit coerce.
 }
-\section{Methods}{
-  \describe{
-    \item{lifeExpect}{\code{signature(IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
-    \item{stochpassageTime}{\code{signature(chosenSize = "numeric", IPMmatrix = "IPMmatrix", envMatrix = "envMatrix")}: ... }
-	 }
-}
 \references{
 %%  ~~put references to the literature/web site here~~
 }

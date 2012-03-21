@@ -24,7 +24,7 @@ Objects can be created by calls of the form \code{new("growthObjHossfeld", ...)}
 \section{Methods}{
   \describe{
     \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjHossfeld")}: ... }
-    \item{growthIntegrate}{\code{signature(size = "numeric", sizeNext = "numeric", h = "numeric", cov = "numeric", growthObj = "growthObjHossfeld")}: ... }
+    \item{growthCum}{\code{signature(size = "numeric", sizeNext = "numeric", h = "numeric", cov = "numeric", growthObj = "growthObjHossfeld")}: ... }
 	 }
 }
 \references{

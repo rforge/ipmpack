@@ -407,6 +407,77 @@ setMethod("growth",
 			return(u);
 		})
 
+# growth for predicting next logincr with decline var
+setMethod("growthCum", 
+		c("numeric","numeric","numeric","growthObjLogIncr.declinevar"),
+		function(size,sizeNext,cov,growthObj){
+			newd <- data.frame(size=size,size2=size^2,size3=size^3,
+					covariate=as.factor(rep(cov,length(size))))
+			
+			if (length(grep("logsize",
+							growthObj@fit$formula))>0) newd$logsize=log(size)
+			
+			mux <- predict(growthObj@fit,newd,type="response")
+			sigmax2 <- summary(growthObj@fit)$sigma^2
+			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
+			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
+			
+			u <- plnorm(sizeNext-size,mux,sqrt(sigmax2),log=FALSE)  
+			return(u);
+		})
+
+# Same for many covariates
+setMethod("growth", 
+		c("numeric","numeric","data.frame","growthObjMultiCov.declinevar"),
+		function(size,sizeNext,cov,growthObj){
+			newd <- cov
+			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			newd$size <- size
+			newd$size2 <- size^2
+			newd$size3 <- size^3
+			
+			if (length(grep("logsize",
+							growthObj@fit$formula))>0) newd$logsize=log(size)
+			if (length(grep("logsize2",
+							growthObj@fit$formula))>0) newd$logsize2=(log(size))^2
+			
+			mux <- predict(growthObj@fit,newd,type="response")
+			sigmax2 <- summary(growthObj@fit)$sigma^2
+			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
+			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
+			
+			u <- dnorm(sizeNext,mux,sqrt(sigmax2),log=FALSE)  
+			return(u);
+		})
+
+
+
+
+# Same for many covariates on increment
+setMethod("growth", 
+		c("numeric","numeric","data.frame","growthObjMultiCov.incr.declinevar"),
+		function(size,sizeNext,cov,growthObj){
+			newd <- cov
+			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			newd$size <- size
+			newd$size2 <- size^2
+			newd$size3 <- size^3
+			
+			if (length(grep("logsize",
+							growthObj@fit$formula))>0) newd$logsize=log(size)
+			if (length(grep("logsize2",
+							growthObj@fit$formula))>0) newd$logsize2=(log(size))^2
+			
+			mux <- predict(growthObj@fit,newd,type="response")
+			sigmax2 <- summary(growthObj@fit)$sigma^2
+			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
+			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
+			u <- dnorm(sizeNext,size+mux,sqrt(sigmax2),log=FALSE)  
+			return(u);
+		})
+
+
+
 
 # Same for many covariates on log increment
 setMethod("growth", 
@@ -426,6 +497,31 @@ setMethod("growth",
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <- summary(growthObj@fit)$sigma
 			u <- dlnorm(sizeNext,size+mux,sigmax,log=FALSE)  
+			return(u);
+		})
+
+
+
+# Same for many covariates on log increment
+setMethod("growth", 
+		c("numeric","numeric","data.frame","growthObjMultiCov.logincr.declinevar"),
+		function(size,sizeNext,cov,growthObj){
+			newd <- cov
+			newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
+			newd$size <- size
+			newd$size2 <- size^2
+			newd$size3 <- size^3
+			
+			if (length(grep("logsize",
+							growthObj@fit$formula))>0) newd$logsize=log(size)
+			if (length(grep("logsize2",
+							growthObj@fit$formula))>0) newd$logsize2=(log(size))^2
+			
+			mux <- predict(growthObj@fit,newd,type="response")
+			sigmax2 <- summary(growthObj@fit)$sigma^2
+			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
+			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
+			u <- dlnorm(sizeNext,size+mux,sqrt(sigmax2),log=FALSE)  
 			return(u);
 		})
 
@@ -555,7 +651,17 @@ setMethod("growth", c("numeric", "numeric", "numeric", "growthObjHossfeld"),
 		function(size, sizeNext, cov, growthObj) { 
 			mux <- size+Hossfeld(size, growthObj@paras) 
 			sigmax <- growthObj@sd 
-			u <- dnorm(sizeNext, mux, sigmax, log = F) 
+			u <- dnorm(sizeNext, mux, sigmax, log = FALSE) 
+			return(u)
+		}) 
+
+
+## Define a new growth method for Hossfeld growth (classic midpoint rule approach)
+setMethod("growthCum", c("numeric", "numeric", "numeric", "growthObjHossfeld"), 
+		function(size, sizeNext, cov, growthObj) { 
+			mux <- size+Hossfeld(size, growthObj@paras) 
+			sigmax <- growthObj@sd 
+			u <- pnorm(sizeNext, mux, sigmax, log = FALSE) 
 			return(u)
 		}) 
 

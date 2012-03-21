@@ -87,9 +87,14 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 \examples{
 # Data with only continuous stage and two habitats
 dff <- generateData()
-Tmatrix <- createCompoundTmatrix(minSize = min(dff$size,na.rm = TRUE), maxSize = max(dff$size,na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"))
+Tmatrix <- createCompoundTmatrix(minSize = min(dff$size,na.rm = TRUE), 
+	maxSize = max(dff$size,na.rm = TRUE), envMatrix = makeEnvObj(dff), 
+		growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), 
+			survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"))
 
-image(1:nrow(Tmatrix), 1:ncol(Tmatrix), t(log(Tmatrix)), xlab = "Continuous stage (e.g. size) at t", ylab = "Continuous stage (e.g. size) at t+1", axes = FALSE)
+image(1:nrow(Tmatrix), 1:ncol(Tmatrix), t(log(Tmatrix)), 
+	xlab = "Continuous stage (e.g. size) at t", 
+		ylab = "Continuous stage (e.g. size) at t+1", axes = FALSE)
 axis(1, at = 1:nrow(Tmatrix), lab = round(rep(Tmatrix@meshpoints,Tmatrix@nEnvClass), 2))
 axis(2, at = 1:nrow(Tmatrix), lab = round(rep(Tmatrix@meshpoints,Tmatrix@nEnvClass), 2))
 abline(h = length(Tmatrix@meshpoints) * (1:Tmatrix@nEnvClass))
@@ -100,7 +105,11 @@ dff <- generateDataDiscrete()
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 discM <- makeDiscreteTrans(dff)
-Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), discreteTrans = discM)
+Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), 
+	maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), 
+		growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"), 
+			survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), 
+				discreteTrans = discM)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

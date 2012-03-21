@@ -8,7 +8,8 @@ Builds F matrices.
 Uses fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calves) by reproductive stages due to sexual reproduction. Currently only pre-census fertility can be handled. 
 }
 \usage{
-createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSize = 50, chosenCov = 1, integrateType="midpoint", correction="none")
+createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 
+	maxSize = 50, chosenCov = 1, integrateType="midpoint", correction="none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -72,11 +73,14 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 # Data with only continuous stage and one habitat
 dff <- generateData()
 fv1 <- makeFecObj(dff, explanatoryVariables = "size", Transform = "log")
-Fmatrix <- createIPMFmatrix(fecObj = fv1, nBigMatrix = 20, minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE))
+Fmatrix <- createIPMFmatrix(fecObj = fv1, nBigMatrix = 20, 
+	minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE))
 
 slotNames(Fmatrix)
 
-image(Fmatrix@meshpoints, Fmatrix@meshpoints, t(Fmatrix), xlab = "Continuous (e.g. size) stage at t", ylab = "Continous (e.g. size) stage at t+1")
+image(Fmatrix@meshpoints, Fmatrix@meshpoints, t(Fmatrix), 
+	xlab = "Continuous (e.g. size) stage at t", 
+		ylab = "Continous (e.g. size) stage at t+1")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

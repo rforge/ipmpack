@@ -54,7 +54,10 @@ gr1 <- makeGrowthObj(dff)
 sizeRange <- c(1:20)
 sizeInit <- 1
 growth(sizeInit, sizeRange, 1, gr1)
-plot(growth(sizeInit, sizeRange, 1, gr1), type="l", col = "dark gray", xlab = "Continuous (e.g. size) stage at time t+1", ylab = paste("Probability of growth to a specific size in t+1 from size ", sizeInit, " at time t"))
+plot(growth(sizeInit, sizeRange, 1, gr1), type="l", 
+	col = "dark gray", xlab = "Continuous (e.g. size) stage at time t+1", 
+		ylab = paste("Probability of growth to a specific size in t+1 from size ", 
+			sizeInit, " at time t"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -18,7 +18,10 @@ Objects can be created by calls of the form \code{new("growthObjLogIncr.declinev
   }
 }
 \section{Methods}{
-No methods defined with class "growthObjLogIncr.declinevar" in the signature.
+  \describe{
+    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjLogIncr.declinevar")}: ... }
+    \item{growthCum}{\code{signature(size = "numeric", sizeNext = "numeric", h = "numeric", cov = "numeric", growthObj = "growthObjLogIncr.declinevar")}: ... }
+	 }
 }
 \references{
 %%  ~~put references to the literature/web site here~~

@@ -74,9 +74,16 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 \examples{
 # Data with only continuous stage and two habitats
 dff <- generateData()
-Fmatrix <-createCompoundFmatrix(nBigMatrix = 20, minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm=TRUE), envMatrix = makeEnvObj(dff), fecObj = makeFecObj(dff, explanatoryVariables = "size+size2+covariate", Transform = "log"))
+Fmatrix <-createCompoundFmatrix(nBigMatrix = 20, 
+	minSize = min(dff$size, na.rm = TRUE), 
+		maxSize = max(dff$size, na.rm=TRUE), 
+			envMatrix = makeEnvObj(dff), 
+				fecObj = makeFecObj(dff, explanatoryVariables = "size+size2+covariate", 
+					Transform = "log"))
 
-image(1:nrow(Fmatrix), 1:ncol(Fmatrix), t(log(Fmatrix)), xlab="Continuous state (e.g. size) at t", ylab="Continuous state (e.g. size) at t+1", axes = FALSE)
+image(1:nrow(Fmatrix), 1:ncol(Fmatrix), t(log(Fmatrix)), 
+	xlab="Continuous state (e.g. size) at t", 
+		ylab="Continuous state (e.g. size) at t+1", axes = FALSE)
 axis(1, at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints, Fmatrix@nEnvClass), 2))
 axis(2,at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints,Fmatrix@nEnvClass), 2))
 abline(h = length(Fmatrix@meshpoints)*(1:Fmatrix@nEnvClass))
@@ -86,7 +93,8 @@ abline(v = length(Fmatrix@meshpoints)*(1:Fmatrix@nEnvClass))
 dff <- generateDataDiscrete()
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
-fv1 <- makeFecObj(dff, explanatoryVariables = "size", Transform = "log", offspringSplitter=data.frame(continuous = 0.9, dormant = 0.1))
+fv1 <- makeFecObj(dff, explanatoryVariables = "size", Transform = "log", 
+	offspringSplitter=data.frame(continuous = 0.9, dormant = 0.1))
 Fmatrix <- createCompoundFmatrix(minSize = min(dff$size, na.rm=TRUE),
 maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), fecObj = fv1)
 }

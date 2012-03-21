@@ -21,7 +21,7 @@ Objects can be created by calls of the form \code{new("growthObj", ...)}.
 \section{Methods}{
   \describe{
     \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObj")}: ... }
-    \item{growthIntegrate}{\code{signature(size = "numeric", sizeNext = "numeric", h = "numeric", cov = "numeric", growthObj = "growthObj")}: ... }
+    \item{growthCum}{\code{signature(size = "numeric", sizeNext = "numeric",  cov = "numeric", growthObj = "growthObj")}: ... }
 	 }
 }
 \references{

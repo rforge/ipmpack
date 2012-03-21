@@ -66,10 +66,12 @@ res <- getIPMoutputDirect(survObjList = svList,
   
      # Plot out with different colours for different rows:
      par(mfrow = c(2,2), bty = "l", pty = "s")
-     plot(res$meshpoints, res$LE[1, ], xlab = "Continuous (e.g. size) stage", ylab = "Life expectancy", type= "l", ylim = range(res$LE, na.rm=TRUE))
+     plot(res$meshpoints, res$LE[1, ], xlab = "Continuous (e.g. size) stage", 
+     	ylab = "Life expectancy", type= "l", ylim = range(res$LE, na.rm=TRUE))
      for (j in 1:nrow(res$LE)) points(res$meshpoints,res$LE[j, ],col=j, type = "l")
 
-     plot(res$meshpoints, res$pTime[1, ], xlab="Continuous (e.g. Size) stage", ylab = "Passage time", type = "l", ylim = range(res$pTime, na.rm=TRUE))
+     plot(res$meshpoints, res$pTime[1, ], xlab="Continuous (e.g. Size) stage", 
+     	ylab = "Passage time", type = "l", ylim = range(res$pTime, na.rm=TRUE))
      for (j in 1:nrow(res$pTime)) points(res$meshpoints,res$pTime[j, ],col=j,  type = "l")
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the

@@ -56,7 +56,10 @@ sv1 <- makeSurvObj(dff)
 sizeRange <- c(1:20)
 sizeInit <- 1
 growSurv(sizeInit, sizeRange, 1, gr1, sv1)
-plot(growSurv(sizeInit, sizeRange, 1, gr1, sv1), type="l", col = "dark gray", xlab = "Continuous (e.g. size) stage at time t+1", ylab = paste("Probability of survival to a specific size in t+1 from size ", sizeInit, " at time t"))
+plot(growSurv(sizeInit, sizeRange, 1, gr1, sv1), type="l", col = "dark gray", 
+	xlab = "Continuous (e.g. size) stage at time t+1", 
+		ylab = paste("Probability of survival to a specific size in t+1 from size ", 
+			sizeInit, " at time t"))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

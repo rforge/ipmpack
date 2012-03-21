@@ -108,38 +108,52 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 ## Only for continuous stage:
 dff <- generateData()
 
-svlist <- makePostSurvivalObjs(dataf = dff, explanatoryVariables = "size+size2", meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
-grlist <- makePostGrowthObjs(dataf = dff, explanatoryVariables = "size+size2", meanB = rep(0, 3), varB = rep(1e+10),  nitt = 5000)
-fvlist <- makePostFecObjs(dataf=dff, explanatoryVariables="size+size2", Transform = "log", nitt = 5000)
+svlist <- makePostSurvivalObjs(dataf = dff, explanatoryVariables = "size+size2", 
+	meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
+grlist <- makePostGrowthObjs(dataf = dff, explanatoryVariables = "size+size2", 
+	meanB = rep(0, 3), varB = rep(1e+10),  nitt = 5000)
+fvlist <- makePostFecObjs(dataf=dff, explanatoryVariables="size+size2", 
+	Transform = "log", nitt = 5000)
 
 #Just use first 10 for speed
-res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], targetSize = 10,
-nBigMatrix=20, minSize = -2, maxSize = 15, cov = FALSE, fecObjList = fvlist[1:10],
-envMat = NULL, nsizeToAge = 5, sizeStart = -1)
+res <- getIPMoutputDirect(survObjList=svlist[1:10], growObjList=grlist[1:10], 
+	targetSize = 10,nBigMatrix=20, minSize = -2, maxSize = 15, 
+	cov = FALSE, fecObjList = fvlist[1:10],
+	envMat = NULL, nsizeToAge = 5, sizeStart = -1)
 
 names(res)
 
 # Plot out with different colours for different rows:
 par(mfrow = c(2,2), bty = "l", pty = "s")
-plot(res$meshpoints, res$LE[1, ], xlab = "Continuous (e.g. size) stage", ylab = "Life expectancy", type= "l", ylim = range(res$LE, na.rm=TRUE))
+plot(res$meshpoints, res$LE[1, ], xlab = "Continuous (e.g. size) stage", 
+	ylab = "Life expectancy", type= "l", ylim = range(res$LE, na.rm=TRUE))
 for (j in 1:nrow(res$LE)) points(res$meshpoints,res$LE[j, ],col=j, type = "l")
 
-plot(res$meshpoints, res$pTime[1, ], xlab="Continuous (e.g. Size) stage", ylab = "Passage time", type = "l", ylim = range(res$pTime, na.rm=TRUE))
+plot(res$meshpoints, res$pTime[1, ], xlab="Continuous (e.g. Size) stage", 
+	ylab = "Passage time", type = "l", ylim = range(res$pTime, na.rm=TRUE))
 for (j in 1:nrow(res$pTime)) points(res$meshpoints,res$pTime[j, ],col=j,  type = "l")
 
-plot(res$meshpoints,Re(res$stableStage[1, ]), xlab = "Size", ylab = "Stable stage distribution", type = "l", ylim = range(Re(res$stableStage), na.rm = TRUE))
-for (j in 1:nrow(res$stableStage)) points(res$meshpoints, Re(res$stableStage[j, ]), col = j, type = "l")
+plot(res$meshpoints,Re(res$stableStage[1, ]), xlab = "Size", 
+	ylab = "Stable stage distribution", type = "l", 
+		ylim = range(Re(res$stableStage), na.rm = TRUE))
+for (j in 1:nrow(res$stableStage)) points(res$meshpoints, 
+	Re(res$stableStage[j, ]), col = j, type = "l")
 
 hist(res$lambda, xlab = expression(lambda), ylab = "", main = "", col = "grey")
 
 ## For continuous (e.g. size) and discrete (e.g. seedbank) stages:
 dff <- generateDataDiscrete()
 
-svlist <- makePostSurvivalObjs(dataf=dff, explanatoryVariables="size+size2", meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
-grlist <- makePostGrowthObjs(dataf=dff, explanatoryVariables = "size+size2", meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
-fvlist <- makePostFecObjs(dataf = dff, explanatoryVariables = "size+size2", Transform = "log", nitt = 5000)
+svlist <- makePostSurvivalObjs(dataf=dff, explanatoryVariables="size+size2", 
+	meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
+grlist <- makePostGrowthObjs(dataf=dff, explanatoryVariables = "size+size2", 
+	meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
+fvlist <- makePostFecObjs(dataf = dff, explanatoryVariables = "size+size2", 
+	Transform = "log", nitt = 5000)
 
-res <- getIPMoutputDirect(survObjList = svlist[1:10], growObjList = grlist[1:10], targetSize = 10, nBigMatrix = 20, minSize = -2, maxSize = 15, cov = FALSE, fecObjList = fvlist[1:10], nsizeToAge = 5, sizeStart = -1)
+res <- getIPMoutputDirect(survObjList = svlist[1:10], growObjList = grlist[1:10], 
+	targetSize = 10, nBigMatrix = 20, minSize = -2, maxSize = 15, cov = FALSE, 
+		fecObjList = fvlist[1:10], nsizeToAge = 5, sizeStart = -1)
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

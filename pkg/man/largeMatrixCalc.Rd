@@ -51,12 +51,15 @@ Modified from Appendix A in Rees and Ellner 2009 (see references).
 }
 \examples{
 dff <- generateData()
-Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
-Fmatrix <- createIPMFmatrix(minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE),fecObj = makeFecObj(dff))
+Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), 
+	maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
+Fmatrix <- createIPMFmatrix(minSize = min(dff$size, na.rm = TRUE), 
+	maxSize = max(dff$size, na.rm = TRUE),fecObj = makeFecObj(dff))
 
 largeMatrixCalc(Tmatrix, Fmatrix)
 
-plot(largeMatrixCalc(Tmatrix, Fmatrix)$stableDist, ylab = "Stable stage distribution", xlab = "Continuous (e.g. size) stage", type = "l", col = "blue", lty = 1, ylim = c(0:1))
+plot(largeMatrixCalc(Tmatrix, Fmatrix)$stableDist, ylab = "Stable stage distribution", 
+	xlab = "Continuous (e.g. size) stage", type = "l", col = "blue", lty = 1, ylim = c(0:1))
 
 %ROB TO DO: I will change the appropriate section in base so reproductive output is also attainable and plottable here for IPMpack v.2.0
 %#Add line for reproductive effort with dash line and red color
