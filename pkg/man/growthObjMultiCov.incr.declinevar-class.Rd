@@ -1,15 +1,15 @@
-\name{growthObjMultiCov.incr.declinevar-class}
+\name{growthObjMultiCov.incrDeclineVar-class}
 \Rdversion{1.1}
 \docType{class}
-\alias{growthObjMultiCov.incr.declinevar-class}
+\alias{growthObjMultiCov.incrDeclineVar-class}
 
-\title{Class \code{"growthObjMultiCov.incr.declinevar"}}
+\title{Class \code{"growthObjMultiCov.incrDeclineVar"}}
 \description{
 A class object description
 %%  ~~ A concise (1-5 lines) description of what the class is. ~~
 }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("growthObjMultiCov.incr.declinevar", ...)}.
+Objects can be created by calls of the form \code{new("growthObjMultiCov.incrDeclineVar", ...)}.
 %%  ~~ describe objects here ~~ 
 }
 \section{Slots}{
@@ -39,6 +39,6 @@ Objects can be created by calls of the form \code{new("growthObjMultiCov.incr.de
 %%  ~~or \code{\linkS4class{CLASSNAME}} for links to other classes ~~~
 }
 \examples{
-showClass("growthObjMultiCov.incr.declinevar")
+showClass("growthObjMultiCov.incrDeclineVar")
 }
 \keyword{classes}

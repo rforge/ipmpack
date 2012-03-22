@@ -1,15 +1,15 @@
-\name{growthObjLogIncr.declinevar-class}
+\name{growthObjLogIncrDeclineVar-class}
 \Rdversion{1.1}
 \docType{class}
-\alias{growthObjLogIncr.declinevar-class}
+\alias{growthObjLogIncrDeclineVar-class}
 
-\title{Class \code{"growthObjLogIncr.declinevar"}}
+\title{Class \code{"growthObjLogIncrDeclineVar"}}
 \description{
 A class object description
 %%  ~~ A concise (1-5 lines) description of what the class is. ~~
 }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("growthObjLogIncr.declinevar", ...)}.
+Objects can be created by calls of the form \code{new("growthObjLogIncrDeclineVar", ...)}.
 %%  ~~ describe objects here ~~ 
 }
 \section{Slots}{
@@ -19,8 +19,8 @@ Objects can be created by calls of the form \code{new("growthObjLogIncr.declinev
 }
 \section{Methods}{
   \describe{
-    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjLogIncr.declinevar")}: ... }
-    \item{growthCum}{\code{signature(size = "numeric", sizeNext = "numeric", h = "numeric", cov = "numeric", growthObj = "growthObjLogIncr.declinevar")}: ... }
+    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjLogIncrDeclineVar")}: ... }
+    \item{growthCum}{\code{signature(size = "numeric", sizeNext = "numeric", h = "numeric", cov = "numeric", growthObj = "growthObjLogIncrDeclineVar")}: ... }
 	 }
 }
 \references{
@@ -40,6 +40,6 @@ Objects can be created by calls of the form \code{new("growthObjLogIncr.declinev
 %%  ~~or \code{\linkS4class{CLASSNAME}} for links to other classes ~~~
 }
 \examples{
-showClass("growthObjLogIncr.declinevar")
+showClass("growthObjLogIncrDeclineVar")
 }
 \keyword{classes}

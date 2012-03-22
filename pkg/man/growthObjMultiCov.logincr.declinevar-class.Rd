@@ -1,15 +1,15 @@
-\name{growthObjMultiCovLogIncr.declinevar-class}
+\name{growthObjMultiCovLogIncrDeclineVar-class}
 \Rdversion{1.1}
 \docType{class}
-\alias{growthObjMultiCovLogIncr.declinevar-class}
+\alias{growthObjMultiCovLogIncrDeclineVar-class}
 
-\title{Class \code{"growthObjMultiCovLogIncr.declinevar"}}
+\title{Class \code{"growthObjMultiCovLogIncrDeclineVar"}}
 \description{
 A class object description
 %%  ~~ A concise (1-5 lines) description of what the class is. ~~
 }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("growthObjMultiCovLogIncr.declinevar", ...)}.
+Objects can be created by calls of the form \code{new("growthObjMultiCovLogIncrDeclineVar", ...)}.
 %%  ~~ describe objects here ~~ 
 }
 \section{Slots}{
@@ -20,7 +20,7 @@ Objects can be created by calls of the form \code{new("growthObjMultiCovLogIncr.
 \section{Methods}{
  \describe{
     \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "data.frame", 
-    	growthObj = "growthObjMultiCovLogIncr.declinevar")}: ... }
+    	growthObj = "growthObjMultiCovLogIncrDeclineVar")}: ... }
 	 }
 }
 \references{
@@ -40,6 +40,6 @@ Objects can be created by calls of the form \code{new("growthObjMultiCovLogIncr.
 %%  ~~or \code{\linkS4class{CLASSNAME}} for links to other classes ~~~
 }
 \examples{
-showClass("growthObjMultiCovLogIncr.declinevar")
+showClass("growthObjMultiCovLogIncrDeclineVar")
 }
 \keyword{classes}

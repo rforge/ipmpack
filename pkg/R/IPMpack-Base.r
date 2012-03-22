@@ -90,21 +90,21 @@ setClass("growthObjMultiCovLogIncr",
 setClass("growthObjDeclineVar",
 		representation(fit = "list"))
 
-setClass("growthObjMultiCov.declinevar",
+setClass("growthObjMultiCovDeclineVar",
 		representation(fit = "list"))
 
 # Create a generic growth object with declining errors for increment
 setClass("growthObjIncrDeclineVar",
 		representation(fit = "list"))
 
-setClass("growthObjMultiCov.incr.declinevar",
+setClass("growthObjMultiCov.incrDeclineVar",
 		representation(fit = "list"))
 
 # Create a generic growth object with declining errors for logincrement
-setClass("growthObjLogIncr.declinevar",
+setClass("growthObjLogIncrDeclineVar",
 		representation(fit = "list"))
 
-setClass("growthObjMultiCovLogIncr.declinevar",
+setClass("growthObjMultiCovLogIncrDeclineVar",
 		representation(fit = "list"))
 
 
@@ -388,7 +388,7 @@ setMethod("growth",
 
 # growth for predicting next logincr with decline var
 setMethod("growth", 
-		c("numeric","numeric","numeric","growthObjLogIncr.declinevar"),
+		c("numeric","numeric","numeric","growthObjLogIncrDeclineVar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,
 					covariate=as.factor(rep(cov,length(size))))
@@ -407,7 +407,7 @@ setMethod("growth",
 
 # growth for predicting next logincr with decline var
 setMethod("growthCum", 
-		c("numeric","numeric","numeric","growthObjLogIncr.declinevar"),
+		c("numeric","numeric","numeric","growthObjLogIncrDeclineVar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,
 					covariate=as.factor(rep(cov,length(size))))
@@ -426,7 +426,7 @@ setMethod("growthCum",
 
 # Same for many covariates
 setMethod("growth", 
-		c("numeric","numeric","data.frame","growthObjMultiCov.declinevar"),
+		c("numeric","numeric","data.frame","growthObjMultiCovDeclineVar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- cov
 			if (length(size)>1) newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
@@ -454,7 +454,7 @@ setMethod("growth",
 
 # Same for many covariates on increment
 setMethod("growth", 
-		c("numeric", "numeric", "data.frame", "growthObjMultiCov.incr.declinevar"),
+		c("numeric", "numeric", "data.frame", "growthObjMultiCov.incrDeclineVar"),
 		function(size, sizeNext, cov, growthObj){
 			newd <- cov
 			#newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
@@ -505,7 +505,7 @@ setMethod("growth",
 
 # Same for many covariates on log increment
 setMethod("growth", 
-		c("numeric","numeric","data.frame","growthObjMultiCovLogIncr.declinevar"),
+		c("numeric","numeric","data.frame","growthObjMultiCovLogIncrDeclineVar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- cov
 			if (length(size)>1) newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))

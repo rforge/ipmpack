@@ -109,7 +109,7 @@ makeGrowthObj <- function(dataf,
 					gr1@fit <- fit
 				} else {
 					if (class(fit.here) == "gls") { 
-						gr1 <- new("growthObjLogIncr.declinevar")
+						gr1 <- new("growthObjLogIncrDeclineVar")
 						gr1@fit <- fit
 					} else {
 						print("unknown formula;
@@ -187,7 +187,7 @@ makeGrowthObjManyCov <- function(dataf,
 			gr1@fit <- fit
 		} else {
 			if (class(fit.here) == "gls") { 
-				gr1 <- new("growthObjMultiCov.declinevar")
+				gr1 <- new("growthObjMultiCovDeclineVar")
 				gr1@fit <- fit
 			} else {
 				print("unknown formula;
@@ -202,7 +202,7 @@ makeGrowthObjManyCov <- function(dataf,
 				gr1@fit <- fit
 			} else {
 				if (class(fit.here) == "gls") { 
-					gr1 <- new("growthObjMultiCov.incr.declinevar")
+					gr1 <- new("growthObjMultiCov.incrDeclineVar")
 					gr1@fit <- fit
 				} else {
 					print("unknown formula;
@@ -218,7 +218,7 @@ makeGrowthObjManyCov <- function(dataf,
 					gr1@fit <- fit
 				} else {
 					if (class(fit.here) == "gls") { 
-						gr1 <- new("growthObjMultiCovLogIncr.declinevar")
+						gr1 <- new("growthObjMultiCovLogIncrDeclineVar")
 						gr1@fit <- fit
 					} else {
 						print("unknown formula;

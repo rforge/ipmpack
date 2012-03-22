@@ -37,7 +37,7 @@ makeGrowthObjManyCov(dataf, explanatoryVariables="size+size2+covariate1", respon
 }
 \value{
 An object of class growthObjManyCov, or growthObjManyCov.incr, or growthObjManyCovLogIncr;
-or growthObjManyCov.declinevar, or growthObjManyCov.incr.declinevar, or growthObjManyCovLogIncr.declinevar.
+or growthObjManyCovDeclineVar, or growthObjManyCov.incrDeclineVar, or growthObjManyCovLogIncrDeclineVar.
 }
 \references{
 %% ~put references to the literature/web site here ~

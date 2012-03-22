@@ -7,7 +7,7 @@
 \alias{growthCum,numeric,numeric,numeric,growthObjLogIncr-method}
 \alias{growthCum,numeric,numeric,numeric,growthObjTruncIncr-method}
 \alias{growthCum,numeric,numeric,numeric,growthObjHossfeld-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjLogIncr.declinevar-method}
+\alias{growthCum,numeric,numeric,numeric,growthObjLogIncrDeclineVar-method}
 
 \title{ ~~ Methods for Function \code{growthCum}  ~~}
 \description{
@@ -43,7 +43,7 @@ cov = "numeric", growthObj = "growthObjTruncIncr")}}{
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", 
-cov = "numeric", growthObj = "growthObjLogIncr.declinevar")}}{
+cov = "numeric", growthObj = "growthObjLogIncrDeclineVar")}}{
 %%  ~~describe this method here~~
 }
 
