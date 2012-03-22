@@ -174,7 +174,7 @@ row represents one measurement in the population:</p>
 					<p><br><br><br></p>
 					<p>A list of all known IPM papers can be downloaded here: <a href="IPMpublications.xlsx">IPMpublications</a>.
 					<p><br><br><br></p>
-					<p>Photo credits: <i>Xanthoparmelia</i> lichens by Ann Pringle, crocs by Owen Jones, <i>Succisa pratensis</i> by Lidewij Keser.
+					<p>Photo credits: <br><i>Xanthoparmelia</i> lichens by Ann Pringle<br>crocs by Owen Jones<br><i>Succisa pratensis</i> by Lidewij Keser
                   </td>
                 </tr>
               </tbody>
