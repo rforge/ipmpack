@@ -69,7 +69,7 @@ Modified following code developed by Rees & Rose 2002 (above).
 \examples{
 dff <- generateData()
 res <- sensParams(growObj = makeGrowthObj(dff), 
-survObj = makeSurvObj(dff), fecObj = makeFecObj(dff), nBigMatrix = 50, 
+survObj = makeSurvObj(dff), fecObj = makeFecObj(dff, Transform="log"), nBigMatrix = 50, 
 minSize = min(dff$size, na.rm=TRUE), maxSize = max(dff$size, na.rm = TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
@@ -98,7 +98,7 @@ main = expression("Parameter elasticity of population growth rate " *lambda),
 las = 2, cex.names = 0.5) 
 
 # Same but with two fecundity functions and a constant
-fv1@fecConstants[1] <- 0.5
+fv1@fecConstants[1] <-0.5
 res <- sensParams(growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff), 
 fecObj = fv1, nBigMatrix = 50, minSize = min(dff$size, na.rm = TRUE), 
 maxSize = max(dff$size, na.rm = TRUE))

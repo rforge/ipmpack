@@ -1839,12 +1839,17 @@ sensParams <- function(growObj,survObj,fecObj,
 			length(survObj@fit$coeff)+
 			(sum(!is.na(fecObj@fecConstants)))+nfec	
 	#print(npar)
-	
+		
 	# create a named vector to hold them 
 	elam <- rep(0,npar);
-	nmes <- c(paste("grow",names(growObj@fit$coeff)), "sd growth",paste("surv",names(survObj@fit$coeff)),
-			paste("reprod constant",which(!is.na(fecObj@fecConstants), arr.ind=TRUE)),
-			fec.coeff.names)
+	if ((sum(!is.na(fecObj@fecConstants)))>0) { 
+		nmes <- c(paste("grow",names(growObj@fit$coeff)), "sd growth",paste("surv",names(survObj@fit$coeff)),
+				paste("reprod constant",which(!is.na(fecObj@fecConstants), arr.ind=TRUE)),
+				fec.coeff.names) 
+	} else { 
+		nmes <- c(paste("grow",names(growObj@fit$coeff)), "sd growth",paste("surv",names(survObj@fit$coeff)),				
+				fec.coeff.names)
+	}
 	
 	names(elam) <- nmes[1:npar]
 	
@@ -1857,6 +1862,8 @@ sensParams <- function(growObj,survObj,fecObj,
 			fecObj=fecObj,integrateType=integrateType, correction=correction)
 	IPM <- Tmatrix+Fmatrix
 	lambda1 <- Re(eigen(IPM)$value[1]);#print(lambda1)
+	
+	Fmatrix.base <- Fmatrix
 	
 	# change the growth parameters
 	for (param.test in 1:length(growObj@fit$coeff)){
@@ -1931,20 +1938,20 @@ sensParams <- function(growObj,survObj,fecObj,
 	print(param.test+count)
 	print(slam[1:(count+param.test)])
 	
-#	print(lambda1)
 	# change the reprod prob parameters in sequence
-	count <-  param.test + count+1;
+	count <-  param.test + count;
 	for (i in 1:length(fecObj@fitFec)){
-		#print(fecObj@fitFec[[i]]$coefficients)
+		#print(i)
 	for (param.test in 1:length(fecObj@fitFec[[i]]$coefficients)){
 		#print(param.test)
 		fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]*(1+delta);
-		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
-		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+		#print(fecObj@fitFec[[i]]$coefficients)
+		#print(cpar)
+		Fmatrix1 <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				fecObj=fecObj,integrateType=integrateType, correction=correction)
-		IPM <- Tmatrix+Fmatrix
-		lambda2 <- Re(eigen(IPM)$value[1]);print(lambda2)
+				
+		IPM <- Tmatrix+Fmatrix1
+		lambda2 <- Re(eigen(IPM)$value[1]);#print(lambda2)
 		fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]/(1+delta);
 		slam[param.test+count]<-(lambda2-lambda1)/(fecObj@fitFec[[i]]$coefficients[param.test]*delta);
 		elam[param.test+count]<-(lambda2-lambda1)/(log(1+delta));		
