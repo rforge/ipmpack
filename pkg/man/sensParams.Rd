@@ -82,7 +82,7 @@ las = 2, cex.names = 0.5)
 
 # Same but with two fecundity functions
 dff$fec2 <- dff$fec>0 #create binomial describing e.g., prob of flowering
-fv1 <- makeFecObj(dff, explanatoryVariables = c("size+size2","size"), 
+fv1 <- makeFecObj(dff, explanatoryVariables = c("size+size2","size"), Transform=c("log","none"),
 Family = c("gaussian","binomial"))
 
 res <- sensParams(growObj=makeGrowthObj(dff), survObj = makeSurvObj(dff), 

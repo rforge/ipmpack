@@ -1826,14 +1826,16 @@ sensParams <- function(growObj,survObj,fecObj,
 	nfec <- 0
 	fec.coeff.names <- c()
 	for (i in 1:length(fecObj@fitFec)){
-		nfec <- nfec + length(fecObj@fitFec[[i]]$coeff)	
+		nfec <- nfec + length(fecObj@fitFec[[i]]$coefficients)	
 	    fec.coeff.names <- c(fec.coeff.names,
-				paste("reprod",i,names(fecObj@fitFec[[i]]$coeff)))
+				paste("reprod",i,names(fecObj@fitFec[[i]]$coefficients)))
 	
 	}
 	
+	#print(fec.coeff.names)	
+	
 	# define numbers of parameters
-	npar <- length(growObj@fit$coeff)+1+
+	npar <- length(growObj@fit$coeff)+1+  #one extra for variance
 			length(survObj@fit$coeff)+
 			(sum(!is.na(fecObj@fecConstants)))+nfec	
 	#print(npar)
@@ -1883,6 +1885,10 @@ sensParams <- function(growObj,survObj,fecObj,
 	slam[param.test]<-(lambda2-lambda1)/(sd(growObj@fit$residuals)*delta);
 	elam[param.test]<-(lambda2-lambda1)/(log(1+delta));
 	
+	print("after growth")
+	print(param.test)
+	print(slam[1:param.test])
+	
 	# change the survival parameters
 	count <- param.test
 	for (param.test in 1:length(survObj@fit$coeff)){
@@ -1898,6 +1904,11 @@ sensParams <- function(growObj,survObj,fecObj,
 		elam[param.test+count]<-(lambda2-lambda1)/(log(1+delta));
 	}
 	
+	print("after survival")
+	print(count+param.test)
+	print(slam[1:(count+param.test)])
+	
+	
 	#change the constant fecundity objects
 	chs <- which(!is.na(fecObj@fecConstants), arr.ind=TRUE)
 	if (length(chs)>0) { 
@@ -1911,30 +1922,40 @@ sensParams <- function(growObj,survObj,fecObj,
 			IPM <- Tmatrix+Fmatrix
 			lambda2 <- Re(eigen(IPM)$value[1]);
 			fecObj@fecConstants[chs[param.test]] <- fecObj@fecConstants[chs[param.test]]/(1+delta);
-			slam[param.test+count]<-(lambda2-lambda1)/(fecObj@fecConstants[param.test]*delta);
+			slam[param.test+count]<-(lambda2-lambda1)/(fecObj@fecConstants[chs[param.test]]*delta);
 			elam[param.test+count]<-(lambda2-lambda1)/(log(1+delta));
 			
 		}
 	}
+	print("after fec constant")
+	print(param.test+count)
+	print(slam[1:(count+param.test)])
 	
-	
+#	print(lambda1)
 	# change the reprod prob parameters in sequence
-	count <- count + param.test;
+	count <-  param.test + count+1;
 	for (i in 1:length(fecObj@fitFec)){
-	for (param.test in 1:length(fecObj@fitFec[[i]]$coeff)){
+		#print(fecObj@fitFec[[i]]$coefficients)
+	for (param.test in 1:length(fecObj@fitFec[[i]]$coefficients)){
+		#print(param.test)
 		fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]*(1+delta);
 		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
 		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				fecObj=fecObj,integrateType=integrateType, correction=correction)
 		IPM <- Tmatrix+Fmatrix
-		lambda2 <- Re(eigen(IPM)$value[1]);
+		lambda2 <- Re(eigen(IPM)$value[1]);print(lambda2)
 		fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]/(1+delta);
 		slam[param.test+count]<-(lambda2-lambda1)/(fecObj@fitFec[[i]]$coefficients[param.test]*delta);
 		elam[param.test+count]<-(lambda2-lambda1)/(log(1+delta));		
 	}
 	count <- count + param.test;
 	}	
+	
+	print("after fec ")
+	print(param.test+count)
+	print(slam)
+	
 	
 	return(list(slam=slam,elam=elam))
 	
