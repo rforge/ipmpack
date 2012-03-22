@@ -309,9 +309,9 @@ picGrow <- function(dataf,growObj) {
 				covariate=as.factor(rep(ud[k],length(sizes))))
 		#print(ud[k])
 		
-		if(length(grep("logsize",growObj@fit$formula))==1)
+		if(length(grep("logsize",names(growObj@fit$coefficients)))==1)
 			newd$logsize=log(sizes)
-		if(length(grep("logsize2",growObj@fit$formula))==1)
+		if(length(grep("logsize2",names(growObj@fit$coefficients)))==1)
 			newd$logsize=(log(sizes))^2
 		
 		
