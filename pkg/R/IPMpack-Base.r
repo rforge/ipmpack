@@ -650,7 +650,7 @@ setMethod("growth",
 	coefNames <- attr(grObj@fit$coefficients, "names")
 	coefValues <- as.matrix(grObj@fit$coefficients)
 	newDataSubset <- as.matrix(cbind(1, newData[, (names(newData) %in% coefNames)]))
-	predValues <- as.matrix(newDataSubset) %*% matrix(coefValues,length(coefValues),1)
+	predValues <- as.matrix(newDataSubset) %*% matrix(coefValues, length(coefValues), 1)
 	return(predValues)
 }
 
