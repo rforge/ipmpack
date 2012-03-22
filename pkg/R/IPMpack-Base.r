@@ -72,7 +72,7 @@ setClass("growthObjMultiCov",
 setClass("growthObjIncr",
 		representation(fit = "lm"))
 
-setClass("growthObjMultiCov.incr",
+setClass("growthObjMultiCovIncr",
 		representation(fit = "lm"))
 
 # Create a generic growth object with truncated normal errors on increment
@@ -97,7 +97,7 @@ setClass("growthObjMultiCovDeclineVar",
 setClass("growthObjIncrDeclineVar",
 		representation(fit = "list"))
 
-setClass("growthObjMultiCov.incrDeclineVar",
+setClass("growthObjMultiCovIncrDeclineVar",
 		representation(fit = "list"))
 
 # Create a generic growth object with declining errors for logincrement
@@ -348,7 +348,7 @@ setMethod("growth",
 
 # Same for many covariates on increment
 setMethod("growth", 
-		c("numeric","numeric","data.frame","growthObjMultiCov.incr"),
+		c("numeric","numeric","data.frame","growthObjMultiCovIncr"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- cov
 			#newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
@@ -454,7 +454,7 @@ setMethod("growth",
 
 # Same for many covariates on increment
 setMethod("growth", 
-		c("numeric", "numeric", "data.frame", "growthObjMultiCov.incrDeclineVar"),
+		c("numeric", "numeric", "data.frame", "growthObjMultiCovIncrDeclineVar"),
 		function(size, sizeNext, cov, growthObj){
 			newd <- cov
 			#newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))

@@ -3,8 +3,8 @@
 \alias{growth-methods}
 \alias{growth,numeric,numeric,data.frame,growthObjMultiCov-method}
 \alias{growth,numeric,numeric,data.frame,growthObjMultiCovDeclineVar-method}
-\alias{growth,numeric,numeric,data.frame,growthObjMultiCov.incr-method}
-\alias{growth,numeric,numeric,data.frame,growthObjMultiCov.incrDeclineVar-method}
+\alias{growth,numeric,numeric,data.frame,growthObjMultiCovIncr-method}
+\alias{growth,numeric,numeric,data.frame,growthObjMultiCovIncrDeclineVar-method}
 \alias{growth,numeric,numeric,data.frame,growthObjMultiCovLogIncr-method}
 \alias{growth,numeric,numeric,data.frame,growthObjMultiCovLogIncrDeclineVar-method}
 \alias{growth,numeric,numeric,numeric,growthObj-method}
@@ -36,7 +36,7 @@ range of transforms of the current size, and covariates defined in data.frame. T
 supplies mean sizeNext directly; the density function around this is normal with variance that changes with the mean}
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", 
-	cov = "data.frame", growthObj = "growthObjMultiCov.incr")}}{
+	cov = "data.frame", growthObj = "growthObjMultiCovIncr")}}{
 Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
 range of transforms of the current size, and covariates defined in data.frame. The prediction 
 supplies mean incr which is added to size to obtain sizeNext; the density function around this is normal. 
@@ -44,7 +44,7 @@ supplies mean incr which is added to size to obtain sizeNext; the density functi
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", 
-cov = "data.frame", growthObj = "growthObjMultiCov.incrDeclineVar")}}{
+cov = "data.frame", growthObj = "growthObjMultiCovIncrDeclineVar")}}{
 Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
 range of transforms of the current size, and covariates defined in data.frame. The prediction 
 supplies mean incr which is added to size to obtain sizeNext; the density function around this is normal with a variance that changes with the mean.

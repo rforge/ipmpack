@@ -17,7 +17,7 @@ meanLifeExpect(IPMmatrix)
 }
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+Note that more complex approaches for discretely varying environments (e.g., as in Tuljapurkar & Horvitz 2006.) have yet to be implemented. %%  ~~ If necessary, more details than the description above ~~
 }
 \value{
   A vector of life expectancies each corresponding to a value of the size bins defined by Tmatrix@meshpoints.
@@ -27,6 +27,10 @@ Caswell, 2001. Matrix population models: analysis, construction and
 interpretation. 2nd ed. Sinauer. p118-120.
 
 Cochran & Ellner. 1992. Simple methods for calculating age-based life history parameters for stage-structured populations. Ecological Monographs 62, p345-364.
+
+Tuljapurkar & Horvitz. 2006. From stage to age in variable
+environments. Life expectancy and survivorship. Ecology 87, p1497-1509.
+
 }
 \author{
 C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
