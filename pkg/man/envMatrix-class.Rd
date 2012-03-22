@@ -2,7 +2,6 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{envMatrix-class}
-\alias{lifeExpect,IPMmatrix,envMatrix-method}
 \alias{stochPassageTime,numeric,IPMmatrix,envMatrix-method}
 
 \title{Class "envMatrix"}
