@@ -54,7 +54,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-  \code{\link{getIPMoutputDirect.Rd}} 
+  \code{\link{getIPMoutputDirect}} 
 }
 \examples{
 dff <- generateData()
