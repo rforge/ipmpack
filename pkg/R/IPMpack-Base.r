@@ -1200,7 +1200,6 @@ createCompoundFmatrix <- function(nEnvClass = 2,
 #
 diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midpoint", correction="none") {
 
-	require(truncnorm)
 	
 	#Print the range of the Tmatrix (should be on 0-1)
 	print("Range of Tmatrix is "); print(range(c(Tmatrix)))
@@ -1305,6 +1304,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 				} else { 
 				 	if (length(grep("trunc",tolower(as.character(class(growObj)))))>0) { 
 						#print("here"); print(mux); print(Tmatrix@meshpoints[loctest[j]])
+						require(truncnorm)
 						points(testSizes,dtruncnorm(testSizes,
 										a=Tmatrix@meshpoints[loctest[j]],b=Inf,
 										mean=mux,sd=sqrt(sigmax2)),type="l",col=2)
