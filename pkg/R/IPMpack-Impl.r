@@ -29,7 +29,7 @@
 makeGrowthObj <- function(dataf,
 		explanatoryVariables="size",
 		responseType="sizeNext",
-		regType="constantVar"){
+		regType="constantVar") {
 	
 	if (responseType=="incr" & length(dataf$incr) == 0) {
 		print("building incr as sizeNext - size")
@@ -63,7 +63,7 @@ makeGrowthObj <- function(dataf,
 		if (regType == "declineVar"){
 			require(nlme)
 			Formula <- as.formula(Formula)	
-			fit <- gls(Formula, na.action = na.omit, weight = varExp(form =~ fitted(.)), data = dataf)
+			fit <- gls(Formula[1], na.action = na.omit, weight = varExp(form =~ fitted(.)), data = dataf)
 		}
 	}
 	#make the objects

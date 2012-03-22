@@ -645,22 +645,29 @@ setMethod("growth",
 		})
 
 
-
+# function to predict growth object
+.predictMuX <- function(grObj, newData = newd) {
+	coefNames <- attr(grObj@fit$coefficients, "names")
+	coefValues <- as.matrix(grObj@fit$coefficients)
+	newDataSubset <- cbind(1, newData[, (names(newData) %in% coefNames)])
+	predValues <- newDataSubset %*% coefValues
+	return(predValues)
+}
 
 #same but with declining variance in growth on incrment
 setMethod("growth", 
-		c("numeric","numeric","numeric","growthObjIncrDeclineVar"),
+	c("numeric","numeric","numeric","growthObjIncrDeclineVar"),
 		function(size, sizeNext, cov, growthObj){
 			newd <- data.frame(size=size,  size2 = size ^ 2, size3 = size ^ 3, covariate = as.factor(rep(cov, length(size))))
 		
 			if (length(grep("logsize",
-							names(growthObj@fit$coefficients))) > 0) newd$logsize=log(size)
+							names(growthObj@fit$coefficients))) > 0) newd$logsize = log(size)
 							
-			mux <- predict(growthObj@fit,newd,type="response")
-			sigmax2 <- summary(growthObj@fit)$sigma^2
-			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
-			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
-			u <- dnorm(sizeNext,size+mux,sqrt(sigmax2),log=FALSE)  
+			mux <- predict(growthObj@fit, newd, type = "response")
+			sigmax2 <- summary(growthObj@fit)$sigma ^ 2
+			var.exp.coef <- as.numeric(growthObj@fit$modelStruct$varStruct[1])
+			sigmax2 <- sigmax2 * exp(2 * (var.exp.coef * mux))
+			u <- dnorm(sizeNext, size + mux, sqrt(sigmax2), log = FALSE)  
 			return(u);
 		})
 
