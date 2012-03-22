@@ -47,16 +47,6 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 \code{\link{meanLifeExpect}} \code{\link{createCompoundTmatrix}}
 }
 \examples{
-# With a single continuous state variable (e.g. size)
-dff <- generateData()
-Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
-maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff),
-survObj = makeSurvObj(dff))
-le <- lifeExpect(Tmatrix,makeEnvObj(dff))
-
-plot(Tmatrix@meshpoints, le, ylab = "Life expectancy", 
-	xlab ="Continuous (e.g. size) stage in t", ylim = c(0, max(le)), 
-	type = "l", col = "dark gray")
 
 # With a compound matrix (discrete stages not yet defined)
 dff <- generateData()
@@ -73,6 +63,12 @@ points(Tmatrix@meshpoints, le[2, ], type = "l", col = "dark green", lty = 2)
 legend(min(dff$size, na.rm = TRUE), 
 min(dff$sizeNext, na.rm = TRUE)+3,c("Habitat 1","Habitat 2"),
 	col=c("blue","dark green"),lty = c(1,2), merge = TRUE)
+	
+	
+
+
+	
+	
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
