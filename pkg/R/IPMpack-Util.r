@@ -306,9 +306,11 @@ picGrow <- function(dataf,growObj) {
 	
 	for (k in 1:length(ud)) { 
 		newd <- data.frame(size=sizes,size2=sizes^2,
-				covariate=as.factor(rep(ud[k],length(sizes))))
-		#print(ud[k])
-		
+				covariate=as.factor(rep(ud[k],length(sizes))), 
+				covariatex=rep(ud[k],length(sizes))) #this for ones using .predictMuX
+	
+		colnames(newd) <- c(colnames(newd)[1:(ncol(newd)-1)],paste("covariate",k,sep=""))	
+		print(head(newd))
 		if(length(grep("logsize",names(growObj@fit$coefficients)))==1)
 			newd$logsize=log(sizes)
 		if(length(grep("logsize2",names(growObj@fit$coefficients)))==1)
