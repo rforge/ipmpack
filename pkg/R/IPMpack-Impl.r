@@ -63,7 +63,11 @@ makeGrowthObj <- function(dataf,
 		if (regType == "declineVar"){
 			require(nlme)
 			Formula <- as.formula(Formula)	
-			fit <- gls(Formula, na.action = na.omit, weight = varExp(form =~ fitted(.)), data = dataf)
+			fit.here <- gls(Formula,	na.action = na.omit, weight = varExp(form =  ~fitted(.)), data = dataf)
+			fit <- list(coefficients=fit.here$coefficients,
+						sigmax2=summary(fit.here)$sigma^2,
+						var.exp.coef=as.numeric(fit.here$modelStruct$varStruct[1]), 
+						fit=fit.here)
 		}
 	}
 	#make the objects
@@ -74,7 +78,7 @@ makeGrowthObj <- function(dataf,
 			gr1 <- new("growthObj")
 			gr1@fit <- fit
 		} else {
-			if (class(fit) == "gls") { 
+			if (class(fit.here) == "gls") { 
 				gr1 <- new("growthObjDeclineVar")
 				gr1@fit <- fit
 			} else {
@@ -89,7 +93,7 @@ makeGrowthObj <- function(dataf,
 				gr1 <- new("growthObjIncr")
 				gr1@fit <- fit
 			} else {
-				if (class(fit) == "gls") { 
+				if (class(fit.here) == "gls") { 
 					gr1 <- new("growthObjIncrDeclineVar")
 					gr1@fit <- fit
 				} else {
@@ -104,7 +108,7 @@ makeGrowthObj <- function(dataf,
 					gr1 <- new("growthObjLogIncr")
 					gr1@fit <- fit
 				} else {
-					if (class(fit) == "gls") { 
+					if (class(fit.here) == "gls") { 
 						gr1 <- new("growthObjLogIncr.declinevar")
 						gr1@fit <- fit
 					} else {
@@ -166,9 +170,10 @@ makeGrowthObjManyCov <- function(dataf,
 			require(nlme)
 			Formula <- as.formula(Formula)	
 			fit.here <- gls(Formula,	na.action = na.omit, weight = varExp(form =  ~fitted(.)), data = dataf)
-			fit <- list(fit$coefficients=fit.here$coefficients,
-					sigmax2 <- summary(fit.here)$sigma^2
-					var.exp.coef<-as.numeric(fit.here$modelStruct$varStruct[1]))
+			fit <- list(coefficients=fit.here$coefficients,
+						sigmax2=summary(fit.here)$sigma^2,
+						var.exp.coef=as.numeric(fit.here$modelStruct$varStruct[1]),
+						fit=fit.here)
 			
 		}
 	}
@@ -181,7 +186,7 @@ makeGrowthObjManyCov <- function(dataf,
 			gr1 <- new("growthObjMultiCov")
 			gr1@fit <- fit
 		} else {
-			if (class(fit) == "gls") { 
+			if (class(fit.here) == "gls") { 
 				gr1 <- new("growthObjMultiCov.declinevar")
 				gr1@fit <- fit
 			} else {
@@ -196,7 +201,7 @@ makeGrowthObjManyCov <- function(dataf,
 				gr1 <- new("growthObjMultiCov.incr")
 				gr1@fit <- fit
 			} else {
-				if (class(fit) == "gls") { 
+				if (class(fit.here) == "gls") { 
 					gr1 <- new("growthObjMultiCov.incr.declinevar")
 					gr1@fit <- fit
 				} else {
@@ -212,7 +217,7 @@ makeGrowthObjManyCov <- function(dataf,
 					gr1 <- new("growthObjMultiCov.logincr")
 					gr1@fit <- fit
 				} else {
-					if (class(fit) == "gls") { 
+					if (class(fit.here) == "gls") { 
 						gr1 <- new("growthObjMultiCov.logincr.declinevar")
 						gr1@fit <- fit
 					} else {

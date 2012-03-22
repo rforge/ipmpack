@@ -314,14 +314,22 @@ picGrow <- function(dataf,growObj) {
 		if(length(grep("logsize2",growObj@fit$formula))==1)
 			newd$logsize=(log(sizes))^2
 		
-		pred.size <- predict(growObj@fit,newd,type="response")
-		if (class(growObj)=="growthObj" | class(growObj)=="growthObjDeclineVar") {
-			points(sizes,pred.size,type="l",col=k)
-		} else { if (class(growObj)=="growthObjIncr") {
-				points(sizes,sizes+pred.size,type="l",col=k)
-			}}
+		
+		if (length(grep("decline",tolower(as.character(class(growObj)))))>0) { 
+				pred.size <- .predictMuX(growObj,newd)
+			} else  {
+				pred.size <- predict(growObj@fit,newd,type="response")	
+			}
+		if (length(grep("incr",tolower(as.character(class(growObj)))))==0) {
+			points(sizes,pred.size,type="l",col=k)	
+		} else { 
+			if (length(grep("logincr",tolower(as.character(class(growObj)))))>0) {
+				points(sizes,sizes+exp(pred.size),type="l",col=k)	} else { 
+				points(sizes,sizes+pred.size,type="l",col=k)	
+			}
+				
+		}
 	}
-	
 }
 
 ## FUNCTION FOR TURNING DATA INTO MATRIX DEFINING ENVIRONMENTAL TRANSITIONS ############################
@@ -794,7 +802,11 @@ growthModelComp <- function(dataf,
 	for(v in 1:varN) {
 		for(t in 1:typeN) {
 			grObj[[i]] <- makeGrowthObj(dataf = dataf, regType = regressionType[t], explanatoryVariables = expVars[v], responseType = respType) 
+			if (length(grep("decline",tolower(as.character(class(grObj[[i]])))))>0) { 
+				summaryTable <- rbind(summaryTable, cbind(expVars[v], regressionType[t], respType, match.fun(testType)(grObj[[i]]@fit$fit)))
+			} else { 
 			summaryTable <- rbind(summaryTable, cbind(expVars[v], regressionType[t], respType, match.fun(testType)(grObj[[i]]@fit)))
+			}	
 			i <- i + 1
 		}
 	}
@@ -858,7 +870,9 @@ plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, respType = 
 	plot(dataf$size, dataSizeNext, pch = 19, xlab = "Size at t", ylab = y.lab, main = mainTitle, cex = 0.8,...)
 	for(p in 1:treatN) {
 		newd <- .makeCovDf(sizeSorted, expVars[p])
-		pred.size <- predict(grObj[[p]]@fit, newd, type = "response")
+		if (length(grep("decline",tolower(as.character(class(grObj[[p]])))))>0) {
+			pred.size <- .predictMuX(grObj[[p]], newd)
+		} else { pred.size <- predict(grObj[[p]]@fit, newd, type = "response")}
 		lines(sizeSorted, pred.size, type = "l", col = (p + 1))
 	}
 	if(plotLegend) {

@@ -79,6 +79,8 @@ dff <- generateData()
 growthModelComp(dff, makePlot = TRUE)
 survModelComp(dff, makePlot = TRUE)
 
+growthModelComp(dff, makePlot = TRUE, regressionType = "declineVar")
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

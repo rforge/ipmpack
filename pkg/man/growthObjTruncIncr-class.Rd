@@ -15,7 +15,7 @@ Objects can be created by calls of the form \code{new("growthObjTruncIncr", ...)
 }
 \section{Slots}{
   \describe{
-    \item{\code{fit}:}{Object of class \code{"numeric"} ~~ }
+    \item{\code{fit}:}{Object of class \code{"list"} ~~ }
     \item{\code{varcov}:}{Object of class \code{"matrix"} ~~ }
   }
 }

@@ -77,7 +77,7 @@ setClass("growthObjMultiCov.incr",
 
 # Create a generic growth object with truncated normal errors on increment
 setClass("growthObjTruncIncr",
-		representation(fit = "numeric", varcov="matrix"))
+		representation(fit = "list", varcov="matrix"))
 
 # Create a generic growth object with log normal errors on increment
 setClass("growthObjLogIncr",
@@ -88,24 +88,24 @@ setClass("growthObjMultiCov.logincr",
 
 # Create a generic growth object with declining errors 
 setClass("growthObjDeclineVar",
-		representation(fit = "gls"))
+		representation(fit = "list"))
 
 setClass("growthObjMultiCov.declinevar",
-		representation(fit = "gls"))
+		representation(fit = "list"))
 
 # Create a generic growth object with declining errors for increment
 setClass("growthObjIncrDeclineVar",
-		representation(fit = "gls"))
+		representation(fit = "list"))
 
 setClass("growthObjMultiCov.incr.declinevar",
-		representation(fit = "gls"))
+		representation(fit = "list"))
 
 # Create a generic growth object with declining errors for logincrement
 setClass("growthObjLogIncr.declinevar",
-		representation(fit = "gls"))
+		representation(fit = "list"))
 
 setClass("growthObjMultiCov.logincr.declinevar",
-		representation(fit = "gls"))
+		representation(fit = "list"))
 
 
 # Create a generic growth object containing the Hossfeld parameters 
@@ -333,19 +333,14 @@ setMethod("growth",
 		function(size,sizeNext,cov,growthObj){
 			require(truncnorm)
 			
-			newd <- data.frame(blank=size*0,Intercept=size^0,
-					size=size,size2=size^2,size3=size^3,
-					logsize=log(size),logsize2=(log(size))^2,
+			newd <- data.frame(size=size,size2=size^2,size3=size^3,
 					covariate=as.factor(rep(cov,length(size))))
 			
-			
-			m1 <-match(names(growthObj@fit),colnames(newd)); 
-			m1 <- c(1,2,m1[!is.na(m1)])
-			#print(m1)
-			#print(m1)
-			mux <- colSums(t(newd[,m1])*c(0,growthObj@fit[1:(length(growthObj@fit)-1)]))
-					
-			sigmax <- exp(growthObj@fit["logSigma"])
+			if (length(grep("logsize",
+							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
+						
+			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			sigmax <- sqrt(growthObj@fit$sigmax2)
 			u <- dtruncnorm(sizeNext,a=size,b=Inf,mean=size+mux,sd=sigmax)  
 			return(u); 
 		})
@@ -401,9 +396,9 @@ setMethod("growth",
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
-			mux <- predict(growthObj@fit,newd,type="response")
-			sigmax2 <- summary(growthObj@fit)$sigma^2
-			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
+			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			sigmax2 <- growthObj@fit$sigmax2
+			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
 		
 			u <- dlnorm(sizeNext-size,mux,sqrt(sigmax2),log=FALSE)  
@@ -420,9 +415,9 @@ setMethod("growthCum",
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
-			mux <- predict(growthObj@fit,newd,type="response")
-			sigmax2 <- summary(growthObj@fit)$sigma^2
-			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
+			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			sigmax2 <- growthObj@fit$sigmax2
+			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
 			
 			u <- plnorm(sizeNext-size,mux,sqrt(sigmax2),log=FALSE)  
@@ -445,10 +440,9 @@ setMethod("growth",
 							names(growthObj@fit$coefficients)))>0) newd$logsize2=(log(size))^2
 			
 			#print(head(newd))
-			mux <- predict(growthObj@fit,newdata=newd,type="response")
-			
-			sigmax2 <- summary(growthObj@fit)$sigma^2
-			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
+			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			sigmax2 <- growthObj@fit$sigmax2
+			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
 			
 			u <- dnorm(sizeNext,mux,sqrt(sigmax2),log=FALSE)  
@@ -473,12 +467,12 @@ setMethod("growth",
 							names(growthObj@fit$coefficients))) > 0) newd$logsize = log(size)
 			if (length(grep("logsize2",
 							names(growthObj@fit$coefficients))) > 0) newd$logsize2 = (log(size)) ^ 2
-			
-			
-			mux <- predict(growthObj@fit, newdata = newd, type = "response")
-			sigmax2 <- summary(growthObj@fit)$sigma^2
-			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
+						
+			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			sigmax2 <- growthObj@fit$sigmax2
+			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
+			
 			u <- dnorm(sizeNext,size+mux,sqrt(sigmax2),log=FALSE)  
 			return(u);
 		})
@@ -524,10 +518,11 @@ setMethod("growth",
 			if (length(grep("logsize2",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=(log(size))^2
 			
-			mux <- predict(growthObj@fit,newd,type="response")
-			sigmax2 <- summary(growthObj@fit)$sigma^2
-			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
+			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			sigmax2 <- growthObj@fit$sigmax2
+			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
+			
 			u <- dlnorm(sizeNext,size+mux,sqrt(sigmax2),log=FALSE)  
 			return(u);
 		})
@@ -577,13 +572,16 @@ setMethod("growthCum",
 		c("numeric","numeric","numeric","growthObjTruncIncr"),
 		function(size,sizeNext,cov,growthObj){
 			require(truncnorm)
+			
 			newd <- data.frame(size=size,size2=size^2,size3=size^3,
-					logsize=log(size),logsize2=(log(size))^2,
 					covariate=as.factor(rep(cov,length(size))))
-			m1 <-match(names(growthObj@fit),colnames(newd)); m1 <- m1[!is.na(m1)]
-			mux <- colSums(growthObj@fit[1]+t(newd[,m1])*growthObj@fit[2:(length(growthObj@fit)-1)])
-			#print(range(mux))
-			sigmax <- exp(growthObj@fit["logSigma"])
+			
+			if (length(grep("logsize",
+							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
+			
+			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			sigmax <- sqrt(growthObj@fit$sigmax2)
+			
 			u <- ptruncnorm(sizeNext,a=size,b=Inf,mean=size+mux,sd=sigmax)  
 			return(u); 
 		})
@@ -616,9 +614,9 @@ setMethod("growthCum",
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients))) > 0) newd$logsize=log(size)
 			
-			mux <- predict(growthObj@fit, newd, type = "response")
-			sigmax2 <- summary(growthObj@fit)$sigma^2
-			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
+			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			sigmax2 <- growthObj@fit$sigmax2
+			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
 			u <- pnorm(sizeNext,mux,sqrt(sigmax2),log=FALSE)  
 			return(u);
@@ -636,9 +634,9 @@ setMethod("growth",
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
-			mux <- predict(growthObj@fit,newd,type="response")
-			sigmax2 <- summary(growthObj@fit)$sigma^2
-			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
+			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			sigmax2 <- growthObj@fit$sigmax2
+			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
 			u <- dnorm(sizeNext,mux,sqrt(sigmax2),log=FALSE)  
 			return(u);
@@ -646,12 +644,12 @@ setMethod("growth",
 
 
 # function to predict growth object
-.predictMuX <- function(grObj, newData = newd) {
+.predictMuX <- function(grObj, newData) {
 	coefNames <- attr(grObj@fit$coefficients, "names")
 	coefValues <- as.matrix(grObj@fit$coefficients)
 	newDataSubset <- as.matrix(cbind(1, newData[, (names(newData) %in% coefNames)]))
 	predValues <- as.matrix(newDataSubset) %*% matrix(coefValues, length(coefValues), 1)
-	return(predValues)
+	return(as.numeric(predValues))
 }
 
 #same but with declining variance in growth on incrment
@@ -663,10 +661,10 @@ setMethod("growth",
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients))) > 0) newd$logsize = log(size)
 							
-			mux <- predict(growthObj@fit, newd, type = "response")
-			sigmax2 <- summary(growthObj@fit)$sigma ^ 2
-			var.exp.coef <- as.numeric(growthObj@fit$modelStruct$varStruct[1])
-			sigmax2 <- sigmax2 * exp(2 * (var.exp.coef * mux))
+			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			sigmax2 <- growthObj@fit$sigmax2
+			var.exp.coef<-growthObj@fit$var.exp.coef
+			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
 			u <- dnorm(sizeNext, size + mux, sqrt(sigmax2), log = FALSE)  
 			return(u);
 		})
@@ -1243,17 +1241,53 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 	loctest <- floor(quantile(1:Tmatrix@nBigMatrix,c(0.25,0.5,0.75)))
 	h <- diff(Tmatrix@meshpoints)[1]
 	testSizes <- seq(min(Tmatrix@meshpoints),max(Tmatrix@meshpoints),length=5000)
-	
-	#growth plots for midpoint integration
-	if (integrateType=="midpoint") {
 		
 		for (j in 1:3) {
 			#prob survive
 			ps <- surv(Tmatrix@meshpoints[loctest[j]],Tmatrix@env.index[1],survObj)
+			
+			#set up for prediction
+			newd <- data.frame(size=Tmatrix@meshpoints[loctest[j]],
+				size2=Tmatrix@meshpoints[loctest[j]]^2,
+				covariate=Tmatrix@env.index[1])
+			if(length(grep("logsize",names(growObj@fit$coefficients))))
+				newd$logsize=log(Tmatrix@meshpoints[loctest[j]])
+			
+			if (length(growObj@fit$model$covariate)>0)
+				if (is.factor(growObj@fit$model$covariate))
+					newd$covariate <- as.factor(newd$covariate)
+			
+			#predict mean
+			if (length(grep("decline",tolower(as.character(class(growObj)))))>0 | 
+					length(grep("trunc",tolower(as.character(class(growObj)))))>0) { 
+				mux <- .predictMuX(growObj,newd)
+			} else  {
+				mux <- predict(growObj@fit,newd,type="response"); #print("yes")	
+			}
+			
+			#add to size if it is a incr object, taking exp if appropirate
+			if (length(grep("incr",tolower(as.character(class(growObj)))))>0) {
+				if (length(grep("logincr",tolower(as.character(class(growObj)))))>0) mux <- exp(mux)
+				mux <- Tmatrix@meshpoints[loctest[j]]+mux; #print("no")
+			}
+			
+			#define variance 
+			if (length(grep("decline",tolower(as.character(class(growObj)))))==0 & 
+					length(grep("trunc",tolower(as.character(class(growObj)))))==0) { 
+				sigmax2 <- summary(growObj@fit)$sigma^2 
+			} else { 
+				sigmax2 <- growObj@fit$sigmax2
+				var.exp.coef<-growObj@fit$var.exp.coef
+				sigmax2<-sigmax2*exp(2*(var.exp.coef*mux))
+				#overwrite with simpler for trunc
+				if (length(grep("trunc",tolower(as.character(class(growObj)))))>0) sigmax2 <- growObj@fit$sigmax2
+			} 
+			
+			
 			#plot template
 			plot(Tmatrix@meshpoints,Tmatrix@.Data[,loctest[j]]/h/ps, type="n",
 					xlim=range(Tmatrix@meshpoints[loctest[j]]+
-									c(-3.5*summary(growObj@fit)$sigma,+3.5*summary(growObj@fit)$sigma)),
+									c(-3.5*sqrt(sigmax2),+3.5*sqrt(sigmax2))),
 					xlab="Size next", ylab="pdf")
 			if (j==1) title("Numerical resolution and growth")
 			for (k in 1:length(Tmatrix@meshpoints)) {
@@ -1262,86 +1296,31 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 				points(rep(Tmatrix@meshpoints[k]+h/2,2),c(0,Tmatrix@.Data[k,loctest[j]]/h/ps),type="l",lty=1)
 				points(rep(Tmatrix@meshpoints[k]-h/2,2),c(0,Tmatrix@.Data[k,loctest[j]]/h/ps),type="l",lty=1)
 			}
-			newd <- data.frame(size=Tmatrix@meshpoints[loctest[j]],
-					size2=Tmatrix@meshpoints[loctest[j]]^2,
-					covariate=Tmatrix@env.index[1])
 			
-			if(length(grep("logsize",growObj@fit$formula)))
-				newd$logsize=log(Tmatrix@meshpoints[loctest[j]])
-			
-			if (length(growObj@fit$model$covariate)>0)
-				if (is.factor(growObj@fit$model$covariate))
-					newd$covariate <- as.factor(newd$covariate)
-			
-			#predict mean
-			mux <- predict(growObj@fit,newd,type="response")
-			#add to size if it is a incr object
-			if (class(growObj)=="growthObjIncr") mux <- Tmatrix@meshpoints[loctest[j]]+mux
-			#define variance if it is not a declinevar object
-			if (class(growObj)!="growthObjDeclineVar" &
-					class(growObj)!="growthObjIncrDeclineVar" &
-					class(growObj)!="growthObjLogIncr.declinevar")
-				sigmax2 <- summary(growObj@fit)$sigma^2 else (print("undefined growth variance class"))
 			#plot using mean 
-			if (class(growObj)!="growthObjLogIncr"){
-				points(testSizes,dnorm(testSizes,mux,sqrt(sigmax2)),type="l",col=2)
-			} else {
+			if (length(grep("logincr",tolower(as.character(class(growObj)))))==0 | 
+					length(grep("trunc",tolower(as.character(class(growObj)))))==0) {
+					points(testSizes,dnorm(testSizes,mux,sqrt(sigmax2)),type="l",col=2) 
+				} else { 
+				 	if (length(grep("trunc",tolower(as.character(class(growObj)))))>0) { 
+						print("here"); print(mux); print(Tmatrix@meshpoints[loctest[j]])
+						require(truncnorm)
+						points(testSizes,dtruncnorm(testSizes,
+										a=Tmatrix@meshpoints[loctest[j]],b=Inf,
+										mean=mux,sd=sqrt(sigmax2)),type="l",col=2)
+			
+				} else {
 				points(testSizes,dlnorm(testSizes-Tmatrix@meshpoints[loctest[j]],mux,
 								sqrt(sigmax2)),type="l",col=2)
-			}
-			if (j==1) legend("topright", legend=c("Small"),col="white",lty=1,bty="n")
-			if (j==2) legend("topright", legend=c("Medium"),col="white",lty=1,bty="n")
-			if (j==3) legend("topright", legend=c("Large"),col="white",lty=1,bty="n")
-			
-		}
-	}
-	
-	#growth plots for cumul integration
-	if (integrateType=="cumul")  {
-		if (class(growObj)!="growthObjLogIncr") rval <- 3.5 else rval <- 0.5
-		for (j in 1:3) {
-			#prob survive
-			ps <- surv(Tmatrix@meshpoints[loctest[j]],Tmatrix@env.index[1],survObj)
-			#plot template
-			plot(Tmatrix@meshpoints,Tmatrix@.Data[,loctest[j]]/ps, type="n",
-					xlim=range(Tmatrix@meshpoints[loctest[j]]+
-									c(-rval*summary(growObj@fit)$sigma,+rval*summary(growObj@fit)$sigma)),
-					xlab="Size next", ylab="pdf")
-			if (j==1) title("Numerical resolution and growth")
-			for (k in 1:length(Tmatrix@meshpoints)) {
-				points(c(Tmatrix@meshpoints[k])+c(-h/2,h/2),
-						rep(Tmatrix@.Data[k,loctest[j]],2)/ps,type="l")
-				points(rep(Tmatrix@meshpoints[k]+h/2,2),c(0,Tmatrix@.Data[k,loctest[j]]/ps),type="l",lty=1)
-				points(rep(Tmatrix@meshpoints[k]-h/2,2),c(0,Tmatrix@.Data[k,loctest[j]]/ps),type="l",lty=1)
-			}
-			newd <- data.frame(size=Tmatrix@meshpoints[loctest[j]],
-					size2=Tmatrix@meshpoints[loctest[j]]^2,
-					covariate=Tmatrix@env.index[1])
-			
-			if(length(grep("logsize",growObj@fit$formula)))
-				newd$logsize=log(Tmatrix@meshpoints[loctest[j]])
-			
-			
-			if (length(growObj@fit$model$covariate)>0)
-				if (is.factor(growObj@fit$model$covariate))
-					newd$covariate <- as.factor(newd$covariate)
-			
-			mux <- predict(growObj@fit,newd,type="response")
-			if (class(growObj)=="growthObjIncr") mux <- Tmatrix@meshpoints[loctest[j]]+mux
-			sigmax2 <- summary(growObj@fit)$sigma^2
-			if (class(growObj)!="growthObjLogIncr"){
-				points(testSizes,dnorm(testSizes,mux,sqrt(sigmax2))*h,type="l",col=2)
-			} else {
-				points(testSizes,dlnorm(testSizes-Tmatrix@meshpoints[loctest[j]],mux,sqrt(sigmax2))*h,type="l",col=2)
-			}
-			if (j==1) legend("topright", legend=c("Small"),col="white",lty=1,bty="n")
-			if (j==2) legend("topright", legend=c("Medium"),col="white",lty=1,bty="n")
-			if (j==3) legend("topright", legend=c("Large"),col="white",lty=1,bty="n")
-			
-		}
+			}}
 		
-	}
+			if (j==1) legend("topright", legend=c("Small"),col="white",lty=1,bty="n")
+			if (j==2) legend("topright", legend=c("Medium"),col="white",lty=1,bty="n")
+			if (j==3) legend("topright", legend=c("Large"),col="white",lty=1,bty="n")
+			
+		}
 	
+		
 }
 
 

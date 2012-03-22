@@ -14,7 +14,7 @@ Objects can be created by calls of the form \code{new("growthObjMultiCov.incr.de
 }
 \section{Slots}{
   \describe{
-    \item{\code{fit}:}{Object of class \code{"gls"} ~~ }
+    \item{\code{fit}:}{Object of class \code{"list"} ~~ }
   }
 }
 \section{Methods}{

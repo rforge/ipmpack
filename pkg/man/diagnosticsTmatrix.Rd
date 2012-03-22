@@ -69,13 +69,36 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 # Example where mesh size does not have a major effect on model output:
 dff <- generateData()
 Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm= TRUE),
-maxSize = max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
-diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff), dff = dff)
+	maxSize = max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), 
+	survObj = makeSurvObj(dff))
+diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff), 
+	survObj = makeSurvObj(dff), dff = dff)
 
 # Compare with the following example where mesh size has an important effect on output:
 Tmatrix <- createIPMTmatrix(nBigMatrix = 8, minSize = min(dff$size, na.rm= TRUE), 
-maxSize = 0.5*max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
-diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff), dff = dff)
+	maxSize = 0.5*max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), 
+		survObj = makeSurvObj(dff))
+diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff), 
+	survObj = makeSurvObj(dff), dff = dff)
+
+#with cumul
+Tmatrix <- createIPMTmatrix(nBigMatrix = 10, minSize = min(dff$size, na.rm= TRUE), 
+	maxSize = 0.5*max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), 
+	survObj = makeSurvObj(dff), 
+	integrateType="cumul")
+diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff), 
+	survObj = makeSurvObj(dff), dff = dff, integrateType="cumul")
+
+#with truncated increment (fit is very bad since does not reflect the data very well)
+gr <- makeGrowthObj(dff)
+gr1 <- new("growthObjTruncIncr")
+gr1@fit$coefficients <- gr@fit$coefficients
+gr1@fit$sigmax2 <- (summary(gr@fit)$sigma)^2
+Tmatrix <- createIPMTmatrix(nBigMatrix = 8, minSize = min(dff$size, na.rm= TRUE), 
+	maxSize = 0.5*max(dff$size, na.rm=TRUE), growObj = gr1, 
+		survObj = makeSurvObj(dff), integrateType="midpoint")
+diagnosticsTmatrix(Tmatrix, growObj = gr1, survObj = makeSurvObj(dff), dff = dff)
+
 
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
