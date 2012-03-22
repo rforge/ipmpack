@@ -1266,8 +1266,8 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 			}
 			
 			#add to size if it is a incr object, taking exp if appropirate
-			if (length(grep("incr",tolower(as.character(class(growObj)))))>0) {
-				if (length(grep("logincr",tolower(as.character(class(growObj)))))>0) mux <- exp(mux)
+			if (length(grep("incr",tolower(as.character(class(growObj)))))>0 & 
+					length(grep("logincr",tolower(as.character(class(growObj)))))==0) {
 				mux <- Tmatrix@meshpoints[loctest[j]]+mux; #print("no")
 			}
 			
@@ -1296,14 +1296,13 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 				points(rep(Tmatrix@meshpoints[k]+h/2,2),c(0,Tmatrix@.Data[k,loctest[j]]/h/ps),type="l",lty=1)
 				points(rep(Tmatrix@meshpoints[k]-h/2,2),c(0,Tmatrix@.Data[k,loctest[j]]/h/ps),type="l",lty=1)
 			}
-			
 			#plot using mean 
-			if (length(grep("logincr",tolower(as.character(class(growObj)))))==0 | 
+			if (length(grep("logincr",tolower(as.character(class(growObj)))))==0 & 
 					length(grep("trunc",tolower(as.character(class(growObj)))))==0) {
 					points(testSizes,dnorm(testSizes,mux,sqrt(sigmax2)),type="l",col=2) 
 				} else { 
 				 	if (length(grep("trunc",tolower(as.character(class(growObj)))))>0) { 
-						print("here"); print(mux); print(Tmatrix@meshpoints[loctest[j]])
+						#print("here"); print(mux); print(Tmatrix@meshpoints[loctest[j]])
 						require(truncnorm)
 						points(testSizes,dtruncnorm(testSizes,
 										a=Tmatrix@meshpoints[loctest[j]],b=Inf,

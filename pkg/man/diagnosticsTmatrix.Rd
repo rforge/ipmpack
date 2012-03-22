@@ -83,21 +83,28 @@ diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff),
 
 #with cumul
 Tmatrix <- createIPMTmatrix(nBigMatrix = 10, minSize = min(dff$size, na.rm= TRUE), 
-	maxSize = 0.5*max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), 
+	maxSize = max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), 
 	survObj = makeSurvObj(dff), 
 	integrateType="cumul")
 diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff), 
 	survObj = makeSurvObj(dff), dff = dff, integrateType="cumul")
 
-#with truncated increment (fit is very bad since does not reflect the data very well)
+#with truncated increment (fit is quite bad, lots of loss from integration)
 gr <- makeGrowthObj(dff)
 gr1 <- new("growthObjTruncIncr")
 gr1@fit$coefficients <- gr@fit$coefficients
 gr1@fit$sigmax2 <- (summary(gr@fit)$sigma)^2
-Tmatrix <- createIPMTmatrix(nBigMatrix = 8, minSize = min(dff$size, na.rm= TRUE), 
-	maxSize = 0.5*max(dff$size, na.rm=TRUE), growObj = gr1, 
+Tmatrix <- createIPMTmatrix(nBigMatrix = 30, minSize = min(dff$size, na.rm= TRUE), 
+	maxSize = max(dff$size, na.rm=TRUE), growObj = gr1, 
 		survObj = makeSurvObj(dff), integrateType="midpoint")
 diagnosticsTmatrix(Tmatrix, growObj = gr1, survObj = makeSurvObj(dff), dff = dff)
+
+#with log increment
+Tmatrix <- createIPMTmatrix(nBigMatrix = 50, minSize = min(dff$size, na.rm= TRUE), 
+	maxSize = max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff,responseType = "logincr"), 
+		survObj = makeSurvObj(dff))
+diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff,responseType = "logincr"), 
+	survObj = makeSurvObj(dff), dff = dff)
 
 
 }
