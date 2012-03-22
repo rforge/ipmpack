@@ -165,8 +165,7 @@ makeGrowthObjManyCov <- function(dataf,
 		if (regType == "declineVar"){
 			require(nlme)
 			Formula <- as.formula(Formula)	
-			fit <- gls(Formula,
-					na.action = na.omit, weight = varExp(form =  ~fitted(.)), data = dataf)
+			fit <- gls(Formula,	na.action = na.omit, weight = varExp(form =  ~fitted(.)), data = dataf)
 		}
 	}
 	

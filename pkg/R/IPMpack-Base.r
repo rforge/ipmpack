@@ -460,8 +460,8 @@ setMethod("growth",
 
 # Same for many covariates on increment
 setMethod("growth", 
-		c("numeric","numeric","data.frame","growthObjMultiCov.incr.declinevar"),
-		function(size,sizeNext,cov,growthObj){
+		c("numeric", "numeric", "data.frame", "growthObjMultiCov.incr.declinevar"),
+		function(size, sizeNext, cov, growthObj){
 			newd <- cov
 			#newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
 			if (length(size)>1) newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
@@ -470,12 +470,12 @@ setMethod("growth",
 			newd$size3 <- size^3
 			
 			if (length(grep("logsize",
-							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
+							names(growthObj@fit$coefficients))) > 0) newd$logsize = log(size)
 			if (length(grep("logsize2",
-							names(growthObj@fit$coefficients)))>0) newd$logsize2=(log(size))^2
+							names(growthObj@fit$coefficients))) > 0) newd$logsize2 = (log(size)) ^ 2
 			
 			
-			mux <- predict(growthObj@fit,newd,type="response")
+			mux <- predict(growthObj@fit, newdata = newd, type = "response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
 			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
@@ -611,12 +611,12 @@ setMethod("growthCum",
 setMethod("growthCum", 
 		c("numeric","numeric","numeric","growthObjDeclineVar"),
 		function(size,sizeNext,cov,growthObj){
-			newd <- data.frame(size=size,size2=size^2,covariate=as.factor(rep(cov,length(size))))
+			newd <- data.frame(size = size, size2 = size ^ 2, covariate = as.factor(rep(cov, length(size))))
 	
 			if (length(grep("logsize",
-							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
+							names(growthObj@fit$coefficients))) > 0) newd$logsize=log(size)
 			
-			mux <- predict(growthObj@fit,newd,type="response")
+			mux <- predict(growthObj@fit, newd, type = "response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
 			var.exp.coef<-as.numeric(growthObj@fit$modelStruct$varStruct[1])
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
@@ -650,11 +650,11 @@ setMethod("growth",
 #same but with declining variance in growth on incrment
 setMethod("growth", 
 		c("numeric","numeric","numeric","growthObjIncrDeclineVar"),
-		function(size,sizeNext,cov,growthObj){
-			newd <- data.frame(size=size,size2=size^2,size3=size^3,covariate=as.factor(rep(cov,length(size))))
+		function(size, sizeNext, cov, growthObj){
+			newd <- data.frame(size=size,  size2 = size ^ 2, size3 = size ^ 3, covariate = as.factor(rep(cov, length(size))))
 		
 			if (length(grep("logsize",
-							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
+							names(growthObj@fit$coefficients))) > 0) newd$logsize=log(size)
 							
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax2 <- summary(growthObj@fit)$sigma^2
