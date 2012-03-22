@@ -1479,7 +1479,10 @@ varPassageTime <- function(chosenSize,IPMmatrix){
 #           - an environmental matrix
 # returns - the life expectancy for each of the sizes in the IPM (columns)
 #           for each of the starting env states
-lifeExpect <- function(IPMmatrix,envMatrix){
+#
+# CURRENTLY NOT WORKING 
+#
+.stochLifeExpect <- function(IPMmatrix,envMatrix){
 			require(MASS)
 			
 			matrix.dim <- length(IPMmatrix[1,])

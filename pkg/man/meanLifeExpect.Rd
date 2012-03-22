@@ -38,7 +38,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{lifeExpect}}, \code{\link{createIPMTmatrix}} 
+\code{\link{createIPMTmatrix}} 
 }
 \examples{
 # With a single continuous state variable (e.g. size):
