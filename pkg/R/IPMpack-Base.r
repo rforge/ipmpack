@@ -83,7 +83,7 @@ setClass("growthObjTruncIncr",
 setClass("growthObjLogIncr",
 		representation(fit = "lm"))
 
-setClass("growthObjMultiCov.logincr",
+setClass("growthObjMultiCovLogIncr",
 		representation(fit = "lm"))
 
 # Create a generic growth object with declining errors 
@@ -104,7 +104,7 @@ setClass("growthObjMultiCov.incr.declinevar",
 setClass("growthObjLogIncr.declinevar",
 		representation(fit = "list"))
 
-setClass("growthObjMultiCov.logincr.declinevar",
+setClass("growthObjMultiCovLogIncr.declinevar",
 		representation(fit = "list"))
 
 
@@ -482,7 +482,7 @@ setMethod("growth",
 
 # Same for many covariates on log increment
 setMethod("growth", 
-		c("numeric","numeric","data.frame","growthObjMultiCov.logincr"),
+		c("numeric","numeric","data.frame","growthObjMultiCovLogIncr"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- cov
 			if (length(size)>1) newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))
@@ -505,7 +505,7 @@ setMethod("growth",
 
 # Same for many covariates on log increment
 setMethod("growth", 
-		c("numeric","numeric","data.frame","growthObjMultiCov.logincr.declinevar"),
+		c("numeric","numeric","data.frame","growthObjMultiCovLogIncr.declinevar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- cov
 			if (length(size)>1) newd[2:length(size),] <- rep(as.numeric(cov[1,]), each=(length(size)-1))

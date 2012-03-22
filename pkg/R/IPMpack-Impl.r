@@ -214,11 +214,11 @@ makeGrowthObjManyCov <- function(dataf,
 			if (responseType == "logincr") {
 				
 				if (class(fit) == "lm") { 
-					gr1 <- new("growthObjMultiCov.logincr")
+					gr1 <- new("growthObjMultiCovLogIncr")
 					gr1@fit <- fit
 				} else {
 					if (class(fit.here) == "gls") { 
-						gr1 <- new("growthObjMultiCov.logincr.declinevar")
+						gr1 <- new("growthObjMultiCovLogIncr.declinevar")
 						gr1@fit <- fit
 					} else {
 						print("unknown formula;

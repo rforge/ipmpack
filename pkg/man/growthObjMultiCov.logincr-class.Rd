@@ -1,16 +1,16 @@
-\name{growthObjMultiCov.logincr-class}
+\name{growthObjMultiCovLogIncr-class}
 \Rdversion{1.1}
 \docType{class}
-\alias{growthObjMultiCov.logincr-class}
-%\alias{growth,numeric,numeric,data.frame,growthObjMultiCov.logincr-method}
+\alias{growthObjMultiCovLogIncr-class}
+%\alias{growth,numeric,numeric,data.frame,growthObjMultiCovLogIncr-method}
 
-\title{Class \code{"growthObjMultiCov.logincr"}}
+\title{Class \code{"growthObjMultiCovLogIncr"}}
 \description{
 A class object description
 %%  ~~ A concise (1-5 lines) description of what the class is. ~~
 }
 \section{Objects from the Class}{
-Objects can be created by calls of the form \code{new("growthObjMultiCov.logincr", ...)}.
+Objects can be created by calls of the form \code{new("growthObjMultiCovLogIncr", ...)}.
 %%  ~~ describe objects here ~~ 
 }
 \section{Slots}{
@@ -20,7 +20,7 @@ Objects can be created by calls of the form \code{new("growthObjMultiCov.logincr
 }
 \section{Methods}{
   \describe{
-    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "data.frame", growthObj = "growthObjMultiCov.logincr")}: ... }
+    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "data.frame", growthObj = "growthObjMultiCovLogIncr")}: ... }
 	 }
 }
 \references{
@@ -40,6 +40,6 @@ Objects can be created by calls of the form \code{new("growthObjMultiCov.logincr
 %%  ~~or \code{\linkS4class{CLASSNAME}} for links to other classes ~~~
 }
 \examples{
-showClass("growthObjMultiCov.logincr")
+showClass("growthObjMultiCovLogIncr")
 }
 \keyword{classes}

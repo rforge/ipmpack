@@ -5,8 +5,8 @@
 \alias{growth,numeric,numeric,data.frame,growthObjMultiCov.declinevar-method}
 \alias{growth,numeric,numeric,data.frame,growthObjMultiCov.incr-method}
 \alias{growth,numeric,numeric,data.frame,growthObjMultiCov.incr.declinevar-method}
-\alias{growth,numeric,numeric,data.frame,growthObjMultiCov.logincr-method}
-\alias{growth,numeric,numeric,data.frame,growthObjMultiCov.logincr.declinevar-method}
+\alias{growth,numeric,numeric,data.frame,growthObjMultiCovLogIncr-method}
+\alias{growth,numeric,numeric,data.frame,growthObjMultiCovLogIncr.declinevar-method}
 \alias{growth,numeric,numeric,numeric,growthObj-method}
 \alias{growth,numeric,numeric,numeric,growthObjDeclineVar-method}
 \alias{growth,numeric,numeric,numeric,growthObjHossfeld-method}
@@ -53,13 +53,13 @@ supplies mean incr which is added to size to obtain sizeNext; the density functi
 
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", 
-	cov = "data.frame", growthObj = "growthObjMultiCov.logincr")}}{
+	cov = "data.frame", growthObj = "growthObjMultiCovLogIncr")}}{
 Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
 range of transforms of the current size, and covariates defined in data.frame. The prediction 
 supplies logincr which is exponentiated and added to size to obtain sizeNext; the density function around this is lognormal. 
 %%  ~~describe this method here~~
 }
-\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "data.frame", growthObj = "growthObjMultiCov.logincr.declinevar")}}{
+\item{\code{signature(size = "numeric", sizeNext = "numeric", cov = "data.frame", growthObj = "growthObjMultiCovLogIncr.declinevar")}}{
 Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
 range of transforms of the current size, and covariates defined in data.frame. The prediction 
 supplies logincr which is exponentiated and added to size to obtain sizeNext; the density function around this is lognormal with variance that declines with the mean.  
