@@ -22,7 +22,7 @@
 \section{Methods}{
 \describe{
 
-\item{\code{signature(size = "numeric", sizeNext = "numeric", 
+\item{\code{signature(size = "numeric", sizeNext = "numeric", \\
 	cov = "data.frame", growthObj = "growthObjMultiCov")}}{
 Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
 range of transforms of the current size, and covariates defined in data.frame. The prediction 

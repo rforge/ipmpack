@@ -102,6 +102,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %%  ~~further notes~~
 }
 \seealso{
+  \code{\link{getIPMoutputDirect.Rd}} 
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{

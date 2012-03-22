@@ -69,7 +69,7 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createCompoundFmatrix}},\code{\link{createIPMTmatrix}}
+\code{\link{createCompoundTmatrix}},\code{\link{createIPMFmatrix}}
 }
 \examples{
 # Data with only continuous stage and two habitats

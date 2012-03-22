@@ -43,7 +43,7 @@ Modified following code developed by Mark Rees & Dylan Childs
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{sens}}
+\code{\link{sens}}, \code{\link{sensParams}}
 }
 \examples{
 dff <- generateData()
