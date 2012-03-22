@@ -297,7 +297,7 @@ setMethod("growth",
 			if (length(grep("logsize",
 							growthObj@fit$formula))>0) newd$logsize=log(size)
 			if (length(grep("logsize2",
-							growthObj@fit$formula))>0) newd$logsize2=(log(size))^2
+							fgrowthObj@fit$formula))>0) newd$logsize2=(log(size))^2
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <- summary(growthObj@fit)$sigma
