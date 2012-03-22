@@ -649,7 +649,7 @@ setMethod("growth",
 .predictMuX <- function(grObj, newData = newd) {
 	coefNames <- attr(grObj@fit$coefficients, "names")
 	coefValues <- as.matrix(grObj@fit$coefficients)
-	newDataSubset <- cbind(1, newData[, (names(newData) %in% coefNames)])
+	newDataSubset <- as.matrix(cbind(1, newData[, (names(newData) %in% coefNames)]))
 	predValues <- as.matrix(newDataSubset) %*% matrix(coefValues,length(coefValues),1)
 	return(predValues)
 }
