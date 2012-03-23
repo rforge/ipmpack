@@ -644,7 +644,7 @@ setMethod("growth",
 
 
 # function to predict growth object
-.predictMuX <- function(grObj, newData, cov=0) {
+.predictMuX <- function(grObj, newData, covPred = 0) {
 	coefNames <- attr(grObj@fit$coefficients, "names")
 	coefValues <- as.matrix(grObj@fit$coefficients)
 	newDataSubset <- as.matrix(cbind(1, newData[, (names(newData) %in% coefNames)]))
