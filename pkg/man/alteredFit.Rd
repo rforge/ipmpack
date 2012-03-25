@@ -41,7 +41,7 @@
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 \examples{
 # Data with size and sizeNext
-	dff <- generateData(nsamp=100000)
+	dff <- generateData(nSamp=100000)
 	gr1 <- makeGrowthObj(dff)
 	print(sd(gr1@fit$residuals))
 	print(coef(gr1@fit))
