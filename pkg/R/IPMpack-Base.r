@@ -1909,9 +1909,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	slam[param.test]<-(lambda2-lambda1)/(sd(growObj@fit$residuals)*delta);
 	elam[param.test]<-(lambda2-lambda1)/(log(1+delta));
 	
-	print("after growth")
-	print(param.test)
-	print(slam[1:param.test])
+	#print("after growth")
+	#print(param.test)
+	#print(slam[1:param.test])
 	
 	# change the survival parameters
 	count <- param.test
@@ -1928,9 +1928,9 @@ sensParams <- function(growObj,survObj,fecObj,
 		elam[param.test+count]<-(lambda2-lambda1)/(log(1+delta));
 	}
 	
-	print("after survival")
-	print(count+param.test)
-	print(slam[1:(count+param.test)])
+	#print("after survival")
+	#print(count+param.test)
+	#print(slam[1:(count+param.test)])
 	
 	
 	#change the constant fecundity objects
@@ -1951,9 +1951,9 @@ sensParams <- function(growObj,survObj,fecObj,
 			
 		}
 	}
-	print("after fec constant")
-	print(param.test+count)
-	print(slam[1:(count+param.test)])
+	#print("after fec constant")
+	#print(param.test+count)
+	#print(slam[1:(count+param.test)])
 	
 	# change the reprod prob parameters in sequence
 	count <-  param.test + count;
@@ -1976,9 +1976,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	count <- count + param.test;
 	}	
 	
-	print("after fec ")
-	print(param.test+count)
-	print(slam)
+	#print("after fec ")
+	#print(param.test+count)
+	#print(slam)
 	
 	
 	return(list(slam=slam,elam=elam))
