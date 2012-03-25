@@ -315,7 +315,7 @@ picGrow <- function(dataf,growObj) {
 		
 		
 		if (length(grep("decline",tolower(as.character(class(growObj)))))>0) { 
-				pred.size <- .predictMuX(growObj,newd)
+				pred.size <- .predictMuX(growObj,newd,covPred=k)
 			} else  {
 				pred.size <- predict(growObj@fit,newd,type="response")	
 			}

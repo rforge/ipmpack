@@ -72,8 +72,8 @@ dff <- generateData()
 (gr1 <- makeGrowthObj(dataf=dff, explanatoryVariables="size+covariate", 
 	responseType="incr",regType="declineVar"))
 #with declining increment
-#(gr1 <- makeGrowthObj(dataf=dff, explanatoryVariables="size+covariate", 
-#	responseType="incr",regType="declineVar"))
+(gr1 <- makeGrowthObj(dataf=dff, explanatoryVariables="size+covariate", 
+	responseType="incr",regType="declineVar"))
 
 #assess fit 
 picGrow(dff,gr1)

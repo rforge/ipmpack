@@ -339,7 +339,7 @@ setMethod("growth",
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 						
-			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
 			sigmax <- sqrt(growthObj@fit$sigmax2)
 			u <- dtruncnorm(sizeNext,a=size,b=Inf,mean=size+mux,sd=sigmax)  
 			return(u); 
@@ -396,7 +396,7 @@ setMethod("growth",
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
-			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
 			sigmax2 <- growthObj@fit$sigmax2
 			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
@@ -415,7 +415,7 @@ setMethod("growthCum",
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
-			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
 			sigmax2 <- growthObj@fit$sigmax2
 			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
@@ -440,7 +440,7 @@ setMethod("growth",
 							names(growthObj@fit$coefficients)))>0) newd$logsize2=(log(size))^2
 			
 			#print(head(newd))
-			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
 			sigmax2 <- growthObj@fit$sigmax2
 			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
@@ -468,7 +468,7 @@ setMethod("growth",
 			if (length(grep("logsize2",
 							names(growthObj@fit$coefficients))) > 0) newd$logsize2 = (log(size)) ^ 2
 						
-			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
 			sigmax2 <- growthObj@fit$sigmax2
 			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
@@ -518,7 +518,7 @@ setMethod("growth",
 			if (length(grep("logsize2",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=(log(size))^2
 			
-			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
 			sigmax2 <- growthObj@fit$sigmax2
 			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
@@ -579,7 +579,7 @@ setMethod("growthCum",
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
-			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
 			sigmax <- sqrt(growthObj@fit$sigmax2)
 			
 			u <- ptruncnorm(sizeNext,a=size,b=Inf,mean=size+mux,sd=sigmax)  
@@ -614,7 +614,7 @@ setMethod("growthCum",
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients))) > 0) newd$logsize=log(size)
 			
-			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
 			sigmax2 <- growthObj@fit$sigmax2
 			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
@@ -673,7 +673,7 @@ setMethod("growth",
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients))) > 0) newd$logsize = log(size)
 							
-			mux <- .predictMuX(grObj=growthObj,newData=newd)
+			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
 			sigmax2 <- growthObj@fit$sigmax2
 			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
