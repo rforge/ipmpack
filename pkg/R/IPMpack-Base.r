@@ -644,19 +644,31 @@ setMethod("growth",
 
 
 # function to predict growth object
-.predictMuX <- function(grObj, newData, covPred = 0) {
+.predictMuX <- function(grObj, newData, covPred = 1) {
+	dataBase <- newData
 	coefNames <- attr(grObj@fit$coefficients, "names")
 	coefValues <- as.matrix(grObj@fit$coefficients)
+	covNames <- coefNames[grep("covariate", coefNames)]
+	covPos <- as.numeric(unlist(strsplit(covNames, "covariate")))
+	covPos <- as.numeric(covPos[!is.na(covPos)])
+	covDf <- as.data.frame(matrix(0, nrow = dim(newData)[1], ncol = length(covPos)))
+	names(covDf) <- covNames
+	# Turn "on" intended covariate and build newDataFrame
+	if(covPred != 1) {
+		covDf[, (covPred - 1)] <- 1
+	}
+	newData <- cbind(dataBase, covDf)
 	newDataSubset <- as.matrix(cbind(1, newData[, (names(newData) %in% coefNames)]))
 	predValues <- as.matrix(newDataSubset) %*% matrix(coefValues, length(coefValues), 1)
 	return(as.numeric(predValues))
 }
 
+
 #same but with declining variance in growth on incrment
 setMethod("growth", 
 	c("numeric","numeric","numeric","growthObjIncrDeclineVar"),
 		function(size, sizeNext, cov, growthObj){
-			newd <- data.frame(size=size,  size2 = size ^ 2, size3 = size ^ 3, covariate = as.factor(rep(cov, length(size))))
+			newd <- data.frame(size = size,  size2 = size ^ 2, size3 = size ^ 3, covariate = as.factor(rep(cov, length(size))))
 		
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients))) > 0) newd$logsize = log(size)

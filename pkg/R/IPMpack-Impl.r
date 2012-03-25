@@ -63,11 +63,11 @@ makeGrowthObj <- function(dataf,
 		if (regType == "declineVar"){
 			require(nlme)
 			Formula <- as.formula(Formula)	
-			fit.here <- gls(Formula,	na.action = na.omit, weight = varExp(form =  ~fitted(.)), data = dataf)
-			fit <- list(coefficients=fit.here$coefficients,
-						sigmax2=summary(fit.here)$sigma^2,
-						var.exp.coef=as.numeric(fit.here$modelStruct$varStruct[1]), 
-						fit=fit.here)
+			fit.here <- gls(Formula, na.action = na.omit, weight = varExp(form =  ~fitted(.)), data = dataf)
+			fit <- list(coefficients = fit.here$coefficients,
+						sigmax2 = summary(fit.here)$sigma^2,
+						var.exp.coef = as.numeric(fit.here$modelStruct$varStruct[1]), 
+						fit = fit.here)
 		}
 	}
 	#make the objects
