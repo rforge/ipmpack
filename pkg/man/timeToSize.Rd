@@ -56,14 +56,16 @@ C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
+#note that with the "fake data" essentially either takes forever or is immediate...
 dff <- generateData()
-startSizes <- rnorm(100, 2, 1)
+startSizes <- rnorm(1000, 2.5, 1)
 Tmatrix <- createIPMTmatrix(minSize = 1.2*min(dff$size, na.rm=TRUE),
-maxSize = 1.2*max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), 
-survObj = makeSurvObj(dff))
+maxSize = 1.2*max(dff$size, na.rm=TRUE), 
+growObj = makeGrowthObj(dff,explanatoryVariables="size"), 
+survObj = makeSurvObj(dff,explanatoryVariables="size"))
 
-rc <- timeToSize(startingSizes = startSizes, IPM = Tmatrix, endSize = 10, 
-startingEnv = 1, maxT = 1000, propReach = 0.005)
+rc <- timeToSize(startingSizes = startSizes, IPM = Tmatrix, endSize = 6, 
+startingEnv = 1, maxT = 1000, propReach = 0.001)
 
 names(rc)
 

@@ -1742,16 +1742,17 @@ timeToSize <- function(startingSizes,IPM,endSize, startingEnv=1, maxT=100, propR
 	
 	if (t==maxT) time.reach <- maxT
 	
-	par(mfrow=c(2,2),bty="l")
-	plot(IPM@meshpoints,n.new.dist0[env.index==1],type="l",xlab="size", ylab="n", ylim=range(c(n.new.dist0,n.new.dist)))
+	par(mfrow=c(1,3),bty="l")
+	plot(IPM@meshpoints,n.new.dist0[env.index==1],type="l",xlab="size", ylab="n", ylim=range(c(n.new.dist0+10,n.new.dist)))
 	points(IPM@meshpoints,n.new.dist[env.index==1],type="l",col=2)
+	legend("topleft",legend=c("starting distribution", "final distribution"),col=c(1,2),lty=1,bty="n")
 	abline(v=IPM@meshpoints[cutoff],lty=3)
 	
 	plot(survivorship[1:t], xlab="Time", ylab="survivorship", type="l")
 	
 	if (time.reach>5) { 
-		image(1:time.reach,IPM@meshpoints,t(log(ts.dist)),xlab="Time steps", ylab="Number in each size class")
-		contour(1:time.reach,IPM@meshpoints,t(log(ts.dist[,1:time.reach])),add=TRUE)
+		image(as.numeric(IPM@meshpoints),1:time.reach,log(ts.dist),ylab="Time steps", xlab="Size classes", main="numbers in size classes over time")
+		contour(as.numeric(IPM@meshpoints),1:time.reach,log(ts.dist),add=TRUE,levels=exp(seq(0,max(log(ts.dist)),length=10)))
 	}
 	print(paste("Time to reach:",time.reach))
 	
