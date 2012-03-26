@@ -508,10 +508,10 @@ First, the user must generate data again, and from them, a list of survival and 
 dff <- generateData()
 grlist <- makePostGrowthObjs(dff, 
                              explanatoryVariables = "size", 
-                             burnin=50,nitt = 80)
+                             burnin=20,nitt = 60)
 svlist <- makePostSurvivalObjs(dff, 
                                explanatoryVariables = "size", 
-                               burnin=50,nitt = 80)
+                               burnin=20,nitt = 60)
 @ 
 Note that the data must not contain NAs. This function can also be used to set priors, etc. Note that the number of samples from the posterior used here {\tt nitt} is rather small, and larger numbers are advisable. With output from this, the user can make lists of the T matrices:
 <<>>= 
@@ -529,7 +529,7 @@ names(res)
 The vector called $\lambda$ and matrix called stableSize, etc, will consist of NAs, unless a list of Fmatrices is also provided, so that a complete population projection matrix can be built. IPMpack contains a similar function to obtain a list of F matrices, and if such a list is included as the third argument into the function {\tt getIPMOutput} (for which the default is `NULL'), the function will also return distributions of $\lambda$, the stable stage distribution, etc:  
 <<>>= 
 fv <- makePostFecObjs(dff, explanatoryVariables = "size+size2", fecConstants=0.01, 
-                      burnin=50,nitt = 80, Transform = "log")
+                      burnin=20,nitt = 60, Transform = "log")
 FmatrixList <- makeListFmatrix(fv, nBigMatrix = 20, minSize = -5, 
                                maxSize = 35, cov = FALSE,
                                correction = "constant")
