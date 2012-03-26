@@ -14,7 +14,12 @@
 \usepackage{a4wide}
 
 
- %\SweaveOpts{prefix.string=Guide/} 
+% \VignetteIndexEntry{IPMpack: An R Package for demographic modeling}
+% \VignetteDepends{Matrix, MASS, nlme, mvtnorm, methods}
+% \VignetteKeyword{kwd1}
+% \VignetteKeyword{kwd2}
+
+%\SweaveOpts{prefix.string=Guide/} 
  
 \begin{document}
 
