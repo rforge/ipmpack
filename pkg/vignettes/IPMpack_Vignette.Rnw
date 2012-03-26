@@ -169,7 +169,7 @@ p2 <- picSurv(dff, sv1, ncuts = 30)
 \end{figure}
 To build a demographic model describing survival and growth transitions from these objects, the user can use the function {\tt createIPMTmatrix}, i.e.: 
 <<>>= 
-Tmatrix <- createIPMTmatrix(nBigMatrix = 100, 
+Tmatrix <- createIPMTmatrix(nBigMatrix = 50, 
                             minSize = -5, maxSize = 35, 
                             growObj = gr1, survObj = sv1, 
                             correction = "constant")
@@ -237,7 +237,7 @@ If the user defines a fertility object -which for instance is not always easy wi
 fv1 <- makeFecObj(dff, explanatoryVariables = "size", 	
                   Family = "gaussian", 
                   Transform = "log")
-Fmatrix <- createIPMFmatrix(nBigMatrix = 100, minSize = -5,
+Fmatrix <- createIPMFmatrix(nBigMatrix = 50, minSize = -5,
                             maxSize = 35, 
                             fecObj = fv1, 
                             correction = "constant")
@@ -314,7 +314,7 @@ sv1 <- makeSurvObj(dff, explanatoryVariables = "size+covariate")
 @ 
 Note that these functions will only work appropriately for a discrete covariate if the value of the covariate at time $t$ is available as a column in the data frame names {\tt covariate} and the value of the covariate at the next census is available as a column in the data frame called {\tt covariateNext}. IPMpack functions use the presence of a column in the data frame called {\tt covariate} as a cue to renumber values in these two columns to numeric levels between 1 and the observed number of covariate levels to facilitate looping, and changes them into factors. Once this step is implemented, the user can use these functions to create a compound T matrix, using {\tt createCompoundTmatrix}: 
 <<>>= 
-Tmatrix <- createCompoundTmatrix(nBigMatrix = 100, minSize = -5, 
+Tmatrix <- createCompoundTmatrix(nBigMatrix = 50, minSize = -5, 
                                  maxSize = 35, 
                                  envMatrix = env1, growObj = gr1, 
                                  survObj = sv1, 
@@ -360,7 +360,7 @@ plot(Tmatrix@meshpoints, pTimes[1:Tmatrix@nBigMatrix],
 
 With a fertility object, the user can also define a full life cycle IPM model for this environment. With such an information, obtaining the stochastic population rate of increase $\lambda_s$ in this environment is relatively straight-forward. IPMpack does this by sampling a very large number of environments and corresponding IPMs, and multiplying them together (Childs et al. $2004$). At the moment, this is only defined for the case where environments (defined by the discrete covariates) are distributed independently (i.e. the next state does not depend on the previous state). To do this, the user must first define a list of IPMs (each the sum of a matrix of survival-growth transitions, and a matrix of fecundity transitions corresponding to a particular environment): 
 <<>>= 
-IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 100, minSize = -5, 
+IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 50, minSize = -5, 
                         maxSize = 35, explSurv = "size+covariate", 
                         explGrow = "size+size2+covariate", 
                         explFec = "size", Transform="log",correction = "constant")
@@ -373,7 +373,7 @@ number of environment types should in principle be greater than the
 two or three used here. Next, the user can estimate $\lambda_s$ using: 
 <<>>= 
 stochGrowthRateSampleList(listIPMmatrix = IPMlist, 
-                          nRunIn = 100, tMax = 500)
+                          nRunIn = 50, tMax = 100)
 @ 
 where {\tt nRunIn} defines the number of time steps to discard from the start of the time series in order to remove transient dynamics, and {\tt tMax} is the total
 number of time steps to run, and should be large enough that increasing it does not substantially change the result. 
@@ -406,7 +406,7 @@ gr1
 @ 
 From these data, to explore predicted demographic outcomes for the model, the user must decide on a time scale and length for investigation, and define it by a vector called `tVals', here set to reflect monthly intervals over $20$ years, with years as the time scale. With this, the user can then generate a time series that should look like the time series observed in the data. In the example below, covariates that vary seasonally were simulated, i.e., they fluctuates randomly around a sine wave which peaks once a year (`covTest'), and from this generate a matrix containing time as rows, and different covariates in columns.  
 <<>>= 
-tVals <- seq(1, 20, by = 1/12)
+tVals <- seq(1, 14, by = 1/12)
 covTest <- c(1 + 0.5*sin(2*pi*tVals))
 covMatTest <- data.frame(covariate1 = rnorm(length(covTest), covTest, 0.5) - 1, 
                          covariate2 = rnorm(length(covTest), covTest, 0.5) - 1, 
@@ -415,9 +415,9 @@ covMatTest <- data.frame(covariate1 = rnorm(length(covTest), covTest, 0.5) - 1,
 Note that  if there is no apparent temporal pattern to the data one could simply generate random normal distributions of the covariates using their observed
 mean and variance. Other types of temporal patterns (multiannual, etc) are also possible. With this setup, the user can then estimate the stochastic growth rate over these years, using the geometric mean of the population growth rate (Tuljapurkar $1990$; Childs et al. $2004$), for these particular covariates using:
 <<>>= 
-r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*10, 
+r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*7, 
                             tMax = length(tVals), growthObj = gr1, 
-                            survObj = sv1, fecObj = fv1, nBigMatrix = 100, 
+                            survObj = sv1, fecObj = fv1, nBigMatrix = 50, 
                             minSize = 2*min(dff$size, na.rm = TRUE), 
                             maxSize = 1.5*max(dff$size, na.rm = TRUE), 
                             nMicrosites = 100, correction = "constant")
@@ -426,10 +426,10 @@ print(r)
 Setting nRunIn = $12*10$ in this example is equivalent to discarding the first $10$ years (likely to contain transients) since the chosen time step is months. Note that in this formula, it was assumed that density-dependence acts on seedling establishment, and that $100$ microsites are available for seedling establishment in every time step. Setting nMicrosites = $0$ allows for calculations without density-dependence, and nMicrosites can also be a vector, if the number of microsites fluctuates through time. It may also be interesting to have a glance at what has been happening to the population structure over this time-course:
 <<>>= 
 st <- trackPopStructManyCov(covariate = covMatTest, 
-                            nRunIn = 12*10, tMax = length(tVals), 
+                            nRunIn = 12*7, tMax = length(tVals), 
                             growthObj = gr1, 
                             survObj = sv1, fecObj = fv1, 
-                            nBigMatrix = 100, 
+                            nBigMatrix = 50, 
                             minSize = 2*min(dff$size, na.rm = TRUE), 
                             maxSize = 1.5*max(dff$size, na.rm = TRUE), 
                             nMicrosites = 100, correction = "constant")
@@ -508,10 +508,10 @@ First, the user must generate data again, and from them, a list of survival and 
 dff <- generateData()
 grlist <- makePostGrowthObjs(dff, 
                              explanatoryVariables = "size", 
-                             burnin=100,nitt = 500)
+                             burnin=50,nitt = 100)
 svlist <- makePostSurvivalObjs(dff, 
                                explanatoryVariables = "size", 
-                               burnin=100,nitt = 500)
+                               burnin=50,nitt = 100)
 @ 
 Note that the data must not contain NAs. This function can also be used to set priors, etc. Note that the number of samples from the posterior used here {\tt nitt} is rather small, and larger numbers are advisable. With output from this, the user can make lists of the T matrices:
 <<>>= 
@@ -529,7 +529,7 @@ names(res)
 The vector called $\lambda$ and matrix called stableSize, etc, will consist of NAs, unless a list of Fmatrices is also provided, so that a complete population projection matrix can be built. IPMpack contains a similar function to obtain a list of F matrices, and if such a list is included as the third argument into the function {\tt getIPMOutput} (for which the default is `NULL'), the function will also return distributions of $\lambda$, the stable stage distribution, etc:  
 <<>>= 
 fv <- makePostFecObjs(dff, explanatoryVariables = "size+size2", fecConstants=0.01, 
-                      burnin=100,nitt = 500, Transform = "log")
+                      burnin=50,nitt = 100, Transform = "log")
 FmatrixList <- makeListFmatrix(fv, nBigMatrix = 20, minSize = -5, 
                                maxSize = 35, cov = FALSE,
                                correction = "constant")
