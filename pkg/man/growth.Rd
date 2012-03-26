@@ -40,9 +40,6 @@ Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured po
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
@@ -60,7 +57,3 @@ plot(growth(sizeInit, sizeRange, 1, gr1), type="l",
 		ylab = paste("Probability of growth to a specific size in t+1 from size ", 
 			sizeInit, " at time t"))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

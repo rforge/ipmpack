@@ -55,14 +55,8 @@ makeFecObj(dataf, fecConstants=as.numeric(NA),
 \value{
   an object of class fecObj
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -76,7 +70,3 @@ dff <- generateDataDiscrete()
 fv1 <- makeFecObj(dff, offspringSplitter = data.frame(continuous = 0.2, seedAge1 = 0.8),
 	fecByDiscrete = data.frame(dormant = 0, seedAge1 = 4.2, seedOld = 0))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

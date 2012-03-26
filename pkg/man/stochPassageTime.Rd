@@ -39,9 +39,6 @@ For bias in this estimation where variance in growth is small relative to the si
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
@@ -69,7 +66,3 @@ points(Tmatrix@meshpoints,
 	passage[(length(Tmatrix@meshpoints)+1):(2*length(Tmatrix@meshpoints))], 
 		type="l",col="green")
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

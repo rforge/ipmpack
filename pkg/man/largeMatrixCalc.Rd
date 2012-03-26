@@ -22,9 +22,6 @@ largeMatrixCalc(Tmatrix, Fmatrix, tol = 1e-08)
     tolerance for convergence, defaults to 1e-08.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
  \item{lambda}{Population rate of increase.}
   \item{stableDist}{Stable stage distribution.}
@@ -46,9 +43,6 @@ Modified from Appendix A in Rees and Ellner 2009 (see references).
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 dff <- generateData()
 Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), 
@@ -67,7 +61,3 @@ plot(largeMatrixCalc(Tmatrix, Fmatrix)$stableDist, ylab = "Stable stage distribu
 %legend(1, 0.9,c("Stable distribution","Reproductive value"),col=c("blue","red"),lty=c(1,2),merge=TRUE)
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

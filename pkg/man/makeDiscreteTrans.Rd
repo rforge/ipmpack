@@ -17,9 +17,6 @@ makeDiscreteTrans(dataf)
 \arguments{
   \item{dataf}{a dataframe with columns "stage", "stageNext" (both character vectors containing either names of discrete stages or "continuous" or "dead"), "size", "sizeNext", and "surv" (continuous and boolean variables respectively).}
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
   an object of class "discreteTrans" with columns corresponding to all the discrete and the one continuous stage.
 }
@@ -32,9 +29,6 @@ Ellner & Rees. 2006. Integral projection models for species with complex demogra
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -49,7 +43,3 @@ discTrans <- makeDiscreteTrans(dff)
 createIPMTmatrix(nBigMatrix = 10, growObj = makeGrowthObj(dff), 
 	survObj = makeSurvObj(dff), discreteTrans = discTrans)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

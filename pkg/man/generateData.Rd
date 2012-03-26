@@ -29,14 +29,8 @@ Note that the random data created includes only one discrete covariate structuri
   time step.
   	- "fec": continuous variable, indicating fecundity.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -49,7 +43,3 @@ dff <- generateData(nSamp=2000)
 head(dff)
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

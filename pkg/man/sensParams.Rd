@@ -41,9 +41,6 @@ integrateType, correction)
 
   
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
   \item{slam }{a vector of sensitivities of lambda with names
     corresponding to parameters.}
@@ -111,7 +108,3 @@ barplot(res$elam,
 main = expression("Parameter elasticity of population growth rate " *lambda), 
 las = 2, cex.names = 0.5)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

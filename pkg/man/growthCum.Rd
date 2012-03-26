@@ -26,20 +26,11 @@ growthCum(size, sizeNext, cov, growthObj)
     a growth object.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
  a vector of length sizeNext giving the cdf (cummulative density function) of each value of sizeNext.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -58,7 +49,3 @@ plot(growthCum(sizeInit, sizeRange, 1, gr1), type="l",
 		ylab = paste("Cummulative growth to a specific size in t+1 from size ", 
 			sizeInit, " at time t"))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

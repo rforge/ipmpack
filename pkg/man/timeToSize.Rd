@@ -46,15 +46,9 @@ interpretation. 2nd ed. Sinauer.
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 #note that with the "fake data" essentially either takes forever or is immediate...
 dff <- generateData()

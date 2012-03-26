@@ -42,9 +42,6 @@ makeListFmatrix(fecObjList, nBigMatrix, minSize,
     values to those predicted for survival at that size. 
   }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 list of Fmatrices. 
 }
@@ -54,9 +51,6 @@ Yang, Jongejans, Yang & Bishop. 2011. The effect of consumers and mutualists of 
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -91,7 +85,3 @@ image(Flist[[4]]@meshpoints, Flist[[4]]@meshpoints,
 	t(Flist[[4]]), xlab = "Continuous (e.g. size) stage at time t", 
 	ylab = "Continuous (e.g. size) stage at time t+1")
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

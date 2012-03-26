@@ -46,7 +46,3 @@ Note that the dataframe generated contains no covariates (either discrete or con
 dff <- generateDataDiscrete()
 head(dff)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

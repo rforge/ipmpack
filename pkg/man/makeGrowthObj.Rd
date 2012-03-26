@@ -33,9 +33,6 @@ makeGrowthObj(dataf, explanatoryVariables="size",
   \item{regType}{possible values include `constantVar' or `declineVar'}
   
   }
-\details{
- 
-}
 \value{
 An object of class growthObj, or growthObjIncr, or growthObjLogIncr;
 or growthObjDeclineVar, or growthObjIncrDeclineVar, or growthObjLogIncrDeclineVar. 
@@ -43,9 +40,6 @@ These are S4 objects which contain the slots:
    \item{fit}{an object of class \code{lm} or \code{glm} or \code{gls} that can be used with predict in the survival methods}
 Slots can be listed by using slotNames(growthObj)   
 
-}
-\references{
-%% ~put references to the literature/web site here ~
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
@@ -79,7 +73,3 @@ dff <- generateData()
 picGrow(dff,gr1)
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

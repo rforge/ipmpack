@@ -58,13 +58,8 @@ Plots multiple growth and survival objects returned from \code{growthModelComp} 
 \value{
 a plot object.
 }
-\references{
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -83,7 +78,3 @@ respType = "sizeNext", expVars = as.character(grModels$summaryTable[,1]))
 
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

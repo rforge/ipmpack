@@ -44,9 +44,6 @@ createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1,
   }
  
 }
-\details{
-%%
-}
 \value{
   an object of class IPMmatrix of dimensions nBigMatrix or nBigMatrix+nDiscrete classes (defined by fecObj@offspringSplitter-1).
 }
@@ -59,9 +56,6 @@ For multiple-vital rate integration on fecundity: Yang, Jongejans, Yang & Bishop
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -82,7 +76,3 @@ image(Fmatrix@meshpoints, Fmatrix@meshpoints, t(Fmatrix),
 	xlab = "Continuous (e.g. size) stage at t", 
 		ylab = "Continous (e.g. size) stage at t+1")
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

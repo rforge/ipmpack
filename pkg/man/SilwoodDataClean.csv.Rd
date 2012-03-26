@@ -23,12 +23,6 @@ diameter at next census) flowered (0 for not flowered, 1 if did) surv (0
 if died, one if survived, NAs if not know). 
 %%  ~~ If necessary, more details than the __description__ above ~~
 }
-\source{
-%%  ~~ reference to a publication or URL from which the data were obtained ~~
-}
-\references{
-%%  ~~ possibly secondary sources and usages ~~
-}
 \examples{
 data(SilwoodDataClean)
 print(head(SilwoodDataClean))

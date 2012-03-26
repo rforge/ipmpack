@@ -29,13 +29,8 @@
 \value{
 	\code{dummyFit}, an object of class \code{lm} with new residuals and, potentially, new coefficients.
 }
-\references{
-}
 \author{
 	C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-	%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

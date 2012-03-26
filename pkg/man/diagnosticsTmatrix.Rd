@@ -41,13 +41,6 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrateType, correction)
   Not defined for compound T matrices. 
   
 }
-\value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
-}
 \references{
 Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured population model. Ecology 81, p694-708.
 
@@ -57,9 +50,6 @@ For effects of mesh size on IPM output: Zuidema, Jongejans, Chien, During & Schi
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -110,7 +100,3 @@ diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff,responseType = "logincr"
 
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

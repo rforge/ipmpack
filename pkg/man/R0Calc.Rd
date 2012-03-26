@@ -19,9 +19,6 @@ R0Calc(Tmatrix, Fmatrix)
     a matrix (not necessarily of class IPMmatrix).
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
   numeric
 }
@@ -31,9 +28,6 @@ interpretation. 2nd ed. Sinauer. p126.
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -50,7 +44,3 @@ Fmatrix <- createIPMFmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), fecObj = makeFecObj(dff), correction="constant")
 R0Calc(Tmatrix, Fmatrix)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

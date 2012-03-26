@@ -37,9 +37,6 @@ For information on collapsing large matrices: Salguero-Gomez & Plotkin. 2010. Ma
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
@@ -52,7 +49,3 @@ matrixCuts <- c(1, 4, 10, 15)
 Tmatrix <- createMPMTmatrix(dff, bins = matrixCuts)
 Tmatrix
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

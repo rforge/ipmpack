@@ -57,18 +57,11 @@ addPdfGrowthPic(respType = "sizeNext", sizesPlotAt = c(20, 50, 60),
     extra arguments to pass to the plot function.
   }
 }
-\details{
-}
 \value{
   none
 }
-\references{
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -87,7 +80,3 @@ addPdfGrowthPic(respType = "sizeNext",
 			growthObjList = a1$growthObjects, cols = 2:5)
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

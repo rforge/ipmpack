@@ -27,16 +27,10 @@ makeSurvObj(dataf,explanatoryVariables)
     `covariate'.}
 }
 
-\details{
-
-}
 \value{
   An object of class survObj which is a S4 object which contains the slots: 
    \item{fit}{an object of class \code{lm} or \code{glm} that can be used with predict in the survival methods}
 Slots can be listed by using slotNames(survObj)   
-}
-\references{
-%% ~put references to the literature/web site here ~
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
@@ -59,7 +53,3 @@ sv1 <- makeSurvObj(dff, explanatoryVariables="size")
 sv1 <- makeSurvObj(dff, explanatoryVariables="size+covariate")
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -16,9 +16,6 @@ varLifeExpect(IPMmatrix)
     an IPMmatrix object defining survival transitions.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
   a vector of variance in life expectancies each corresponding to Tmatrix@meshpoints.
 
@@ -34,9 +31,6 @@ Tuljapurkar & Horvitz, 2006. From stage to age in variable environments. Life ex
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -58,7 +52,3 @@ xlab = "Continuous (e.g. size) stage", type = "l", ylim = c(0,max(vle)))
 
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -24,20 +24,11 @@ number of consecutive values for which means of survival and continuous (e.g. si
 extra arguments to plot (e.g, ylim, etc).
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
 Returns nothing.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -51,7 +42,3 @@ dff <- generateData()
 sv1 <- makeSurvObj(dff)
 picSurv(dff,sv1)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

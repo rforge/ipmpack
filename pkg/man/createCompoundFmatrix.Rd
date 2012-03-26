@@ -42,9 +42,6 @@ minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType, correction)
     values to those predicted for survival at that size. 
   }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
   an object of class IPMmatrix with dimensions
   nBigMatrix*nEnvClass, or if discrete transitions exist
@@ -61,9 +58,6 @@ For multiple-vital rate integration on fecundity: Yang, Jongejans, Yang & Bishop
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -98,7 +92,3 @@ fv1 <- makeFecObj(dff, explanatoryVariables = "size", Transform = "log",
 Fmatrix <- createCompoundFmatrix(minSize = min(dff$size, na.rm=TRUE),
 maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), fecObj = fv1)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -69,21 +69,12 @@ Currently uses makeSurvObj with a discrete covariate .
 \value{
   list of matrices corresponding to covariates, in order.
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 dff <- generateData()
 IPMlist <- makeListIPMs(dff, Transform="log")

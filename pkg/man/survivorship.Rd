@@ -21,9 +21,6 @@ survivorship(IPMmatrix, size1, maxAge)
     the maximum age up to which survivorship is desired for or possible.
   }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
  \item{surv.curv}{vector of length maxAge providing survivorship at each
  age from 1 to maxAge.}
@@ -41,15 +38,9 @@ environments. Life expectancy and survivorship. Ecology 87, p1497-1509.
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-
-}
 \examples{
 # For only continuous stages (e.g. size)
 dff <- generateData()
@@ -68,7 +59,3 @@ survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"),
 discreteTrans = 1)
 su <- survivorship(Tmatrix,1,300)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

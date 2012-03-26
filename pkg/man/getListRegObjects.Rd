@@ -24,18 +24,11 @@ getListRegObjects(Obj,nsamp=1000)
   }
 
 }
-\details{
-}
 \value{
   list of objects containing an lm or glm
 }
-\references{
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -74,7 +67,3 @@ res <- getIPMoutputDirect(survObjList = svList,
      	ylab = "Passage time", type = "l", ylim = range(res$pTime, na.rm=TRUE))
      for (j in 1:nrow(res$pTime)) points(res$meshpoints,res$pTime[j, ],col=j,  type = "l")
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

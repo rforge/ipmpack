@@ -68,9 +68,6 @@ list of fecundity objects (facultative).
    boolean identifying whether you wish to store matrices of growth and survival parameters - setting "TRUE" will only work if objects are based around lms, glms, or gls
   }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
   \item{LE}{matrix of life expectancies, columns correspond to
   meshpoints, rows corresponding to each element of the list of T matrices}
@@ -97,9 +94,6 @@ For midpoint: Zuidema, Jongejans, Chien, During, Schieving. 2010. Integral proje
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
-}
-\note{
-%%  ~~further notes~~
 }
 \seealso{
   \code{\link{getIPMoutputDirect}} 
@@ -157,7 +151,3 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 #	targetSize = 10, nBigMatrix = 20, minSize = -2, maxSize = 15, cov = FALSE, 
 #		fecObjList = fvlist[1:10], nsizeToAge = 5, sizeStart = -1)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

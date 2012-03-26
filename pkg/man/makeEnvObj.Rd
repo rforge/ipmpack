@@ -16,9 +16,6 @@ makeEnvObj(dataf)
     and `covariatel' indicating environmental covariate values at times t, and at t+1, respectively; these must take values of sequential integers, starting at`1'.
     }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
   an object of class envMatrix.
 }
@@ -30,9 +27,6 @@ Horvitz, Ehrlen & Matlaga. 2010. Context-dependent pollinator limitation in stoc
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -47,7 +41,3 @@ dff <- generateData()
 env <- makeEnvObj(dff)
 env
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

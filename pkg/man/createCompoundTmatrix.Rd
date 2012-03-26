@@ -75,9 +75,6 @@ Ellner and Rees. 2006. Integral projection models for species with complex demog
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
@@ -111,7 +108,3 @@ Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE),
 			survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), 
 				discreteTrans = discM)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

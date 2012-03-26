@@ -61,7 +61,3 @@ plot(growSurv(sizeInit, sizeRange, 1, gr1, sv1), type="l", col = "dark gray",
 		ylab = paste("Probability of survival to a specific size in t+1 from size ", 
 			sizeInit, " at time t"))
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

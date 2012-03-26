@@ -33,21 +33,12 @@ Currently this does not accept IPMs with discrete stages (e.g. seedbank).
  \item{n.new.dist0}{starting frequency distribution along meshpoints in IPMmatrix.}
  \item{n.new.dist}{final frequency distribution.}
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 
 # Define starting population of interest
@@ -71,7 +62,3 @@ IPM@.Data <- Tmatrix + Fmatrix
 a5 <- predictFutureDistribution(startingSizes = startPop, IPM = IPM,
 n.time.steps = 5, startingEnv = 1)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

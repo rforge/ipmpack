@@ -12,6 +12,7 @@ runSimpleModel(dataf, chosenSize, minSize = c(), maxSize = c(),
 nBigMatrix = 500, do.plot = TRUE, is.log = TRUE,  
 integrateType = "midpoint", correction="none")
 }
+
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{dataf}{
@@ -43,8 +44,6 @@ boolean describing whether continuous stage is on a log scale or not (for plotti
     correction type, defaults to "none"; option is "constant" which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for survival at that stage. 
   }
 }
-\details{
-}
 \value{
   \item{pTime}{
 	passage time to chosenSize from every size in the chosen discrete time step interval; estimation for sizes larger than the chosenSize should be discarded. 
@@ -63,27 +62,14 @@ boolean describing whether continuous stage is on a log scale or not (for plotti
   }
 
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
 \examples{
 dff <- generateData()
 a1<-runSimpleModel(dataf=dff, chosenSize=3,do.plot=TRUE)
 names(a1)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

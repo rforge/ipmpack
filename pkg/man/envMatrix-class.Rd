@@ -24,22 +24,12 @@ Class \code{"\linkS4class{array}"}, by class "matrix", distance 2.
 Class \code{"\linkS4class{structure}"}, by class "matrix", distance 3.
 Class \code{"\linkS4class{vector}"}, by class "matrix", distance 4, with explicit coerce.
 }
-\references{
-%%  ~~put references to the literature/web site here~~
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%%  ~~objects to See Also as \code{\link{~~fun~~}}, ~~~
-%%  ~~or \code{\linkS4class{CLASSNAME}} for links to other classes ~~~
-}
 \examples{
 showClass("envMatrix")
 }

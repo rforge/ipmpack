@@ -43,9 +43,6 @@ Diggle, P., P. Heagerty, K. Liang, and S. Zeger. 2004. Analysis of Longitudinal 
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
@@ -64,7 +61,3 @@ for (k in 1:length(svlist))
   points(1:20,surv(1:20,1,svlist[[k]]), type="l",col="grey")
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

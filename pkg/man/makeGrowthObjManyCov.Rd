@@ -34,15 +34,9 @@ makeGrowthObjManyCov(dataf,
   growth e.g., fitted using a gls)}
   
   }
-\details{
- 
-}
 \value{
 An object of class growthObjManyCov, or growthObjManyCovIncr, or growthObjManyCovLogIncr;
 or growthObjManyCovDeclineVar, or growthObjManyCovIncrDeclineVar, or growthObjManyCovLogIncrDeclineVar.
-}
-\references{
-%% ~put references to the literature/web site here ~
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
@@ -73,7 +67,3 @@ growth(1,1,data.frame(size=1,size2=1,covariate1=1),gr1)
 
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

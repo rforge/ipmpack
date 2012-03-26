@@ -27,22 +27,12 @@ Objects can be created by calls of the form \code{new("growthObjHossfeld", ...)}
     \item{growthCum}{\code{signature(size = "numeric", sizeNext = "numeric", h = "numeric", cov = "numeric", growthObj = "growthObjHossfeld")}: ... }
 	 }
 }
-\references{
-%%  ~~put references to the literature/web site here~~
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-%%  ~~objects to See Also as \code{\link{~~fun~~}}, ~~~
-%%  ~~or \code{\linkS4class{CLASSNAME}} for links to other classes ~~~
-}
 \examples{
 showClass("growthObjHossfeld")
 }

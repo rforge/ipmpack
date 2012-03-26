@@ -23,9 +23,6 @@ sizeToAge(Tmatrix, startingSize, targetSize)
     vector of size(s) for which first passage time is required.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
   \item{timeInYears}{Time taken to reach target sizes in unit of the time step of the model.}
   \item{targetSize}{Vector of target sizes.}
@@ -45,9 +42,6 @@ is small relative to the size range: Zuidema, Jongejans, Chien, During & Schievi
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
@@ -63,7 +57,3 @@ targetSize <- 8
 startingSize <- 0
 sizeToAge(Tmatrix, startingSize, targetSize)
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

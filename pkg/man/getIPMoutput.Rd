@@ -23,9 +23,6 @@ getIPMoutput(TmatrixList, targetSize = c(), FmatrixList = NULL)
     List of fecundity (F) matrices corresponding to the list of T matrices, facultative. When this information is included, population growth rate (lambda), and stable stage distribution will also be provided.
 }
 }
-\details{
-%%  ~~ If necessary, more details than the description above ~~
-}
 \value{
   \item{LE}{matrix of life expectancies, columns correspond to
   meshpoints, rows corresponding to each element of the list of T matrices}
@@ -46,9 +43,6 @@ Zuidema, Jongejans, Chien, During & Schieving. Integral projection models for tr
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -94,7 +88,3 @@ dff <- generateData()
 
 #hist(res$lambda, xlab = expression(lambda), ylab = "", main = "", col = "grey")
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

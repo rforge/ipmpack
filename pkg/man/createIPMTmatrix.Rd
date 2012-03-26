@@ -75,9 +75,6 @@ For information on T matrix: Caswell. 2001. Matrix population models: constructi
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
-\note{
-%%  ~~further notes~~
-}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
@@ -96,7 +93,3 @@ image(Tmatrix@meshpoints, Tmatrix@meshpoints, t(Tmatrix),
 	xlab = "Continuous (e.g. size) stage at t", 
 		ylab = "Continuous (e.g. size) stage at t+1")
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

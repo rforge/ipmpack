@@ -56,23 +56,14 @@ nBigMatrix, minSize, maxSize, nMicrosites, integrateType, correction)
   }
 
 }
-\details{
-
-}
 \value{
 \item{rc }{matrix of the numbers of individuals in each size and seed
   class (row) over time (columns).}
 \item{IPM.here}{IPM constructed corresponding to pop structure and
   covariates at tMax.}
 }
-\references{
-%% ~put references to the literature/web site here ~
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
-}
-\note{
-%%  ~~further notes~~
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -109,7 +100,3 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 #plotResultsStochStruct(tVals = tVals, st = st, covTest = covTest)
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

@@ -25,14 +25,8 @@ makeSurvObjManyCov(dataf,explanatoryVariables="size+size2+covariate1")
       `covariate1' `covariate2', etc.}
    }
 
-\details{
-
-}
 \value{
   An object of class survObjManyCov
-}
-\references{
-%% ~put references to the literature/web site here ~
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
@@ -56,7 +50,3 @@ dff$covariate1 <- sample(1:3,size=nrow(dff),replace=TRUE)
 sv1 <- makeSurvObjManyCov(dff, explanatoryVariables="size+covariate1")
 
 }
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line
