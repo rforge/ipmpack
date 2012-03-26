@@ -404,9 +404,9 @@ and glance at the objects, e.g.,
 <<>>= 
 gr1
 @ 
-From these data, to explore predicted demographic outcomes for the model, the user must decide on a time scale and length for investigation, and define it by a vector called `tVals', here set to reflect monthly intervals over $20$ years, with years as the time scale. With this, the user can then generate a time series that should look like the time series observed in the data. In the example below, covariates that vary seasonally were simulated, i.e., they fluctuates randomly around a sine wave which peaks once a year (`covTest'), and from this generate a matrix containing time as rows, and different covariates in columns.  
+From these data, to explore predicted demographic outcomes for the model, the user must decide on a time scale and length for investigation, and define it by a vector called `tVals', here set to reflect monthly intervals over $4$ years, with years as the time scale. With this, the user can then generate a time series that should look like the time series observed in the data. In the example below, covariates that vary seasonally were simulated, i.e., they fluctuates randomly around a sine wave which peaks once a year (`covTest'), and from this generate a matrix containing time as rows, and different covariates in columns.  
 <<>>= 
-tVals <- seq(1, 6, by = 1/12)
+tVals <- seq(1, 4, by = 1/12)
 covTest <- c(1 + 0.5*sin(2*pi*tVals))
 covMatTest <- data.frame(covariate1 = rnorm(length(covTest), covTest, 0.5) - 1, 
                          covariate2 = rnorm(length(covTest), covTest, 0.5) - 1, 
@@ -415,7 +415,7 @@ covMatTest <- data.frame(covariate1 = rnorm(length(covTest), covTest, 0.5) - 1,
 Note that  if there is no apparent temporal pattern to the data one could simply generate random normal distributions of the covariates using their observed
 mean and variance. Other types of temporal patterns (multiannual, etc) are also possible. With this setup, the user can then estimate the stochastic growth rate over these years, using the geometric mean of the population growth rate (Tuljapurkar $1990$; Childs et al. $2004$), for these particular covariates using:
 <<>>= 
-r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*2, 
+r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*1, 
                             tMax = length(tVals), growthObj = gr1, 
                             survObj = sv1, fecObj = fv1, nBigMatrix = 20, 
                             minSize = 2*min(dff$size, na.rm = TRUE), 
@@ -423,10 +423,10 @@ r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*2,
                             nMicrosites = 50, correction = "constant")
 print(r)
 @ 
-Setting nRunIn = $12*10$ in this example is equivalent to discarding the first $10$ years (likely to contain transients) since the chosen time step is months. Note that in this formula, it was assumed that density-dependence acts on seedling establishment, and that $50$ microsites are available for seedling establishment in every time step. Setting nMicrosites = $0$ allows for calculations without density-dependence, and nMicrosites can also be a vector, if the number of microsites fluctuates through time. It may also be interesting to have a glance at what has been happening to the population structure over this time-course:
+Setting nRunIn = $12*1$ in this example is equivalent to discarding the first $1$ years (likely to contain transients) since the chosen time step is months. Note that in this formula, it was assumed that density-dependence acts on seedling establishment, and that $50$ microsites are available for seedling establishment in every time step. Setting nMicrosites = $0$ allows for calculations without density-dependence, and nMicrosites can also be a vector, if the number of microsites fluctuates through time. It may also be interesting to have a glance at what has been happening to the population structure over this time-course:
 <<>>= 
 st <- trackPopStructManyCov(covariate = covMatTest, 
-                            nRunIn = 12*2, tMax = length(tVals), 
+                            nRunIn = 12*1, tMax = length(tVals), 
                             growthObj = gr1, 
                             survObj = sv1, fecObj = fv1, 
                             nBigMatrix = 20, 
