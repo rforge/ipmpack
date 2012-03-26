@@ -35,7 +35,7 @@ Zuidema, Jongejans, Chien, During & Schieving. 2010. Integral projection models 
 Rivas, Gonzalez, Gonzalez & von Gadow. 2004. Compatible height and site index models for five pine species in El Salto, Durango (Mexico). Forest Ecology and Management 201, p145-160.
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~

@@ -31,7 +31,7 @@ Ellner & Rees, 2006. Integral projection models for species with complex demogra
 
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 Note that the dataframe generated contains no covariates (either discrete or continuous) and so may be inappropriate for some functions, particularly those dealing with stochastic simulations. Refer to generateDataStoch() for more complex data sets.

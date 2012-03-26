@@ -34,7 +34,7 @@ de Kroon, Plaisier, van Groenendael & Caswell. 1986. Elasticity: the relative co
 de Kroon, van Groenendael & Ehrlen. 2000. Elasticities: a review of methods and model limitations. Ecology 81, p607-618.
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 Modified following code developed by Mark Rees & Dylan Childs

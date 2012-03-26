@@ -32,7 +32,7 @@ Sampling three times/year (nYrs = 0.333): Smith, Caswell & Mettler-Cherry. Stoch
 Sampling every five years (nYrs = 5): van Mantgem & Stepheson. 2005. The accuracy of matrix population model projections for coniferous trees in the Sierra Nevada, California. Journal of Ecology 93, p737-747.
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~

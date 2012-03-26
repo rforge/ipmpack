@@ -30,7 +30,7 @@ Caswell, 2001. Matrix population models: analysis, construction and
 interpretation. 2nd ed. Sinauer. p126.
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~

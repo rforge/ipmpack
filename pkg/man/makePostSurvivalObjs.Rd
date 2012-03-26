@@ -41,7 +41,7 @@ a list of survObjOverDisp survival objects, of length nitt; appropriate survival
 Diggle, P., P. Heagerty, K. Liang, and S. Zeger. 2004. Analysis of Longitudinal Data. 2nd edition. Oxford University Press.%% ~put references to the literature/web site here ~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
 %%  ~~further notes~~

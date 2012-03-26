@@ -59,7 +59,7 @@ makeListTmatrix(growObjList, survObjList, nBigMatrix,
 %% ~put references to the literature/web site here ~
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~

@@ -39,7 +39,7 @@ Tuljapurkar & Horvitz. 2006. From stage to age in variable
 environments. Life expectancy and survivorship. Ecology 87, p1497-1509.
 }
 \author{
-C. Jessica E. Metcalf, Sean McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 \note{
 %%  ~~further notes~~
