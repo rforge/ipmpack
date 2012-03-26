@@ -360,7 +360,7 @@ plot(Tmatrix@meshpoints, pTimes[1:Tmatrix@nBigMatrix],
 
 With a fertility object, the user can also define a full life cycle IPM model for this environment. With such an information, obtaining the stochastic population rate of increase $\lambda_s$ in this environment is relatively straight-forward. IPMpack does this by sampling a very large number of environments and corresponding IPMs, and multiplying them together (Childs et al. $2004$). At the moment, this is only defined for the case where environments (defined by the discrete covariates) are distributed independently (i.e. the next state does not depend on the previous state). To do this, the user must first define a list of IPMs (each the sum of a matrix of survival-growth transitions, and a matrix of fecundity transitions corresponding to a particular environment): 
 <<>>= 
-IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 50, minSize = -5, 
+IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 25, minSize = -5, 
                         maxSize = 35, explSurv = "size+covariate", 
                         explGrow = "size+size2+covariate", 
                         explFec = "size", Transform="log",correction = "constant")
@@ -373,10 +373,10 @@ number of environment types should in principle be greater than the
 two or three used here. Next, the user can estimate $\lambda_s$ using: 
 <<>>= 
 stochGrowthRateSampleList(listIPMmatrix = IPMlist, 
-                          nRunIn = 50, tMax = 100)
+                          nRunIn = 30, tMax = 50)
 @ 
 where {\tt nRunIn} defines the number of time steps to discard from the start of the time series in order to remove transient dynamics, and {\tt tMax} is the total
-number of time steps to run, and should be large enough that increasing it does not substantially change the result. 
+number of time steps to run, and should be large enough that increasing it does not substantially change the result (numbers presented here for efficiency are almost certaintly not large enough). 
 
 %Simply taking the eigenvalue of the sum to the compound $T$ and $F$ matrices will
 %provide a sligthly different result given Jensen's inequality. %%check
@@ -406,7 +406,7 @@ gr1
 @ 
 From these data, to explore predicted demographic outcomes for the model, the user must decide on a time scale and length for investigation, and define it by a vector called `tVals', here set to reflect monthly intervals over $20$ years, with years as the time scale. With this, the user can then generate a time series that should look like the time series observed in the data. In the example below, covariates that vary seasonally were simulated, i.e., they fluctuates randomly around a sine wave which peaks once a year (`covTest'), and from this generate a matrix containing time as rows, and different covariates in columns.  
 <<>>= 
-tVals <- seq(1, 14, by = 1/12)
+tVals <- seq(1, 6, by = 1/12)
 covTest <- c(1 + 0.5*sin(2*pi*tVals))
 covMatTest <- data.frame(covariate1 = rnorm(length(covTest), covTest, 0.5) - 1, 
                          covariate2 = rnorm(length(covTest), covTest, 0.5) - 1, 
@@ -415,24 +415,24 @@ covMatTest <- data.frame(covariate1 = rnorm(length(covTest), covTest, 0.5) - 1,
 Note that  if there is no apparent temporal pattern to the data one could simply generate random normal distributions of the covariates using their observed
 mean and variance. Other types of temporal patterns (multiannual, etc) are also possible. With this setup, the user can then estimate the stochastic growth rate over these years, using the geometric mean of the population growth rate (Tuljapurkar $1990$; Childs et al. $2004$), for these particular covariates using:
 <<>>= 
-r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*7, 
+r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*2, 
                             tMax = length(tVals), growthObj = gr1, 
-                            survObj = sv1, fecObj = fv1, nBigMatrix = 50, 
+                            survObj = sv1, fecObj = fv1, nBigMatrix = 20, 
                             minSize = 2*min(dff$size, na.rm = TRUE), 
                             maxSize = 1.5*max(dff$size, na.rm = TRUE), 
-                            nMicrosites = 100, correction = "constant")
+                            nMicrosites = 50, correction = "constant")
 print(r)
 @ 
-Setting nRunIn = $12*10$ in this example is equivalent to discarding the first $10$ years (likely to contain transients) since the chosen time step is months. Note that in this formula, it was assumed that density-dependence acts on seedling establishment, and that $100$ microsites are available for seedling establishment in every time step. Setting nMicrosites = $0$ allows for calculations without density-dependence, and nMicrosites can also be a vector, if the number of microsites fluctuates through time. It may also be interesting to have a glance at what has been happening to the population structure over this time-course:
+Setting nRunIn = $12*10$ in this example is equivalent to discarding the first $10$ years (likely to contain transients) since the chosen time step is months. Note that in this formula, it was assumed that density-dependence acts on seedling establishment, and that $50$ microsites are available for seedling establishment in every time step. Setting nMicrosites = $0$ allows for calculations without density-dependence, and nMicrosites can also be a vector, if the number of microsites fluctuates through time. It may also be interesting to have a glance at what has been happening to the population structure over this time-course:
 <<>>= 
 st <- trackPopStructManyCov(covariate = covMatTest, 
-                            nRunIn = 12*7, tMax = length(tVals), 
+                            nRunIn = 12*2, tMax = length(tVals), 
                             growthObj = gr1, 
                             survObj = sv1, fecObj = fv1, 
-                            nBigMatrix = 50, 
+                            nBigMatrix = 20, 
                             minSize = 2*min(dff$size, na.rm = TRUE), 
                             maxSize = 1.5*max(dff$size, na.rm = TRUE), 
-                            nMicrosites = 100, correction = "constant")
+                            nMicrosites = 50, correction = "constant")
 @ 
 IPMpack contains a dedicated function to depict this, {\tt plotResultsStochStruct}, Figure~\ref{fig:six} (p.~\pageref{fig:six}).
 @ 
@@ -466,7 +466,7 @@ fv1 <- makeFecObj(dataf = dff, Transform = "log",
 @
 In this example, 20 \% of seeds produced at $t$ end up in the continuous part of the population structure at $t+1$ (for example, they might directly recruit as rosettes from one year to the next) and 80 \% of seeds recruit into the "one year old seeds" stage. Although in this case no individuals are recruited at $t+1$ into the "dormant" or "old seeds" stages (since these will come from adult plants or the seed bank), they are included as {\tt offspringSplitter} is where IPMpack identifies all the existing discrete stages. The argument {\tt fecByDiscrete} reflects the fact that none of the discrete classes addressed in this example are likely to directly produce offspring (which may not always be the case). The resulting fecundity object can be used with {\tt createIPMFmatrix} in the usual way:
 <<>>= 
-Fmatrix <- createIPMFmatrix(fecObj = fv1, nBigMatrix = 50, 
+Fmatrix <- createIPMFmatrix(fecObj = fv1, nBigMatrix = 5, 
                             minSize = min(dff$size, na.rm = TRUE), 
                             maxSize = max(dff$size, na.rm = TRUE), 
                             correction = "constant")
