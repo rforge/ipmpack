@@ -423,29 +423,7 @@ r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*1,
                             nMicrosites = 50, correction = "constant")
 print(r)
 @ 
-Setting nRunIn = $12*1$ in this example is equivalent to discarding the first $1$ years (likely to contain transients) since the chosen time step is months. Note that in this formula, it was assumed that density-dependence acts on seedling establishment, and that $50$ microsites are available for seedling establishment in every time step. Setting nMicrosites = $0$ allows for calculations without density-dependence, and nMicrosites can also be a vector, if the number of microsites fluctuates through time. It may also be interesting to have a glance at what has been happening to the population structure over this time-course:
-<<>>= 
-st <- trackPopStructManyCov(covariate = covMatTest, 
-                            nRunIn = 12*1, tMax = length(tVals), 
-                            growthObj = gr1, 
-                            survObj = sv1, fecObj = fv1, 
-                            nBigMatrix = 20, 
-                            minSize = 2*min(dff$size, na.rm = TRUE), 
-                            maxSize = 1.5*max(dff$size, na.rm = TRUE), 
-                            nMicrosites = 50, correction = "constant")
-@ 
-IPMpack contains a dedicated function to depict this, {\tt plotResultsStochStruct}, Figure~\ref{fig:six} (p.~\pageref{fig:six}).
-@ 
-\begin{figure}
-\begin{center}
-<<label = fig6, fig = TRUE, echo = FALSE>>= 
-plotResultsStochStruct(tVals = tVals, st = st, covTest = covTest, log = "y")
-@
-\end{center}
-\caption{Population structure through time}
-\label{fig:six}
-\end{figure}
-
+Setting nRunIn = $12*1$ in this example is equivalent to discarding the first $1$ years (likely to contain transients) since the chosen time step is months. Note that in this formula, it was assumed that density-dependence acts on seedling establishment, and that $50$ microsites are available for seedling establishment in every time step. Setting nMicrosites = $0$ allows for calculations without density-dependence, and nMicrosites can also be a vector, if the number of microsites fluctuates through time. It may also be interesting to have a glance at what has been happening to the population structure over this time-course, and the function {\tt trackPopStructManyCov} allows this; IPMpack also contains a dedicated function to depict the results from this, {\tt plotResultsStochStruct}.
 
 \section{Incorporating discrete stages}
 Populations are often structured by both discrete and a continuous stages, for example, many plant populations may persist for many years in a seedbank as well as having size-determined fates after they germinate. IPMpack can incorporate this variability for complex life cycles (Ellner \& Rees $2006$). To illustrate this, the user must first generate data that includes both discrete and continuous life-history stages:
@@ -508,10 +486,10 @@ First, the user must generate data again, and from them, a list of survival and 
 dff <- generateData()
 grlist <- makePostGrowthObjs(dff, 
                              explanatoryVariables = "size", 
-                             burnin=20,nitt = 60)
+                             burnin=20,nitt = 40)
 svlist <- makePostSurvivalObjs(dff, 
                                explanatoryVariables = "size", 
-                               burnin=20,nitt = 60)
+                               burnin=20,nitt = 40)
 @ 
 Note that the data must not contain NAs. This function can also be used to set priors, etc. Note that the number of samples from the posterior used here {\tt nitt} is rather small, and larger numbers are advisable. With output from this, the user can make lists of the T matrices:
 <<>>= 
@@ -529,7 +507,7 @@ names(res)
 The vector called $\lambda$ and matrix called stableSize, etc, will consist of NAs, unless a list of Fmatrices is also provided, so that a complete population projection matrix can be built. IPMpack contains a similar function to obtain a list of F matrices, and if such a list is included as the third argument into the function {\tt getIPMOutput} (for which the default is `NULL'), the function will also return distributions of $\lambda$, the stable stage distribution, etc:  
 <<>>= 
 fv <- makePostFecObjs(dff, explanatoryVariables = "size+size2", fecConstants=0.01, 
-                      burnin=20,nitt = 60, Transform = "log")
+                      burnin=20,nitt = 40, Transform = "log")
 FmatrixList <- makeListFmatrix(fv, nBigMatrix = 20, minSize = -5, 
                                maxSize = 35, cov = FALSE,
                                correction = "constant")
