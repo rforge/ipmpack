@@ -177,7 +177,7 @@ row represents one measurement in the population:</p>
 					<p><br><br><br></p>
 					<p>Photo credits: <br><i>Xanthoparmelia</i> lichens by Ann Pringle<br>crocs by Owen Jones<br><i>Succisa pratensis</i> by Lidewij Keser
 					<p>Webdesign credits: <br>
-					Fernando Colchero of <a href="http://basta.r-forge.r-project.org/" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">BaSTa</a>
+					Fernando Colchero of <a href="http://basta.r-forge.r-project.org/" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">BaSTA</a>
                   </td>
                 </tr>
               </tbody>
