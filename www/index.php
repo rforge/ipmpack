@@ -79,6 +79,7 @@ $themeroot='http://r-forge.r-project.org/themes/rforge/';
                     <h1><b>IPMpack</b></h1>
                     <p style="font-size:16px;line-height:1.25"><b>Authors:</b><br><br>C. Jessica E. Metcalf <a href="mailto:charlotte.metcalf@zoo.ox.ac.uk" rel="nofollow" style="color:#84002E">charlotte.metcalf@zoo.ox.ac.uk</a><br>Sean M. McMahon <a href="mailto:mcmahons@si.edu" rel="nofollow" style="color:#84002E">mcmahons@si.edu</a><br>Roberto Salguero-Gómez <a href="mailto:salguero@demogr.mpg.de" rel="nofollow" style="color:#84002E">salguero@demogr.mpg.de</a><br>Eelke Jongejans <a href="mailto:e.jongejans@science.ru.nl" rel="nofollow" style="color:#84002E">e.jongejans@science.ru.nl</a><br></p>
                     <p style="font-size:16px;line-height:1.25;text-align:justify"><br><b>Developed at:</b><br><br><a href="http://www.demogr.mpg.de" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">Max Planck Institute for Demographic Research</a></p>
+                    <p style="font-size:16px;line-height:1.25;text-align:justify"><br><b>Resources:</b><br><br>Download the R package <a href="http://cran.r-project.org/web/packages/IPMpack/index.html" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">IPMpack</a><br>Subscribe to the <a href="http://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/ipmpack-users" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">users email-list</a></p>
                   </td>
                   <td width="50px"></td>
                 </tr>
