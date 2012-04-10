@@ -187,5 +187,7 @@ row represents one measurement in the population:</p>
         </tr>
       </tbody>
     </table>
+    <br><br><br><br><br><br><br><br><br><br><br>
+    <div id="clustrmaps-widget"></div><script type="text/javascript">var _clustrmaps = {'url' : 'http://ipmpack.r-forge.r-project.org/', 'user' : 1004170, 'server' : '3', 'id' : 'clustrmaps-widget', 'version' : 1, 'date' : '2012-04-10', 'lang' : 'en', 'corners' : 'square' };(function (){ var s = document.createElement('script'); s.type = 'text/javascript'; s.async = true; s.src = 'http://www3.clustrmaps.com/counter/map.js'; var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(s, x);})();</script><noscript><a href="http://www3.clustrmaps.com/user/f33f528a"><img src="http://www3.clustrmaps.com/stats/maps-no_clusters/ipmpack.r-forge.r-project.org--thumb.jpg" alt="Locations of visitors to this page" /></a></noscript>
   </body>
 </html>
