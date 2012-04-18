@@ -305,7 +305,7 @@ picGrow <- function(dataf,growObj) {
 	sizes <- dataf$size[!is.na(dataf$size)]; sizes <- sizes[order(sizes)]
 	
 	for (k in 1:length(ud)) { 
-		newd <- data.frame(size=sizes,size2=sizes^2,
+		newd <- data.frame(size=sizes,size2=sizes^2,size3=sizes^3,
 				covariate=as.factor(rep(ud[k],length(sizes))))
 					
 		if(length(grep("logsize",names(growObj@fit$coefficients)))==1)

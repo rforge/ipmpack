@@ -8,14 +8,16 @@
   Calculates the fraction of the cohort surviving across age for a chosen starting continuous stage value.
 }
 \usage{
-survivorship(IPMmatrix, size1, maxAge)
+survivorship(IPMmatrix, loc, maxAge)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{IPMmatrix}{
     an IPMmatrix object describing growth and survival transitions across stage (e.g. size) and environment.
-  }  \item{size1}{
-    a starting size for age 1.
+  }  \item{loc}{
+    a starting size location in the IPM matrix for age 1 (i.e., either the index
+    of the desired size in the meshpoints, or, if there are discrete stages, the index 
+    + the number of discrete stages)
   }
   \item{maxAge}{
     the maximum age up to which survivorship is desired for or possible.

@@ -54,12 +54,14 @@ n(y, t+1) = \int\limits_{L}^{U} K(y, x) n(x, t) dx = \int\limits_{L}^{U}
 [T(y, ) + F(y, x)] n(x, t) dx
 \end{equation}
 
+where
+
 \begin{equation}
-n(y, t+1) = \int\limits_{L}^{U} T(y, x) n(x, t) dx = \int\limits_{L}^{U}surv(x)growth(y, x)dx    
+ \int\limits_{L}^{U} T(y, x) n(x, t) dx = \int\limits_{L}^{U}surv(x)growth(y, x)dx    
 \end{equation}
 
 \begin{equation}
-n(y, t+1) = \int\limits_{L}^{U} F(y, x) n(x, t) dx = \int\limits_{L}^{U}
+ \int\limits_{L}^{U} F(y, x) n(x, t) dx = \int\limits_{L}^{U}
 c_1 c_2 c_3 ... fec1(x)fec2(x)fec3(x)...f_d(y, x)dx     
 \end{equation}
 After numerically solving these kernels, key ecological and evolutionary quantities such as the population rate of increase $\lambda$, the stable population size structure, the net reproductive rate $R_0$, and many others can be estimated (see Caswell $2001$ for more a comprehensive discussion). 

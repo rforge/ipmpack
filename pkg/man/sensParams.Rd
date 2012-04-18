@@ -10,7 +10,7 @@
 }
 \usage{
 sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
-integrateType, correction)
+discreteTrans,integrateType, correction)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,6 +31,9 @@ integrateType, correction)
   }
   \item{maxSize}{
     numeric, maximum size used for meshpoints of the T matrix.
+  }
+  \item{discreteTrans}{
+	matrix of discrete transitions
   }
   \item{integrateType}{
     integration type.

@@ -1210,8 +1210,23 @@ createCompoundFmatrix <- function(nEnvClass = 2,
 #            - do you want to implement the corrections for integration? 
 # Returns - 
 #
-diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midpoint", correction="none") {
 
+# For a single Tmatrix (!not compound and no discrete stages!), this functions makes a series
+# of diagnostic plots - this is defined for growthObj,
+# growthObjIncr - modification required
+# if other objects used
+#
+# Parameters - the Tmatrix
+#            - growObj - growth object used to build it
+#            - survObj - survival object used to build it
+#            - dff - the data from which it was built
+#            - integrateType - "midpoint", or "cumul" - should
+#                 correspond to what the IPM was built with
+#            - do you want to implement the corrections for integration? 
+# Returns - 
+#
+diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midpoint", correction="none") {
+	
 	
 	#Print the range of the Tmatrix (should be on 0-1)
 	print("Range of Tmatrix is "); print(range(c(Tmatrix)))
@@ -1254,86 +1269,87 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 	loctest <- floor(quantile(1:Tmatrix@nBigMatrix,c(0.25,0.5,0.75)))
 	h <- diff(Tmatrix@meshpoints)[1]
 	testSizes <- seq(min(Tmatrix@meshpoints),max(Tmatrix@meshpoints),length=5000)
+	
+	for (j in 1:3) {
+		#prob survive
+		ps <- surv(Tmatrix@meshpoints[loctest[j]],Tmatrix@env.index[1],survObj)
 		
-		for (j in 1:3) {
-			#prob survive
-			ps <- surv(Tmatrix@meshpoints[loctest[j]],Tmatrix@env.index[1],survObj)
-			
-			#set up for prediction
-			newd <- data.frame(size=Tmatrix@meshpoints[loctest[j]],
+		#set up for prediction
+		newd <- data.frame(size=Tmatrix@meshpoints[loctest[j]],
 				size2=Tmatrix@meshpoints[loctest[j]]^2,
 				covariate=Tmatrix@env.index[1])
-			if(length(grep("logsize",names(growObj@fit$coefficients))))
-				newd$logsize=log(Tmatrix@meshpoints[loctest[j]])
-			
-			if (length(growObj@fit$model$covariate)>0)
-				if (is.factor(growObj@fit$model$covariate))
-					newd$covariate <- as.factor(newd$covariate)
-			
-			#predict mean
-			if (length(grep("decline",tolower(as.character(class(growObj)))))>0 | 
-					length(grep("trunc",tolower(as.character(class(growObj)))))>0) { 
-				mux <- .predictMuX(growObj,newd)
-			} else  {
-				mux <- predict(growObj@fit,newd,type="response"); #print("yes")	
-			}
-			
-			#add to size if it is a incr object, taking exp if appropirate
-			if (length(grep("incr",tolower(as.character(class(growObj)))))>0 & 
-					length(grep("logincr",tolower(as.character(class(growObj)))))==0) {
-				mux <- Tmatrix@meshpoints[loctest[j]]+mux; #print("no")
-			}
-			
-			#define variance 
-			if (length(grep("decline",tolower(as.character(class(growObj)))))==0 & 
-					length(grep("trunc",tolower(as.character(class(growObj)))))==0) { 
-				sigmax2 <- summary(growObj@fit)$sigma^2 
-			} else { 
-				sigmax2 <- growObj@fit$sigmax2
-				var.exp.coef<-growObj@fit$var.exp.coef
-				sigmax2<-sigmax2*exp(2*(var.exp.coef*mux))
-				#overwrite with simpler for trunc
-				if (length(grep("trunc",tolower(as.character(class(growObj)))))>0) sigmax2 <- growObj@fit$sigmax2
-			} 
-			
-			
-			#plot template
-			plot(Tmatrix@meshpoints,Tmatrix@.Data[,loctest[j]]/h/ps, type="n",
-					xlim=range(Tmatrix@meshpoints[loctest[j]]+
-									c(-3.5*sqrt(sigmax2),+3.5*sqrt(sigmax2))),
-					xlab="Size next", ylab="pdf")
-			if (j==1) title("Numerical resolution and growth")
-			for (k in 1:length(Tmatrix@meshpoints)) {
-				points(c(Tmatrix@meshpoints[k])+c(-h/2,h/2),
-						rep(Tmatrix@.Data[k,loctest[j]],2)/h/ps,type="l")
-				points(rep(Tmatrix@meshpoints[k]+h/2,2),c(0,Tmatrix@.Data[k,loctest[j]]/h/ps),type="l",lty=1)
-				points(rep(Tmatrix@meshpoints[k]-h/2,2),c(0,Tmatrix@.Data[k,loctest[j]]/h/ps),type="l",lty=1)
-			}
-			#plot using mean 
-			if (length(grep("logincr",tolower(as.character(class(growObj)))))==0 & 
-					length(grep("trunc",tolower(as.character(class(growObj)))))==0) {
-					points(testSizes,dnorm(testSizes,mux,sqrt(sigmax2)),type="l",col=2) 
-				} else { 
-				 	if (length(grep("trunc",tolower(as.character(class(growObj)))))>0) { 
-						#print("here"); print(mux); print(Tmatrix@meshpoints[loctest[j]])
-						require(truncnorm)
-						points(testSizes,dtruncnorm(testSizes,
-										a=Tmatrix@meshpoints[loctest[j]],b=Inf,
-										mean=mux,sd=sqrt(sigmax2)),type="l",col=2)
-			
-				} else {
+		if(length(grep("logsize",names(growObj@fit$coefficients))))
+			newd$logsize=log(Tmatrix@meshpoints[loctest[j]])
+		
+		if (length(growObj@fit$model$covariate)>0)
+			if (is.factor(growObj@fit$model$covariate))
+				newd$covariate <- as.factor(newd$covariate)
+		
+		#predict mean
+		if (length(grep("decline",tolower(as.character(class(growObj)))))>0 | 
+				length(grep("trunc",tolower(as.character(class(growObj)))))>0) { 
+			mux <- .predictMuX(growObj,newd)
+		} else  {
+			mux <- predict(growObj@fit,newd,type="response"); #print("yes")	
+		}
+		
+		#add to size if it is a incr object, taking exp if appropirate
+		if (length(grep("incr",tolower(as.character(class(growObj)))))>0 & 
+				length(grep("logincr",tolower(as.character(class(growObj)))))==0) {
+			mux <- Tmatrix@meshpoints[loctest[j]]+mux; #print("no")
+		}
+		
+		#define variance 
+		if (length(grep("decline",tolower(as.character(class(growObj)))))==0 & 
+				length(grep("trunc",tolower(as.character(class(growObj)))))==0) { 
+			sigmax2 <- summary(growObj@fit)$sigma^2 
+		} else { 
+			sigmax2 <- growObj@fit$sigmax2
+			var.exp.coef<-growObj@fit$var.exp.coef
+			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux))
+			#overwrite with simpler for trunc
+			if (length(grep("trunc",tolower(as.character(class(growObj)))))>0) sigmax2 <- growObj@fit$sigmax2
+		} 
+		
+		
+		#plot template
+		plot(Tmatrix@meshpoints,Tmatrix@.Data[,loctest[j]]/h/ps, type="n",
+				xlim=range(Tmatrix@meshpoints[loctest[j]]+
+								c(-3.5*sqrt(sigmax2),+3.5*sqrt(sigmax2))),
+				xlab="Size next", ylab="pdf")
+		if (j==1) title("Numerical resolution and growth")
+		for (k in 1:length(Tmatrix@meshpoints)) {
+			points(c(Tmatrix@meshpoints[k])+c(-h/2,h/2),
+					rep(Tmatrix@.Data[k,loctest[j]],2)/h/ps,type="l")
+			points(rep(Tmatrix@meshpoints[k]+h/2,2),c(0,Tmatrix@.Data[k,loctest[j]]/h/ps),type="l",lty=1)
+			points(rep(Tmatrix@meshpoints[k]-h/2,2),c(0,Tmatrix@.Data[k,loctest[j]]/h/ps),type="l",lty=1)
+		}
+		#plot using mean 
+		if (length(grep("logincr",tolower(as.character(class(growObj)))))==0 & 
+				length(grep("trunc",tolower(as.character(class(growObj)))))==0) {
+			points(testSizes,dnorm(testSizes,mux,sqrt(sigmax2)),type="l",col=2) 
+		} else { 
+			if (length(grep("trunc",tolower(as.character(class(growObj)))))>0) { 
+				#print("here"); print(mux); print(Tmatrix@meshpoints[loctest[j]])
+				require(truncnorm)
+				points(testSizes,dtruncnorm(testSizes,
+								a=Tmatrix@meshpoints[loctest[j]],b=Inf,
+								mean=mux,sd=sqrt(sigmax2)),type="l",col=2)
+				
+			} else {
 				points(testSizes,dlnorm(testSizes-Tmatrix@meshpoints[loctest[j]],mux,
 								sqrt(sigmax2)),type="l",col=2)
 			}}
 		
-			if (j==1) legend("topright", legend=c("Small"),col="white",lty=1,bty="n")
-			if (j==2) legend("topright", legend=c("Medium"),col="white",lty=1,bty="n")
-			if (j==3) legend("topright", legend=c("Large"),col="white",lty=1,bty="n")
-			
-		}
-	
+		if (j==1) legend("topright", legend=c("Small"),col="white",lty=1,bty="n")
+		if (j==2) legend("topright", legend=c("Medium"),col="white",lty=1,bty="n")
+		if (j==3) legend("topright", legend=c("Large"),col="white",lty=1,bty="n")
 		
+	}
+	
+	
 }
+
 
 
 
@@ -1376,8 +1392,8 @@ varLifeExpect <- function(IPMmatrix){
 
 
 
-
-
+		
+		
 #Generic for survivorship
 #parameters - IPMmatrix - an IPM
 #           - size1 - a size at age 1
@@ -1385,10 +1401,10 @@ varLifeExpect <- function(IPMmatrix){
 # returns - a list including the survivorship up to the max age,
 #                      this broken down by stage,
 #                       and mortality over age 
-
-## WON'T WORK WITH DISCRETE STAGES AS IS!!
-
-survivorship <- function(IPMmatrix, size1, maxAge=300){
+		
+		### xxj - need to change help file for this to clarify that takes location now
+		
+survivorship <- function(IPMmatrix, loc, maxAge=300){
 			nBigMatrix <- length(IPMmatrix@.Data[1,])
 			#n <- IPMmatrix@nEnvClass*nBigMatrix
 			n <- nBigMatrix
@@ -1396,8 +1412,8 @@ survivorship <- function(IPMmatrix, size1, maxAge=300){
 			stage.agesurv <- matrix(NA,n,maxAge)
 			surv.curv <- rep (NA,maxAge)
 			
-			#identify the starting size you want to track
-			loc <- which(abs(size1-IPMmatrix@meshpoints)==min(abs(size1-IPMmatrix@meshpoints)),arr.ind=T)
+			#identify the starting size you want to track - removed - specify bin directly
+			#loc <- which(abs(size1-IPMmatrix@meshpoints)==min(abs(size1-IPMmatrix@meshpoints)),arr.ind=T)[1]
 			popvec <- matrix(0,n,1)
 			popvec[loc,1] <- 1
 			
@@ -1411,9 +1427,9 @@ survivorship <- function(IPMmatrix, size1, maxAge=300){
 			
 			return(list(surv.curv=surv.curv,stage.agesurv=stage.agesurv, mortality = mortality))
 		}
-
-
-
+		
+		
+		
 
 
 #Generic for first passage time 
@@ -1834,6 +1850,7 @@ largeMatrixCalc <- function(Tmatrix, Fmatrix, tol = 1.e-8){
 
 sensParams <- function(growObj,survObj,fecObj,
 		nBigMatrix,minSize,maxSize,
+		discreteTrans =1,
 		integrateType="midpoint",
 		correction="none") { 
 	
@@ -1844,9 +1861,9 @@ sensParams <- function(growObj,survObj,fecObj,
 	fec.coeff.names <- c()
 	for (i in 1:length(fecObj@fitFec)){
 		nfec <- nfec + length(fecObj@fitFec[[i]]$coefficients)	
-	    fec.coeff.names <- c(fec.coeff.names,
+		fec.coeff.names <- c(fec.coeff.names,
 				paste("reprod",i,names(fecObj@fitFec[[i]]$coefficients)))
-	
+		
 	}
 	
 	#print(fec.coeff.names)	
@@ -1856,7 +1873,7 @@ sensParams <- function(growObj,survObj,fecObj,
 			length(survObj@fit$coeff)+
 			(sum(!is.na(fecObj@fecConstants)))+nfec	
 	#print(npar)
-		
+	
 	# create a named vector to hold them 
 	elam <- rep(0,npar);
 	if ((sum(!is.na(fecObj@fecConstants)))>0) { 
@@ -1874,7 +1891,8 @@ sensParams <- function(growObj,survObj,fecObj,
 	
 	# build the IPM and get the lamdba value
 	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-			growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
+			growObj=growObj,survObj=survObj, discreteTrans=discreteTrans,
+			integrateType=integrateType, correction=correction)
 	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 			fecObj=fecObj,integrateType=integrateType, correction=correction)
 	IPM <- Tmatrix+Fmatrix
@@ -1886,7 +1904,8 @@ sensParams <- function(growObj,survObj,fecObj,
 	for (param.test in 1:length(growObj@fit$coeff)){
 		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test]*(1+delta);
 		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
+				growObj=growObj,survObj=survObj, discreteTrans=discreteTrans,
+				integrateType=integrateType, correction=correction)
 		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				fecObj=fecObj, integrateType=integrateType, correction=correction)
 		IPM <- Tmatrix+Fmatrix
@@ -1900,7 +1919,8 @@ sensParams <- function(growObj,survObj,fecObj,
 	resids <- growObj@fit$residuals
 	growObj@fit$residuals <- rnorm(length(growObj@fit$residuals),0,sd(growObj@fit$residuals)*(1+delta))
 	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-			growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
+			growObj=growObj,survObj=survObj, discreteTrans=discreteTrans,
+			integrateType=integrateType, correction=correction)
 	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 			fecObj=fecObj, integrateType=integrateType, correction=correction)
 	IPM <- Tmatrix + Fmatrix
@@ -1918,7 +1938,8 @@ sensParams <- function(growObj,survObj,fecObj,
 	for (param.test in 1:length(survObj@fit$coeff)){
 		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test]*(1+delta);
 		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
+				growObj=growObj,survObj=survObj, discreteTrans=discreteTrans,
+				integrateType=integrateType, correction=correction)
 		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 				fecObj=fecObj,integrateType=integrateType, correction=correction)
 		IPM <- Tmatrix+Fmatrix
@@ -1940,7 +1961,8 @@ sensParams <- function(growObj,survObj,fecObj,
 		for (param.test in 1:length(chs)) {
 			fecObj@fecConstants[chs[param.test]] <- fecObj@fecConstants[chs[param.test]]*(1+delta);
 			Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-					growObj=growObj,survObj=survObj, integrateType=integrateType, correction=correction)
+					growObj=growObj,survObj=survObj, discreteTrans=discreteTrans,
+					integrateType=integrateType, correction=correction)
 			Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 					fecObj=fecObj,integrateType=integrateType, correction=correction)
 			IPM <- Tmatrix+Fmatrix
@@ -1959,21 +1981,21 @@ sensParams <- function(growObj,survObj,fecObj,
 	count <-  param.test + count;
 	for (i in 1:length(fecObj@fitFec)){
 		#print(i)
-	for (param.test in 1:length(fecObj@fitFec[[i]]$coefficients)){
-		#print(param.test)
-		fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]*(1+delta);
-		#print(fecObj@fitFec[[i]]$coefficients)
-		#print(cpar)
-		Fmatrix1 <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				fecObj=fecObj,integrateType=integrateType, correction=correction)
-				
-		IPM <- Tmatrix+Fmatrix1
-		lambda2 <- Re(eigen(IPM)$value[1]);#print(lambda2)
-		fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]/(1+delta);
-		slam[param.test+count]<-(lambda2-lambda1)/(fecObj@fitFec[[i]]$coefficients[param.test]*delta);
-		elam[param.test+count]<-(lambda2-lambda1)/(log(1+delta));		
-	}
-	count <- count + param.test;
+		for (param.test in 1:length(fecObj@fitFec[[i]]$coefficients)){
+			#print(param.test)
+			fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]*(1+delta);
+			#print(fecObj@fitFec[[i]]$coefficients)
+			#print(cpar)
+			Fmatrix1 <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
+					fecObj=fecObj,integrateType=integrateType, correction=correction)
+			
+			IPM <- Tmatrix+Fmatrix1
+			lambda2 <- Re(eigen(IPM)$value[1]);#print(lambda2)
+			fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]/(1+delta);
+			slam[param.test+count]<-(lambda2-lambda1)/(fecObj@fitFec[[i]]$coefficients[param.test]*delta);
+			elam[param.test+count]<-(lambda2-lambda1)/(log(1+delta));		
+		}
+		count <- count + param.test;
 	}	
 	
 	#print("after fec ")
