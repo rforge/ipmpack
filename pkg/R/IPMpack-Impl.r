@@ -378,7 +378,7 @@ makeSurvObjManyCov <- function(dataf,
 # 3. fecundity models  #######################################################################################################
 
 makeFecObj <- function(dataf,
-		fecConstants=as.numeric(NA),
+		fecConstants=data.frame(NA),
 		explanatoryVariables="size",
 		Family="gaussian",
 		Transform="none",
@@ -386,6 +386,7 @@ makeFecObj <- function(dataf,
 		meanOffspringSize=NA,
 		varOffspringSize=NA,
 		offspringSplitter=data.frame(continuous=1),
+		offspringTypeRates=data.frame(NA),
 		fecByDiscrete=data.frame(NA)){
 	
 	#order stage names from discrete to continuous
@@ -463,10 +464,22 @@ makeFecObj <- function(dataf,
 		offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
 		meanOffspringSize <- mean(offspringdata$sizeNext)
 		varOffspringSize <- var(offspringdata$sizeNext) }
+	
+	if (sum(dim(offspringTypeRates)==c(1,1))<2) {
+		if ((sum(offspringTypeRates==0,na.rm=T)+sum(offspringTypeRates==1,na.rm=T))<(ncol(offspringTypeRates)*nrow(offspringTypeRates))) stop("Error - in offspringTypeRates data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
+		if (sum(names(offspringTypeRates)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in offspringTypeRates should match those in offspringSplitter - and in the same order, with continuous last")
+		if (sum(rownames(offspringTypeRates)==c(fecNames,names(fecConstants)))<(length(fecNames)+length(fecConstants))) stop ("Error - the row names in offspringTypeRates should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
+	} else {
+		offspringTypeRates <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(fecNames)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
+		names(offspringTypeRates) <- names(offspringSplitter)
+	}
+	
+	f1@fecNames <- fecNames
 	f1@fecConstants <- fecConstants
 	f1@meanOffspringSize <- meanOffspringSize
 	f1@varOffspringSize <- varOffspringSize
 	f1@offspringSplitter <- offspringSplitter 
+	f1@offspringTypeRates <- offspringTypeRates 
 	f1@fecByDiscrete <- fecByDiscrete
 	f1@Transform <- Transform
 	return(f1)

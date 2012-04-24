@@ -134,22 +134,26 @@ setClass("survObjOverDisp",
 # Create a generic fecundity object
 setClass("fecObj",
 		representation(fitFec = "list",
-				fecConstants = "numeric",
+				fecNames = "character",
+				fecConstants = "data.frame",
 				offspringSplitter = "data.frame",
 				meanOffspringSize = "numeric",
 				varOffspringSize = "numeric",
 				fecByDiscrete = "data.frame",
+				offspringTypeRates = "data.frame",
 				Transform = "character")
 )
 
 # Create a generic fecundity object for multiple covariates
 setClass("fecObjMultiCov",
 		representation(fitFec = "list",
-				fecConstants = "numeric",
+				fecNames = "character",
+				fecConstants = "data.frame",
 				offspringSplitter = "data.frame",
 				meanOffspringSize = "numeric",
 				varOffspringSize = "numeric",
 				fecByDiscrete = "data.frame",
+				offspringTypeRates = "data.frame",
 				Transform = "character")
 )
 
@@ -1037,21 +1041,17 @@ createIPMFmatrix <- function(fecObj,
 	
 	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1
 	
-	fecValues <- matrix(c(rep(1,length(fecObj@fitFec)),fecObj@fecConstants),
+	#fecundity rates
+	fecValues <- matrix(c(rep(1,length(fecObj@fitFec)),unlist(fecObj@fecConstants)),
 			ncol=nBigMatrix,nrow=length(fecObj@fitFec)+
 					length(fecObj@fecConstants))
-	
-	#print(fecValues)
-	
+	#rownames(fecValues) <- c(fecObj@fecNames,names(fecObj@fecConstants))
 	for (i in 1:length(fecObj@fitFec)) fecValues[i,] <- predict(fecObj@fitFec[[i]],newd,type="response")
-	
-	#Transforms
 	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fecValues[i,]<-exp(fecValues[i,])
 	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fecValues[i,]<-(fecValues[i,])^2
 	if (length(grep("-1",fecObj@Transform))>0) for (i in grep("-1",fecObj@Transform)) fecValues[i,]<-fecValues[i,]+1
-	fecValues[!is.finite(fecValues)] <- exp(200)
-	prodFecValues<-apply(fecValues,2,prod)
-	
+	#fecValues[!is.finite(fecValues)] <- exp(200)
+	prodFecValues <- apply(fecValues[which(offspringTypeRates[,"continuous"]==1),],2,prod)*unlist(fecObj@offspringSplitter["continuous"])
 	#Kids normal dist
 	tmp<-dnorm(y,fecObj@meanOffspringSize,sqrt(fecObj@varOffspringSize))*h
 	if (integrateType=="cumul") { 
@@ -1059,24 +1059,26 @@ createIPMFmatrix <- function(fecObj,
 		tmp <- tmp1[2:(nBigMatrix+1)]-tmp1[1:nBigMatrix]
 	}
 	if (correction=="constant") tmp<-tmp/sum(tmp)
-	to.cont<-tmp%*%t(as.numeric(fecObj@offspringSplitter["continuous"])*prodFecValues)
+	to.cont<-tmp%*%t(prodFecValues)
 	get.matrix <- to.cont
-	nDisc <- length(fecObj@offspringSplitter)-1
 	
+	#discrete classes
+	nDisc <- length(fecObj@offspringSplitter)-1
 	namesDiscrete <- "NA"
 	if (nDisc>0) {
 		namesDiscrete <- colnames(fecObj@offspringSplitter[1:nDisc])
-		
-		to.discrete <- as.numeric(fecObj@offspringSplitter)[1:nDisc]%*%t(prodFecValues)
+		to.discrete <- matrix(NA,nrow=nDisc,ncol=nBigMatrix)
+		for (i in 1:nDisc) to.discrete[i,] <- apply(fecValues[which(offspringTypeRates[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
 		
 		from.discrete <- matrix(0,ncol=nDisc,nrow=nDisc+nBigMatrix)
 		if (names(fecObj@fecByDiscrete)[1]!="NA.") {
 			if (sum(names(fecObj@fecByDiscrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fecByDiscrete are not 100% the same discrete class names in your data.frame offspringSplitter. They should also be in alphabetical order.")
-			from.discrete <- c(as.numeric(fecObj@offspringSplitter)[1:nDisc],as.numeric(fecObj@offspringSplitter)[nDisc+1]*tmp)%*%as.matrix(fecObj@fecByDiscrete)
+			from.discrete <- c(as.numeric(fecObj@offspringSplitter)[1:nDisc],as.numeric(fecObj@offspringSplitter)["continuous"]*tmp)%*%as.matrix(fecObj@fecByDiscrete)
 		}
 		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
 	}
 	
+
 	#warning about negative numbers
 	if (min(get.matrix)<0) { 
 		print("Warning: fertility values < 0 exist in matrix, consider transforms. Negative values set to zero") 
