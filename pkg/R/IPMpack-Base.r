@@ -1868,7 +1868,6 @@ sensParams <- function(growObj,survObj,fecObj,
 		
 	}
 	
-	#print(fec.coeff.names)	
 	
 	# define numbers of parameters
 	npar <- length(growObj@fit$coeff)+1+  #one extra for variance
