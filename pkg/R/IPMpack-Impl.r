@@ -591,44 +591,44 @@ makeDiscreteTrans <- function(dataf) {
 	#define the number of classes
 	nclasses <- length(stages)
 	#define matrices to hold the transition between all classes
-	discrete.trans <- matrix(0,nrow=nclasses,ncol=nclasses, dimnames=list(stages,stages))
+	discreteTrans <- matrix(0,nrow=nclasses,ncol=nclasses, dimnames=list(stages,stages))
 	#define matrix to hold sd and mean of re-entry into continous + matrix of  survival for all discrete stages
-	sd.to.cont <- mean.to.cont <- discrete.surv <- matrix(NA,nrow=1,ncol=nclasses-1,dimnames=list(1,stages[1:length(stages)-1]))
+	sdToCont <- meanToCont <- discreteSurv <- matrix(NA,nrow=1,ncol=nclasses-1,dimnames=list(1,stages[1:length(stages)-1]))
 	# define matrix to hold transitions from the continuous to the discrete
-	distrib.to.discrete <- matrix(NA,ncol=1,nrow=nclasses-1,dimnames=list(stages[1:length(stages)-1],"continuous"))
+	distribToDiscrete <- matrix(NA,ncol=1,nrow=nclasses-1,dimnames=list(stages[1:length(stages)-1],"continuous"))
 	
 	#loop over discrete stages and fill 
 	for (j in stages[1:(length(stages)-1)]) {
-		for (i in stages) discrete.trans[i,j] <- sum(dataf[dataf$stage==j & dataf$stageNext==i,]$number,na.rm=TRUE)
-		discrete.surv[,j] <- sum(discrete.trans[,j],na.rm=T) / sum(dataf[dataf$stage == j,]$number, na.rm = TRUE)
-		discrete.trans[,j] <- discrete.trans[,j] / sum(discrete.trans[,j], na.rm = TRUE)
-		mean.to.cont[,j] <- mean(dataf[dataf$stage == j & dataf$stageNext == i,]$sizeNext, na.rm = TRUE)
-		sd.to.cont[,j] <- sd(dataf[dataf$stage == j & dataf$stageNext == i, ]$sizeNext,na.rm = TRUE)
+		for (i in stages) discreteTrans[i,j] <- sum(dataf[dataf$stage==j & dataf$stageNext==i,]$number,na.rm=TRUE)
+		discreteSurv[,j] <- sum(discreteTrans[,j],na.rm=T) / sum(dataf[dataf$stage == j,]$number, na.rm = TRUE)
+		discreteTrans[,j] <- discreteTrans[,j] / sum(discreteTrans[,j], na.rm = TRUE)
+		meanToCont[,j] <- mean(dataf[dataf$stage == j & dataf$stageNext == i,]$sizeNext, na.rm = TRUE)
+		sdToCont[,j] <- sd(dataf[dataf$stage == j & dataf$stageNext == i, ]$sizeNext,na.rm = TRUE)
 	}
 	
 	for (i in stages[1:(length(stages) - 1)])
-		distrib.to.discrete[i,] <- sum(dataf[dataf$stage == "continuous" & dataf$stageNext == i,]$number, na.rm = TRUE)
-	distrib.to.discrete <- distrib.to.discrete/sum(distrib.to.discrete,na.rm=TRUE)
+		distribToDiscrete[i,] <- sum(dataf[dataf$stage == "continuous" & dataf$stageNext == i,]$number, na.rm = TRUE)
+	distribToDiscrete <- distribToDiscrete/sum(distribToDiscrete,na.rm=TRUE)
 	
 	
 	subdata <- subset(dataf, dataf$stage == "continuous" & dataf$surv == 1)
 	subdata$cont.to.discrete <- 1
 	subdata$cont.to.discrete[subdata$stageNext == "continuous"] <- 0
 	subdata$size2 <- subdata$size ^ 2
-	surv.to.discrete <- glm(cont.to.discrete ~ size + size2, family = binomial, data = subdata)
+	survToDiscrete <- glm(cont.to.discrete ~ size + size2, family = binomial, data = subdata)
 			
-	rownames(discrete.trans) <- stages	
-	colnames(discrete.trans) <- stages	
+	rownames(discreteTrans) <- stages	
+	colnames(discreteTrans) <- stages	
 	
 	#define new object
 	disTrans <- new("discreteTrans")
 	disTrans@nclasses <- nclasses
-	disTrans@discrete.trans <- discrete.trans
-	disTrans@discrete.surv <- discrete.surv
-	disTrans@mean.to.cont <- mean.to.cont
-	disTrans@sd.to.cont <- sd.to.cont
-	disTrans@distrib.to.discrete <- distrib.to.discrete
-	disTrans@surv.to.discrete <- surv.to.discrete
+	disTrans@discreteTrans <- discreteTrans
+	disTrans@discreteSurv <- discreteSurv
+	disTrans@meanToCont <- meanToCont
+	disTrans@sdToCont <- sdToCont
+	disTrans@distribToDiscrete <- distribToDiscrete
+	disTrans@survToDiscrete <- survToDiscrete
 	
 	return(disTrans)
 	

@@ -162,13 +162,13 @@ setClass("fecObjMultiCov",
 ## DISCRETE TRANSITION MATRIX OBJECTS ##
 # Create a generic discrete transition matrix object
 setClass("discreteTrans",
-		representation(nclasses="numeric",
-				discrete.trans="matrix",
-				discrete.surv="matrix",
-				mean.to.cont="matrix",
-				sd.to.cont="matrix",
-				distrib.to.discrete="matrix",
-				surv.to.discrete="glm"))
+		representation(nclasses = "numeric",
+				discreteTrans = "matrix",
+				discreteSurv = "matrix",
+				meanToCont = "matrix",
+				sdToCont = "matrix",
+				distribToDiscrete = "matrix",
+				survToDiscrete = "glm"))
 
 
 
@@ -821,18 +821,18 @@ createIPMTmatrix <- function(nEnvClass = 1,
 	# In case of discrete classes, take the IPM constructed above and add discrete classes defined in discreteTrans
 	if (class(discreteTrans)=="discreteTrans") {
 		
-		nDisc <- ncol(discreteTrans@discrete.surv)
-		surv.to.discrete <- predict(discreteTrans@surv.to.discrete,data.frame(size=y,size2=(y*y)),type="response")
-		cont.to.cont <- get.matrix*matrix(1-surv.to.discrete,nrow=nBigMatrix,ncol=nBigMatrix,byrow=T)
-		disc.to.disc <- discreteTrans@discrete.trans[1:nDisc,1:nDisc]*matrix(c(discreteTrans@discrete.surv),nrow=nDisc,ncol=nDisc,byrow=T)
+		nDisc <- ncol(discreteTrans@discreteSurv)
+		survToDiscrete <- predict(discreteTrans@survToDiscrete,data.frame(size=y,size2=(y*y)),type="response")
+		cont.to.cont <- get.matrix*matrix(1-survToDiscrete,nrow=nBigMatrix,ncol=nBigMatrix,byrow=T)
+		disc.to.disc <- discreteTrans@discreteTrans[1:nDisc,1:nDisc]*matrix(c(discreteTrans@discreteSurv),nrow=nDisc,ncol=nDisc,byrow=T)
 		disc.to.cont <- matrix(NA,ncol=nDisc,nrow=nBigMatrix)
 		cont.to.disc <- matrix(NA,nrow=nDisc,ncol=nBigMatrix)
 		
 		for (j in 1:nDisc) {
-			tmp<-dnorm(y,discreteTrans@mean.to.cont[j],discreteTrans@sd.to.cont[j])*h
+			tmp<-dnorm(y,discreteTrans@meanToCont[j],discreteTrans@sdToCont[j])*h
 			if (correction=="constant") tmp<-tmp/sum(tmp) 
-			disc.to.cont[,j] <- discreteTrans@discrete.surv[,j]*discreteTrans@discrete.trans["continuous",j]*tmp
-			cont.to.disc[j,] <- discreteTrans@distrib.to.discrete[j,]*surv(y,chosenCov,survObj)*surv.to.discrete
+			disc.to.cont[,j] <- discreteTrans@discreteSurv[,j]*discreteTrans@discreteTrans["continuous",j]*tmp
+			cont.to.disc[j,] <- discreteTrans@distribToDiscrete[j,]*surv(y,chosenCov,survObj)*survToDiscrete
 		}
 		
 		get.disc.matrix <- rbind(cbind(disc.to.disc,cont.to.disc),
@@ -847,7 +847,7 @@ createIPMTmatrix <- function(nEnvClass = 1,
 				ncol =1*nBigMatrix+nDisc,
 				meshpoints = y,
 				env.index = rep(1:nEnvClass,each=nBigMatrix),
-				names.discrete=rownames(discreteTrans@discrete.trans)[1:nDisc])
+				names.discrete=rownames(discreteTrans@discreteTrans)[1:nDisc])
 		
 		rc[,] <-get.disc.matrix   
 	}
@@ -907,7 +907,7 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 	h<-y[2]-y[1]
 	
 	#establish how how many discrete classes there are
-	if (class(discreteTrans)=="discreteTrans") nDisc <- ncol(discreteTrans@discrete.surv) else nDisc <- 0
+	if (class(discreteTrans)=="discreteTrans") nDisc <- ncol(discreteTrans@discreteSurv) else nDisc <- 0
 	
 	#indexes for slotting in IPMs
 	indexes <- rep(1:nEnvClass,each=(nBigMatrix+nDisc))
@@ -951,25 +951,25 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 		
 		# In case of discrete classes, take the IPM constructed above and add discrete classes defined in discreteTrans
 		if (class(discreteTrans)=="discreteTrans") {
-			nmes <- rownames(discreteTrans@discrete.trans)
-			surv.to.discrete <- predict(discreteTrans@surv.to.discrete,data.frame(size=y,size2=(y*y)),type="response")
-			cont.to.cont <- get.matrix*matrix(1-surv.to.discrete,nrow=nBigMatrix,ncol=nBigMatrix,byrow=T)
-			disc.to.disc <- discreteTrans@discrete.trans[1:nDisc,1:nDisc]*matrix(c(discreteTrans@discrete.surv),
+			nmes <- rownames(discreteTrans@discreteTrans)
+			survToDiscrete <- predict(discreteTrans@survToDiscrete,data.frame(size=y,size2=(y*y)),type="response")
+			cont.to.cont <- get.matrix*matrix(1-survToDiscrete,nrow=nBigMatrix,ncol=nBigMatrix,byrow=T)
+			disc.to.disc <- discreteTrans@discreteTrans[1:nDisc,1:nDisc]*matrix(c(discreteTrans@discreteSurv),
 					nrow=nDisc,ncol=nDisc,byrow=T)
 			disc.to.cont <- matrix(NA,ncol=nDisc,nrow=nBigMatrix)
 			cont.to.disc <- matrix(NA,nrow=nDisc,ncol=nBigMatrix)
 			
-			#print(discreteTrans@mean.to.cont)
-			#print(discreteTrans@sd.to.cont)
+			#print(discreteTrans@meanToCont)
+			#print(discreteTrans@sdToCont)
 			
 			for (j in 1:nDisc) {
-				tmp<-dnorm(y,discreteTrans@mean.to.cont[j],discreteTrans@sd.to.cont[j])*h
+				tmp<-dnorm(y,discreteTrans@meanToCont[j],discreteTrans@sdToCont[j])*h
 				if (correction=="constant") tmp<-tmp/sum(tmp)
 				
 				#print(tmp)
 				
-				disc.to.cont[,j] <- discreteTrans@discrete.surv[,j]*discreteTrans@discrete.trans["continuous",j]*tmp
-				cont.to.disc[j,] <- discreteTrans@distrib.to.discrete[j,]*surv(y,cov=k,survObj)*surv.to.discrete
+				disc.to.cont[,j] <- discreteTrans@discreteSurv[,j]*discreteTrans@discreteTrans["continuous",j]*tmp
+				cont.to.disc[j,] <- discreteTrans@distribToDiscrete[j,]*surv(y,cov=k,survObj)*survToDiscrete
 			}
 			
 			get.matrix <- rbind(cbind(disc.to.disc,cont.to.disc),cbind(disc.to.cont,cont.to.cont))
