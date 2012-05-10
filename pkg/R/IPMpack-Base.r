@@ -1051,7 +1051,7 @@ createIPMFmatrix <- function(fecObj,
 	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fecValues[i,]<-(fecValues[i,])^2
 	if (length(grep("-1",fecObj@Transform))>0) for (i in grep("-1",fecObj@Transform)) fecValues[i,]<-fecValues[i,]+1
 	#fecValues[!is.finite(fecValues)] <- exp(200)
-	prodFecValues <- apply(fecValues[which(offspringTypeRates[,"continuous"]==1),],2,prod)*unlist(fecObj@offspringSplitter["continuous"])
+	prodFecValues <- apply(fecValues[which(fecObj@offspringTypeRates[,"continuous"]==1),],2,prod)*unlist(fecObj@offspringSplitter["continuous"])
 	#Kids normal dist
 	tmp<-dnorm(y,fecObj@meanOffspringSize,sqrt(fecObj@varOffspringSize))*h
 	if (integrateType=="cumul") { 
@@ -1068,7 +1068,7 @@ createIPMFmatrix <- function(fecObj,
 	if (nDisc>0) {
 		namesDiscrete <- colnames(fecObj@offspringSplitter[1:nDisc])
 		to.discrete <- matrix(NA,nrow=nDisc,ncol=nBigMatrix)
-		for (i in 1:nDisc) to.discrete[i,] <- apply(fecValues[which(offspringTypeRates[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
+		for (i in 1:nDisc) to.discrete[i,] <- apply(fecValues[which(fecObj@offspringTypeRates[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
 		
 		from.discrete <- matrix(0,ncol=nDisc,nrow=nDisc+nBigMatrix)
 		if (names(fecObj@fecByDiscrete)[1]!="NA.") {
