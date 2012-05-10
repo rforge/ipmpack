@@ -14,7 +14,7 @@
 \usage{
 makePostFecObjs(dataf, fecConstants,
 	explanatoryVariables, Family, Transform, meanOffspringSize,
-		varOffspringSize, offspringSplitter, fecByDiscrete,
+		sdOffspringSize, offspringSplitter, fecByDiscrete,
 		burnin, nitt)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -46,7 +46,7 @@ makePostFecObjs(dataf, fecConstants,
       containing "fec"} }
   \item{meanOffspringSize}{numeric vector, defining mean offspring size. Defaults to NA, in which case the
     function will use to data to assess the mean offspring size}
-  \item{varOffspringSize}{numeric vector, defining mean offspring size. Defaults to NA, in which case the
+  \item{sdOffspringSize}{numeric vector, defining sd of offspring size. Defaults to NA, in which case the
     function will use to data to assess the mean offspring size}
   \item{offspringSplitter}{dataframe, with column headings for EVERY
     category, so always at minimum containing a column called "continuous" but also

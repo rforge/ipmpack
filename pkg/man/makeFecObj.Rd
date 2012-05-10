@@ -15,7 +15,7 @@
 makeFecObj(dataf, fecConstants=as.numeric(NA),
 	explanatoryVariables="size", Family="gaussian", 
 	Transform="none", fecNames=NA, meanOffspringSize=NA, 
-	varOffspringSize=NA, offspringSplitter=data.frame(continuous=1), offspringTypeRates=data.frame(NA), 
+	sdOffspringSize=NA, offspringSplitter=data.frame(continuous=1), offspringTypeRates=data.frame(NA), 
 	fecByDiscrete=data.frame(NA))
 }
 %- maybe also 'usage' for other objects documented here.
@@ -32,7 +32,7 @@ makeFecObj(dataf, fecConstants=as.numeric(NA),
       containing "fec" or in the order of column names specified in fecNames} }
   \item{fecNames}{a character vector containing the names of the columns of the dataframe from which fecundity data will be analysed (one column at a time). If the fecNames argument is not specified (as by defaul, NA), fecNames will be filled by the names of all column names that contain "fec".} 
   \item{meanOffspringSize}{numeric vector, defining mean offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size}
-  \item{varOffspringSize}{numeric vector, defining mean offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size}
+  \item{sdOffspringSize}{numeric vector, defining standard deviation of offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size}
   \item{offspringSplitter}{dataframe with values defining the number of
     offspring going into the indicated offspring category; will be re-scaled to
     sum to 1 within the function. This argument needs to be entered as a data.frame, and the names in the data.frame need to precisely match the used stage names in the data file.}

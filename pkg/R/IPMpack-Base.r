@@ -138,7 +138,7 @@ setClass("fecObj",
 				fecConstants = "data.frame",
 				offspringSplitter = "data.frame",
 				meanOffspringSize = "numeric",
-				varOffspringSize = "numeric",
+				sdOffspringSize = "numeric",
 				fecByDiscrete = "data.frame",
 				offspringTypeRates = "data.frame",
 				Transform = "character")
@@ -151,7 +151,7 @@ setClass("fecObjMultiCov",
 				fecConstants = "data.frame",
 				offspringSplitter = "data.frame",
 				meanOffspringSize = "numeric",
-				varOffspringSize = "numeric",
+				sdOffspringSize = "numeric",
 				fecByDiscrete = "data.frame",
 				offspringTypeRates = "data.frame",
 				Transform = "character")
@@ -1053,9 +1053,9 @@ createIPMFmatrix <- function(fecObj,
 	#fecValues[!is.finite(fecValues)] <- exp(200)
 	prodFecValues <- apply(fecValues[which(fecObj@offspringTypeRates[,"continuous"]==1),],2,prod)*unlist(fecObj@offspringSplitter["continuous"])
 	#Kids normal dist
-	tmp<-dnorm(y,fecObj@meanOffspringSize,sqrt(fecObj@varOffspringSize))*h
+	tmp<-dnorm(y,fecObj@meanOffspringSize,(fecObj@sdOffspringSize))*h
 	if (integrateType=="cumul") { 
-		tmp1 <- dnorm(b,fecObj@meanOffspringSize,sqrt(fecObj@varOffspringSize))
+		tmp1 <- dnorm(b,fecObj@meanOffspringSize,(fecObj@sdOffspringSize))
 		tmp <- tmp1[2:(nBigMatrix+1)]-tmp1[1:nBigMatrix]
 	}
 	if (correction=="constant") tmp<-tmp/sum(tmp)

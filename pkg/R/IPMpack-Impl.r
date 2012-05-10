@@ -384,7 +384,7 @@ makeFecObj <- function(dataf,
 		Transform="none",
 		fecNames=NA,
 		meanOffspringSize=NA,
-		varOffspringSize=NA,
+		sdOffspringSize=NA,
 		offspringSplitter=data.frame(continuous=1),
 		offspringTypeRates=data.frame(NA),
 		fecByDiscrete=data.frame(NA)){
@@ -462,8 +462,8 @@ makeFecObj <- function(dataf,
 	
 	if (is.na(meanOffspringSize)) {
 		offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
-		meanOffspringSize <- mean(offspringdata$sizeNext)
-		varOffspringSize <- var(offspringdata$sizeNext) }
+		meanOffspringSize <- mean(offspringdata$sizeNext, na.rm=TRUE)
+		sdOffspringSize <- sd(offspringdata$sizeNext, na.rm=TRUE) }
 	
 	if (sum(dim(offspringTypeRates)==c(1,1))<2) {
 		if ((sum(offspringTypeRates==0,na.rm=T)+sum(offspringTypeRates==1,na.rm=T))<(ncol(offspringTypeRates)*nrow(offspringTypeRates))) stop("Error - in offspringTypeRates data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
@@ -477,7 +477,7 @@ makeFecObj <- function(dataf,
 	f1@fecNames <- fecNames
 	f1@fecConstants <- fecConstants
 	f1@meanOffspringSize <- meanOffspringSize
-	f1@varOffspringSize <- varOffspringSize
+	f1@sdOffspringSize <- sdOffspringSize
 	f1@offspringSplitter <- offspringSplitter 
 	f1@offspringTypeRates <- offspringTypeRates 
 	f1@fecByDiscrete <- fecByDiscrete
@@ -495,7 +495,7 @@ makeFecObjManyCov <- function(dataf,
 		Family="gaussian",
 		Transform="none",
 		meanOffspringSize=NA,
-		varOffspringSize=NA,
+		sdOffspringSize=NA,
 		offspringSplitter=data.frame(continuous=1),
 		fecByDiscrete=data.frame(NA)){
 	
@@ -558,10 +558,10 @@ makeFecObjManyCov <- function(dataf,
 	if (is.na(meanOffspringSize)) {
 		offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
 		meanOffspringSize <- mean(offspringdata$sizeNext)
-		varOffspringSize <- var(offspringdata$sizeNext) }
+		sdOffspringSize <- sd(offspringdata$sizeNext) }
 	f1@fecConstants <- fecConstants
 	f1@meanOffspringSize <- meanOffspringSize
-	f1@varOffspringSize <- varOffspringSize
+	f1@sdOffspringSize <- sdOffspringSize
 	f1@offspringSplitter <- offspringSplitter 
 	f1@fecByDiscrete <- fecByDiscrete
 	f1@Transform <- Transform
@@ -837,7 +837,7 @@ makePostFecObjs <- function(dataf,
 		Family="gaussian",
 		Transform="none",
 		meanOffspringSize=NA,
-		varOffspringSize=NA,
+		sdOffspringSize=NA,
 		offspringSplitter=data.frame(continuous=1),
 		fecByDiscrete=data.frame(NA),burnin=3000,nitt=50000) {
 	
@@ -886,8 +886,8 @@ makePostFecObjs <- function(dataf,
 	
 	if (is.na(meanOffspringSize)) {
 		offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
-		meanOffspringSize <- mean(offspringdata$sizeNext)
-		varOffspringSize <- var(offspringdata$sizeNext)
+		meanOffspringSize <- mean(offspringdata$sizeNext,na.rm=TRUE)
+		sdOffspringSize <- sd(offspringdata$sizeNext,na.rm=TRUE)
 	}
 	
 	#get rid of NAs
@@ -931,7 +931,7 @@ makePostFecObjs <- function(dataf,
 		
 		fv[[k]]@fecConstants <- fecConstants
 		fv[[k]]@meanOffspringSize <- meanOffspringSize
-		fv[[k]]@varOffspringSize <- varOffspringSize
+		fv[[k]]@sdOffspringSize <- sdOffspringSize
 		fv[[k]]@offspringSplitter <- offspringSplitter
 		fv[[k]]@fecByDiscrete <- fecByDiscrete
 		fv[[k]]@Transform <- Transform 
