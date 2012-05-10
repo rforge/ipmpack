@@ -1073,7 +1073,7 @@ createIPMFmatrix <- function(fecObj,
 		from.discrete <- matrix(0,ncol=nDisc,nrow=nDisc+nBigMatrix)
 		if (names(fecObj@fecByDiscrete)[1]!="NA.") {
 			if (sum(names(fecObj@fecByDiscrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fecByDiscrete are not 100% the same discrete class names in your data.frame offspringSplitter. They should also be in alphabetical order.")
-			from.discrete <- c(as.numeric(fecObj@offspringSplitter)[1:nDisc],as.numeric(fecObj@offspringSplitter)["continuous"]*tmp)%*%as.matrix(fecObj@fecByDiscrete)
+			from.discrete <- c(as.numeric(fecObj@offspringSplitter)[1:nDisc],as.numeric(fecObj@offspringSplitter["continuous"])*tmp)%*%as.matrix(fecObj@fecByDiscrete)
 		}
 		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
 	}
