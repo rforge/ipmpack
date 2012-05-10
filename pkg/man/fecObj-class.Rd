@@ -18,9 +18,11 @@ Objects can be created by calls of the form \code{new("fecObj", ...)}.
 "offspringSplitter"  "meanOffspringSize" "sdOffspringSize"  "fecByDiscrete"     "Transform"
     
     \item{\code{fitFec}:}{Object of class \code{"list"} ~~ }
-    \item{\code{fecConstants}:}{Object of class \code{"numeric"} ~~ }
+    \item{\code{fecConstants}:}{Object of class \code{"data.frame"} ~~ }
+    \item{\code{fecNames}:}{Object of class \code{"character"} ~~ }
     \item{\code{offspringSplitter}:}{Object of class \code{"data.frame"} ~~ }
     \item{\code{meanOffspringSize}:}{Object of class \code{"numeric"} ~~ }
+    \item{\code{offspringTypeRates}:}{Object of class \code{"data.frame"} ~~ }   
     \item{\code{sdOffspringSize}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{fecByDiscrete}:}{Object of class \code{"data.frame"} ~~ }
     \item{\code{Transform}:}{Object of class \code{"character"} ~~ }
