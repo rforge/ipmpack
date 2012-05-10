@@ -33,7 +33,7 @@ discreteTrans,integrateType, correction)
     numeric, maximum size used for meshpoints of the T matrix.
   }
   \item{discreteTrans}{
-	matrix of discrete transitions
+	matrix of discrete transitions; or 1 if there is none
   }
   \item{integrateType}{
     integration type.
