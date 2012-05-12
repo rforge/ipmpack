@@ -510,10 +510,11 @@ The vector called $\lambda$ and matrix called stableSize, etc, will consist of N
 <<>>= 
 fv <- makePostFecObjs(dff, explanatoryVariables = "size+size2", fecConstants=data.frame(0.01), 
                       burnin=20,nitt = 40, Transform = "log")
-FmatrixList <- makeListFmatrix(fv, nBigMatrix = 20, minSize = -5, 
-                               maxSize = 35, cov = FALSE,
-                               correction = "constant")
-res <- getIPMoutput(TmatrixList, targetSize = 5, FmatrixList)
+			  #not working at the moment
+#FmatrixList <- makeListFmatrix(fv, nBigMatrix = 20, minSize = -5, 
+#                               maxSize = 35, cov = FALSE,
+#                               correction = "constant")
+#res <- getIPMoutput(TmatrixList, targetSize = 5, FmatrixList)
 @ 
 
 Again, larger number of iterations, binsize, etc, are recommended. The results can be visually inspected too (Figure~\ref{fig:seven} p.~\pageref{fig:seven})
