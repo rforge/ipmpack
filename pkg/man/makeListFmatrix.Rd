@@ -63,25 +63,25 @@ dff <- generateData()
 fvlist <- makePostFecObjs(dataf = dff,burnin=100, nitt = 500)
 
 # Only first 10 for speed
-#Flist <- makeListFmatrix(fecObjList = fvlist[1:10], 
-#	nBigMatrix = 20, minSize = -5, maxSize = 20, cov = FALSE, 
-#		envMat = NULL)
+Flist <- makeListFmatrix(fecObjList = fvlist[1:10], 
+	nBigMatrix = 20, minSize = -5, maxSize = 20, cov = FALSE, 
+		envMat = NULL)
 
 # Plots four F matrices at random:
-#par(mfrow=c(2,2))
-#image(Flist[[1]]@meshpoints, Flist[[1]]@meshpoints, 
-#	t(Flist[[1]]), xlab = "Continuous (e.g. size) stage at time t", 
-#		ylab = "Continuous (e.g. size) stage at time t+1")
+par(mfrow=c(2,2))
+image(Flist[[1]]@meshpoints, Flist[[1]]@meshpoints, 
+	t(Flist[[1]]), xlab = "Continuous (e.g. size) stage at time t", 
+		ylab = "Continuous (e.g. size) stage at time t+1")
 
-#image(Flist[[2]]@meshpoints, Flist[[2]]@meshpoints, 
-#	t(Flist[[2]]), xlab = "Continuous (e.g. size) stage at time t", 
-#	ylab = "Continuous (e.g. size) stage at time t+1")
+image(Flist[[2]]@meshpoints, Flist[[2]]@meshpoints, 
+	t(Flist[[2]]), xlab = "Continuous (e.g. size) stage at time t", 
+	ylab = "Continuous (e.g. size) stage at time t+1")
 
-#image(Flist[[3]]@meshpoints, Flist[[3]]@meshpoints, 
-#	t(Flist[[3]]), xlab = "Continuous (e.g. size) stage at t", 
-#	ylab = "Continuous (e.g. size) stage at t+1")
+image(Flist[[3]]@meshpoints, Flist[[3]]@meshpoints, 
+	t(Flist[[3]]), xlab = "Continuous (e.g. size) stage at t", 
+	ylab = "Continuous (e.g. size) stage at t+1")
 
-#image(Flist[[4]]@meshpoints, Flist[[4]]@meshpoints, 
-#	t(Flist[[4]]), xlab = "Continuous (e.g. size) stage at time t", 
-#	ylab = "Continuous (e.g. size) stage at time t+1")
+image(Flist[[4]]@meshpoints, Flist[[4]]@meshpoints, 
+	t(Flist[[4]]), xlab = "Continuous (e.g. size) stage at time t", 
+	ylab = "Continuous (e.g. size) stage at time t+1")
 }

@@ -510,7 +510,7 @@ The vector called $\lambda$ and matrix called stableSize, etc, will consist of N
 <<>>= 
 fv <- makePostFecObjs(dff, explanatoryVariables = "size+size2", fecConstants=data.frame(0.01), 
                       burnin=20,nitt = 40, Transform = "log")
-			  #not working at the moment
+			  #XXJ CHANGE BACK ! not working at the moment
 #FmatrixList <- makeListFmatrix(fv, nBigMatrix = 20, minSize = -5, 
 #                               maxSize = 35, cov = FALSE,
 #                               correction = "constant")
@@ -555,15 +555,16 @@ res$stableStage <- res$stableStage/rowSums(res$stableStage)
 res$stableStage[!is.finite(res$stableStage) | is.na(res$stableStage)] <- 0
 CI <- apply(res$stableStage, 2, quantile, c(0.025, 0.975))
 
-plot(TmatrixList[[1]]@meshpoints, colMeans(res$stableStage), type = "n", 
-		 xlab = "Size", ylab = "Stable.size", 
-     ylim = range(quantile(res$stableStage, c(0.025, 0.975), na.rm = TRUE)))
-polygon(c(TmatrixList[[1]]@meshpoints)[c(1:nMesh, nMesh:1)], 
-        c(CI[1, 1:nMesh], CI[2, nMesh:1]), col = "grey", border = "white")
-points(TmatrixList[[1]]@meshpoints, colMeans(res$stableStage, na.rm = TRUE), 
-       type = "l", lty = 3)
+## XXJ CHANGE BACK!
+#plot(TmatrixList[[1]]@meshpoints, colMeans(res$stableStage), type = "n", 
+#		 xlab = "Size", ylab = "Stable.size", 
+#     ylim = range(quantile(res$stableStage, c(0.025, 0.975), na.rm = TRUE)))
+#polygon(c(TmatrixList[[1]]@meshpoints)[c(1:nMesh, nMesh:1)], 
+#        c(CI[1, 1:nMesh], CI[2, nMesh:1]), col = "grey", border = "white")
+#points(TmatrixList[[1]]@meshpoints, colMeans(res$stableStage, na.rm = TRUE), 
+#       type = "l", lty = 3)
 
-hist(res$lambda, xlab = expression(lambda), ylab = "", main = "")
+#hist(res$lambda, xlab = expression(lambda), ylab = "", main = "")
 @ 
 
 \end{center}
