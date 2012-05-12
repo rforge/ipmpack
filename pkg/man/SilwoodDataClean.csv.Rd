@@ -19,10 +19,10 @@ data-frame with headings:
 	- id: unique plant id
 	- Species: species name
 	- Site: location within Silwood park where plant was measured
-	- rtcr: root crown diameter, measured with caliper
-	- rtcrNext: root crown diameter at next census time
-	- ll: length of longest leaf
-	- llNext: length of longest leaf at next census
+	- rtcr: root crown diameter, measured with caliper (UNITS)
+	- rtcrNext: root crown diameter at next census time (UNITS)
+	- ll: length of longest leaf (UNITS)
+	- llNext: length of longest leaf at next census (UNITS)
 	- rosetteDiam: rosette Diameter (UNITS)
 	- rosetteDiamNext: rosette diameter at next census (UNITS)
 	- flowered: probability of reproduction (0: individual did not flowered, 1: individual flowered)
