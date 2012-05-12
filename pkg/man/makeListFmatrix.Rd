@@ -60,7 +60,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff <- generateData()
-fvlist <- makePostFecObjs(dataf = dff, nitt = 5000)
+fvlist <- makePostFecObjs(dataf = dff,burnin=100, nitt = 500)
 
 # Only first 10 for speed
 Flist <- makeListFmatrix(fecObjList = fvlist[1:10], 

@@ -2071,8 +2071,15 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 	
 	
 	for (t in 1:tMax) {
-		if (dd) tmp.fecObj@fecConstants <- c(fecObj@fecConstants, 
-					min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1))
+		#if (dd) tmp.fecObj@fecConstants <- c(fecObj@fecConstants, 
+		#			min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1))
+		
+		#changed for new fecConstants defintion
+		
+		
+		if (dd) tmp.fecObj@fecConstants$continuous <-  
+					min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1)
+		#print(tmp.fecObj@fecConstants)
 		
 		
 		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
@@ -2127,8 +2134,11 @@ trackPopStructManyCov<-function(covariate,nRunIn,tMax,
 	
 	
 	for (t in 1:tMax) {
-		if (dd) tmp.fecObj@fecConstants <- c(fecObj@fecConstants, 
-					min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1))
+		#if (dd) tmp.fecObj@fecConstants <- c(fecObj@fecConstants, 
+		#			min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1))
+		if (dd) tmp.fecObj@fecConstants$prob.est <-  
+					min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1)
+
 		
 		#print(tmp.fecObj@fecConstants)
 		
