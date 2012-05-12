@@ -5,7 +5,7 @@
 Silwood Monocarp Dataset
 }
 \description{
-Demographic measurements from several monocarpic plants from Silwood
+Demographic data of several monocarpic plants from Silwood (UK)
 }
 \usage{data(SilwoodDataClean)}
 \format{
@@ -13,15 +13,28 @@ Demographic measurements from several monocarpic plants from Silwood
  chr "SilwoodDataClean"
 }
 \details{
-data-frame with headings exactDate (date measurement) exactDateNext
-(date next measurement) id (unique plant id) Species (species name) Site
-(location within Silwood park where plant was measured) rtcr (root crown
-diameter, measured with callipers) rtcrNext (root crown diameter at next
-census time) ll (length of longest leaf) llNext (length of longest leaf
-at next census) rosetteDiam (rosette Diameter) rosetteDiamNext (rosette
-diameter at next census) flowered (0 for not flowered, 1 if did) surv (0
-if died, one if survived, NAs if not know). 
+data-frame with headings:
+	- exactDate: date measurement
+	- exactDateNext: date next measurement
+	- id: unique plant id
+	- Species: species name
+	- Site: location within Silwood park where plant was measured
+	- rtcr: root crown diameter, measured with caliper
+	- rtcrNext: root crown diameter at next census time
+	- ll: length of longest leaf
+	- llNext: length of longest leaf at next census
+	- rosetteDiam: rosette Diameter (UNITS)
+	- rosetteDiamNext: rosette diameter at next census (UNITS)
+	- flowered: probability of reproduction (0: individual did not flowered, 1: individual flowered)
+	- surv: survival (0: dead, 1: survival, NA: not known)
 %%  ~~ If necessary, more details than the __description__ above ~~
+}
+\references{
+%JESS, IS THIS PUBLISHED? OR CAN WE CITE THE PERSON WHO COLLECTED THE DATA AS PERS. COMM.? IS IT YOU?
+
+}
+\author{
+%SAME QUESTION AS ABOVE
 }
 \examples{
 data(SilwoodDataClean)
