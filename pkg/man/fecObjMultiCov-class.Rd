@@ -19,6 +19,7 @@ Objects can be created by calls of the form \code{new("fecObjMultiCov", ...)}.
     \item{\code{offspringSplitter}:}{Object of class \code{"data.frame"} ~~ }
     \item{\code{meanOffspringSize}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{sdOffspringSize}:}{Object of class \code{"numeric"} ~~ }
+    \item{\code{offspringTypeRates}:}{Object of class \code{"data.frame"} ~~ }   
     \item{\code{fecByDiscrete}:}{Object of class \code{"data.frame"} ~~ }
     \item{\code{Transform}:}{Object of class \code{"character"} ~~ }
   }
