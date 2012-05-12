@@ -474,6 +474,7 @@ makeFecObj <- function(dataf,
 		names(offspringTypeRates) <- names(offspringSplitter)
 	}
 	
+	
 	f1@fecNames <- fecNames
 	f1@fecConstants <- fecConstants
 	f1@meanOffspringSize <- meanOffspringSize
