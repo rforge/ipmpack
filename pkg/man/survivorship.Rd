@@ -17,7 +17,7 @@ survivorship(IPMmatrix, loc, maxAge)
   }  \item{loc}{
     a starting size location in the IPM matrix for age 1 (i.e., either the index
     of the desired size in the meshpoints, or, if there are discrete stages, the index 
-    + the number of discrete stages)
+    + the number of discrete stages; if this is not an integer, then it will be assumed that the rounded version is desired)
   }
   \item{maxAge}{
     the maximum age up to which survivorship is desired for or possible.

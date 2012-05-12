@@ -1404,7 +1404,6 @@ varLifeExpect <- function(IPMmatrix){
 #                      this broken down by stage,
 #                       and mortality over age 
 		
-		### xxj - need to change help file for this to clarify that takes location now
 		
 survivorship <- function(IPMmatrix, loc, maxAge=300){
 			nBigMatrix <- length(IPMmatrix@.Data[1,])
@@ -1417,7 +1416,7 @@ survivorship <- function(IPMmatrix, loc, maxAge=300){
 			#identify the starting size you want to track - removed - specify bin directly
 			#loc <- which(abs(size1-IPMmatrix@meshpoints)==min(abs(size1-IPMmatrix@meshpoints)),arr.ind=T)[1]
 			popvec <- matrix(0,n,1)
-			popvec[loc,1] <- 1
+			popvec[floor(loc),1] <- 1
 			
 			for (a in 1:maxAge) {
 				surv.curv[a]<-sum(A1[,loc]); 
