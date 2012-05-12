@@ -12,7 +12,7 @@
   
 }
 \usage{
-makeFecObj(dataf, fecConstants=as.numeric(NA),
+makeFecObj(dataf, fecConstants=data.frame(NA),
 	explanatoryVariables="size", Family="gaussian", 
 	Transform="none", fecNames=data.frame(NA), meanOffspringSize=NA, 
 	sdOffspringSize=NA, offspringSplitter=data.frame(continuous=1), offspringTypeRates=data.frame(NA), 
@@ -21,7 +21,7 @@ makeFecObj(dataf, fecConstants=as.numeric(NA),
 %- maybe also 'usage' for other objects documented here.
 \arguments{
     \item{dataf}{a dataframe with columns "size", "sizeNext", "stage", "stageNext", and any number of columns with fecundity data. Unless the fecundity columns are specified in the argument fecNames, fecundity data will be extracted from columns "fec1", "fec2" or any other names containing fec; (note that ANY name containing "fec" will be included). Fecundity data MUST NOT be transformed via log, etc, since the fecundity object produced will assume that it has total reproductive output.)}
-  \item{fecConstants}{a numeric vector containing the value by which each of the product of the fecundity rates will be multiplied \emph{in the order defined by the alphabetical order of column names containing "fec"}; these might capture for example the probability of establishment of seeds or other steps in the sexual reproductive pathway that are not measured for each parent; default is NA if no constants are used.}
+  \item{fecConstants}{a data-frame containing the value by which each of the product of the fecundity rates will be multiplied \emph{in the order defined by the alphabetical order of column names containing "fec"}; these might capture for example the probability of establishment of seeds or other steps in the sexual reproductive pathway that are not measured for each parent; default is NA if no constants are used.}
   \item{explanatoryVariables}{a character vector containing formulas describing the desired
     explanatory variables (interactions, etc) in classical R style, i.e. separated by `+', `*', `:'. Possible covariates include `size', 'size2' (size^2), `size3'  (size^3),`logsize' (log(size)), and `covariate'. Again, these must appear  \emph{in the order defined by the alphabetical order of column names containing "fec" or in the order of column names specified in fecNames}}
   \item{Family}{a character vector containing the names of the families to be used for the glms, e.g., binomial, poisson, etc. Again, these must appear  \emph{in the

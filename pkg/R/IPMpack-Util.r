@@ -472,7 +472,7 @@ makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10,
 		integrateType="midpoint", correction="none",
 		explSurv="size+size2+covariate",explGrow="size+size2+covariate", 
 		regType="constantVar",responseType="sizeNext",explFec="size",Family="gaussian", 
-		Transform="none",fecConstants=1) {
+		Transform="none",fecConstants=data.frame(NA)) {
 	
 	#convert to 1:n for indexing later
 	dataf$covariate <- as.factor(dataf$covariate)

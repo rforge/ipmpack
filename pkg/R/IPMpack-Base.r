@@ -1878,7 +1878,7 @@ sensParams <- function(growObj,survObj,fecObj,
 	elam <- rep(0,npar);
 	if ((sum(!is.na(fecObj@fecConstants)))>0) { 
 		nmes <- c(paste("grow",names(growObj@fit$coeff)), "sd growth",paste("surv",names(survObj@fit$coeff)),
-				paste("reprod constant",which(!is.na(fecObj@fecConstants), arr.ind=TRUE)),
+				paste("reprod constant",which(!is.na(fecObj@fecConstants), arr.ind=TRUE)[,2]),
 				fec.coeff.names) 
 	} else { 
 		nmes <- c(paste("grow",names(growObj@fit$coeff)), "sd growth",paste("surv",names(survObj@fit$coeff)),				
@@ -1955,7 +1955,7 @@ sensParams <- function(growObj,survObj,fecObj,
 	
 	
 	#change the constant fecundity objects
-	chs <- which(!is.na(fecObj@fecConstants), arr.ind=TRUE)
+	chs <- which(!is.na(fecObj@fecConstants), arr.ind=TRUE)[,2]
 	if (length(chs)>0) { 
 		count <- count + param.test;
 		for (param.test in 1:length(chs)) {
@@ -1967,8 +1967,8 @@ sensParams <- function(growObj,survObj,fecObj,
 					fecObj=fecObj,integrateType=integrateType, correction=correction)
 			IPM <- Tmatrix+Fmatrix
 			lambda2 <- Re(eigen(IPM)$value[1]);
-			fecObj@fecConstants[chs[param.test]] <- fecObj@fecConstants[chs[param.test]]/(1+delta);
-			slam[param.test+count]<-(lambda2-lambda1)/(fecObj@fecConstants[chs[param.test]]*delta);
+			fecObj@fecConstants[1,chs[param.test]] <- fecObj@fecConstants[1,chs[param.test]]/(1+delta);
+			slam[param.test+count]<-(lambda2-lambda1)/as.numeric(fecObj@fecConstants[1,chs[param.test]]*delta);
 			elam[param.test+count]<-(lambda2-lambda1)/(log(1+delta));
 			
 		}

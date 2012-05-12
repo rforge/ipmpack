@@ -51,7 +51,7 @@ maxSize = 1.1*max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff), correction = "constant")
 Fmatrix <- createIPMFmatrix(minSize = 1.1*min(dff$size, na.rm = TRUE),
 maxSize = 1.1*max(dff$size, na.rm = TRUE), 
-fecObj = makeFecObj(dff, fecConstants = 0.7, Transform="log"), 
+fecObj = makeFecObj(dff, fecConstants = data.frame(est=0.7), Transform="log"), 
 correction="constant")
 
 # Make an IPMmatrix object containing T matrix + F matrix by replacing the T matrix

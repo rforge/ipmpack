@@ -490,7 +490,7 @@ makeFecObj <- function(dataf,
 ## NO different from the above yet, except in what it produces
 
 makeFecObjManyCov <- function(dataf,
-		fecConstants=as.numeric(NA),
+		fecConstants=data.frame(NA),
 		explanatoryVariables="size",
 		Family="gaussian",
 		Transform="none",
@@ -832,7 +832,7 @@ makePostSurvivalObjs <- function(dataf,
 #
 # Returns - list including list of growth objects, + list of survival objects
 makePostFecObjs <- function(dataf,
-		fecConstants=as.numeric(NA),
+		fecConstants=data.frame(NA),
 		explanatoryVariables="size",
 		Family="gaussian",
 		Transform="none",

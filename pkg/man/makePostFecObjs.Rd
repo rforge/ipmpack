@@ -24,7 +24,7 @@ makePostFecObjs(dataf, fecConstants,
       nine are currently possible (and note that ANY name containing
       "fec" will be included and these MUST NOT be transformed via log,
       etc, since the fecundity object produced will assume that it has total reproductive output.)}
-  \item{fecConstants}{a numeric vector containing the value by which
+  \item{fecConstants}{a dataframe containing the value by which
     each of the fecundity transforms will be multplied \emph{in the
       order defined by the alphabetical order of column names
       containing "fec"}; these might capture for example the probability

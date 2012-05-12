@@ -15,7 +15,7 @@ makeListIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,
 				regType = "constantVar", 
 					responseType = "sizeNext", 
 						explFec = "size",  Family="gaussian", 
-							Transform="none", fecConstants = 1)
+							Transform="none", fecConstants = data.frame(NA))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -60,7 +60,7 @@ makeListIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,
     transforms to be used for the response variables, e.g., log, sqrt, -1, etc. Again, these must appear  \emph{in the order defined by the alphabetical order of column names
       containing "fec" or in the order of column names specified in fecNames} }
  \item{fecConstants}{
-	constant multipliers for the fecundity model.
+	data.frame of constant multipliers for the fecundity model.
 	}
 }
 \details{
