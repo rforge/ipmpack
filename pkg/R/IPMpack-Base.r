@@ -1198,6 +1198,205 @@ createCompoundFmatrix <- function(nEnvClass = 2,
 
 
 
+#Function creates a single F.IPM (fecundity transitions only)
+#for a chosen size range, env category (single one at a time)
+#and survival and fecundity objects (assume survival 
+#precedes growth; could do otherwise...)
+#
+#Parameters -
+#   nEnvClass - the number of env classes, cannot be !=1, defaults to 1 
+#   nBigMatrix - the number of size bins in the model
+#   minSize - lower end of desired size range
+#   maxSize - upper end of desired size range
+#   chosenCov - current level of covariate
+#   fecObj - a fecundity object
+#   integrateType - options include "midpoint" "cumul" 
+#   etc...
+#Returns -
+#  an IPM object
+
+
+createIPMCmatrix <- function(clonalObj,
+		nEnvClass = 1,
+		nBigMatrix = 50,
+		minSize = -1,
+		maxSize = 50,
+		chosenCov = 1,
+		integrateType="midpoint",
+		correction="none") {
+	
+	# boundary points b and mesh points y
+	b<-minSize+c(0:nBigMatrix)*(maxSize-minSize)/nBigMatrix;
+	y<-0.5*(b[1:nBigMatrix]+b[2:(nBigMatrix+1)]);
+	
+	# step size for mid point rule, see equations 4 and 5
+	h<-y[2]-y[1]
+	#size<-y
+	newd <- data.frame(size=y,size2=y^2,size3=y^3)
+	if (length(as.numeric(chosenCov))==1) newd$covariate <- as.factor(rep(chosenCov,length(y)))
+	#print(head(newd))
+	for (i in 1:length(clonalObj@fitFec)) if (length(grep("logsize",clonalObj@fitFec[[i]]$formula))>0) newd$logsize <- log(y)
+	
+	clonalObj@fecConstants[is.na(clonalObj@fecConstants)] <- 1
+	
+	#fecundity rates
+	fecValues <- matrix(c(rep(1,length(clonalObj@fitFec)),unlist(clonalObj@fecConstants)),
+			ncol=nBigMatrix,nrow=length(clonalObj@fitFec)+
+					length(clonalObj@fecConstants))
+	#rownames(fecValues) <- c(fecObj@fecNames,names(fecObj@fecConstants))
+	for (i in 1:length(clonalObj@fitFec)) fecValues[i,] <- predict(clonalObj@fitFec[[i]],newd,type="response")
+	if (length(grep("log",clonalObj@Transform))>0) for (i in grep("log",clonalObj@Transform)) fecValues[i,]<-exp(fecValues[i,])
+	if (length(grep("sqrt",clonalObj@Transform))>0) for (i in grep("sqrt",clonalObj@Transform)) fecValues[i,]<-(fecValues[i,])^2
+	if (length(grep("-1",clonalObj@Transform))>0) for (i in grep("-1",clonalObj@Transform)) fecValues[i,]<-fecValues[i,]+1
+	#fecValues[!is.finite(fecValues)] <- exp(200)
+	prodFecValues <- apply(fecValues[which(clonalObj@offspringTypeRates[,"continuous"]==1),],2,prod)*unlist(clonalObj@offspringSplitter["continuous"])
+	#Kids normal dist
+	tmp<-dnorm(y,clonalObj@meanOffspringSize,(clonalObj@sdOffspringSize))*h
+	if (integrateType=="cumul") { 
+		tmp1 <- dnorm(b,clonalObj@meanOffspringSize,(clonalObj@sdOffspringSize))
+		tmp <- tmp1[2:(nBigMatrix+1)]-tmp1[1:nBigMatrix]
+	}
+	if (correction=="constant") tmp<-tmp/sum(tmp)
+	to.cont<-tmp%*%t(prodFecValues)
+	get.matrix <- to.cont
+	
+	#discrete classes
+	nDisc <- length(clonalObj@offspringSplitter)-1
+	namesDiscrete <- "NA"
+	if (nDisc>0) {
+		namesDiscrete <- colnames(clonalObj@offspringSplitter[1:nDisc])
+		to.discrete <- matrix(NA,nrow=nDisc,ncol=nBigMatrix)
+		for (i in 1:nDisc) to.discrete[i,] <- apply(fecValues[which(clonalObj@offspringTypeRates[,namesDiscrete[i]]==1),],2,prod)*unlist(clonalObj@offspringSplitter[namesDiscrete[i]])
+		
+		from.discrete <- matrix(0,ncol=nDisc,nrow=nDisc+nBigMatrix)
+		if (names(clonalObj@fecByDiscrete)[1]!="NA.") {
+			if (sum(names(clonalObj@fecByDiscrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fecByDiscrete are not 100% the same discrete class names in your data.frame offspringSplitter. They should also be in alphabetical order.")
+			from.discrete <- c(as.numeric(clonalObj@offspringSplitter)[1:nDisc],as.numeric(clonalObj@offspringSplitter["continuous"])*tmp)%*%as.matrix(clonalObj@fecByDiscrete)
+		}
+		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
+	}
+	
+	
+	#warning about negative numbers
+	if (min(get.matrix)<0) { 
+		print("Warning: fertility values < 0 exist in matrix, consider transforms. Negative values set to zero") 
+		get.matrix[get.matrix<0] <- 0
+	}
+	
+	rc <- new("IPMmatrix",
+			nDiscrete = nDisc,
+			nEnvClass = 1, 
+			nBigMatrix = nBigMatrix,
+			nrow = 1*nBigMatrix+nDisc,
+			ncol =1*nBigMatrix+nDisc,
+			meshpoints = y,
+			env.index = rep(1:nEnvClass,each=nBigMatrix),
+			names.discrete=namesDiscrete)
+	rc[,] <-get.matrix   
+	
+	return(rc)
+}
+
+
+
+
+
+#Function creates a combo of F.IPMs for a chosen
+#size range, with range env categories and transitions 
+#between them
+#and growth and survival objects
+#
+#Parameters -
+#   nEnvClass - the number of env classes, defaults to 2, should match dim envMatrix
+#   nBigMatrix - the number of size bins in the model
+#   minSize - lower end of desired size range
+#   maxSize - upper end of desired size range
+#   envMatrix - a matrix describing transiions between env
+#   fecObj - a fecundity object
+#   integrateType - NOT YET IMPLEMENTED
+#
+#Returns -
+#  an IPM object
+
+
+createCompoundCmatrix <- function(nEnvClass = 2,
+		nBigMatrix = 50,
+		minSize = -1,
+		maxSize = 50,
+		envMatrix,
+		clonalObj,
+		integrateType="midpoint",
+		correction="none") {
+	
+	#warnings...
+	if (nEnvClass!=nrow(envMatrix)) {
+		print(paste("Dim of envMatrix not equal to nEnvClass. Adjusted to",nrow(envMatrix)))
+		nEnvClass <- nrow(envMatrix)
+	}
+	
+	# boundary points b and mesh points y
+	b<-minSize+c(0:nBigMatrix)*(maxSize-minSize)/nBigMatrix;
+	y<-0.5*(b[1:nBigMatrix]+b[2:(nBigMatrix+1)]);
+	
+	# step size for mid point rule, see equations 4 and 5
+	h<-y[2]-y[1]
+	
+	#establish how how many discrete classes there are
+	if (ncol(clonalObj@offspringSplitter)>1) nDisc <- ncol(clonalObj@offspringSplitter)-1 else nDisc <- 0
+	
+	#indexes for slotting in IPMs
+	indexes <- rep(1:nEnvClass,each=(nBigMatrix+nDisc))
+	#print(indexes)
+	
+	
+	#megamatrix
+	megamatrix <- matrix(0,(nBigMatrix+nDisc)*nEnvClass,(nBigMatrix+nDisc)*nEnvClass) 
+	
+	#loop over habitats / environments
+	for (k in 1:nEnvClass) {
+		
+		get.matrix <- createIPMCmatrix(nEnvClass =1,
+				nBigMatrix = nBigMatrix,
+				minSize = minSize,
+				maxSize = maxSize,
+				chosenCov = k,
+				clonalObj=clonalObj,
+				integrateType=integrateType,
+				correction=correction)
+		
+		#print(range(get.matrix))
+		#print(get.matrix[1:5,1:5])
+		
+		# transit them
+		subset <- c(1:nEnvClass)[envMatrix[,k]>0]                 
+		for (j in subset) {
+			megamatrix[indexes==j,indexes==k] <- get.matrix@.Data*envMatrix[j,k]; 
+		}
+		
+	}
+	
+	#warning about negative numbers should appear from createIPMFmatrix
+	
+	
+	rc <- new("IPMmatrix",
+			nEnvClass = nEnvClass, 
+			nBigMatrix = nBigMatrix,
+			nrow = nEnvClass*(nBigMatrix+nDisc),
+			ncol =nEnvClass*(nBigMatrix+nDisc),
+			meshpoints = y,
+			env.index = rep(1:nEnvClass,each=nBigMatrix),
+			names.discrete=get.matrix@names.discrete)
+	
+	
+	rc[,] <- megamatrix
+	
+	return(rc) 
+}
+
+
+
+
+
 # For a single Tmatrix (!not compound and no discrete stages!), this functions makes a series
 # of diagnostic plots - this is defined for growthObj,
 # growthObjIncr - modification required
