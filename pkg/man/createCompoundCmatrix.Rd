@@ -70,22 +70,5 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{createCompoundTmatrix}},\code{\link{createIPMCmatrix}}
 }
 \examples{
-# Data with only continuous stage and two habitats
-dff <- generateData()
-Cmatrix <-createCompoundCmatrix(nBigMatrix = 20, 
-	minSize = min(dff$size, na.rm = TRUE), 
-		maxSize = max(dff$size, na.rm=TRUE), 
-			envMatrix = makeEnvObj(dff), 
-				clonalObj = makeClonalObj(dff, explanatoryVariables = "size+size2+covariate", 
-					Transform = "log"))
-
-image(1:nrow(Cmatrix), 1:ncol(Cmatrix), t(log(Cmatrix)), 
-	xlab="Continuous state (e.g. size) at t", 
-		ylab="Continuous state (e.g. size) at t+1", axes = FALSE)
-axis(1, at = 1:nrow(Cmatrix), lab = round(rep(Cmatrix@meshpoints, Cmatrix@nEnvClass), 2))
-axis(2,at = 1:nrow(Cmatrix), lab = round(rep(Cmatrix@meshpoints,Cmatrix@nEnvClass), 2))
-abline(h = length(Cmatrix@meshpoints)*(1:Cmatrix@nEnvClass))
-abline(v = length(Cmatrix@meshpoints)*(1:Cmatrix@nEnvClass))
-
-
+## See createCompoundFmatrix for examples
 }

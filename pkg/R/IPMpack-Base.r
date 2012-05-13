@@ -1271,7 +1271,7 @@ createCompoundCmatrix <- function(nEnvClass = 2,
 		integrateType="midpoint",
 		correction="none") {
 	
-		rc <- createCompoundCmatrix(nEnvClass = nEnvClass,
+		rc <- createCompoundFmatrix(nEnvClass = nEnvClass,
 				nBigMatrix = nBigMatrix,
 				minSize = minSize,
 				maxSize = maxSize,
