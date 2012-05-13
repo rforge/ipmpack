@@ -76,7 +76,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 
-### NOT RUN ###
+### NOT RUN - this is hashed out because compiles too slowly ###
 
 # Generate relevant data, build objects
 #dff <- generateDataStoch()
