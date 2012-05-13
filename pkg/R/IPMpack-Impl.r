@@ -840,6 +840,7 @@ makePostFecObjs <- function(dataf,
 		meanOffspringSize=NA,
 		sdOffspringSize=NA,
 		offspringSplitter=data.frame(continuous=1),
+		offspringTypeRates=data.frame(NA),
 		fecByDiscrete=data.frame(NA),burnin=3000,nitt=50000) {
 	
 	require(MCMCglmm)
@@ -857,7 +858,7 @@ makePostFecObjs <- function(dataf,
 		fecByDiscrete <- matrix(0,col(offspringSplitter)-1,col(offspringSplitter)-1)
 	}
 	
-    #setup for discrete covariates if data suggests may be implemented by the
+	#setup for discrete covariates if data suggests may be implemented by the
 	#presence of "covariate" and "covariateNext"
 	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
 		dataf$covariate <- as.factor(dataf$covariate)
@@ -868,7 +869,7 @@ makePostFecObjs <- function(dataf,
 		dataf$covariateNext <- as.factor(dataf$covariateNext)
 		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
 	}
-			
+	
 	dataf$size2 <- dataf$size^2
 	if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
 	fecNames <- names(dataf)[grep("fec",names(dataf))]
@@ -915,6 +916,17 @@ makePostFecObjs <- function(dataf,
 		
 	}
 	
+	if (sum(dim(offspringTypeRates)==c(1,1))<2) {
+		if ((sum(offspringTypeRates==0,na.rm=T)+sum(offspringTypeRates==1,na.rm=T))<(ncol(offspringTypeRates)*nrow(offspringTypeRates))) stop("Error - in offspringTypeRates data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
+		if (sum(names(offspringTypeRates)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in offspringTypeRates should match those in offspringSplitter - and in the same order, with continuous last")
+		if (sum(rownames(offspringTypeRates)==c(fecNames,names(fecConstants)))<(length(fecNames)+length(fecConstants))) stop ("Error - the row names in offspringTypeRates should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
+	} else {
+		offspringTypeRates <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(fecNames)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
+		names(offspringTypeRates) <- names(offspringSplitter)
+	}
+	
+	
+	
 	#print(length(fit[[1]]$Sol[,1]))	
 	
 	#create list of growth models reflecing posterior
@@ -927,13 +939,14 @@ makePostFecObjs <- function(dataf,
 			##TODO check over-ride
 			dummy.fit[[i]]$residuals <- rnorm(length(dummy.fit[[i]]$residuals),0,sqrt(fit[[i]]$VCV[k,1]))
 			fv[[k]]@fitFec[[i]] <- dummy.fit[[i]]
-					
+			
 		}
 		
 		fv[[k]]@fecConstants <- fecConstants
 		fv[[k]]@meanOffspringSize <- meanOffspringSize
 		fv[[k]]@sdOffspringSize <- sdOffspringSize
 		fv[[k]]@offspringSplitter <- offspringSplitter
+		fv[[k]]@offspringTypeRates <- offspringTypeRates
 		fv[[k]]@fecByDiscrete <- fecByDiscrete
 		fv[[k]]@Transform <- Transform 
 	}
