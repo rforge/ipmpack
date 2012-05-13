@@ -1,8 +1,8 @@
-\name{createCompoundFmatrix}
-\alias{createCompoundFmatrix}
+\name{createCompoundCmatrix}
+\alias{createCompoundCmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Builds a compound F matrix.
+Builds a compound C matrix.
 }
 \description{
   Uses clonality object, and environmental transition objects to
