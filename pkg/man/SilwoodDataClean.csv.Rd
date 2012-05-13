@@ -14,24 +14,37 @@ Demographic data of several monocarpic plants from Silwood (UK)
 }
 \details{
 data-frame with headings:
+	
 	- exactDate: date measurement
+	
 	- exactDateNext: date next measurement
+	
 	- id: unique plant id
+	
 	- Species: species name
+	
 	- Site: location within Silwood park where plant was measured
+	
 	- rtcr: root crown diameter, measured with caliper (UNITS)
+	
 	- rtcrNext: root crown diameter at next census time (UNITS)
+	
 	- ll: length of longest leaf (UNITS)
+	
 	- llNext: length of longest leaf at next census (UNITS)
+	
 	- rosetteDiam: rosette Diameter (UNITS)
+	
 	- rosetteDiamNext: rosette diameter at next census (UNITS)
+	
 	- flowered: probability of reproduction (0: individual did not flowered, 1: individual flowered)
+	
 	- surv: survival (0: dead, 1: survival, NA: not known)
-%%  ~~ If necessary, more details than the __description__ above ~~
+%%  
+~~ If necessary, more details than the __description__ above ~~
 }
 \references{
-%JESS, IS THIS PUBLISHED? OR CAN WE CITE THE PERSON WHO COLLECTED THE DATA AS PERS. COMM.? IS IT YOU?
-
+Data used in: Metcalf, C.J.E., Rees, M., Alexander, J.M., Rose, K.E. 2006. Growth-survival trade-offs and allometries in rosette-forming perennials. Funct. Ecol. 20, 217-225.
 }
 \author{
 %SAME QUESTION AS ABOVE

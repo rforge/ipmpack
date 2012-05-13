@@ -53,7 +53,7 @@ minSize = -1, maxSize = 50, envMatrix, clonalObj, integrateType, correction)
 
 }
 \references{
-For information on F matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
+For information on C matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
 
 For midpoint: Zuidema, Jongejans, Chien, During & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98, p345-355.
 
@@ -67,7 +67,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createCompoundTmatrix}},\code{\link{createIPMFmatrix}}
+\code{\link{createCompoundTmatrix}},\code{\link{createIPMCmatrix}}
 }
 \examples{
 # Data with only continuous stage and two habitats
