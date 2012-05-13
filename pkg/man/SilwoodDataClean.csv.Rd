@@ -40,8 +40,6 @@ data-frame with headings:
 	- flowered: probability of reproduction (0: individual did not flowered, 1: individual flowered)
 	
 	- surv: survival (0: dead, 1: survival, NA: not known)
-%%  
-~~ If necessary, more details than the __description__ above ~~
 }
 \references{
 Data used in: Metcalf, C.J.E., Rees, M., Alexander, J.M., Rose, K.E. 2006. Growth-survival trade-offs and allometries in rosette-forming perennials. Funct. Ecol. 20, 217-225.
