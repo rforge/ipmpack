@@ -7,8 +7,8 @@
   Function to build clonal reproduction objects 
 }
 \description{
-  Allows a series of different glms to be fit all on the way to clonal
-  reproduction, e.g., probability of flowering, number of flower heads
+  Allows a series of different glms to be fit for all steps of clonal
+  reproduction, e.g., probability of reproducing clonally, number of clonal offspring 
   produced, etc. Currently only pre-census clonal reproduction relationships can be handled.  
   
 }
@@ -77,7 +77,6 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 }
 \examples{
-dff <- generateDataDiscrete()
-cv1 <- makeClonalObj(dff, offspringSplitter = data.frame(continuous = 0.2, seedAge1 = 0.8),
-	fecByDiscrete = data.frame(dormant = 0, seedAge1 = 4.2, seedOld = 0))
+# makeClonalObj works exactly the same way as makeFecObj. An exammple will be added here as soon as we have added a data file on a clonal plant to the package.
+
 }
