@@ -33,15 +33,18 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrateType, correction)
 }
 \details{
   Top left panel: continuous (size) stage range in the data (histogram) and the size range used in the IPM (red dashed lines).
+  
   Top center panel: survival (y axis) plotted against the sums of columns of the current.
+  
   T matrix (black) or an extended T matrix (red) where minSize is set to x 0.5 its current value value (or x 1.5 its current value, if it is negative); the maxSize set to x 1.5 its current value, and the number of bins set to 1.5 the current value; the dashed line is the 1:1 ratio.
+  
   Top right panel: predicted life expectancy for the current (black) and extended IPM as above (red).
+  
   Bottom panels: numerical predicted density function (histogram) and the expected value from the normal density function (red line) for (x 0.5) small, (x 1) medium, and (x 1.5) large sizes.
   
   Not defined for compound T matrices, or matrices with discrete classes.
   
-  Note that if the pdfs corresponding to large sizes are lower than the histogram, this indicates
-  that the maximum size is such that some fraction of the pdf is being lost.  
+  Note that if the pdfs corresponding to large sizes are lower than the histogram, this indicates that the maximum size is such that some fraction of the pdf is being lost; this will also affect the predicted vs. observed survival for large sizes (top center panel).  
   
   
 }
