@@ -81,16 +81,7 @@ d<-rbind(d,sb)
 d$stage<-as.factor(d$stage)
 d$stageNext<-as.factor(d$stageNext)
 
-#Carry out comparisons to establish the best survival model
-testSurv <- survModelComp(dataf=d, expVars = c("1", "size", "size + size2"),
-                          testType = "AIC", makePlot = TRUE)
-
-#Carry out comparisons to establish the best growth model
-testGrow <- growthModelComp(dataf=d, expVars = c("1", "size", "size + size2"),
-                            regressionType = "constantVar", 
-                            respType = "sizeNext", testType = "AIC", makePlot = TRUE)
-
-#Create survival object with a square term (from the above)
+#Create survival object with a square term 
 so<-makeSurvObj(d,explanatoryVariables="size+size2")
 picSurv(d,so)
 
@@ -101,7 +92,7 @@ abline(a=0,b=1,lty=2)
 
 #Create fecundity object
 
-  #First, info on mean size of offspring is necessary
+ #First, info on mean size of offspring is necessary
 meanOffspringSize=mean(d[is.na(d$size)==TRUE&d$stageNext=="continuous","sizeNext"])
 
 fo<-makeFecObj(d,Family=c("binomial","poisson"),
@@ -140,69 +131,6 @@ IPM <- Tmatrix + Fmatrix
 eigen(IPM)$value[1]
 #Population growth rate excluding the seed bank stage is
 eigen(IPM[2:82,2:82])$value[1]
-
-#The following creates a 3x3 panel with some key features of the IPM for Hypericum presented in figure 2 of the manuscript to which this online appendix is associated
-
-par(mfrow=c(3,3),mar=c(4.1,4.1,1,1))
-
-#Panel 1: Survival
-ncuts=15
-os <- order(d$size)
-os.size <- (d$size)[os]
-psz <- tapply(os.size, as.numeric(cut(os.size, ncuts)), mean, na.rm = TRUE)
-picSurv(d,so,ncuts=ncuts)
-legend(-4,1.1,"a)",bty="n",cex=1.5)
-
-#Panel 2: Growth
-picGrow(d,go)
-dummy<-go@fit$coef[1]+go@fit$coef[2]*os.size
-lines(os.size,dummy,col=2)
-abline(a=0,b=1,lty=2)
-legend(-6,63,"b)",bty="n",cex=1.5)
-
-#Panel 3: Probability of flowering
-os.fec0Flowering <- (d$fec0Flowering)[os]
-ps <- tapply(os.fec0Flowering, as.numeric(cut(os.size, ncuts)), mean, na.rm = TRUE)
-plot(as.numeric(psz), as.numeric(ps), pch = 19, xlab = "Size at t", ylab = "Flowering at t", main = "Flowering")
-dummy<-fo@fitFec[[1]]$coef[1]+fo@fitFec[[1]]$coef[2]*os.size
-lines(os.size,exp(dummy)/(1+exp(dummy)),col=2)
-legend(-4,1.1,"c)",bty="n",cex=1.5)
-
-#Panel 4: Number of fruits as a function of individual size
-plot(d$size,d$fec1Fruits,pch=19,xlab="Size at t",ylab="# Fruits", main="Fruit production")
-dummy<-fo@fitFec[[2]]$coef[1]+fo@fitFec[[2]]$coef[2]*os.size
-lines(os.size,exp(dummy),col=2)
-legend(-8,700,"d)",bty="n",cex=1.5)
-
-#Panel 5: IPM kernel
-image(Tmatrix@meshpoints, Tmatrix@meshpoints, log(t(IPM[2:82,2:82])), main = "IPM kernel",xlab = "Size in t", ylab = "Size in t+1")
-legend(-6,83,"e)",bty="n",cex=1.5)
-
-#Panel 6: IPM elements elasticity
-elast <- elas(IPM)
-image(Tmatrix@meshpoints, Tmatrix@meshpoints, t(elast[2:82,2:82]), main = "Elasticity",xlab = "Size at t", ylab = "Size at t+1")
-legend(-6,83,"f)",bty="n",cex=1.5)
-
-#Panel 7: Age-specific trajectories
-ageing=survivorship(Tmatrix.continuous.only,1,20)
-plot(ageing$surv.curv,type="l",ylab="Survival (lx) & force of mortality (qx)",xlab="Age",main="Age-specific trajectories",col="dark gray")
-points(ageing$mortality,type="l",col="red",lty=2)
-legend(-1.5,0.57,"g)",bty="n",cex=1.5)
-
-#Panel 8: mean and variation of passage time & mean and variation of life expectancy?
-mLE<-meanLifeExpect(Tmatrix)
-vLE<-varLifeExpect(Tmatrix)
-plot(Tmatrix@meshpoints,mLE[2:ncol(Tmatrix)],ylim=c(0,max(mLE+vLE)),type="l",
-     ylab="Years",xlab="Size",main="Life expectancy",lty=1,col="red")
-polygon(c(Tmatrix@meshpoints,rev(Tmatrix@meshpoints)),c(vLE[2:ncol(Tmatrix)]+mLE[2:ncol(Tmatrix)],rev((-vLE[2:ncol(Tmatrix)]+mLE[2:ncol(Tmatrix)]))),col=rgb(1,0,0,0.5),border=10,lwd=0.5,density=115)
-legend(-8,11,"h)",bty="n",cex=1.5)
-
-#Panel 9: Mean passage time to a chosen size
-chosenSize=30
-plot(Tmatrix@meshpoints,passageTime(chosenSize,Tmatrix)[2:ncol(Tmatrix)],type="l",lty=1,col="blue",
-      ylab="Years",xlab="Size",main="Passage time to 30cm")
-abline(v=chosenSize,lty=4,col="dark gray")
-legend(-8,4.3,"i)",bty="n",cex=1.5)
 
 
 
