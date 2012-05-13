@@ -1017,7 +1017,6 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 #Returns -
 #  an IPM object
 
-
 createIPMFmatrix <- function(fecObj,
 		nEnvClass = 1,
 		nBigMatrix = 50,
@@ -1052,6 +1051,9 @@ createIPMFmatrix <- function(fecObj,
 	if (length(grep("-1",fecObj@Transform))>0) for (i in grep("-1",fecObj@Transform)) fecValues[i,]<-fecValues[i,]+1
 	#fecValues[!is.finite(fecValues)] <- exp(200)
 	prodFecValues <- apply(fecValues[which(fecObj@offspringTypeRates[,"continuous"]==1),],2,prod)*unlist(fecObj@offspringSplitter["continuous"])
+	
+	#print(prodFecValues)	
+	
 	#Kids normal dist
 	tmp<-dnorm(y,fecObj@meanOffspringSize,(fecObj@sdOffspringSize))*h
 	if (integrateType=="cumul") { 
@@ -1078,7 +1080,8 @@ createIPMFmatrix <- function(fecObj,
 		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
 	}
 	
-
+	#print(colSums(get.matrix))
+	
 	#warning about negative numbers
 	if (min(get.matrix)<0) { 
 		print("Warning: fertility values < 0 exist in matrix, consider transforms. Negative values set to zero") 
