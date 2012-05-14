@@ -44,9 +44,6 @@ data-frame with headings:
 \references{
 Data used in: Metcalf, C.J.E., Rees, M., Alexander, J.M., Rose, K.E. 2006. Growth-survival trade-offs and allometries in rosette-forming perennials. Funct. Ecol. 20, 217-225.
 }
-\author{
-%SAME QUESTION AS ABOVE
-}
 \examples{
 data(SilwoodDataClean)
 print(head(SilwoodDataClean))
