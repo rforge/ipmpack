@@ -5,7 +5,7 @@
 Hypericum Perennial Dataset
 }
 \description{
-Demographic data of Hypericum cumulicola in Archbold Biological Station (FL, USA). Life cycle, experimental design and data are described in Quintana-Ascencio & Menges (2003). Data contains a subset of individuals from population "bald 1" and annual period "1997-1998". Full dataset can be obtained upon request to the authors (pquintan@mail.ucf.edu). For experimental design see references below.
+Demographic data of Hypericum cumulicola in "Florida rosemary scrub at" Archbold Biological Station (FL, USA). Life cycle, experimental design and data are described in Quintana-Ascencio & Menges (2003). Data contains a subset of individuals from population "bald 1" and annual period "1997-1998". Full dataset can be obtained upon request to the authors (pedro.quintana-ascencio@ucf.edu).
 }
 \usage{data(hyperDataSubset)}
 \format{
