@@ -63,28 +63,28 @@ setGeneric("growthCum",
 ## GROWTH OBJECTS ##
 # Create a generic growth object containing a lm
 setClass("growthObj",
-		representation(fit = "lm"))
+		representation(fit = "lm",sd="numeric"))
 
 setClass("growthObjMultiCov",
-		representation(fit = "lm"))
+		representation(fit = "lm",sd="numeric"))
 
 # Create a generic growth object with normal errors on increment
 setClass("growthObjIncr",
-		representation(fit = "lm"))
+		representation(fit = "lm",sd="numeric"))
 
 setClass("growthObjMultiCovIncr",
-		representation(fit = "lm"))
+		representation(fit = "lm",sd="numeric"))
 
 # Create a generic growth object with truncated normal errors on increment
 setClass("growthObjTruncIncr",
-		representation(fit = "list", varcov="matrix"))
+		representation(fit = "list",sd="numeric", varcov="matrix"))
 
 # Create a generic growth object with log normal errors on increment
 setClass("growthObjLogIncr",
-		representation(fit = "lm"))
+		representation(fit = "lm",sd="numeric"))
 
 setClass("growthObjMultiCovLogIncr",
-		representation(fit = "lm"))
+		representation(fit = "lm",sd="numeric"))
 
 # Create a generic growth object with declining errors 
 setClass("growthObjDeclineVar",
@@ -282,7 +282,7 @@ setMethod("growth",
 							growthObj@fit$formula))>0) { newd$logsize <- log(size)}
 			
 			mux <- predict(growthObj@fit,newd,type="response")
-			sigmax <- summary(growthObj@fit)$sigma
+			sigmax <-growthObj@sd
 			u <- dnorm(sizeNext,mux,sigmax,log=FALSE)  
 			return(u);
 		})
@@ -304,7 +304,7 @@ setMethod("growth",
 							growthObj@fit$formula))>0) newd$logsize2=(log(size))^2
 			
 			mux <- predict(growthObj@fit,newd,type="response")
-			sigmax <- summary(growthObj@fit)$sigma
+			sigmax <-growthObj@sd
 			u <- dnorm(sizeNext,mux,sigmax,log=FALSE)  
 			return(u);
 		})
@@ -324,7 +324,7 @@ setMethod("growth",
 			
 			#print(mux)
 			
-			sigmax <- summary(growthObj@fit)$sigma
+			sigmax <-growthObj@sd
 			u <- dnorm(sizeNext,size+mux,sigmax,log=FALSE)  
 			return(u); 
 		})
@@ -344,7 +344,7 @@ setMethod("growth",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 						
 			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
-			sigmax <- sqrt(growthObj@fit$sigmax2)
+			sigmax <-growthObj@sd
 			u <- dtruncnorm(sizeNext,a=size,b=Inf,mean=size+mux,sd=sigmax)  
 			return(u); 
 		})
@@ -367,7 +367,7 @@ setMethod("growth",
 							growthObj@fit$formula))>0) newd$logsize2=(log(size))^2
 			
 			mux <- predict(growthObj@fit,newd,type="response")
-			sigmax <- summary(growthObj@fit)$sigma
+			sigmax <-growthObj@sd
 			u <- dnorm(sizeNext,size+mux,sigmax,log=FALSE)  
 			return(u);
 		})
@@ -384,7 +384,7 @@ setMethod("growth",
 							growthObj@fit$formula))>0) newd$logsize=log(size)
 			
 			mux <- predict(growthObj@fit,newd,type="response")
-			sigmax <- summary(growthObj@fit)$sigma
+			sigmax <-growthObj@sd
 			u <- dlnorm(sizeNext-size,mux,sigmax,log=FALSE)  
 			return(u);
 		})
@@ -500,7 +500,7 @@ setMethod("growth",
 							growthObj@fit$formula))>0) newd$logsize2=(log(size))^2
 			
 			mux <- predict(growthObj@fit,newd,type="response")
-			sigmax <- summary(growthObj@fit)$sigma
+			sigmax <-growthObj@sd
 			u <- dlnorm(sizeNext,size+mux,sigmax,log=FALSE)  
 			return(u);
 		})
@@ -548,7 +548,7 @@ setMethod("growthCum",
 			if (length(grep("logsize",
 							growthObj@fit$formula))>0) newd$logsize=log(size)
 			mux <- predict(growthObj@fit,newd,type="response")
-			sigmax <- summary(growthObj@fit)$sigma
+			sigmax <-growthObj@sd
 			u <- pnorm(sizeNext,mux,sigmax,log=FALSE)  
 			return(u);
 		})
@@ -564,7 +564,7 @@ setMethod("growthCum",
 							growthObj@fit$formula))>0) newd$logsize=log(size)
 			
 			mux <- predict(growthObj@fit,newd,type="response")
-			sigmax <- summary(growthObj@fit)$sigma
+			sigmax <-growthObj@sd
 			u <- pnorm(sizeNext,size+mux,sigmax,log=FALSE)  
 			return(u); 
 		})
@@ -602,7 +602,7 @@ setMethod("growthCum",
 							growthObj@fit$formula))>0) newd$logsize=log(size)
 			
 			mux <- predict(growthObj@fit,newd,type="response")
-			sigmax <- summary(growthObj@fit)$sigma
+			sigmax <-growthObj@sd
 			u <- plnorm(sizeNext-size,mux,sigmax,log=FALSE)  
 			return(u);
 		})
@@ -1378,8 +1378,8 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 		#define variance 
 		if (length(grep("decline",tolower(as.character(class(growObj)))))==0 & 
 				length(grep("trunc",tolower(as.character(class(growObj)))))==0) { 
-			sigmax2 <- summary(growObj@fit)$sigma^2 
-		} else { 
+			sigmax2 <-growthObj@sd^2
+				} else { 
 			sigmax2 <- growObj@fit$sigmax2
 			var.exp.coef<-growObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux))

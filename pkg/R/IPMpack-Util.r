@@ -82,7 +82,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 	grow.par <- matrix(NA,nsamp,length(growObjList[[1]]@fit$coefficients)+1)
 	for (k in 1:nsamp) {
 		surv.par[k,] <- survObjList[[k]]@fit$coefficients
-		grow.par[k,] <- c(growObjList[[k]]@fit$coefficients,sd(growObjList[[k]]@fit$residuals))
+		grow.par[k,] <- c(growObjList[[k]]@fit$coefficients,growObjList[[k]]@sd)
 	}} else { surv.par <- grow.par <- c()}
 	
 	#set up storage

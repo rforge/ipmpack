@@ -77,6 +77,7 @@ makeGrowthObj <- function(dataf,
 		if (class(fit) == "lm") { 
 			gr1 <- new("growthObj")
 			gr1@fit <- fit
+			gr1@sd <- summary(fit)$sigma
 		} else {
 			if (class(fit.here) == "gls") { 
 				gr1 <- new("growthObjDeclineVar")
@@ -92,6 +93,7 @@ makeGrowthObj <- function(dataf,
 			if (class(fit) == "lm") { 
 				gr1 <- new("growthObjIncr")
 				gr1@fit <- fit
+				gr1@sd <- summary(fit)$sigma
 			} else {
 				if (class(fit.here) == "gls") { 
 					gr1 <- new("growthObjIncrDeclineVar")
@@ -107,6 +109,8 @@ makeGrowthObj <- function(dataf,
 				if (class(fit) == "lm") { 
 					gr1 <- new("growthObjLogIncr")
 					gr1@fit <- fit
+					gr1@sd <- summary(fit)$sigma
+					
 				} else {
 					if (class(fit.here) == "gls") { 
 						gr1 <- new("growthObjLogIncrDeclineVar")
@@ -185,6 +189,8 @@ makeGrowthObjManyCov <- function(dataf,
 		if (class(fit) == "lm") { 
 			gr1 <- new("growthObjMultiCov")
 			gr1@fit <- fit
+			gr1@sd <- summary(fit)$sigma
+			
 		} else {
 			if (class(fit.here) == "gls") { 
 				gr1 <- new("growthObjMultiCovDeclineVar")
@@ -200,6 +206,8 @@ makeGrowthObjManyCov <- function(dataf,
 			if (class(fit) == "lm") { 
 				gr1 <- new("growthObjMultiCovIncr")
 				gr1@fit <- fit
+				gr1@sd <- summary(fit)$sigma
+				
 			} else {
 				if (class(fit.here) == "gls") { 
 					gr1 <- new("growthObjMultiCovIncrDeclineVar")
@@ -216,6 +224,8 @@ makeGrowthObjManyCov <- function(dataf,
 				if (class(fit) == "lm") { 
 					gr1 <- new("growthObjMultiCovLogIncr")
 					gr1@fit <- fit
+					gr1@sd <- summary(fit)$sigma
+					
 				} else {
 					if (class(fit.here) == "gls") { 
 						gr1 <- new("growthObjMultiCovLogIncrDeclineVar")
@@ -951,11 +961,12 @@ makePostGrowthObjs <- function(dataf,
 	gr <- list()
 	for (k in 1:length(fit$Sol[,1])) {
 		dummyFit$coefficients <- fit$Sol[k,]
-		dummyFit <- alteredFit(dummyFit = dummyFit, newCoef = fit$Sol[k,],  desiredSd = sqrt(fit$VCV[k, 1]))
+		#dummyFit <- alteredFit(dummyFit = dummyFit, newCoef = fit$Sol[k,],  desiredSd = sqrt(fit$VCV[k, 1]))
 		if (responseType=="sizeNext") gr[[k]] <-  new("growthObj")
 		if (responseType=="incr") gr[[k]] <-  new("growthObjIncr")
 		if (responseType=="logincr") gr[[k]] <-  new("growthObjLogIncr")
-		gr[[k]]@fit <- dummyFit       
+		gr[[k]]@fit <- dummyFit    
+		gr[[k]]@sd <- sqrt(fit$VCV[k, 1])
 	}
 	
 	return(gr)
