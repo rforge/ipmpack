@@ -65,6 +65,7 @@ makeGrowthObj <- function(dataf,
 			Formula <- as.formula(Formula)	
 			fit.here <- gls(Formula, na.action = na.omit, weights = varExp(form =  ~fitted(.)), data = dataf)
 			fit <- list(coefficients = fit.here$coefficients,
+						sigma = summary(fit.here)$sigma,	
 						sigmax2 = summary(fit.here)$sigma^2,
 						var.exp.coef = as.numeric(fit.here$modelStruct$varStruct[1]), 
 						fit = fit.here)
@@ -175,6 +176,7 @@ makeGrowthObjManyCov <- function(dataf,
 			Formula <- as.formula(Formula)	
 			fit.here <- gls(Formula,	na.action = na.omit, weights = varExp(form =  ~fitted(.)), data = dataf)
 			fit <- list(coefficients=fit.here$coefficients,
+						sigma=summary(fit.here)$sigma,
 						sigmax2=summary(fit.here)$sigma^2,
 						var.exp.coef=as.numeric(fit.here$modelStruct$varStruct[1]),
 						fit=fit.here)
@@ -1265,7 +1267,8 @@ convertGrowthObjIncrTruncObj <- function(growthObj){
 	
 	gr2 <- new("growthObjTruncIncr")
 	gr2@fit$coefficients <- growthObj@fit$coefficients
-	gr2@fit$sigmax2 <- growthObj@sd
+	gr2@fit$sigmax2 <- growthObj@sd^2
+	gr2@fit$sigma <- growthObj@sd
 	
 	return(gr2)
 	

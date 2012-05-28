@@ -344,7 +344,7 @@ setMethod("growth",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 						
 			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
-			sigmax <- sqrt(growthObj@fit$sigmax2)
+			sigmax <- growthObj@fit$sigma
 			u <- dtruncnorm(sizeNext,a=size,b=Inf,mean=size+mux,sd=sigmax)  
 			return(u); 
 		})
@@ -584,7 +584,7 @@ setMethod("growthCum",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
 			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
-			sigmax <- sqrt(growthObj@fit$sigmax2)
+			sigmax <- sqrt(growthObj@fit$sigmax)
 			
 			u <- ptruncnorm(sizeNext,a=size,b=Inf,mean=size+mux,sd=sigmax)  
 			return(u); 
