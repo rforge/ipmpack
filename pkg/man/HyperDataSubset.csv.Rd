@@ -67,16 +67,16 @@ d <- subset(d,is.na(d$size)==FALSE | d$ontogenyNext==1)
 #Note that the aforementioned vital rates are function of time since last fire. See Quintana-Ascencio et al (2003) for more information.
 
 #A simple re-organization of the data, getting rid of non-critical information
-d<-d[,c("stage","stageNext","surv","size","sizeNext","fec0Flowering","fec1Fruits")]
+#d<-d[,c("stage","stageNext","surv","size","sizeNext","fec0Flowering","fec1Fruits")]
 
 #The following states the continuous (max height of individual plant) part of the IPM. Note that the IPM to be constructed here contains a discrete stage: seedbank.
-d$stage<-d$stageNext<-"continuous"
-d$stage[is.na(d$size)]<-NA
+#d$stage<-d$stageNext<-"continuous"
+#d$stage[is.na(d$size)]<-NA
 #If individual did not survive, it is labelled as dead to t+1.
-d$stageNext[d$surv==0]<-"dead"
+#d$stageNext[d$surv==0]<-"dead"
 #Adds probability of seeds going into (continuous -> seedbank), staying (seedbank -> seedbank) and leaving (continuous -> seedbank) the discrete stage.
-d$number<-1
-sb<-data.frame(stage=c("seedbank","seedbank","continuous"),stageNext=c("seedbank","continuous","seedbank"),surv=1,size=NA,sizeNext=NA,fec0Flowering=NA,fec1Fruits=NA,number=c(staySB,(1-staySB)*fec3Establish*fec4HalfYearSeedlingSurvival,1))
+#d$number<-1
+#sb<-data.frame(stage=c("seedbank","seedbank","continuous"),stageNext=c("seedbank","continuous","seedbank"),surv=1,size=NA,sizeNext=NA,fec0Flowering=NA,fec1Fruits=NA,number=c(staySB,(1-staySB)*fec3Establish*fec4HalfYearSeedlingSurvival,1))
 #d<-rbind(d,sb)
 #d$stage<-as.factor(d$stage)
 #d$stageNext<-as.factor(d$stageNext)
