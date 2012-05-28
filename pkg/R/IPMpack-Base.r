@@ -77,7 +77,7 @@ setClass("growthObjMultiCovIncr",
 
 # Create a generic growth object with truncated normal errors on increment
 setClass("growthObjTruncIncr",
-		representation(fit = "list",sd="numeric", varcov="matrix"))
+		representation(fit = "list", varcov="matrix"))
 
 # Create a generic growth object with log normal errors on increment
 setClass("growthObjLogIncr",
