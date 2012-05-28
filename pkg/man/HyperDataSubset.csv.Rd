@@ -77,60 +77,10 @@ d$stageNext[d$surv==0]<-"dead"
 #Adds probability of seeds going into (continuous -> seedbank), staying (seedbank -> seedbank) and leaving (continuous -> seedbank) the discrete stage.
 d$number<-1
 sb<-data.frame(stage=c("seedbank","seedbank","continuous"),stageNext=c("seedbank","continuous","seedbank"),surv=1,size=NA,sizeNext=NA,fec0Flowering=NA,fec1Fruits=NA,number=c(staySB,(1-staySB)*fec3Establish*fec4HalfYearSeedlingSurvival,1))
-d<-rbind(d,sb)
-d$stage<-as.factor(d$stage)
-d$stageNext<-as.factor(d$stageNext)
+#d<-rbind(d,sb)
+#d$stage<-as.factor(d$stage)
+#d$stageNext<-as.factor(d$stageNext)
 
-#Create survival object with a square term 
-so<-makeSurvObj(d,explanatoryVariables="size+size2")
-picSurv(d,so)
-
-#Create growth object
-go<-makeGrowthObj(d,explanatoryVariables="size", responseType = "sizeNext")
-picGrow(d,go)
-abline(a=0,b=1,lty=2)
-
-#Create fecundity object
-
- #First, info on mean size of offspring is necessary
-meanOffspringSize=mean(d[is.na(d$size)==TRUE&d$stageNext=="continuous","sizeNext"])
-
-fo<-makeFecObj(d,Family=c("binomial","poisson"),
-               explanatoryVariables=c("size","size"),
-               meanOffspringSize=mean(d[is.na(d$size)==TRUE&is.na(d$sizeNext)==FALSE,"sizeNext"]),
-               sdOffspringSize=sd(d[is.na(d$size)==TRUE&is.na(d$sizeNext)==FALSE,"sizeNext"]),
-               fecConstants=data.frame(fec2Seeds=fec2Seeds,fec3Establish=fec3Establish,fec4HalfYearSeedlingSurvival=fec4HalfYearSeedlingSurvival),   
-               offspringSplitter=data.frame(seedbank=goSB,continuous=(1-goSB)),
-               offspringTypeRates=data.frame(seedbank=c(1,1,1,0,0),continuous=rep(1,5),row.names=c("fec0Flowering","fec1Fruits","fec2Seeds","fec3Establish","fec4HalfYearSeedlingSurvival")),
-               Transform=c("none","none"))
-
-#Define discrete transition matrix
-dto<-makeDiscreteTrans(d)
-dummy<-as.matrix(fo@meanOffspringSize)
-dimnames(dummy)<-list(1,"seedbank")
-dto@meanToCont<-as.matrix(dummy,dimnames=c(1,"seedbank"))
-dummy<-as.matrix(fo@sdOffspringSize)
-dimnames(dummy)<-list(1,"seedbank")
-dto@sdToCont<-as.matrix(dummy,dimnames=c(1,"seedbank"))
-dto@discreteSurv[1,1]<-staySB+(1-staySB)*fec3Establish*fec4HalfYearSeedlingSurvival
-
-#Create the T matrix
-Tmatrix<-createIPMTmatrix(growObj=go,survObj=so,discreteTrans=dto,minSize=0,maxSize=80,nBigMatrix=81,correction="constant")
-
-#Create the F matrix
-Fmatrix<-createIPMFmatrix(fecObj=fo,minSize=0,maxSize=80,nBigMatrix=81,correction="constant")
-
-#Build a T matrix reflecting only the continuous part of the model and check that binning, etc is adequate
-Tmatrix.continuous.only <- createIPMTmatrix(growObj=go,survObj=so,minSize=0,maxSize=80,nBigMatrix=81,correction="constant")
-diagnosticsTmatrix(Tmatrix.continuous.only,growObj=go,survObj=so,dff=d, correction="constant")
-
-#Forming the IPM as a result of adding the T and F matrices
-IPM <- Tmatrix + Fmatrix
-
-#Population growth rate for the whole life cycle of Hypericum is
-eigen(IPM)$value[1]
-#Population growth rate excluding the seed bank stage is
-eigen(IPM[2:82,2:82])$value[1]
 
 
 

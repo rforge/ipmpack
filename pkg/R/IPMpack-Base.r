@@ -1990,8 +1990,8 @@ sensParams <- function(growObj,survObj,fecObj,
 	}
 	# change the variance in growth
 	param.test <- param.test+1
-	resids <- growObj@fit$residuals
-	growObj@fit$residuals <- rnorm(length(growObj@fit$residuals),0,sd(growObj@fit$residuals)*(1+delta))
+	sd.store <- growObj@sd
+	growObj@sd <- growObj@sd*(1+delta)
 	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
 			growObj=growObj,survObj=survObj, discreteTrans=discreteTrans,
 			integrateType=integrateType, correction=correction)
@@ -1999,7 +1999,7 @@ sensParams <- function(growObj,survObj,fecObj,
 			fecObj=fecObj, integrateType=integrateType, correction=correction)
 	IPM <- Tmatrix + Fmatrix
 	lambda2 <- Re(eigen(IPM)$value[1]); #print(lambda2)
-	growObj@fit$residuals <- resids
+	growObj@sd <- sd.store
 	slam[param.test]<-(lambda2-lambda1)/(sd(growObj@fit$residuals)*delta);
 	elam[param.test]<-(lambda2-lambda1)/(log(1+delta));
 	
