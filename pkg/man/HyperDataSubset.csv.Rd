@@ -25,7 +25,7 @@ data-frame with headings:
 	
 	- size: length of longest stem in individual (cm) in time t
 	
-	- stage: recruits vs established individuals in time t (0 = individual was recruited in time t, 1 = already established individual prior to time t, NA = individual not yet recruited in time t)
+	- ontogeny: recruits vs established individuals in time t (0 = individual was recruited in time t, 1 = already established individual prior to time t, NA = individual not yet recruited in time t)
 	
 	- fec0Flowering: probability of reproduction (0= no flowering, 1 = individual was flowering in time t)
 	
@@ -33,7 +33,7 @@ data-frame with headings:
 	
 	- sizeNext: length of longest stem in individual (cm) in time t+1
 	
-	- stageNext: recruits vs established individuals in time t+1 (0 = individual was recruited in time t+1, 1 = already established individual prior to time t+1, NA = individual not yet recruited or dead in t+1)
+	- ontogenyNext: recruits vs established individuals in time t+1 (0 = individual was recruited in time t+1, 1 = already established individual prior to time t+1, NA = individual not yet recruited or dead in t+1)
 }
 
 \references{
@@ -51,7 +51,7 @@ print(head(hyperDataSubset))
 
 #Due to the sampling design described above, here we consider only individual with certain recruit origin:
 d <- hyperDataSubset
-d <- subset(d,is.na(d$size)==FALSE | d$stageNext==1)
+d <- subset(d,is.na(d$size)==FALSE | d$ontogenyNext==1)
 
 #Side-experiments revealed that the following vital rates are size-independent and equal to:
   #Number of seeds produced per fruit
@@ -67,7 +67,7 @@ d <- subset(d,is.na(d$size)==FALSE | d$stageNext==1)
 #Note that the aforementioned vital rates are function of time since last fire. See Quintana-Ascencio et al (2003) for more information.
 
 #A simple re-organization of the data, getting rid of non-critical information
-d<-d[,c("stage","stageNext","surv","size","sizeNext","fec0Flowering","fec1Fruits")]
+d<-d[,c("ontogeny","ontogenyNext","surv","size","sizeNext","fec0Flowering","fec1Fruits")]
 
 #The following states the continuous (max height of individual plant) part of the IPM. Note that the IPM to be constructed here contains a discrete stage: seedbank.
 d$stage<-d$stageNext<-"continuous"

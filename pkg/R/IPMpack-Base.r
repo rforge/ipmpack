@@ -1378,7 +1378,7 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 		#define variance 
 		if (length(grep("decline",tolower(as.character(class(growObj)))))==0 & 
 				length(grep("trunc",tolower(as.character(class(growObj)))))==0) { 
-			sigmax2 <-growthObj@sd^2
+			sigmax2 <-growObj@sd^2
 				} else { 
 			sigmax2 <- growObj@fit$sigmax2
 			var.exp.coef<-growObj@fit$var.exp.coef
