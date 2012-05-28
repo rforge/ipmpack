@@ -1265,7 +1265,7 @@ convertGrowthObjIncrTruncObj <- function(gr1){
 	
 	gr2 <- new("growthObjTruncIncr")
 	gr2@fit$coefficients <- gr1@fit$coefficients
-	gr2@fit$sigmax2 <- (summary(gr1@fit)$sigma)^2
+	gr2@fit$sigmax2 <- gr1@sd
 	
 	return(gr2)
 	
