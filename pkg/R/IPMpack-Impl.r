@@ -974,7 +974,7 @@ makePostGrowthObjs <- function(dataf,
 }
 
 # replace the growth object fit with a new, desired variance for predict
-alteredFit <- function(dummyFit = dummyFit, 
+.alteredFit <- function(dummyFit = dummyFit, 
 		newCoef = dummyFit$coefficients, 
 		desiredSd = 1) {
 	dummyFit$coefficients[] <- newCoef
