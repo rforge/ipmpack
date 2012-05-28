@@ -14,7 +14,7 @@ convertGrowthObjIncrTruncObj(growthObj)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{gr1}{
+  \item{growthObj}{
 	the growth object for which the conversion is required
   }
 }
