@@ -1261,11 +1261,11 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE,
 
 ## Function to convert class linear regression for increment
 ## to truncIncrement
-convertGrowthObjIncrTruncObj <- function(gr1){
+convertGrowthObjIncrTruncObj <- function(growthObj){
 	
 	gr2 <- new("growthObjTruncIncr")
-	gr2@fit$coefficients <- gr1@fit$coefficients
-	gr2@fit$sigmax2 <- gr1@sd
+	gr2@fit$coefficients <- growthObj@fit$coefficients
+	gr2@fit$sigmax2 <- growthObj@sd
 	
 	return(gr2)
 	

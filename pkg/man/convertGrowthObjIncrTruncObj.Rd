@@ -9,7 +9,7 @@ Convert an increment based growth object to a truncated increment based growth o
 Function that takes a growth object fitted with a linear regression with increment as the response variable, and returns the corresponding truncated increment growth object (useful if, for example, shrinkage is not thought to occur) 
 }
 \usage{
-convertGrowthObjIncrTruncObj(gr1)
+convertGrowthObjIncrTruncObj(growthObj)
 		
 }
 %- maybe also 'usage' for other objects documented here.
