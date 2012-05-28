@@ -817,7 +817,7 @@ growthModelComp <- function(dataf,
 	
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
-		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, respType = respType, testType = "AIC",  plotLegend = TRUE, mainTitle = mainTitle, legendPos = legendPos, ...)
+		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, respType = respType, testType = "AIC",  plotLegend = TRUE, mainTitle = mainTitle, legendPos, ...)
 	}
 	return(outputList)
 }
@@ -828,7 +828,7 @@ survModelComp <- function(dataf,
 		testType = "AIC",
 		makePlot = FALSE,
 		mainTitle = "", ncuts = 20,
-		legendPos = "topright", ...) {
+		legendPos = "bottomleft", ...) {
 	varN <- length(expVars)
 	treatN <- varN
 	summaryTable <- data.frame()
@@ -854,8 +854,8 @@ survModelComp <- function(dataf,
 # Plot functions for model comparison.  Plots the series of fitted models for growth and survival objects.  
 # Can plot a legend with the model covariates and model test criterion scores (defaults to AIC).
 
-plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, respType = "sizeNext", testType = "AIC", plotLegend = TRUE, mainTitle = "",...) {
-	treatN <- length(grObj, legendPos = "topright")
+plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, respType = "sizeNext", testType = "AIC", plotLegend = TRUE, mainTitle = "", legendPos = "topright", ...) {
+	treatN <- length(grObj)
 	sizeSorted <- unique(sort(dataf$size))
 	if(respType == "sizeNext") {
 		y.lab <- "Size at t + 1"
@@ -882,7 +882,7 @@ plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, respType = 
 	}
 }
 
-plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "AIC", plotLegend = TRUE, mainTitle = "", ncuts = 20, ...) {
+plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "AIC", plotLegend = TRUE, mainTitle = "", ncuts = 20, legendPos = "bottomleft", ...) {
 	treatN <- length(svObj)
 	#ncuts <- 20  # survival bins
 	os <- order(dataf$size)  # order size
@@ -896,7 +896,7 @@ plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "
 		lines(dataf$size[order(dataf$size)], surv(dataf$size[os], 1, svObj[[p]]), col = (p + 1))           
 	}
 	if(plotLegend) {
-		legend("bottomleft", legend = sprintf("%s: %s = %.1f", expVars, testType, as.numeric(as.character(summaryTable[,2]))), col = c(2:(p + 1)), lty = 1, xjust = 1)
+		legend(legendPos, legend = sprintf("%s: %s = %.1f", expVars, testType, as.numeric(as.character(summaryTable[,2]))), col = c(2:(p + 1)), lty = 1, xjust = 1, bg = "white")
 	}
 }
 
