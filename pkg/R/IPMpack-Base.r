@@ -1315,6 +1315,12 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 			minSize = new.min, maxSize = 1.5*max(Tmatrix@meshpoints),
 			chosenCov = 1, growObj=growObj,survObj=survObj,
 			integrateType=integrateType, correction=correction)
+	if (sum(is.na(Tmatrix1))>0){ 
+		print("Tmatrix with extended size range returns NAs; changing these to 0, and putting survival value onto diagonal for columns that sum to zero")
+		Tmatrix1[is.na(Tmatrix1)] <- 0
+		bad <- which(colSums(Tmatrix1)==0, arr.ind=TRUE)
+		if (length(bad)>0) Tmatrix1[cbind(bad,bad)] <- surv(size=Tmatrix1@meshpoints[bad],cov=1,survObj=survObj)
+	}	
 	
 	#Is the size range sufficient? 
 	par(mfrow=c(2,3),bty="l")
