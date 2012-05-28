@@ -58,7 +58,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makePostSurvivalObjs}}, \code{\link{alteredFit}}, \code{\link{makeListTmatrix}}
+\code{\link{makePostSurvivalObjs}},  \code{\link{makeListTmatrix}}
 }
 \examples{
 dff <- generateData()
