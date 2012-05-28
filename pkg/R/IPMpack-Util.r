@@ -792,7 +792,8 @@ growthModelComp <- function(dataf,
 		respType = "sizeNext",
 		testType = "AIC",
 		makePlot = FALSE,
-		mainTitle = "",...) {
+		mainTitle = "",
+		legendPos = "topright", ...) {
 	varN <- length(expVars)
 	typeN <- length(regressionType)
 	treatN <- varN * typeN
@@ -816,7 +817,7 @@ growthModelComp <- function(dataf,
 	
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
-		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, respType = respType, testType = "AIC",  plotLegend = TRUE, mainTitle = mainTitle,...)
+		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, respType = respType, testType = "AIC",  plotLegend = TRUE, mainTitle = mainTitle, legendPos = legendPos, ...)
 	}
 	return(outputList)
 }
@@ -826,7 +827,8 @@ survModelComp <- function(dataf,
 		expVars = c("1", "size", "size + size2"), 
 		testType = "AIC",
 		makePlot = FALSE,
-		mainTitle = "", ncuts = 20, ...) {
+		mainTitle = "", ncuts = 20,
+		legendPos = "topright", ...) {
 	varN <- length(expVars)
 	treatN <- varN
 	summaryTable <- data.frame()
@@ -844,7 +846,7 @@ survModelComp <- function(dataf,
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
 		## this is the surv picture    
-		plotSurvModelComp(svObj = svObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, testType = "AIC", plotLegend = TRUE, mainTitle = mainTitle, ncuts = ncuts,...)
+		plotSurvModelComp(svObj = svObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, testType = "AIC", plotLegend = TRUE, mainTitle = mainTitle, ncuts = ncuts, legendPos = legendPos, ...)
 	}
 	return(outputList)
 }	
@@ -853,7 +855,7 @@ survModelComp <- function(dataf,
 # Can plot a legend with the model covariates and model test criterion scores (defaults to AIC).
 
 plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, respType = "sizeNext", testType = "AIC", plotLegend = TRUE, mainTitle = "",...) {
-	treatN <- length(grObj)
+	treatN <- length(grObj, legendPos = "topright")
 	sizeSorted <- unique(sort(dataf$size))
 	if(respType == "sizeNext") {
 		y.lab <- "Size at t + 1"
@@ -876,7 +878,7 @@ plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, respType = 
 		lines(sizeSorted, pred.size, type = "l", col = (p + 1))
 	}
 	if(plotLegend) {
-		legend("topleft", legend = sprintf("%s: %s = %.1f", expVars, testType, as.numeric(as.character(summaryTable[,4]))), col = c(2:(p + 1)), lty = 1, xjust = 1)
+		legend(legendPos, legend = sprintf("%s: %s = %.1f", expVars, testType, as.numeric(as.character(summaryTable[,4]))), col = c(2:(p + 1)), lty = 1, xjust = 1, bg = "white")
 	}
 }
 
