@@ -23,7 +23,8 @@
  
 \begin{document}
 
-\title{IPMpack: an R package for demographic modeling with Integral Projection Models (v.1.0)}
+\title{IPMpack: an R package for demographic modeling with Integral Projection
+Models (v.1.2)}
 \author{Jessica Metcalf, Sean M. McMahon, Rob Salguero-Gomez, Eelke Jongejans}
 \maketitle
 
@@ -35,7 +36,11 @@ on Integral Projection Models (IPMs) to support biologists interested in
 making projections for populations where demography is strongly linked to a continuous variable, such as size. The package includes functions that can take data, such as size or age, as well as environmental covariates, and build models of growth, survival and fecundity. Functions are defined that then take these
 statistical models and construct IPMs. IPMpack has tools that compare different functional forms for the underlying statistical models, plotting them and returning AIC scores, as well as tools for diagnostic tests of the IPM models themselves. There are also methods to build population models for varying environments, use Bayesian methods to sample population parameters,  estimate longevity and passage time, sensitivity and elasticity (of either parameters or matrix elements), and much more.
 
-This vignette is intended to introduce the biologists with a wide range of quantitative skills to the concepts of IPMs as well as the implementation of IPMpack.  This vignette is for IPMpack version $1.0$, and so we encourage users to contact the IPMpack team at \href{IPMpackTeam@gmail.com}{IPMpackTeam@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge \href{http://ipmpack.r-forge.r-project.org/}{IPMpack Web Site} that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs. 
+This vignette is intended to introduce the biologists with a wide range of
+quantitative skills to the concepts of IPMs as well as the implementation of
+IPMpack.  This vignette is for IPMpack version $2$, and so we encourage users to
+contact the IPMpack team at \href{ipmpack@gmail.com}{ipmpack@gmail.com} with
+any feedback or mistakes they find.  We also host a blog at R-forge \href{http://ipmpack.r-forge.r-project.org/}{IPMpack Web Site} that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
  
 \newpage
 
@@ -68,7 +73,10 @@ After numerically solving these kernels, key ecological and evolutionary quantit
 
 Essentially, the same tools are available for IPMs as for discrete projection matrices (matrix population models), e.g., estimation of population growth rate, sensitivities, elasticities, life table response experiment [LTRE] analyses, passage time calculations, etc (Caswell $2001$, Cochran \& Ellner $1992$, and others). The main difference between an IPM and a matrix model is that while in discrete projection matrices the number of classes (i.e., number of stages in the life cycle of the study species) must be defined {\tt a priori}, IPMs impose the discretization of the three-dimensional surface defined by equation 1 in the last step. This produces a typically large matrix (e.g., $100$ x $100$ cells) that is more robust to biases from matrix dimensionality (Zuidema et al. $2010$, Salguero-Gomez \& Plotkin $2010$) and sample size (Ramula et al. $2009$) than classical matrix models.  
 
-The goal of IPMpack is to provide a centralized set of quantitative techniques based on IPMs to help ecologists and evolutionary biologists model populations. IPMpack v. 1.0 can accommodate multiple vital rates from complex life cycles all grouped into two main sub-kernels: $T$ and $F$ (equation 2) \footnote{Note than in the seminal paper by Easterling et al. ($2000$) this kernel was referred to as $P$, but here we follow the terminology by Caswell ($2001$) and call it $T$ instead). The $T$ kernel (equation 3) describes {\tt growth} between demographic censuses conditional on individuals' survival ({\tt surv}).
+The goal of IPMpack is to provide a centralized set of quantitative techniques
+based on IPMs to help ecologists and evolutionary biologists model populations.
+IPMpack v. 1.2 can accommodate multiple vital rates from complex life cycles all
+grouped into two main sub-kernels: $T$ and $F$ (equation 2) \footnote{Note than in the seminal paper by Easterling et al. ($2000$) this kernel was referred to as $P$, but here we follow the terminology by Caswell ($2001$) and call it $T$ instead). The $T$ kernel (equation 3) describes {\tt growth} between demographic censuses conditional on individuals' survival ({\tt surv}).
 }.
 
 This vignette will now walk through the steps of a basic IPM analysis.  We first describe the kind of data necessary to build an IPM.  If a user begins `from scratch', they must input data in a specific format (described below).  However it is possible to jump past this step and use IPMpack capabilities on IPMs that were developed outside of IPMpack.  That is, if a user wants quick diagnostic routines, figures and summary statistics on an IPM matrix already built, IPMpack can readily accommodate that.   However there are some features that, because of the object-oriented coding require some specific structures (and other features that do not).  Please refer to the manual files and the rest of this vignette for this information.  But however a user wants to implement IPMpack, the vignette will begin at the beginning with data set up.  We will then walk through how to build and analyse a basic IPM model.  More complex models will be introduced later, with options to create unique class objects and methods, as well as run comparative model testing and Bayesian implementations.
