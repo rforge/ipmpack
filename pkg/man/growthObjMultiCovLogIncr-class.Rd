@@ -16,6 +16,7 @@ Objects can be created by calls of the form \code{new("growthObjMultiCovLogIncr"
 \section{Slots}{
   \describe{
     \item{\code{fit}:}{Object of class \code{"lm"} ~~ }
+     \item{\code{sd}:}{Object of class \code{"numeric"} ~~ }
   }
 }
 \section{Methods}{

@@ -67,7 +67,7 @@ d <- subset(d,is.na(d$size)==FALSE | d$ontogenyNext==1)
 #Note that the aforementioned vital rates are function of time since last fire. See Quintana-Ascencio et al (2003) for more information.
 
 #A simple re-organization of the data, getting rid of non-critical information
-d<-d[,c("ontogeny","ontogenyNext","surv","size","sizeNext","fec0Flowering","fec1Fruits")]
+d<-d[,c("stage","stageNext","surv","size","sizeNext","fec0Flowering","fec1Fruits")]
 
 #The following states the continuous (max height of individual plant) part of the IPM. Note that the IPM to be constructed here contains a discrete stage: seedbank.
 d$stage<-d$stageNext<-"continuous"
