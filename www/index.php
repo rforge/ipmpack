@@ -101,7 +101,7 @@ $themeroot='http://r-forge.r-project.org/themes/rforge/';
                   </td>
                   <td class="main">
                     <p><img style="margin:0px;padding:0px;border:none" width="420px" align="middle" src="fig1.jpg?width=400px"><br><br></p>
-                    <p class="caption">Fig. 1. <b>IPMpack</b> output for the T matrix diagnostics tool.</p>
+                    <p class="caption">Fig. 1. <b>IPMpack</b> output examples.</p>
 										<p class="parag">We are going to set up a IPMpack Users mailing list so users can ask questions or provide comments, suggestions or criticism that can help us improve the package. Users can register by at a later stage.<br></p>
                   </td>
                 </tr>
