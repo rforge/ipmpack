@@ -487,6 +487,9 @@ makeFecObj <- function(dataf,
 	}
 	
 	
+	if (is.na(meanOffspringSize) | is.na(sdOffspringSize)) 
+		print("warning: could not estimate parameters for the distribution of offspring size; suggest supplying defaults")	
+	
 	f1@fecNames <- fecNames
 	f1@fecConstants <- fecConstants
 	f1@meanOffspringSize <- meanOffspringSize
