@@ -7,7 +7,7 @@
   Function to build fecundity objects 
 }
 \description{
-  Allows a series of different glms to be fit all on the way to fecundity, e.g., probability of flowering, number of flower heads produced, etc; as well as fecundity into different discrete classes. Currently only pre-census fecundity relationships can be handled.  
+ Allows a series of different glms to be fit all on the way to fecundity, e.g., probability of flowering, number of flower heads produced, etc; as well as fecundity into different discrete classes. Currently only pre-census fecundity relationships can be handled.  
   
 }
 \usage{
