@@ -399,7 +399,8 @@ makeFecObj <- function(dataf,
 		sdOffspringSize=NA,
 		offspringSplitter=data.frame(continuous=1),
 		offspringTypeRates=data.frame(NA),
-		fecByDiscrete=data.frame(NA)){
+		fecByDiscrete=data.frame(NA),
+		offspringSizeExplanatoryVariables="1"){
 	
 	
 	#if stage or stageNext do not exist in dataf, create them assuming that 
@@ -427,13 +428,6 @@ makeFecObj <- function(dataf,
 	offspringSplitter <- dummy
 	
 	##warnings
-	if (length(dataf$stage)==0) {
-		print("Warning - no column named stage - assuming all continuous")
-		dataf$stageNext <- dataf$stage <- rep("continuous", length(dataf[,1]))
-		dataf$stage[is.na(dataf$size)] <- NA
-		dataf$stageNext[is.na(dataf$sizeNext)] <- "dead"
-	}
-	
 	if (ncol(offspringSplitter)>1 & (ncol(offspringSplitter)-1)!=ncol(fecByDiscrete)) {
 		print("Warning - offspring splitter indicates more than just continuous stages. No fecundity by the discrete stages supplied in fecByDiscrete; assumed that is 0")
 		#fecByDiscrete <- matrix(0,col(offspringSplitter)-1,col(offspringSplitter)-1)
@@ -458,10 +452,11 @@ makeFecObj <- function(dataf,
 	#print(table(dataf$covariate))
 	
 	f1 <- new("fecObj")
+	
 	dataf$size2 <- dataf$size^2
 	if (length(grep("logsize",as.character(explanatoryVariables)))>0) dataf$logsize <- log(dataf$size)
 	
-	if (is.na(fecNames)) fecNames <- names(dataf)[grep("fec",names(dataf))]
+	if (is.na(fecNames[1])) fecNames <- names(dataf)[grep("fec",names(dataf))]
 	if (length(fecNames)>length(explanatoryVariables)) {
 		misE <- (length(explanatoryVariables)+1):length(fecNames)
 		print(c("number in explanatoryVariables not the same as the number of fecundity columns in the data file, using default of `size' for missing ones which are:",fecNames[misE],". (which might be exactly what you want)"))
@@ -486,11 +481,22 @@ makeFecObj <- function(dataf,
 		f1@fitFec[[i]] <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
 	}
 	
-	if (is.na(meanOffspringSize)) {
-		offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
-		meanOffspringSize <- mean(offspringdata$sizeNext, na.rm=TRUE)
-		sdOffspringSize <- sd(offspringdata$sizeNext, na.rm=TRUE) }
-	
+	if (is.na(meanOffspringSize[1])|is.na(sdOffspringSize[1])) {
+		if (length(dataf$offspringNext)==0) {
+			offspringData<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
+		} else {
+			offspringData<-subset(dataf,dataf$offspringNext=="sexual"&dataf$stageNext=="continuous")
+		}
+		## relationship defining offspring size - note that the mean value is ALWAYS taken from
+		## a lm now (but equivalent to just fitting an intercept if that is desired....)
+		## [worth keeping sd separate from lm though (extracted from lm or not) because otherwise is a pain to adjust (as shown in growth model)]
+		f1@offspringRel <- lm(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData)
+		f1@sdOffspringSize <- summary(f1@offspringRel)$sigma
+	} else {
+		f1@offspringRel <- lm(rep(meanOffspringSize[1],21)~1)
+		f1@sdOffspringSize <- sdOffspringSize
+	}
+		
 	if (sum(dim(offspringTypeRates)==c(1,1))<2) {
 		if ((sum(offspringTypeRates==0,na.rm=T)+sum(offspringTypeRates==1,na.rm=T))<(ncol(offspringTypeRates)*nrow(offspringTypeRates))) stop("Error - in offspringTypeRates data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
 		if (sum(names(offspringTypeRates)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in offspringTypeRates should match those in offspringSplitter - and in the same order, with continuous last")
@@ -500,15 +506,8 @@ makeFecObj <- function(dataf,
 		names(offspringTypeRates) <- names(offspringSplitter)
 	}
 	
-	
-	if (is.na(meanOffspringSize) | is.na(sdOffspringSize)) 
-		print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")	
-	
-		
 	f1@fecNames <- fecNames
 	f1@fecConstants <- fecConstants
-	f1@meanOffspringSize <- meanOffspringSize
-	f1@sdOffspringSize <- sdOffspringSize
 	f1@offspringSplitter <- offspringSplitter 
 	f1@offspringTypeRates <- offspringTypeRates 
 	f1@fecByDiscrete <- fecByDiscrete
