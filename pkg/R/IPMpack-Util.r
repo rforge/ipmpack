@@ -376,7 +376,7 @@ generateData <- function(nSamp=1000){
 	#size <- exp(rnorm(1000, -1, 1.1))
 	sizeNext <- 1+0.8*size-0.9*covariate+rnorm(nSamp,0,1)
 	seedlings <- sample(1:nSamp,size=100,replace=TRUE)
-	size[seedlings] <- NA; sizeNext[seedlings] <- rnorm(100,-2,0.1)
+	size[seedlings] <- NA; sizeNext[seedlings] <- rnorm(100,2,0.5)
 	fec <- surv <- rep(NA, length(size))
 	surv[!is.na(size)] <- rbinom(sum(!is.na(size)),1,logit(-1+0.2*size[!is.na(size)]))
 	fec[!is.na(size)] <- rnorm(sum(!is.na(size)),exp(-7+0.9*size[!is.na(size)]),1)
