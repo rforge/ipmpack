@@ -144,18 +144,18 @@ setClass("fecObj",
 				sdOffspringSize = "numeric")
 )
 
-# Create a generic fecundity object for multiple covariates
 setClass("fecObjMultiCov",
 		representation(fitFec = "list",
 				fecNames = "character",
 				fecConstants = "data.frame",
 				offspringSplitter = "data.frame",
-				meanOffspringSize = "numeric",
-				sdOffspringSize = "numeric",
 				fecByDiscrete = "data.frame",
 				offspringTypeRates = "data.frame",
-				Transform = "character")
+				Transform = "character",
+				offspringRel = "lm",
+				sdOffspringSize = "numeric")
 )
+
 
 
 
