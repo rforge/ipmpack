@@ -1021,7 +1021,7 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fecValues[i,]<-(fecValues[i,])^2
 	if (length(grep("-1",fecObj@Transform))>0) for (i in grep("-1",fecObj@Transform)) fecValues[i,]<-fecValues[i,]+1
 	prodFecValues <- apply(fecValues[which(fecObj@offspringTypeRates[,"continuous"]==1),],2,prod)*unlist(fecObj@offspringSplitter["continuous"])
-	return(prodFecValues)
+	return(list(prodFecValues,fecValues))
 }
 
 
@@ -1030,7 +1030,7 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 	newd <- data.frame(size=x,size2=x^2,size3=x^3,covariate=as.factor(rep(cov,length(x))))
 	if (length(grep("logsize",
 					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
-	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)*
+	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
 			dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),
 					fecObj@sdOffspringSize)
 	
@@ -1045,7 +1045,7 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 	newd <- data.frame(size=x,size2=x^2,size3=x^3,covariate=as.factor(rep(cov,length(x))))
 	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
 			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
-	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)*
+	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
 			dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)*
 			growSurv(size=x, sizeNext=y, cov=cov, growthObj=growObj,survObj=survObj)
 	return(u)
@@ -1115,12 +1115,12 @@ createIPMFmatrix <- function(fecObj,
 							fecObj=fecObj))
 			tmp <- tmp.cum[2:(nBigMatrix+1),]-tmp.cum[1:nBigMatrix,]
 			#put in seed production
-			tmp <- t(t(tmp)*.fecRaw(x=y,cov=chosenCov,fecObj=fecObj))      
+			tmp <- t(t(tmp)*.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]])      
 		}
 		
 		if (correction=="constant") {
 			# in this case, column sums should equal raw fecundity
-			correction <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)/colSums(tmp)
+			correction <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]]/colSums(tmp)
 			tmp <- t(t(tmp)*correction)
 		}
 		
@@ -1145,19 +1145,19 @@ createIPMFmatrix <- function(fecObj,
 					(1-sum(tmpGrowth[,nBigMatrix]))
 			
 			#put in survival and seed production
-			tmp <- t(t(tmpBabies*tmpGrowth)*surv(size=y,cov=chosenCov,survObj=survObj)*.fecRaw(x=y,cov=chosenCov,fecObj=fecObj))
+			tmp <- t(t(tmpBabies*tmpGrowth)*surv(size=y,cov=chosenCov,survObj=survObj)*.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]])
 			
 		}
 		
 		if (correction=="constant") {
 			# in this case, column sums should equal raw fecundity * survival
-			correction <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)*surv(size=y,cov=chosenCov,survObj=survObj)/colSums(tmp)
+			correction <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]]*surv(size=y,cov=chosenCov,survObj=survObj)/colSums(tmp)
 			tmp <- t(t(tmp)*correction)
 		}
 		
 	}
 	
-	get.matrix <- tmp
+	get.matrix <- to.cont <- tmp
 	
 	#discrete classes
 	nDisc <- length(fecObj@offspringSplitter)-1
@@ -1165,12 +1165,14 @@ createIPMFmatrix <- function(fecObj,
 	if (nDisc>0) {
 		namesDiscrete <- colnames(fecObj@offspringSplitter[1:nDisc])
 		to.discrete <- matrix(NA,nrow=nDisc,ncol=nBigMatrix)
-		for (i in 1:nDisc) to.discrete[i,] <- apply(fecValues[which(fecObj@offspringTypeRates[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
+		for (i in 1:nDisc) to.discrete[i,] <- apply(.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@offspringTypeRates[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
 		
 		from.discrete <- matrix(0,ncol=nDisc,nrow=nDisc+nBigMatrix)
 		if (names(fecObj@fecByDiscrete)[1]!="NA.") {
 			if (sum(names(fecObj@fecByDiscrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fecByDiscrete are not 100% the same discrete class names in your data.frame offspringSplitter. They should also be in alphabetical order.")
-			from.discrete <- c(as.numeric(fecObj@offspringSplitter)[1:nDisc],as.numeric(fecObj@offspringSplitter["continuous"])*tmp)%*%as.matrix(fecObj@fecByDiscrete)
+			if (sum(fecObj@fecByDiscrete)>0) {
+				print ("Warning - number and sizes of offspring produced by individuals in discrete classes cannot be calculated when offspring size is a function of parent size. The Fmatrix contains zeros instead. Only solution at this point: change the F matrix yourself afterwards.")
+			}
 		}
 		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
 	}
