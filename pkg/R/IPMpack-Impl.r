@@ -525,6 +525,10 @@ makeFecObj <- function(dataf,
 		offspringTypeRates <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(fecNames)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
 		names(offspringTypeRates) <- names(offspringSplitter)
 	}
+
+	if (is.na(sdOffspringSize)) 
+		print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")	
+	
 	
 	f1@fecNames <- fecNames
 	f1@fecConstants <- fecConstants
@@ -655,6 +659,10 @@ makeFecObjManyCov <- function(dataf,
 		offspringTypeRates <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(fecNames)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
 		names(offspringTypeRates) <- names(offspringSplitter)
 	}
+
+	if (is.na(sdOffspringSize)) 
+		print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")	
+	
 	
 	f1@fecNames <- fecNames
 	f1@fecConstants <- fecConstants
@@ -785,6 +793,10 @@ makeClonalObj <- function(dataf,
 		offspringTypeRates <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(fecNames)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
 		names(offspringTypeRates) <- names(offspringSplitter)
 	}
+
+	if (is.na(sdOffspringSize)) 
+		print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")	
+	
 	
 	f1@fecNames <- fecNames
 	f1@fecConstants <- fecConstants
@@ -913,6 +925,10 @@ makeClonalObjManyCov <- function(dataf,
 		offspringTypeRates <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(fecNames)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
 		names(offspringTypeRates) <- names(offspringSplitter)
 	}
+	
+	if (is.na(sdOffspringSize)) 
+		print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")	
+	
 	
 	f1@fecNames <- fecNames
 	f1@fecConstants <- fecConstants
