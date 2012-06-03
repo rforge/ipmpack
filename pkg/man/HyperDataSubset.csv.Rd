@@ -115,7 +115,7 @@ fo<-makeFecObj(d,Family=c("binomial","poisson"),
 
 #Define discrete transition matrix
 dto<-makeDiscreteTrans(d)
-dummy<-as.matrix(fo@meanOffspringSize)
+dummy<-as.matrix(fo@offspringRel$coefficients[1])
 dimnames(dummy)<-list(1,"seedbank")
 dto@meanToCont<-as.matrix(dummy,dimnames=c(1,"seedbank"))
 dummy<-as.matrix(fo@sdOffspringSize)
