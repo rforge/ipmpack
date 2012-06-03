@@ -1205,13 +1205,30 @@ makePostFecObjs <- function(dataf,
 		dataf$stageNext[is.na(dataf$sizeNext)] <- "dead"
 	}
 	
-	if(ncol(offspringSplitter)>1 & (ncol(offspringSplitter)-1)!=ncol(fecByDiscrete)) {
+	#order stage names from discrete to continuous
+	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
+	stages <- stages[stages!="dead"] 
+	stages <- c(stages[stages!="continuous"],"continuous") 
+	if ((sum(names(offspringSplitter)%in%stages)/length(offspringSplitter))<1) {
+		stop("Error - the variable names in your offspringSplitter data.frame are not all part of the levels of stage or stageNext in your data file. Please fix this by adjusting your offspringSplitter entry to include the correct variable names, e.g. offspringSplitter=data.frame(continuous=.7,seedAge1=.3)")
+	}
+	dummy<-rep(0,length(stages));names(dummy)<-stages;dummy<-as.data.frame(t(as.matrix(dummy)))
+	for (i in names(offspringSplitter)) dummy[i]<-offspringSplitter[i]
+	offspringSplitter <- dummy
+	
+	##warnings
+	if (ncol(offspringSplitter)>1 & (ncol(offspringSplitter)-1)!=ncol(fecByDiscrete)) {
 		print("Warning - offspring splitter indicates more than just continuous stages. No fecundity by the discrete stages supplied in fecByDiscrete; assumed that is 0")
-		fecByDiscrete <- matrix(0,col(offspringSplitter)-1,col(offspringSplitter)-1)
+		#fecByDiscrete <- matrix(0,col(offspringSplitter)-1,col(offspringSplitter)-1)
+		fecByDiscrete <- offspringSplitter[,1:(ncol(offspringSplitter)-1)]
+		fecByDiscrete[] <- 0
 	}
 	
-	#setup for discrete covariates if data suggests may be implemented by the
-	#presence of "covariate" and "covariateNext"
+	if (sum(offspringSplitter)!=1) {
+		print("Warning - offspring splitter does not sum to 1. It is now rescaled to sum to 1.")
+		offspringSplitter <- offspringSplitter / sum(offspringSplitter) 
+	}
+	
 	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
 		dataf$covariate <- as.factor(dataf$covariate)
 		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
@@ -1223,25 +1240,48 @@ makePostFecObjs <- function(dataf,
 	}
 	
 	dataf$size2 <- dataf$size^2
-	if (length(grep("logsize",explanatoryVariables))>0) dataf$logsize <- log(dataf$size)
-	fecNames <- names(dataf)[grep("fec",names(dataf))]
+	if (length(grep("logsize",as.character(explanatoryVariables)))>0) dataf$logsize <- log(dataf$size)
+	
+	if (is.na(fecNames[1])) fecNames <- names(dataf)[grep("fec",names(dataf))]
 	if (length(fecNames)>length(explanatoryVariables)) {
-		print("number in explanatoryVariables not the same as the number of fecundity columns in the data file, taking first for all")
-		explanatoryVariables <- rep(explanatoryVariables[1],length(fecNames))
+		misE <- (length(explanatoryVariables)+1):length(fecNames)
+		print(c("number in explanatoryVariables not the same as the number of fecundity columns in the data file, using default of `size' for missing ones which are:",fecNames[misE],". (which might be exactly what you want)"))
+		explanatoryVariables <- c(explanatoryVariables,rep("size",length(fecNames)-length(explanatoryVariables)))
 	}
 	if (length(fecNames)>length(Family)) {
-		print("number of families not the same as the number of fecundity columns in the data file, taking first for all")
-		Family <- rep(Family[1],length(fecNames))
+		misE <- (length(Family)+1):length(fecNames)
+		print(c("number of families not the same as the number of fecundity columns in the data file, using default of `gaussian' for missing ones which are:",fecNames[misE],". (which might be exactly what you want)"))
+		Family <- c(Family,rep("gaussian",length(fecNames)-length(Family)))
 	}
 	if (length(fecNames)>length(Transform)) {
-		print("number of transforms not the same as the number of fecundity columns in the data file, taking first for all")
-		Transform <- rep(Transform[1],length(fecNames))
+		misE <- (length(Transform)+1):length(fecNames)
+		print(c("number of transforms not the same as the number of fecundity columns in the data file, using default of `none' for missing ones which are:",fecNames[misE],". (which might be exactly what you want)"))
+		Transform <- c(Transform,rep("none",length(fecNames)-length(Transform)))
 	}
 	
-	if (is.na(meanOffspringSize)) {
-		offspringdata<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
-		meanOffspringSize <- mean(offspringdata$sizeNext,na.rm=TRUE)
-		sdOffspringSize <- sd(offspringdata$sizeNext,na.rm=TRUE)
+	for (i in 1:length(fecNames)) {
+		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
+		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
+		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
+		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
+		f1@fitFec[[i]] <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
+	}
+	
+	
+	if (is.na(meanOffspringSize[1])|is.na(sdOffspringSize[1])) {
+		if (length(dataf$offspringNext)==0) {
+			offspringData<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
+			} else {
+			offspringData<-subset(dataf,dataf$offspringNext=="sexual"&dataf$stageNext=="continuous")
+		}
+		## relationship defining offspring size - note that the mean value is ALWAYS taken from
+		## a lm now (but equivalent to just fitting an intercept if that is desired....)
+		## [worth keeping sd separate from lm though (extracted from lm or not) because otherwise is a pain to adjust (as shown in growth model)]
+		offspringRel <- lm(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData)
+		sdOffspringSize <- summary(f1@offspringRel)$sigma
+	} else {
+		offspringRel <- lm(rep(meanOffspringSize[1],21)~1)
+		sdOffspringSize <- sdOffspringSize
 	}
 	
 	#get rid of NAs
@@ -1278,7 +1318,6 @@ makePostFecObjs <- function(dataf,
 	}
 	
 	
-	
 	#print(length(fit[[1]]$Sol[,1]))	
 	
 	#create list of growth models reflecing posterior
@@ -1295,13 +1334,13 @@ makePostFecObjs <- function(dataf,
 		}
 		
 		fv[[k]]@fecConstants <- fecConstants
-		fv[[k]]@meanOffspringSize <- meanOffspringSize
+		fv[[k]]@offspringRel <- offspringRel
 		fv[[k]]@sdOffspringSize <- sdOffspringSize
 		fv[[k]]@offspringSplitter <- offspringSplitter
 		fv[[k]]@offspringTypeRates <- offspringTypeRates
 		fv[[k]]@fecByDiscrete <- fecByDiscrete
 		fv[[k]]@Transform <- Transform 
-	}
+		}
 	print(k)
 	
 	return(fv)
