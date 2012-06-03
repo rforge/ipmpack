@@ -10,7 +10,7 @@ Uses fecundity objects to construct a matrix defining per-capita contribution to
 \usage{
 createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 
 	maxSize = 50, chosenCov = 1, integrateType="midpoint", correction="none", 
-	preCensus = TRUE, survObj = NULL, growthObj = NULL)
+	preCensus = TRUE, survObj = NULL, growObj = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -49,14 +49,14 @@ createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1,
     defaults to TRUE (pre-breeding census), meaning that all reproduction 
     and offspring rates required for the F matrix are embedded in fecObj. 
     Alternatively, an F matrix based on post-breeding census (preCensus=FALSE)
-    requires additional survObj and growthObj, to cover the survival and growth
+    requires additional survObj and growObj, to cover the survival and growth
     of the parents until the reproduction event. 
   }
   \item{survObj}{
     suvival object, describing the survival of parents from a census until 
     the reproduction event starts (at some point during the inter-census time step. 
   }
-  \item{growthObj}{
+  \item{growObj}{
     growth object, describing the growth of parents that survive until the 
     reproduction event starts.  
   }

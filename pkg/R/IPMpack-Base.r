@@ -1087,8 +1087,8 @@ createIPMFmatrix <- function(fecObj,
 		integrateType="midpoint",
 		correction="none",
 		preCensus=TRUE,
-		growObj=NULL,
-		survObj=NULL) {
+		survObj=NULL,
+		growObj=NULL) {
 	
 	# boundary points b and mesh points y
 	b<-minSize+c(0:nBigMatrix)*(maxSize-minSize)/nBigMatrix;
@@ -1128,7 +1128,7 @@ createIPMFmatrix <- function(fecObj,
 	} else {
 		if (integrateType=="midpoint") { 
 			tmp <- t(outer(X=y,Y=y,.fecPostCensus,
-							cov=chosenCov,fecObj=fecObj, growObj=growObj,
+							cov=chosenCov,fecObj=fecObj, growObj=growthObj,
 							survObj=survObj))*h 
 		}
 		if (integrateType=="cumul") {
