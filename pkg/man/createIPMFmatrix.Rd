@@ -9,7 +9,8 @@ Uses fecundity objects to construct a matrix defining per-capita contribution to
 }
 \usage{
 createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 
-	maxSize = 50, chosenCov = 1, integrateType="midpoint", correction="none")
+	maxSize = 50, chosenCov = 1, integrateType="midpoint", correction="none", 
+	preCensus = TRUE, survObj = NULL, growthObj = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,13 +22,13 @@ createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1,
     non-compound matrices.
   }
   \item{nBigMatrix}{
-    numeric, number of size bins in the T matrix, defaults to 50.
+    numeric, number of size bins in the F matrix, defaults to 50.
   }
   \item{minSize}{
-    numeric, minimum size of the T matrix, defaults to -1.
+    numeric, minimum size of the F matrix, defaults to -1.
   }
   \item{maxSize}{
-    numeric, maximum size of the T matrix, defaults to 50.
+    numeric, maximum size of the F matrix, defaults to 50.
   }
   \item{chosenCov}{
     numeric indicating level of the discrete covariate, or vector
@@ -41,6 +42,23 @@ createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1,
     correction type, defaults to "none"; option is "constant" which will
     multiply every column of the IPM by a constant sufficient to adjust
     values to those predicted for survival at that size. 
+  }
+  \item{preCensus}{
+    logical (TRUE or FALSE), indicating whether the fecundity object should
+    represent an interval between pre-breeding or a post-breeding censusses.
+    defaults to TRUE (pre-breeding census), meaning that all reproduction 
+    and offspring rates required for the F matrix are embedded in fecObj. 
+    Alternatively, an F matrix based on post-breeding census (preCensus=FALSE)
+    requires additional survObj and growthObj, to cover the survival and growth
+    of the parents until the reproduction event. 
+  }
+  \item{survObj}{
+    suvival object, describing the survival of parents from a census until 
+    the reproduction event starts (at some point during the inter-census time step. 
+  }
+  \item{growthObj}{
+    growth object, describing the growth of parents that survive until the 
+    reproduction event starts.  
   }
  
 }
