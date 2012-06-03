@@ -13,8 +13,8 @@ Function plots compared models built with \code{growthModelComp} and \code{survM
 plotGrowthModelComp(grObj,summaryTable, dataf, expVars, 
 respType = "sizeNext", testType = "AIC", 
 plotLegend = TRUE, mainTitle = "", legendPos = "topright",...)
-plotSurvModelComp(svObj, summaryTable, dataf, expVars, 
-testType = "AIC",  plotLegend = TRUE, mainTitle = "",ncuts=20", 
+
+plotSurvModelComp(svObj, summaryTable, dataf, expVars, testType = "AIC",  plotLegend = TRUE, mainTitle = "",ncuts=20, 
 legendPos = "topright",...) 
 }
 %- maybe also 'usage' for other objects documented here.
