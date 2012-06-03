@@ -998,6 +998,67 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 }
 
 
+## Extra functions for use with outer in building the IPMFmatrix
+
+## Get raw numbers of offspring produced by every size class by multiplying up the constants,
+## and doing all the "predict: values needed; and taking out only the babies that go to the continuous classes
+
+.fecRaw <- function(x,cov=1,fecObj) { 
+	
+	newd <- data.frame(size=x,size2=x^2,size3=x^3,covariate=as.factor(rep(cov,length(x))))
+	if (length(grep("logsize",
+					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}            
+	
+	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1
+	
+	#fecundity rates
+	fecValues <- matrix(c(rep(1,length(fecObj@fitFec)),unlist(fecObj@fecConstants)),
+			ncol=length(x),nrow=length(fecObj@fitFec)+
+					length(fecObj@fecConstants))
+	#rownames(fecValues) <- c(fecObj@fecNames,names(fecObj@fecConstants))
+	for (i in 1:length(fecObj@fitFec)) fecValues[i,] <- predict(fecObj@fitFec[[i]],newd,type="response")
+	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fecValues[i,]<-exp(fecValues[i,])
+	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fecValues[i,]<-(fecValues[i,])^2
+	if (length(grep("-1",fecObj@Transform))>0) for (i in grep("-1",fecObj@Transform)) fecValues[i,]<-fecValues[i,]+1
+	prodFecValues <- apply(fecValues[which(fecObj@offspringTypeRates[,"continuous"]==1),],2,prod)*unlist(fecObj@offspringSplitter["continuous"])
+	return(prodFecValues)
+}
+
+
+## A function that outer can use showing numbers from x to y via production and distribution offspring
+.fecPreCensus <- function(x,y,cov=1,fecObj) {
+	newd <- data.frame(size=x,size2=x^2,size3=x^3,covariate=as.factor(rep(cov,length(x))))
+	if (length(grep("logsize",
+					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
+	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)*
+			dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),
+					fecObj@sdOffspringSize)
+	
+	#print(cbind(y,predict(fecObj@offspringRel)))
+	
+	return(u)
+}
+
+## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring
+.fecPostCensus <- function(x,y,cov=1,fecObj, growObj,
+		survObj) {
+	newd <- data.frame(size=x,size2=x^2,size3=x^3,covariate=as.factor(rep(cov,length(x))))
+	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
+			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
+	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)*
+			dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)*
+			growSurv(size=x, sizeNext=y, cov=cov, growthObj=growObj,survObj=survObj)
+	return(u)
+}
+
+## A function that outer can use giving pnorm for offspring reprod
+.offspringCum <- function(x,y,cov=1,fecObj) {
+	newd <- data.frame(size=x,size2=x^2,size3=x^3,covariate=as.factor(rep(cov,length(x))))
+	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
+			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
+	u <- pnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)
+	return(u)
+}
 
 
 #Function creates a single F.IPM (fecundity transitions only)
@@ -1024,7 +1085,10 @@ createIPMFmatrix <- function(fecObj,
 		maxSize = 50,
 		chosenCov = 1,
 		integrateType="midpoint",
-		correction="none") {
+		correction="none",
+		preCensus=TRUE,
+		growObj=NULL,
+		survObj=NULL) {
 	
 	# boundary points b and mesh points y
 	b<-minSize+c(0:nBigMatrix)*(maxSize-minSize)/nBigMatrix;
@@ -1040,29 +1104,60 @@ createIPMFmatrix <- function(fecObj,
 	
 	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1
 	
-	#fecundity rates
-	fecValues <- matrix(c(rep(1,length(fecObj@fitFec)),unlist(fecObj@fecConstants)),
-			ncol=nBigMatrix,nrow=length(fecObj@fitFec)+
-					length(fecObj@fecConstants))
-	#rownames(fecValues) <- c(fecObj@fecNames,names(fecObj@fecConstants))
-	for (i in 1:length(fecObj@fitFec)) fecValues[i,] <- predict(fecObj@fitFec[[i]],newd,type="response")
-	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fecValues[i,]<-exp(fecValues[i,])
-	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fecValues[i,]<-(fecValues[i,])^2
-	if (length(grep("-1",fecObj@Transform))>0) for (i in grep("-1",fecObj@Transform)) fecValues[i,]<-fecValues[i,]+1
-	#fecValues[!is.finite(fecValues)] <- exp(200)
-	prodFecValues <- apply(fecValues[which(fecObj@offspringTypeRates[,"continuous"]==1),],2,prod)*unlist(fecObj@offspringSplitter["continuous"])
-	
-	#print(prodFecValues)	
-	
-	#Kids normal dist
-	tmp<-dnorm(y,fecObj@meanOffspringSize,(fecObj@sdOffspringSize))*h
-	if (integrateType=="cumul") { 
-		tmp1 <- dnorm(b,fecObj@meanOffspringSize,(fecObj@sdOffspringSize))
-		tmp <- tmp1[2:(nBigMatrix+1)]-tmp1[1:nBigMatrix]
+    # 1. pre-census
+	if (preCensus) { 
+		if (integrateType=="midpoint") { 
+			tmp <- t(outer(X=y,Y=y,.fecPreCensus,cov=chosenCov,fecObj=fecObj))*h 
+		}
+		if (integrateType=="cumul") {
+			#offspring extremes (pnorm) 
+			tmp.cum <- t(outer(X=y,Y=b,.offspringCum,cov=chosenCov,
+							fecObj=fecObj))
+			tmp <- tmp.cum[2:(nBigMatrix+1),]-tmp.cum[1:nBigMatrix,]
+			#put in seed production
+			tmp <- t(t(tmp)*.fecRaw(x=y,cov=chosenCov,fecObj=fecObj))      
+		}
+		
+		if (correction=="constant") {
+			# in this case, column sums should equal raw fecundity
+			correction <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)/colSums(tmp)
+			tmp <- t(t(tmp)*correction)
+		}
+		
+	# 2. post-census
+	} else {
+		if (integrateType=="midpoint") { 
+			tmp <- t(outer(X=y,Y=y,.fecPostCensus,
+							cov=chosenCov,fecObj=fecObj, growObj=growObj,
+							survObj=survObj))*h 
+		}
+		if (integrateType=="cumul") {
+			#make the extreme bins offspring matrix
+			tmp.cum <- t(outer(X=y,Y=b,.offspringCum,cov=chosenCov,
+							fecObj=fecObj))
+			tmpBabies <- tmp.cum[2:(nBigMatrix+1),]-tmp.cum[1:nBigMatrix,]
+			
+			#make the extreme bins growth matrix
+			tmp.cum <- t(outer(X=y,Y=b,growthCum,cov=chosenCov,
+							growObj=growObj))
+			tmpGrowth <- tmp.cum[2:(nBigMatrix+1),]-tmp.cum[1:nBigMatrix,]
+			tmpGrowth[nBigMatrix,nBigMatrix] <- tmpGrowth[nBigMatrix,nBigMatrix]+
+					(1-sum(tmpGrowth[,nBigMatrix]))
+			
+			#put in survival and seed production
+			tmp <- t(t(tmpBabies*tmpGrowth)*surv(size=y,cov=chosenCov,survObj=survObj)*.fecRaw(x=y,cov=chosenCov,fecObj=fecObj))
+			
+		}
+		
+		if (correction=="constant") {
+			# in this case, column sums should equal raw fecundity * survival
+			correction <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)*surv(size=y,cov=chosenCov,survObj=survObj)/colSums(tmp)
+			tmp <- t(t(tmp)*correction)
+		}
+		
 	}
-	if (correction=="constant") tmp<-tmp/sum(tmp)
-	to.cont<-tmp%*%t(prodFecValues)
-	get.matrix <- to.cont
+	
+	get.matrix <- tmp
 	
 	#discrete classes
 	nDisc <- length(fecObj@offspringSplitter)-1
