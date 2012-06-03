@@ -1185,7 +1185,7 @@ makePostSurvivalObjs <- function(dataf,
 #
 # Returns - list including list of growth objects, + list of survival objects
 makePostFecObjs <- function(dataf,
-		fecConstants=data.frame(NA),
+		fecConstants=data.frame(NA),fecNames=NA,
 		explanatoryVariables="size",
 		Family="gaussian",
 		Transform="none",
@@ -1193,7 +1193,9 @@ makePostFecObjs <- function(dataf,
 		sdOffspringSize=NA,
 		offspringSplitter=data.frame(continuous=1),
 		offspringTypeRates=data.frame(NA),
-		fecByDiscrete=data.frame(NA),burnin=3000,nitt=50000) {
+		fecByDiscrete=data.frame(NA),
+		offspringSizeExplanatoryVariables="1",
+		burnin=3000,nitt=50000) {
 	
 	require(MCMCglmm)
 	

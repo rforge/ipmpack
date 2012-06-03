@@ -12,10 +12,18 @@
 
 }
 \usage{
-makePostFecObjs(dataf, fecConstants,
-	explanatoryVariables, Family, Transform, meanOffspringSize,
-		sdOffspringSize, offspringSplitter, offspringTypeRates, fecByDiscrete,
-		burnin, nitt)
+makePostFecObjs(dataf,
+		fecConstants=data.frame(NA),fecNames=NA,
+		explanatoryVariables="size",
+		Family="gaussian",
+		Transform="none",
+		meanOffspringSize=NA,
+		sdOffspringSize=NA,
+		offspringSplitter=data.frame(continuous=1),
+		offspringTypeRates=data.frame(NA),
+		fecByDiscrete=data.frame(NA),
+		offspringSizeExplanatoryVariables="1",
+		burnin=3000,nitt=50000) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -24,7 +32,8 @@ makePostFecObjs(dataf, fecConstants,
       nine are currently possible (and note that ANY name containing
       "fec" will be included and these MUST NOT be transformed via log,
       etc, since the fecundity object produced will assume that it has total reproductive output.)}
-  \item{fecConstants}{a dataframe containing the value by which
+ \item{fecNames}{a character vector containing the names of the columns of the dataframe from which fecundity data will be analysed (one column at a time). If the fecNames argument is not specified (as by default, NA), fecNames will be filled by the names of all column names that contain "fec".} 
+   \item{fecConstants}{a dataframe containing the value by which
     each of the fecundity transforms will be multplied \emph{in the
       order defined by the alphabetical order of column names
       containing "fec"}; these might capture for example the probability
@@ -62,6 +71,7 @@ makePostFecObjs(dataf, fecConstants,
     and seedling survival rates may be applicable to seedlings, but not to seeds that go into a seedbank (depending on the life cycle and definition of vital rates).}
   \item{fecByDiscrete}{data.frame defining number of offspring produced by each
     discrete class ; defaults to 0. If specified, ALL discrete classes MUST appear in alphabetical order, so NO "continuous". e.g. fecByDiscrete=data.frame(dormant=0,seedAge1=4.2,seedOld=0)}     
+   \item{offspringSizeExplanatoryVariables}{a character defining the relationship defining offspring size; the default is "1", indicating simply fitting a mean and a variance; alternatives would including defining offspring size as a function of maternal size (i.e., offspringSizeExplanatoryVariables="size") or more complex polynomials of size (i.e., offspringSizeExplanatoryVariables="size+size2"). The corresponding relationship is fitted to the data contained in dataf, taking as the response variable the column "sizeNext" in dataf for rows where the column "offspringNext" is equal to "sexual" and the column "stageNext" is equal to "continuous". }  
   \item{burnin}{
     numeric defining burn in for MCMCglmm
 }
