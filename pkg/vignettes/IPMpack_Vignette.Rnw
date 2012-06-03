@@ -99,6 +99,7 @@ format in R: a {\tt data frame} where each row represents one observation of an 
 \item  {\tt covariate}: value of a discrete covariate in census time  $t$, such as light environment at time $t$, age at $t$, patch at $t$, etc. 
 \item  {\tt covariateNext}: value of a discrete covariate in census time $t+1$.
 \item  ...any other covariates of interest, named as desired by the user are possible too (e.g., precipitation, habitat, temperature, etc).
+\item {\tt offspringNext}: if the size contained in sizeNext corresponds to the size of an offspring, this column will contain either the value "sexual" or "clonal" (depending on whether sexual or clonal reproduction is being considered). 
 \end{itemize}
 
 The $^*$ symbol above indicates the minimum columns in the data frame required to obtain passage time and life expectancy calculations. These values form the $T$ kernel. If sufficient additional columns are available, a full life-cycle model, containing the $F$ kernel, can be produced and further analyses are possible.  Although {\tt size} and {\tt sizeNext} can be transformed, many of the utility functions assume no transformations in columns in the original data frame pertaining to fertility. Transformations can be formally called in various parts of the package and appropriate $F$ matrices built that account for these transformations. In addition, users may also define IPMs independently, and then introduce them into IPMpack for application of further utility functions (sensitivities, stochastic growth rates, etc). 
@@ -292,7 +293,6 @@ barplot(res$slam, main = expression("Parameter sensitivity of "*lambda),
 		    las = 2, cex.names = 0.5)
 barplot(res$elam, main = expression("Parameter elasticity of "*lambda), 
 		    las = 2, cex.names = 0.5)
-plot(1:10)
 @
 \begin{figure}
 \begin{center}
@@ -361,7 +361,7 @@ plot(Tmatrix@meshpoints, pTimes[1:Tmatrix@nBigMatrix],
   }
 @
 \end{center}
-\caption{Life expectancy and passage time for a compound IPM;   different colours reflect predictions for individuals starting in different environments}
+\caption{Passage time for a compound IPM;   different colours reflect predictions for individuals starting in different environments}
 \label{fig:five}
 \end{figure}
 
