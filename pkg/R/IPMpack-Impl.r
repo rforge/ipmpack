@@ -31,6 +31,10 @@ makeGrowthObj <- function(dataf,
 		responseType="sizeNext",
 		regType="constantVar") {
 	
+	#subset data to include only growth of individuals
+	dataf<-subset(dataf,is.na(dataf$size)==FALSE&is.na(dataf$sizeNext)==FALSE)
+	if (length(dataf$offspringNext)>0) dataf<-subset(dataf,!dataf$offspringNext%in%c("sexual","clonal"))
+	
 	if (responseType=="incr" & length(dataf$incr) == 0) {
 		print("building incr as sizeNext - size")
 		dataf$incr <- dataf$sizeNext - dataf$size
@@ -150,6 +154,10 @@ makeGrowthObjManyCov <- function(dataf,
 		responseType = "sizeNext",
 		regType = "constantVar"){
 	
+	#subset data to include only growth of individuals
+	dataf<-subset(dataf,is.na(dataf$size)==FALSE&is.na(dataf$sizeNext)==FALSE)
+	if (length(dataf$offspringNext)>0) dataf<-subset(dataf,!dataf$offspringNext%in%c("sexual","clonal"))
+	
 	if (responseType == "incr" & length(dataf$incr) == 0) {
 		print("building incr as sizeNext-size")
 		dataf$incr <- dataf$sizeNext-dataf$size
@@ -254,6 +262,11 @@ makeGrowthObjManyCov <- function(dataf,
 
 #no covariate, and one polynom, linear regression
 makegrowthObjHossfeld <- function(dataf) {  
+
+	#subset data to include only growth of individuals
+	dataf<-subset(dataf,is.na(dataf$size)==FALSE&is.na(dataf$sizeNext)==FALSE)
+	if (length(dataf$offspringNext)>0) dataf<-subset(dataf,!dataf$offspringNext%in%c("sexual","clonal"))
+	
 	if (length(dataf$incr)==0) dataf$incr <- dataf$sizeNext-dataf$size
 	dataf$incr[dataf$incr<0] <- 0
 	tmp <- optim(c(1, 1, 1), wrapHossfeld, dataf = dataf, method = "Nelder-Mead")
@@ -324,6 +337,9 @@ makegrowthObjHossfeld <- function(dataf) {
 makeSurvObj <- function(dataf,
 		explanatoryVariables="size+size2"){
 	
+	#subset data to include only survival status of individuals with continuous size at the beginning of the transition
+	dataf<-subset(dataf,is.na(dataf$surv)==FALSE)
+	if (length(dataf$offspringNext)>0) dataf<-subset(dataf,!dataf$offspringNext%in%c("sexual","clonal"))
 	
 	#build appropriate size based covariates
 	dataf$size2 <- dataf$size^2
@@ -371,6 +387,10 @@ makeSurvObj <- function(dataf,
 #
 makeSurvObjManyCov <- function(dataf,
 		explanatoryVariables="size+size2+covariate1"){
+	
+	#subset data to include only survival status of individuals with continuous size at the beginning of the transition
+	dataf<-subset(dataf,is.na(dataf$surv)==FALSE)
+	if (length(dataf$offspringNext)>0) dataf<-subset(dataf,!dataf$offspringNext%in%c("sexual","clonal"))
 	
 	#build appropriate size based covariates
 	dataf$size2 <- dataf$size^2
