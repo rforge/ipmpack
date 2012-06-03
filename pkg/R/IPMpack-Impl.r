@@ -401,6 +401,20 @@ makeFecObj <- function(dataf,
 		offspringTypeRates=data.frame(NA),
 		fecByDiscrete=data.frame(NA)){
 	
+	
+	#if stage or stageNext do not exist in dataf, create them assuming that 
+	#everything is continuous. 
+	if (length(dataf$stage)==0) { 
+		dataf$stage <- rep("continuous",nrow(dataf))
+		dataf$stage[is.na(dataf$size)] <- NA
+		dataf$stage <- as.factor(dataf$stage)
+	}
+	if (length(dataf$stageNext)==0) {
+		dataf$stageNext <- rep("continuous",nrow(dataf))
+		dataf$stageNext[dataf$surv==0] <- "dead"
+		dataf$stageNext <- as.factor(dataf$stageNext)
+	}
+		
 	#order stage names from discrete to continuous
 	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
 	stages <- stages[stages!="dead"] 
