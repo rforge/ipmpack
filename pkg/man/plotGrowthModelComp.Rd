@@ -12,9 +12,9 @@ Function plots compared models built with \code{growthModelComp} and \code{survM
 \usage{
 plotGrowthModelComp(grObj,summaryTable, dataf, expVars, 
 respType = "sizeNext", testType = "AIC", 
-plotLegend = TRUE, mainTitle = "",...)
+plotLegend = TRUE, mainTitle = """, legendPos = "topright",...)
 plotSurvModelComp(svObj, summaryTable, dataf, expVars, 
-testType = "AIC",  plotLegend = TRUE, mainTitle = "",ncuts=20,...) 
+testType = "AIC",  plotLegend = TRUE, mainTitle = "",ncuts=20", legendPos = "topright",...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -47,6 +47,9 @@ testType = "AIC",  plotLegend = TRUE, mainTitle = "",ncuts=20,...)
   }
   \item{ncuts}{
   number of consecutive size values for which to take means of size and survival for plotting.
+  }
+  \item{legendPos}{
+position of the legend on the figure ("topright", "bottomleft", ...)
   }
   \item{...}{
 additional arguments to plot (ylim, col, etc)	
