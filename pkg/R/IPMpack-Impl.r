@@ -1261,14 +1261,7 @@ makePostFecObjs <- function(dataf,
 		Transform <- c(Transform,rep("none",length(fecNames)-length(Transform)))
 	}
 	
-	for (i in 1:length(fecNames)) {
-		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
-		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
-		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
-		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
-		f1@fitFec[[i]] <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
-	}
-	
+		
 	
 	if (is.na(meanOffspringSize[1])|is.na(sdOffspringSize[1])) {
 		if (length(dataf$offspringNext)==0) {
