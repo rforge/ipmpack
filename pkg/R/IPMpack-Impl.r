@@ -1273,7 +1273,7 @@ makePostFecObjs <- function(dataf,
 		## a lm now (but equivalent to just fitting an intercept if that is desired....)
 		## [worth keeping sd separate from lm though (extracted from lm or not) because otherwise is a pain to adjust (as shown in growth model)]
 		offspringRel <- lm(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData)
-		sdOffspringSize <- summary(f1@offspringRel)$sigma
+		sdOffspringSize <- summary(offspringRel)$sigma
 	} else {
 		offspringRel <- lm(rep(meanOffspringSize[1],21)~1)
 		sdOffspringSize <- sdOffspringSize
