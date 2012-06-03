@@ -765,7 +765,7 @@ makeClonalObj <- function(dataf,
 		if (length(dataf$offspringNext)==0) {
 			offspringData<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
 		} else {
-			offspringData<-subset(dataf,dataf$offspringNext=="asexual"&dataf$stageNext=="continuous")
+			offspringData<-subset(dataf,dataf$offspringNext=="clonal"&dataf$stageNext=="continuous")
 		}
 		## relationship defining offspring size - note that the mean value is ALWAYS taken from
 		## a lm now (but equivalent to just fitting an intercept if that is desired....)
@@ -893,7 +893,7 @@ makeClonalObjManyCov <- function(dataf,
 		if (length(dataf$offspringNext)==0) {
 			offspringData<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
 		} else {
-			offspringData<-subset(dataf,dataf$offspringNext=="asexual"&dataf$stageNext=="continuous")
+			offspringData<-subset(dataf,dataf$offspringNext=="clonal"&dataf$stageNext=="continuous")
 		}
 		## relationship defining offspring size - note that the mean value is ALWAYS taken from
 		## a lm now (but equivalent to just fitting an intercept if that is desired....)
