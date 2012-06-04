@@ -15,7 +15,7 @@ respType = "sizeNext", testType = "AIC",
 plotLegend = TRUE, mainTitle = "", legendPos = "topright",...)
 
 plotSurvModelComp(svObj, summaryTable, dataf, expVars, testType = "AIC",  plotLegend = TRUE, mainTitle = "",ncuts=20, 
-legendPos = "topright",...) 
+legendPos = "bottomleft",...) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
