@@ -284,7 +284,6 @@ In addition to perturbation measures from mesh cells, the user can also obtain s
 res <- sensParams(growObj = gr1, survObj = sv1, fecObj = fv1, 
                   nBigMatrix = 50, minSize = -5, maxSize = 15)
 res
-plot(1:10)
 @ 
 and this output can be plotted out (Figure~\ref{fig:foura} p.~\pageref{fig:foura}) using
 <<label = fig4a, include = FALSE>>= 
