@@ -526,7 +526,7 @@ makeFecObj <- function(dataf,
 		names(offspringTypeRates) <- names(offspringSplitter)
 	}
 
-	if (is.na(sdOffspringSize)) 
+	if (is.na(f1@sdOffspringSize)) 
 		print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")	
 	
 	
@@ -660,7 +660,7 @@ makeFecObjManyCov <- function(dataf,
 		names(offspringTypeRates) <- names(offspringSplitter)
 	}
 
-	if (is.na(sdOffspringSize)) 
+	if (is.na(f1@sdOffspringSize)) 
 		print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")	
 	
 	
@@ -794,7 +794,7 @@ makeClonalObj <- function(dataf,
 		names(offspringTypeRates) <- names(offspringSplitter)
 	}
 
-	if (is.na(sdOffspringSize)) 
+	if (is.na(f1@sdOffspringSize)) 
 		print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")	
 	
 	
@@ -926,7 +926,7 @@ makeClonalObjManyCov <- function(dataf,
 		names(offspringTypeRates) <- names(offspringSplitter)
 	}
 	
-	if (is.na(sdOffspringSize)) 
+	if (is.na(f1@sdOffspringSize)) 
 		print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")	
 	
 	
