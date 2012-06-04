@@ -83,7 +83,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 #print(head(dff))
 #gr1 <- makeGrowthObjManyCov(dff, explanatoryVariables = "size+size2+covariate1")
 #sv1 <- makeSurvObjManyCov(dff, explanatoryVariables = "size+size2+covariate2")
-#fv1 <- makeFecObjManyCov(dff, explanatoryVariables = "size+size2")
+#fv1 <- makeFecObjManyCov(dff, explanatoryVariables = "size+size2",Transform="log")
 
 # Generate time series of covariates for which population growth rate is required
 # Here set to be seasonal environment. Names of covariates must be same as in dff
