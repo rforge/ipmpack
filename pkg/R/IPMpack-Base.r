@@ -1040,16 +1040,30 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 }
 
 ## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring
-.fecPostCensus <- function(x,y,cov=1,fecObj, growObj,
-		survObj) {
+#.fecPostCensus <- function(x,y,cov=1,fecObj, growObj,
+#		survObj) {
+#	newd <- data.frame(size=x,size2=x^2,size3=x^3,covariate=as.factor(rep(cov,length(x))))
+#	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
+#			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
+#	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
+#			dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)*
+#			growSurv(size=x, sizeNext=y, cov=cov, growthObj=growObj,survObj=survObj)
+#	return(u)
+#}
+
+## REMOVE GROWTH FROM THIS - note that this means 
+#### growth obj generally not needed down below.....
+## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring
+.fecPostCensus <- function(x,y,cov=1,fecObj, growObj,survObj) {
 	newd <- data.frame(size=x,size2=x^2,size3=x^3,covariate=as.factor(rep(cov,length(x))))
 	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
 			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
 	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
 			dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)*
-			growSurv(size=x, sizeNext=y, cov=cov, growthObj=growObj,survObj=survObj)
+			surv(size=x, cov=cov, survObj=survObj)
 	return(u)
 }
+
 
 ## A function that outer can use giving pnorm for offspring reprod
 .offspringCum <- function(x,y,cov=1,fecObj) {
