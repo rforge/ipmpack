@@ -1052,7 +1052,7 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 }
 
 ## A function that outer can use giving pnorm for offspring reprod
-.offspringCum <- function(x,y,cov=1,fecObj) {
+.offspringCum <- function(x,y,cov=1,fecObj,growObj) {
 	newd <- data.frame(size=x,size2=x^2,size3=x^3,covariate=as.factor(rep(cov,length(x))))
 	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
 			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
@@ -1112,7 +1112,7 @@ createIPMFmatrix <- function(fecObj,
 		if (integrateType=="cumul") {
 			#offspring extremes (pnorm) 
 			tmp.cum <- t(outer(X=y,Y=b,.offspringCum,cov=chosenCov,
-							fecObj=fecObj))
+							fecObj=fecObj,growObj=growObj))
 			tmp <- tmp.cum[2:(nBigMatrix+1),]-tmp.cum[1:nBigMatrix,]
 			#put in seed production
 			tmp <- t(t(tmp)*.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]])      
@@ -1128,13 +1128,13 @@ createIPMFmatrix <- function(fecObj,
 	} else {
 		if (integrateType=="midpoint") { 
 			tmp <- t(outer(X=y,Y=y,.fecPostCensus,
-							cov=chosenCov,fecObj=fecObj, growObj=growthObj,
+							cov=chosenCov,fecObj=fecObj, growObj=growObj,
 							survObj=survObj))*h 
 		}
 		if (integrateType=="cumul") {
 			#make the extreme bins offspring matrix
 			tmp.cum <- t(outer(X=y,Y=b,.offspringCum,cov=chosenCov,
-							fecObj=fecObj))
+							fecObj=fecObj,growObj=growObj))
 			tmpBabies <- tmp.cum[2:(nBigMatrix+1),]-tmp.cum[1:nBigMatrix,]
 			
 			#make the extreme bins growth matrix
