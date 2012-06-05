@@ -58,7 +58,9 @@ createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1,
   }
   \item{growObj}{
     growth object, describing the growth of parents that survive until the 
-    reproduction event starts.  
+    reproduction event starts. Warning: this growth object is still ignored in 
+    createIPMFmatrix in the current version of IPMpack. It will become functional 
+    in coming versions.  
   }
  
 }

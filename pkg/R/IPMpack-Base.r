@@ -1040,29 +1040,35 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 }
 
 ## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring
-.fecPostCensus <- function(x,y,cov=1,fecObj, growObj,
-		survObj) {
-	newd <- data.frame(size=x,size2=x^2,size3=x^3,covariate=as.factor(rep(cov,length(x))))
-	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
-			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
-	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
-			dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)*
-			growSurv(size=x, sizeNext=y, cov=cov, growthObj=growObj,survObj=survObj)
-	return(u)
-}
-
-## REMOVE GROWTH FROM THIS - note that this means 
-#### growth obj generally not needed down below.....
-## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring
-#.fecPostCensus <- function(x,y,cov=1,fecObj, growObj,survObj) {
+#.fecPostCensus <- function(x,y,cov=1,fecObj, growObj,
+#		survObj) {
 #	newd <- data.frame(size=x,size2=x^2,size3=x^3,covariate=as.factor(rep(cov,length(x))))
 #	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
 #			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
 #	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
 #			dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)*
-#			surv(size=x, cov=cov, survObj=survObj)
+#			growSurv(size=x, sizeNext=y, cov=cov, growthObj=growObj,survObj=survObj)
 #	return(u)
 #}
+
+# TO DO .fecPostCensus properly (i.e. include size changes between the census and reproduction event) the following steps have to be made:
+# 1. use growSurv to determine what the distribution of size is at the reproduction event given initial size x
+# 2. over this distribution of sizes x2 at the reproduction event, what are the expected number of offspring: per x2: .fecRaw(x=x2,...)
+# 3. multiply the expected number of offspring per x2 with the probability that an offspring is of size y, using dnorm(y,predict(..., newdata=newd2, ...) where newd2 is calculated for all levels of x2
+# all in all, Eelke wonders if the outer-solution is still useful in the .fecPostCensus case, since x2 needs to have a certain distribution, which is not passed down to .fecPostCensus... 
+
+## REMOVE GROWTH FROM THIS - note that this means 
+#### growth obj generally not needed down below.....
+## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring
+.fecPostCensus <- function(x,y,cov=1,fecObj, growObj,survObj) {
+	newd <- data.frame(size=x,size2=x^2,size3=x^3,covariate=as.factor(rep(cov,length(x))))
+	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
+			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
+	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
+			dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)*
+   			surv(size=x, cov=cov, survObj=survObj)
+	return(u)
+}
 
 
 ## A function that outer can use giving pnorm for offspring reprod
@@ -1139,6 +1145,7 @@ createIPMFmatrix <- function(fecObj,
 		
 	# 2. post-census
 	} else {
+		print ("Warning: in the current version of IPMpack, createIPMFmatrix still ignores the growObj you provided for your post-breeding F matrix. This will be included in a later version. Survival until breeding is already included in this version.")
 		if (integrateType=="midpoint") { 
 			tmp <- t(outer(X=y,Y=y,.fecPostCensus,
 							cov=chosenCov,fecObj=fecObj, growObj=growObj,
