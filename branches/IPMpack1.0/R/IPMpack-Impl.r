@@ -29,7 +29,8 @@
 makeGrowthObj <- function(dataf,
 		explanatoryVariables="size",
 		responseType="sizeNext",
-		regType="constantVar") {
+		regType="constantVar",
+		Family="gaussian") {
 	
 	if (responseType=="incr" & length(dataf$incr) == 0) {
 		print("building incr as sizeNext - size")
@@ -56,7 +57,13 @@ makeGrowthObj <- function(dataf,
 		dataf$covariateNext <- as.factor(dataf$covariateNext)
 		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
 	}
-	#eval fit
+	#eval fit and make the objects
+	if (Family == "poisson") {
+		fit <- glm(Formula, data=dataf, family = "poisson")
+		gr1 <- new("growthObjPois")
+		gr1@fit <- fit
+		if (regType != "constantVar") print("Warning: your regType is ignored because a poisson model is fitted")
+	} else {
 	if (regType == "constantVar")  {
 		fit <- lm(Formula, data=dataf)
 	} else { 
@@ -70,7 +77,7 @@ makeGrowthObj <- function(dataf,
 						fit = fit.here)
 		}
 	}
-	#make the objects
+    #make the objects
 	#with sizeNext as response
 	if (responseType == "sizeNext") { 
 		
@@ -117,6 +124,7 @@ makeGrowthObj <- function(dataf,
 					}
 				}
 			}
+		}
 		}
 	}
 	return(gr1)

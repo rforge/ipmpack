@@ -29,11 +29,8 @@
 makeGrowthObj <- function(dataf,
 		explanatoryVariables="size",
 		responseType="sizeNext",
-		regType="constantVar") {
-	
-	#subset data to include only growth of individuals
-	dataf<-subset(dataf,is.na(dataf$size)==FALSE&is.na(dataf$sizeNext)==FALSE)
-	if (length(dataf$offspringNext)>0) dataf<-subset(dataf,!dataf$offspringNext%in%c("sexual","clonal"))
+		regType="constantVar",
+		Family="gaussian") {
 	
 	if (responseType=="incr" & length(dataf$incr) == 0) {
 		print("building incr as sizeNext - size")
@@ -52,7 +49,7 @@ makeGrowthObj <- function(dataf,
 	
 	#setup for discrete covariates if data suggests may be implemented by the
 	#presence of "covariate" and "covariateNext"
-		if ("covariate" %in% strsplit(as.character(explanatoryVariables), "[+-\\*]")[[1]] & length(dataf$covariate) > 0) { 
+	if ("covariate" %in% strsplit(as.character(explanatoryVariables), "[+-\\*]")[[1]] & length(dataf$covariate) > 0) { 
 		dataf$covariate <- as.factor(dataf$covariate)
 		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
 	}
@@ -60,48 +57,36 @@ makeGrowthObj <- function(dataf,
 		dataf$covariateNext <- as.factor(dataf$covariateNext)
 		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
 	}
-	#eval fit
-	if (regType == "constantVar")  {
-		fit <- lm(Formula, data=dataf)
-	} else { 
-		if (regType == "declineVar"){
-			require(nlme)
-			Formula <- as.formula(Formula)	
-			fit.here <- gls(Formula, na.action = na.omit, weights = varExp(form =  ~fitted(.)), data = dataf)
-			fit <- list(coefficients = fit.here$coefficients,
-						sigma = summary(fit.here)$sigma,	
+	#eval fit and make the objects
+	if (Family == "poisson") {
+		fit <- glm(Formula, data=dataf, family = "poisson")
+		gr1 <- new("growthObjPois")
+		gr1@fit <- fit
+		if (regType != "constantVar") print("Warning: your regType is ignored because a poisson model is fitted")
+	} else {
+		if (regType == "constantVar")  {
+			fit <- lm(Formula, data=dataf)
+		} else { 
+			if (regType == "declineVar"){
+				require(nlme)
+				Formula <- as.formula(Formula)	
+				fit.here <- gls(Formula, na.action = na.omit, weights = varExp(form =  ~fitted(.)), data = dataf)
+				fit <- list(coefficients = fit.here$coefficients,
 						sigmax2 = summary(fit.here)$sigma^2,
 						var.exp.coef = as.numeric(fit.here$modelStruct$varStruct[1]), 
 						fit = fit.here)
-		}
-	}
-	#make the objects
-	#with sizeNext as response
-	if (responseType == "sizeNext") { 
-		
-		if (class(fit) == "lm") { 
-			gr1 <- new("growthObj")
-			gr1@fit <- fit
-			gr1@sd <- summary(fit)$sigma
-		} else {
-			if (class(fit.here) == "gls") { 
-				gr1 <- new("growthObjDeclineVar")
-				gr1@fit <- fit
-			} else {
-				print("unknown formula;
-								please use lm or gls for declining variance models")
 			}
 		}
-	} else {
-		if (responseType == "incr") { 
+		#make the objects
+		#with sizeNext as response
+		if (responseType == "sizeNext") { 
 			
 			if (class(fit) == "lm") { 
-				gr1 <- new("growthObjIncr")
+				gr1 <- new("growthObj")
 				gr1@fit <- fit
-				gr1@sd <- summary(fit)$sigma
 			} else {
 				if (class(fit.here) == "gls") { 
-					gr1 <- new("growthObjIncrDeclineVar")
+					gr1 <- new("growthObjDeclineVar")
 					gr1@fit <- fit
 				} else {
 					print("unknown formula;
@@ -109,20 +94,34 @@ makeGrowthObj <- function(dataf,
 				}
 			}
 		} else {
-			if (responseType == "logincr") {
+			if (responseType == "incr") { 
 				
 				if (class(fit) == "lm") { 
-					gr1 <- new("growthObjLogIncr")
+					gr1 <- new("growthObjIncr")
 					gr1@fit <- fit
-					gr1@sd <- summary(fit)$sigma
-					
 				} else {
 					if (class(fit.here) == "gls") { 
-						gr1 <- new("growthObjLogIncrDeclineVar")
+						gr1 <- new("growthObjIncrDeclineVar")
 						gr1@fit <- fit
 					} else {
 						print("unknown formula;
 										please use lm or gls for declining variance models")
+					}
+				}
+			} else {
+				if (responseType == "logincr") {
+					
+					if (class(fit) == "lm") { 
+						gr1 <- new("growthObjLogIncr")
+						gr1@fit <- fit
+					} else {
+						if (class(fit.here) == "gls") { 
+							gr1 <- new("growthObjLogIncrDeclineVar")
+							gr1@fit <- fit
+						} else {
+							print("unknown formula;
+											please use lm or gls for declining variance models")
+						}
 					}
 				}
 			}

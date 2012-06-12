@@ -11,8 +11,8 @@ IPM package, a series of analytical tools for building, diagnosing, and projecti
 \tabular{ll}{
 Package: \tab IPMpack\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2012-21-03\cr
+Version: \tab 1.3\cr
+Date: \tab 2012-June-12\cr
 License: \tab GPL\cr
 LazyLoad: \tab yes\cr
 Depends: \tab MCMCglmm, Matrix, MASS, nlme\cr

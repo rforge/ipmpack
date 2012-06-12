@@ -10,7 +10,7 @@
 }
 \usage{
 makeGrowthObj(dataf, explanatoryVariables="size", 
-	responseType="sizeNext",regType="constantVar")
+	responseType="sizeNext",regType="constantVar",Family="gaussian")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,10 +31,11 @@ makeGrowthObj(dataf, explanatoryVariables="size",
   \item{responseType}{possible values include `sizeNext' (size in one
     discrete time step) and `incr' and `logincr'}
   \item{regType}{possible values include `constantVar' or `declineVar'}
+  \item{Family}{possible values include `gaussian' or `poisson'}
   
   }
 \value{
-An object of class growthObj, or growthObjIncr, or growthObjLogIncr;
+An object of class growthObj, or growthObjPois, growthObjIncr, or growthObjLogIncr;
 or growthObjDeclineVar, or growthObjIncrDeclineVar, or growthObjLogIncrDeclineVar. 
 These are S4 objects which contain the slots: 
    \item{fit}{an object of class \code{lm} or \code{glm} or \code{gls} that can be used with predict in the survival methods}

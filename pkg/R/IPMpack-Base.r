@@ -65,6 +65,9 @@ setGeneric("growthCum",
 setClass("growthObj",
 		representation(fit = "lm",sd="numeric"))
 
+setClass("growthObjPois",
+		representation(fit = "glm"))
+
 setClass("growthObjMultiCov",
 		representation(fit = "lm",sd="numeric"))
 
@@ -114,6 +117,10 @@ setClass("growthObjHossfeld",
 				sd="numeric", 
 				logLik="numeric", 
 				hessian="matrix"))
+
+# Create a generic growth object with a poisson model 
+setClass("growthObjPois",
+		representation(fit = "glm"))
 
 ## SURVIVAL OBJECTS ##
 # Create a generic survival object
@@ -284,6 +291,21 @@ setMethod("growth",
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <-growthObj@sd
 			u <- dnorm(sizeNext,mux,sigmax,log=FALSE)  
+			return(u);
+		})
+
+#  growth transition (poisson model) probability from size to sizeNext at that covariate level 
+setMethod("growth", 
+		c("numeric","numeric","numeric","growthObjPois"),
+		function(size,sizeNext,cov,growthObj){
+			newd <- data.frame(size=size,size2=size^2,size3=size^3,
+					covariate=as.factor(rep(cov,length(size))))
+			#print(head(newd))
+			if (length(grep("logsize",
+							growthObj@fit$formula))>0) { newd$logsize <- log(size)}
+			
+			mux <- predict(growthObj@fit,newd,type="response")
+			u <- dpois(sizeNext,mux,log=FALSE)  
 			return(u);
 		})
 
