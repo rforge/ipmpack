@@ -638,6 +638,7 @@ makeFecObjManyCov <- function(dataf,
 		f1@fitFec[[i]] <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
 	}
 	
+	if (offspringSplitter$continuous>0) {
 	if (is.na(meanOffspringSize[1])|is.na(sdOffspringSize[1])) {
 		if (length(dataf$offspringNext)==0) {
 			offspringData<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
@@ -653,6 +654,7 @@ makeFecObjManyCov <- function(dataf,
 		f1@offspringRel <- lm(rep(meanOffspringSize[1],21)~1)
 		f1@sdOffspringSize <- sdOffspringSize
 	}
+    }
 	
 	if (sum(dim(offspringTypeRates)==c(1,1))<2) {
 		if ((sum(offspringTypeRates==0,na.rm=T)+sum(offspringTypeRates==1,na.rm=T))<(ncol(offspringTypeRates)*nrow(offspringTypeRates))) stop("Error - in offspringTypeRates data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
@@ -663,10 +665,12 @@ makeFecObjManyCov <- function(dataf,
 		names(offspringTypeRates) <- names(offspringSplitter)
 	}
 
-	if (is.na(f1@sdOffspringSize)) 
-		print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")	
-	
-	
+	if (length(f1@sdOffspringSize)>0) {
+		if (is.na(f1@sdOffspringSize)) {
+			print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")
+		}
+	}
+		
 	f1@fecNames <- fecNames
 	f1@fecConstants <- fecConstants
 	f1@offspringSplitter <- offspringSplitter 
@@ -772,6 +776,7 @@ makeClonalObj <- function(dataf,
 		f1@fitFec[[i]] <- glm(paste(fecNames[i],'~',explanatoryVariables[i],sep=''),family=Family[i],data=dataf)
 	}
 	
+	if (offspringSplitter$continuous>0) {
 	if (is.na(meanOffspringSize[1])|is.na(sdOffspringSize[1])) {
 		if (length(dataf$offspringNext)==0) {
 			offspringData<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
@@ -787,7 +792,8 @@ makeClonalObj <- function(dataf,
 		f1@offspringRel <- lm(rep(meanOffspringSize[1],21)~1)
 		f1@sdOffspringSize <- sdOffspringSize
 	}
-	
+    }
+
 	if (sum(dim(offspringTypeRates)==c(1,1))<2) {
 		if ((sum(offspringTypeRates==0,na.rm=T)+sum(offspringTypeRates==1,na.rm=T))<(ncol(offspringTypeRates)*nrow(offspringTypeRates))) stop("Error - in offspringTypeRates data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
 		if (sum(names(offspringTypeRates)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in offspringTypeRates should match those in offspringSplitter - and in the same order, with continuous last")
@@ -797,10 +803,12 @@ makeClonalObj <- function(dataf,
 		names(offspringTypeRates) <- names(offspringSplitter)
 	}
 
-	if (is.na(f1@sdOffspringSize)) 
-		print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")	
-	
-	
+	if (length(f1@sdOffspringSize)>0) {
+		if (is.na(f1@sdOffspringSize)) {
+			print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")
+		}
+	}
+		
 	f1@fecNames <- fecNames
 	f1@fecConstants <- fecConstants
 	f1@offspringSplitter <- offspringSplitter 
