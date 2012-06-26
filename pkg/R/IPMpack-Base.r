@@ -1028,8 +1028,9 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 .fecRaw <- function(x,cov=1,fecObj) { 
 	
 	newd <- data.frame(size=x,size2=x^2,size3=x^3,covariate=as.factor(rep(cov,length(x))))
-	if (length(grep("logsize",
-					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}            
+	if (length(fecObj@offspringRel)>1) {
+		if (length(grep("logsize", fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
+	}
 	
 	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1
 	
@@ -1145,12 +1146,14 @@ createIPMFmatrix <- function(fecObj,
 	
 	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1
 	
+	tmp <- matrix(0,ncol=length(y),nrow=length(y))
+	
     # 1. pre-census
 	if (preCensus) { 
-		if (integrateType=="midpoint") { 
+		if (integrateType=="midpoint"&fecObj@offspringSplitter$continuous>0) { 
 			tmp <- t(outer(X=y,Y=y,.fecPreCensus,cov=chosenCov,fecObj=fecObj))*h 
 		}
-		if (integrateType=="cumul") {
+		if (integrateType=="cumul"&fecObj@offspringSplitter$continuous>0) {
 			#offspring extremes (pnorm) 
 			tmp.cum <- t(outer(X=y,Y=b,.offspringCum,cov=chosenCov,
 							fecObj=fecObj))
@@ -1168,12 +1171,12 @@ createIPMFmatrix <- function(fecObj,
 	# 2. post-census
 	} else {
 		print ("Warning: in the current version of IPMpack, createIPMFmatrix still ignores the growObj you provided for your post-breeding F matrix. This will be included in a later version. Survival until breeding is already included in this version.")
-		if (integrateType=="midpoint") { 
+		if (integrateType=="midpoint"&fecObj@offspringSplitter$continuous>0) { 
 			tmp <- t(outer(X=y,Y=y,.fecPostCensus,
 							cov=chosenCov,fecObj=fecObj, growObj=growObj,
 							survObj=survObj))*h 
 		}
-		if (integrateType=="cumul") {
+		if (integrateType=="cumul"&fecObj@offspringSplitter$continuous>0) {
 			#make the extreme bins offspring matrix
 			tmp.cum <- t(outer(X=y,Y=b,.offspringCum,cov=chosenCov,
 							fecObj=fecObj))
@@ -1206,9 +1209,8 @@ createIPMFmatrix <- function(fecObj,
 	namesDiscrete <- "NA"
 	if (nDisc>0) {
 		namesDiscrete <- colnames(fecObj@offspringSplitter[1:nDisc])
-		to.discrete <- matrix(NA,nrow=nDisc,ncol=nBigMatrix)
+		to.discrete <- matrix(0,nrow=nDisc,ncol=nBigMatrix)
 		for (i in 1:nDisc) to.discrete[i,] <- apply(.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@offspringTypeRates[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
-		
 		from.discrete <- matrix(0,ncol=nDisc,nrow=nDisc+nBigMatrix)
 		if (names(fecObj@fecByDiscrete)[1]!="NA.") {
 			if (sum(names(fecObj@fecByDiscrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fecByDiscrete are not 100% the same discrete class names in your data.frame offspringSplitter. They should also be in alphabetical order.")
