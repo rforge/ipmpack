@@ -32,6 +32,13 @@ makeGrowthObj <- function(dataf,
 		regType="constantVar",
 		Family="gaussian") {
 	
+	dataf <- subset(dataf, is.na(dataf$size) == FALSE & is.na(dataf$sizeNext) == 
+					FALSE)
+	
+	if (length(dataf$offspringNext) > 0) 
+		dataf <- subset(dataf, !dataf$offspringNext %in% c("sexual", 
+						"clonal"))
+	
 	if (responseType=="incr" & length(dataf$incr) == 0) {
 		print("building incr as sizeNext - size")
 		dataf$incr <- dataf$sizeNext - dataf$size
@@ -84,6 +91,7 @@ makeGrowthObj <- function(dataf,
 			if (class(fit) == "lm") { 
 				gr1 <- new("growthObj")
 				gr1@fit <- fit
+				gr1@sd <- summary(fit)$sigma
 			} else {
 				if (class(fit.here) == "gls") { 
 					gr1 <- new("growthObjDeclineVar")
@@ -99,6 +107,7 @@ makeGrowthObj <- function(dataf,
 				if (class(fit) == "lm") { 
 					gr1 <- new("growthObjIncr")
 					gr1@fit <- fit
+					gr1@sd <- summary(fit)$sigma
 				} else {
 					if (class(fit.here) == "gls") { 
 						gr1 <- new("growthObjIncrDeclineVar")
@@ -114,6 +123,7 @@ makeGrowthObj <- function(dataf,
 					if (class(fit) == "lm") { 
 						gr1 <- new("growthObjLogIncr")
 						gr1@fit <- fit
+						gr1@sd <- summary(fit)$sigma
 					} else {
 						if (class(fit.here) == "gls") { 
 							gr1 <- new("growthObjLogIncrDeclineVar")
