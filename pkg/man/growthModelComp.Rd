@@ -14,7 +14,7 @@ growthModelComp(dataf, expVars = c(sizeNext~1,  sizeNext~size, sizeNext~size + s
 	regressionType = "constantVar",  testType = "AIC", 
 		makePlot = FALSE, mainTitle = "",legendPos = "topright",...)
 		
-survModelComp(dataf, expVars = c(sizeNext~1,  sizeNext~size, sizeNext~size + size2), testType = "AIC", 
+survModelComp(dataf, expVars = c(surv~1,  surv~size, surv~size + size2), testType = "AIC", 
 	makePlot = FALSE, mainTitle = "",ncuts=20, legendPos = "bottomleft", ...)
 }
 %- maybe also 'usage' for other objects documented here.

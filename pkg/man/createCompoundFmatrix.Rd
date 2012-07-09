@@ -9,7 +9,9 @@ Builds a compound F matrix.
 }
 \usage{
 createCompoundFmatrix(nEnvClass = 2, nBigMatrix = 50,
-minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType, correction)
+minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType="midpoint", 
+correction="none",
+preCensus = TRUE, survObj = NULL, growObj = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -40,6 +42,25 @@ minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType, correction)
     correction type, defaults to "none"; option is "constant" which will
     multiply every column of the IPM by a constant sufficient to adjust
     values to those predicted for survival at that size. 
+  }
+  \item{preCensus}{
+    logical (TRUE or FALSE), indicating whether the fecundity object should
+    represent an interval between pre-breeding or a post-breeding censusses.
+    defaults to TRUE (pre-breeding census), meaning that all reproduction 
+    and offspring rates required for the F matrix are embedded in fecObj. 
+    Alternatively, an F matrix based on post-breeding census (preCensus=FALSE)
+    requires additional survObj and growObj, to cover the survival and growth
+    of the parents until the reproduction event. 
+  }
+  \item{survObj}{
+    suvival object, describing the survival of parents from a census until 
+    the reproduction event starts (at some point during the inter-census time step. 
+  }
+  \item{growObj}{
+    growth object, describing the growth of parents that survive until the 
+    reproduction event starts. Warning: this growth object is still ignored in 
+    createIPMFmatrix in the current version of IPMpack. It will become functional 
+    in coming versions.  
   }
 }
 \value{

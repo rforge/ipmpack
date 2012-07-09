@@ -13,7 +13,7 @@ makeListIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,
 		explSurv = surv ~ size + size2 + covariate, 
 		explGrow = sizeNext ~ size + size2 + covariate,
 				regType = "constantVar", 
-						explFec = "size",  Family="gaussian", 
+						explFec = fec ~size,  Family="gaussian", 
 							Transform="none", fecConstants = data.frame(NA))
 }
 %- maybe also 'usage' for other objects documented here.

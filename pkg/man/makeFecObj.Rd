@@ -13,8 +13,8 @@
 \usage{
 
 makeFecObj(dataf, fecConstants=data.frame(NA),
-		Formula=fec~size,Family="gaussian",
-		Transform="none",fecNames=NA,meanOffspringSize=NA,
+		Formula=c(fec~size),Family="gaussian",
+		Transform="none",meanOffspringSize=NA,
 		sdOffspringSize=NA,offspringSplitter=data.frame(continuous=1),
 		offspringTypeRates=data.frame(NA),fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1")
