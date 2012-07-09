@@ -49,8 +49,8 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff <- generateData()
 Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize=max(dff$size, na.rm = TRUE), 
-growObj = makeGrowthObj(dff, explanatoryVariables="size+covariate"), 
-survObj = makeSurvObj(dff, explanatoryVariables = "size+covariate"), 
+growObj = makeGrowthObj(dff, Formula=sizeNext~size+covariate), 
+survObj = makeSurvObj(dff, Formula = surv~size+covariate), 
 envMatrix = makeEnvObj(dff), correction="constant")
 targetSize <- 8
 

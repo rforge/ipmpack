@@ -143,11 +143,10 @@ IPMpack contains defined classes for growth, survival and fertility objects, and
 
 As an example, let us first define objects built as simple polynomial regressions from the generated data. The source code of {\tt generateData} will confirm that the survival data is built around a polynomial logistic regression relating size at $t$ to survival from $t$ to $t+1$, and the growth data is built around a polynomial regression relating size at $t$ to size at $t+1$. To make growth and survival objects that reflect this, the user must implement:  
 <<>>= 
-gr1 <- makeGrowthObj(dataf = dff, explanatoryVariables = "size+size2", 
-		   responseType = "sizeNext")
-sv1 <- makeSurvObj(dff, explanatoryVariables = "size+size2")
+gr1 <- makeGrowthObj(dataf = dff, Formula = sizeNext~size+size2)
+sv1 <- makeSurvObj(dff, Formula = surv~size+size2)
 @ 
-In both these functions, the argument {\tt explanatoryVariables} contains formulas of the type used in linear or logistic regressions in $R$, built around the possible defined range of transforms of  {\tt size} currently available ({\tt size2} which is size$^2$, {\tt size3} which is size$^3$, and {\tt logsize} which is log(size). Currently further transforms of  {\tt size} are not possible. This function can also be used to fit models that include a single discrete covariate (e.g., light environment, age, etc) as long as this exists in the {\tt dataf} in a column named {\tt covariate}. For instance, the user could model the population dynamics according to  {\tt size + covariate} or  {\tt size + logsize*covariate}, etc. For the growth model, possibilities for {\tt responseType} are: {\tt sizeNext} meaning that the reponse variable is size at the next census time, or {\tt incr} meaning that the response variable is the size increment that has accrued between the two census times (common among tree demographic studies), and {\tt logincr} meaning that the response variable is the log of the size increment that has acrrued between the two census intervals.
+In both these functions, the argument {\tt Formula} contains formulas of the type used in linear or logistic regressions in $R$, built around the possible defined range of transforms of  {\tt size} currently available ({\tt size2} which is size$^2$, {\tt size3} which is size$^3$, and {\tt logsize} which is log(size). Currently further transforms of  {\tt size} are not possible. This function can also be used to fit models that include a single discrete covariate (e.g., light environment, age, etc) as long as this exists in the {\tt dataf} in a column named {\tt covariate}.For instance, the user could model the population dynamics according to  {\tt size + covariate} or  {\tt size + logsize*covariate}, etc. For more complex analyses, other covariates (time since fire, precipitation, etc) can be fitted as long as they exist within {\tt dataf}. For the growth model, possibilities for the response variable in the {\tt Formula} are: {\tt sizeNext} meaning that the reponse variable is size at the next census time, or {\tt incr} meaning that the response variable is the size increment that has accrued between the two census times (common among tree demographic studies), and {\tt logincr} meaning that the response variable is the log of the size increment that has acrrued between the two census intervals.
 
 Glancing at the source code will confirm that all these functions simply fit a linear regression relating size at t+1 or increment to size at t and covariates for growth, as for survival. The survival and growth objects created have a slot called `fit' that holds the regression.
 <<>>= 
@@ -235,7 +234,7 @@ The function {\tt run.Simple.Model} takes as minimum arguments a data frame and 
 
 If the user defines a fertility object -which for instance is not always easy with for example trees- IPMpack can also create a transition matrix describing movement between sizes attributable to fertility.
 <<>>= 
-fv1 <- makeFecObj(dff, explanatoryVariables = "size", 	
+fv1 <- makeFecObj(dff, Formula = fec~size, 	
                   Family = "gaussian", 
                   Transform = "log")
 Fmatrix <- createIPMFmatrix(nBigMatrix = 50, minSize = -5,
@@ -243,13 +242,13 @@ Fmatrix <- createIPMFmatrix(nBigMatrix = 50, minSize = -5,
                             fecObj = fv1, 
                             correction = "constant")
 @ 
-Note that {\tt makeFecObj} can either just scan the {\tt dataf} and extract all the columns that contain the letters "fec" (the default, as explained above) and fit them in alphabetical sequence using the predictors defined in {\tt explanatoryVariables} and using the family defined in {\tt Family} with transforms defined in {\tt Transform} (in the alphabetical sequence); or {\tt fecNames} can be defined in an argument to {\tt makeFecObj}, and this tells $R$ which columns to select and fit fertility predictors to as in the previous, where {\tt Family}, {\tt Transform} etc, will be applied in the order {\tt fecNames}. Please note that the fecundity columns must not be transformed in the data frame if {\tt makeFecObj} function is used since IPMpack will perform appropriate transformations in the fitting according to the argument {\tt Transform} and will use these appropriately in functions designed to build the F matrix. 
+Note that {\tt makeFecObj} will use the relationships defined in {\tt Formula} and the family defined in {\tt Family} with transforms defined in {\tt Transform} in the order supplied. Please note that the fecundity {\tt Formula} MUST match the {\tt Transform} since IPMPack needs to use these appropriately in functions to build the F matrixs. 
 
 The default arguments required to run {\tt makeFecObj} to create a fecundity object from which an F matrix with no discrete stage can be built are {\tt offspringSplitter=data.frame(continuous=1)}, {\tt  offspringTypeRates=data.frame(NA)} and {\tt fecByDiscrete=data.frame(NA)}. Additionally, note that if there are values other than {\tt "continuous"} in the {\tt stage} column of the data-frame named {\tt dff} in the example above, then the function will assume that multiple offspring classes are required, and the result will be an IPM with nBigMatrix + the number of offspring classes deduced (which is the number of names in {\tt stage} other than {\tt "continuous"}). This may lead to a mismatch with the size of the T matrix unless a discrete transition matrix is explicitly being included in the T matrix (see below, incorporating discrete stages).  
 
 If the data-frame contains an extra column {\tt offspringNext} that takes the values {\tt sexual}, and that corresponds to rows where both {\tt size| and {\tt sizeNext} are different from NA, the user can define a relationship between maternal size and offspring size through the {\tt makeFecObj} argument {\tt offspringSizeExplanatoryVariables}. The default is to only fit an intercept, equivalent to simply having a mean and variance of offspring size. The function {\tt makeFecObj} also allows users to simply over-write the mean and variance of offpsring size with the values of their choice (arguments {\tt meanOffspringSize} and {\tt sdOffspringSize}). 
 
-The function {\tt makeClonalObj} operates identically to {\tt makeFecObj} except that it looks for columns that contain "clon" in them as a default for fitting fertility relationships too, and offspring are only considered for fitting the distribution of mean and standard deviation of offspring size if the column {\tt offspringNext} takes the values {\tt clonal}.
+The function {\tt makeClonalObj} operates identically to {\tt makeFecObj} except that offspring are only considered for fitting the distribution of mean and standard deviation of offspring size if the column {\tt offspringNext} takes the values {\tt clonal}.
 
 The user can combine the F matrix with (an identically built, i.e., same bin number, size limits and discrete classes) survival-growth transition T matrix to obtain a full Integral Projection Model, and its population growth rate $\lambda$, sensitivity, elasticity, etc. 
 <<>>= 
@@ -311,10 +310,10 @@ env1 <- makeEnvObj(dff)
 env1
 @ 
 The user can now use IPMpack to create a survival-growth transition T matrix that encompasses movement across environments, first redefining the survival and growth
-objects to fit a discrete covariate, by changing the {\tt explanatoryVariables} argument: 
+objects to fit a discrete covariate, by changing the {\tt Formula} argument: 
 <<>>= 
-gr1 <- makeGrowthObj(dff, explanatoryVariables = "size+covariate")
-sv1 <- makeSurvObj(dff, explanatoryVariables = "size+covariate")
+gr1 <- makeGrowthObj(dff, Formula = sizeNext~size+covariate)
+sv1 <- makeSurvObj(dff, Formula = surv~size+covariate)
 @ 
 Note that these functions will only work appropriately for a discrete covariate if the value of the covariate at time $t$ is available as a column in the data frame names {\tt covariate} and the value of the covariate at the next census is available as a column in the data frame called {\tt covariateNext}. IPMpack functions use the presence of a column in the data frame called {\tt covariate} as a cue to renumber values in these two columns to numeric levels between 1 and the observed number of covariate levels to facilitate looping, and changes them into factors. Once this step is implemented, the user can use these functions to create a compound T matrix, using {\tt createCompoundTmatrix}: 
 <<>>= 
@@ -365,9 +364,9 @@ plot(Tmatrix@meshpoints, pTimes[1:Tmatrix@nBigMatrix],
 With a fertility object, the user can also define a full life cycle IPM model for this environment. With such an information, obtaining the stochastic population rate of increase $\lambda_s$ in this environment is relatively straight-forward. IPMpack does this by sampling a very large number of environments and corresponding IPMs, and multiplying them together (Childs et al. $2004$). At the moment, this is only defined for the case where environments (defined by the discrete covariates) are distributed independently (i.e. the next state does not depend on the previous state). To do this, the user must first define a list of IPMs (each the sum of a matrix of survival-growth transitions, and a matrix of fecundity transitions corresponding to a particular environment): 
 <<>>= 
 IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 25, minSize = -5, 
-                        maxSize = 35, explSurv = "size+covariate", 
-                        explGrow = "size+size2+covariate", 
-                        explFec = "size", Transform="log",correction = "constant")
+                        maxSize = 35, explSurv = surv~size+covariate, 
+                        explGrow = sizeNext~size+size2+covariate, 
+                        explFec = fec~size, Transform="log",correction = "constant")
 @ 
 Note that in this example IPMpack uses an arbitrary selection of
 explanatory variables for all the various linear and logistic
@@ -394,11 +393,11 @@ ergodic theorem for convergence (as described for obtaining $\lambda_s$, above).
 <<>>= 
 dff <- generateDataStoch()
 sv1 <- makeSurvObj(dataf = dff, 
-                          explanatoryVariables = "size+covariate1+covariate3")
+                          Formula = surv~size+covariate1+covariate3)
 gr1 <- makeGrowthObj(dataf = dff, 
-                            explanatoryVariables = "size+covariate1+covariate2")
+                             Formula = sizeNext~size+covariate1+covariate2)
 fv1 <- makeFecObj(dataf = dff, fecConstants = data.frame(1.8), 
-                  explanatoryVariables = "size", Transform = "log")
+                  Formula = fec~size, Transform = "log")
 @ 
 As before, the user can explore the data: 
 <<>>= 
@@ -456,8 +455,8 @@ Fmatrix <- createIPMFmatrix(fecObj = fv1, nBigMatrix = 5,
 The user also needs a {\tt Tmatrix} that reflects the same structure. The continuous part of the T matrix will be broadly the same as usual:
 <<>>= 
 gr1 <- makeGrowthObj(dataf = dff, 
-                     explanatoryVariables = "size", responseType = "sizeNext")
-sv1 <- makeSurvObj(dff, explanatoryVariables = "size")
+                      Formula = sizeNext~size)
+sv1 <- makeSurvObj(dff,  Formula = surv~size)
 @
 Movement in and out of discrete stages is defined via an add-on of a transition matrix, that is defined using: 
 <<>>= 

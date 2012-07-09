@@ -78,9 +78,9 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 # Generate relevant data, build objects
 #dff <- generateDataStoch()
 #print(head(dff))
-#gr1 <- makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate1")
-#sv1 <- makeSurvObj(dff, explanatoryVariables = "size+size2+covariate2")
-#fv1 <- makeFecObj(dff, explanatoryVariables = "size+size2",Transform="log")
+#gr1 <- makeGrowthObj(dff, Formula = sizeNext~size+size2+covariate1)
+#sv1 <- makeSurvObj(dff, Formula = surv~size+size2+covariate2)
+#fv1 <- makeFecObj(dff, Formula =fec~size+size2,Transform="log")
 
 # Generate time series of covariates for which growth rate is required
 # here set to be seasonal environment. NOTE that the order of covariates

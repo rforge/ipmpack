@@ -13,7 +13,7 @@
 \usage{
 
 makeFecObj(dataf, fecConstants=data.frame(NA),
-		explanatoryVariables="size",Family="gaussian",
+		Formula=fec~size,Family="gaussian",
 		Transform="none",fecNames=NA,meanOffspringSize=NA,
 		sdOffspringSize=NA,offspringSplitter=data.frame(continuous=1),
 		offspringTypeRates=data.frame(NA),fecByDiscrete=data.frame(NA),
@@ -22,15 +22,12 @@ makeFecObj(dataf, fecConstants=data.frame(NA),
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{dataf}{a dataframe with columns "size", "sizeNext", "stage", "stageNext", and any additional columns with fecundity data. Unless the fecundity columns are specified in the argument \code{fecNames}, fecundity data will be extracted from columns "fec1", "fec2" or any other names containing the prefix "fec"; (note that ANY name containing "fec" will be included). Fecundity data MUST NOT be transformed via log, etc, since the fecundity object produced will assume that all data supplied sum to the total reproductive output.)}
-  \item{fecConstants}{a data frame containing the value by which each of the fecundity rates will be multiplied \emph{in the order defined by the alphabetical order of column names containing "fec"}.  This data frame adjusts the probability of establishment of seeds or other stages in  sexual reproduction that are not explicitly incorporated  for each parent (e.g., 25\% of seeds across all individuals germinate).  The default is NA if no constants are used (equivalent to multiplying by 1).}
-  \item{explanatoryVariables}{a character vector containing formulas describing the desired explanatory variables (interactions, etc) in classical R style, i.e. separated by `+', `*', `:'. Possible covariates include `size', 'size2' (size^2), `size3'  (size^3),`logsize' (log(size)), and `covariate'. Again, these must appear  \emph{in the order defined by the alphabetical order of column names containing "fec" or in the order of column names specified in fecNames}.  See \code{\link{formula}} in \code{base} for more details.}
-  \item{Family}{a character vector containing the names of the families to be used for the glms, e.g., binomial, poisson, etc. Again, these must appear  \emph{in the order defined by the alphabetical order of column names 
-      containing "fec" or in the order of column names specified in fecNames} }
+    \item{dataf}{a dataframe with columns "size", "sizeNext", "stage", "stageNext", and any additional columns with fecundity data. UIf fecundity data is transformed via log, etc, this MUST BE MADE CLEAR in the argument \code{Transform} since the fecundity object produced must generate total reproductive output.)}
+  \item{fecConstants}{a list containing the value by which each of the fecundity rates will be multiplied \emph{in the order defined by the order in \code{Formula}}.  This data frame adjusts the probability of establishment of seeds or other stages in  sexual reproduction that are not explicitly incorporated  for each parent (e.g., 25\% of seeds across all individuals germinate).  The default is NA if no constants are used (equivalent to multiplying by 1).}
+  \item{Formula}{a formulas describing the desired explanatory variables (interactions, etc) in classical R style, i.e. separated by `+', `*', `:' and the response variables of choice. Possible covariates include `size', 'size2' (size^2), `size3'  (size^3),`logsize' (log(size)), and `covariate' (if this name is used, the assumption is made that this is a discrete covariate from which compound matrices may be constructed), and any other covariates available in dataf. Again, these must appear  \emph{in the order defined by the Formula argument}.  See \code{\link{formula}} in \code{base} for more details.}
+  \item{Family}{a character vector containing the names of the families to be used for the glms, e.g., binomial, poisson, etc. Again, these must appear  \emph{in the order defined by \code{Formula}} }
   \item{Transform}{a character vector containing the names of the
-    transforms to be used for the response variables, e.g., log, sqrt, -1, etc. Again, these must appear  \emph{in the order defined by the alphabetical order of column names
-      containing "fec" or in the order of column names specified in fecNames} }
-  \item{fecNames}{a character vector containing the names of the columns of the dataframe from which fecundity data will be analysed (one column at a time). If the fecNames argument is not specified (as by default, NA), fecNames will be filled by the names of all column names that contain "fec".} 
+    transforms to be used for the response variables, e.g., log, sqrt, -1, etc. Again, these must appear  \emph{in the order defined by \code{Formula}} }
   \item{meanOffspringSize}{numeric vector, defining mean offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size according to the relationship defined in offspringSizeExplanatoryVariables (which either simply fits a mean, or may fit more complex relationships linking maternal size to offspring size).}
   \item{sdOffspringSize}{numeric vector, defining standard deviation of offspring size. Defaults to NA, in which case the function will use the data to assess the standard deviation of offspring size; as described for meanOffspringSize}
   \item{offspringSplitter}{dataframe with values defining the number of

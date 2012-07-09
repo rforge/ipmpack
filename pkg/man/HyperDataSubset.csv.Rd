@@ -82,27 +82,27 @@ d$stage<-as.factor(d$stage)
 d$stageNext<-as.factor(d$stageNext)
 
 #Carry out comparisons to establish the best survival model
-testSurv <- survModelComp(dataf=d, expVars = c("1", "size", "size + size2"),
+testSurv <- survModelComp(dataf=d, expVars = c(surv~1, surv~size, surv~size + size2),
                           testType = "AIC", makePlot = TRUE)
 
 #Carry out comparisons to establish the best growth model
-testGrow <- growthModelComp(dataf=d, expVars = c("1", "size", "size + size2"),
+testGrow <- growthModelComp(dataf=d, expVars = c(sizeNext~1, sizeNext~size, sizeNext~size + size2),
                             regressionType = "constantVar", 
-                            respType = "sizeNext", testType = "AIC", makePlot = TRUE)
+                            testType = "AIC", makePlot = TRUE)
 
 #Create survival object
-so<-makeSurvObj(d,explanatoryVariables="size+size2")
+so<-makeSurvObj(d,Formula=surv~size+size2)
 picSurv(d,so)
 
 #Create growth object
-go<-makeGrowthObj(d,explanatoryVariables="size", responseType = "sizeNext")
+go<-makeGrowthObj(d,Formula=sizeNext~size)
 picGrow(d,go)
 abline(a=0,b=1,lty=2)
 
 
 #Create fecundity object
 fo<-makeFecObj(d,Family=c("binomial","poisson"),
-               explanatoryVariables=c("size","size"),
+               Formula=c(fec0Flowering~size,fec1Fruits~size),
                meanOffspringSize=mean(d[is.na(d$size)==TRUE & is.na(d$sizeNext)==FALSE,"sizeNext"]),
                sdOffspringSize=sd(d[is.na(d$size)==TRUE & is.na(d$sizeNext)==FALSE,"sizeNext"]),
                fecConstants=data.frame(fec2Seeds=fec2Seeds,

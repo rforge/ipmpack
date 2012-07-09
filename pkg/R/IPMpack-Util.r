@@ -471,21 +471,23 @@ generateDataStoch <- function(){
 
 makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10, 
 		integrateType="midpoint", correction="none",
-		explSurv="size+size2+covariate",explGrow="size+size2+covariate", 
-		regType="constantVar",responseType="sizeNext",explFec="size",Family="gaussian", 
+		explSurv=surv~size+size2+covariate,
+		explGrow=sizeNext~size+size2+covariate, 
+		regType="constantVar",explFec=fec~size,Family="gaussian", 
 		Transform="none",fecConstants=data.frame(NA)) {
 	
 	#convert to 1:n for indexing later
 	dataf$covariate <- as.factor(dataf$covariate)
 	levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
 	
-	sv1 <- makeSurvObj(dataf,
-			explanatoryVariables=explSurv)
-	gr1 <- makeGrowthObj(dataf,
-			explanatoryVariables=explGrow,
-			responseType=responseType,
+	print(explSurv)
+	sv1 <- makeSurvObj(dataf=dataf,
+			Formula=explSurv)
+	gr1 <- makeGrowthObj(dataf=dataf,
+			Formula=explGrow,
 			regType=regType)
-	fv1 <- makeFecObj(dataf,explanatoryVariables=explFec, Family=Family, Transform=Transform, 
+	
+	fv1 <- makeFecObj(dataf=dataf,Formula=explFec, Family=Family, Transform=Transform, 
 			fecConstants=fecConstants) 
 	
 	covs <- unique(dataf$covariate)
@@ -497,7 +499,7 @@ makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10,
 	for (k in 1:length(covs)) { 
 		
 		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, chosenCov = as.factor(k),#data.frame(covariate=as.factor(k)),
+				maxSize = maxSize, chosenCov = data.frame(covariate=as.factor(k)),
 				fecObj = fv1,integrateType=integrateType, correction=correction)
 		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosenCov = data.frame(covariate=as.factor(k)),
@@ -788,9 +790,8 @@ createMPMFmatrix <- function(dataf, bins,offspringClasses=1, offspringProp=1, nE
 # Returns - list with a summary table of covariates and scores, and a sub-list of growth or survival objects.
 #
 growthModelComp <- function(dataf, 
-		expVars = c("1", "size", "size + size2"), 
+		expVars = c(sizeNext~1, sizeNext~size, sizeNext~size + size2), 
 		regressionType = "constantVar",
-		respType = "sizeNext",
 		testType = "AIC",
 		makePlot = FALSE,
 		mainTitle = "",
@@ -803,29 +804,29 @@ growthModelComp <- function(dataf,
 	i <- 1
 	for(v in 1:varN) {
 		for(t in 1:typeN) {
-			grObj[[i]] <- makeGrowthObj(dataf = dataf, regType = regressionType[t], explanatoryVariables = expVars[v], responseType = respType) 
+			grObj[[i]] <- makeGrowthObj(dataf = dataf, regType = regressionType[t], Formula = expVars[[v]]) 
 			if (length(grep("decline",tolower(as.character(class(grObj[[i]])))))>0) { 
-				summaryTable <- rbind(summaryTable, cbind(expVars[v], regressionType[t], respType, match.fun(testType)(grObj[[i]]@fit$fit)))
+				summaryTable <- rbind(summaryTable, cbind(as.character(unlist(expVars))[v], regressionType[t],  match.fun(testType)(grObj[[i]]@fit$fit)))
 			} else { 
-			summaryTable <- rbind(summaryTable, cbind(expVars[v], regressionType[t], respType, match.fun(testType)(grObj[[i]]@fit)))
+			summaryTable <- rbind(summaryTable, cbind(as.character(unlist(expVars))[v], regressionType[t],  match.fun(testType)(grObj[[i]]@fit)))
 			}	
 			i <- i + 1
 		}
 	}
 	summaryTable <- as.data.frame(summaryTable)
-	names(summaryTable) <- c("Exp. Vars", "Reg. Type", "Resp. Type", testType)
+	names(summaryTable) <- c("Exp. Vars", "Reg. Type", testType)
 	outputList <- list(summaryTable = summaryTable, growthObjects = grObj)
 	
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
-		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, respType = respType, testType = "AIC",  plotLegend = TRUE, mainTitle = mainTitle, legendPos, ...)
+		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars,  testType = "AIC",  plotLegend = TRUE, mainTitle = mainTitle, legendPos, ...)
 	}
 	return(outputList)
 }
 
 
 survModelComp <- function(dataf, 
-		expVars = c("1", "size", "size + size2"), 
+		expVars = c(surv~1, surv~size, surv~size + size2), 
 		testType = "AIC",
 		makePlot = FALSE,
 		mainTitle = "", ncuts = 20,
@@ -836,8 +837,8 @@ survModelComp <- function(dataf,
 	svObj <- vector("list", length = treatN)
 	i <- 1
 	for(v in 1:varN) {
-		svObj[[i]] <- makeSurvObj(dataf = dataf, explanatoryVariables = expVars[v]) 
-		summaryTable <- rbind(summaryTable, cbind(expVars[v], match.fun(testType)(svObj[[i]]@fit)))
+		svObj[[i]] <- makeSurvObj(dataf = dataf, Formula = expVars[[v]]) 
+		summaryTable <- rbind(summaryTable, cbind(as.character(unlist(expVars))[v], match.fun(testType)(svObj[[i]]@fit)))
 		i <- i + 1
 	}
 	summaryTable <- as.data.frame(summaryTable)
@@ -855,31 +856,35 @@ survModelComp <- function(dataf,
 # Plot functions for model comparison.  Plots the series of fitted models for growth and survival objects.  
 # Can plot a legend with the model covariates and model test criterion scores (defaults to AIC).
 
-plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars, respType = "sizeNext", testType = "AIC", plotLegend = TRUE, mainTitle = "", legendPos = "topright", ...) {
+plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars,  testType = "AIC", plotLegend = TRUE, mainTitle = "", legendPos = "topright", ...) {
 	treatN <- length(grObj)
 	sizeSorted <- unique(sort(dataf$size))
-	if(respType == "sizeNext") {
+	if(length(grep("sizeNext", unlist(as.character(expVars))))) {
 		y.lab <- "Size at t + 1"
 		dataSizeNext <- dataf$sizeNext
 	}
-	if(respType == "incr") {
+	if(length(grep("incr", unlist(as.character(expVars))))) {
 		y.lab <- "Growth"
 		dataSizeNext <- dataf$sizeNext - dataf$size
 	}
-	if(respType == "logincr"){
+	if(length(grep("logincr", unlist(as.character(expVars))))){
 		y.lab <- "log(growth)"
 		dataSizeNext <- log(dataf$sizeNext - dataf$size)
 	}
 	plot(dataf$size, dataSizeNext, pch = 19, xlab = "Size at t", ylab = y.lab, main = mainTitle, cex = 0.8,...)
 	for(p in 1:treatN) {
-		newd <- .makeCovDf(sizeSorted, expVars[p])
+		
+		#PROBLEM HERE 
+		expVarsHere <- paste(attr(terms((expVars[[p]])),"term.labels"),collapse="+")
+	
+		newd <- .makeCovDf(sizeSorted, expVarsHere)
 		if (length(grep("decline",tolower(as.character(class(grObj[[p]])))))>0) {
 			pred.size <- .predictMuX(grObj[[p]], newd)
 		} else { pred.size <- predict(grObj[[p]]@fit, newd, type = "response")}
 		lines(sizeSorted, pred.size, type = "l", col = (p + 1))
 	}
 	if(plotLegend) {
-		legend(legendPos, legend = sprintf("%s: %s = %.1f", expVars, testType, as.numeric(as.character(summaryTable[,4]))), col = c(2:(p + 1)), lty = 1, xjust = 1, bg = "white")
+		legend(legendPos, legend = sprintf("%s: %s = %.1f", expVars, testType, as.numeric(as.character(summaryTable[,3]))), col = c(2:(p + 1)), lty = 1, xjust = 1, bg = "white")
 	}
 }
 
@@ -893,7 +898,8 @@ plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "
 	binnedSurv <- tapply(osSurv, as.numeric(cut(osSize, breaks=ncuts)), mean, na.rm = TRUE) #bin Survival probabilities
 	plot(binnedSize, binnedSurv, pch = 19, xlab = "Size at t", ylab = "Survival to t + 1", main = mainTitle, cex = 0.8,...)
 	for(p in 1:treatN) {
-		newd <- .makeCovDf(osSize, expVars[p])
+		expVarsHere <- paste(attr(terms(expVars[[p]]),"term.labels"),collapse="+")
+		newd <- .makeCovDf(osSize, expVarsHere[p])
 		lines(dataf$size[order(dataf$size)], surv(dataf$size[os], data.frame(covariate=1), svObj[[p]]), col = (p + 1))           
 	}
 	if(plotLegend) {

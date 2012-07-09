@@ -10,11 +10,11 @@ Compares growth and survival objects built from different covariate sets.
 Function compares model fits for growth and survival objects built with different linear combinations of covariates (plotting currently restricted to transforms of size; but comparison can include any chosen covariates).  Growth can have multiple response forms. 
 Returns a list containing a summary table of covariates and scores, and another list containing all of the growth (or survival) objects used in the comparison.}
 \usage{
-growthModelComp(dataf, expVars = c("1", "size", "size + size2"), 
-	regressionType = "constantVar", respType = "sizeNext", testType = "AIC", 
+growthModelComp(dataf, expVars = c(sizeNext~1,  sizeNext~size, sizeNext~size + size2), 
+	regressionType = "constantVar",  testType = "AIC", 
 		makePlot = FALSE, mainTitle = "",legendPos = "topright",...)
 		
-survModelComp(dataf, expVars = c("1", "size", "size + size2"), testType = "AIC", 
+survModelComp(dataf, expVars = c(sizeNext~1,  sizeNext~size, sizeNext~size + size2), testType = "AIC", 
 	makePlot = FALSE, mainTitle = "",ncuts=20, legendPos = "bottomleft", ...)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -23,13 +23,10 @@ survModelComp(dataf, expVars = c("1", "size", "size + size2"), testType = "AIC",
  	dataframe with columns size, surv, and the growth response variable of choice
    }
   \item{expVars}{
-    vector, list of covariates.  Defaults to \code{c("1",  "size", "size + size2")}.
+    list of Formulas.  Defaults to \code{c(sizeNext~1,  sizeNext~size, sizeNext~size + size2)}.
   }
   \item{regressionType}{
     character string identifying whether the type of regression run will have constant or changing variance (for \code{growthModelComp}.  Defaults to \code{constantVar}.
-  }
-  \item{respType}{
-    character string identifying the response variable for the growthModelComp.  wither \code{"sizeNext"}, \code{"logincr"} or \code{"incr"}. Defaults to \code{sizeNext}. 
   }
   \item{testType}{
     character string identifying the metric used to compare models.  Can be any string that uses \code{loglike} from the lm or glm object.  For example \code{"AIC"} or \code{"BIC"}.  Defaults to \code{"AIC"}.

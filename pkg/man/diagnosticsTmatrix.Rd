@@ -103,9 +103,9 @@ diagnosticsTmatrix(Tmatrix, growObj = gr1, survObj = makeSurvObj(dff), dff = dff
 
 #with log increment
 Tmatrix <- createIPMTmatrix(nBigMatrix = 50, minSize = min(dff$size, na.rm= TRUE), 
-	maxSize = max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff,responseType = "logincr"), 
+	maxSize = max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff,Formula = logincr~size), 
 		survObj = makeSurvObj(dff))
-diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff,responseType = "logincr"), 
+diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff,Formula = logincr~size), 
 	survObj = makeSurvObj(dff), dff = dff)
 
 

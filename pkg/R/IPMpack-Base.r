@@ -68,6 +68,10 @@ setClass("growthObj",
 setClass("growthObjPois",
 		representation(fit = "glm"))
 
+setClass("growthObjNegBin",
+		representation(fit = "list"))
+
+
 # Create a generic growth object with normal errors on increment
 setClass("growthObjIncr",
 		representation(fit = "lm",sd="numeric"))
@@ -1131,7 +1135,10 @@ createCompoundFmatrix <- function(nEnvClass = 2,
 		envMatrix,
 		fecObj,
 		integrateType="midpoint",
-		correction="none") {
+		correction="none",
+		preCensus=TRUE,
+		survObj=NULL,
+		growObj=NULL) {
 	
 	#warnings...
 	if (nEnvClass!=nrow(envMatrix)) {
@@ -1167,7 +1174,9 @@ createCompoundFmatrix <- function(nEnvClass = 2,
 				chosenCov = data.frame(covariate=as.factor(k)),
 				fecObj=fecObj,
 				integrateType=integrateType,
-				correction=correction)
+				correction=correction,preCensus=preCensus,
+				survObj=survObj,
+				growObj=growObj)
 		
 		#print(range(get.matrix))
 		#print(get.matrix[1:5,1:5])

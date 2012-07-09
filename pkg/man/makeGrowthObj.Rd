@@ -9,8 +9,8 @@
   object are defined.
 }
 \usage{
-makeGrowthObj(dataf, explanatoryVariables="size", 
-	responseType="sizeNext",regType="constantVar",Family="gaussian")
+makeGrowthObj(dataf, Formula=sizeNext~size, 
+	regType="constantVar",Family="gaussian")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -23,13 +23,11 @@ makeGrowthObj(dataf, explanatoryVariables="size",
     a column in the dataframe, otherwise they are calculated as
     dataf$sizeNext-dataf$size or log(dataf$sizeNext-dataf$size),
   respectively. }
-  \item{explanatoryVariables}{a formula describing the desired
+  \item{Formula}{a formula describing the desired
     explanatory variables (interactions, etc) according to the R notation for \code{formula}.
-    style, i.e. separated by `+', `*', `:'. Possible covariates include `size', 'size2' (size^2), `size3'
+    style, i.e. separated by `+', `*', `:' and response variable. Possible covariates include `size', 'size2' (size^2), `size3'
     (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
-    `covariate'.}
-  \item{responseType}{possible values include `sizeNext' (size in one
-    discrete time step) and `incr' and `logincr'}
+    `covariate' (if this name is used, the assumption is made that this is a discrete covariate from which compound matrices may be constructed); or any other covariate available in dataf.}
   \item{regType}{possible values include `constantVar' or `declineVar'}
   \item{Family}{possible values include `gaussian' or `poisson'}
   
@@ -58,17 +56,15 @@ See manual for details on building case-specific growth objects; which may conta
 #generate data
 dff <- generateData()
 #make simple linear regression growth object relating size to size at t+1
-(gr1 <- makeGrowthObj(dataf=dff, explanatoryVariables="size", 
-	responseType="sizeNext"))
+(gr1 <- makeGrowthObj(dataf=dff, Formula=sizeNext~size))
 #same but relating size to incr
-(gr1 <- makeGrowthObj(dataf=dff, explanatoryVariables="size", 
-	responseType="incr"))
+(gr1 <- makeGrowthObj(dataf=dff, Formula=incr~size))
 #same but relating size to incr and discrete covariate
-(gr1 <- makeGrowthObj(dataf=dff, explanatoryVariables="size+covariate", 
-	responseType="incr",regType="declineVar"))
+(gr1 <- makeGrowthObj(dataf=dff, Formula=incr~size+covariate, 
+	regType="declineVar"))
 #with declining increment
-(gr1 <- makeGrowthObj(dataf=dff, explanatoryVariables="size+covariate", 
-	responseType="incr",regType="declineVar"))
+(gr1 <- makeGrowthObj(dataf=dff, Formula=incr~size+covariate, 
+	regType="declineVar"))
 
 #assess fit 
 picGrow(dff,gr1)

@@ -86,7 +86,8 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 # Data with only continuous stage and one habitat
 dff <- generateData()
-fv1 <- makeFecObj(dff, explanatoryVariables = "size", Transform = "log")
+dff$fec[dff$fec==0] <- NA
+fv1 <- makeFecObj(dff, Formula = log(fec)~size, Transform = "log")
 Fmatrix <- createIPMFmatrix(fecObj = fv1, nBigMatrix = 20, 
 	minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), correction="constant")
 

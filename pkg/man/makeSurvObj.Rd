@@ -9,7 +9,7 @@
   to build survival objects for which methods to build an IPM  object are defined.
 }
 \usage{
-makeSurvObj(dataf,explanatoryVariables)
+makeSurvObj(dataf,Formula=surv~size+size2)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -20,11 +20,11 @@ makeSurvObj(dataf,explanatoryVariables)
     and `covariatel' for a single discrete covariate, indicating values at t,
     and at t+1, respectively; these must take values of sequential integers, starting at
     `1'.  }
-  \item{explanatoryVariables}{a formula describing the desired
+  \item{Formula}{a formula describing the desired
     explanatory variables (interactions, etc) in classical R
     style, i.e. separated by `+', `*', `:'. Possible covariates include `size', 'size2' (size^2), `size3'
     (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
-    `covariate'.}
+    `covariate'. Response should be 'surv' to match \code{dataf}}
 }
 
 \value{
@@ -48,8 +48,8 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 #generate data
 dff <- generateData()
 #make simple logistic regression survival object relating survival to size at t
-sv1 <- makeSurvObj(dff, explanatoryVariables="size")
+sv1 <- makeSurvObj(dff, Formula=surv~size)
 #assess fit for model with discrete environmental classes fitted
-sv1 <- makeSurvObj(dff, explanatoryVariables="size+covariate")
+sv1 <- makeSurvObj(dff, Formula=surv~size+covariate)
 
 }

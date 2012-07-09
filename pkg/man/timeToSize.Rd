@@ -55,8 +55,8 @@ dff <- generateData()
 startSizes <- rnorm(1000, 2.5, 1)
 Tmatrix <- createIPMTmatrix(minSize = 1.2*min(dff$size, na.rm=TRUE),
 maxSize = 1.2*max(dff$size, na.rm=TRUE), 
-growObj = makeGrowthObj(dff,explanatoryVariables="size"), 
-survObj = makeSurvObj(dff,explanatoryVariables="size"))
+growObj = makeGrowthObj(dff), 
+survObj = makeSurvObj(dff))
 
 rc <- timeToSize(startingSizes = startSizes, IPM = Tmatrix, endSize = 6, 
 startingEnv = 1, maxT = 1000, propReach = 0.001)

@@ -76,9 +76,11 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff <- generateData()
 
 grModels <- growthModelComp(dff, makePlot = FALSE)
-plotGrowthModelComp(grObj = grModels$growthObjects, 
-summaryTable = grModels$summaryTable, dataf = dff, 
-respType = "sizeNext", expVars = as.character(grModels$summaryTable[,1]))
+
+##TODO - FIX THIS! NEEDS PROPER FORMULAS FOR LAST ARGUMENT
+#plotGrowthModelComp(grObj = grModels$growthObjects, 
+#summaryTable = grModels$summaryTable, dataf = dff, 
+# expVars = as.character(grModels$summaryTable[,1]))
 
 
 }

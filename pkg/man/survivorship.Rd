@@ -56,8 +56,8 @@ xlab= "Continuous (e.g. size) stage", ylim = c(0,1))
 # For continuous (e.g. size) and discrete (e.g. seedbank) stages
 Tmatrix <- createCompoundTmatrix(minSize = min(dff$size,na.rm = TRUE),
 maxSize = max(dff$size,na.rm = TRUE), envMatrix = makeEnvObj(dff),
-growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"),
-survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), 
+growObj = makeGrowthObj(dff, Formula = sizeNext~size+size2+covariate),
+survObj = makeSurvObj(dff, Formula = surv~size+size2+covariate), 
 discreteTrans = 1)
 su <- survivorship(Tmatrix,1,300)
 }

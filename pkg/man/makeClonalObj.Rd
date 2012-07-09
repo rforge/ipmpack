@@ -14,8 +14,8 @@
 }
 \usage{
 makeClonalObj(dataf, fecConstants=data.frame(NA),
-		explanatoryVariables="size",Family="gaussian",
-		Transform="none",fecNames=NA,meanOffspringSize=NA,
+		Formula=fec~size,Family="gaussian",
+		Transform="none",meanOffspringSize=NA,
 		sdOffspringSize=NA,offspringSplitter=data.frame(continuous=1),
 		offspringTypeRates=data.frame(NA),fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1")
@@ -25,20 +25,14 @@ makeClonalObj(dataf, fecConstants=data.frame(NA),
 \arguments{
     \item{dataf}{a dataframe with columns "size", "sizeNext", "stage",
       "stageNext", and any number of columns with clonal reproduction
-      data. Unless the clonal reproduction columns are specified in the
-      argument fecNames, fecundity data will be extracted from columns
-      "clone1", "clone2" or any other names containing "clon"; (note that ANY
-      name containing "clon" will be included). Clonal reproduction data MUST NOT be transformed via log, etc, since the clonality object produced will assume that it has total reproductive output.)}
-  \item{fecConstants}{a data-frame containing the value by which each of the product of the fecundity rates will be multiplied \emph{in the order defined by the alphabetical order of column names containing "clon"}; these might capture for example the probability of establishment of clones or other steps in the clonal reproductive pathway that are not measured for each parent; default is NA if no constants are used.}
-  \item{explanatoryVariables}{a character vector containing formulas describing the desired
-    explanatory variables (interactions, etc) in classical R style, i.e. separated by `+', `*', `:'. Possible covariates include `size', 'size2' (size^2), `size3'  (size^3),`logsize' (log(size)), and `covariate'. Again, these must appear  \emph{in the order defined by the alphabetical order of column names containing "clon" or in the order of column names specified in fecNames}}
+      data. If clonal reproduction data is transformed via log, etc, this MUST BE MADE CLEAR in the argument \code{Transform} since the clonality object produced must generate total reproductive output.)}
+  \item{fecConstants}{a data-frame containing the value by which each of the product of the fecundity rates will be multiplied \emph{in the order defined by the order supplied in the list \code{Formula}}; these might capture for example the probability of establishment of clones or other steps in the clonal reproductive pathway that are not measured for each parent; default is NA if no constants are used.}
+  \item{Formula}{a list containing formulas describing the desired
+    explanatory variables (interactions, etc) and response variables in classical R style, i.e. covariates separated by `+', `*', `:'. Possible covariates include `size', 'size2' (size^2), `size3'  (size^3),`logsize' (log(size)), and `covariate' (if this name is used, the assumption is made that this is a discrete covariate from which compound matrices may be constructed), or any other covariates available in the data-frame supplied.}
   \item{Family}{a character vector containing the names of the families to be used for the glms, e.g., binomial, poisson, etc. Again, these must appear  \emph{in the
-      order defined by the alphabetical order of column names 
-      containing "clon" or in the order of column names specified in fecNames} }
+      order defined by \code{Formula}} }
   \item{Transform}{a character vector containing the names of the
-    transforms to be used for the response variables, e.g., log, sqrt, -1, etc. Again, these must appear  \emph{in the order defined by the alphabetical order of column names
-      containing "clon" or in the order of column names specified in fecNames} }
-  \item{fecNames}{a character vector containing the names of the columns of the dataframe from which fecundity data will be analysed (one column at a time). If the fecNames argument is not specified (as by defaul, NA), fecNames will be filled by the names of all column names that contain "clon".} 
+    transforms to be used for the response variables, e.g., log, sqrt, -1, etc. Again, these must appear  \emph{in the order defined by \code{Formula}} }
   \item{meanOffspringSize}{numeric vector, defining mean offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size according to the relationship defined in offspringSizeExplanatoryVariables (which either simply fits a mean, or may fit more complex relationships linking maternal size to offspring size).}
   \item{sdOffspringSize}{numeric vector, defining standard deviation of offspring size. Defaults to NA, in which case the function will use the data to assess the sd in offspring size; as described for meanOffspringSize}
   \item{offspringSplitter}{dataframe with values defining the number of
@@ -61,9 +55,7 @@ makeClonalObj(dataf, fecConstants=data.frame(NA),
   define the functional form of each relationship, as well as the
   distribution and any transforms. There is also a possibility of
   defining clonal reproduction from discrete sizes into each of
-  the subfunction outcomes; defined in the matrix fecByDiscrete. NOTE
-  THAT by default all column headings containing "fec" will be considered as
-  contributing to the fecundity product, unless otherwise specified in the argument fecNames. 
+  the subfunction outcomes; defined in the matrix fecByDiscrete.  
 }
 
 \value{
@@ -76,7 +68,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeFecObjManyCov}}, \code{\link{makeSurvObj}}, \code{\link{makeGrowthObj}}
+\code{\link{makeSurvObj}}, \code{\link{makeGrowthObj}}
 
 }
 \examples{

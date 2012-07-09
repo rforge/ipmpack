@@ -64,8 +64,8 @@ dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 discM <- makeDiscreteTrans(dff)
 Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), 
 maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff),
-growObj = makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate"),
-survObj = makeSurvObj(dff, explanatoryVariables = "size+size2+covariate"), 
+growObj = makeGrowthObj(dff, Formula = sizeNext~size+size2+covariate),
+survObj = makeSurvObj(dff, Formula = surv~size+size2+covariate), 
 discreteTrans = discM)
 mLE <- meanLifeExpect(Tmatrix)
 
