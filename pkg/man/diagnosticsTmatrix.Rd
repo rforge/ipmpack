@@ -8,7 +8,7 @@ Creates a series of diagnostic graphs for a T matrix.
   Displays the effects of increasing number of bins and continuous (size) stage range on a number of predictions from the T matrix to verify that sufficient resolution and continuous stage range are being used. 
 }
 \usage{
-diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrateType, correction)
+diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrateType, correction,cov=data.frame(covariate=1))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -30,6 +30,9 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrateType, correction)
   \item{correction}{
     correction type, defaults to "none"; option is "constant" which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for survival at that size. 
   }
+ \item{cov}{
+    a data-frame with one row containing all covariates; defaults to 1, and will be ignored if covariates do not exist in growth and survival objects
+}
 }
 \details{
   Top left panel: continuous (size) stage range in the data (histogram) and the size range used in the IPM (red dashed lines).

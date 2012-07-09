@@ -2,7 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{survObj-class}
-\alias{surv,numeric,numeric,survObj-method}
+%\alias{surv,numeric,data.frame,survObj-method}
 
 \title{Class "survObj"}
 \description{

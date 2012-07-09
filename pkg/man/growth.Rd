@@ -20,7 +20,7 @@ growth(size, sizeNext, cov, growthObj)
     vector of sizes in the next time-step.
 }
   \item{cov}{
-    covariate level in this time-step (numeric of length 1).
+    a data-frame with one row containing all covariates for this time-step.
 }
   \item{growthObj}{
     a growth object.
@@ -51,8 +51,8 @@ dff <- generateData()
 gr1 <- makeGrowthObj(dff)
 sizeRange <- c(1:20)
 sizeInit <- 1
-growth(sizeInit, sizeRange, 1, gr1)
-plot(growth(sizeInit, sizeRange, 1, gr1), type="l", 
+growth(sizeInit, sizeRange, data.frame(cov=1), gr1)
+plot(growth(sizeInit, sizeRange, data.frame(cov=1), gr1), type="l", 
 	col = "dark gray", xlab = "Continuous (e.g. size) stage at time t+1", 
 		ylab = paste("Probability of growth to a specific size in t+1 from size ", 
 			sizeInit, " at time t"))

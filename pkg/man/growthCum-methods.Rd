@@ -1,13 +1,13 @@
 \name{growthCum-methods}
 \docType{methods}
 \alias{growthCum-methods}
-\alias{growthCum,numeric,numeric,numeric,growthObj-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjDeclineVar-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjIncr-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjLogIncr-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjTruncIncr-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjHossfeld-method}
-\alias{growthCum,numeric,numeric,numeric,growthObjLogIncrDeclineVar-method}
+\alias{growthCum,numeric,numeric,data.frame,growthObj-method}
+\alias{growthCum,numeric,numeric,data.frame,growthObjDeclineVar-method}
+\alias{growthCum,numeric,numeric,data.frame,growthObjIncr-method}
+\alias{growthCum,numeric,numeric,data.frame,growthObjLogIncr-method}
+\alias{growthCum,numeric,numeric,data.frame,growthObjTruncIncr-method}
+\alias{growthCum,numeric,numeric,data.frame,growthObjHossfeld-method}
+\alias{growthCum,numeric,numeric,data.frame,growthObjLogIncrDeclineVar-method}
 
 \title{ ~~ Methods for Function \code{growthCum}  ~~}
 \description{
@@ -17,38 +17,38 @@
 \describe{
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", 
-cov = "numeric", growthObj = "growthObj")}}{
+cov = "data.frame", growthObj = "growthObj")}}{
 %%  ~~describe this method here~~
 }
 
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", 
-cov = "numeric", growthObj = "growthObjDeclineVar")}}{
+cov = "data.frame", growthObj = "growthObjDeclineVar")}}{
 %%  ~~describe this method here~~
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", 
-cov = "numeric", growthObj = "growthObjIncr")}}{
+cov = "data.frame", growthObj = "growthObjIncr")}}{
 %%  ~~describe this method here~~
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", 
-cov = "numeric", growthObj = "growthObjLogIncr")}}{
+cov = "data.frame", growthObj = "growthObjLogIncr")}}{
 %%  ~~describe this method here~~
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", 
-cov = "numeric", growthObj = "growthObjTruncIncr")}}{
+cov = "data.frame", growthObj = "growthObjTruncIncr")}}{
 %%  ~~describe this method here~~
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", 
-cov = "numeric", growthObj = "growthObjLogIncrDeclineVar")}}{
+cov = "data.frame", growthObj = "growthObjLogIncrDeclineVar")}}{
 %%  ~~describe this method here~~
 }
 
 \item{\code{signature(size = "numeric", sizeNext = "numeric", 
-cov = "numeric", growthObj = "growthObjHossfeld")}}{
+cov = "data.frame", growthObj = "growthObjHossfeld")}}{
 %%  ~~describe this method here~~
 }
 }}

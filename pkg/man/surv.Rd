@@ -16,7 +16,7 @@ surv(size, cov, survObj)
     a numeric vector of current sizes.
 }
   \item{cov}{
-    a numeric covariate level (numeric of length 1).
+    a data-frame with one row containing all covariates.
 }
   \item{survObj}{
     a survObj.
@@ -37,5 +37,5 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff <- generateData()
 sv1 <- makeSurvObj(dff)
-surv(1:50, 1, sv1)
+surv(1:50, data.frame(cov=1), sv1)
 }

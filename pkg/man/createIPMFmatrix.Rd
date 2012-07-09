@@ -9,7 +9,7 @@ Uses fecundity objects to construct a matrix defining per-capita contribution to
 }
 \usage{
 createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 
-	maxSize = 50, chosenCov = 1, integrateType="midpoint", correction="none", 
+	maxSize = 50, chosenCov = data.frame(covariate=1), integrateType="midpoint", correction="none", 
 	preCensus = TRUE, survObj = NULL, growObj = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -31,8 +31,8 @@ createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1,
     numeric, maximum size of the F matrix, defaults to 50.
   }
   \item{chosenCov}{
-    numeric indicating level of the discrete covariate, or vector
-    setting values where multiple covariates are modeled.
+    data-frame indicating level of the discrete covariate, or 
+    range of values where multiple covariates are modeled.
   }
   \item{integrateType}{
     integration type, defaults to "midpoint" (which uses probability density

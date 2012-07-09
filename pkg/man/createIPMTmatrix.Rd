@@ -9,8 +9,8 @@ Builds T matrices.
 }
 \usage{
 createIPMTmatrix(nEnvClass = 1, nBigMatrix = 50,
-minSize = -1, maxSize = 50, chosenCov = 1, growObj, survObj, discreteTrans, 
-integrateType, correction)
+minSize = -1, maxSize = 50, chosenCov = data.frame(covariate=1), growObj, survObj, discreteTrans=1, 
+integrateType = "midpoint", correction="none")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -28,8 +28,8 @@ integrateType, correction)
     numeric, maximum size of the T matrix, defaults to 50.
   }
   \item{chosenCov}{
-    numeric indicating level of the discrete covariate, or vector
-    setting values where multiple covariates are modeled.
+    data-frame indicating level of the discrete covariate, or 
+    range of values where multiple covariates are modeled.
   }
   \item{growObj}{
     growth object.

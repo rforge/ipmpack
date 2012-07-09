@@ -216,7 +216,7 @@ picSurv <- function(dataf,survObj,ncuts=20,...) {
 		plot(as.numeric(psz),as.numeric(ps),pch=19,
 				xlab="Size at t", ylab="Survival to t+1",main="Survival",...)
 		#Plot fitted models
-		points(dataf$size[order(dataf$size)],surv(dataf$size[order(dataf$size)],1,survObj),type="l",col=2)
+		points(dataf$size[order(dataf$size)],surv(dataf$size[order(dataf$size)],data.frame(covariate=1),survObj),type="l",col=2)
 	} else {
 		plot(as.numeric(psz),as.numeric(ps),
 				type="n",pch=19,xlab="Size at t", ylab="Survival to t+1",main="Survival",...)
@@ -497,10 +497,11 @@ makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10,
 	for (k in 1:length(covs)) { 
 		
 		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, chosenCov = k,
+				maxSize = maxSize, chosenCov = as.factor(k),#data.frame(covariate=as.factor(k)),
 				fecObj = fv1,integrateType=integrateType, correction=correction)
 		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, chosenCov = k,growObj = gr1, survObj = sv1,
+				maxSize = maxSize, chosenCov = data.frame(covariate=as.factor(k)),
+				growObj = gr1, survObj = sv1,
 				integrateType=integrateType, correction=correction)
 		IPM.list[[k]] <- tpF+tpS
 	}
@@ -893,7 +894,7 @@ plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "
 	plot(binnedSize, binnedSurv, pch = 19, xlab = "Size at t", ylab = "Survival to t + 1", main = mainTitle, cex = 0.8,...)
 	for(p in 1:treatN) {
 		newd <- .makeCovDf(osSize, expVars[p])
-		lines(dataf$size[order(dataf$size)], surv(dataf$size[os], 1, svObj[[p]]), col = (p + 1))           
+		lines(dataf$size[order(dataf$size)], surv(dataf$size[os], data.frame(covariate=1), svObj[[p]]), col = (p + 1))           
 	}
 	if(plotLegend) {
 		legend(legendPos, legend = sprintf("%s: %s = %.1f", expVars, testType, as.numeric(as.character(summaryTable[,2]))), col = c(2:(p + 1)), lty = 1, xjust = 1, bg = "white")
@@ -911,7 +912,7 @@ addPdfGrowthPic <- function(respType = "sizeNext",
 		scalar=100,
 		growthObjList,
 		cols=1:5,
-		cov=1,
+		cov=data.frame(covariate=1),
 		minShow=1e-2,
 		jitt=2,  #how far apart should pdfs be if you are plotting several
 		...){

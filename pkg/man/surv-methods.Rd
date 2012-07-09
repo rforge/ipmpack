@@ -1,8 +1,8 @@
 \name{surv-methods}
 \docType{methods}
 \alias{surv-methods}
-%\alias{surv,numeric,numeric,survObj-method}
-%\alias{surv,numeric,numeric,survObj.manycov-method}
+\alias{surv,numeric,data.frame,survObj-method}
+\alias{surv,numeric,data.frame,survObjOverDisp-method}
 \title{ ~~ Methods for Function surv  ~~}
 \description{
  ~~ Methods for function \code{surv}  ~~
@@ -10,18 +10,12 @@
 \section{Methods}{
 \describe{
 
-\item{\code{signature(size = "numeric", cov = "numeric", survObj = "survObj")}}{
+\item{\code{signature(size = "numeric", cov = "data.frame", survObj = "survObj")}}{
 Methods to predict probability of survival given a linear predictor based on 
-various transforms of size and potentially a single discrete covariate. 
+various transforms of size and covariates defined in cov. 
 }
 
-
-\item{\code{signature(size = "numeric", cov = "data.frame", survObj = "survObjMultiCov")}}{
-Methods to predict probability of survival given a linear predictor based on 
-various transforms of size and a dataframe of other covariates.  
-}
-
-\item{\code{signature(size = "numeric", cov = "numeric", survObj = "survObjOverDisp")}}{
+\item{\code{signature(size = "numeric", cov = "data.frame", survObj = "survObjOverDisp")}}{
 Methods to predict probability of survival given a linear predictor based on 
 various transforms of size and acovariate, where over-dispersion has been fitted, using a correction.  
 

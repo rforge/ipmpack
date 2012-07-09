@@ -12,7 +12,7 @@ addPdfGrowthPic(respType = "sizeNext", sizesPlotAt = c(20, 50, 60),
                             sizeRange = c(20, 400), incrRange = c(-10, 50), 
                             scalar = 100, growthObjList,
                             cols = 1:5,
-                            cov = 1,
+                            cov = data.frame(covariate=1),
                             minShow = 1e-2,
                             jitt = 2,  
                             ...)
@@ -42,8 +42,7 @@ addPdfGrowthPic(respType = "sizeNext", sizesPlotAt = c(20, 50, 60),
     colours corresponding to the list of growth objects for plotting
   }
   \item{cov}{
-    covariate value (if growth objects contain a discrete covariate, or
-    other); defaults to 1; will be ignored if no covariates are fitted
+    a data-frame with one row containing all covariates other than size related covariates; defaults to 1; will be ignored if no covariates are fitted
   }
   \item{minShow}{
     minimum value below which pdf lines will not be shown (to avoid ugly

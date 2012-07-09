@@ -42,7 +42,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-  \code{\link{makeSurvObjManyCov}}, \code{\link{picSurv}}
+  \code{\link{picSurv}}
 }
 \examples{
 #generate data

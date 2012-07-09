@@ -56,9 +56,10 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff <- generateData()
-svlist <- makePostSurvivalObjs(dataf = dff, meanB = rep(0, 3), 
+
+svlist <- makePostSurvivalObjs(dataf = dff, explanatoryVariables="size+size2",meanB = rep(0, 3), 
 	varB = rep(1e+10), nitt = 5000)
-grlist <- makePostGrowthObjs(dataf = dff,burnin=100, nitt = 500)
+grlist <- makePostGrowthObjs(dataf = dff,explanatoryVariables="size+size2",burnin=100, nitt = 500)
 
 # Only first 10 for speed
 Tlist <- makeListTmatrix(growObjList = grlist[1:10], 

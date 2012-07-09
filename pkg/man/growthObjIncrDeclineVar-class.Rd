@@ -19,8 +19,8 @@ Objects can be created by calls of the form \code{new("growthObjIncrDeclineVar",
 }
 \section{Methods}{
   \describe{
-    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "numeric", growthObj = "growthObjIncrDeclineVar")}: ... }
-   \item{growthCum}{\code{signature(size = "numeric", sizeNext = "numeric", h = "numeric", cov = "numeric", growthObj = "growthObjIncrDeclineVar")}: ... }
+    \item{growth}{\code{signature(size = "numeric", sizeNext = "numeric", cov = "data.frame", growthObj = "growthObjIncrDeclineVar")}: ... }
+   \item{growthCum}{\code{signature(size = "numeric", sizeNext = "numeric", h = "numeric", cov = "data.frame", growthObj = "growthObjIncrDeclineVar")}: ... }
 	 }
 }
 \author{

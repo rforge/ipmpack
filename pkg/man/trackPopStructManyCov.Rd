@@ -78,8 +78,8 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 # Generate relevant data, build objects
 #dff <- generateDataStoch()
 #print(head(dff))
-#gr1 <- makeGrowthObjManyCov(dff, explanatoryVariables = "size+size2+covariate1")
-#sv1 <- makeSurvObjManyCov(dff, explanatoryVariables = "size+size2+covariate2")
+#gr1 <- makeGrowthObj(dff, explanatoryVariables = "size+size2+covariate1")
+#sv1 <- makeSurvObj(dff, explanatoryVariables = "size+size2+covariate2")
 #fv1 <- makeFecObj(dff, explanatoryVariables = "size+size2",Transform="log")
 
 # Generate time series of covariates for which growth rate is required

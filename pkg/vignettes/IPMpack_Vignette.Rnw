@@ -149,8 +149,6 @@ sv1 <- makeSurvObj(dff, explanatoryVariables = "size+size2")
 @ 
 In both these functions, the argument {\tt explanatoryVariables} contains formulas of the type used in linear or logistic regressions in $R$, built around the possible defined range of transforms of  {\tt size} currently available ({\tt size2} which is size$^2$, {\tt size3} which is size$^3$, and {\tt logsize} which is log(size). Currently further transforms of  {\tt size} are not possible. This function can also be used to fit models that include a single discrete covariate (e.g., light environment, age, etc) as long as this exists in the {\tt dataf} in a column named {\tt covariate}. For instance, the user could model the population dynamics according to  {\tt size + covariate} or  {\tt size + logsize*covariate}, etc. For the growth model, possibilities for {\tt responseType} are: {\tt sizeNext} meaning that the reponse variable is size at the next census time, or {\tt incr} meaning that the response variable is the size increment that has accrued between the two census times (common among tree demographic studies), and {\tt logincr} meaning that the response variable is the log of the size increment that has acrrued between the two census intervals.
 
-Below, the functions {\tt makeGrowthObjManyCov} and {\tt makeSurvObjManyCov} are introduced, which allow any covariates that exist in {\tt dataf} to be fitted (e.g., {\tt size + temperature + site}, etc) via the argument {\tt explanatoryVariables}. The functions are different from the above, since in this case, a slightly different type of growth and survival object needs to be defined to allow slightly different growth and survival methods to be applied. 
-
 Glancing at the source code will confirm that all these functions simply fit a linear regression relating size at t+1 or increment to size at t and covariates for growth, as for survival. The survival and growth objects created have a slot called `fit' that holds the regression.
 <<>>= 
 gr1
@@ -392,12 +390,12 @@ number of time steps to run, and should be large enough that increasing it does 
 \section{More generally varying environments}
 
 An alternative way of inhabiting stochastic environments is to experience continuously changing covariates (rather than moving between discrete states, as the above describes). In this case, rather than building a single megamatrix, desired variables are obtained by multiplying up a suite of matrices and relying on the weak
-ergodic theorem for convergence (as described for obtaining $\lambda_s$, above). IPMpack contains code to do this. The user must first define a new data frame containing several time-varying covariates, and then, build the associated survival, growth and fertility objects: 
+ergodic theorem for convergence (as described for obtaining $\lambda_s$, above). IPMpack contains code to do this. The user must first define a new data frame containing several time-varying covariates, and then, build the associated survival, growth and fertility objects (note that the default in IPMpack is to assume that if you have a covariate called "coviariate", your aim is to build a compound matrix, so ideally other covariates should have other names): 
 <<>>= 
 dff <- generateDataStoch()
-sv1 <- makeSurvObjManyCov(dataf = dff, 
+sv1 <- makeSurvObj(dataf = dff, 
                           explanatoryVariables = "size+covariate1+covariate3")
-gr1 <- makeGrowthObjManyCov(dataf = dff, 
+gr1 <- makeGrowthObj(dataf = dff, 
                             explanatoryVariables = "size+covariate1+covariate2")
 fv1 <- makeFecObj(dataf = dff, fecConstants = data.frame(1.8), 
                   explanatoryVariables = "size", Transform = "log")
