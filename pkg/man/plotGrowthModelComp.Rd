@@ -34,9 +34,6 @@ legendPos = "bottomleft",...)
   \item{expVars}{
     vector, list of covariates.  Defaults to \code{c("1",  "size", "size + size2")}.
   }
-   \item{respType}{
-    character string identifying the response variable for the growthModelComp.  wither \code{"sizeNext"}, \code{"logincr"} or \code{"incr"}. Defaults to \code{sizeNext}. 
-  }
   \item{testType}{
     character string identifying the metric used to compare models.  Can be any string that uses \code{loglike} from the lm or glm object.  For example \code{"AIC"} or \code{"BIC"}.  Defaults to \code{"AIC"}.
   }
@@ -77,7 +74,7 @@ dff <- generateData()
 
 grModels <- growthModelComp(dff, makePlot = FALSE)
 
-##TODO - FIX THIS! NEEDS PROPER FORMULAS FOR LAST ARGUMENT
+##TODO - NEEDS PROPER FORMULAS FOR LAST ARGUMENT
 #plotGrowthModelComp(grObj = grModels$growthObjects, 
 #summaryTable = grModels$summaryTable, dataf = dff, 
 # expVars = as.character(grModels$summaryTable[,1]))
