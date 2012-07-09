@@ -253,6 +253,7 @@ setMethod("growth",
 		})
 
 #  growth transition (poisson model) probability from size to sizeNext at that covariate level 
+#	NOTE DO NOT USE THIS WITH AN IPM!!
 setMethod("growth", 
 		c("numeric","numeric","data.frame","growthObjPois"),
 		function(size,sizeNext,cov,growthObj){
@@ -268,6 +269,7 @@ setMethod("growth",
 			u <- dpois(sizeNext,mux,log=FALSE)  
 			return(u);
 		})
+
 
 
 # growth for predicting next incr 
