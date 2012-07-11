@@ -263,7 +263,7 @@ makeSurvObj <- function(dataf,
 
 makeFecObj <- function(dataf,
 		fecConstants=data.frame(NA),
-		Formula=c(fec~size),
+		Formula=list(fec~size),
 		Family="gaussian",
 		Transform="none",
 		meanOffspringSize=NA,
@@ -275,7 +275,12 @@ makeFecObj <- function(dataf,
 	
 	
 	#make sure Formula is a list
-	if (class(Formula)!="list") Formula <- c(Formula)
+	if (class(Formula)=="list") {
+		if (class(Formula[[1]])!="formula") stop("Error - the entries in your Formula list should be of class 'formula': e.g. fec~size without quotation marks")
+	} else {
+		if (class(Formula)!="formula") stop("Error - the Formula entry should by of class 'formula' or a list of such entries:  e.g. fec~size without quotation marks")
+        Formula <- list(Formula)	
+	}
 			
 	#if stage or stageNext do not exist in dataf, create them assuming that 
 	#everything is continuous. 
@@ -343,9 +348,7 @@ makeFecObj <- function(dataf,
 	fecNames <- rep(NA,length(Formula))
 	for (i in 1:length(Formula)) {
 		f1@fitFec[[i]] <- glm(Formula[[i]],family=Family[i],data=dataf)
-		cr1 <- unlist(as.character(Formula))[i]
-		nme <- min(regexpr("~",cr1)[1]-1,regexpr(" ",cr1)[1]-1)
-		fecNames[i] <- substring(cr1,1,nme)
+		fecNames[i] <- all.vars(Formula[[i]])[1]
 	}
 	
 	
@@ -372,7 +375,7 @@ makeFecObj <- function(dataf,
 		if (sum(names(offspringTypeRates)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in offspringTypeRates should match those in offspringSplitter - and in the same order, with continuous last")
 		if (sum(rownames(offspringTypeRates)==c(fecNames,names(fecConstants)))<(length(Formula)+length(fecConstants))) stop ("Error - the row names in offspringTypeRates should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
 	} else {
-		offspringTypeRates <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(Formula)+length(fecConstants)),row.names=c(unlist(as.character(Formula)),names(fecConstants)))
+		offspringTypeRates <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(Formula)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
 		names(offspringTypeRates) <- names(offspringSplitter)
 	}
 	
