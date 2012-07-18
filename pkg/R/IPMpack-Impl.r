@@ -274,7 +274,7 @@ makeFecObj <- function(dataf,
 		offspringSizeExplanatoryVariables="1"){
 	
 	
-	#make sure Formula is a list
+	#make sure Formula is a formula or a list of formulas
 	if (class(Formula)=="list") {
 		if (class(Formula[[1]])!="formula") stop("Error - the entries in your Formula list should be of class 'formula': e.g. fec~size without quotation marks")
 	} else {
@@ -356,8 +356,10 @@ makeFecObj <- function(dataf,
 		if (is.na(meanOffspringSize[1])|is.na(sdOffspringSize[1])) {
 			if (length(dataf$offspringNext)==0) {
 				offspringData<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
+				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize and sdOffspringSize slots, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'sexual' offspring)")
 			} else {
 				offspringData<-subset(dataf,dataf$offspringNext=="sexual"&dataf$stageNext=="continuous")
+				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize and sdOffspringSize slots, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'sexual' offspring)")
 			}
 			## relationship defining offspring size - note that the mean value is ALWAYS taken from
 			## a lm now (but equivalent to just fitting an intercept if that is desired....)
@@ -492,8 +494,10 @@ makeClonalObj <- function(dataf,
 	if (is.na(meanOffspringSize[1])|is.na(sdOffspringSize[1])) {
 		if (length(dataf$offspringNext)==0) {
 			offspringData<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
+			if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize and sdOffspringSize slots, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'clonal' offspring)")
 		} else {
 			offspringData<-subset(dataf,dataf$offspringNext=="clonal"&dataf$stageNext=="continuous")
+			if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize and sdOffspringSize slots, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'clonal' offspring)")
 		}
 		## relationship defining offspring size - note that the mean value is ALWAYS taken from
 		## a lm now (but equivalent to just fitting an intercept if that is desired....)
