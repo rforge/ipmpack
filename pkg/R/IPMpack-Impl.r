@@ -549,6 +549,8 @@ makeDiscreteTrans <- function(dataf) {
 	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
 	stages <- stages[stages!="dead"] 
 	stages <- c(stages[stages!="continuous"],"continuous") 
+	#if no number of instances are not specified, assume each row represents one individual
+	if (("number"%in%names(dataf)) == FALSE) dataf$number <- 1
 	#define the number of classes
 	nclasses <- length(stages)
 	#define matrices to hold the transition between all classes
