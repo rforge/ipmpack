@@ -429,7 +429,7 @@ makeFecObj <- function(dataf,
 
 makeClonalObj <- function(dataf,
 		fecConstants=data.frame(NA),
-		Formula=c(fec~size),
+		Formula=list(fec~size),
 		Family="gaussian",
 		Transform="none",
 		meanOffspringSize=NA,
