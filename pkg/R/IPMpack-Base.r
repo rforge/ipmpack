@@ -2171,7 +2171,13 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 		#if you don't do this, rownames return errors...
 		covariatet <- covariate[t,]
 		row.names(covariatet) <- NULL
-			
+		
+		#but if you have only one column, then it can forget its a data-frame
+		if (ncol(covariate)==1) { 
+			covariatet <- data.frame(covariatet)
+			colnames(covariatet) <- colnames(covariate)	
+		}
+		
 		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosenCov = covariatet,
 				growObj = growthObj, survObj = survObj,
