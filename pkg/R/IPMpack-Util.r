@@ -977,7 +977,7 @@ getListRegObjects <- function(Obj,nsamp=1000) {
 ## Function to coerce Growth object to parameters and variance desired
 coerceGrowthObj <- function(growthObj,coeff,sd){
 
-	if (length(growthObj@fit$coefficients !=length(coeff))) print("warning: number of desired coefficients to not match number of growth object coefficients")
+	if (length(growthObj@fit$coefficients) !=length(coeff)) print("warning: number of desired coefficients to not match number of growth object coefficients")
 	growthObj@fit$coefficients <- coeff
 	
 	growthObj@sd <- sd
@@ -989,7 +989,7 @@ coerceGrowthObj <- function(growthObj,coeff,sd){
 ## Function to coerce Growth object to parameters and variance desired
 coerceSurvObj <- function(survObj,coeff){
 	
-	if (length(survObj@fit$coefficients !=length(coeff))) print("warning: number of desired coefficients to not match number of growth object coefficients")
+	if (length(survObj@fit$coefficients) !=length(coeff)) print("warning: number of desired coefficients to not match number of growth object coefficients")
 	survObj@fit$coefficients <- coeff
 	
 	return(survObj)
