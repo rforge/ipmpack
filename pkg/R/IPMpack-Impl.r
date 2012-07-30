@@ -49,15 +49,21 @@ makeGrowthObj <- function(dataf,
 	}
 	
 	#eliminate growth in dead individual
-	if (length(grep("incr", as.character(Formula))) > 0 & sum(!is.na(dataf$incr) & dataf$surv==0)>0) {
+	if (length(grep("incr", as.character(Formula))) > 0) {
+		if (sum(!is.na(dataf$incr) & dataf$surv==0)>0) {
 		print("measures of growth exist where individual has died (surv==0); replacing these by NA")
-	}
-	if (length(grep("sizeNext", as.character(Formula))) > 0 & sum(!is.na(dataf$sizeNext) & dataf$surv==0)>0) {
+		dataf$incr[dataf$surv==0] <- NA
+	}}
+	if (length(grep("sizeNext", as.character(Formula))) > 0) { 
+		if(sum(!is.na(dataf$sizeNext) & dataf$surv==0)>0) {
 		print("measures of growth exist where individual has died (surv==0); replacing these by NA")		
-	}
-	if (length(grep("logincr", as.character(Formula))) > 0 & sum(!is.na(dataf$logincr) & dataf$surv==0)>0) {
+		dataf$sizeNext[dataf$surv==0] <- NA
+	}}
+	if (length(grep("logincr", as.character(Formula))) > 0) {
+		if (sum(!is.na(dataf$logincr) & dataf$surv==0)>0) {
 		print("measures of growth exist where individual has died (surv==0); replacing these by NA")		
-	}
+		dataf$logincr[dataf$surv==0] <- NA
+	}}
 	
 	#create appropriate size based covariates
 	dataf$size2 <- dataf$size ^ 2
