@@ -364,8 +364,16 @@ makeFecObj <- function(dataf,
 	
 	fecNames <- rep(NA,length(Formula))
 	for (i in 1:length(Formula)) {
-		f1@fitFec[[i]] <- glm(Formula[[i]],family=Family[i],data=dataf)
+		
 		fecNames[i] <- all.vars(Formula[[i]])[1]
+		
+		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
+		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
+		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
+		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
+		
+		
+		f1@fitFec[[i]] <- glm(Formula[[i]],family=Family[i],data=dataf)
 	}
 	
 	
@@ -501,10 +509,15 @@ makeClonalObj <- function(dataf,
 	
 	fecNames <- rep(NA,length(Formula))
 	for (i in 1:length(Formula)) {
+		
+		fecNames[i] <- all.vars(Formula[[i]])[1]
+				
+		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
+		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
+		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
+		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
+				
 		f1@fitFec[[i]] <- glm(Formula[[i]],family=Family[i],data=dataf)
-		cr1 <- unlist(as.character(Formula))[i]
-		nme <- min(regexpr("~",cr1)[1]-1,regexpr(" ",cr1)[1]-1)
-		fecNames[i] <- substring(cr1,1,nme)
 	}
 	
 	if (offspringSplitter$continuous>0) {

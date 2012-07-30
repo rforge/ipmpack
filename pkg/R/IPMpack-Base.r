@@ -2157,27 +2157,34 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 	#print(fecObj@fecConstants)
 	
 	#density dep? 
-	if (sum(nMicrosites)>0) { dd <- TRUE } else { dd <- FALSE}
+	if (sum(nMicrosites)>0) { dd <- TRUE; seeds <- 10000 } else { dd <- FALSE}
 	
 	
 	for (t in 1:tMax) {
 		#changed for new fecConstants defintion
-		if (dd) tmp.fecObj@fecConstants$continuous <-  
-					min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1)
+		if (dd) 	
+			tmp.fecObj@fecConstants <- data.frame(continuous= 
+					min(nMicrosites[min(t,length(nMicrosites))]/seeds,1))
+			
 		#print(tmp.fecObj@fecConstants)
 		
-		
+		#if you don't do this, rownames return errors...
+		covariatet <- covariate[t,]
+		row.names(covariatet) <- NULL
+			
 		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, chosenCov = covariate[t,],
+				maxSize = maxSize, chosenCov = covariatet,
 				growObj = growthObj, survObj = survObj,
 				integrateType=integrateType, correction=correction)
 		
-		print("here")
 		
 		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, chosenCov = covariate[t,],
+				maxSize = maxSize, chosenCov = covariatet,
 				fecObj = tmp.fecObj,
 				integrateType=integrateType, correction=correction)
+		#seeds for next year estimate of p.est
+		if (dd) seeds <- sum(tpF%*%nt)
+		
 		
 		#print(range(tpF))
 		#print(tmp.fecObj)	
@@ -2217,17 +2224,15 @@ trackPopStructManyCov<-function(covariate,nRunIn,tMax,
 	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1 
 	tmp.fecObj <- fecObj
 	#density dep? 
-	if (sum(nMicrosites)>0) { dd <- TRUE } else { dd <- FALSE}
+	if (sum(nMicrosites)>0) { dd <- TRUE; seeds <- 10000 } else { dd <- FALSE}
+	
 	
 	
 	for (t in 1:tMax) {
-		#if (dd) tmp.fecObj@fecConstants <- c(fecObj@fecConstants, 
-		#			min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1))
-		if (dd) tmp.fecObj@fecConstants$prob.est <-  
-					min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1)
-
+		if (dd) 	
+		tmp.fecObj@fecConstants <- data.frame(continuous= 
+							min(nMicrosites[min(t,length(nMicrosites))]/seeds,1))
 		
-		#print(tmp.fecObj@fecConstants)
 		
 		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosenCov = covariate[t,],
@@ -2238,16 +2243,13 @@ trackPopStructManyCov<-function(covariate,nRunIn,tMax,
 				fecObj = tmp.fecObj,
 				integrateType=integrateType, correction=correction)
 		
+		if (dd) seeds <- sum(tpF%*%nt)
+		
 		IPM.here <- tpF+tpS
 		nt1<-IPM.here %*% nt	
 		rc[,t] <- nt1
 		nt<-nt1
-		
-		#print("Smat")
-		#print(range(tpS))
-		#print("Fmat")
-		#print(range(tpF))
-		
+	
 		
 	}
 	

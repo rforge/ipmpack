@@ -87,7 +87,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 # Generate time series of covariates for which population growth rate is required
 # Here set to be seasonal environment. Names of covariates must be same as in dff
-#tVals <- seq(1,20,by = 1/12)
+#tVals <- seq(1,100,by = 1/12)
 #covTest <- (1 + 0.5*sin(2*pi*tVals))
 #covMatTest <- data.frame(covariate1 = rnorm(length(covTest),covTest,0.5) - 1, 
 #covariate2 = rnorm(length(covTest), covTest,0.5) - 1, 
