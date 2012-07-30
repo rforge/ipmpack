@@ -986,7 +986,7 @@ coerceGrowthObj <- function(growthObj,coeff,sd){
 }
 
 
-## Function to coerce Growth object to parameters and variance desired
+## Function to coerce Survival object to parameters desired
 coerceSurvObj <- function(survObj,coeff){
 	
 	if (length(survObj@fit$coefficients) !=length(coeff)) print("warning: number of desired coefficients to not match number of growth object coefficients")
@@ -994,4 +994,6 @@ coerceSurvObj <- function(survObj,coeff){
 	
 	return(survObj)
 }
+
+
 

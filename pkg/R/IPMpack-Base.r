@@ -2161,12 +2161,7 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 	
 	
 	for (t in 1:tMax) {
-		#if (dd) tmp.fecObj@fecConstants <- c(fecObj@fecConstants, 
-		#			min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1))
-		
 		#changed for new fecConstants defintion
-		
-		
 		if (dd) tmp.fecObj@fecConstants$continuous <-  
 					min(nMicrosites[min(t,length(nMicrosites))]/nt[1],1)
 		#print(tmp.fecObj@fecConstants)
@@ -2177,8 +2172,10 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 				growObj = growthObj, survObj = survObj,
 				integrateType=integrateType, correction=correction)
 		
+		print("here")
+		
 		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, #chosenCov = covariate[t,],
+				maxSize = maxSize, chosenCov = covariate[t,],
 				fecObj = tmp.fecObj,
 				integrateType=integrateType, correction=correction)
 		

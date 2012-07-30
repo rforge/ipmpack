@@ -91,7 +91,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 #covTest <- (1 + 0.5*sin(2*pi*tVals))
 #covMatTest <- data.frame(covariate1 = rnorm(length(covTest),covTest,0.5) - 1, 
 #covariate2 = rnorm(length(covTest), covTest,0.5) - 1, 
-#covariate3 = rnorm(length(covTest), covTest,0.5) - 1)
+#covariate3 = rnorm(length(covTest), covTest,0.5) - 1, row.names = NULL)
 
 # Calculate
 
