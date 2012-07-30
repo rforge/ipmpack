@@ -1,6 +1,6 @@
 \name{coerceGrowthObj}
 \alias{coerceGrowthObj}
-\alias{coerceSurvivalObj}
+\alias{coerceSurvObj}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
