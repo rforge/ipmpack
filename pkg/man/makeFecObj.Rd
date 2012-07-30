@@ -1,6 +1,5 @@
 \name{makeFecObj}
 \alias{makeFecObj}
-\alias{makeFecObjManyCov}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -55,7 +54,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeFecObjManyCov}}, \code{\link{makeSurvObj}}, \code{\link{makeGrowthObj}}
+\code{\link{makeSurvObj}}, \code{\link{makeGrowthObj}}
 
 }
 \examples{

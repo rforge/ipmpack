@@ -953,7 +953,7 @@ addPdfGrowthPic <- function(respType = "sizeNext",
 		}}
 }
 
-## Function to fit of these and output a list of growth objects
+## Function to take fit of these and output a list of growth objects
 getListRegObjects <- function(Obj,nsamp=1000) {
 	
 	require(mvtnorm)
@@ -974,5 +974,24 @@ getListRegObjects <- function(Obj,nsamp=1000) {
 }
 
 
+## Function to coerce Growth object to parameters and variance desired
+coerceGrowthObj <- function(growthObj,coeff,sd){
 
+	if (length(growthObj@fit$coefficients !=length(coeff))) print("warning: number of desired coefficients to not match number of growth object coefficients")
+	growthObj@fit$coefficients <- coeff
+	
+	growthObj@sd <- sd
+	
+	return(growthObj)
+}
+
+
+## Function to coerce Growth object to parameters and variance desired
+coerceSurvObj <- function(survObj,coeff){
+	
+	if (length(survObj@fit$coefficients !=length(coeff))) print("warning: number of desired coefficients to not match number of growth object coefficients")
+	survObj@fit$coefficients <- coeff
+	
+	return(survObj)
+}
 

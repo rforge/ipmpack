@@ -1,6 +1,5 @@
 \name{makeClonalObj}
 \alias{makeClonalObj}
-\alias{makeClonalObjManyCov}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
