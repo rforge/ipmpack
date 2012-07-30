@@ -2156,18 +2156,13 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 	#print("fec.const start")
 	#print(fecObj@fecConstants)
 	
-	#density dep? 
-	if (sum(nMicrosites)>0) { dd <- TRUE; seeds <- 10000 } else { dd <- FALSE}
+	#density dep in seedling establishment 
+	if (sum(nMicrosites)>0) { dd <- TRUE; seeds <- 10000 } else { dd <- FALSE; p.est <- 1}
 	
 	
 	for (t in 1:tMax) {
-		#changed for new fecConstants defintion
-		if (dd) 	
-			tmp.fecObj@fecConstants <- data.frame(continuous= 
-					min(nMicrosites[min(t,length(nMicrosites))]/seeds,1))
-			
-		#print(tmp.fecObj@fecConstants)
-		
+		if (dd) p.est <- min(nMicrosites[min(t,length(nMicrosites))]/seeds,1) 	
+					
 		#if you don't do this, rownames return errors...
 		covariatet <- covariate[t,]
 		row.names(covariatet) <- NULL
@@ -2182,24 +2177,22 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 				maxSize = maxSize, chosenCov = covariatet,
 				growObj = growthObj, survObj = survObj,
 				integrateType=integrateType, correction=correction)
-		
-		
+				
 		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosenCov = covariatet,
 				fecObj = tmp.fecObj,
 				integrateType=integrateType, correction=correction)
-		#seeds for next year estimate of p.est
+
+		#total seeds for next year 
 		if (dd) seeds <- sum(tpF%*%nt)
-		
-		
-		#print(range(tpF))
-		#print(tmp.fecObj)	
-		
-		IPM.here <- tpF@.Data+tpS@.Data
+				
+		IPM.here <- p.est*tpF@.Data+tpS@.Data
 		nt1<-IPM.here %*% nt	
 		sum.nt1<-sum(nt1)
 		Rt[t]<-log(sum.nt1)
 		nt<-nt1/sum.nt1
+
+		
 		
 	}
 	
@@ -2235,23 +2228,31 @@ trackPopStructManyCov<-function(covariate,nRunIn,tMax,
 	
 	
 	for (t in 1:tMax) {
-		if (dd) 	
-		tmp.fecObj@fecConstants <- data.frame(continuous= 
-							min(nMicrosites[min(t,length(nMicrosites))]/seeds,1))
+		if (dd) p.est <- min(nMicrosites[min(t,length(nMicrosites))]/seeds,1) 	
+	
+		#if you don't do this, rownames return errors...
+		covariatet <- covariate[t,]
+		row.names(covariatet) <- NULL
 		
-		
+		#but if you have only one column, then it can forget its a data-frame
+		if (ncol(covariate)==1) { 
+			covariatet <- data.frame(covariatet)
+			colnames(covariatet) <- colnames(covariate)	
+		}
+				
 		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, chosenCov = covariate[t,],
+				maxSize = maxSize, chosenCov = covariatet,
 				growObj = growthObj, survObj = survObj,
 				integrateType=integrateType, correction=correction)
 		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, #chosenCov = covariate[t,],
+				maxSize = maxSize, chosenCov = covariatet,
 				fecObj = tmp.fecObj,
 				integrateType=integrateType, correction=correction)
 		
+		#total seeds for next year 
 		if (dd) seeds <- sum(tpF%*%nt)
 		
-		IPM.here <- tpF+tpS
+		IPM.here <- p.est*tpF+tpS
 		nt1<-IPM.here %*% nt	
 		rc[,t] <- nt1
 		nt<-nt1
