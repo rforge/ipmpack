@@ -1033,7 +1033,7 @@ createIPMFmatrix <- function(fecObj,
 		
 	# 2. post-census
 	} else {
-		print ("Warning: in the current version of IPMpack, createIPMFmatrix still ignores the growObj you provided for your post-breeding F matrix. This will be included in a later version. Survival until breeding is already included in this version.")
+		#print ("Warning: in the current version of IPMpack, createIPMFmatrix still ignores the growObj you provided for your post-breeding F matrix. This will be included in a later version. Survival until breeding is already included in this version.")
 		if (integrateType=="midpoint"&fecObj@offspringSplitter$continuous>0) { 
 			tmp <- t(outer(X=y,Y=y,.fecPostCensus,
 							cov=chosenCov,fecObj=fecObj, growObj=growObj,
