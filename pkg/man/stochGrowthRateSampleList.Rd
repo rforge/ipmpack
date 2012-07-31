@@ -5,7 +5,7 @@
   Estimating the stochastic population growth rate (lambda_s).
 }
 \description{
-  Estimates the stochastic growth rate (lambda_s) by iteration; operates by sampling a list of IPMs.
+ Estimates the stochastic growth rate (lambda_s) by iteration; operates by sampling a list of IPMs. Note that stoch.growth.rate in the package popbio does this more efficiently and with more useful output. 
 }
 \usage{
 stochGrowthRateSampleList(listIPMmatrix, nRunIn, tMax)
