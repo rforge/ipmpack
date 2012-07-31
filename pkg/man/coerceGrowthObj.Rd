@@ -56,10 +56,10 @@ picGrow(dff,gr2)
 
 #for survival
 sv1 <- makeSurvObj(dataf=dff,
-Formula=sizeNext~size)
+Formula=surv~size)
 
 #halve the slope
-sv2 <- coerceGrowthObj(sv1,coeff=c(sv1@fit$coefficients[1],sv1@fit$coefficients[2]*0.5))
+sv2 <- coerceSurvObj(sv1,coeff=c(sv1@fit$coefficients[1],sv1@fit$coefficients[2]*0.5))
 
 par(mfrow=c(1,2),pty="s")
 picSurv(dff,sv1)
