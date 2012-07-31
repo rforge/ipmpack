@@ -12,7 +12,7 @@ supplied with a growth and survival object, over-writes coefficients, and for gr
 \usage{
 
 coerceGrowthObj(growthObj,coeff,sd)
-coerceSurvObj(growthObj,coeff,sd)
+coerceSurvObj(survObj,coeff)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -43,6 +43,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 dff<-generateData()
 
+#for growth
 gr1 <- makeGrowthObj(dataf=dff,
 Formula=sizeNext~size,regType="constantVar")
 
@@ -52,6 +53,17 @@ gr2 <- coerceGrowthObj(gr1,coeff=c(gr1@fit$coefficients[1],gr1@fit$coefficients[
 par(mfrow=c(1,2),pty="s")
 picGrow(dff,gr1)
 picGrow(dff,gr2)
+
+#for survival
+sv1 <- makeSurvObj(dataf=dff,
+Formula=sizeNext~size)
+
+#halve the slope
+sv2 <- coerceGrowthObj(sv1,coeff=c(sv1@fit$coefficients[1],sv1@fit$coefficients[2]*0.5))
+
+par(mfrow=c(1,2),pty="s")
+picSurv(dff,sv1)
+picSurv(dff,sv2)
 
 
 }
