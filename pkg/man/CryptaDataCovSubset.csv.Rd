@@ -17,7 +17,7 @@ data-frame with headings:
 
 	- ID: unique plant id (this file contains only a subset of all individuals)
 	
-	- treatment: the full experimental design contain to droughts (in 1998 and 1999) but this subset contains only info on the control permanent plots
+	- treatment: the full experimental design contain to droughts (in 1998 and 1999) but this subset contains only info on the control permanent plots. See Lucas et al J Ecol 2008
 	
 	- site: spatial replication site
 	
@@ -62,7 +62,9 @@ data-frame with headings:
 	}
 
 \references{
-Salguero-Gomez, Siewert, Casper & Tielboerger. Oct 2012. A demographic approach to study effects of climate change in desert plants. Philosophical Transactions of the Royal Society. Series B - Biological Sciences x: xxx-xxx
+Salguero-Gomez, Siewert, Casper & Tielboerger. Oct 2012. A demographic approach to study effects of climate change in desert plants. Philosophical Transactions of the Royal Society. Series B - Biological Sciences x, pxxx-xxx
+
+Lucas R, Forseth I, Casper B. 2008. Using rainout shelters to evaluate climate change effects on the demography of Cryptantha flava. Journal of Ecology 96, p514-522
 
 }
 \author{
