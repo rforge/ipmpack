@@ -68,8 +68,8 @@ setClass("growthObj",
 setClass("growthObjPois",
 		representation(fit = "glm"))
 
-setClass("growthObjNegBin",
-		representation(fit = "list"))
+#setClass("growthObjNegBin",
+#		representation(fit = "list"))
 
 
 # Create a generic growth object with normal errors on increment
