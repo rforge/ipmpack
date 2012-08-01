@@ -37,7 +37,7 @@ data-frame with headings:
 }
 
 \references{
-Quintana-Ascencio & Menges. 2003. A fire-explicit population viability analyses of Hypericum cumulicola in Florida Rosemary scrub. Conservation Biology 17, p433-449.
+Quintana-Ascencio, Menges & Weekley. 2003. A fire-explicit population viability analyses of Hypericum cumulicola in Florida Rosemary scrub. Conservation Biology 17, p433-449.
 
 }
 \author{
