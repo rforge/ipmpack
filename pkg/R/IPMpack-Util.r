@@ -391,6 +391,9 @@ generateData <- function(nSamp=1000){
 	dataf <- data.frame(size=size,sizeNext=sizeNext,surv=surv,
 			covariate=covariate,covariateNext=covariateNext,
 			fec=fec, stage=stage,stageNext=stageNext)
+	
+	dataf$sizeNext[dataf$surv==0] <- NA
+	
 	return(dataf)
 }
 
@@ -426,6 +429,7 @@ generateDataDiscrete <- function(){
 			data.frame(size=NA,sizeNext=rnorm(113,3,2),surv=1,fec=0,
 					stage=c(rep("seedAge1",33),rep("seedOld",30),rep(NA,50)),
 					stageNext=c("continuous"),number=1))
+	
 	
 	return(dataf)
 }
@@ -463,6 +467,9 @@ generateDataStoch <- function(){
 	dataf <- data.frame(size=size,sizeNext=sizeNext,surv=surv,
 			covariate1=covariate1,covariate2=covariate2,covariate3=covariate3,
 			fec=fec, stage=stage,stageNext=stageNext, number=rep(1,length(size)))
+	
+	dataf$sizeNext[dataf$surv==0] <- NA
+	
 	return(dataf)
 }
 
