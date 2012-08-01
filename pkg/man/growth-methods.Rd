@@ -9,6 +9,7 @@
 \alias{growth,numeric,numeric,data.frame,growthObjLogIncr-method}
 \alias{growth,numeric,numeric,data.frame,growthObjLogIncrDeclineVar-method}
 \alias{growth,numeric,numeric,data.frame,growthObjTruncIncr-method}
+\alias{growth,numeric,numeric,data.frame,growthObjPois-method}
 \title{ ~~ Methods for Function \code{growth}  ~~}
 \description{
  ~~ Methods for function \code{growth}  ~~
@@ -74,8 +75,16 @@ the sd may change with size.
 Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
 range of transforms of the current size, and covariates described in the data-frame "cov". The prediction 
 supplies mean incr which is added to size to obtain sizeNext; the density function around this is truncated normal, truncated at zero. 
+}
+
+\item{\code{signature(size = "numeric", sizeNext = "numeric", 
+	cov = "data.frame", growthObj = "growthObjPois")}}{
+Methods to predict the probability density of \code{sizeNext} via linear prediction based around a 
+range of transforms of the current size, and covariates described in the data-frame "cov". The prediction 
+supplies mean sizeNext directly; the density function around this is poisson. NOTE THAT THIS EMPHATICALLY SHOULD NOT BE USED WITH AN IPM, SINCE THE PREDICTION IS NOT CONTINUOUS.  
 
 }
+
 }}
 \keyword{methods}
 \keyword{ ~~ other possible keyword(s) ~~ }
