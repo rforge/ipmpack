@@ -57,8 +57,8 @@ dff <- generateData()
 # NOT RUN ##
 #svlist <- makePostSurvivalObjs(dataf = dff, explanatoryVariables = "size",
 #meanB = rep(0, 3), varB = rep(1e+10), nitt = 5000)
-#grlist <- makePostGrowthObjs(dataf = dff,  nitt = 5000)
-#fvlist <- makePostFecObjs(dataf = dff, nitt = 5000)
+#grlist <- makePostGrowthObjs(dataf = dff,  explanatoryVariables = "size",nitt = 5000)
+#fvlist <- makePostFecObjs(dataf = dff, explanatoryVariables = "size",nitt = 5000)
 
 # Use only first 10 of each list, for speed:
 #Tlist <- makeListTmatrix(growObjList = grlist[1:10], survObjList = svlist[1:10], 

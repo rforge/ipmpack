@@ -86,7 +86,8 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 	}} else { surv.par <- grow.par <- c()}
 	
 	#set up storage
-	if (is.data.frame(discreteTrans)) nDisc <- ncol(discreteTrans) else nDisc <- 0
+	if (class(discreteTrans)=="discreteTrans") nDisc <- (ncol(discreteTrans@discreteTrans)-1) else nDisc <- 0
+	
 	if (class(envMat)!="NULL") nEnv <- envMat@nEnvClass else nEnv <- 1
 	LE <- pTime <- matrix(NA,nsamp,(nBigMatrix+nDisc)*nEnv)
 	if (class(fecObjList)=="NULL") {
@@ -103,7 +104,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		
 		if (!cov) {
 			Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-					maxSize = maxSize, growObj = growObjList[[k]],
+					maxSize = maxSize,  growObj = growObjList[[k]],
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
 					integrateType=integrateType, correction=correction) 
 			
@@ -123,7 +124,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		if (class(fecObjList)!="NULL") {
 			if (!cov) { 
 				Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-						maxSize = maxSize, 
+						maxSize = maxSize,  
 						fecObj=fecObjList[[k]],
 						integrateType=integrateType, correction=correction)
 			} else {

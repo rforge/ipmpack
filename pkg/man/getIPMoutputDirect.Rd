@@ -148,6 +148,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 #	Transform = "log", nitt = 5000)
 
 #res <- getIPMoutputDirect(survObjList = svlist[1:10], growObjList = grlist[1:10], 
-#	targetSize = 10, nBigMatrix = 20, minSize = -2, maxSize = 15, cov = FALSE, 
+#	targetSize = 10, nBigMatrix = 20, minSize = -2, maxSize = 15, 
+#      discreteTrans=makeDiscreteTrans(dff), cov = FALSE, 
 #		fecObjList = fvlist[1:10], nsizeToAge = 5, sizeStart = -1)
 }
