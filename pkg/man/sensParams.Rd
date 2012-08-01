@@ -6,7 +6,7 @@
 }
 \description{
   Uses perturbation to estimate the sensitivity and elasticity of
-  all the parameters underlying an IPM that is structured only by continuous (e.g. size) stage (compound T and F matrices not possible yet). If discrete stages are present, the sensitivity analysis can be run, but parameters linked to transmission to discrete stages will not be addressed. 
+  all the parameters underlying an IPM  (compound T and F matrices not possible yet). If discrete stages are present, the sensitivity analysis can be run, but parameters linked to movement into and out of discrete stages will not be addressed. 
 }
 \usage{
 sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
