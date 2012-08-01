@@ -2189,9 +2189,13 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 		IPM.here <- p.est*tpF@.Data+tpS@.Data
 		nt1<-IPM.here %*% nt	
 		sum.nt1<-sum(nt1)
-		Rt[t]<-log(sum.nt1)
-		nt<-nt1/sum.nt1
-
+		if (!dd) { 
+			Rt[t]<-log(sum.nt1)
+			nt<-nt1/sum.nt1
+		} else {
+			Rt[t]<-log(sum.nt1)-log(sum(nt))
+			nt<-nt1	
+		}
 		
 		
 	}
