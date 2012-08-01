@@ -35,7 +35,7 @@ data-frame with headings:
 	
 	- fec1: number of fruits per plant (NA if not Fec0Flowering = 0)
 	
-	- fec2:
+	- fec2: number of seeds per fruit
 	
 	- fec3: probability that seeds produced in year t will germinate that year
 	
@@ -53,7 +53,7 @@ data-frame with headings:
 	
 	- ontogenyNext: recruits vs established individuals in time t+1 (0 = individual was recruited in time t+1, 1 = already established individual prior to time t+1, NA = individual not yet recruited or dead in t+1)
 	
-	- covNext: annual precipitation in year t+1 (in cm)
+	- covNext: annual precipitation in year t+1 (mm)
 }
 
 \references{
@@ -61,7 +61,7 @@ Quintana-Ascencio, Menges & Weekley. 2003. A fire-explicit population viability 
 
 }
 \author{
-Pedro Quintana Ascencio & Eric Menges
+Pedro Quintana-Ascencio & Eric Menges
 }
 
 \examples{
