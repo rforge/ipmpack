@@ -223,20 +223,46 @@ Tmatrix <- createIPMTmatrix(nBigMatrix = 50,
 @ 
 where {\tt nBigMatrix} is the number of bins used, {\tt minSize} and
 {\tt maxSize} define the limits of the IPM, $U$ and $L$ in the
-equations above. Typically, these range
-should usually extend to beyond the smallest and largest size
-measurement, but the user might want to exclude outliers). The objects
-growObj and survObj define changes in size and survival as defined
-above. IPMpack includes an useful function {\tt diagnosticsTmatrix}
-that provides a series of plots indicative of whether bin choice and
-size range is adequate. Applying this function as a preliminary step
-before obtaining demographic and evolutionary output from IPMs is
-highly recommended at this stage (see {\tt ?diagnosticsTmatrix} for
-details). The argument {\tt correction = "constant"} will rectify some
-of the more egregious numerical slippage in the model defined above,
-but it will do this in a slightly arbitrary way (i.e. simply adding a
-constant value to all elements of each column in the matrix, which may
-or may not be appropriate), so it is worth exploring options in detail.
+equations above. Typically, these ranges should usually extend to beyond the
+smallest and largest size measurement, but the user might want to exclude
+outliers). The objects \code{growObj} and \code{survObj} define changes in size
+and survival as defined above. 
+
+\begin{figure}
+\begin{center}
+<<label = fig:diag, fig = TRUE, echo = FALSE>>= 
+diagnosticsTmatrix(Tmatrix, gr1, sv1, dff)
+@
+\end{center}
+\caption{Diagnostic plots for the Tmatrix.}
+\label{fig:diag}
+\end{figure}
+
+IPMpack includes a useful function {\code diagnosticsTmatrix} that provides a
+series of plots indicative of whether bin choice and size range is adequate.
+Applying this function as a preliminary step before obtaining demographic and evolutionary output from IPMs can help identify
+basic problems in the fitting of vital rate functions or in the creation of the
+IPM matrices before proceeding. Several common problems can be diagnosed with
+the panelled figure produced by {\code diagnosticsTmatrix} (Figure
+\ref{fig:diag}).
+
+The top-left panel shows the range of the data and the range of the state
+variable fitted in the matrix.  If these are mis-matched, the limits of the
+data used in building the Tmatrix can be adjusted with the \tt{minSize} and
+\tt{maxSize} arguments in \code{createIPMTmatrix}.  One common problem
+can result from the loss of parts of the continuous distribution
+when binning. This can mean that the sum of the columns of the matrix do not
+match the fitted survival.  The top-middle panel of Figure \ref{fig:diag} will
+show this discrepency if the red and black lines do not overlay.  To correct
+this, \code{createIPMTmatrix} has an argument {\tt correction = "constant"}
+which ensures that the columns sum to the fitted survival by adding a constant. 
+The top-right panel checks whether extending the size range included in the
+matrix is sufficient to include all dynamics derived from the vital rate models.
+The three lower panels show whether or not the discretized IPM and the
+theoretical density function.  If mismatched, increasing the tt{nBigMatrix}
+argument may correct this discrepency.  
+
+This results from the fact that continuous distributions of the kernal are discretized when making the IPM matrix, and  Other approaches to this problem are in development (see {\tt ?diagnosticsTmatrix} for additional details).
 
 The {\tt createIPMTmatrix} function builds around methods defined so that it will provide appropriate output whatever the survival and growth objects are (e.g. error structure, covariates...). The T matrix contains a matrix defining the transitions, but also other useful slots, e.g., the meshpoints, etc. The user can access this information by writing: 
 <<>>= 
