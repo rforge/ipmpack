@@ -7,7 +7,7 @@ Estimates stochastic population growth rates (lambda_s) or invasion rate with ma
 \description{
 Iterates a population vector through a time series of covariates according to
 growth, survival and fecundity objects, and calculates the stochastic population rate of increase if no density-dependence is specified, or the rate of invasion if density
-dependence is specified.
+dependence is specified. THE DENSITY DEPENDENCE ELEMENT IS STILL UNDER DEVELOPMENT.  
 }
 \usage{
 stochGrowthRateManyCov(covariate, nRunIn, tMax,
@@ -44,7 +44,7 @@ nMicrosites, integrateType,correction)
     numeric, maximum size in the IPM.
 }
   \item{nMicrosites}{
-    vector, if sum(nMicrosites)> 0 then density dependence is assumed to operate on seedling establishment, and if length(nMicrosites)>1, then the number of microsites available for establishment at time t is nMicrosites[min(t,length(nMicrosites))].
+    vector, if sum(nMicrosites)> 0 then density dependence is assumed to operate on seedling establishment, and if length(nMicrosites)>1, then the number of microsites available for establishment at time t is nMicrosites[min(t,length(nMicrosites))]. IT IS RECOMMENDED THAT THIS BE RETAINED AT 0 IN THE CURRENT VERSION OF IPMPACK; DENSITY DEPENDENCE COMPONENTS ARE STILL UNDER DEVELOPMENT. 
 }
   \item{integrateType}{
     integration type, defaults to "midpoint" (which uses probability density function); other option is "cumul" (which uses the cumulative density function).
@@ -97,9 +97,11 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 #r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 5*10, 
 #tMax = length(tVals), growthObj = gr1, survObj = sv1, fecObj = fv1, 
-#nBigMatrix = 100, minSize = 2*min(dff$size, na.rm = TRUE), 
-#maxSize = 1.5*max(dff$size, na.rm = TRUE), nMicrosites = 10)
+#nBigMatrix = 100, 
+#minSize = 1.1*min(dff$size, na.rm = TRUE), 
+#maxSize = 1.1*max(dff$size, na.rm = TRUE), nMicrosites = 0)
 
 #r
+
 
 }
