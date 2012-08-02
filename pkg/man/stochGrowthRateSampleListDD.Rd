@@ -47,4 +47,5 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 }
 \examples{
+
 }
