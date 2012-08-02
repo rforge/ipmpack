@@ -5,7 +5,7 @@
 Cryptantha Perennial Dataset with Covariates
 }
 \description{
-Demographic data of Cryptantha flava in the "Redfleet State Park", UT, USA. Life cycle, experimental design and data are described in Salguero-Gomez et al (2012). Data contains a subset of individuals from 2003 to 2012. Full dataset can be obtained upon request to the authors (salguero@demogr.mpg.de).
+Demographic data of Cryptantha flava in the "Redfleet State Park", UT, USA. Life cycle, experimental design and data are described in Salguero-Gomez et al (2012). Data contains a subset of individuals from 2003 to 2012. Full dataset can be obtained upon request to the authors (salguero@demogr.mpg.de and bcasper@sas.upenn.edu).
 }
 \usage{data(cryptaDataCovSubset)}
 \format{
@@ -25,9 +25,9 @@ data-frame with headings:
 	
 	- quadrat: quadrat number inside of plot
 	
-	- x: x coordinate (in cm) inside of the quadrat
+	- x: x coordinate (cm) inside of the quadrat
 	
-	- y: y coordinate (in cm) inside of the quadrat
+	- y: y coordinate (cm) inside of the quadrat
 	
 	- shrub: shrub species within the zone of influence of the individual (At = Artemisia tridentata; Cn = Chrysothamnus nauseosus)
 	
