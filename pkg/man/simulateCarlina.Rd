@@ -71,8 +71,6 @@ covariance covariance in eyar effects
 
 }
 %- maybe also 'usage' for other objects documented here.
-\details{
-}
 \value{
  
 A list including: 

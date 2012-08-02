@@ -34,8 +34,6 @@ stochGrowthRateSampleListDD(listTmatrix, listFmatrix, nRunIn, tMax,seedList)
 a numeric converging on high enough log vs for sufficient tMax.
 
 }
-\references{
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
@@ -44,8 +42,5 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 \seealso{
 \code{\link{makeListFmatrix}}; \code{\link{makeListTmatrix}}; \code{\link{stochGrowthRateSampleList}}
-
-}
-\examples{
 
 }
