@@ -9,8 +9,8 @@
   object are defined.
 }
 \usage{
-makeGrowthObj(dataf, Formula=sizeNext~size, 
-	regType="constantVar",Family="gaussian")
+makeGrowthObj(dataf, Formula = sizeNext ~ size, 
+	regType = "constantVar", Family = "gaussian")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,7 +21,7 @@ makeGrowthObj(dataf, Formula=sizeNext~size,
     and at t+1, respectively; these must take values of sequential integers, starting at
     `1'. For models fitting growth increment, 'incr' or 'logincr' may be directly provided as
     a column in the dataframe, otherwise they are calculated as
-    dataf$sizeNext-dataf$size or log(dataf$sizeNext-dataf$size),
+    dataf$sizeNext - dataf$size or log(dataf$sizeNext - dataf$size),
   respectively. }
   \item{Formula}{a formula describing the desired
     explanatory variables (interactions, etc) according to the R notation for \code{formula}.
@@ -56,15 +56,15 @@ See manual for details on building case-specific growth objects; which may conta
 #generate data
 dff <- generateData()
 #make simple linear regression growth object relating size to size at t+1
-(gr1 <- makeGrowthObj(dataf=dff, Formula=sizeNext~size))
+(gr1 <- makeGrowthObj(dataf = dff, Formula = sizeNext~size))
 #same but relating size to incr
-(gr1 <- makeGrowthObj(dataf=dff, Formula=incr~size))
+(gr1 <- makeGrowthObj(dataf = dff, Formula = incr ~ size))
 #same but relating size to incr and discrete covariate
-(gr1 <- makeGrowthObj(dataf=dff, Formula=incr~size+covariate, 
-	regType="declineVar"))
+(gr1 <- makeGrowthObj(dataf = dff, Formula = incr ~ size + covariate, 
+	regType = "declineVar"))
 #with declining increment
-(gr1 <- makeGrowthObj(dataf=dff, Formula=incr~size+covariate, 
-	regType="declineVar"))
+(gr1 <- makeGrowthObj(dataf = dff, Formula = incr ~ size + covariate, 
+	regType = "declineVar"))
 
 #assess fit 
 picGrow(dff,gr1)
