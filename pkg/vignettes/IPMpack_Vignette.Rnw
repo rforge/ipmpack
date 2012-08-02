@@ -224,7 +224,7 @@ where {\tt nBigMatrix} is the number of bins used, {\tt minSize} and
 {\tt maxSize} define the limits of the IPM, $U$ and $L$ in the
 equations above. Typically, these ranges should usually extend to beyond the
 smallest and largest size measurement, but the user might want to exclude
-outliers). The objects {\ttgrowObj} and {\tt survObj} define changes in size
+outliers). The objects {\tt growObj} and {\tt survObj} define changes in size
 and survival as defined above. 
 
 \begin{figure}
@@ -247,8 +247,8 @@ the panelled figure produced by {\tt diagnosticsTmatrix} (Figure
 
 The top-left panel shows the range of the data and the range of the state
 variable fitted in the matrix.  If these are mis-matched, the limits of the
-data used in building the Tmatrix can be adjusted with the \tt{minSize} and
-\tt{maxSize} arguments in {\tt createIPMTmatrix}.  One common problem
+data used in building the Tmatrix can be adjusted with the {\tt minSize} and
+{\tt maxSize} arguments in {\tt createIPMTmatrix}.  One common problem
 can result from the loss of parts of the continuous distribution
 when binning. This can mean that the sum of the columns of the matrix do not
 match the fitted survival.  The top-middle panel of Figure \ref{fig:diag} will
