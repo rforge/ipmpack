@@ -61,7 +61,12 @@ between ages is reflected by a similar matrix.
 \references{
 For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
 
-For habitat x stage modeling: Horvitz and Schemske. 1995. Spatiotemporal variation in demographic transitions of a tropical understory herb. Projection matrix analysis. Ecological Monographs 65, p155-192.
+For habitat x stage modeling:
+  Tuljapurkar, Horvitz & Pascarella. 2003. The many growth rates and elasticities of populations in random environments. American Naturalist 162: p489-502.
+  
+  Pascarella & Horvitz. 1998. Hurricane disturbance and the population dynamics of a tropical understory shrub: megamatrix elasticity analysis. Ecology 79: p547-563.
+  
+  Horvitz & Schemske. 1986. Seed dispersal and environmental heterogeneity in a neotropical herb: A model of population and patch dynamics. In Symposium on frugivores and seed dispersal . (Estrada & Fleming, eds.) Dr. W. Junk Publishers, Dordrecht, Netherlands.  pp. 169-186.
 
 For age x size modeling: Garcia, Dahlgren and Ehrlen. 2011. No evidence of senescence in a 300-year-old mountain herb. Journal of Ecology 99, p1424-1430.
 
