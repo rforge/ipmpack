@@ -138,8 +138,8 @@ The $^*$ symbol above indicates the minimum columns in the data frame required t
 \section{The basics: building an IPM}
 
 First, the user must install IPMpack from CRAN using
-\code{install.packages("IPMpack")} and then load IPMpack into an R session
-(\code{library(IPMpac)}) (see help files for problems with installation or loading). 
+{\tt install.packages("IPMpack")} and then load IPMpack into an R session
+({\tt library(IPMpack)}) (see help files for problems with installation or loading). 
 
 <<>>=
 library("IPMpack")
@@ -224,7 +224,7 @@ where {\tt nBigMatrix} is the number of bins used, {\tt minSize} and
 {\tt maxSize} define the limits of the IPM, $U$ and $L$ in the
 equations above. Typically, these ranges should usually extend to beyond the
 smallest and largest size measurement, but the user might want to exclude
-outliers). The objects \code{growObj} and \code{survObj} define changes in size
+outliers). The objects {\ttgrowObj} and {\tt survObj} define changes in size
 and survival as defined above. 
 
 \begin{figure}
@@ -237,23 +237,23 @@ diagnosticsTmatrix(Tmatrix, gr1, sv1, dff)
 \label{fig:diag}
 \end{figure}
 
-IPMpack includes a useful function \code{diagnosticsTmatrix} that provides a
+IPMpack includes a useful function {\tt diagnosticsTmatrix} that provides a
 series of plots indicative of whether bin choice and size range is adequate.
 Applying this function as a preliminary step before obtaining demographic and evolutionary output from IPMs can help identify
 basic problems in the fitting of vital rate functions or in the creation of the
 IPM matrices before proceeding. Several common problems can be diagnosed with
-the panelled figure produced by \code{diagnosticsTmatrix} (Figure
+the panelled figure produced by {\tt diagnosticsTmatrix} (Figure
 \ref{fig:diag}).
 
 The top-left panel shows the range of the data and the range of the state
 variable fitted in the matrix.  If these are mis-matched, the limits of the
 data used in building the Tmatrix can be adjusted with the \tt{minSize} and
-\tt{maxSize} arguments in \code{createIPMTmatrix}.  One common problem
+\tt{maxSize} arguments in {\tt createIPMTmatrix}.  One common problem
 can result from the loss of parts of the continuous distribution
 when binning. This can mean that the sum of the columns of the matrix do not
 match the fitted survival.  The top-middle panel of Figure \ref{fig:diag} will
 show this discrepency if the red and black lines do not overlay.  To correct
-this, \code{createIPMTmatrix} has an argument {\tt correction = "constant"}
+this, {\tt createIPMTmatrix} has an argument {\tt correction = "constant"}
 which ensures that the columns sum to the fitted survival by adding a constant. 
 The top-right panel checks whether extending the size range included in the
 matrix and extending the number of bins does not alter basic predictions from the IPM.
@@ -468,6 +468,7 @@ this generated data, the user can then create an environmental transition matrix
 that describes how the environment tends to move between these states from one
 census time to the next. If the data has been set up as described, there is a function that will do this for the user:
 <<>>= 
+dff <- generateData()
 env1 <- makeEnvObj(dff) 
 env1
 @ 
@@ -725,7 +726,7 @@ fSaturate <- function(size, pars) {
 @ 
 where the third parameter indicates the asymptotic size. The user can then
 estimate the parameters by fitting this function to the data using a wrapper
-function and the R function \code{optim}.
+function and the R function {\tt optim}.
 <<>>= 
 wrapSaturate <- function(par, dataf) { 
     pred <- fSaturate(dataf$size, par[1:3])
