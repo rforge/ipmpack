@@ -143,7 +143,7 @@ First, the user must install IPMpack from CRAN using
 
 <<>>=
 library("IPMpack")
-source("/Users/cjessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Base.r")
+ source("/Users/cjessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Base.r")
  source("/Users/cjessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Impl.r")
  source("/Users/cjessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Util.r")
 @
@@ -450,7 +450,7 @@ Note that both the T matrix and the F matrix in this example have a rather small
 print(Tmatrix)
 print(Fmatrix)
 @
-and check for example that the slot {\tt namesDiscrete} is aligns them, and add
+and check for example that the slot {\tt namesDiscrete} is aligned for both of them, and add
 them together:
 <<>>= 
 print(Tmatrix+Fmatrix)
@@ -543,7 +543,7 @@ stochGrowthRateSampleList(listIPMmatrix = IPMlist,
                           nRunIn = 30, tMax = 50)
 @ 
 where {\tt nRunIn} defines the number of time steps to discard from the start of the time series in order to remove transient dynamics, and {\tt tMax} is the total
-number of time steps to run, and should be large enough that increasing it does not substantially change the result (numbers presented here for efficiency are almost certaintly not large enough). 
+number of time steps to run, and should be large enough that increasing it does not substantially change the result (numbers presented here for efficiency are almost certaintly not large enough). Note that {\tt stoch.growth.rate} in the package {\tt popbio} will operate in essentially the same way, and provides more information, more efficiently.  
 
 %Simply taking the eigenvalue of the sum to the compound $T$ and $F$ matrices will
 %provide a sligthly different result given Jensen's inequality. %%check
