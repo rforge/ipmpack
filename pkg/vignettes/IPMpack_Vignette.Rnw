@@ -52,21 +52,23 @@ reproductive structures) and may be a mixture of discrete and continuous
 variables. IPMs track the distribution of individuals $n$ across these state
 variables between census times (e.g., year $t$ and year $t+1$) by projecting from models that define the underlying vital rates (e.g., survival, growth, and reproduction) as a function of the (quasi-)continuous state variables. For detailed introductions to IPMs see Easterling et al. ($2000$), and Ellner \& Rees ($2006$, $2007$).
 
-Briefly, an IPM is defined by a kernel $K$ that represents probabilities of growth between discrete or continuous stages, survival across these stages, and the production of offspring and offspring recruitment.   For example, in the simplest case, where the population is structured by a continuous covariate, size, then 
+Briefly, an IPM is defined by a kernel $K$ that represents probabilities of growth between discrete or continuous stages, survival across these stages, and the production of offspring and offspring recruitment.  For example, in the simplest case, where the population is structured by a continuous covariate, size, then 
 \begin{equation}
 n(y, t+1) = \int\limits_{L}^{U} K(y, x) n(x, t) \, dx       
 \end{equation}
 where $n(y, t+1)$ is the distribution across size $y$ of both established and new individuals in census time $t+1$, $n(x, t)$ the distribution across size of individuals in census time $t$, and $L$ and $U$ the lower and upper size limits modeled in the IPM, respectively. 
 
 Multiple functional forms for both demographic processes as well as their error
-structures can easily be  accommodated with IPMpack. The $F$ kernel (equation 4)
+structures can be  accommodated with IPMpack. The $F$ kernel (equation 4)
 describes per-capita contributions of reproductive individuals to number of new
 individuals at the next census. Multiple size-dependent or size-independent
 vital rates can be fitted within the $F$ kernel, reflecting for example
 reproductive probability, number of reproductive structures (e.g. flowers in
 plants, basidia in fungi), number of propagules within reproductive structure
 (e.g. seeds in inflorescences), and so on. Additionally, a range of constants
-($c_1$, $c_2$, ...) can be included if there are no data for a stage.  Finally, the $F$ kernel definition includes a probability density function describing the size of offspring recruiting into the population, $f_d$:
+($c_1$, $c_2$, ...) can be included if there are no data for a stage. All of these will be multiplied to obtain the eventual fertility for individuals of each size. Finally, the $F$ kernel definition includes a probability density function describing the size of offspring recruiting into the population, $f_d$. 
+
+From equation 1: 
 \begin{equation}
 n(y, t+1) = \int\limits_{L}^{U} K(y, x) n(x, t) dx = \int\limits_{L}^{U}
 [T(y, ) + F(y, x)] n(x, t) dx ,
@@ -94,8 +96,7 @@ This vignette will now walk through the steps of a basic IPM analysis.  We first
 describe the kind of data necessary to build an IPM.  If a user begins `from
 scratch', they must input data in a specific format (described below).  However
 it is possible to jump past this step and use IPMpack capabilities on IPMs that
-were developed outside of IPMpack.  That is, if a user wants quick diagnostic
-routines, figures and summary statistics on an IPM matrix already built, IPMpack can readily accommodate that.   However there are some features that, because of the object-oriented coding require some specific structures (and other features that do not).  Please refer to the manual files and the rest of this vignette for this information. However a user wants to implement IPMpack, the vignette will begin with data input.  We will then walk through how to build and analyse a basic IPM model.  More complex models will be introduced later, with options to create unique class objects and methods, as well as run comparative model testing and Bayesian implementations.
+were developed outside of IPMpack.  That is, if a user wants quick figures, summary statistics, other analyses on an IPM matrix already built, IPMpack can readily accommodate that.   However there are some features that, because of the object-oriented coding require some specific structures (and other features that do not).  Please refer to the manual files and the rest of this vignette for this information. However a user wants to implement IPMpack, the vignette will begin with data input.  We will then walk through how to build and analyse a basic IPM model.  More complex models will be introduced later, with options to create unique class objects and methods, as well as run comparative model testing and Bayesian implementations.
 
 \section{Getting started: setting up the data for IPMpack}
 For users who prefer to define IPM matrices using their own
@@ -118,11 +119,6 @@ $t$ with the following potential column names:
   \item {\tt fec3}: number of propagules (output: 1, 2, 3, $...$) per reproductive structure (e.g. seeds per flower in reproductive plant individual)
   \item ...
   \end{itemize}
-  The default construction for the analytical part of IPMpack is such that any
-  columns for which the column label contains $"fec"$ will be included in the
-  analysis of the reproductive part of the life cycle (kernel $F$)
-  automatically. This default can be over-ridden so that specific columns are
-  identified for IPMpack fecundity functions to use.
 \item  {\tt stage}: stage of individuals in census time $t$. For rows in the  data frame where {\tt size} is not an NA, then this must be the word ``continuous''. Where {\tt size} is NA, any variety of named discrete stages  may be defined (e.g. ``seed bank''). If this column is missing, many procedures in IPMpack are designed to simply fill in this column assuming that only ``continuous'' state variables describe the life cycle of the species, i.e. there are no discrete stages. For running {\tt makeFecObj}, the column must be a factor. If not supplied, the function will generate this column assuming all individuals are "continuous".
 \item  {\tt stageNext}: stage of individuals in census time $t+1$, in the
 simples case, ``continuous'' or ``dead''. As above, this column is not essential
@@ -147,6 +143,9 @@ First, the user must install IPMpack from CRAN using
 
 <<>>=
 library("IPMpack")
+source("/Users/cjessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Base.r")
+ source("/Users/cjessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Impl.r")
+ source("/Users/cjessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Util.r")
 @
 Next, the user must input demographic data. As mentioned above, most functions of IPMpack require a data file with at minimum columns called {\tt size}, {\tt sizeNext}, {\tt surv}, where `size' is size at time t, `sizeNext' is size one census later, and `surv' is a series of 0s and 1s, indicating if the individual survived or not. In the case of `size' and `sizeNext', data can be transformed (e.g., onto a log scale), if appropriate via functions built into IPMpack. For the purpose of learning how to use IPMpack, the user can either use his/her own data (adjusted to have the appropriate headings, as aforementioned), or generate them with a function built into IPMpack:
 
@@ -193,9 +192,9 @@ As an example, let us first define objects built as simple polynomial regression
 gr1 <- makeGrowthObj(dataf = dff, Formula = sizeNext~size+size2)
 sv1 <- makeSurvObj(dff, Formula = surv~size+size2)
 @ 
-In both these functions, the argument {\tt Formula} contains formulas of the type used in linear or logistic regressions in $R$, built around the possible defined range of transforms of  {\tt size} currently available ({\tt size2} which is size$^2$, {\tt size3} which is size$^3$, and {\tt logsize} which is log(size). Currently further transforms of  {\tt size} are not possible. This function can also be used to fit models that include a single discrete covariate (e.g., light environment, age, etc) as long as this exists in the {\tt dataf} in a column named {\tt covariate}.For instance, the user could model the population dynamics according to  {\tt size + covariate} or  {\tt size + logsize*covariate}, etc. For more complex analyses, other covariates (time since fire, precipitation, etc) can be fitted as long as they exist within {\tt dataf}. For the growth model, possibilities for the response variable in the {\tt Formula} are: {\tt sizeNext} meaning that the reponse variable is size at the next census time, or {\tt incr} meaning that the response variable is the size increment that has accrued between the two census times (common among tree demographic studies), and {\tt logincr} meaning that the response variable is the log of the size increment that has acrrued between the two census intervals.
+In both these functions, the argument {\tt Formula} contains formulas of the type used in linear or logistic regressions in $R$, built around the possible defined range of transforms of  {\tt size} currently available ({\tt size2} which is size$^2$, {\tt size3} which is size$^3$, and {\tt logsize} which is log(size). Currently further transforms of  {\tt size} are not possible. This function can also be used to fit models that include a single discrete covariate (e.g., light environment, age, etc) as long as this exists in the {\tt dataf} in a column named {\tt covariate}. For instance, the user could model the population dynamics according to  {\tt size + covariate} or  {\tt size + logsize*covariate}, etc. For more complex analyses, other covariates (time since fire, precipitation, etc) can be fitted as long as they exist within {\tt dataf}. For the growth model, possibilities for the response variable in the {\tt Formula} are: {\tt sizeNext} meaning that the reponse variable is size at the next census time, or {\tt incr} meaning that the response variable is the size increment that has accrued between the two census times (common among tree demographic studies), and {\tt logincr} meaning that the response variable is the log of the size increment that has acrrued between the two census intervals.
 
-Glancing at the source code will confirm that all these functions simply fit a linear regression relating size at t+1 or increment to size at t and covariates for growth, as for survival. The survival and growth objects created have a slot called `fit' that holds the regression.
+Glancing at the source code will confirm that all these functions simply fit a linear regression relating size at t+1 or increment to size at t and covariates for growth, as for survival. The survival and growth objects created have a slot called `fit' that holds the regression and a slot sd that holds the variance around the regression.
 <<>>= 
 gr1
 @ 
@@ -257,8 +256,8 @@ show this discrepency if the red and black lines do not overlay.  To correct
 this, \code{createIPMTmatrix} has an argument {\tt correction = "constant"}
 which ensures that the columns sum to the fitted survival by adding a constant. 
 The top-right panel checks whether extending the size range included in the
-matrix is sufficient to include all dynamics derived from the vital rate models.
-The three lower panels show whether or not the discretized IPM and the
+matrix and extending the number of bins does not alter basic predictions from the IPM.
+The three lower panels show the discretized IPM (histograms) and the
 theoretical density function.  If mismatched, increasing the tt{nBigMatrix}
 argument may correct this discrepency.  
 
@@ -266,8 +265,7 @@ The {\tt createIPMTmatrix} function builds around methods defined so that it
 will provide appropriate output whatever the survival and growth objects are
 (e.g. error structure, covariates). The T matrix contains a matrix defining the
 transitions, but also other useful slots, e.g., the meshpoints, covariates,
-grid size.
-The user can access this information by writing:
+grid size. The user can access this information by writing:
 <<>>= 
 slotNames(Tmatrix)
 @ 
@@ -308,9 +306,9 @@ abline(v = mean(dff$size, na.rm = TRUE), col = 2)  #show the target size in red
 \label{fig:three}
 \end{figure}
 The function {\tt runSimpleModel} takes as minimum arguments a data frame and a
-target size (i.e., here type: {\tt runSimpleModel(dff, chosenSize = 4)}) and runs this analysis to create figures for survival, growth, life expectancy and passage time as shown so far, assuming the simplest possible models of survival and growth (basic linear and logistic regressions, no covariates, etc).
+target size (i.e., here type: {\tt runSimpleModel(dff, chosenSize = 4)}) and runs this analysis to create figures for survival, growth, life expectancy and passage time as shown so far, assuming the simplest possible models of survival and growth (basic linear and logistic regressions, no covariates except for size, etc).
 
-If the user defines a fertility object -which for instance is not always easy with for example trees- IPMpack can also create a transition matrix describing movement between sizes attributable to fertility.
+If the user defines a fertility object - which for instance is not always easy with for example trees - IPMpack can also create a transition matrix describing movement between sizes attributable to fertility.
 <<>>= 
 fv1 <- makeFecObj(dff, Formula = fec~size, 	
                   Family = "gaussian", 
@@ -320,7 +318,7 @@ Fmatrix <- createIPMFmatrix(nBigMatrix = 50, minSize = -5,
                             fecObj = fv1, 
                             correction = "constant")
 @ 
-Note that {\tt makeFecObj} will use the relationships defined in {\tt Formula} and the family defined in {\tt Family} with transforms defined in {\tt Transform} in the order supplied. Please note that the fecundity {\tt Formula} MUST match the {\tt Transform} since IPMPack needs to use these appropriately in functions to build the F matrixs. 
+Note that {\tt makeFecObj} will use the relationships defined in {\tt Formula} and the family defined in {\tt Family} with transforms defined in {\tt Transform} in the order supplied. Please note that the fecundity {\tt Formula} MUST match the {\tt Transform} since IPMPack needs to combine the parameters from  {\tt Formula}  with the right  {\tt Transform}  to appropriately build the F matrixs. 
 
 The default arguments required to run {\tt makeFecObj} to create a fecundity
 object from which an F matrix with no discrete stage can be built are {\tt
@@ -331,7 +329,7 @@ Additionally, note that if there are values other than {\tt ``continuous"} in th
 If the data-frame contains an extra column {\tt offspringNext} that takes the
 values {\tt sexual}, and that corresponds to rows where both {\tt size} and {\tt sizeNext} are different from NA, the user can define a relationship between maternal size and offspring size through the {\tt makeFecObj} argument {\tt offspringSizeExplanatoryVariables}. The default is to only fit an intercept, equivalent to simply having a mean and variance of offspring size. The function {\tt makeFecObj} also allows users to simply over-write the mean and variance of offpsring size with the values of their choice (arguments {\tt meanOffspringSize} and {\tt sdOffspringSize}).
 
-The function {\tt makeClonalObj} operates identically to {\tt makeFecObj} except that offspring are only considered for fitting the distribution of mean and standard deviation of offspring size if the column {\tt offspringNext} takes the values {\tt clonal}.
+The function {\tt makeClonalObj} operates identically to {\tt makeFecObj} except that offspring are only considered for fitting the distribution of mean and standard deviation of offspring size if the column {\tt offspringNext} takes the values {\tt clonal}. Rows where {\tt offspringNext} takes the values ``sexual" or ``clonal" are excluded from the survival and growth analyses ({\tt makeGrowthObj} and {\tt makeSurvObj}).
 
 The user can combine the F matrix with (an identically built, i.e., same bin number, size limits and discrete classes) survival-growth transition T matrix to obtain a full Integral Projection Model, and its population growth rate $\lambda$, sensitivity, elasticity, etc. 
 <<>>= 
@@ -610,9 +608,9 @@ seedling establishment, and that $50$ microsites are available for seedling esta
 
 To illustrate parameter uncertainty in a constant environment, we
 generate data again, and from these data build a list of survival and growth
-objects reflecting the parameter posteriors of the fitted linear and logistic
+objects reflecting the parameter posteriors of fitted linear and logistic
 regression models (taking the simplest case of structure only via a continuous
-covariate):
+covariate). Note that it is also possible to directly use the variance-covariance of parameters estimates from a maximum-likelihood fit to build a list of growth, survival or fertility objects reflecting parameter uncertainty (see the help file for {\tt getListRegObjects} but here we illustrate the Bayesian case.
 <<>>= 
 dff <- generateData()
 grlist <- makePostGrowthObjs(dff, 
@@ -622,12 +620,9 @@ svlist <- makePostSurvivalObjs(dff,
                                explanatoryVariables = "size", 
                                burnin = 100, nitt = 400)
 @ 
-Note that the data must not contain NAs. This function currently only uses
-default non-informative priors features. Note that there is a default thinning
-in MCMCglmm, the engine used to derive the posteriors, that reduces simulations
-by 10. So the number of samples from the posterior used in this simple example
+This function currently only uses default non-informative priors features. There is a default thinning in MCMCglmm, the engine used to derive the posteriors, that reduces simulations by 10. So the number of samples from the posterior used in this simple example
 {\tt nitt} is rather small (resulting in only [nitt - burnin] / 10 = 30), and
-larger numbers are advisable (the default is 50,000). With output from this, the user can make a list containing multiple T matrices:
+larger numbers are advisable (the default in MCMCglmm is 50,000). With output from this, the user can make a list containing multiple T matrices:
 <<>>= 
 TmatrixList <- makeListTmatrix(grlist, svlist, nBigMatrix = 20, 
                                minSize = -5, 
