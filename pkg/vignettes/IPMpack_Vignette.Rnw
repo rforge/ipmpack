@@ -230,7 +230,7 @@ and survival as defined above.
 \begin{figure}
 \begin{center}
 <<label = fig:diag, fig = TRUE, echo = FALSE>>= 
-diagnosticsTmatrix(Tmatrix, gr1, sv1, dff)
+diagnosticsTmatrix(Tmatrix, gr1, sv1, dff,correction = "constant")
 @
 \end{center}
 \caption{Diagnostic plots for the Tmatrix.}
