@@ -239,10 +239,7 @@ diagnosticsTmatrix(Tmatrix, gr1, sv1, dff,correction = "constant")
 
 IPMpack includes a useful function {\tt diagnosticsTmatrix} that provides a
 series of plots indicative of whether bin choice and size range is adequate.
-Applying this function as a preliminary step before obtaining demographic and evolutionary output from IPMs can help identify
-basic problems in the fitting of vital rate functions or in the creation of the
-IPM matrices before proceeding. Several common problems can be diagnosed with
-the panelled figure produced by {\tt diagnosticsTmatrix} (Figure
+Applying this function as a preliminary step before obtaining demographic and evolutionary output from IPMs can help identify basic problems in the fitting of vital rate functions or in the creation of the IPM matrices before proceeding. Several common problems can be diagnosed with the panelled figure produced by {\tt diagnosticsTmatrix} (Figure
 \ref{fig:diag}).
 
 The top-left panel shows the range of the data and the range of the state
