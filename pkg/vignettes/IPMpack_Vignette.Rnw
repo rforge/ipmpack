@@ -238,12 +238,12 @@ diagnosticsTmatrix(Tmatrix, gr1, sv1, dff)
 \label{fig:diag}
 \end{figure}
 
-IPMpack includes a useful function {\code diagnosticsTmatrix} that provides a
+IPMpack includes a useful function \code{diagnosticsTmatrix} that provides a
 series of plots indicative of whether bin choice and size range is adequate.
 Applying this function as a preliminary step before obtaining demographic and evolutionary output from IPMs can help identify
 basic problems in the fitting of vital rate functions or in the creation of the
 IPM matrices before proceeding. Several common problems can be diagnosed with
-the panelled figure produced by {\code diagnosticsTmatrix} (Figure
+the panelled figure produced by \code{diagnosticsTmatrix} (Figure
 \ref{fig:diag}).
 
 The top-left panel shows the range of the data and the range of the state
@@ -608,17 +608,26 @@ seedling establishment, and that $50$ microsites are available for seedling esta
 
 \section{Parameter uncertainty in a constant environment}
 
-First, the user must generate data again, and from them, a list of survival and growth objects reflecting the parameter posteriors of the fitted linear and logistic regression (taking the simplest case of structure only via a continuous covariate):
+To illustrate parameter uncertainty in a constant environment, we
+generate data again, and from these data build a list of survival and growth
+objects reflecting the parameter posteriors of the fitted linear and logistic
+regression models (taking the simplest case of structure only via a continuous
+covariate):
 <<>>= 
 dff <- generateData()
 grlist <- makePostGrowthObjs(dff, 
                              explanatoryVariables = "size", 
-                             burnin=20,nitt = 40)
+                             burnin = 100, nitt = 400)
 svlist <- makePostSurvivalObjs(dff, 
                                explanatoryVariables = "size", 
-                               burnin=20,nitt = 40)
+                               burnin = 100, nitt = 400)
 @ 
-Note that the data must not contain NAs. This function can also be used to set priors, etc. Note that the number of samples from the posterior used here {\tt nitt} is rather small, and larger numbers are advisable. With output from this, the user can make lists of the T matrices:
+Note that the data must not contain NAs. This function currently only uses
+default non-informative priors features. Note that there is a default thinning
+in MCMCglmm, the engine used to derive the posteriors, that reduces simulations
+by 10. So the number of samples from the posterior used in this simple example
+{\tt nitt} is rather small (resulting in only [nitt - burnin] / 10 = 30), and
+larger numbers are advisable (the default is 50,000). With output from this, the user can make a list containing multiple T matrices:
 <<>>= 
 TmatrixList <- makeListTmatrix(grlist, svlist, nBigMatrix = 20, 
                                minSize = -5, 
@@ -626,23 +635,25 @@ TmatrixList <- makeListTmatrix(grlist, svlist, nBigMatrix = 20,
                                correction = "constant")
 @ 
 If one of the lists is longer than the other, this function samples the shorter object at random to reach the size of the longer object. Note that in this example the matrix size is rather small just to save time, and larger number of bins are advisable. The function will also construct compound matrices, if an environmental
-matrix is provided. With this, the user can now obtain some posteriors for constant environment models. 
+matrix is provided. With this, the user can now obtain  posteriors for constant environment models. 
 <<>>= 
 res <- getIPMoutput(TmatrixList, targetSize = 5, FmatrixList = NULL)
 names(res)
 @ 
-The vector called $\lambda$ and matrix called stableSize, etc, will consist of NAs, unless a list of Fmatrices is also provided, so that a complete population projection matrix can be built. IPMpack contains a similar function to obtain a list of F matrices, and if such a list is included as the third argument into the function {\tt getIPMOutput} (for which the default is `NULL'), the function will also return distributions of $\lambda$, the stable stage distribution, etc:  
+The vector called $\lambda$ and matrix called stableSize, etc, will consist of
+NAs, unless a list of Fmatrices is also provided, which would allow a complete
+population projection matrix can be built. IPMpack contains a similar function to obtain a list of F matrices, and if such a list is included as the third argument into the function {\tt getIPMOutput} (for which the default is `NULL'), the function will also return distributions of $\lambda$, the stable stage distribution, etc:
 <<>>= 
 fv <- makePostFecObjs(dff, explanatoryVariables = "size+size2", fecConstants=data.frame(0.01), 
-                      burnin=20,nitt = 40, Transform = "log")
+                      burnin = 100, nitt = 400, Transform = "log")
 FmatrixList <- makeListFmatrix(fv, nBigMatrix = 20, minSize = -5, 
                                maxSize = 35, cov = FALSE,
                                correction = "constant")
 res <- getIPMoutput(TmatrixList, targetSize = 5, FmatrixList)
 @ 
 
-Again, larger number of iterations, binsize, etc, are recommended. The results can be visually inspected too (Figure~\ref{fig:seven} p.~\pageref{fig:seven})
-<<>>=
+Again, larger number of iterations, binsize, etc, are recommended. These results
+can be visually inspected too (Figure~\ref{fig:seven} p.~\pageref{fig:seven}) <<>>=
 @ 
 \begin{figure}
 \begin{center}
@@ -695,11 +706,17 @@ hist(res$lambda, xlab = expression(lambda), ylab = "", main = "")
 \label{fig:seven}
 \end{figure}
 
-This is a rather slow way of proceeding - a large number of IPMs are being stored in R's memory. A slightly more rapid approach is to use the function {\tt getIPMOutputDirect} that builds an IPM from a sample from the posterior, calculates relevant parameters, then over-writes this with a rebuilt IPM, etc.
+This is a rather slow way of proceeding - a large number of IPMs are being
+stored in R's memory. A slightly more rapid approach is to use the function {\tt
+getIPMOutputDirect} that builds an IPM from a sample from the posterior,
+calculates relevant parameters, then over-writes this with a rebuilt IPM,
+iterating though the list.
 
 
 \section{Building your own objects and methods}
-If growth is best reflected by a saturating function, rather than the linear regression models provided, the user must define a new class of growth object:
+What if growth is best reflected by a saturating function, rather than by the
+linear regression models provided?  In this case the user may want to define a
+new class of growth object.  An example of this follows:
 <<>>= 
 setClass("growthObjSaturate", representation(paras = "numeric", sd = "numeric"))
 @ 
@@ -711,8 +728,9 @@ fSaturate <- function(size, pars) {
     return(u)
 }
 @ 
-where the third parameter indicates the asymptotic size. The user can then estimate the parameters by fitting this function to the data using a wrapper function and
-{\tt optim}. 
+where the third parameter indicates the asymptotic size. The user can then
+estimate the parameters by fitting this function to the data using a wrapper
+function and the R function \code{optim}.
 <<>>= 
 wrapSaturate <- function(par, dataf) { 
     pred <- fSaturate(dataf$size, par[1:3])

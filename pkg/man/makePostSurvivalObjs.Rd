@@ -54,7 +54,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff <- generateData()
 svlist <- makePostSurvivalObjs(dataf=dff,
 explanatoryVariables="size+size2+covariate",
-meanB = rep(0, 3), varB = rep(1e+10), burnin=100,nitt = 500)
+meanB = rep(0, 3), varB = rep(1e+10), burnin = 100, nitt = 500)
 
 plot(1:20,surv(1:20,data.frame(covariate=as.factor(1)),svlist[[1]]), type="n", xlab="size", ylab="survival")
 for (k in 1:length(svlist)) 
