@@ -575,7 +575,7 @@ gr1
 To explore demographic projections for this model, the user must decide on
 a time scale and time length, and define it by a vector called
 `tVals'.  This time series can be used to reflect patterns in environmental data
-that repeat.  In this example we set \tt{tVals} to reflect monthly intervals
+that repeat.  In this example we set {\tt tVals} to reflect monthly intervals
 over $4$ years, with years as the time scale and built covariates that vary
 seasonally, i.e., they fluctuates randomly around a sine wave which peaks once a
 year.  From this simulation, the user can generate a matrix containing time as
