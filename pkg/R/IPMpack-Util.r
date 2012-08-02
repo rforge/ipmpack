@@ -644,6 +644,20 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 }
 
 
+#Find years where can estimate all three stochastic vital rates(survival, growth and baby size)
+.identifyPossibleYearsCarlina <- function(dataf){
+	
+	yr1 <- table(dataf$year[!is.na(dataf$size) & !is.na(dataf$sizeNext) & is.na(dataf$offspringNext)])
+	yr2 <- table(dataf$year[!is.na(dataf$size) & !is.na(dataf$surv) & is.na(dataf$offspringNext)])
+	yr3 <- table(dataf$year[!is.na(dataf$sizeNext) & !is.na(dataf$offspringNext)])
+	
+	good.yrs <- intersect(as.numeric(as.character(names(yr1)[yr1>2])),as.numeric(as.character(names(yr2))[yr2>2]))
+	good.yrs <- intersect(good.yrs,as.numeric(as.character(names(yr3)[yr3>2])))
+	
+	return(is.element(dataf$year,good.yrs))
+}
+
+
 
 ## Convert Increment - where exact dates of census vary but some multiplier of yearly increments
 ## are desired; this function takes a data-frame (with columns size, sizeNext,
