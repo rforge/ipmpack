@@ -384,6 +384,81 @@ barplot(res$elam, main = expression("Parameter elasticity of "*lambda),
 \end{figure}
 %Similar code could be developed to explore sensitivity of other emergent %measures, e.g., mean passage time, etc. 
 
+
+\section{Incorporating discrete stages}
+Populations are often structured by both discrete and a continuous stages.  For
+example, many plant populations may persist for many years in a seedbank as well
+as having size-determined fates after they germinate. IPMpack can incorporate
+this variability for complex life cycles (Ellner \& Rees $2006$). To illustrate
+using discrete stages in an IPM, we generate data that includes
+both discrete and continuous life-history stages:
+<<>>= 
+dff <- generateDataDiscrete()
+@ 
+A quick check indicates that these data contain several types of stage classification (and not just "continuous" as seen up till now):
+<<>>= 
+table(dff$stage)
+@ 
+Given this data structure, the user can make a fertiliy object that reflects the
+fact that propagules (seeds in this example) produced in one year may 
+recruit directly into the continuous phase (e.g., seedling), or may end up in a
+discrete stage (e.g., seed bank). The {\tt makeFecObj} (and similar functions)
+has an argument called {\tt offspringSplitter} that allows the user to define
+these paths:
+<<>>= 
+fv1 <- makeFecObj(dataf = dff, Transform = "log", 
+                  offspringSplitter = data.frame(continuous = 0.2, 
+                  dormant = 0, seedAge1 = 0.8, seedOld = 0), 
+                  fecByDiscrete = data.frame(dormant = 0, 
+                  seedAge1 = 0, seedOld = 0))
+@
+In this example, 20\% of seeds produced at $t$ end up in the continuous part of
+the population structure at $t+1$ (for example, they might directly recruit as
+rosettes from one year to the next) and 80\% of seeds recruit into the "one year
+old seeds" stage. Although in this case no individuals are recruited at $t+1$
+into the "dormant" or "old seeds" stages (since these will come from adult
+plants or the seed bank), they are included because {\tt offspringSplitter} is
+where IPMpack identifies all the existing discrete stages. The argument {\tt fecByDiscrete} reflects the fact that none of the discrete classes addressed in this example are likely to directly produce offspring (which may not always be the case). The resulting fecundity object can be used with {\tt createIPMFmatrix} in the usual way:
+<<>>= 
+Fmatrix <- createIPMFmatrix(fecObj = fv1, nBigMatrix = 5, 
+                            minSize = min(dff$size, na.rm = TRUE), 
+                            maxSize = max(dff$size, na.rm = TRUE), 
+                            correction = "constant")
+@
+The user also needs a {\tt Tmatrix} that reflects the same structure. The
+continuous part of the T matrix will be the standard structure:
+<<>>= 
+gr1 <- makeGrowthObj(dataf = dff, 
+                      Formula = sizeNext~size)
+sv1 <- makeSurvObj(dff,  Formula = surv~size)
+@
+Movement in and out of discrete stages is defined via an add-on of a transition matrix, that is defined using: 
+<<>>= 
+discTrans <- makeDiscreteTrans(dff)
+@
+which captures survival and transitions between discrete stages and the
+continuous stage (note that this function will not work unless the data frame
+{\tt dff} contains appropriate columns {\tt stage} and {\tt stageNext}).  The
+user can then construct the T matrix:
+<<>>= 
+Tmatrix <- createIPMTmatrix(nBigMatrix = 5, 	
+                            growObj = makeGrowthObj(dff), 
+                            survObj = makeSurvObj(dff), 
+                            discreteTrans = discTrans, 
+                            correction = "constant")
+@
+Note that both the T matrix and the F matrix in this example have a rather small number of bins just for ease of comparison, and that a higher number is almost certainly advisable. The user can examine both matrices: 
+<<>>= 
+print(Tmatrix)
+print(Fmatrix)
+@
+and check for example that the slot {\tt namesDiscrete} is aligns them, and add
+them together:
+<<>>= 
+print(Tmatrix+Fmatrix)
+@
+The first three rows and columns concern transitions in and out of the discrete stages; the remainder are the usual T and F matrices describing moving across the continuous variables. The usual types of calculations (sensitivity via {\tt sens}, life expectancy via {\tt meanLifeExpect}, etc) can be applied here too.    
+
 \section{Discretely varying environments}
 One extension of IPMs is to create a compound IPM matrix where, in addition to
 moving between continuous sizes, individuals move through discrete environments where the discrete environmental states have an expected sequence, and therefore can be described by a transition matrix of their own (e.g. light environments for tropical trees, as in Metcalf et al. $2009$).
@@ -450,9 +525,8 @@ plot(Tmatrix@meshpoints, pTimes[1:Tmatrix@nBigMatrix],
 \label{fig:five}
 \end{figure}
 
-With a fertility object, the user can also define a full life cycle IPM model
-for across environments. With such information, obtaining the stochastic
-population rate of increase $\lambda_s$ in this environment is relatively straight-forward. IPMpack does this by sampling a very large number of environments and corresponding IPMs, and multiplying them together (Childs et al. $2004$). At the moment, this is only defined for the case where environments (defined by the discrete covariates) are distributed independently (i.e. the next state does not depend on the previous state). To do this, the user must first define a list of IPMs (each the sum of a matrix of survival-growth transitions, and a matrix of fecundity transitions corresponding to a particular environment):
+Adding a fertility object to this analysis, the user can also define a full life
+cycle IPM model for across environments. With such information, obtaining the stochastic population rate of increase $\lambda_s$ in this environment is relatively straight-forward. IPMpack does this by sampling a very large number of environments and corresponding IPMs, and multiplying them together (Childs et al. $2004$). At the moment, this is only defined for the case where environments (defined by the discrete covariates) are distributed independently (i.e. the next state does not depend on the previous state). To do this, the user must first define a list of IPMs (each the sum of a matrix of survival-growth transitions, and a matrix of fecundity transitions corresponding to a particular environment):
 <<>>= 
 IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 25, minSize = -5, 
                         maxSize = 35, explSurv = surv~size+covariate, 
@@ -460,11 +534,12 @@ IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 25, minSize = -5,
                         explFec = fec~size, Transform="log",correction = "constant")
 @ 
 Note that in this example IPMpack uses an arbitrary selection of
-explanatory variables for all the various linear and logistic
-regressions ({\tt explGrow}, {\tt explSurv}, etc). In reality, careful
-model selection will be used to establish this. Additionally, the
-number of environment types should in principle be greater than the
-two or three used here. Next, the user can estimate $\lambda_s$ using: 
+explanatory variables for the various linear and logistic
+regressions ({\tt explGrow}, {\tt explSurv}, etc). In reality,
+model selection will need to be used to establish this. Importantly, each
+environment type requires sufficient data (years of data) to quantify population
+behavriors in that environment as if it were an IPM in a single environment.  
+Next, the user can estimate $\lambda_s$ using:
 <<>>= 
 stochGrowthRateSampleList(listIPMmatrix = IPMlist, 
                           nRunIn = 30, tMax = 50)
@@ -498,7 +573,14 @@ and glance at the objects, e.g.,
 <<>>= 
 gr1
 @ 
-From these data, to explore predicted demographic outcomes for the model, the user must decide on a time scale and length for investigation, and define it by a vector called `tVals', here set to reflect monthly intervals over $4$ years, with years as the time scale. With this, the user can then generate a time series that should look like the time series observed in the data. In the example below, covariates that vary seasonally were simulated, i.e., they fluctuates randomly around a sine wave which peaks once a year (`covTest'), and from this generate a matrix containing time as rows, and different covariates in columns.  
+To explore demographic projections for this model, the user must decide on
+a time scale and time length, and define it by a vector called
+`tVals'.  This time series can be used to reflect patterns in environmental data
+that repeat.  In this example we set \tt{tVals} to reflect monthly intervals
+over $4$ years, with years as the time scale and built covariates that vary
+seasonally, i.e., they fluctuates randomly around a sine wave which peaks once a
+year.  From this simulation, the user can generate a matrix containing time as
+rows and different covariates in columns.
 <<>>= 
 tVals <- seq(1, 4, by = 1/12)
 covTest <- c(1 + 0.5*sin(2*pi*tVals))
@@ -506,8 +588,8 @@ covMatTest <- data.frame(covariate1 = rnorm(length(covTest), covTest, 0.5) - 1,
                          covariate2 = rnorm(length(covTest), covTest, 0.5) - 1, 
                          covariate3 = rnorm(length(covTest), covTest, 0.5) - 1)
 @ 
-Note that  if there is no apparent temporal pattern to the data one could simply generate random normal distributions of the covariates using their observed
-mean and variance. Other types of temporal patterns (multiannual, etc) are also possible. With this setup, the user can then estimate the stochastic growth rate over these years, using the geometric mean of the population growth rate (Tuljapurkar $1990$; Childs et al. $2004$), for these particular covariates using:
+Note that  if there is no apparent temporal pattern to the data, one could
+simply generate random normal distributions of the covariates using their observed mean and variance. Other types of temporal patterns (multiannual, etc) are also possible. With this setup, the user can then estimate the stochastic growth rate over these years, using the geometric mean of the population growth rate (Tuljapurkar $1990$; Childs et al. $2004$), for these particular covariates using:
 <<>>= 
 r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*1, 
                             tMax = length(tVals), growthObj = gr1, 
@@ -517,60 +599,11 @@ r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*1,
                             nMicrosites = 50, correction = "constant")
 print(r)
 @ 
-Setting nRunIn = $12*1$ in this example is equivalent to discarding the first $1$ years (likely to contain transients) since the chosen time step is months. Note that in this formula, it was assumed that density-dependence acts on seedling establishment, and that $50$ microsites are available for seedling establishment in every time step. Setting nMicrosites = $0$ allows for calculations without density-dependence, and nMicrosites can also be a vector, if the number of microsites fluctuates through time. It may also be interesting to have a glance at what has been happening to the population structure over this time-course, and the function {\tt trackPopStructManyCov} allows this; IPMpack also contains a dedicated function to depict the results from this, {\tt plotResultsStochStruct}.
-
-\section{Incorporating discrete stages}
-Populations are often structured by both discrete and a continuous stages, for example, many plant populations may persist for many years in a seedbank as well as having size-determined fates after they germinate. IPMpack can incorporate this variability for complex life cycles (Ellner \& Rees $2006$). To illustrate this, the user must first generate data that includes both discrete and continuous life-history stages:
-<<>>= 
-dff <- generateDataDiscrete()
-@ 
-A quick check indicates that these data contain several types of stage classification (and not just "continuous" as seen up till now):
-<<>>= 
-table(dff$stage)
-@ 
-Given this data structure, the user can make a fertiliy object that reflects the fact that propagules (e.g., seeds) produced in one year may directly recruit into the continuous phase (e.g., seedling), or may end up in a discrete stage (e.g., seed bank). The {\tt makeFecObj} (and similar functions) have an argument that allows the user to define this dichotomy, called {\tt offspringSplitter}:
-<<>>= 
-fv1 <- makeFecObj(dataf = dff, Transform = "log", 
-                  offspringSplitter = data.frame(continuous = 0.2, 
-                  dormant = 0, seedAge1 = 0.8, seedOld = 0), 
-                  fecByDiscrete = data.frame(dormant = 0, 
-                  seedAge1 = 0, seedOld = 0))
-@
-In this example, 20 \% of seeds produced at $t$ end up in the continuous part of the population structure at $t+1$ (for example, they might directly recruit as rosettes from one year to the next) and 80 \% of seeds recruit into the "one year old seeds" stage. Although in this case no individuals are recruited at $t+1$ into the "dormant" or "old seeds" stages (since these will come from adult plants or the seed bank), they are included as {\tt offspringSplitter} is where IPMpack identifies all the existing discrete stages. The argument {\tt fecByDiscrete} reflects the fact that none of the discrete classes addressed in this example are likely to directly produce offspring (which may not always be the case). The resulting fecundity object can be used with {\tt createIPMFmatrix} in the usual way:
-<<>>= 
-Fmatrix <- createIPMFmatrix(fecObj = fv1, nBigMatrix = 5, 
-                            minSize = min(dff$size, na.rm = TRUE), 
-                            maxSize = max(dff$size, na.rm = TRUE), 
-                            correction = "constant")
-@
-The user also needs a {\tt Tmatrix} that reflects the same structure. The continuous part of the T matrix will be broadly the same as usual:
-<<>>= 
-gr1 <- makeGrowthObj(dataf = dff, 
-                      Formula = sizeNext~size)
-sv1 <- makeSurvObj(dff,  Formula = surv~size)
-@
-Movement in and out of discrete stages is defined via an add-on of a transition matrix, that is defined using: 
-<<>>= 
-discTrans <- makeDiscreteTrans(dff)
-@
-which captures survival and transitions between discrete stages and the continuous stage (note that this function will not work unless the data frame {\tt dff} contains appropriate columns {\tt stage} and {\tt stageNext}) and then the user can construct the T matrix using: 
-<<>>= 
-Tmatrix <- createIPMTmatrix(nBigMatrix = 5, 	
-                            growObj = makeGrowthObj(dff), 
-                            survObj = makeSurvObj(dff), 
-                            discreteTrans = discTrans, 
-                            correction = "constant")
-@
-Note that both the T matrix and the F matrix in this example have a rather small number of bins just for ease of comparison, and that a higher number is almost certainly advisable. The user can examine both matrices: 
-<<>>= 
-print(Tmatrix)
-print(Fmatrix)
-@
-and check for example that the slot {\tt namesDiscrete} is aligned between them, and add them together: 
-<<>>= 
-print(Tmatrix+Fmatrix)
-@
-The first three rows and columns concern transitions in and out of the discrete stages; the remainder are the usual T and F matrices describing moving across the continuous variables. The usual types of calculations (sensitivity via {\tt sens}, life expectancy via {\tt meanLifeExpect}, etc) can be applied here too.    
+Setting nRunIn = $12*1$ in this example is equivalent to discarding the first 
+year of the simulation (likely to contain transients) since the chosen time step
+is months.
+Note that in this formula, it was assumed that density-dependence acts on
+seedling establishment, and that $50$ microsites are available for seedling establishment in every time step. Setting nMicrosites = $0$ allows for calculations without density-dependence, and nMicrosites can also be a vector, if the number of microsites fluctuates through time. It may also be interesting to have a glance at what has been happening to the population structure over this time-course, and the function {\tt trackPopStructManyCov} allows this. IPMpack also contains a dedicated function to depict the results from this, {\tt plotResultsStochStruct}.
 
 
 \section{Parameter uncertainty in a constant environment}
