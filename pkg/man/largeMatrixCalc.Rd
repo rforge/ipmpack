@@ -57,7 +57,8 @@ par(mfrow=c(1,2),pty="s")
 plot(largeMatrixCalc(Tmatrix, Fmatrix)$stableDist, ylab = "Stable stage distribution", 
 	xlab = "Continuous (e.g. size) stage", type = "l", col = "blue", lty = 1, ylim = c(0:1))
 
-plot(largeMatrixCalc(Tmatrix, Fmatrix)$reprodValue, ylab = "Reproductive value", 
-	xlab = "Continuous (e.g. size) stage", type = "l", col = "red", lty = 1, ylim = c(0:1))
+#Note that this will not always run - as tolerance levels for convergence are set to be quite high
+#plot(largeMatrixCalc(Tmatrix, Fmatrix)$reprodValue, ylab = "Reproductive value", 
+#	xlab = "Continuous (e.g. size) stage", type = "l", col = "red", lty = 1, ylim = c(0:1))
 
 }
