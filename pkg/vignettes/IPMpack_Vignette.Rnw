@@ -600,8 +600,7 @@ print(r)
 @ 
 Setting nRunIn = $12*1$ in this example is equivalent to discarding the first 
 year of the simulation (likely to contain transients) since the chosen time step
-is months.
-Note that in this formula, it was assumed that density-dependence acts on
+is months.Note that in this formula, it was assumed that density-dependence acts on
 seedling establishment, and that $50$ microsites are available for seedling establishment in every time step. Setting nMicrosites = $0$ allows for calculations without density-dependence, and nMicrosites can also be a vector, if the number of microsites fluctuates through time. It may also be interesting to have a glance at what has been happening to the population structure over this time-course, and the function {\tt trackPopStructManyCov} allows this. IPMpack also contains a dedicated function to depict the results from this, {\tt plotResultsStochStruct}.
 
 
@@ -611,7 +610,7 @@ To illustrate parameter uncertainty in a constant environment, we
 generate data again, and from these data build a list of survival and growth
 objects reflecting the parameter posteriors of fitted linear and logistic
 regression models (taking the simplest case of structure only via a continuous
-covariate). Note that it is also possible to directly use the variance-covariance of parameters estimates from a maximum-likelihood fit to build a list of growth, survival or fertility objects reflecting parameter uncertainty (see the help file for {\tt getListRegObjects} but here we illustrate the Bayesian case.
+covariate). Note that it is also possible (and simpler) to directly use the variance-covariance of parameters estimates from a maximum-likelihood fit (via {\tt glm} or {\tt lm}) to build a list of growth, survival or fertility objects reflecting parameter uncertainty (see the help file for {\tt getListRegObjects}) but here we illustrate the Bayesian case.
 <<>>= 
 dff <- generateData()
 grlist <- makePostGrowthObjs(dff, 
@@ -630,8 +629,7 @@ TmatrixList <- makeListTmatrix(grlist, svlist, nBigMatrix = 20,
                                maxSize = 35, 
                                correction = "constant")
 @ 
-If one of the lists is longer than the other, this function samples the shorter object at random to reach the size of the longer object. Note that in this example the matrix size is rather small just to save time, and larger number of bins are advisable. The function will also construct compound matrices, if an environmental
-matrix is provided. With this, the user can now obtain  posteriors for constant environment models. 
+If one of the lists is longer than the other, this function samples the shorter object at random to reach the size of the longer object. Note that in this example the matrix size is rather small just to save time, and larger number of bins are advisable. The function will also construct compound matrices, if an environmental matrix is provided. With this, the user can now obtain  posteriors for constant environment models. 
 <<>>= 
 res <- getIPMoutput(TmatrixList, targetSize = 5, FmatrixList = NULL)
 names(res)
