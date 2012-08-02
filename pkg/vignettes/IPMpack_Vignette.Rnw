@@ -647,8 +647,7 @@ res <- getIPMoutput(TmatrixList, targetSize = 5, FmatrixList)
 @ 
 
 Again, larger number of iterations, binsize, etc, are recommended. These results
-can be visually inspected too (Figure~\ref{fig:seven} p.~\pageref{fig:seven}) <<>>=
-@ 
+can be visually inspected too (Figure~\ref{fig:seven} p.~\pageref{fig:seven}):
 \begin{figure}
 \begin{center}
 <<label = fig7, fig = TRUE, echo = FALSE>>= 
