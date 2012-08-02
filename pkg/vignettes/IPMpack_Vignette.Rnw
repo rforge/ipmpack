@@ -262,9 +262,12 @@ The three lower panels show whether or not the discretized IPM and the
 theoretical density function.  If mismatched, increasing the tt{nBigMatrix}
 argument may correct this discrepency.  
 
-This results from the fact that continuous distributions of the kernal are discretized when making the IPM matrix, and  Other approaches to this problem are in development (see {\tt ?diagnosticsTmatrix} for additional details).
-
-The {\tt createIPMTmatrix} function builds around methods defined so that it will provide appropriate output whatever the survival and growth objects are (e.g. error structure, covariates...). The T matrix contains a matrix defining the transitions, but also other useful slots, e.g., the meshpoints, etc. The user can access this information by writing: 
+The {\tt createIPMTmatrix} function builds around methods defined so that it
+will provide appropriate output whatever the survival and growth objects are
+(e.g. error structure, covariates). The T matrix contains a matrix defining the
+transitions, but also other useful slots, e.g., the meshpoints, covariates,
+grid size.
+The user can access this information by writing:
 <<>>= 
 slotNames(Tmatrix)
 @ 
@@ -304,7 +307,8 @@ abline(v = mean(dff$size, na.rm = TRUE), col = 2)  #show the target size in red
 \caption{Associated Life Expectancy and Passage Time}
 \label{fig:three}
 \end{figure}
-The function {\tt run.Simple.Model} takes as minimum arguments a data frame and a target size (i.e., here type: {\tt runSimpleModel(dff, chosenSize = 4)}) and runs this analysis to create figures for survival, growth, life expectancy and passage time as shown so far, assuming the simplest possible models of survival and growth (basic linear and logistic regressions, no covariates, etc).
+The function {\tt runSimpleModel} takes as minimum arguments a data frame and a
+target size (i.e., here type: {\tt runSimpleModel(dff, chosenSize = 4)}) and runs this analysis to create figures for survival, growth, life expectancy and passage time as shown so far, assuming the simplest possible models of survival and growth (basic linear and logistic regressions, no covariates, etc).
 
 If the user defines a fertility object -which for instance is not always easy with for example trees- IPMpack can also create a transition matrix describing movement between sizes attributable to fertility.
 <<>>= 
@@ -318,7 +322,11 @@ Fmatrix <- createIPMFmatrix(nBigMatrix = 50, minSize = -5,
 @ 
 Note that {\tt makeFecObj} will use the relationships defined in {\tt Formula} and the family defined in {\tt Family} with transforms defined in {\tt Transform} in the order supplied. Please note that the fecundity {\tt Formula} MUST match the {\tt Transform} since IPMPack needs to use these appropriately in functions to build the F matrixs. 
 
-The default arguments required to run {\tt makeFecObj} to create a fecundity object from which an F matrix with no discrete stage can be built are {\tt offspringSplitter=data.frame(continuous=1)}, {\tt  offspringTypeRates=data.frame(NA)} and {\tt fecByDiscrete=data.frame(NA)}. Additionally, note that if there are values other than {\tt "continuous"} in the {\tt stage} column of the data-frame named {\tt dff} in the example above, then the function will assume that multiple offspring classes are required, and the result will be an IPM with nBigMatrix + the number of offspring classes deduced (which is the number of names in {\tt stage} other than {\tt "continuous"}). This may lead to a mismatch with the size of the T matrix unless a discrete transition matrix is explicitly being included in the T matrix (see below, incorporating discrete stages).  
+The default arguments required to run {\tt makeFecObj} to create a fecundity
+object from which an F matrix with no discrete stage can be built are {\tt
+offspringSplitter=data.frame(continuous=1)}, {\tt 
+offspringTypeRates=data.frame(NA)} and {\tt fecByDiscrete=data.frame(NA)}.
+Additionally, note that if there are values other than {\tt ``continuous"} in the {\tt stage} column of the data-frame named {\tt dff} in the example above, then the function will assume that multiple offspring classes are required, and the result will be an IPM with nBigMatrix + the number of offspring classes deduced (which is the number of names in {\tt stage} other than {\tt ``continuous"}). This may lead to a mismatch with the size of the T matrix unless a discrete transition matrix is explicitly being included in the T matrix (see below, incorporating discrete stages).
 
 If the data-frame contains an extra column {\tt offspringNext} that takes the
 values {\tt sexual}, and that corresponds to rows where both {\tt size} and {\tt sizeNext} are different from NA, the user can define a relationship between maternal size and offspring size through the {\tt makeFecObj} argument {\tt offspringSizeExplanatoryVariables}. The default is to only fit an intercept, equivalent to simply having a mean and variance of offspring size. The function {\tt makeFecObj} also allows users to simply over-write the mean and variance of offpsring size with the values of their choice (arguments {\tt meanOffspringSize} and {\tt sdOffspringSize}).
@@ -377,9 +385,15 @@ barplot(res$elam, main = expression("Parameter elasticity of "*lambda),
 %Similar code could be developed to explore sensitivity of other emergent %measures, e.g., mean passage time, etc. 
 
 \section{Discretely varying environments}
-A first possible extension of IPMs is to create a compound IPM matrix where, in addition to moving between continuous sizes, individuals move through discrete environments where the discrete environmental states have an expected sequence, and therefore can be described by a transition matrix of their own (e.g. light environments for tropical trees, as in Metcalf et al. $2009$). 
+One extension of IPMs is to create a compound IPM matrix where, in addition to
+moving between continuous sizes, individuals move through discrete environments where the discrete environmental states have an expected sequence, and therefore can be described by a transition matrix of their own (e.g. light environments for tropical trees, as in Metcalf et al. $2009$).
 
-To explore this type of dynamics, the user needs to either provide or simulate an environmental variable at $t$ and the corresponding value at $t+1$. Here, it has been generated as part of the {\tt generateData} function (See above). From this generated data, the user can then create an environmental transition matrix, which describes how the environment tends to move between these states from one census time to the next. If the data has been set up as described, there is a function that will do this for the user: 
+To explore this type of dynamic, the user needs  either to provide or simulate
+an environmental variable at $t$ and the corresponding value at $t+1$. Here, it
+has been generated as part of the {\tt generateData} function (See above). From
+this generated data, the user can then create an environmental transition matrix
+that describes how the environment tends to move between these states from one
+census time to the next. If the data has been set up as described, there is a function that will do this for the user:
 <<>>= 
 env1 <- makeEnvObj(dff) 
 env1
@@ -436,7 +450,9 @@ plot(Tmatrix@meshpoints, pTimes[1:Tmatrix@nBigMatrix],
 \label{fig:five}
 \end{figure}
 
-With a fertility object, the user can also define a full life cycle IPM model for this environment. With such an information, obtaining the stochastic population rate of increase $\lambda_s$ in this environment is relatively straight-forward. IPMpack does this by sampling a very large number of environments and corresponding IPMs, and multiplying them together (Childs et al. $2004$). At the moment, this is only defined for the case where environments (defined by the discrete covariates) are distributed independently (i.e. the next state does not depend on the previous state). To do this, the user must first define a list of IPMs (each the sum of a matrix of survival-growth transitions, and a matrix of fecundity transitions corresponding to a particular environment): 
+With a fertility object, the user can also define a full life cycle IPM model
+for across environments. With such information, obtaining the stochastic
+population rate of increase $\lambda_s$ in this environment is relatively straight-forward. IPMpack does this by sampling a very large number of environments and corresponding IPMs, and multiplying them together (Childs et al. $2004$). At the moment, this is only defined for the case where environments (defined by the discrete covariates) are distributed independently (i.e. the next state does not depend on the previous state). To do this, the user must first define a list of IPMs (each the sum of a matrix of survival-growth transitions, and a matrix of fecundity transitions corresponding to a particular environment):
 <<>>= 
 IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 25, minSize = -5, 
                         maxSize = 35, explSurv = surv~size+covariate, 
