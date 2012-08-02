@@ -52,12 +52,12 @@ Fmatrix <- createIPMFmatrix(minSize = min(dff$size, na.rm = TRUE),
 
 largeMatrixCalc(Tmatrix, Fmatrix)
 
+par(mfrow=c(1,2),pty="s")
+
 plot(largeMatrixCalc(Tmatrix, Fmatrix)$stableDist, ylab = "Stable stage distribution", 
 	xlab = "Continuous (e.g. size) stage", type = "l", col = "blue", lty = 1, ylim = c(0:1))
 
-%ROB TO DO: I will change the appropriate section in base so reproductive output is also attainable and plottable here for IPMpack v.2.0
-%#Add line for reproductive effort with dash line and red color
-%#points(largeMatrixCalc(Tmatrix,Fmatrix)$reprodValue-0.1,type="l",col="red",lty=2)
-%legend(1, 0.9,c("Stable distribution","Reproductive value"),col=c("blue","red"),lty=c(1,2),merge=TRUE)
+plot(largeMatrixCalc(Tmatrix, Fmatrix)$reprodValue, ylab = "Reproductive value", 
+	xlab = "Continuous (e.g. size) stage", type = "l", col = "red", lty = 1, ylim = c(0:1))
 
 }
