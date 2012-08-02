@@ -639,7 +639,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	
 	dataf$fec[dataf$fec==0] <- NA
 	
-	return(list(dataf=dataf,meanYear=meanYear,matVarYear=matVarYear,mean.kids=mean.kids,sd.kids=sd.kids,list.par=list.par))
+	return(list(dataf=dataf,meanYear=meanYear,matVarYear=matVarYear,list.par=list.par))
 	
 }
 

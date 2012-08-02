@@ -76,6 +76,7 @@ covariance covariance in eyar effects
 \value{
  
 A list including: 
+  dataf:
   A dataframe with headings:
   	- "size": continuous variable, indicating current size.
   	- "sizeNext" continuous variable, indicating size in the next time step.
@@ -84,6 +85,16 @@ A list including:
   	- "covariateNext": discrete covariate in the next
   time step.
   	- "fec": continuous variable, indicating fecundity.
+	- nSeedlings: number seedlings corresponding to that year
+	- m.year: intercept of mortality for that year
+	- cg.year: intercept of growth for that year
+	- b.year: intercept of offspring size for that year
+	- offspringNext: where the row corresponds to offspring, this takes the value offspringNexxt
+	- year: year of the sample
+	
+ listpar: 
+ 	- a list of all the other parameters	
+		
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
