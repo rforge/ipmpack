@@ -533,11 +533,11 @@ IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 25, minSize = -5,
                         explFec = fec~size, Transform="log",correction = "constant")
 @ 
 Note that in this example IPMpack uses an arbitrary selection of
-explanatory variables for the various linear and logistic
+formulas for the various linear and logistic
 regressions ({\tt explGrow}, {\tt explSurv}, etc). In reality,
 model selection will need to be used to establish this. Importantly, each
 environment type requires sufficient data (years of data) to quantify population
-behavriors in that environment as if it were an IPM in a single environment.  
+behaviours in that environment as if it were an IPM in a single environment.  
 Next, the user can estimate $\lambda_s$ using:
 <<>>= 
 stochGrowthRateSampleList(listIPMmatrix = IPMlist, 
