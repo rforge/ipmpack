@@ -2130,6 +2130,37 @@ stochGrowthRateSampleList <- function(listIPMmatrix,nRunIn,tMax){
 			return(res)
 		}
 
+		
+		## Function to estimate stochastic growth rate
+		## with density dependence in seedling establishment
+#
+# Parameters - listTmatrix - list of Tmatrices
+#            - listFmatrix - list of Fmatrices
+#            - nRunIn
+#            - tMax
+#            - seedList - observed recruits in each of the years
+#
+# Returns stoch growth rate
+		
+stochGrowthRateSampleListDD <- function (listTmatrix, listFmatrix,nRunIn, tMax,seedList) {
+			require(MASS)
+			nmatrices <- length(listTmatrix)
+			nt <- rep(1, length(listTmatrix[[1]][, 1]))
+			Rt <- rep(NA, tMax)
+			for (t in 1:tMax) {
+				year.type <- sample(1:nmatrices, size = 1, replace = FALSE)
+				nseeds <- sum(listFmatrix[[year.type]]%*%nt)
+				pEst <- min(seedList[min(year.type+1,nmatrices)]/nseeds,1)
+				nt1 <- (listTmatrix[[year.type]]+pEst*listFmatrix[[year.type]])%*% nt
+				sum.nt1 <- sum(nt1)
+				Rt[t] <- log(sum.nt1)-log(sum(nt))
+				nt <- nt1
+			}
+			res <- mean(Rt[nRunIn:tMax], na.rm = TRUE)
+			return(res)
+}
+		
+		
 
 # Approach to get stoch rate
 # with time-varying covariates
