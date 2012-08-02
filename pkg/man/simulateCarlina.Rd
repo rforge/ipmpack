@@ -107,6 +107,6 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff <- simulateCarlina(nSamp=1000)
-head(dff)
+head(dff$dataf)
 
 }
