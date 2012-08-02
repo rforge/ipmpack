@@ -43,7 +43,7 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrateType, correction,cov
   
   Top right panel: predicted life expectancy for the current (black) and extended IPM as above (red).
   
-  Bottom panels: numerical predicted density function (histogram) and the expected value from the normal density function (red line) for (x 0.5) small, (x 1) medium, and (x 1.5) large sizes.
+  Bottom panels: numerical predicted density function (histogram) and the expected value from the normal density function (red line) for (x 0.5) small, (x 1) medium, and (x 1.5) large sizes. Note that if growth is such that the pdf is mostly concentrated at values more than 3.5x the standard deviation of growth, then the plots may not show the pdf. 
   
   Not defined for compound T matrices, or matrices with discrete classes.
   

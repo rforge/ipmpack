@@ -1403,12 +1403,19 @@ diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midp
 			if (length(grep("trunc",tolower(as.character(class(growObj)))))>0) sigmax2 <- growObj@fit$sigmax2
 		} 
 		
+		#range plot
+		range.x <- range(Tmatrix@meshpoints[loctest[j]]+
+						c(-3.5*sqrt(sigmax2),+3.5*sqrt(sigmax2)))
 		
 		#plot template
 		plot(Tmatrix@meshpoints,Tmatrix@.Data[,loctest[j]]/h/ps, type="n",
-				xlim=range(Tmatrix@meshpoints[loctest[j]]+
-								c(-3.5*sqrt(sigmax2),+3.5*sqrt(sigmax2))),
+				xlim=range.x,
 				xlab="Size next", ylab="pdf")
+		
+		#print(Tmatrix@meshpoints[loctest[j]])
+		#print(range(Tmatrix@meshpoints[loctest[j]]+
+		#						c(-3.5*sqrt(sigmax2),+3.5*sqrt(sigmax2))))
+		
 		if (j==1) title("Numerical resolution and growth")
 		for (k in 1:length(Tmatrix@meshpoints)) {
 			points(c(Tmatrix@meshpoints[k])+c(-h/2,h/2),
