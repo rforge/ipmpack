@@ -79,7 +79,7 @@ $themeroot='http://r-forge.r-project.org/themes/rforge/';
                     <h1><b>IPMpack</b></h1>
                     <p style="font-size:16px;line-height:1.25"><b>Authors:</b><br><br>C. Jessica E. Metcalf <a href="mailto:charlotte.metcalf@zoo.ox.ac.uk" rel="nofollow" style="color:#84002E">charlotte.metcalf@zoo.ox.ac.uk</a><br>Sean M. McMahon <a href="mailto:mcmahons@si.edu" rel="nofollow" style="color:#84002E">mcmahons@si.edu</a><br>Roberto Salguero-Gómez <a href="mailto:salguero@demogr.mpg.de" rel="nofollow" style="color:#84002E">salguero@demogr.mpg.de</a><br>Eelke Jongejans <a href="mailto:e.jongejans@science.ru.nl" rel="nofollow" style="color:#84002E">e.jongejans@science.ru.nl</a><br></p>
                     <p style="font-size:16px;line-height:1.25;text-align:justify"><br><b>Developed at:</b><br><br><a href="http://www.demogr.mpg.de" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">Max Planck Institute for Demographic Research</a></p>
-                    <p style="font-size:16px;line-height:1.25;text-align:justify"><br><b>Resources:</b><br><br>Download the R package <a href="http://cran.r-project.org/web/packages/IPMpack/index.html" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">IPMpack</a><br>Subscribe to the <a href="http://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/ipmpack-users" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">users email-list</a></p>
+                    <p style="font-size:16px;line-height:1.25;text-align:justify"><br><b>Resources:</b><br><br>Subscribe to the <a href="http://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/ipmpack-users" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">users email-list</a><br>Download the R package <a href="http://cran.r-project.org/web/packages/IPMpack/index.html" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">IPMpack</a> (latest version: 1.3 (Aug'12). The makeFecObj and similar functions now have a <i>Formula</i> slot in which the regression formula (e.g. nPups~size) can be entered.)</p>
                   </td>
                   <td width="50px"></td>
                 </tr>
@@ -93,7 +93,7 @@ $themeroot='http://r-forge.r-project.org/themes/rforge/';
                 <tr class="title"><td colspan="2" class="section">Project summary</td></tr>
                 <tr style="background:#FFFFFF">
                   <td class="main">
-                    <p class="parag"><b>IPMpack</b> is an R package (R Development Core Team 2011) that allows users to build and analyse Integral Projection Models. An IPM is a demographic tool to explore the dynamics of populations where individuals' fates depend on state variables that are continuous (e.g. weight, diameter at breast height, height, limb length, rosette diameter...) or quasi-continuous (number of leaves, age, number of reproductive structures) and may be a mixture of discrete (e.g. seedbank) and continuous. IPMs track the distribution of individuals $n$ across these state variables between census times (e.g., year $t$ and year $t+1$) by projecting from models that define the underlying vital rates (e.g., survival, growth, reproduction) as a function of the (quasi-)continuous state variables. Version 1.0 of the package is now available on CRAN /  R-Forge. For those who wish to try it, it can be installed by opening the R console and typing: <br></p>
+                    <p class="parag"><b>IPMpack</b> is an R package (R Development Core Team 2011) that allows users to build and analyse Integral Projection Models. An IPM is a demographic tool to explore the dynamics of populations where individuals' fates depend on state variables that are continuous (e.g. weight, diameter at breast height, height, limb length, rosette diameter...) or quasi-continuous (number of leaves, age, number of reproductive structures) and may be a mixture of discrete (e.g. seedbank) and continuous. IPMs track the distribution of individuals <i>n</i> across these state variables between census times (e.g., year <i>t</i> and year <i>t+1</i>) by projecting from models that define the underlying vital rates (e.g., survival, growth, reproduction) as a function of the (quasi-)continuous state variables. Version 1.3 of <a href="http://cran.r-project.org/web/packages/IPMpack/index.html" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">IPMpack</a> is now available on CRAN /  R-Forge. For those who wish to try it, it can be installed by opening the R console and typing: <br></p>
 										<p><code>install.packages("IPMpack", repos = "http://R-Forge.R-project.org", type = "source")</code>
 					<p><br></p>
 
@@ -102,7 +102,7 @@ $themeroot='http://r-forge.r-project.org/themes/rforge/';
                   <td class="main">
                     <p><img style="margin:0px;padding:0px;border:none" width="420px" align="middle" src="fig1.jpg?width=400px"><br><br></p>
                     <p class="caption">Fig. 1. <b>IPMpack</b> output examples.</p>
-										<p class="parag">We are going to set up a IPMpack Users mailing list so users can ask questions or provide comments, suggestions or criticism that can help us improve the package. Users can register by at a later stage.<br></p>
+										<p class="parag">We have set up a IPMpack <a href="http://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/ipmpack-users" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">users email-list</a> so users can ask questions or provide comments, suggestions or criticism that can help us improve the package. <br></p>
                   </td>
                 </tr>
               </tbody>
@@ -117,15 +117,15 @@ $themeroot='http://r-forge.r-project.org/themes/rforge/';
                     <p class="parag">To use <b>IPMpack</b>'s full capacities, it is helpful if the data are in a specific format in R, i.e., a dataframe with the following variables and column names, where each
 row represents one measurement in the population:</p>
                     <ul>
-                      <li><b>size</b> of individuals in census time t</li>
-                      <li><b>sizeNext</b> of individuals in census time t+1</li>
-                      <li><b>surv</b>: survival of individuals from census time t to t+1 (a 0 or 1).</li>
+                      <li><b>size</b> of individuals in census time <i>t</i>.</li>
+                      <li><b>sizeNext</b> of individuals in census time <i>t+1</i>.</li>
+                      <li><b>surv</b>: survival of individuals from census time <i>t</i> to <i>t+1</i> (a 0 or 1).</li>
                       <li><b>fec1,...</b>: as many columns as desired relating size to sexual reproduction.</li>
-                      <li><b>stage</b> of individuals in census time t needs to be specified if you want to include discrete classes. For rows in the dataframe where <b>size</b> is not an NA, this must be the word <i>continuous</i>.</li>
-                      <li><b>stageNext</b> of individuals in census time t+1 (similar to <b>stage</b>).</li>
+                      <li><b>stage</b> of individuals in census time <i>t</i> needs to be specified if you want to include discrete classes. For rows in the dataframe where <b>size</b> is not an NA, this must be the word <i>continuous</i>.</li>
+                      <li><b>stageNext</b> of individuals in census time <i>t+1</i> (similar to <b>stage</b>).</li>
                       <li><b>number</b> of individuals corresponding to each row in the dataframe.</li>
-                      <li><b>covariate</b>: value of a discrete covariate in census time t, such as light environment, age or patch type.</li>
-                      <li><b>covariateNext</b>: value of a discrete covariate in census time t+1.</li>
+                      <li><b>covariate</b>: value of a discrete covariate in census time <i>t</i>, such as light environment, age or patch type.</li>
+                      <li><b>covariateNext</b>: value of a discrete covariate in census time <i>t+1</i>.</li>
                       <li>...any other covariates of interest, named as desired (precipition, habitat, temperature,...).</li>
                     </ul>
                     <p><br></p>
