@@ -4,7 +4,7 @@
 \title{Functions to build growth objects for constant environments, or
   discretely varying environments}
 \description{
-  A function that fits regressions defining growth (following next size,
+  A function that fits regressions that define growth (following next size,
   size increment, or log size increment) and from these build growth objects for which methods to build an IPM
   object are defined.
 }
