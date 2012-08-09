@@ -23,8 +23,7 @@
  
 \begin{document}
 
-\title{IPMpack: an R package for demographic modeling with Integral Projection
-Models (v.1.4)}
+\title{IPMpack: an R package for demographic modeling with Integral Projection Models (v.1.2)}
 \author{Jessica Metcalf, Sean M. McMahon, Rob Salguero-Gomez, Eelke Jongejans}
 \maketitle
 
@@ -40,7 +39,7 @@ returning model scores, as well as tools for diagnostic tests of the IPM models
 themselves. There are also methods to build population models for varying environments, use Bayesian methods to sample population parameters,  estimate longevity and passage time, sensitivity and elasticity (of either parameters or matrix elements), and much more.
 
 This vignette is intended to introduce the concepts of IPMs as well as the
-implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $1.4$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge \href{http://ipmpack.r-forge.r-project.org/}{IPMpack Web Site} that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
+implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $1.3$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge \href{http://ipmpack.r-forge.r-project.org/}{IPMpack Web Site} that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
  
 \newpage
 
