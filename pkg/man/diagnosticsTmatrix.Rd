@@ -33,6 +33,9 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrateType, correction,cov
  \item{cov}{
     a data-frame with one row containing all covariates; defaults to 1, and will be ignored if covariates do not exist in growth and survival objects
 }
+ \item{sizesToPlot}{
+ a vector containing desired sizes to plot growth resolution for (second panel); if not supplied, the function will use the quantiles
+}
 }
 \details{
   Top left panel: continuous (size) stage range in the data (histogram) and the size range used in the IPM (red dashed lines).
