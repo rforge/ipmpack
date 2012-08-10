@@ -2009,7 +2009,7 @@ sensParams <- function(growObj,survObj,fecObj,
 		lambda2 <- Re(eigen(IPM)$value[1]); #print(lambda2)
 		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test]/(1+delta);
 		slam[param.test]<-(lambda2-lambda1)/(growObj@fit$coefficients[param.test]*delta);
-		elam[param.test]<-(lambda2-lambda1)/(log(1+delta));
+		elam[param.test]<-(lambda2-lambda1)/(lambda1*delta);
 	}
 	# change the variance in growth
 	param.test <- param.test+1
@@ -2024,7 +2024,7 @@ sensParams <- function(growObj,survObj,fecObj,
 	lambda2 <- Re(eigen(IPM)$value[1]); #print(lambda2)
 	growObj@sd <- sd.store
 	slam[param.test]<-(lambda2-lambda1)/(sd(growObj@fit$residuals)*delta);
-	elam[param.test]<-(lambda2-lambda1)/(log(1+delta));
+	elam[param.test]<-(lambda2-lambda1)/(lambda1*delta);
 	
 	#print("after growth")
 	#print(param.test)
@@ -2043,7 +2043,7 @@ sensParams <- function(growObj,survObj,fecObj,
 		lambda2 <- Re(eigen(IPM)$value[1]);
 		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test]/(1+delta);
 		slam[param.test+count]<-(lambda2-lambda1)/(survObj@fit$coefficients[param.test]*delta);
-		elam[param.test+count]<-(lambda2-lambda1)/(log(1+delta));
+		elam[param.test+count]<-(lambda2-lambda1)/(lambda1*delta);
 	}
 	
 	#print("after survival")
@@ -2066,7 +2066,7 @@ sensParams <- function(growObj,survObj,fecObj,
 			lambda2 <- Re(eigen(IPM)$value[1]);
 			fecObj@fecConstants[1,chs[param.test]] <- fecObj@fecConstants[1,chs[param.test]]/(1+delta);
 			slam[param.test+count]<-(lambda2-lambda1)/as.numeric(fecObj@fecConstants[1,chs[param.test]]*delta);
-			elam[param.test+count]<-(lambda2-lambda1)/(log(1+delta));
+			elam[param.test+count]<-(lambda2-lambda1)/(lambda1*delta);
 			
 		}
 	}
@@ -2090,7 +2090,7 @@ sensParams <- function(growObj,survObj,fecObj,
 			lambda2 <- Re(eigen(IPM)$value[1]);#print(lambda2)
 			fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]/(1+delta);
 			slam[param.test+count]<-(lambda2-lambda1)/(fecObj@fitFec[[i]]$coefficients[param.test]*delta);
-			elam[param.test+count]<-(lambda2-lambda1)/(log(1+delta));		
+			elam[param.test+count]<-(lambda2-lambda1)/(lambda1*delta);		
 		}
 		count <- count + param.test;
 	}	
