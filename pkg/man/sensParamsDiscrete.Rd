@@ -88,6 +88,11 @@ Modified following code developed by Rees & Rose 2002 (above).
   elas = sens*c/lam = (lam.new-lam)/(lam*delta)
   
   which corresponds to the proportional change in lambda as an outcome of the proportional change in the parameter.
+  
+  Note that when elements of discrete transition matrix are perturbed, the corresponding change is distributed 
+evenly over non-zero values in each column so that the column continues to sum to 1.
+
+Also note that perturbation of parameters underlying survival from continuous to discrete only is considered; if this is the same process as continuous to continuous, this will not be incorporated.  
 
 }
 
