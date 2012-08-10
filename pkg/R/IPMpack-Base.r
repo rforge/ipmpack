@@ -1945,164 +1945,442 @@ largeMatrixCalc <- function(Tmatrix, Fmatrix, tol = 1.e-8){
 ## the 
 ##
 ##
-
-sensParams <- function(growObj,survObj,fecObj,
-		nBigMatrix,minSize,maxSize,
-		discreteTrans =1,
-		integrateType="midpoint",
-		correction="none") { 
+sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
+		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, 
+		delta=1e-4) {
 	
-	delta<-0.0001;
-	
-	#nfec objects
 	nfec <- 0
 	fec.coeff.names <- c()
-	for (i in 1:length(fecObj@fitFec)){
-		nfec <- nfec + length(fecObj@fitFec[[i]]$coefficients)	
-		fec.coeff.names <- c(fec.coeff.names,
-				paste("reprod",i,names(fecObj@fitFec[[i]]$coefficients)))
-		
+	for (i in 1:length(fecObj@fitFec)) {
+		nfec <- nfec + length(fecObj@fitFec[[i]]$coefficients)
+		fec.coeff.names <- c(fec.coeff.names, paste("reprod", 
+						i, names(fecObj@fitFec[[i]]$coefficients)))
 	}
-	
-	
-	# define numbers of parameters
-	npar <- length(growObj@fit$coeff)+1+  #one extra for variance
-			length(survObj@fit$coeff)+
-			(sum(!is.na(fecObj@fecConstants)))+nfec	
-	#print(npar)
-	
-	# create a named vector to hold them 
-	elam <- rep(0,npar);
-	if ((sum(!is.na(fecObj@fecConstants)))>0) { 
-		nmes <- c(paste("grow",names(growObj@fit$coeff)), "sd growth",paste("surv",names(survObj@fit$coeff)),
-				paste("reprod constant",which(!is.na(fecObj@fecConstants), arr.ind=TRUE)[,2]),
-				fec.coeff.names) 
-	} else { 
-		nmes <- c(paste("grow",names(growObj@fit$coeff)), "sd growth",paste("surv",names(survObj@fit$coeff)),				
+	npar <- length(growObj@fit$coeff) + 1 + length(survObj@fit$coeff) + 
+			length(fecObj@offspringRel$coeff) + 1 + #addedÉ
+			(sum(!is.na(fecObj@fecConstants))) + nfec
+	elam <- rep(0, npar)
+	if ((sum(!is.na(fecObj@fecConstants))) > 0) {
+		nmes <- c(paste("grow", names(growObj@fit$coeff)), "sd growth", 
+				paste("surv", names(survObj@fit$coeff)), 	
+				paste("offspring rel", names(fecObj@offspringRel$coeff)), "sd offspring",	#added
+				paste("reprod constant",which(!is.na(fecObj@fecConstants), arr.ind = TRUE)[,2]), 
+				fec.coeff.names)
+	} else {
+		nmes <- c(paste("grow", names(growObj@fit$coeff)), "sd growth", 
+				paste("surv", names(survObj@fit$coeff)), 
+				paste("offspring rel", names(fecObj@offspringRel$coeff)), "sd offspring",	#added
 				fec.coeff.names)
 	}
-	
 	names(elam) <- nmes[1:npar]
-	
 	slam <- elam
 	
-	# build the IPM and get the lamdba value
-	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-			growObj=growObj,survObj=survObj, discreteTrans=discreteTrans,
-			integrateType=integrateType, correction=correction)
-	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-			fecObj=fecObj,integrateType=integrateType, correction=correction)
-	IPM <- Tmatrix+Fmatrix
-	lambda1 <- Re(eigen(IPM)$value[1]);#print(lambda1)
 	
-	Fmatrix.base <- Fmatrix
-	
-	# change the growth parameters
-	for (param.test in 1:length(growObj@fit$coeff)){
-		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test]*(1+delta);
-		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				growObj=growObj,survObj=survObj, discreteTrans=discreteTrans,
-				integrateType=integrateType, correction=correction)
-		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				fecObj=fecObj, integrateType=integrateType, correction=correction)
-		IPM <- Tmatrix+Fmatrix
-		lambda2 <- Re(eigen(IPM)$value[1]); #print(lambda2)
-		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test]/(1+delta);
-		slam[param.test]<-(lambda2-lambda1)/(growObj@fit$coefficients[param.test]*delta);
-		elam[param.test]<-(lambda2-lambda1)/(lambda1*delta);
-	}
-	# change the variance in growth
-	param.test <- param.test+1
-	sd.store <- growObj@sd
-	growObj@sd <- growObj@sd*(1+delta)
-	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-			growObj=growObj,survObj=survObj, discreteTrans=discreteTrans,
-			integrateType=integrateType, correction=correction)
-	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-			fecObj=fecObj, integrateType=integrateType, correction=correction)
+	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, growObj = growObj, survObj = survObj, 
+			discreteTrans = discreteTrans, integrateType = integrateType, 
+			correction = correction)
+	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
+			correction = correction,preCensus = preCensus,survObj=survObj,growObj=growObj)
 	IPM <- Tmatrix + Fmatrix
-	lambda2 <- Re(eigen(IPM)$value[1]); #print(lambda2)
+	lambda1 <- Re(eigen(IPM)$value[1])
+	
+	#growth
+	for (param.test in 1:length(growObj@fit$coeff)) {
+		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test] * 
+				(1 + delta)
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		IPM <- Tmatrix + Fmatrix
+		lambda2 <- Re(eigen(IPM)$value[1])
+		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test]/(1 + delta)
+		slam[param.test] <- (lambda2 - lambda1)/(growObj@fit$coefficients[param.test] * delta)
+		elam[param.test] <- (lambda2 - lambda1)/(lambda1*delta)
+	}
+	
+	#growth sd
+	param.test <- param.test + 1
+	sd.store <- growObj@sd
+	growObj@sd <- growObj@sd * (1 + delta)
+	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, growObj = growObj, survObj = survObj, 
+			discreteTrans = discreteTrans, integrateType = integrateType, 
+			correction = correction)
+	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
+			correction = correction,preCensus = preCensus,survObj=survObj,growObj=growObj)
+	IPM <- Tmatrix + Fmatrix
+	lambda2 <- Re(eigen(IPM)$value[1])
 	growObj@sd <- sd.store
-	slam[param.test]<-(lambda2-lambda1)/(sd(growObj@fit$residuals)*delta);
-	elam[param.test]<-(lambda2-lambda1)/(lambda1*delta);
+	slam[param.test] <- (lambda2 - lambda1)/(growObj@sd*delta)
+	elam[param.test] <- (lambda2 - lambda1)/(lambda1*delta)
 	
-	#print("after growth")
-	#print(param.test)
-	#print(slam[1:param.test])
-	
-	# change the survival parameters
+	#survival
 	count <- param.test
-	for (param.test in 1:length(survObj@fit$coeff)){
-		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test]*(1+delta);
-		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				growObj=growObj,survObj=survObj, discreteTrans=discreteTrans,
-				integrateType=integrateType, correction=correction)
-		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-				fecObj=fecObj,integrateType=integrateType, correction=correction)
-		IPM <- Tmatrix+Fmatrix
-		lambda2 <- Re(eigen(IPM)$value[1]);
-		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test]/(1+delta);
-		slam[param.test+count]<-(lambda2-lambda1)/(survObj@fit$coefficients[param.test]*delta);
-		elam[param.test+count]<-(lambda2-lambda1)/(lambda1*delta);
+	for (param.test in 1:length(survObj@fit$coeff)) {
+		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test] * 
+				(1 + delta)
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		IPM <- Tmatrix + Fmatrix
+		lambda2 <- Re(eigen(IPM)$value[1])
+		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test]/(1 + 
+					delta)
+		slam[param.test + count] <- (lambda2 - lambda1)/(survObj@fit$coefficients[param.test] * delta)
+		elam[param.test + count] <- (lambda2 - lambda1)/(lambda1*delta)
 	}
 	
-	#print("after survival")
-	#print(count+param.test)
-	#print(slam[1:(count+param.test)])
+	#offspring rel
+	count <- count + param.test
+	for (param.test in 1:length(fecObj@offspringRel$coeff)) {
+		fecObj@offspringRel$coefficients[param.test] <- fecObj@offspringRel$coefficients[param.test] * 
+				(1 + delta)
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		IPM <- Tmatrix + Fmatrix
+		lambda2 <- Re(eigen(IPM)$value[1])
+		fecObj@offspringRel$coefficients[param.test] <- fecObj@offspringRel$coefficients[param.test] / 
+				(1 + delta)
+		slam[param.test + count] <- (lambda2 - lambda1)/(fecObj@offspringRel$coefficients[param.test] * delta)
+		elam[param.test + count] <- (lambda2 - lambda1)/(lambda1*delta)
+	}
+	
+	#offspring sd
+	count <- count + param.test
+	fecObj@sdOffspringSize <- fecObj@sdOffspringSize *  (1 + delta)
+	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+			minSize = minSize, maxSize = maxSize, growObj = growObj, 
+			survObj = survObj, discreteTrans = discreteTrans, 
+			integrateType = integrateType, correction = correction)
+	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+			minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+			integrateType = integrateType, correction = correction,
+			preCensus = preCensus,survObj=survObj,growObj=growObj)
+	IPM <- Tmatrix + Fmatrix
+	lambda2 <- Re(eigen(IPM)$value[1])
+	fecObj@sdOffspringSize <- fecObj@sdOffspringSize / (1 + delta)
+	slam[count + 1] <- (lambda2 - lambda1)/(fecObj@sdOffspringSize * delta)
+	elam[count + 1] <- (lambda2 - lambda1)/(lambda1*delta)
 	
 	
-	#change the constant fecundity objects
-	chs <- which(!is.na(fecObj@fecConstants), arr.ind=TRUE)[,2]
-	if (length(chs)>0) { 
-		count <- count + param.test;
+	
+	
+	#fecConstant	
+	chs <- which(!is.na(fecObj@fecConstants), arr.ind = TRUE)[,2]
+	if (length(chs) > 0) {
+		count <- count + 1
 		for (param.test in 1:length(chs)) {
-			fecObj@fecConstants[chs[param.test]] <- fecObj@fecConstants[chs[param.test]]*(1+delta);
-			Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-					growObj=growObj,survObj=survObj, discreteTrans=discreteTrans,
-					integrateType=integrateType, correction=correction)
-			Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-					fecObj=fecObj,integrateType=integrateType, correction=correction)
-			IPM <- Tmatrix+Fmatrix
-			lambda2 <- Re(eigen(IPM)$value[1]);
-			fecObj@fecConstants[1,chs[param.test]] <- fecObj@fecConstants[1,chs[param.test]]/(1+delta);
-			slam[param.test+count]<-(lambda2-lambda1)/as.numeric(fecObj@fecConstants[1,chs[param.test]]*delta);
-			elam[param.test+count]<-(lambda2-lambda1)/(lambda1*delta);
-			
+			fecObj@fecConstants[chs[param.test]] <- fecObj@fecConstants[chs[param.test]] * 
+					(1 + delta)
+			Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+					minSize = minSize, maxSize = maxSize, growObj = growObj, 
+					survObj = survObj, discreteTrans = discreteTrans, 
+					integrateType = integrateType, correction = correction)
+			Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+					minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+					integrateType = integrateType, correction = correction,
+					preCensus = preCensus,survObj=survObj,growObj=growObj)
+			IPM <- Tmatrix + Fmatrix
+			lambda2 <- Re(eigen(IPM)$value[1])
+			fecObj@fecConstants[1, chs[param.test]] <- fecObj@fecConstants[1, 
+					chs[param.test]]/(1 + delta)
+			slam[param.test + count] <- (lambda2 - lambda1)/as.numeric(fecObj@fecConstants[1, 
+							chs[param.test]] * delta)
+			elam[param.test + count] <- (lambda2 - lambda1)/(lambda1*delta)
 		}
+		count <- param.test + count
+	} else { count <- count+1}
+	for (i in 1:length(fecObj@fitFec)) {
+		for (param.test in 1:length(fecObj@fitFec[[i]]$coefficients)) {
+			fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test] * 
+					(1 + delta)
+			Fmatrix1 <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+					minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+					integrateType = integrateType, correction = correction,
+					preCensus = preCensus,survObj=survObj,growObj=growObj)
+			IPM <- Tmatrix + Fmatrix1
+			lambda2 <- Re(eigen(IPM)$value[1])
+			fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]/(1 + 
+						delta)
+			slam[param.test + count] <- (lambda2 - lambda1)/(fecObj@fitFec[[i]]$coefficients[param.test] * 
+						delta)
+			elam[param.test + count] <- (lambda2 - lambda1)/(lambda1*delta)
+		}
+		count <- count + param.test
 	}
-	#print("after fec constant")
-	#print(param.test+count)
-	#print(slam[1:(count+param.test)])
-	
-	# change the reprod prob parameters in sequence
-	count <-  param.test + count;
-	for (i in 1:length(fecObj@fitFec)){
-		#print(i)
-		for (param.test in 1:length(fecObj@fitFec[[i]]$coefficients)){
-			#print(param.test)
-			fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]*(1+delta);
-			#print(fecObj@fitFec[[i]]$coefficients)
-			#print(cpar)
-			Fmatrix1 <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize=minSize,maxSize=maxSize,
-					fecObj=fecObj,integrateType=integrateType, correction=correction)
-			
-			IPM <- Tmatrix+Fmatrix1
-			lambda2 <- Re(eigen(IPM)$value[1]);#print(lambda2)
-			fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]/(1+delta);
-			slam[param.test+count]<-(lambda2-lambda1)/(fecObj@fitFec[[i]]$coefficients[param.test]*delta);
-			elam[param.test+count]<-(lambda2-lambda1)/(lambda1*delta);		
-		}
-		count <- count + param.test;
-	}	
-	
-	#print("after fec ")
-	#print(param.test+count)
-	#print(slam)
-	
-	
-	return(list(slam=slam,elam=elam))
-	
+	return(list(slam = slam, elam = elam))
 }
+
+
+
+
+## identical for R0 ########################################################################
+
+sensParamsR0 <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
+		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, 
+		delta=1e-4) {
+	
+	nfec <- 0
+	fec.coeff.names <- c()
+	for (i in 1:length(fecObj@fitFec)) {
+		nfec <- nfec + length(fecObj@fitFec[[i]]$coefficients)
+		fec.coeff.names <- c(fec.coeff.names, paste("reprod", 
+						i, names(fecObj@fitFec[[i]]$coefficients)))
+	}
+	npar <- length(growObj@fit$coeff) + 1 + length(survObj@fit$coeff) + 
+			length(fecObj@offspringRel$coeff) + 1 + #addedÉ
+			(sum(!is.na(fecObj@fecConstants))) + nfec
+	elam <- rep(0, npar)
+	if ((sum(!is.na(fecObj@fecConstants))) > 0) {
+		nmes <- c(paste("grow", names(growObj@fit$coeff)), "sd growth", 
+				paste("surv", names(survObj@fit$coeff)), 	
+				paste("offspring rel", names(fecObj@offspringRel$coeff)), "sd offspring",	#added
+				paste("reprod constant",which(!is.na(fecObj@fecConstants), arr.ind = TRUE)[,2]), 
+				fec.coeff.names)
+	} else {
+		nmes <- c(paste("grow", names(growObj@fit$coeff)), "sd growth", 
+				paste("surv", names(survObj@fit$coeff)), 
+				paste("offspring rel", names(fecObj@offspringRel$coeff)), "sd offspring",	#added
+				fec.coeff.names)
+	}
+	names(elam) <- nmes[1:npar]
+	slam <- elam
+	
+	
+	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, growObj = growObj, survObj = survObj, 
+			discreteTrans = discreteTrans, integrateType = integrateType, 
+			correction = correction)
+	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
+			correction = correction,preCensus = preCensus,survObj=survObj,growObj=growObj)
+	
+	R01 <- R0Calc(Tmatrix,Fmatrix)
+	
+	#growth
+	for (param.test in 1:length(growObj@fit$coeff)) {
+		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test] * 
+				(1 + delta)
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		R02 <- R0Calc(Tmatrix,Fmatrix)
+		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test]/(1 + delta)
+		slam[param.test] <- (R02 - R01)/(growObj@fit$coefficients[param.test] * delta)
+		elam[param.test] <- (R02 - R01)/(R01*delta)
+	}
+	
+	#growth sd
+	param.test <- param.test + 1
+	sd.store <- growObj@sd
+	growObj@sd <- growObj@sd * (1 + delta)
+	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, growObj = growObj, survObj = survObj, 
+			discreteTrans = discreteTrans, integrateType = integrateType, 
+			correction = correction)
+	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
+			correction = correction,preCensus = preCensus,survObj=survObj,growObj=growObj)
+	R02 <- R0Calc(Tmatrix,Fmatrix)
+	growObj@sd <- sd.store
+	slam[param.test] <- (R02 - R01)/(growObj@sd *delta)
+	elam[param.test] <- (R02 - R01)/(R01*delta)
+	
+	#survival
+	count <- param.test
+	for (param.test in 1:length(survObj@fit$coeff)) {
+		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test] * 
+				(1 + delta)
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		R02 <- R0Calc(Tmatrix,Fmatrix)
+		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test]/(1 + 
+					delta)
+		slam[param.test + count] <- (R02 - R01)/(survObj@fit$coefficients[param.test] * 
+					delta)
+		elam[param.test + count] <- (R02 - R01)/(R01*delta)
+	}
+	
+	#offspring rel
+	count <- count + param.test
+	for (param.test in 1:length(fecObj@offspringRel$coeff)) {
+		fecObj@offspringRel$coefficients[param.test] <- fecObj@offspringRel$coefficients[param.test] * 
+				(1 + delta)
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		R02 <- R0Calc(Tmatrix,Fmatrix)
+		fecObj@offspringRel$coefficients[param.test] <- fecObj@offspringRel$coefficients[param.test] / 
+				(1 + delta)
+		slam[param.test + count] <- (R02 - R01)/(fecObj@offspringRel$coefficients[param.test] * delta)
+		elam[param.test + count] <- (R02 - R01)/(R01*delta)
+	}
+	
+	#offspring sd
+	count <- count + param.test
+	fecObj@sdOffspringSize <- fecObj@sdOffspringSize *  (1 + delta)
+	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+			minSize = minSize, maxSize = maxSize, growObj = growObj, 
+			survObj = survObj, discreteTrans = discreteTrans, 
+			integrateType = integrateType, correction = correction)
+	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+			minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+			integrateType = integrateType, correction = correction,
+			preCensus = preCensus,survObj=survObj,growObj=growObj)
+	R02 <- R0Calc(Tmatrix,Fmatrix)
+	fecObj@sdOffspringSize <- fecObj@sdOffspringSize / (1 + delta)
+	slam[count + 1] <- (R02 - R01)/(fecObj@sdOffspringSize * delta)
+	elam[count + 1] <- (R02 - R01)/(R01*delta)
+	
+	
+	
+	
+	#fecConstant	
+	chs <- which(!is.na(fecObj@fecConstants), arr.ind = TRUE)[,2]
+	if (length(chs) > 0) {
+		count <- count + 1
+		for (param.test in 1:length(chs)) {
+			fecObj@fecConstants[chs[param.test]] <- fecObj@fecConstants[chs[param.test]] * 
+					(1 + delta)
+			Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+					minSize = minSize, maxSize = maxSize, growObj = growObj, 
+					survObj = survObj, discreteTrans = discreteTrans, 
+					integrateType = integrateType, correction = correction)
+			Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+					minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+					integrateType = integrateType, correction = correction,
+					preCensus = preCensus,survObj=survObj,growObj=growObj)
+			R02 <- R0Calc(Tmatrix,Fmatrix)
+			fecObj@fecConstants[1, chs[param.test]] <- fecObj@fecConstants[1, 
+					chs[param.test]]/(1 + delta)
+			slam[param.test + count] <- (R02 - R01)/as.numeric(fecObj@fecConstants[1, 
+							chs[param.test]] * delta)
+			elam[param.test + count] <- (R02 - R01)/(R01*delta)
+		}
+		count <- param.test + count
+	} else { count <- count+1}
+	for (i in 1:length(fecObj@fitFec)) {
+		for (param.test in 1:length(fecObj@fitFec[[i]]$coefficients)) {
+			fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test] * 
+					(1 + delta)
+			Fmatrix1 <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+					minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+					integrateType = integrateType, correction = correction,
+					preCensus = preCensus,survObj=survObj,growObj=growObj)
+			R02 <- R0Calc(Tmatrix,Fmatrix)
+			fecObj@fitFec[[i]]$coefficients[param.test] <- fecObj@fitFec[[i]]$coefficients[param.test]/(1 + delta)
+			slam[param.test + count] <- (R02 - R01)/(fecObj@fitFec[[i]]$coefficients[param.test] * delta)
+			elam[param.test + count] <- (R02 - R01)/(R01*delta)
+		}
+		count <- count + param.test
+	}
+	return(list(slam = slam, elam = elam))
+}
+
+
+
+
+
+## identical for LE ########################################################################
+
+sensParamsLifeExpect <- function (growObj, survObj, nBigMatrix, minSize, maxSize, 
+		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, 
+		delta=1e-4,chosenBin=1) {
+	
+	npar <- length(growObj@fit$coeff) + 1 + length(survObj@fit$coeff)
+	elam <- rep(0, npar)
+	nmes <- c(paste("grow", names(growObj@fit$coeff)), "sd growth", 
+			paste("surv", names(survObj@fit$coeff)))
+	
+	names(elam) <- nmes[1:npar]
+	slam <- elam
+	
+	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, growObj = growObj, survObj = survObj, 
+			discreteTrans = discreteTrans, integrateType = integrateType, 
+			correction = correction)
+	
+	LE1 <- meanLifeExpect(Tmatrix)[chosenBin]
+	
+	#growth
+	for (param.test in 1:length(growObj@fit$coeff)) {
+		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test] * 
+				(1 + delta)
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		LE2 <- meanLifeExpect(Tmatrix)[chosenBin]
+		growObj@fit$coefficients[param.test] <- growObj@fit$coefficients[param.test]/(1 + delta)
+		slam[param.test] <- (LE2 - LE1)/(growObj@fit$coefficients[param.test] * delta)
+		elam[param.test] <- (LE2 - LE1)/(LE1*delta)
+	}
+	
+	#growth sd
+	param.test <- param.test + 1
+	sd.store <- growObj@sd
+	growObj@sd <- growObj@sd * (1 + delta)
+	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, growObj = growObj, survObj = survObj, 
+			discreteTrans = discreteTrans, integrateType = integrateType, 
+			correction = correction)
+	LE2 <- meanLifeExpect(Tmatrix)[chosenBin]
+	growObj@sd <- sd.store
+	slam[param.test] <- (LE2 - LE1)/(growObj@sd*delta)
+	elam[param.test] <- (LE2 - LE1)/(LE1*delta)
+	
+	#survival
+	count <- param.test
+	for (param.test in 1:length(survObj@fit$coeff)) {
+		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test] * 
+				(1 + delta)
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		LE2 <- meanLifeExpect(Tmatrix)[chosenBin]
+		survObj@fit$coefficients[param.test] <- survObj@fit$coefficients[param.test]/(1 + delta)
+		slam[param.test + count] <- (LE2 - LE1)/(survObj@fit$coefficients[param.test] * delta)
+		elam[param.test + count] <- (LE2 - LE1)/(LE1*delta)
+	}
+	return(list(slam = slam, elam = elam))
+}
+
 
 
 ### FUNCTIONS FOR EXTRACTING STOCH GROWTH RATE ########################
