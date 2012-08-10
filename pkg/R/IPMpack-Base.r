@@ -2133,6 +2133,7 @@ sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 
 
 
+
 ## identical for R0 ########################################################################
 
 sensParamsR0 <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
@@ -2380,6 +2381,388 @@ sensParamsLifeExpect <- function (growObj, survObj, nBigMatrix, minSize, maxSize
 	}
 	return(list(slam = slam, elam = elam))
 }
+
+
+### sens params for discrete survival bit
+
+sensParamsDiscrete <-  function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
+		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, delta=1e-4) {
+	
+	
+	#all the transitions - note that this is in the order of the columns, 
+	nmes <- paste("",c(outer(colnames(discreteTrans@discreteTrans),colnames(discreteTrans@discreteTrans),paste,sep="-")),sep="")
+	
+	# all survival out of discrete stages
+	nmes <- c(nmes,paste("survival from",colnames(discreteTrans@discreteSurv),sep=""))
+	
+	# all means out of discrete stages
+	nmes <- c(nmes,paste("mean from ",colnames(discreteTrans@meanToCont),sep=""))
+	
+	# all sds out of discrete stages
+	nmes <- c(nmes,paste("sd from ",colnames(discreteTrans@sdToCont),sep=""))
+	
+	#  not sure makes sense to do distribToDiscrete???	
+	
+	#coefficients linking continuous survival into discrete
+	nmes <- c(nmes, paste("survival from continuous ", names(discreteTrans@survToDiscrete$coefficients),sep=""))
+	
+	
+	elam <- rep(NA,length(nmes))
+	names(elam) <- nmes
+	slam <- elam
+	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, growObj = growObj, survObj = survObj, 
+			discreteTrans = discreteTrans, integrateType = integrateType, 
+			correction = correction)
+	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
+			correction = correction,preCensus = preCensus,survObj=survObj,growObj=growObj)
+	IPM <- Tmatrix + Fmatrix
+	lambda1 <- Re(eigen(IPM)$value[1])
+	
+	#all the transitions
+	param.test <- 0
+	for (j in 1:nrow(discreteTrans@discreteTrans)) {
+		for (k in 1:nrow(discreteTrans@discreteTrans)) {
+			
+			#print(c(rownames(discreteTrans@discreteTrans)[k],colnames(discreteTrans@discreteTrans)[j]))
+			
+			param.test <- param.test+1
+			
+			if (discreteTrans@discreteTrans[k,j]==0) next()
+			
+			#pick element of matrix
+			adj <- rep(discreteTrans@discreteTrans[k,j]*delta,nrow(discreteTrans@discreteTrans)-1)
+			discreteTrans@discreteTrans[k,j] <- discreteTrans@discreteTrans[k,j] * (1 + delta)
+			#alter the other values in the columns so as continue to sum to oneÉ
+			if (sum(discreteTrans@discreteTrans[k,-j]>0)>0) adj <- adj/sum(discreteTrans@discreteTrans[k,-j]>0)
+			adj[discreteTrans@discreteTrans[-k,j]==0] <- 0
+			discreteTrans@discreteTrans[-k,j] <- discreteTrans@discreteTrans[-k,j]-adj
+			
+			#print(colSums(discreteTrans@discreteTrans))
+			
+			
+			Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+					minSize = minSize, maxSize = maxSize, growObj = growObj, 
+					survObj = survObj, discreteTrans = discreteTrans, 
+					integrateType = integrateType, correction = correction)
+			
+			Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+					minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+					integrateType = integrateType, correction = correction,
+					preCensus = preCensus,survObj=survObj,growObj=growObj)
+			
+			IPM <- Tmatrix + Fmatrix
+			lambda2 <- Re(eigen(IPM)$value[1])
+			discreteTrans@discreteTrans[k,j] <-  discreteTrans@discreteTrans[k,j]/(1 + delta)	
+			discreteTrans@discreteTrans[-k,j] <- discreteTrans@discreteTrans[-k,j]+adj
+			
+			slam[param.test] <- (lambda2 - lambda1)/(discreteTrans@discreteTrans[k,j] * delta)
+			elam[param.test] <- (lambda2 - lambda1)/(lambda1*delta)
+		}}
+	
+	
+	# all survival out of discrete stages
+	count <- param.test
+	for (param.test in 1:length(discreteTrans@discreteSurv)) { 
+		
+		discreteTrans@discreteSurv[param.test] <- discreteTrans@discreteSurv[param.test]* (1 + delta)
+		
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		
+		IPM <- Tmatrix + Fmatrix
+		lambda2 <- Re(eigen(IPM)$value[1])
+		
+		discreteTrans@discreteSurv[param.test] <- discreteTrans@discreteSurv[param.test]/ (1 + delta)
+		slam[param.test+count] <- (lambda2 - lambda1)/(discreteTrans@discreteSurv[param.test] * delta)
+		elam[param.test+count] <- (lambda2 - lambda1)/(lambda1*delta)
+		
+	}
+	
+	
+	# all mean values coming out of discrete stages
+	count <- param.test+count
+	for (param.test in 1:length(discreteTrans@meanToCont)) { 
+		
+		discreteTrans@meanToCont[param.test] <- discreteTrans@meanToCont[param.test]* (1 + delta)
+		
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		
+		IPM <- Tmatrix + Fmatrix
+		lambda2 <- Re(eigen(IPM)$value[1])
+		
+		discreteTrans@meanToCont[param.test] <- discreteTrans@meanToCont[param.test]/ (1 + delta)
+		slam[param.test+count] <- (lambda2 - lambda1)/(discreteTrans@meanToCont[param.test] * delta)
+		elam[param.test+count] <- (lambda2 - lambda1)/(lambda1*delta)
+		
+	}
+	
+	
+	# all sd values coming out of discrete stages
+	count <- param.test+count
+	for (param.test in 1:length(discreteTrans@sdToCont)) { 
+		
+		discreteTrans@sdToCont[param.test] <- discreteTrans@sdToCont[param.test]* (1 + delta)
+		
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		
+		IPM <- Tmatrix + Fmatrix
+		lambda2 <- Re(eigen(IPM)$value[1])
+		
+		discreteTrans@sdToCont[param.test] <- discreteTrans@sdToCont[param.test]/ (1 + delta)
+		slam[param.test+count] <- (lambda2 - lambda1)/(discreteTrans@sdToCont[param.test][param.test] * delta)
+		elam[param.test+count] <- (lambda2 - lambda1)/(lambda1*delta)
+		
+	}
+	
+	# parameters linking size to survival
+	count <- param.test+count
+	for (param.test in 1:length(discreteTrans@survToDiscrete$coefficients)) { 
+		
+		discreteTrans@survToDiscrete$coefficients[param.test] <- discreteTrans@survToDiscrete$coefficients[param.test]* (1 + delta)
+		
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		
+		IPM <- Tmatrix + Fmatrix
+		lambda2 <- Re(eigen(IPM)$value[1])
+		
+		discreteTrans@survToDiscrete$coefficients[param.test] <- discreteTrans@survToDiscrete$coefficients[param.test]/ (1 + delta)
+		slam[param.test+count] <- (lambda2 - lambda1)/(discreteTrans@survToDiscrete$coefficient[param.test] * delta)
+		elam[param.test+count] <- (lambda2 - lambda1)/(lambda1*delta)
+		
+	}
+	
+	print("Did not calculate sensitivities and elasticities for:")
+	print(c(names(slam[is.na(slam)])))
+	print("Values of zero")
+	
+	slam <- slam[!is.na(slam)]
+	elam <- elam[!is.na(slam)]
+	
+	return(list(slam = slam, elam = elam))
+	
+}
+
+
+
+
+sensParamsDiscreteR0 <-  function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
+		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, delta=1e-4) {
+	
+	
+	#all the transitions - note that this is in the order of the columns, 
+	nmes <- paste("",c(outer(colnames(discreteTrans@discreteTrans),colnames(discreteTrans@discreteTrans),paste,sep="-")),sep="")
+	
+	# all survival out of discrete stages
+	nmes <- c(nmes,paste("survival from",colnames(discreteTrans@discreteSurv),sep=""))
+	
+	# all means out of discrete stages
+	nmes <- c(nmes,paste("mean from ",colnames(discreteTrans@meanToCont),sep=""))
+	
+	# all sds out of discrete stages
+	nmes <- c(nmes,paste("sd from ",colnames(discreteTrans@sdToCont),sep=""))
+	
+	#  not sure makes sense to do distribToDiscrete???	
+	
+	#coefficients linking continuous survival into discrete
+	nmes <- c(nmes, paste("survival from continuous ", names(discreteTrans@survToDiscrete$coefficients),sep=""))
+	
+	
+	elam <- rep(NA,length(nmes))
+	names(elam) <- nmes
+	slam <- elam
+	Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, growObj = growObj, survObj = survObj, 
+			discreteTrans = discreteTrans, integrateType = integrateType, 
+			correction = correction)
+	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
+			correction = correction,preCensus = preCensus,survObj=survObj,growObj=growObj)
+	R01 <- R0Calc(Tmatrix,Fmatrix)
+	
+	#all the transitions
+	param.test <- 0
+	for (j in 1:nrow(discreteTrans@discreteTrans)) {
+		for (k in 1:nrow(discreteTrans@discreteTrans)) {
+			
+			#print(c(rownames(discreteTrans@discreteTrans)[k],colnames(discreteTrans@discreteTrans)[j]))
+			
+			param.test <- param.test+1
+			
+			if (discreteTrans@discreteTrans[k,j]==0) next()
+			
+			#pick element of matrix
+			adj <- rep(discreteTrans@discreteTrans[k,j]*delta,nrow(discreteTrans@discreteTrans)-1)
+			discreteTrans@discreteTrans[k,j] <- discreteTrans@discreteTrans[k,j] * (1 + delta)
+			#alter the other values in the columns so as continue to sum to oneÉ
+			if (sum(discreteTrans@discreteTrans[k,-j]>0)>0) adj <- adj/sum(discreteTrans@discreteTrans[k,-j]>0)
+			adj[discreteTrans@discreteTrans[-k,j]==0] <- 0
+			discreteTrans@discreteTrans[-k,j] <- discreteTrans@discreteTrans[-k,j]-adj
+			
+			#print(colSums(discreteTrans@discreteTrans))
+			
+			
+			Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+					minSize = minSize, maxSize = maxSize, growObj = growObj, 
+					survObj = survObj, discreteTrans = discreteTrans, 
+					integrateType = integrateType, correction = correction)
+			
+			Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+					minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+					integrateType = integrateType, correction = correction,
+					preCensus = preCensus,survObj=survObj,growObj=growObj)
+			
+			R02 <- R0Calc(Tmatrix,Fmatrix)
+			discreteTrans@discreteTrans[k,j] <-  discreteTrans@discreteTrans[k,j]/(1 + delta)	
+			discreteTrans@discreteTrans[-k,j] <- discreteTrans@discreteTrans[-k,j]+adj
+			
+			slam[param.test] <- (R02 - R01)/(discreteTrans@discreteTrans[k,j] * delta)
+			elam[param.test] <- (R02 - R01)/(R01*delta)
+		}}
+	
+	
+	# all survival out of discrete stages
+	count <- param.test
+	for (param.test in 1:length(discreteTrans@discreteSurv)) { 
+		
+		discreteTrans@discreteSurv[param.test] <- discreteTrans@discreteSurv[param.test]* (1 + delta)
+		
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		
+		R02 <- R0Calc(Tmatrix,Fmatrix)
+		
+		discreteTrans@discreteSurv[param.test] <- discreteTrans@discreteSurv[param.test]/ (1 + delta)
+		slam[param.test+count] <- (R02 - R01)/(discreteTrans@discreteSurv[param.test] * delta)
+		elam[param.test+count] <- (R02 - R01)/(R01*delta)
+		
+	}
+	
+	
+	# all mean values coming out of discrete stages
+	count <- param.test+count
+	for (param.test in 1:length(discreteTrans@meanToCont)) { 
+		
+		discreteTrans@meanToCont[param.test] <- discreteTrans@meanToCont[param.test]* (1 + delta)
+		
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		
+		R02 <- R0Calc(Tmatrix,Fmatrix)
+		
+		discreteTrans@meanToCont[param.test] <- discreteTrans@meanToCont[param.test]/ (1 + delta)
+		slam[param.test+count] <- (R02 - R01)/(discreteTrans@meanToCont[param.test] * delta)
+		elam[param.test+count] <- (R02 - R01)/(R01*delta)
+		
+	}
+	
+	
+	# all sd values coming out of discrete stages
+	count <- param.test+count
+	for (param.test in 1:length(discreteTrans@sdToCont)) { 
+		
+		discreteTrans@sdToCont[param.test] <- discreteTrans@sdToCont[param.test]* (1 + delta)
+		
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		
+		R02 <- R0Calc(Tmatrix,Fmatrix)
+		
+		discreteTrans@sdToCont[param.test] <- discreteTrans@sdToCont[param.test]/ (1 + delta)
+		slam[param.test+count] <- (R02 - R01)/(discreteTrans@sdToCont[param.test][param.test] * delta)
+		elam[param.test+count] <- (R02 - R01)/(R01*delta)
+		
+	}
+	
+	# parameters linking size to survival
+	count <- param.test+count
+	for (param.test in 1:length(discreteTrans@survToDiscrete$coefficients)) { 
+		
+		discreteTrans@survToDiscrete$coefficients[param.test] <- discreteTrans@survToDiscrete$coefficients[param.test]* (1 + delta)
+		
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				survObj = survObj, discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)
+		
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus,survObj=survObj,growObj=growObj)
+		
+		R02 <- R0Calc(Tmatrix,Fmatrix)
+		
+		discreteTrans@survToDiscrete$coefficients[param.test] <- discreteTrans@survToDiscrete$coefficients[param.test]/ (1 + delta)
+		slam[param.test+count] <- (R02 - R01)/(discreteTrans@survToDiscrete$coefficient[param.test] * delta)
+		elam[param.test+count] <- (R02 - R01)/(R01*delta)
+		
+	}
+	
+	print("Did not calculate sensitivities and elasticities for:")
+	print(c(names(slam[is.na(slam)])))
+	print("Values of zero")
+	
+	slam <- slam[!is.na(slam)]
+	elam <- elam[!is.na(slam)]
+	
+	return(list(slam = slam, elam = elam))
+	
+}
+
+
 
 
 
