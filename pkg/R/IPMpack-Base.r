@@ -637,102 +637,74 @@ setClass("IPMmatrix",
 #
 #Returns -
 #  an IPM object (with or without discrete classes)
-createIPMTmatrix <- function(nEnvClass = 1,
-		nBigMatrix = 50,
-		minSize = -1,
-		maxSize = 50,
-		chosenCov = data.frame(covariate=1),
-		growObj,
-		survObj,
-		discreteTrans =1,
-		integrateType = "midpoint",
-		correction="none") {
-	
-	#warnings for discrete types 
-	if (class(growObj)=="growthObjPois") print("warning: IPMs not appropriate with discrete growth processes")
-	
-	# boundary points b and mesh points y
-	b<-minSize+c(0:nBigMatrix)*(maxSize-minSize)/nBigMatrix;
-	y<-0.5*(b[1:nBigMatrix]+b[2:(nBigMatrix+1)]);
-	
-	# step size for mid point rule, see equations 4 and 5
-	h<-y[2]-y[1]
-	
-	# fill in matrix                          
-	if (integrateType=="midpoint") { 
-		get.matrix <- 
-				t(outer(y,y,growSurv,cov=chosenCov,
-								growthObj=growObj,survObj=survObj))*h  
-		
+createIPMTmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSize = 50, 
+		chosenCov = data.frame(covariate = 1), growObj, survObj, 
+		discreteTrans = 1, integrateType = "midpoint", correction = "none") {
+	if (class(growObj) == "growthObjPois") 
+		print("warning: IPMs not appropriate with discrete growth processes")
+	b <- minSize + c(0:nBigMatrix) * (maxSize - minSize)/nBigMatrix
+	y <- 0.5 * (b[1:nBigMatrix] + b[2:(nBigMatrix + 1)])
+	h <- y[2] - y[1]
+	if (integrateType == "midpoint") {
+		get.matrix <- t(outer(y, y, growSurv, cov = chosenCov, 
+						growthObj = growObj, survObj = survObj)) * h
 	}
-	if (integrateType=="cumul") {
-		get.matrix.cum <- 
-				t(outer(y,b,growthCum,cov=chosenCov,
-								growthObj=growObj))
-		get.matrix <- get.matrix.cum[2:(nBigMatrix+1),]-get.matrix.cum[1:nBigMatrix,]
-		#fix last size
-		get.matrix[nBigMatrix,nBigMatrix] <- get.matrix[nBigMatrix,nBigMatrix]+
-				(1-sum(get.matrix[,nBigMatrix]))
-		#put in survival
-		get.matrix <- t(t(get.matrix)*surv(size=y,cov=chosenCov,survObj=survObj))
+	if (integrateType == "cumul") {
+		get.matrix.cum <- t(outer(y, b, growthCum, cov = chosenCov, 
+						growthObj = growObj))
+		get.matrix <- get.matrix.cum[2:(nBigMatrix + 1), ] - 
+				get.matrix.cum[1:nBigMatrix, ]
+		get.matrix[nBigMatrix, nBigMatrix] <- get.matrix[nBigMatrix, 
+				nBigMatrix] + (1 - sum(get.matrix[, nBigMatrix]))
+		get.matrix <- t(t(get.matrix) * surv(size = y, cov = chosenCov, 
+						survObj = survObj))
 	}
-	
-	#fix any integration issues reducing survival by dividing by col sums and multiply by survival
-	if (correction=="constant") { 
-		nvals <- colSums(get.matrix); 
-		loc0 <- which(nvals==0, arr.ind=TRUE)
-        #if colsum is zero, place appropriate survival on diagonal (assume no change)
-		if (length(loc0)>0) get.matrix[cbind(loc0,loc0)] <-  surv(size=y[loc0],cov=chosenCov,survObj=survObj)
-		nvals[loc0] <- 1
-		get.matrix <- t((t(get.matrix)/nvals)*surv(size=y,cov=chosenCov,survObj=survObj))    
-	}
-	
-	rc <- new("IPMmatrix",
-			nDiscrete =0,
-			nEnvClass = 1, 
-			nBigMatrix = nBigMatrix,
-			nrow = 1*nBigMatrix,
-			ncol =1*nBigMatrix,
-			meshpoints = y,
-			env.index = rep(1:nEnvClass,each=nBigMatrix),
-			names.discrete="")
-	rc[,] <-get.matrix
-	
-	# In case of discrete classes, take the IPM constructed above and add discrete classes defined in discreteTrans
-	if (class(discreteTrans)=="discreteTrans") {
-		
-		nDisc <- ncol(discreteTrans@discreteSurv)
-		survToDiscrete <- predict(discreteTrans@survToDiscrete,data.frame(size=y,size2=(y*y)),type="response")
-		cont.to.cont <- get.matrix*matrix(1-survToDiscrete,nrow=nBigMatrix,ncol=nBigMatrix,byrow=T)
-		disc.to.disc <- discreteTrans@discreteTrans[1:nDisc,1:nDisc]*matrix(c(discreteTrans@discreteSurv),nrow=nDisc,ncol=nDisc,byrow=T)
-		disc.to.cont <- matrix(NA,ncol=nDisc,nrow=nBigMatrix)
-		cont.to.disc <- matrix(NA,nrow=nDisc,ncol=nBigMatrix)
-		
-		for (j in 1:nDisc) {
-			tmp<-dnorm(y,discreteTrans@meanToCont[j],discreteTrans@sdToCont[j])*h
-			if (correction=="constant") tmp<-tmp/sum(tmp) 
-			disc.to.cont[,j] <- discreteTrans@discreteSurv[,j]*discreteTrans@discreteTrans["continuous",j]*tmp
-			cont.to.disc[j,] <- discreteTrans@distribToDiscrete[j,]*surv(y,chosenCov,survObj)*survToDiscrete
+	if (correction == "constant") {
+		nvals <- colSums(get.matrix,na.rm=TRUE)
+		loc0 <- which(nvals == 0 , arr.ind = TRUE)
+		if (length(loc0) > 0) {
+			print("warnings - columns that sum to 0 or that have NAs - assuming survival is along the diagonal; plot your Tmatrix to check it")
+			get.matrix[,loc0] <- 0
+			get.matrix[cbind(loc0, loc0)] <- surv(size = y[loc0], 
+					cov = chosenCov, survObj = survObj)
 		}
-		
-		get.disc.matrix <- rbind(cbind(disc.to.disc,cont.to.disc),
-				cbind(disc.to.cont,cont.to.cont))
-		
-	
-		rc <- new("IPMmatrix",
-				nDiscrete = nDisc,
-				nEnvClass = 1, 
-				nBigMatrix = nBigMatrix,
-				nrow = 1*nBigMatrix+nDisc,
-				ncol =1*nBigMatrix+nDisc,
-				meshpoints = y,
-				env.index = rep(1:nEnvClass,each=nBigMatrix),
-				names.discrete=rownames(discreteTrans@discreteTrans)[1:nDisc])
-		
-		rc[,] <-get.disc.matrix   
+		nvals <- colSums(get.matrix,na.rm=TRUE)
+		get.matrix <- t((t(get.matrix)/nvals) * surv(size = y, 
+						cov = chosenCov, survObj = survObj))
 	}
-	
-	
+	rc <- new("IPMmatrix", nDiscrete = 0, nEnvClass = 1, nBigMatrix = nBigMatrix, 
+			nrow = 1 * nBigMatrix, ncol = 1 * nBigMatrix, meshpoints = y, 
+			env.index = rep(1:nEnvClass, each = nBigMatrix), names.discrete = "")
+	rc[, ] <- get.matrix
+	if (class(discreteTrans) == "discreteTrans") {
+		nDisc <- ncol(discreteTrans@discreteSurv)
+		survToDiscrete <- predict(discreteTrans@survToDiscrete, 
+				data.frame(size = y, size2 = (y * y)), type = "response")
+		cont.to.cont <- get.matrix * matrix(1 - survToDiscrete, 
+				nrow = nBigMatrix, ncol = nBigMatrix, byrow = T)
+		disc.to.disc <- discreteTrans@discreteTrans[1:nDisc, 
+						1:nDisc] * matrix(c(discreteTrans@discreteSurv), 
+						nrow = nDisc, ncol = nDisc, byrow = T)
+		disc.to.cont <- matrix(NA, ncol = nDisc, nrow = nBigMatrix)
+		cont.to.disc <- matrix(NA, nrow = nDisc, ncol = nBigMatrix)
+		for (j in 1:nDisc) {
+			tmp <- dnorm(y, discreteTrans@meanToCont[j], discreteTrans@sdToCont[j]) * 
+					h
+			if (correction == "constant") 
+				tmp <- tmp/sum(tmp)
+			disc.to.cont[, j] <- discreteTrans@discreteSurv[,j] * 
+					discreteTrans@discreteTrans["continuous", j] * tmp
+			cont.to.disc[j, ] <- discreteTrans@distribToDiscrete[j, ] * surv(y, chosenCov, survObj) * survToDiscrete
+		}
+		get.disc.matrix <- rbind(cbind(disc.to.disc, cont.to.disc), 
+				cbind(disc.to.cont, cont.to.cont))
+		rc <- new("IPMmatrix", nDiscrete = nDisc, nEnvClass = 1, 
+				nBigMatrix = nBigMatrix, nrow = 1 * nBigMatrix + 
+						nDisc, ncol = 1 * nBigMatrix + nDisc, meshpoints = y, 
+				env.index = rep(1:nEnvClass, each = nBigMatrix), 
+				names.discrete = rownames(discreteTrans@discreteTrans)[1:nDisc])
+		rc[, ] <- get.disc.matrix
+	}
 	return(rc)
 }
 
@@ -818,15 +790,20 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 		}
 		
 		#fix any integration issues reducing survival by dividing by col sums and multiply by survival
-		if (correction=="constant") { 
-			nvals <- colSums(get.matrix); 
-			loc0 <- which(nvals==0, arr.ind=TRUE)
-			#if colsum is zero, place appropriate survival on diagonal (assume no change)
-			if (length(loc0)>0) get.matrix[cbind(loc0,loc0)] <-  surv(size=y[loc0],cov=data.frame(covariate=as.factor(k)),survObj=survObj)
-			nvals[loc0] <- 1
-			get.matrix <- t((t(get.matrix)/nvals)*surv(size=y,cov=data.frame(covariate=as.factor(k)),survObj=survObj))    
+	if (correction == "constant") {
+		nvals <- colSums(get.matrix,na.rm=TRUE)
+		loc0 <- which(nvals == 0 , arr.ind = TRUE)
+		if (length(loc0) > 0) {
+			print("warnings - columns that sum to 0 or that have NAs - assuming survival is along the diagonal; plot your Tmatrix to check it")
+			get.matrix[,loc0] <- 0
+			get.matrix[cbind(loc0, loc0)] <- surv(size = y[loc0], 
+					cov = chosenCov, survObj = survObj)
 		}
-		
+		nvals <- colSums(get.matrix,na.rm=TRUE)
+		get.matrix <- t((t(get.matrix)/nvals) * surv(size = y, 
+						cov = chosenCov, survObj = survObj))
+	}
+	
 		#names of discrete classes default
 		nmes <- ""
 		
@@ -1310,148 +1287,333 @@ createCompoundCmatrix <- function(nEnvClass = 2,
 #            - do you want to implement the corrections for integration? 
 # Returns - 
 #
-diagnosticsTmatrix <- function(Tmatrix,growObj,survObj, dff, integrateType="midpoint", correction="none", cov=data.frame(covariate=1)) {
+
+diagnosticsTmatrix <- function (Tmatrix, growObj, survObj, dff, 
+		integrateType = "midpoint", 
+		correction = "none", cov = data.frame(covariate = 1), 
+		sizesToPlot=c()) {
+	print("Range of Tmatrix is ")
+	print(range(c(Tmatrix)))
+	if (Tmatrix@meshpoints[1] > 0) 
+		new.min <- Tmatrix@meshpoints[1]/2
+	else new.min <- Tmatrix@meshpoints[1] * 1.5
 	
+	#colours for 1) current; 2) bigger size range; 3) bigger no bins
+	cols <- c("black","tomato","darkblue")
+	ltys <- c(1,1,3)
 	
-	#Print the range of the Tmatrix (should be on 0-1)
-	print("Range of Tmatrix is "); print(range(c(Tmatrix)))
+	#matrix with bigger size range
+	Tmatrix1 <- createIPMTmatrix(nEnvClass = 1, nBigMatrix = length(Tmatrix@meshpoints), 
+			minSize = new.min, maxSize = 1.5 * max(Tmatrix@meshpoints), 
+			chosenCov = cov, growObj = growObj, survObj = survObj, 
+			integrateType = integrateType, correction = correction)
 	
-	#Create a new Tmatrix with 0.5*min and 1.5*max and 1.5*meshpoints
-	if (Tmatrix@meshpoints[1]>0)
-		new.min <- Tmatrix@meshpoints[1]/2 else new.min <- Tmatrix@meshpoints[1]*1.5
-	Tmatrix1 <- createIPMTmatrix(nEnvClass = 1,
-			nBigMatrix = floor(length(Tmatrix@meshpoints)*1.5),
-			minSize = new.min, maxSize = 1.5*max(Tmatrix@meshpoints),
-			chosenCov = cov, growObj=growObj,survObj=survObj,
-			integrateType=integrateType, correction=correction)
-	if (sum(is.na(Tmatrix1))>0){ 
+	if (sum(is.na(Tmatrix1)) > 0) {
 		print("Tmatrix with extended size range returns NAs; changing these to 0, and putting survival value onto diagonal for columns that sum to zero")
 		Tmatrix1[is.na(Tmatrix1)] <- 0
-		bad <- which(colSums(Tmatrix1)==0, arr.ind=TRUE)
-		if (length(bad)>0) Tmatrix1[cbind(bad,bad)] <- surv(size=Tmatrix1@meshpoints[bad],
-					cov=cov,survObj=survObj)
-	}	
-	
-	#Is the size range sufficient? 
-	par(mfrow=c(2,3),bty="l")
-	hist(c(dff$size,dff$sizeNext),xlab="Sizes observed",
-			ylab="Frequency",main="", xlim=range(c(Tmatrix@meshpoints,dff$size,dff$sizeNext),na.rm=TRUE))
-	abline(v=c(Tmatrix@meshpoints[1],Tmatrix@meshpoints[length(Tmatrix@meshpoints)]),lty=2,col=2)
-	legend("topright",legend="fitted range", col="red",lty=2,bty="n")
-	title("Size range")
-	
-	#Are there losses due to survival? 
-	plot(colSums(Tmatrix),surv(Tmatrix@meshpoints,cov,survObj),
-			type="l",xlab="Surviving in Tmatrix", ylab="Should be surviving")
-	points(colSums(Tmatrix1),surv(Tmatrix1@meshpoints,cov,survObj), type="l",col=2)
-	abline(0,1,lty=2)
-	title("Survival")
-	
-	#Do resolution and size range affect results for Life Expect? 
-	LE <- meanLifeExpect(Tmatrix)
-	LE1 <- meanLifeExpect(Tmatrix1)
-	plot(Tmatrix@meshpoints,LE,type="l",
-			xlim=range(Tmatrix1@meshpoints),ylim=range(c(LE,LE1)),xlab="Sizes", ylab="Life expectancy")
-	points(Tmatrix1@meshpoints,LE1,type="l",col=2)
-	legend("topleft", legend=c("current", "extended"),col=1:2,lty=1,bty="n")
-	title("Extend size range + resolution")
-	
-	
-	#Does the resolution adequately reflect normal distribution of growth? (Zuidema issue)
-	loctest <- floor(quantile(1:Tmatrix@nBigMatrix,c(0.25,0.5,0.75)))
-	h <- diff(Tmatrix@meshpoints)[1]
-	testSizes <- seq(min(Tmatrix@meshpoints),max(Tmatrix@meshpoints),length=5000)
-	
-	for (j in 1:3) {
-		#prob survive
-		ps <- surv(Tmatrix@meshpoints[loctest[j]],cov,survObj)
-		
-		#set up for prediction
-		newd <- data.frame(size=Tmatrix@meshpoints[loctest[j]],
-				size2=Tmatrix@meshpoints[loctest[j]]^2,
-				covariate=Tmatrix@env.index[1])
-		if(length(grep("logsize",names(growObj@fit$coefficients))))
-			newd$logsize=log(Tmatrix@meshpoints[loctest[j]])
-		
-		if (length(growObj@fit$model$covariate)>0)
-			if (is.factor(growObj@fit$model$covariate))
-				newd$covariate <- as.factor(newd$covariate)
-		
-		#predict mean
-		if (length(grep("decline",tolower(as.character(class(growObj)))))>0 | 
-				length(grep("trunc",tolower(as.character(class(growObj)))))>0) { 
-			mux <- .predictMuX(growObj,newd)
-		} else  {
-			mux <- predict(growObj@fit,newd,type="response"); #print("yes")	
-		}
-		
-		#add to size if it is a incr object, taking exp if appropirate
-		if (length(grep("incr",tolower(as.character(class(growObj)))))>0 & 
-				length(grep("logincr",tolower(as.character(class(growObj)))))==0) {
-			mux <- Tmatrix@meshpoints[loctest[j]]+mux; #print("no")
-		}
-		
-		#define variance 
-		if (length(grep("decline",tolower(as.character(class(growObj)))))==0 & 
-				length(grep("trunc",tolower(as.character(class(growObj)))))==0) { 
-			sigmax2 <-growObj@sd^2
-				} else { 
-			sigmax2 <- growObj@fit$sigmax2
-			var.exp.coef<-growObj@fit$var.exp.coef
-			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux))
-			#overwrite with simpler for trunc
-			if (length(grep("trunc",tolower(as.character(class(growObj)))))>0) sigmax2 <- growObj@fit$sigmax2
-		} 
-		
-		#range plot
-		range.x <- range(Tmatrix@meshpoints[loctest[j]]+
-						c(-3.5*sqrt(sigmax2),+3.5*sqrt(sigmax2)))
-		
-		#plot template
-		plot(Tmatrix@meshpoints,Tmatrix@.Data[,loctest[j]]/h/ps, type="n",
-				xlim=range.x,
-				xlab="Size next", ylab="pdf")
-		
-		#print(Tmatrix@meshpoints[loctest[j]])
-		#print(range(Tmatrix@meshpoints[loctest[j]]+
-		#						c(-3.5*sqrt(sigmax2),+3.5*sqrt(sigmax2))))
-		
-		if (j==1) title("Numerical resolution and growth")
-		for (k in 1:length(Tmatrix@meshpoints)) {
-			points(c(Tmatrix@meshpoints[k])+c(-h/2,h/2),
-					rep(Tmatrix@.Data[k,loctest[j]],2)/h/ps,type="l")
-			points(rep(Tmatrix@meshpoints[k]+h/2,2),c(0,Tmatrix@.Data[k,loctest[j]]/h/ps),type="l",lty=1)
-			points(rep(Tmatrix@meshpoints[k]-h/2,2),c(0,Tmatrix@.Data[k,loctest[j]]/h/ps),type="l",lty=1)
-		}
-		#plot using mean 
-		if (length(grep("logincr",tolower(as.character(class(growObj)))))==0 & 
-				length(grep("trunc",tolower(as.character(class(growObj)))))==0) {
-			points(testSizes,dnorm(testSizes,mux,sqrt(sigmax2)),type="l",col=2) 
-		} else { 
-			if (length(grep("trunc",tolower(as.character(class(growObj)))))>0) { 
-				#print("here"); print(mux); print(Tmatrix@meshpoints[loctest[j]])
-				require(truncnorm)
-				points(testSizes,dtruncnorm(testSizes,
-								a=Tmatrix@meshpoints[loctest[j]],b=Inf,
-								mean=mux,sd=sqrt(sigmax2)),type="l",col=2)
-				
-			} else {
-				points(testSizes,dlnorm(testSizes-Tmatrix@meshpoints[loctest[j]],mux,
-								sqrt(sigmax2)),type="l",col=2)
-			}}
-		
-		if (j==1) legend("topright", legend=c("Small"),col="white",lty=1,bty="n")
-		if (j==2) legend("topright", legend=c("Medium"),col="white",lty=1,bty="n")
-		if (j==3) legend("topright", legend=c("Large"),col="white",lty=1,bty="n")
-		
+		bad <- which(colSums(Tmatrix1) == 0, arr.ind = TRUE)
+		if (length(bad) > 0) 
+			Tmatrix1[cbind(bad, bad)] <- surv(size = Tmatrix1@meshpoints[bad], 
+					cov = cov, survObj = survObj)
 	}
 	
+	
+	#matrix with bigger number of bins	  
+	Tmatrix2 <- createIPMTmatrix(nEnvClass = 1, nBigMatrix = floor(length(Tmatrix@meshpoints) * 
+							1.5), minSize =Tmatrix@meshpoints[1], maxSize = max(Tmatrix@meshpoints), 
+			chosenCov = cov, growObj = growObj, survObj = survObj, 
+			integrateType = integrateType, correction = correction)
+	
+	if (sum(is.na(Tmatrix2)) > 0) {
+		print("Tmatrix with extended number of bins returns NAs; changing these to 0, and putting survival value onto diagonal for columns that sum to zero")
+		Tmatrix2[is.na(Tmatrix2)] <- 0
+		bad <- which(colSums(Tmatrix2) == 0, arr.ind = TRUE)
+		if (length(bad) > 0) 
+			Tmatrix2[cbind(bad, bad)] <- surv(size = Tmatrix2@meshpoints[bad], 
+					cov = cov, survObj = survObj)
+	}
+	
+	#start plots - put original Tmatrix in black
+	#par(mfrow = c(3, 3), bty = "l")
+	xlims <- range(c(Tmatrix@meshpoints, Tmatrix1@meshpoints,
+					dff$size, dff$sizeNext), na.rm = TRUE)
+	
+	par(mfrow = c(1, 3), bty = "l",pty="s", mar=c(5,4,4,1))
+	a1 <- hist(c(dff$size, dff$sizeNext), xlab = "Sizes observed", axes=FALSE,
+			ylab = "Frequency", main = "", xlim = xlims, col="lightgrey", border="lightgrey",plot=TRUE)
+	axis(1); axis(2)
+	
+	lcs <- c(0.8,0.6,0.4)	
+	lcs.x <- mean(xlims) 
+	
+	text(lcs.x ,max(a1$counts)*lcs[1],"Current",pos=3,col=cols[1])
+	arrows(Tmatrix@meshpoints[1], max(a1$counts)*lcs[1],Tmatrix@meshpoints[length(Tmatrix@meshpoints)], max(a1$counts)*lcs[1],col=cols[1], length=0.1, code=3,lty=ltys[1])
+	text(lcs.x ,max(a1$counts)*lcs[2],"Extended range",pos=3,col=cols[2])
+	arrows(Tmatrix1@meshpoints[1], max(a1$counts)*lcs[2],Tmatrix1@meshpoints[length(Tmatrix1@meshpoints)], max(a1$counts)*lcs[2],col=cols[2], length=0.1, code=3,lty=ltys[1])
+	text(lcs.x ,max(a1$counts)*lcs[3],"Increased bins",pos=3,col=cols[3])
+	arrows(Tmatrix2@meshpoints[1], max(a1$counts)*lcs[3],Tmatrix2@meshpoints[length(Tmatrix2@meshpoints)], max(a1$counts)*lcs[3],col=cols[3], length=0.1, code=3,lty=ltys[1])
+	
+	#legend("topright", legend = "fitted range", col = "black", lty = 2, bty = "n") ##!!! change this
+	title("Size range")
+	
+	#survival sums
+	lims <- range(c(colSums(Tmatrix), surv(Tmatrix@meshpoints, cov, survObj)))
+	plot(colSums(Tmatrix), surv(Tmatrix@meshpoints, cov, survObj), 
+			type = "n", xlab = "Surviving in Tmatrix", ylab = "Should be surviving",col=cols[1],lty=ltys[1], 
+			xlim=lims,ylim=lims)
+	abline(0, 1, lwd=2,col="grey")
+	points(colSums(Tmatrix), surv(Tmatrix@meshpoints, cov, survObj), type = "l", col = cols[1],lty=ltys[1])
+	points(colSums(Tmatrix1), surv(Tmatrix1@meshpoints, cov, survObj), type = "l", col = cols[2],lty=ltys[2])
+	points(colSums(Tmatrix2), surv(Tmatrix2@meshpoints, cov, survObj), type = "l", col = cols[3],lty=ltys[3])
+	title("Survival")
+	#text(lims[2],lims[2],"(0,1)",pos=1)	
+	
+	# mtext("Points should lie along the 0,1 line, shown in grey", side=1,outer=TRUE,line=-1)
+	
+	
+	
+	LE <- meanLifeExpect(Tmatrix)
+	LE1 <- meanLifeExpect(Tmatrix1)
+	LE2 <- meanLifeExpect(Tmatrix2)
+	
+	plot(Tmatrix@meshpoints, LE, type = "l", xlim = range(Tmatrix1@meshpoints), 
+			ylim = range(c(LE, LE1)), xlab = "Sizes", ylab = "Life expectancy",col=cols[1],lty=ltys[1])
+	points(Tmatrix1@meshpoints, LE1, type = "l", col = cols[2],lty=ltys[2])
+	points(Tmatrix2@meshpoints, LE2, type = "l", col = cols[3],lty=ltys[3])
+	legend("topleft", legend = c("Current", "Extended range", "Increased bins"), col = cols, lty = ltys, bty = "n")
+	title("Life expectancy")
+	
+	#mtext("Increasing size range (red) or number of bins (blue) should not alter life expectancy estimates", side=1,outer=TRUE,line=-1)
+	
+	
+	
+	if (length(sizesToPlot)==0) sizesToPlot <- as.numeric(quantile(dff$size,c(0.25, 0.5,0.75),na.rm=TRUE))
+	
+	loctest <- rep(NA,length(sizesToPlot))
+	
+	print("Please hit any key for the next plot")	
+	scan(quiet="TRUE")
+	
+	par(mfrow = c(2, 3), bty = "l",pty="s")
+	
+	
+	for (kk in c(1,3)) {
+		if (kk==1) Tmat <- Tmatrix	
+		if (kk==3) Tmat <- Tmatrix2	
+		
+		h <- diff(Tmat@meshpoints)[1]
+		testSizes <- seq(min(Tmat@meshpoints), max(Tmat@meshpoints), 
+				length = 5000)
+		for (j in 1:3) {
+			
+			loctest[j] <- which(abs(Tmat@meshpoints-sizesToPlot[j])==min(abs(Tmat@meshpoints-sizesToPlot[j])),arr.ind=TRUE)[1]
+			
+			#print(loctest[j])
+			
+			ps <- surv(Tmat@meshpoints[loctest[j]], cov, survObj)
+			newd <- data.frame(size = Tmat@meshpoints[loctest[j]], 
+					size2 = Tmat@meshpoints[loctest[j]]^2, covariate = Tmat@env.index[1])
+			if (length(grep("logsize", names(growObj@fit$coefficients)))) 
+				newd$logsize = log(Tmat@meshpoints[loctest[j]])
+			if (length(growObj@fit$model$covariate) > 0) 
+				if (is.factor(growObj@fit$model$covariate)) 
+					newd$covariate <- as.factor(newd$covariate)
+			if (length(grep("decline", tolower(as.character(class(growObj))))) > 0 | 
+					length(grep("trunc", tolower(as.character(class(growObj))))) > 0) {
+				mux <- .predictMuX(growObj, newd)
+			} else {
+				mux <- predict(growObj@fit, newd, type = "response")
+			}
+			if (length(grep("incr", tolower(as.character(class(growObj))))) >  0 & 
+					length(grep("logincr", tolower(as.character(class(growObj))))) == 0) {
+				mux <- Tmat@meshpoints[loctest[j]] + mux
+			}
+			if (length(grep("decline", tolower(as.character(class(growObj))))) ==  0 &
+					length(grep("trunc", tolower(as.character(class(growObj))))) == 0) {
+				sigmax2 <- growObj@sd^2
+			} else {
+				sigmax2 <- growObj@fit$sigmax2
+				var.exp.coef <- growObj@fit$var.exp.coef
+				sigmax2 <- sigmax2 * exp(2 * (var.exp.coef * mux))
+				if (length(grep("trunc", tolower(as.character(class(growObj))))) > 0) 
+					sigmax2 <- growObj@fit$sigmax2
+			}
+			
+			#  range.x <- range(Tmat@meshpoints[loctest[j]] + c(-3.5 * sqrt(sigmax2), +3.5 * sqrt(sigmax2)))
+			range.x <- range(mux + c(-3.5 * sqrt(sigmax2), +3.5 * sqrt(sigmax2)))
+			
+			plot(Tmat@meshpoints, Tmat@.Data[, loctest[j]]/h/ps, 
+					type = "n", xlim = range.x, xlab = "Size next", ylab = "Kernel")
+			
+			#if (j == 1 & kk==1) title("Numerical resolution and growth")
+			if (j == 2 & kk==1) mtext("Numerical resolution and growth",3,line=4,font=2)
+			if (j ==1 & kk==1) title("Current Tmatrix")
+			if (j ==1 & kk==3) title("Increased bins")
+			
+			
+			
+			for (k in 1:length(Tmat@meshpoints)) {
+				points(c(Tmat@meshpoints[k]) + c(-h/2, h/2), rep(Tmat@.Data[k,loctest[j]], 2)/h/ps, type = "l",col=cols[kk])
+				points(rep(Tmat@meshpoints[k] + h/2, 2), c(0, Tmat@.Data[k, loctest[j]]/h/ps), type = "l", 
+						lty = 1,col=cols[kk])
+				points(rep(Tmat@meshpoints[k] - h/2, 2), c(0,Tmat@.Data[k, loctest[j]]/h/ps), type = "l", 
+						lty = 1,col=cols[kk])
+			}
+			if (length(grep("logincr", tolower(as.character(class(growObj))))) == 0 &
+					length(grep("trunc", tolower(as.character(class(growObj))))) == 0) {
+				points(testSizes, dnorm(testSizes, mux, sqrt(sigmax2)), type = "l", col = 2)
+			} else {
+				if (length(grep("trunc", tolower(as.character(class(growObj))))) > 0) {
+					require(truncnorm)
+					points(testSizes, dtruncnorm(testSizes, a = Tmat@meshpoints[loctest[j]], 
+									b = Inf, mean = mux, sd = sqrt(sigmax2)), type = "l",col = 2)
+				} else {
+					points(testSizes, dlnorm(testSizes - Tmat@meshpoints[loctest[j]], 
+									mux, sqrt(sigmax2)), type = "l", col = 2)
+				}
+			}
+			
+			legend("topright",legend=paste("size=",round(Tmat@meshpoints[loctest[j]],2)), col = "white", 
+					lty = 1, bty = "n")
+			
+		}
+	}
 	
 }
 
 
 
 
+
+
+##### Functions to identify sensible numbers of bins - help file on desktop  with data-frame setup
+#####
+
+
+convergeLambda<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
+		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, tol=1e-4,binIncrease=5){
+	
+	lambda.new<-1000
+	delta<-1000
+	while(delta>tol) {
+		lambda.old <-lambda.new
+		nBigMatrix <- nBigMatrix + binIncrease
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+				maxSize = maxSize, growObj = growObj, survObj = survObj, 
+				discreteTrans = discreteTrans, integrateType = integrateType, 
+				correction = correction)
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+				maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
+				correction = correction, preCensus = preCensus,survObj=survObj,growObj=growObj)
+		
+		IPM <- Tmatrix + Fmatrix
+		lambda.new <- Re(eigen(IPM)$value[1])
+		
+		delta<-abs(lambda.new-lambda.old)
+		print(delta)
+	}
+	
+	print(c("Final lambda from iteration:",lambda.new))
+	print(c("Number of bins:",nBigMatrix))
+	
+	output<-list(binIncrease=binIncrease,IPM=IPM,lambda=lambda.new)
+	
+	return(output)
+}
+
+
+
+convergeR0<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
+		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, tol=1e-4,binIncrease=5){
+	
+	R0.new<-1000
+	delta<-1000
+	while(delta>tol) {
+		R0.old <-R0.new
+		nBigMatrix <- nBigMatrix + binIncrease
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+				maxSize = maxSize, growObj = growObj, survObj = survObj, 
+				discreteTrans = discreteTrans, integrateType = integrateType, 
+				correction = correction)
+		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+				maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
+				correction = correction, preCensus = preCensus,survObj=survObj,growObj=growObj)
+		
+		R0.new <- R0Calc(Tmatrix,Fmatrix)
+		
+		delta<-abs(R0.new-R0.old)
+		print(delta)
+	}
+	
+	IPM <- Tmatrix + Fmatrix
+	
+	print(c("Final R0 from iteration:",R0.new))
+	print(c("Number of bins:",nBigMatrix))
+	
+	output<-list(binIncrease=binIncrease,IPM=IPM,R0=R0.new)
+	
+	return(output)
+}
+
+
+
+
+convergeLifeExpectancyFirstBin<-function(growObj, survObj,nBigMatrix, minSize, maxSize, 
+		discreteTrans = 1, integrateType = "midpoint", correction = "none", 
+		tol=1e-1,binIncrease=5){
+	
+	LE.new<-1000
+	delta<-1000
+	while(delta>tol) {
+		LE.old <- LE.new
+		nBigMatrix <- nBigMatrix + binIncrease
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+				maxSize = maxSize, growObj = growObj, survObj = survObj, 
+				discreteTrans = discreteTrans, integrateType = integrateType, 
+				correction = correction)
+		
+		LE.new <- meanLifeExpect(Tmatrix)    
+		
+		delta <- abs(LE.new[1]-LE.old[1])
+		print(delta)
+	}
+	
+	print(c("Final life expectancy of first bin from iteration:",LE.new[1]))
+	print(c("Number of bins:",nBigMatrix))
+	
+	output<-list(binIncrease=binIncrease,Tmatrix=Tmatrix,LE=LE.new)
+	
+	return(output)
+}
+
+
+convergeLifeExpectancyLastBin<-function(growObj, survObj,nBigMatrix, minSize, maxSize, 
+		discreteTrans = 1, integrateType = "midpoint", correction = "none", 
+		tol=1e-1,binIncrease=5){
+	
+	LE.new<-1000
+	delta<-1000
+	while(delta>tol) {
+		LE.old <- LE.new
+		nBigMatrix <- nBigMatrix + binIncrease
+		Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+				maxSize = maxSize, growObj = growObj, survObj = survObj, 
+				discreteTrans = discreteTrans, integrateType = integrateType, 
+				correction = correction)
+		
+		LE.new <- meanLifeExpect(Tmatrix)    
+		
+		delta <- abs(LE.new[length(LE.new)]-LE.old[length(LE.old)])
+		print(delta)
+	}
+	
+	print(c("Final life expectancy of last bin from iteration:",LE.new[length(LE.old)]))
+	print(c("Number of bins:",nBigMatrix))
+	
+	output<-list(binIncrease=binIncrease,Tmatrix=Tmatrix,LE=LE.new)
+	
+	return(output)
+}
 
 
 
