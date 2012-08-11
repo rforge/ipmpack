@@ -7,7 +7,7 @@ Calculates growth objects reflecting distribution of parameters from lm or glm.
 }
 \description{
 Function generates pdfs corresponding to estimated parameters and the
-variance covarianace matrix that defines them using a multivariate
+variance covariance matrix that defines them using a multivariate
 normal distribution and then defines the corresponding growth or
 survival objects.}
 \usage{
