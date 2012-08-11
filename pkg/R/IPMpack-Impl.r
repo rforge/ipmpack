@@ -378,7 +378,7 @@ makeFecObj <- function(dataf,
 		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
 		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
 		
-		if (length(intersect(all.vars(Formula[[i]]]),colnames(dataf)))<length(all.vars(Formula[[i]]]))) print("warning: not all variables in the formula are present in dataf; model cannot be fit")
+		if (length(intersect(all.vars(Formula[[i]]),colnames(dataf)))<length(all.vars(Formula[[i]]))) print("warning: not all variables in the formula are present in dataf; model cannot be fit")
 		
 		
 		f1@fitFec[[i]] <- glm(Formula[[i]],family=Family[i],data=dataf)
