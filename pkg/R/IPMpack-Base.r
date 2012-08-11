@@ -178,10 +178,10 @@ setClass("discreteTrans",
 setMethod("surv", 
 		c("numeric","data.frame","survObj"),
 		function(size,cov,survObj){
-
+			
 			newd <- data.frame(cbind(cov,size=size),
-						stringsAsFactors = FALSE)
-		
+					stringsAsFactors = FALSE)
+			
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
@@ -312,7 +312,7 @@ setMethod("growth",
 			
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
-						
+			
 			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
 			sigmax <- growthObj@fit$sigma
 			u <- dtruncnorm(sizeNext,a=size,b=Inf,mean=size+mux,sd=sigmax)  
@@ -325,7 +325,7 @@ setMethod("growth",
 setMethod("growth", 
 		c("numeric","numeric","data.frame","growthObjLogIncr"),
 		function(size,sizeNext,cov,growthObj){
-		
+			
 			newd <- data.frame(cbind(cov,size=size),
 					stringsAsFactors = FALSE)
 			newd$size2 <- size^2
@@ -357,7 +357,7 @@ setMethod("growth",
 			sigmax2 <- growthObj@fit$sigmax2
 			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
-		
+			
 			u <- dlnorm(sizeNext-size,mux,sqrt(sigmax2),log=FALSE)  
 			return(u);
 		})
@@ -366,7 +366,7 @@ setMethod("growth",
 setMethod("growthCum", 
 		c("numeric","numeric","data.frame","growthObjLogIncrDeclineVar"),
 		function(size,sizeNext,cov,growthObj){
-	
+			
 			newd <- data.frame(cbind(cov,size=size),
 					stringsAsFactors = FALSE)
 			newd$size2 <- size^2
@@ -398,7 +398,7 @@ setMethod("growthCum",
 setMethod("growthCum", 
 		c("numeric","numeric","data.frame","growthObj"),
 		function(size,sizeNext,cov,growthObj){
-	
+			
 			newd <- data.frame(cbind(cov,size=size),
 					stringsAsFactors = FALSE)
 			newd$size2 <- size^2
@@ -416,7 +416,7 @@ setMethod("growthCum",
 setMethod("growthCum", 
 		c("numeric","numeric","data.frame","growthObjIncr"),
 		function(size,sizeNext,cov,growthObj){
-	
+			
 			newd <- data.frame(cbind(cov,size=size),
 					stringsAsFactors = FALSE)
 			newd$size2 <- size^2
@@ -437,7 +437,7 @@ setMethod("growthCum",
 		c("numeric","numeric","data.frame","growthObjTruncIncr"),
 		function(size,sizeNext,cov,growthObj){
 			require(truncnorm)
-		
+			
 			newd <- data.frame(cbind(cov,size=size),
 					stringsAsFactors = FALSE)
 			newd$size2 <- size^2
@@ -459,7 +459,7 @@ setMethod("growthCum",
 setMethod("growthCum", 
 		c("numeric","numeric","data.frame","growthObjLogIncr"),
 		function(size,sizeNext,cov,growthObj){
-		
+			
 			newd <- data.frame(cbind(cov,size=size),
 					stringsAsFactors = FALSE)
 			newd$size2 <- size^2
@@ -479,7 +479,7 @@ setMethod("growthCum",
 setMethod("growthCum", 
 		c("numeric","numeric","data.frame","growthObjDeclineVar"),
 		function(size,sizeNext,cov,growthObj){
-		
+			
 			newd <- data.frame(cbind(cov,size=size),
 					stringsAsFactors = FALSE)
 			newd$size2 <- size^2
@@ -543,7 +543,7 @@ setMethod("growth",
 
 #same but with declining variance in growth on incrment
 setMethod("growth", 
-	c("numeric","numeric","data.frame","growthObjIncrDeclineVar"),
+		c("numeric","numeric","data.frame","growthObjIncrDeclineVar"),
 		function(size, sizeNext, cov, growthObj){
 			newd <- data.frame(cbind(cov,size=size),
 					stringsAsFactors = FALSE)
@@ -552,7 +552,7 @@ setMethod("growth",
 			
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients))) > 0) newd$logsize = log(size)
-							
+			
 			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
 			sigmax2 <- growthObj@fit$sigmax2
 			var.exp.coef<-growthObj@fit$var.exp.coef
@@ -790,20 +790,20 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 		}
 		
 		#fix any integration issues reducing survival by dividing by col sums and multiply by survival
-	if (correction == "constant") {
-		nvals <- colSums(get.matrix,na.rm=TRUE)
-		loc0 <- which(nvals == 0 , arr.ind = TRUE)
-		if (length(loc0) > 0) {
-			print("warnings - columns that sum to 0 or that have NAs - assuming survival is along the diagonal; plot your Tmatrix to check it")
-			get.matrix[,loc0] <- 0
-			get.matrix[cbind(loc0, loc0)] <- surv(size = y[loc0], 
-					cov = chosenCov, survObj = survObj)
+		if (correction == "constant") {
+			nvals <- colSums(get.matrix,na.rm=TRUE)
+			loc0 <- which(nvals == 0 , arr.ind = TRUE)
+			if (length(loc0) > 0) {
+				print("warnings - columns that sum to 0 or that have NAs - assuming survival is along the diagonal; plot your Tmatrix to check it")
+				get.matrix[,loc0] <- 0
+				get.matrix[cbind(loc0, loc0)] <- surv(size = y[loc0], 
+						cov = chosenCov, survObj = survObj)
+			}
+			nvals <- colSums(get.matrix,na.rm=TRUE)
+			get.matrix <- t((t(get.matrix)/nvals) * surv(size = y, 
+							cov = chosenCov, survObj = survObj))
 		}
-		nvals <- colSums(get.matrix,na.rm=TRUE)
-		get.matrix <- t((t(get.matrix)/nvals) * surv(size = y, 
-						cov = chosenCov, survObj = survObj))
-	}
-	
+		
 		#names of discrete classes default
 		nmes <- ""
 		
@@ -896,7 +896,7 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 			stringsAsFactors = FALSE)	
 	newd$size2 <- x^2
 	newd$size3 <- x^3
-		
+	
 	if (length(grep("logsize",
 					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
 	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
@@ -929,7 +929,7 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
 	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
 			dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)*
-   			surv(size=x, cov=cov, survObj=survObj)
+			surv(size=x, cov=cov, survObj=survObj)
 	return(u)
 }
 
@@ -987,7 +987,7 @@ createIPMFmatrix <- function(fecObj,
 	
 	tmp <- matrix(0,ncol=length(y),nrow=length(y))
 	
-    # 1. pre-census
+	# 1. pre-census
 	if (preCensus) { 
 		#print("here")
 		if (integrateType=="midpoint"&fecObj@offspringSplitter$continuous>0) { 
@@ -1008,7 +1008,7 @@ createIPMFmatrix <- function(fecObj,
 			tmp <- t(t(tmp)*correction)
 		}
 		
-	# 2. post-census
+		# 2. post-census
 	} else {
 		#print ("Warning: in the current version of IPMpack, createIPMFmatrix still ignores the growObj you provided for your post-breeding F matrix. This will be included in a later version. Survival until breeding is already included in this version.")
 		if (integrateType=="midpoint"&fecObj@offspringSplitter$continuous>0) { 
@@ -1215,13 +1215,13 @@ createIPMCmatrix <- function(clonalObj,
 		correction="none") {
 	
 	rc <- createIPMFmatrix(fecObj=clonalObj,
-						  nEnvClass=nEnvClass,
-						  nBigMatrix=nBigMatrix,
-						  minSize=minSize,
-						  maxSize=maxSize,
-						  chosenCov=chosenCov,
-						  integrateType=integrateType,
-						  correction=correction)
+			nEnvClass=nEnvClass,
+			nBigMatrix=nBigMatrix,
+			minSize=minSize,
+			maxSize=maxSize,
+			chosenCov=chosenCov,
+			integrateType=integrateType,
+			correction=correction)
 	
 	return(rc)
 }
@@ -1257,14 +1257,14 @@ createCompoundCmatrix <- function(nEnvClass = 2,
 		integrateType="midpoint",
 		correction="none") {
 	
-		rc <- createCompoundFmatrix(nEnvClass = nEnvClass,
-				nBigMatrix = nBigMatrix,
-				minSize = minSize,
-				maxSize = maxSize,
-				envMatrix = envMatrix,
-				fecObj = clonalObj,
-				integrateType=integrateType,
-				correction=correction)
+	rc <- createCompoundFmatrix(nEnvClass = nEnvClass,
+			nBigMatrix = nBigMatrix,
+			minSize = minSize,
+			maxSize = maxSize,
+			envMatrix = envMatrix,
+			fecObj = clonalObj,
+			integrateType=integrateType,
+			correction=correction)
 	
 	return(rc) 
 }
@@ -1626,13 +1626,13 @@ convergeLifeExpectancyLastBin<-function(growObj, survObj,nBigMatrix, minSize, ma
 #parameters - an IPM
 # returns - the life expectancy for every starting size. 
 meanLifeExpect <- function(IPMmatrix){
-			require(MASS)
-			nBigMatrix <- length(IPMmatrix@.Data[1,]) #this nBigMatrix actually contains discrete, env, etc
-			#tmp <-  ginv(diag(IPMmatrix@nEnvClass*nBigMatrix)-IPMmatrix)
-			tmp <-  ginv(diag(nBigMatrix)-IPMmatrix)
-			lifeExpect <- colSums(tmp)
-			return(lifeExpect)
-		}
+	require(MASS)
+	nBigMatrix <- length(IPMmatrix@.Data[1,]) #this nBigMatrix actually contains discrete, env, etc
+	#tmp <-  ginv(diag(IPMmatrix@nEnvClass*nBigMatrix)-IPMmatrix)
+	tmp <-  ginv(diag(nBigMatrix)-IPMmatrix)
+	lifeExpect <- colSums(tmp)
+	return(lifeExpect)
+}
 
 
 
@@ -1641,20 +1641,20 @@ meanLifeExpect <- function(IPMmatrix){
 # returns - the variance in life expectancy for every starting size. 
 
 varLifeExpect <- function(IPMmatrix){
-			require(MASS)
-			nBigMatrix <- length(IPMmatrix@.Data[1,])
-			#tmp <-  ginv(diag(IPMmatrix@nEnvClass*nBigMatrix)-IPMmatrix)
-			tmp <-  ginv(diag(nBigMatrix)-IPMmatrix)
-			#varLifeExpect <- (2*diag(tmp)-diag(length(IPMmatrix[,1])))%*%tmp-(tmp*tmp)
-			#varLifeExpect <- colSums(varLifeExpect)
-			varLifeExpect <- colSums(2*(tmp%*%tmp)-tmp)-colSums(tmp)*colSums(tmp)                  
-			return(varLifeExpect)
-		}
+	require(MASS)
+	nBigMatrix <- length(IPMmatrix@.Data[1,])
+	#tmp <-  ginv(diag(IPMmatrix@nEnvClass*nBigMatrix)-IPMmatrix)
+	tmp <-  ginv(diag(nBigMatrix)-IPMmatrix)
+	#varLifeExpect <- (2*diag(tmp)-diag(length(IPMmatrix[,1])))%*%tmp-(tmp*tmp)
+	#varLifeExpect <- colSums(varLifeExpect)
+	varLifeExpect <- colSums(2*(tmp%*%tmp)-tmp)-colSums(tmp)*colSums(tmp)                  
+	return(varLifeExpect)
+}
 
 
 
-		
-		
+
+
 #Generic for survivorship
 #parameters - IPMmatrix - an IPM
 #           - size1 - a size at age 1
@@ -1662,34 +1662,34 @@ varLifeExpect <- function(IPMmatrix){
 # returns - a list including the survivorship up to the max age,
 #                      this broken down by stage,
 #                       and mortality over age 
-		
-		
+
+
 survivorship <- function(IPMmatrix, loc, maxAge=300){
-			nBigMatrix <- length(IPMmatrix@.Data[1,])
-			#n <- IPMmatrix@nEnvClass*nBigMatrix
-			n <- nBigMatrix
-			A1 <- tmp <-  IPMmatrix
-			stage.agesurv <- matrix(NA,n,maxAge)
-			surv.curv <- rep (NA,maxAge)
-			
-			#identify the starting size you want to track - removed - specify bin directly
-			#loc <- which(abs(size1-IPMmatrix@meshpoints)==min(abs(size1-IPMmatrix@meshpoints)),arr.ind=T)[1]
-			popvec <- matrix(0,n,1)
-			popvec[floor(loc),1] <- 1
-			
-			for (a in 1:maxAge) {
-				surv.curv[a]<-sum(A1[,loc]); 
-				stage.agesurv[c(1:n),a]<-A1[,]%*%popvec
-				A1<-A1%*%tmp
-			}
-			
-			mortality <- -log(surv.curv[2:length(surv.curv)]/surv.curv[1:(length(surv.curv)-1)])
-			
-			return(list(surv.curv=surv.curv,stage.agesurv=stage.agesurv, mortality = mortality))
-		}
-		
-		
-		
+	nBigMatrix <- length(IPMmatrix@.Data[1,])
+	#n <- IPMmatrix@nEnvClass*nBigMatrix
+	n <- nBigMatrix
+	A1 <- tmp <-  IPMmatrix
+	stage.agesurv <- matrix(NA,n,maxAge)
+	surv.curv <- rep (NA,maxAge)
+	
+	#identify the starting size you want to track - removed - specify bin directly
+	#loc <- which(abs(size1-IPMmatrix@meshpoints)==min(abs(size1-IPMmatrix@meshpoints)),arr.ind=T)[1]
+	popvec <- matrix(0,n,1)
+	popvec[floor(loc),1] <- 1
+	
+	for (a in 1:maxAge) {
+		surv.curv[a]<-sum(A1[,loc]); 
+		stage.agesurv[c(1:n),a]<-A1[,]%*%popvec
+		A1<-A1%*%tmp
+	}
+	
+	mortality <- -log(surv.curv[2:length(surv.curv)]/surv.curv[1:(length(surv.curv)-1)])
+	
+	return(list(surv.curv=surv.curv,stage.agesurv=stage.agesurv, mortality = mortality))
+}
+
+
+
 
 
 #Generic for first passage time 
@@ -1698,35 +1698,35 @@ survivorship <- function(IPMmatrix, loc, maxAge=300){
 # returns - the passage time to this size from each of the sizes in the IPM 
 
 passageTime <- function(chosenSize,IPMmatrix){
-			require(MASS)
-			
-			loc <- which(abs(chosenSize-IPMmatrix@meshpoints) ==
-							min(abs(chosenSize - IPMmatrix@meshpoints)),arr.ind=TRUE)[1]
-			matrix.dim <- length(IPMmatrix[1,])
-			
-			Tprime <- IPMmatrix
-			Tprime[,loc] <- 0
-			
-			Mprime <- 1-colSums(IPMmatrix)
-			Mprime[loc]<-0
-			Mprime <- rbind(Mprime,rep(0,matrix.dim))
-			Mprime[2,loc] <- 1
-			
-			Bprime <- Mprime%*% ginv(diag(matrix.dim)-Tprime)
-			#print(round(Bprime[2,],2))
-			#print(sum(Bprime[2,]<1e-6))
-			Bprime[2,][Bprime[2,]==0] <- 1
-			
-			diagBprime <- diag(Bprime[2,])
-			#plot(IPMmatrix@meshpoints,diag(diagBprime),type="l",log="y")
-			#abline(v=chosenSize)
-			Tc <- diagBprime%*%Tprime%*%ginv(diagBprime)
-			eta1 <- ginv(diag(matrix.dim)-Tc)             
-			
-			time.to.absorb <- colSums(eta1)
-			time.to.absorb[loc:length(time.to.absorb)] <- 0
-			return(time.to.absorb)
-		}
+	require(MASS)
+	
+	loc <- which(abs(chosenSize-IPMmatrix@meshpoints) ==
+					min(abs(chosenSize - IPMmatrix@meshpoints)),arr.ind=TRUE)[1]
+	matrix.dim <- length(IPMmatrix[1,])
+	
+	Tprime <- IPMmatrix
+	Tprime[,loc] <- 0
+	
+	Mprime <- 1-colSums(IPMmatrix)
+	Mprime[loc]<-0
+	Mprime <- rbind(Mprime,rep(0,matrix.dim))
+	Mprime[2,loc] <- 1
+	
+	Bprime <- Mprime%*% ginv(diag(matrix.dim)-Tprime)
+	#print(round(Bprime[2,],2))
+	#print(sum(Bprime[2,]<1e-6))
+	Bprime[2,][Bprime[2,]==0] <- 1
+	
+	diagBprime <- diag(Bprime[2,])
+	#plot(IPMmatrix@meshpoints,diag(diagBprime),type="l",log="y")
+	#abline(v=chosenSize)
+	Tc <- diagBprime%*%Tprime%*%ginv(diagBprime)
+	eta1 <- ginv(diag(matrix.dim)-Tc)             
+	
+	time.to.absorb <- colSums(eta1)
+	time.to.absorb[loc:length(time.to.absorb)] <- 0
+	return(time.to.absorb)
+}
 
 
 
@@ -1736,28 +1736,28 @@ passageTime <- function(chosenSize,IPMmatrix){
 #           - a size for which passage time is required            
 # returns - the variance passage time to this size from each of the sizes in the IPM 
 varPassageTime <- function(chosenSize,IPMmatrix){
-			require(MASS)
-			
-			loc <- which(abs(chosenSize-IPMmatrix@meshpoints)==min(abs(chosenSize-IPMmatrix@meshpoints)),arr.ind=TRUE)
-			matrix.dim <- length(IPMmatrix[1,])
-			
-			Tprime <- IPMmatrix
-			Tprime[,loc] <- 0
-			
-			Mprime <- 1-colSums(IPMmatrix)
-			Mprime[loc]<-0
-			Mprime <- rbind(Mprime,rep(0,matrix.dim))
-			Mprime[2,loc] <- 1
-			
-			Bprime <- Mprime%*% solve(diag(matrix.dim)-Tprime)
-			
-			Tc <- diag(Bprime[2,])%*%Tprime%*%ginv(diag(Bprime[2,]))
-			eta1 <- ginv(diag(matrix.dim)-Tc)             
-			
-			vartimeAbsorb <- colSums(2*(eta1%*%eta1)-eta1)-colSums(eta1)*colSums(eta1)                  
-			
-			return(vartimeAbsorb)
-		}
+	require(MASS)
+	
+	loc <- which(abs(chosenSize-IPMmatrix@meshpoints)==min(abs(chosenSize-IPMmatrix@meshpoints)),arr.ind=TRUE)
+	matrix.dim <- length(IPMmatrix[1,])
+	
+	Tprime <- IPMmatrix
+	Tprime[,loc] <- 0
+	
+	Mprime <- 1-colSums(IPMmatrix)
+	Mprime[loc]<-0
+	Mprime <- rbind(Mprime,rep(0,matrix.dim))
+	Mprime[2,loc] <- 1
+	
+	Bprime <- Mprime%*% solve(diag(matrix.dim)-Tprime)
+	
+	Tc <- diag(Bprime[2,])%*%Tprime%*%ginv(diag(Bprime[2,]))
+	eta1 <- ginv(diag(matrix.dim)-Tc)             
+	
+	vartimeAbsorb <- colSums(2*(eta1%*%eta1)-eta1)-colSums(eta1)*colSums(eta1)                  
+	
+	return(vartimeAbsorb)
+}
 
 
 
@@ -1771,104 +1771,104 @@ varPassageTime <- function(chosenSize,IPMmatrix){
 # CURRENTLY NOT WORKING 
 #
 .stochLifeExpect <- function(IPMmatrix,envMatrix){
-			require(MASS)
-			
-			matrix.dim <- length(IPMmatrix[1,])
-			nstages <- IPMmatrix@nBigMatrix
-			nstates <- IPMmatrix@nEnvClass
-			
-			pis <- Re(eigen(envMatrix)$vector[,1])
-			pis <- pis/(sum(pis))
-			
-			#print(pis)
-			
-			#ckron <- kronecker(envMatrix,diag(nstages))  #doesnt work??
-			m <- IPMmatrix  #%*%ckron  #eq 29 in carols paper
-			
-			Itilda <- diag(matrix.dim)
-			
-			#not used in this one
-			eatildas <- array(dim=c(nstates*nstages,nstages,nstates))
-			eatildas[,,] <-0
-			for (i in 1:nstates){
-				eatildas[,,i] <- Itilda[,((i-1)*nstages+1):(nstages*i)]
-			}
-			
-			qatildas <- array(dim=c(nstates*nstages,nstages,nstates));
-			qatildas[,,]<-0
-			for (i in 1:nstates) {
-				indext <-((i-1)*nstages+1):(nstages*i) 
-				qatildas[indext,,i] <- IPMmatrix[indext,indext]/envMatrix[i,i]
-				#print( IPMmatrix[cbind(indext,indext)]/envMatrix[i,i] )
-			}                            #array of qatildas, eqn 26
-			#need to remove env effect since mega-matrix pre-built 
-			
-			#print(qatildas)
-			
-			etilda <- array(dim=c(nstates*nstages,nstages));
-			etilda[,]<-0
-			for (i in 1:nstates) { 
-				etilda[((i-1)*nstages+1):(nstages*i),] <- diag(nstages);
-			}                            #etilda, eqn 27
-			
-			I <- diag(nstages);                 #identity matrix of dimension K x K
-			
-			Ns.markov <- array(dim=c(nstages,nstages,nstates)); #set up for array of Ns
-			Ns.markov[,,]<-0
-			for (i in 1:nstates){ 
-				Ns.markov[,,i] <- I + t(etilda)%*%(solve(Itilda-m))%*%qatildas[,,i];
-				#eqn 28, conditional on initial state 1
-			}
-			
-			#print(Ns.markov)
-			
-			#average over all initial states %%%%%
-			Nbar.markov <- rep(0,nstages);
-			for (i in 1:nstates) { 
-				Nbar.markov <-  Nbar.markov + pis[i] * Ns.markov[,,i]; 
-			}                         #eqn 29, weight each fundamntal matrix by expctd frequency 
-			
-			
-			
-			#lifeexp, column sums
-			lifeexp.markov<-matrix(0,nstates,nstages); #set up array
-			for (i in 1:nstates) { 
-				lifeexp.markov[i,] <- apply(Ns.markov[,,i], 2, sum);
-			}
-			
-			return(lifeexp.markov)
-		}
+	require(MASS)
+	
+	matrix.dim <- length(IPMmatrix[1,])
+	nstages <- IPMmatrix@nBigMatrix
+	nstates <- IPMmatrix@nEnvClass
+	
+	pis <- Re(eigen(envMatrix)$vector[,1])
+	pis <- pis/(sum(pis))
+	
+	#print(pis)
+	
+	#ckron <- kronecker(envMatrix,diag(nstages))  #doesnt work??
+	m <- IPMmatrix  #%*%ckron  #eq 29 in carols paper
+	
+	Itilda <- diag(matrix.dim)
+	
+	#not used in this one
+	eatildas <- array(dim=c(nstates*nstages,nstages,nstates))
+	eatildas[,,] <-0
+	for (i in 1:nstates){
+		eatildas[,,i] <- Itilda[,((i-1)*nstages+1):(nstages*i)]
+	}
+	
+	qatildas <- array(dim=c(nstates*nstages,nstages,nstates));
+	qatildas[,,]<-0
+	for (i in 1:nstates) {
+		indext <-((i-1)*nstages+1):(nstages*i) 
+		qatildas[indext,,i] <- IPMmatrix[indext,indext]/envMatrix[i,i]
+		#print( IPMmatrix[cbind(indext,indext)]/envMatrix[i,i] )
+	}                            #array of qatildas, eqn 26
+	#need to remove env effect since mega-matrix pre-built 
+	
+	#print(qatildas)
+	
+	etilda <- array(dim=c(nstates*nstages,nstages));
+	etilda[,]<-0
+	for (i in 1:nstates) { 
+		etilda[((i-1)*nstages+1):(nstages*i),] <- diag(nstages);
+	}                            #etilda, eqn 27
+	
+	I <- diag(nstages);                 #identity matrix of dimension K x K
+	
+	Ns.markov <- array(dim=c(nstages,nstages,nstates)); #set up for array of Ns
+	Ns.markov[,,]<-0
+	for (i in 1:nstates){ 
+		Ns.markov[,,i] <- I + t(etilda)%*%(solve(Itilda-m))%*%qatildas[,,i];
+		#eqn 28, conditional on initial state 1
+	}
+	
+	#print(Ns.markov)
+	
+	#average over all initial states %%%%%
+	Nbar.markov <- rep(0,nstages);
+	for (i in 1:nstates) { 
+		Nbar.markov <-  Nbar.markov + pis[i] * Ns.markov[,,i]; 
+	}                         #eqn 29, weight each fundamntal matrix by expctd frequency 
+	
+	
+	
+	#lifeexp, column sums
+	lifeexp.markov<-matrix(0,nstates,nstages); #set up array
+	for (i in 1:nstates) { 
+		lifeexp.markov[i,] <- apply(Ns.markov[,,i], 2, sum);
+	}
+	
+	return(lifeexp.markov)
+}
 
 
 ##Function to estimate Stochastic Passage Time
 
 stochPassageTime <- function(chosenSize,IPMmatrix,envMatrix){
-			require(MASS)
-			#get the right index for the size you want
-			loc <- which(abs(chosenSize-IPMmatrix@meshpoints)==min(abs(chosenSize-
-													IPMmatrix@meshpoints)),arr.ind=TRUE)
-			#expand out to find that size in every env
-			#locs.all <- loc*c(1:IPMmatrix@nEnvClass)
-			locs.all <- loc+((IPMmatrix@nBigMatrix)*(0:(envMatrix@nEnvClass-1)))
-			matrix.dim <- length(IPMmatrix[1,])
-			
-			Tprime <- IPMmatrix
-			Tprime[,locs.all] <- 0
-			
-			dhat <- 1-colSums(IPMmatrix)
-			dhat[locs.all]<-0
-			dhat <- rbind(dhat,rep(0,matrix.dim))
-			dhat[2,locs.all] <- 1
-			
-			bhat <- dhat%*% solve(diag(matrix.dim)-Tprime)
-			
-			Mc <- diag(bhat[2,])%*%Tprime%*%solve(diag(bhat[2,]))
-			eta1 <- solve(diag(matrix.dim)-Mc)             
-			
-			time.to.absorb <-colSums(eta1)
-			
-			return(time.to.absorb)
-		}
+	require(MASS)
+	#get the right index for the size you want
+	loc <- which(abs(chosenSize-IPMmatrix@meshpoints)==min(abs(chosenSize-
+									IPMmatrix@meshpoints)),arr.ind=TRUE)
+	#expand out to find that size in every env
+	#locs.all <- loc*c(1:IPMmatrix@nEnvClass)
+	locs.all <- loc+((IPMmatrix@nBigMatrix)*(0:(envMatrix@nEnvClass-1)))
+	matrix.dim <- length(IPMmatrix[1,])
+	
+	Tprime <- IPMmatrix
+	Tprime[,locs.all] <- 0
+	
+	dhat <- 1-colSums(IPMmatrix)
+	dhat[locs.all]<-0
+	dhat <- rbind(dhat,rep(0,matrix.dim))
+	dhat[2,locs.all] <- 1
+	
+	bhat <- dhat%*% solve(diag(matrix.dim)-Tprime)
+	
+	Mc <- diag(bhat[2,])%*%Tprime%*%solve(diag(bhat[2,]))
+	eta1 <- solve(diag(matrix.dim)-Mc)             
+	
+	time.to.absorb <-colSums(eta1)
+	
+	return(time.to.absorb)
+}
 
 
 
@@ -2940,29 +2940,29 @@ sensParamsDiscreteR0 <-  function (growObj, survObj, fecObj, nBigMatrix, minSize
 # Returns lambda_s (no density dependence)
 
 stochGrowthRateSampleList <- function(listIPMmatrix,nRunIn,tMax){
-			require(MASS)
-			
-			nmatrices <- length(listIPMmatrix)
-			
-			nt<-rep(1,length(listIPMmatrix[[1]][,1]))
-			Rt<-rep(NA,tMax)
-			
-			for (t in 1:tMax) {
-				year.type <- sample(1:nmatrices,size=1,replace=FALSE)
-				nt1<-listIPMmatrix[[year.type]] %*% nt	
-				sum.nt1<-sum(nt1)
-				Rt[t]<-log(sum.nt1)
-				nt<-nt1/sum.nt1
-				
-			}
-			
-			res <- mean(Rt[nRunIn:tMax],na.rm=TRUE)
-			return(res)
-		}
-
+	require(MASS)
+	
+	nmatrices <- length(listIPMmatrix)
+	
+	nt<-rep(1,length(listIPMmatrix[[1]][,1]))
+	Rt<-rep(NA,tMax)
+	
+	for (t in 1:tMax) {
+		year.type <- sample(1:nmatrices,size=1,replace=FALSE)
+		nt1<-listIPMmatrix[[year.type]] %*% nt	
+		sum.nt1<-sum(nt1)
+		Rt[t]<-log(sum.nt1)
+		nt<-nt1/sum.nt1
 		
-		## Function to estimate stochastic growth rate
-		## with density dependence in seedling establishment
+	}
+	
+	res <- mean(Rt[nRunIn:tMax],na.rm=TRUE)
+	return(res)
+}
+
+
+## Function to estimate stochastic growth rate
+## with density dependence in seedling establishment
 #
 # Parameters - listTmatrix - list of Tmatrices
 #            - listFmatrix - list of Fmatrices
@@ -2971,26 +2971,26 @@ stochGrowthRateSampleList <- function(listIPMmatrix,nRunIn,tMax){
 #            - seedList - observed recruits in each of the years
 #
 # Returns stoch growth rate
-		
+
 stochGrowthRateSampleListDD <- function (listTmatrix, listFmatrix,nRunIn, tMax,seedList) {
-			require(MASS)
-			nmatrices <- length(listTmatrix)
-			nt <- rep(1, length(listTmatrix[[1]][, 1]))
-			Rt <- rep(NA, tMax)
-			for (t in 1:tMax) {
-				year.type <- sample(1:nmatrices, size = 1, replace = FALSE)
-				nseeds <- sum(listFmatrix[[year.type]]%*%nt)
-				pEst <- min(seedList[min(year.type+1,nmatrices)]/nseeds,1)
-				nt1 <- (listTmatrix[[year.type]]+pEst*listFmatrix[[year.type]])%*% nt
-				sum.nt1 <- sum(nt1)
-				Rt[t] <- log(sum.nt1)-log(sum(nt))
-				nt <- nt1
-			}
-			res <- mean(Rt[nRunIn:tMax], na.rm = TRUE)
-			return(res)
+	require(MASS)
+	nmatrices <- length(listTmatrix)
+	nt <- rep(1, length(listTmatrix[[1]][, 1]))
+	Rt <- rep(NA, tMax)
+	for (t in 1:tMax) {
+		year.type <- sample(1:nmatrices, size = 1, replace = FALSE)
+		nseeds <- sum(listFmatrix[[year.type]]%*%nt)
+		pEst <- min(seedList[min(year.type+1,nmatrices)]/nseeds,1)
+		nt1 <- (listTmatrix[[year.type]]+pEst*listFmatrix[[year.type]])%*% nt
+		sum.nt1 <- sum(nt1)
+		Rt[t] <- log(sum.nt1)-log(sum(nt))
+		nt <- nt1
+	}
+	res <- mean(Rt[nRunIn:tMax], na.rm = TRUE)
+	return(res)
 }
-		
-		
+
+
 
 # Approach to get stoch rate
 # with time-varying covariates
@@ -3023,7 +3023,7 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 	
 	for (t in 1:tMax) {
 		if (dd) p.est <- min(nMicrosites[min(t,length(nMicrosites))]/seeds,1) 	
-					
+		
 		#if you don't do this, rownames return errors...
 		covariatet <- covariate[t,]
 		row.names(covariatet) <- NULL
@@ -3038,15 +3038,15 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 				maxSize = maxSize, chosenCov = covariatet,
 				growObj = growthObj, survObj = survObj,
 				integrateType=integrateType, correction=correction)
-				
+		
 		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosenCov = covariatet,
 				fecObj = tmp.fecObj,
 				integrateType=integrateType, correction=correction)
-
+		
 		#total seeds for next year 
 		if (dd) seeds <- sum(tpF%*%nt)
-				
+		
 		IPM.here <- p.est*tpF@.Data+tpS@.Data
 		nt1<-IPM.here %*% nt	
 		sum.nt1<-sum(nt1)
@@ -3094,7 +3094,7 @@ trackPopStructManyCov<-function(covariate,nRunIn,tMax,
 	
 	for (t in 1:tMax) {
 		if (dd) p.est <- min(nMicrosites[min(t,length(nMicrosites))]/seeds,1) 	
-	
+		
 		#if you don't do this, rownames return errors...
 		covariatet <- covariate[t,]
 		row.names(covariatet) <- NULL
@@ -3104,7 +3104,7 @@ trackPopStructManyCov<-function(covariate,nRunIn,tMax,
 			covariatet <- data.frame(covariatet)
 			colnames(covariatet) <- colnames(covariate)	
 		}
-				
+		
 		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosenCov = covariatet,
 				growObj = growthObj, survObj = survObj,
@@ -3121,7 +3121,7 @@ trackPopStructManyCov<-function(covariate,nRunIn,tMax,
 		nt1<-IPM.here %*% nt	
 		rc[,t] <- nt1
 		nt<-nt1
-	
+		
 		
 	}
 	
