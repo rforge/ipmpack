@@ -801,7 +801,7 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 			}
 			nvals <- colSums(get.matrix,na.rm=TRUE)
 			get.matrix <- t((t(get.matrix)/nvals) * surv(size = y, 
-							cov = chosenCov, survObj = survObj))
+							cov = data.frame(covariate=as.factor(k)), survObj = survObj))
 		}
 		
 		#names of discrete classes default
