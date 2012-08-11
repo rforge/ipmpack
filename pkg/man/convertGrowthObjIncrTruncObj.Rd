@@ -33,7 +33,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 # Data with size and sizeNext
 dff <- generateData()
 
-gr1 <- makeGrowthObj(dff)
+gr1 <- makeGrowthObj(dff,incr~size)
 gr2 <- convertGrowthObjIncrTruncObj(gr1)
 
 
