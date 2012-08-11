@@ -35,6 +35,7 @@ makeGrowthObj <- function(dataf,
 	dataf <- subset(dataf, is.na(dataf$size) == FALSE & is.na(dataf$sizeNext) == 
 					FALSE)
 	
+	
 	if (length(dataf$offspringNext) > 0) 
 		dataf <- subset(dataf, !dataf$offspringNext %in% c("sexual", 
 						"clonal"))
@@ -80,6 +81,9 @@ makeGrowthObj <- function(dataf,
 		dataf$covariateNext <- as.factor(dataf$covariateNext)
 		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
 	}
+	
+	if (length(intersect(all.vars(Formula),colnames(dataf)))<length(all.vars(Formula))) print("warning: not all variables in the formula are present in dataf; model cannot be fit")
+	
 	#eval fit and make the objects
 	if (Family=="gaussian") { 
 		if (regType == "constantVar")  {
@@ -254,7 +258,7 @@ makeSurvObj <- function(dataf,
 	dataf$size3 <- dataf$size^3
 	if (length(grep("logsize",as.character(Formula)))>0) dataf$logsize <- log(dataf$size)
 	
-	
+
 	#setup for discrete covariates if data suggests may be implemented by the
 	#presence of "covariate" and "covariateNext"
 	if ("covariate" %in% unlist(strsplit(as.character(Formula), "[+-\\* ]")) & length(dataf$covariate) > 0) { 
@@ -265,6 +269,8 @@ makeSurvObj <- function(dataf,
 		dataf$covariateNext <- as.factor(dataf$covariateNext)
 		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
 	}
+	
+	if (length(intersect(all.vars(Formula),colnames(dataf)))<length(all.vars(Formula))) print("warning: not all variables in the formula are present in dataf; model cannot be fit")
 	
 	
 	fit <- glm(Formula,family=binomial,data=dataf)
@@ -371,6 +377,8 @@ makeFecObj <- function(dataf,
 		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
 		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
 		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
+		
+		if (length(intersect(all.vars(Formula[[i]]]),colnames(dataf)))<length(all.vars(Formula[[i]]]))) print("warning: not all variables in the formula are present in dataf; model cannot be fit")
 		
 		
 		f1@fitFec[[i]] <- glm(Formula[[i]],family=Family[i],data=dataf)
