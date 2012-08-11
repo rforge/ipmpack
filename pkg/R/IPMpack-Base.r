@@ -2731,7 +2731,7 @@ sensParamsDiscrete <-  function (growObj, survObj, fecObj, nBigMatrix, minSize, 
 	print("Values of zero")
 	
 	slam <- slam[!is.na(slam)]
-	elam <- elam[!is.na(slam)]
+	elam <- elam[!is.na(elam)]
 	
 	return(list(slam = slam, elam = elam))
 	
@@ -2918,7 +2918,7 @@ sensParamsDiscreteR0 <-  function (growObj, survObj, fecObj, nBigMatrix, minSize
 	print("Values of zero")
 	
 	slam <- slam[!is.na(slam)]
-	elam <- elam[!is.na(slam)]
+	elam <- elam[!is.na(elam)]
 	
 	return(list(slam = slam, elam = elam))
 	
