@@ -104,7 +104,7 @@ Also note that perturbation of parameters underlying survival from continuous to
 \examples{
 
 
-dff <- generateData()
+dff <- generateDataDiscrete()
 rc<-sensParamsDiscrete(growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff),
 fecObj = makeFecObj(dff,Transform="log"),
