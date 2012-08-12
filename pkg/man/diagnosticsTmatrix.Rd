@@ -22,7 +22,7 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrateType, correction, co
   the survival object used to construct the IPMmatrix object.
 }
  \item{dff}{
-  the dataframe from which the survival and growth objects were constructed.
+  the dataframe from which the survival and growth objects were constructed; if not supplied, defaults to NULL, which will simply result in the size distribution not being plotted. 
 }
  \item{integrateType}{
   integration type, defaults to ``midpoint" (which uses probability density function); other option is ``cumul" (which uses the cumulative density function).
@@ -38,33 +38,16 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrateType, correction, co
 }
 }
 \details{
-IPMpack includes a useful function {\tt diagnosticsTmatrix} that provides a
-series of plots indicative of whether bin choice and size range is adequate.
-Applying this function as a preliminary step before obtaining demographic and evolutionary output from IPMs can help identify basic problems in the fitting of vital rate functions or in the creation of the IPM matrices before proceeding. Several common problems can be diagnosed with the panelled figure produced by {\tt diagnosticsTmatrix} (Figure
-\ref{fig:diag}).
+This function provides a series of plots indicative of whether bin choice and size range is adequate. On the first plot, the left panel shows the range of the data (if a data-frame is provided) and the range of the state variable fitted in the current Tmatrix; as well as two Tmatrices used for comparison, one with the same number of bins but an extended size range, and one with the same size range but an increased number of bins. If the range in the data and the range in the Tmatrix are mis-matched, the limits of the data used in building the Tmatrix can be adjusted with the \code{minSize} and \code{maxSize} arguments in \code{createIPMTmatrix}.  
 
-The top-left panel shows the range of the data and the range of the state
-variable fitted in the matrix.  If these are mis-matched, the limits of the
-data used in building the Tmatrix can be adjusted with the {\tt minSize} and
-{\tt maxSize} arguments in {\tt createIPMTmatrix}.  One common problem
-can result from the loss of parts of the continuous distribution
-when binning. This can mean that the sum of the columns of the matrix do not
-match the fitted survival.  The top-middle panel of Figure \ref{fig:diag} will
-show this discrepency if the red and black lines do not overlay.  To correct
-this, {\tt createIPMTmatrix} has an argument {\tt correction = "constant"}
-which ensures that the columns sum to the fitted survival by
-multiplying every column in the Integral
-Projection Model by the value that will ensure this. The top-right panel checks whether extending the size range included in the
-matrix and increasing the number of bins (by increasing {\tt
-  nBigMatrix} and thereby having narrower bins) does not alter basic predictions from the IPM.
-The three lower panels show the discretized IPM (histograms) and the
-theoretical density function.  If the theoretical density function
-curve is very distant from the histograms, increasing the {\tt nBigMatrix}
-argument may correct this discrepency. (Note that {\tt
-  diagnosticsTmatrix} plots a range of three standard deviations around the starting value for the
-final three plots, so in some cases, where extreme changes in size are
-possible via growth, the histogram may be off the
-$x$ axis scale). 
+The discretization of a continuous function can result in under- or over-estimation of the true density. Where this is occurs, the sum of the columns of the discretized matrix will not match predictions from the fitted survival model.  The middle panel 
+plots these against each other for the three matrices in the first panel (current, extended range and increased bin number) using the same colours as in the first panel. Lines should fall along the (0,1) line shown in grey; if they do not, the argument \code{correction="constant"} may be of use. This ensures that the columns sum to the fitted survival by multiplying every column in the Integral Projection Model by the value that allows this. The third panel checks whether extending the size range included in the
+matrix and increasing the number of bins (by increasing \code{nBigMatrix} and thereby having narrower bins) does not alter basic predictions from the IPM.
+
+The six panels on the next plot show the discretized IPM (histograms) and the
+theoretical density function for the current IPM (top) and one with an increased number of bins (bottom). These are plotted either for three chosen sizes (\code{sizesToPlot}) or the 0.25, 0.5 and 0.75 quantiels. If the theoretical density function 
+curve is very distant from the histograms, increasing the \code{nBigMatrix}
+argument may correct this discrepancy. 
  
 }
 \references{

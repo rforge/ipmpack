@@ -1288,7 +1288,7 @@ createCompoundCmatrix <- function(nEnvClass = 2,
 # Returns - 
 #
 
-diagnosticsTmatrix <- function (Tmatrix, growObj, survObj, dff, 
+diagnosticsTmatrix <- function (Tmatrix, growObj, survObj, dff=NULL, 
 		integrateType = "midpoint", 
 		correction = "none", cov = data.frame(covariate = 1), 
 		sizesToPlot=c()) {
@@ -1335,13 +1335,19 @@ diagnosticsTmatrix <- function (Tmatrix, growObj, survObj, dff,
 	
 	#start plots - put original Tmatrix in black
 	#par(mfrow = c(3, 3), bty = "l")
-	xlims <- range(c(Tmatrix@meshpoints, Tmatrix1@meshpoints,
-					dff$size, dff$sizeNext), na.rm = TRUE)
 	
 	par(mfrow = c(1, 3), bty = "l",pty="s", mar=c(5,4,4,1))
-	a1 <- hist(c(dff$size, dff$sizeNext), xlab = "Sizes observed", axes=FALSE,
+	if (!is.null(dff)) { 
+	xlims <- range(c(Tmatrix@meshpoints, Tmatrix1@meshpoints,
+						dff$size, dff$sizeNext), na.rm = TRUE)
+		a1 <- hist(c(dff$size, dff$sizeNext), xlab = "Sizes observed", axes=FALSE,
 			ylab = "Frequency", main = "", xlim = xlims, col="lightgrey", border="lightgrey",plot=TRUE)
 	axis(1); axis(2)
+	} else {
+		a1 <- list(); a1$counts <- 1:100
+		xlims <- range(c(Tmatrix@meshpoints, Tmatrix1@meshpoints))
+		plot(1:100,type="n",xlab = "Sizes", ylab="", ylim=range(a1$counts), xlim=xlims)	
+	} 
 	
 	lcs <- c(0.8,0.6,0.4)	
 	lcs.x <- mean(xlims) 
