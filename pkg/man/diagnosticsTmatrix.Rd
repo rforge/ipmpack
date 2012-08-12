@@ -44,10 +44,8 @@ The discretization of a continuous function can result in under- or over-estimat
 plots these against each other for the three matrices in the first panel (current, extended range and increased bin number) using the same colours as in the first panel. Lines should fall along the (0,1) line shown in grey; if they do not, the argument \code{correction="constant"} may be of use. This ensures that the columns sum to the fitted survival by multiplying every column in the Integral Projection Model by the value that allows this. The third panel checks whether extending the size range included in the
 matrix and increasing the number of bins (by increasing \code{nBigMatrix} and thereby having narrower bins) does not alter basic predictions from the IPM.
 
-The six panels on the next plot show the discretized IPM (histograms) and the
-theoretical density function for the current IPM (top) and one with an increased number of bins (bottom). These are plotted either for three chosen sizes (\code{sizesToPlot}) or the 0.25, 0.5 and 0.75 quantiels. If the theoretical density function 
-curve is very distant from the histograms, increasing the \code{nBigMatrix}
-argument may correct this discrepancy. 
+The six panels on the next plot show the discretized IPM (histograms)for the current IPM (top) and one with an increased number of bins (bottom)  and the
+theoretical density function (red line) . These are plotted either for three chosen sizes (\code{sizesToPlot}) or the 0.25, 0.5 and 0.75 quantiles of either the observed data or the range of meshpoints; this size is printed in the top right hand of every plot. If the theoretical density function  curve is very distant from the histograms, increasing the \code{nBigMatrix} argument may correct this discrepancy. 
  
 }
 \references{
