@@ -1393,7 +1393,8 @@ diagnosticsTmatrix <- function (Tmatrix, growObj, survObj, dff=NULL,
 	
 	
 	
-	if (length(sizesToPlot)==0) sizesToPlot <- as.numeric(quantile(dff$size,c(0.25, 0.5,0.75),na.rm=TRUE))
+	if (length(sizesToPlot)==0 & !is.null(dff)) sizesToPlot <- as.numeric(quantile(dff$size,c(0.25, 0.5,0.75),na.rm=TRUE))
+	if (length(sizesToPlot)==0 & is.null(dff)) sizesToPlot <- as.numeric(quantile(Tmatrix@meshpoints,c(0.25, 0.5,0.75),na.rm=TRUE))
 	
 	loctest <- rep(NA,length(sizesToPlot))
 	
