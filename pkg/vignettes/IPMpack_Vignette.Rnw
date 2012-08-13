@@ -254,28 +254,15 @@ series of plots indicative of whether bin choice and size range is adequate.
 Applying this function as a preliminary step before obtaining demographic and evolutionary output from IPMs can help identify basic problems in the fitting of vital rate functions or in the creation of the IPM matrices before proceeding. Several common problems can be diagnosed with the panelled figure produced by {\tt diagnosticsTmatrix} (Figure
 \ref{fig:diag}).
 
-The top-left panel shows the range of the data and the range of the state
-variable fitted in the matrix.  If these are mis-matched, the limits of the
-data used in building the Tmatrix can be adjusted with the {\tt minSize} and
-{\tt maxSize} arguments in {\tt createIPMTmatrix}.  One common problem
-can result from the loss of parts of the continuous distribution
-when binning. This can mean that the sum of the columns of the matrix do not
-match the fitted survival.  The top-middle panel of Figure \ref{fig:diag} will
-show this discrepency if the red and black lines do not overlay.  To correct
-this, {\tt createIPMTmatrix} has an argument {\tt correction = "constant"}
-which ensures that the columns sum to the fitted survival by
-multiplying every column in the Integral
-Projection Model by the value that will ensure this. The top-right panel checks whether extending the size range included in the
-matrix and increasing the number of bins (by increasing {\tt
-  nBigMatrix} and thereby having narrower bins) does not alter basic predictions from the IPM.
-The three lower panels show the discretized IPM (histograms) and the
-theoretical density function.  If the theoretical density function
-curve is very distant from the histograms, increasing the {\tt nBigMatrix}
-argument may correct this discrepency. (Note that {\tt
-  diagnosticsTmatrix} plots a range of three standard deviations around the starting value for the
-final three plots, so in some cases, where extreme changes in size are
-possible via growth, the histogram may be off the
-$x$ axis scale). 
+The left panel on the first plot shows the range of the data (if the data is provided) and the range of the state variable fitted in the matrix (top line, black).  If these are mis-matched, the limits of the data used in building the Tmatrix can be adjusted with the {\tt minSize} and {\tt maxSize} arguments in {\tt createIPMTmatrix}.  The range for two additional Tmatrices that will be used in subsequent comparisons is also provided; one with an increased size range (red) and one with an increased number of bins (blue). 
+
+The discretization of a continuous function can result in under- or over-estimation of the true density. Where this is occurs, the sum of the columns of the discretized matrix will not match predictions from the fitted survival model.  The middle panel 
+plots these against each other for the three matrices in the first panel (current, extended range and increased bin number) using the same colours as in the first panel. Lines should fall along the (0,1) line shown in grey; if they do not, the argument {\tt correction="constant"} in {\tt createIPMTmatrix} may be of use. This ensures that the columns sum to the fitted survival by multiplying every column in the Integral Projection Model by the value that allows this. The third panel checks whether extending the size range included in the matrix and increasing the number of bins (by increasing {\tt nBigMatrix} and thereby having narrower bins) does not alter basic predictions from the IPM.
+
+The six panels on the next plot show the discretized IPM (histograms)for the current IPM (top) and one with an increased number of bins (bottom)  and the
+theoretical density function (red line) . These are plotted either for three chosen sizes ({\tt sizesToPlot}) or the 0.25, 0.5 and 0.75 quantiles of either the observed data (if supplied) or the range of meshpoints (if not); this size is printed in the top right hand of every plot. If the theoretical density function curve is very distant from the histograms, increasing the {\tt nBigMatrix} argument may correct this discrepancy. 
+
+Other useful function for verifying that sufficient bins have been used include {\tt convergeLambda} and associated functions. 
 
 The {\tt createIPMTmatrix} function builds around methods defined so that it
 will provide appropriate output whatever the survival and growth objects are

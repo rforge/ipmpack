@@ -38,7 +38,7 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrateType, correction, co
 }
 }
 \details{
-This function provides a series of plots indicative of whether bin choice and size range is adequate. On the first plot, the left panel shows the range of the data (if a data-frame is provided) and the range of the state variable fitted in the current Tmatrix; as well as two Tmatrices used for comparison, one with the same number of bins but an extended size range, and one with the same size range but an increased number of bins (increased by about 50 percent). If the range in the data and the range in the Tmatrix are mis-matched, the limits of the data used in building the Tmatrix can be adjusted with the \code{minSize} and \code{maxSize} arguments in \code{createIPMTmatrix}.  
+This function provides a series of plots indicative of whether bin choice and size range is adequate. On the first plot, the left panel shows the range of the data as a histogram (if a data-frame is provided) and the range of the state variable fitted in the current Tmatrix; as well as the range of the state variable in two Tmatrices used for comparison, one with the same number of bins but an extended size range (red), and one with the same size range but an increased number of bins (blue) (increased by about 50 percent). If the range in the data and the range in the Tmatrix are mis-matched, the limits of the data used in building the Tmatrix can be adjusted with the \code{minSize} and \code{maxSize} arguments in \code{createIPMTmatrix}.  
 
 The discretization of a continuous function can result in under- or over-estimation of the true density. Where this is occurs, the sum of the columns of the discretized matrix will not match predictions from the fitted survival model.  The middle panel 
 plots these against each other for the three matrices in the first panel (current, extended range and increased bin number) using the same colours as in the first panel. Lines should fall along the (0,1) line shown in grey; if they do not, the argument \code{correction="constant"} may be of use. This ensures that the columns sum to the fitted survival by multiplying every column in the Integral Projection Model by the value that allows this. The third panel checks whether extending the size range included in the
@@ -62,7 +62,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createIPMTmatrix}}
+\code{\link{createIPMTmatrix}}, \code{\link{convergeLambda}}
 }
 \examples{
 # Example where mesh size does not have a major effect on model output:
