@@ -262,7 +262,7 @@ plots these against each other for the three matrices in the first panel (curren
 The six panels on the next plot show the discretized IPM (histograms)for the current IPM (top) and one with an increased number of bins (bottom)  and the
 theoretical density function (red line) . These are plotted either for three chosen sizes ({\tt sizesToPlot}) or the 0.25, 0.5 and 0.75 quantiles of either the observed data (if supplied) or the range of meshpoints (if not); this size is printed in the top right hand of every plot. If the theoretical density function curve is very distant from the histograms, increasing the {\tt nBigMatrix} argument may correct this discrepancy. 
 
-Other useful function for verifying that sufficient bins have been used include {\tt convergeLambda} and associated functions. 
+Other useful function for verifying that sufficient bins have been used include {\tt convergeLambda} and associated functions; see the help file and try them out. 
 
 The {\tt createIPMTmatrix} function builds around methods defined so that it
 will provide appropriate output whatever the survival and growth objects are
