@@ -1082,3 +1082,59 @@ convertGrowthObjIncrTruncObj <- function(growthObj){
 }
 
 
+
+### new functions createGrowhtObj and createSurvObj which will make up their own data
+
+createGrowthObj <- function(Formula=sizeNext~size, coeff=c(1,1), sd=1){ 
+	
+	var.names <- all.vars(Formula)
+	
+	if (length(coeff)!=(length(var.names))) #length var.names, because intercept not named 
+		stop("not enough coefficients supplied for the chosen Formula")
+	
+	dataf<- as.data.frame(matrix(rnorm(3*length(var.names)),3,length(var.names)))
+	colnames(dataf) <- var.names
+	
+	fit <- lm(Formula, data=dataf)
+	
+	if (length(grep("sizeNext", as.character(Formula))) > 0) { 
+		
+		gr1 <- new("growthObj")
+		gr1@fit <- fit
+		gr1@fit$coefficients <- coeff
+		gr1@sd <- sd
+	}  
+	
+	if (length(grep("incr", as.character(Formula))) > 0) { 
+		
+		gr1 <- new("growthObjIncr")
+		gr1@fit <- fit
+		gr1@fit$coefficients <- coeff
+		gr1@sd <- sd
+	}  
+	
+	return(gr1)
+	
+}
+
+
+
+createSurvObj <- function(Formula=surv~size, coeff=c(1,1)){ 
+	var.names <- all.vars(Formula)
+	
+	if (length(coeff)!=(length(var.names))) 
+		stop("not enough coefficients supplied for the chosen Formula")
+	
+	dataf<- as.data.frame(matrix(rnorm(3*length(var.names)),3,length(var.names)))
+	colnames(dataf) <- var.names
+	
+	fit <- glm(Formula, data=dataf, family=binomial)
+	
+	sv1 <- new("survObj")
+	sv1@fit <- fit
+	
+	return(sv1)
+	
+}
+
+
