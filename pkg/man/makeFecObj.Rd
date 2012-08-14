@@ -41,7 +41,10 @@ makeFecObj(dataf, fecConstants=data.frame(NA),
 }
   
 \details{
-  This function fits a suite of subfunctions of fecundity towards creating a Fecundity transition  projection model; e.g., the probability of flowering as a function of size, the number of seeds produced as a function of size, etc. Users can define the functional form of each relationship, as well as the distribution and any transforms. There is also a possibility of defining reproduction from discrete sizes into each of the subfunction outcomes; defined in the matrix fecByDiscrete. NOTE THAT by default all column headings containing "fec" will be considered as contributing to the fecundity product, unless otherwise specified in the argument fecNames. 
+  This function fits a suite of subfunctions of fecundity towards creating a Fecundity transition  projection model; e.g., the probability of flowering as a function of size, the number of seeds produced as a function of size, etc. Users can define the functional form of each relationship, as well as the distribution and any transforms. There is also a possibility of defining reproduction from discrete sizes into each of the subfunction outcomes; defined in the matrix fecByDiscrete. 
+
+Note that it is crucial that users appropriately set up the data to adequately reflect conditionality in the fertility kernel; for example, if there are two columns, with one reflecting the probability of flowering (0s and 1s) and the other reflecting seed output (integers) it is important that where the probability of flowering is 0, seed output is set to NA, as otherwise, meaningless 0s in the seed output column will bias the regression.   
+  
 }
 
 \value{
