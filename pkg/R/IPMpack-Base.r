@@ -1299,8 +1299,8 @@ diagnosticsTmatrix <- function (Tmatrix, growObj, survObj, dff=NULL,
 	else new.min <- Tmatrix@meshpoints[1] * 1.5
 	new.max <- 1.5 * max(Tmatrix@meshpoints)
 	
-	if (length(extendSizeRange)>0 & if (length(extendSizeRange)!=2)) print("require two values for extendSizeRange, reflecting upper and lower limits")
-	if (length(extendSizeRange)>0) { new.min <- extendSizeRange[1]; new.max <- extendSizeRange[2])
+	if (length(extendSizeRange)>0 & length(extendSizeRange)!=2) print("require two values for extendSizeRange, reflecting upper and lower limits")
+	if (length(extendSizeRange)>0) { new.min <- extendSizeRange[1]; new.max <- extendSizeRange[2]}
 		
 
 	#colours for 1) current; 2) bigger size range; 3) bigger no bins
