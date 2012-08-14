@@ -1291,20 +1291,25 @@ createCompoundCmatrix <- function(nEnvClass = 2,
 diagnosticsTmatrix <- function (Tmatrix, growObj, survObj, dff=NULL, 
 		integrateType = "midpoint", 
 		correction = "none", cov = data.frame(covariate = 1), 
-		sizesToPlot=c()) {
+		sizesToPlot=c(),extendSizeRange=c()) {
 	print("Range of Tmatrix is ")
 	print(range(c(Tmatrix)))
 	if (Tmatrix@meshpoints[1] > 0) 
 		new.min <- Tmatrix@meshpoints[1]/2
 	else new.min <- Tmatrix@meshpoints[1] * 1.5
+	new.max <- 1.5 * max(Tmatrix@meshpoints)
 	
+	if (length(extendSizeRange)>0 & if (length(extendSizeRange)!=2)) print("require two values for extendSizeRange, reflecting upper and lower limits")
+	if (length(extendSizeRange)>0) { new.min <- extendSizeRange[1]; new.max <- extendSizeRange[2])
+		
+
 	#colours for 1) current; 2) bigger size range; 3) bigger no bins
 	cols <- c("black","tomato","darkblue")
 	ltys <- c(1,1,3)
 	
 	#matrix with bigger size range
 	Tmatrix1 <- createIPMTmatrix(nEnvClass = 1, nBigMatrix = length(Tmatrix@meshpoints), 
-			minSize = new.min, maxSize = 1.5 * max(Tmatrix@meshpoints), 
+			minSize = new.min, maxSize = new.max, 
 			chosenCov = cov, growObj = growObj, survObj = survObj, 
 			integrateType = integrateType, correction = correction)
 	

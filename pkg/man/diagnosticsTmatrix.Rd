@@ -36,6 +36,10 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrateType, correction, co
  \item{sizesToPlot}{
  a vector containing desired sizes to plot growth resolution for (second panel); if not supplied, the function will use the quantiles
 }
+ \item{extendSizeRange}{
+ a vector containing desired size range for the matrix to be compared with a larger size range; if this vector has length 0 the defaults will be 0.5xminSize (unless minSize<0 in which case, 2*minSize is used) and 1.5*maxSize
+ }
+
 }
 \details{
 This function provides a series of plots indicative of whether bin choice and size range is adequate. On the first plot, the left panel shows the range of the data as a histogram (if a data-frame is provided) and the range of the state variable fitted in the current Tmatrix; as well as the range of the state variable in two Tmatrices used for comparison, one with the same number of bins but an extended size range (red), and one with the same size range but an increased number of bins (blue) (increased by about 50 percent). If the range in the data and the range in the Tmatrix are mis-matched, the limits of the data used in building the Tmatrix can be adjusted with the \code{minSize} and \code{maxSize} arguments in \code{createIPMTmatrix}.  
