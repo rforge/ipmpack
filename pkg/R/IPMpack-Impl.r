@@ -1127,6 +1127,7 @@ createSurvObj <- function(Formula=surv~size, coeff=c(1,1)){
 	
 	dataf<- as.data.frame(matrix(rnorm(3*length(var.names)),3,length(var.names)))
 	colnames(dataf) <- var.names
+	dataf$surv <- sample(c(0,1),nrow(dataf), replace=TRUE)
 	
 	fit <- glm(Formula, data=dataf, family=binomial)
 	
