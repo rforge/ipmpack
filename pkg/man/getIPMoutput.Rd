@@ -5,8 +5,7 @@
 Gets IPM output from a list of T matrices (only survival and size information) or full IPMs (T matrices + F matrices; the latter include sexual reproduction information).
 }
 \description{
-Gets synthetic values including life expectancy, passage time, and, if a
-fecundity matrix is available, population growth rate (lambda), stable stage distribution, reproductive output, etc. 
+Gets synthetic values including life expectancy, passage time, and, if a fecundity matrix is available, population growth rate (lambda), stable stage distribution, reproductive output, etc. 
 }
 \usage{
 getIPMoutput(TmatrixList, targetSize = c(), FmatrixList = NULL)
