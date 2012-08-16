@@ -50,17 +50,14 @@ makeListIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,
 	explanatory variables used in the fecundity.
 	}
   \item{Family}{a character vector containing the names of the families to be used for the glms, e.g., binomial, poisson, etc. Again, these must appear  \emph{in the
-      order defined by the alphabetical order of column names 
-      containing "fec" or in the order of column names specified in fecNames} }
+      order defined by the list of formula} }
   \item{Transform}{a character vector containing the names of the
-    transforms to be used for the response variables, e.g., log, sqrt, -1, etc. Again, these must appear  \emph{in the order defined by the alphabetical order of column names
-      containing "fec" or in the order of column names specified in fecNames} }
+    transforms to be used for the response variables, e.g., log, sqrt, -1, etc. Again, these must appear  \emph{in the order defined by the list of formula} }
  \item{fecConstants}{
 	data.frame of constant multipliers for the fecundity model.
 	}
 }
 \details{
-Currently uses makeSurvObj with a discrete covariate .
 }
 \value{
   list of matrices corresponding to covariates, in order.

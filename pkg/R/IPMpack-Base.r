@@ -133,18 +133,6 @@ setClass("fecObj",
 				sdOffspringSize = "numeric")
 )
 
-setClass("fecObjMultiCov",
-		representation(fitFec = "list",
-				fecNames = "character",
-				fecConstants = "data.frame",
-				offspringSplitter = "data.frame",
-				fecByDiscrete = "data.frame",
-				offspringTypeRates = "data.frame",
-				Transform = "character",
-				offspringRel = "lm",
-				sdOffspringSize = "numeric")
-)
-
 
 
 
