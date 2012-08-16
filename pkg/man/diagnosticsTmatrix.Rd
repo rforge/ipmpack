@@ -93,10 +93,8 @@ diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff),
 	survObj = makeSurvObj(dff), dff = dff, integrateType = "cumul")
 
 #with truncated increment (fit is quite bad, lots of loss from integration)
-gr <- makeGrowthObj(dff)
-gr1 <- new("growthObjTruncIncr")
-gr1@fit$coefficients <- gr@fit$coefficients
-gr1@fit$sigmax2 <- (summary(gr@fit)$sigma)^2
+gr <- makeGrowthObj(dff,Formula=incr ~size )
+gr1 <- convertGrowthObjIncrTruncObj(gr)
 Tmatrix <- createIPMTmatrix(nBigMatrix = 30, minSize = min(dff$size, na.rm = TRUE), 
 	maxSize = max(dff$size, na.rm = TRUE), growObj = gr1, 
 		survObj = makeSurvObj(dff), integrateType = "midpoint")

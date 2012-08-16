@@ -1349,7 +1349,7 @@ diagnosticsTmatrix <- function (Tmatrix, growObj, survObj, dff=NULL,
 	arrows(Tmatrix@meshpoints[1], max(a1$counts)*lcs[1],Tmatrix@meshpoints[length(Tmatrix@meshpoints)], max(a1$counts)*lcs[1],col=cols[1], length=0.1, code=3,lty=ltys[1])
 	text(lcs.x ,max(a1$counts)*lcs[2],"Extended range",pos=3,col=cols[2])
 	arrows(Tmatrix1@meshpoints[1], max(a1$counts)*lcs[2],Tmatrix1@meshpoints[length(Tmatrix1@meshpoints)], max(a1$counts)*lcs[2],col=cols[2], length=0.1, code=3,lty=ltys[1])
-	text(lcs.x ,max(a1$counts)*lcs[3],"Increased bins",pos=3,col=cols[3])
+	text(lcs.x ,max(a1$counts)*lcs[3],"Increased no of bins",pos=3,col=cols[3])
 	arrows(Tmatrix2@meshpoints[1], max(a1$counts)*lcs[3],Tmatrix2@meshpoints[length(Tmatrix2@meshpoints)], max(a1$counts)*lcs[3],col=cols[3], length=0.1, code=3,lty=ltys[1])
 	
 	#legend("topright", legend = "fitted range", col = "black", lty = 2, bty = "n") ##!!! change this
@@ -1379,7 +1379,7 @@ diagnosticsTmatrix <- function (Tmatrix, growObj, survObj, dff=NULL,
 			ylim = range(c(LE, LE1)), xlab = "Sizes", ylab = "Life expectancy",col=cols[1],lty=ltys[1])
 	points(Tmatrix1@meshpoints, LE1, type = "l", col = cols[2],lty=ltys[2])
 	points(Tmatrix2@meshpoints, LE2, type = "l", col = cols[3],lty=ltys[3])
-	legend("topleft", legend = c("Current", "Extended range", "Increased bins"), col = cols, lty = ltys, bty = "n")
+	legend("topleft", legend = c("Current", "Extended range", "Increased no of bins"), col = cols, lty = ltys, bty = "n")
 	title("Life expectancy")
 	
 	#mtext("Increasing size range (red) or number of bins (blue) should not alter life expectancy estimates", side=1,outer=TRUE,line=-1)
