@@ -5,7 +5,7 @@
 Runs a simple model using default survival and growth functions. 
 }
 \description{
-Takes a dataframe, a chosen size, a minimum and maximum size onto which integrate, and a number of bins, and creates a T matrix and plots passage time and life expectancy (does not include fecundity).
+Takes a dataframe, a chosen size, a minimum and maximum size onto which integrate, and a number of bins, and creates a P matrix and plots passage time and life expectancy (does not include fecundity).
 }
 \usage{
 runSimpleModel(dataf, chosenSize, minSize = c(), maxSize = c(), 
@@ -51,8 +51,8 @@ boolean describing whether continuous stage is on a log scale or not (for plotti
   \item{LE}{
 	life expectancy  in the chosen discrete time step interval.
   }
-  \item{Tmatrix}{
-	The basic T matrix.
+  \item{Pmatrix}{
+	The basic P matrix.
   }
   \item{growObj}{
 	The fitted growth object.

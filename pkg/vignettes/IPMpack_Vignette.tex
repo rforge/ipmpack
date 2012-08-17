@@ -207,10 +207,10 @@ IPMpack contains two functions that allow the user to check these two relationsh
 \caption{Growth and survival objects}
 \label{fig:one}
 \end{figure}
-To build a demographic model describing survival and growth transitions from these objects, the user can use the function {\tt createIPMTmatrix}, i.e.: 
+To build a demographic model describing survival and growth transitions from these objects, the user can use the function {\tt createIPMPmatrix}, i.e.: 
 \begin{Schunk}
 \begin{Sinput}
-> Tmatrix <- createIPMTmatrix(nBigMatrix = 50, 
+> Pmatrix <- createIPMPmatrix(nBigMatrix = 50, 
 +                             minSize = -5, maxSize = 35, 
 +                             growObj = gr1, survObj = sv1, 
 +                             correction = "constant")
@@ -222,28 +222,28 @@ equations above. Typically, these range
 should usually extend to beyond the smallest and largest size
 measurement, but the user might want to exclude outliers). The objects
 growObj and survObj define changes in size and survival as defined
-above. IPMpack includes an useful function {\tt diagnosticsTmatrix}
+above. IPMpack includes an useful function {\tt diagnosticsPmatrix}
 that provides a series of plots indicative of whether bin choice and
 size range is adequate. Applying this function as a preliminary step
 before obtaining demographic and evolutionary output from IPMs is
-highly recommended at this stage (see {\tt ?diagnosticsTmatrix} for
+highly recommended at this stage (see {\tt ?diagnosticsPmatrix} for
 details). The argument {\tt correction = "constant"} will rectify some
 of the more egregious numerical slippage in the model defined above,
 but it will do this in a slightly arbitrary way (i.e. simply adding a
 constant value to all elements of each column in the matrix, which may
 or may not be appropriate), so it is worth exploring options in detail.
 
-The {\tt createIPMTmatrix} function builds around methods defined so that it will provide appropriate output whatever the survival and growth objects are (e.g. error structure, covariates...). The T matrix contains a matrix defining the transitions, but also other useful slots, e.g., the meshpoints, etc. The user can access this information by writing: 
+The {\tt createIPMPmatrix} function builds around methods defined so that it will provide appropriate output whatever the survival and growth objects are (e.g. error structure, covariates...). The P matrix contains a matrix defining the transitions, but also other useful slots, e.g., the meshpoints, etc. The user can access this information by writing: 
 \begin{Schunk}
 \begin{Sinput}
-> slotNames(Tmatrix)
+> slotNames(Pmatrix)
 \end{Sinput}
 \begin{Soutput}
 [1] ".Data"          "nDiscrete"      "nEnvClass"      "nBigMatrix"    
 [5] "meshpoints"     "env.index"      "names.discrete"
 \end{Soutput}
 \end{Schunk}
-and finally, the user can plot the Tmatrix using {\tt persp} (Figure~\ref{fig:two}). 
+and finally, the user can plot the Pmatrix using {\tt persp} (Figure~\ref{fig:two}). 
 \begin{figure}
 \begin{center}
 \includegraphics{IPMpack_Vignette-fig2}
@@ -254,11 +254,11 @@ and finally, the user can plot the Tmatrix using {\tt persp} (Figure~\ref{fig:tw
 Next, with this, the user can obtain the life expectancy, and passage time to a chosen size (here set at the mean) for the range of meshpoints
 \begin{Schunk}
 \begin{Sinput}
-> LE <- meanLifeExpect(Tmatrix)
-> pTime <- passageTime(mean(dff$size, na.rm = TRUE), Tmatrix)
+> LE <- meanLifeExpect(Pmatrix)
+> pTime <- passageTime(mean(dff$size, na.rm = TRUE), Pmatrix)
 \end{Sinput}
 \end{Schunk}
-and the user can also plot these againts {\tt Tmatrix@meshpoints} to examine how life expectancy and passage vary as a function of size (Figure~\ref{fig:three} p.~\pageref{fig:three}).
+and the user can also plot these againts {\tt Pmatrix@meshpoints} to examine how life expectancy and passage vary as a function of size (Figure~\ref{fig:three} p.~\pageref{fig:three}).
 \begin{figure}
 \begin{center}
 \includegraphics{IPMpack_Vignette-fig3}
@@ -282,11 +282,11 @@ If the user defines a fertility object -which for instance is not always easy wi
 \end{Schunk}
 Note that {\tt makeFecObj} can either just scan the {\tt dataf} and extract all the columns that contain the letters "fec" (the default, as explained above) and fit them in alphabetical sequence using the predictors defined in {\tt explanatoryVariables} and using the family defined in {\tt Family} with transforms defined in {\tt Transform} (in the alphabetical sequence); or {\tt fecNames} can be defined in an argument to {\tt makeFecObj}, and this tells $R$ which columns to select and fit fertility predictors to as in the previous, where {\tt Family}, {\tt Transform} etc, will be applied in the order {\tt fecNames}. Please note that the fecundity columns must not be transformed in the data frame if {\tt makeFecObj} function is used since IPMpack will perform appropriate transformations in the fitting according to the argument {\tt Transform} and will use these appropriately in functions designed to build the F matrix. 
 
-The user can combine the F matrix with (an identically built, i.e., same bin number, size limits and discrete classes) survival-growth transition T matrix to
+The user can combine the F matrix with (an identically built, i.e., same bin number, size limits and discrete classes) survival-growth transition P matrix to
 obtain a full Integral Projection Model, and its population growth rate $\lambda$, sensitivity, elasticity, etc. 
 \begin{Schunk}
 \begin{Sinput}
-> IPM <- Tmatrix + Fmatrix
+> IPM <- Pmatrix + Fmatrix
 > eigen(IPM)$value[1]
 \end{Sinput}
 \begin{Soutput}
@@ -371,7 +371,7 @@ Slot "nEnvClass":
 [1] 2
 \end{Soutput}
 \end{Schunk}
-The user can now use IPMpack to create a survival-growth transition T matrix that encompasses movement across environments, first redefining the survival and growth
+The user can now use IPMpack to create a survival-growth transition P matrix that encompasses movement across environments, first redefining the survival and growth
 objects to fit a discrete covariate, by changing the {\tt explanatoryVariables} argument: 
 \begin{Schunk}
 \begin{Sinput}
@@ -379,24 +379,24 @@ objects to fit a discrete covariate, by changing the {\tt explanatoryVariables} 
 > sv1 <- makeSurvObj(dff, explanatoryVariables = "size+covariate")
 \end{Sinput}
 \end{Schunk}
-Note that these functions will only work appropriately for a discrete covariate if the value of the covariate at time $t$ is available as a column in the data frame names {\tt covariate} and the value of the covariate at the next census is available as a column in the data frame called {\tt covariateNext}. IPMpack functions use the presence of a column in the data frame called {\tt covariate} as a cue to renumber values in these two columns to numeric levels between 1 and the observed number of covariate levels to facilitate looping, and changes them into factors. Once this step is implemented, the user can use these functions to create a compound T matrix, using {\tt createCompoundTmatrix}: 
+Note that these functions will only work appropriately for a discrete covariate if the value of the covariate at time $t$ is available as a column in the data frame names {\tt covariate} and the value of the covariate at the next census is available as a column in the data frame called {\tt covariateNext}. IPMpack functions use the presence of a column in the data frame called {\tt covariate} as a cue to renumber values in these two columns to numeric levels between 1 and the observed number of covariate levels to facilitate looping, and changes them into factors. Once this step is implemented, the user can use these functions to create a compound P matrix, using {\tt createCompoundPmatrix}: 
 \begin{Schunk}
 \begin{Sinput}
-> Tmatrix <- createCompoundTmatrix(nBigMatrix = 50, minSize = -5, 
+> Pmatrix <- createCompoundPmatrix(nBigMatrix = 50, minSize = -5, 
 +                                  maxSize = 35, 
 +                                  envMatrix = env1, growObj = gr1, 
 +                                  survObj = sv1, 
 +                                  correction = "constant")
 \end{Sinput}
 \end{Schunk}
-Essentially, the compound T matrix is a large matrix with stacked IPMs
+Essentially, the compound P matrix is a large matrix with stacked IPMs
 corresponding to each environment, modified to reflect movement
 between environmental states defined by {\ env1}. Passage time can be
 calculated using similar function, but now including the environmental
 matrix as an argument (equivalent life expectancy functions are in development): 
 \begin{Schunk}
 \begin{Sinput}
-> pTimes <- stochPassageTime(Tmatrix@meshpoints[15], Tmatrix, env1)
+> pTimes <- stochPassageTime(Pmatrix@meshpoints[15], Pmatrix, env1)
 \end{Sinput}
 \end{Schunk}
 The resulting vectors contain the life expectancy and time to reach each size for individuals starting in each different environmental class, concatenated together (i.e. there are {\tt nBigMatrix} values in the LE matrix ranging over the first environment, then {\tt nBigMatrix} values ranging over the second environment, etc). The user can plot these against meshpoints 
@@ -562,7 +562,7 @@ In this example, 20 \% of seeds produced at $t$ end up in the continuous part of
 +                             correction = "constant")
 \end{Sinput}
 \end{Schunk}
-The user also needs a {\tt Tmatrix} that reflects the same structure. The continuous part of the T matrix will be broadly the same as usual:
+The user also needs a {\tt Pmatrix} that reflects the same structure. The continuous part of the P matrix will be broadly the same as usual:
 \begin{Schunk}
 \begin{Sinput}
 > gr1 <- makeGrowthObj(dataf = dff, 
@@ -576,20 +576,20 @@ Movement in and out of discrete stages is defined via an add-on of a transition 
 > discTrans <- makeDiscreteTrans(dff)
 \end{Sinput}
 \end{Schunk}
-which captures survival and transitions between discrete stages and the continuous stage (note that this function will not work unless the data frame {\tt dff} contains appropriate columns {\tt stage} and {\tt stageNext}) and then the user can construct the T matrix using: 
+which captures survival and transitions between discrete stages and the continuous stage (note that this function will not work unless the data frame {\tt dff} contains appropriate columns {\tt stage} and {\tt stageNext}) and then the user can construct the P matrix using: 
 \begin{Schunk}
 \begin{Sinput}
-> Tmatrix <- createIPMTmatrix(nBigMatrix = 5, 	
+> Pmatrix <- createIPMPmatrix(nBigMatrix = 5, 	
 +                             growObj = makeGrowthObj(dff), 
 +                             survObj = makeSurvObj(dff), 
 +                             discreteTrans = discTrans, 
 +                             correction = "constant")
 \end{Sinput}
 \end{Schunk}
-Note that both the T matrix and the F matrix in this example have a rather small number of bins just for ease of comparison, and that a higher number is almost certainly advisable. The user can examine both matrices: 
+Note that both the P matrix and the F matrix in this example have a rather small number of bins just for ease of comparison, and that a higher number is almost certainly advisable. The user can examine both matrices: 
 \begin{Schunk}
 \begin{Sinput}
-> print(Tmatrix)
+> print(Pmatrix)
 \end{Sinput}
 \begin{Soutput}
 An object of class "IPMmatrix"
@@ -674,7 +674,7 @@ Slot "names.discrete":
 and check for example that the slot {\tt namesDiscrete} is aligned between them, and add them together: 
 \begin{Schunk}
 \begin{Sinput}
-> print(Tmatrix+Fmatrix)
+> print(Pmatrix+Fmatrix)
 \end{Sinput}
 \begin{Soutput}
               [,1]         [,2]          [,3]         [,4]         [,5]
@@ -714,10 +714,10 @@ First, the user must generate data again, and from them, a list of survival and 
 +                                burnin=20,nitt = 40)
 \end{Sinput}
 \end{Schunk}
-Note that the data must not contain NAs. This function can also be used to set priors, etc. Note that the number of samples from the posterior used here {\tt nitt} is rather small, and larger numbers are advisable. With output from this, the user can make lists of the T matrices:
+Note that the data must not contain NAs. This function can also be used to set priors, etc. Note that the number of samples from the posterior used here {\tt nitt} is rather small, and larger numbers are advisable. With output from this, the user can make lists of the P matrices:
 \begin{Schunk}
 \begin{Sinput}
-> TmatrixList <- makeListTmatrix(grlist, svlist, nBigMatrix = 20, 
+> PmatrixList <- makeListPmatrix(grlist, svlist, nBigMatrix = 20, 
 +                                minSize = -5, 
 +                                maxSize = 35, 
 +                                correction = "constant")
@@ -727,7 +727,7 @@ If one of the lists is longer than the other, this function samples the shorter 
 matrix is provided. With this, the user can now obtain some posteriors for constant environment models. 
 \begin{Schunk}
 \begin{Sinput}
-> res <- getIPMoutput(TmatrixList, targetSize = 5, FmatrixList = NULL)
+> res <- getIPMoutput(PmatrixList, targetSize = 5, FmatrixList = NULL)
 > names(res)
 \end{Sinput}
 \begin{Soutput}
@@ -747,7 +747,7 @@ The vector called $\lambda$ and matrix called stableSize, etc, will consist of N
 > FmatrixList <- makeListFmatrix(fv, nBigMatrix = 20, minSize = -5, 
 +                                maxSize = 35, cov = FALSE,
 +                                correction = "constant")
-> res <- getIPMoutput(TmatrixList, targetSize = 5, FmatrixList)
+> res <- getIPMoutput(PmatrixList, targetSize = 5, FmatrixList)
 \end{Sinput}
 \end{Schunk}
 

@@ -46,18 +46,18 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \examples{
 # For only continuous stages (e.g. size)
 dff <- generateData()
-Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
+Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), 
 survObj = makeSurvObj(dff))
-su <- survivorship(Tmatrix, 1, 300)
+su <- survivorship(Pmatrix, 1, 300)
 plot(su$surv.curv, type = "l", col = "dark gray", ylab = "survivorship", 
 xlab= "Continuous (e.g. size) stage", ylim = c(0,1))
 
 # For continuous (e.g. size) and discrete (e.g. seedbank) stages
-Tmatrix <- createCompoundTmatrix(minSize = min(dff$size,na.rm = TRUE),
+Pmatrix <- createCompoundPmatrix(minSize = min(dff$size,na.rm = TRUE),
 maxSize = max(dff$size,na.rm = TRUE), envMatrix = makeEnvObj(dff),
 growObj = makeGrowthObj(dff, Formula = sizeNext~size+size2+covariate),
 survObj = makeSurvObj(dff, Formula = surv~size+size2+covariate), 
 discreteTrans = 1)
-su <- survivorship(Tmatrix,1,300)
+su <- survivorship(Pmatrix,1,300)
 }

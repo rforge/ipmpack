@@ -5,7 +5,7 @@
 Estimates variation in passage time.
 }
 \description{
-Function to take a T matrix (either compound or not) and estimate variance in passage time to a chosen continuous stage value.
+Function to take a P matrix (either compound or not) and estimate variance in passage time to a chosen continuous stage value.
 }
 \usage{
 varPassageTime(chosenSize, IPMmatrix)
@@ -16,7 +16,7 @@ varPassageTime(chosenSize, IPMmatrix)
 The continuous stage value of interest.
 }
   \item{IPMmatrix}{
-The Tmatrix (compound or not).
+The Pmatrix (compound or not).
 }
 }
 \details{
@@ -42,19 +42,19 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{passageTime}}, \code{\link{createIPMTmatrix}} 
+\code{\link{passageTime}}, \code{\link{createIPMPmatrix}} 
 }
 \examples{
 # With continuous (e.g. size) stage
 dff <- generateData()
-Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
+Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize <- max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), 
 survObj = makeSurvObj(dff))
 targetSize <- 8
-vP <- varPassageTime(targetSize, Tmatrix)
+vP <- varPassageTime(targetSize, Pmatrix)
 
-plot(Tmatrix@meshpoints, vP, type = "l", xlab="Continuous (e.g. Size) stage", 
-	xlim=c(Tmatrix@meshpoints[1],targetSize),
+plot(Pmatrix@meshpoints, vP, type = "l", xlab="Continuous (e.g. Size) stage", 
+	xlim=c(Pmatrix@meshpoints[1],targetSize),
 	ylab = "Variance in passage time", col = "dark gray")
 abline(v = targetSize, col = "red")
 

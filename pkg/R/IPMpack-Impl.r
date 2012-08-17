@@ -578,7 +578,7 @@ makeClonalObj <- function(dataf,
 # 4. Discrete Transition models  #######################################################################################################
 
 ## Function to take a data-frame and make a discrete transition object
-## for combining with a continuous T matrix
+## for combining with a continuous P matrix
 #
 # Parameters - dataf - dataframe with headings of at least
 #                      size, sizeNext, surv, fec, stage, stageNext, number
@@ -996,7 +996,7 @@ makePostFecObjs <- function(dataf,
 }
 
 
-# Function to take a list of growth and survival objects and make a list of Tmatrices
+# Function to take a list of growth and survival objects and make a list of Pmatrices
 #
 # Parameters - growObjList - a list of growth objects
 #            - survObjList - a list of survival objects
@@ -1006,8 +1006,8 @@ makePostFecObjs <- function(dataf,
 #            - cov - is a discrete covariate considered
 #            - envMat - enviromental matrix for transition between
 # 
-# Returns    - a list of Tmatrices
-makeListTmatrix <- function(growObjList,survObjList,
+# Returns    - a list of Pmatrices
+makeListPmatrix <- function(growObjList,survObjList,
 		nBigMatrix,minSize,maxSize, cov=FALSE, envMat=NULL,
 		integrateType="midpoint",correction="none") {
 	
@@ -1020,14 +1020,14 @@ makeListTmatrix <- function(growObjList,survObjList,
 	
 	nsamp <- length(growObjList)
 	
-	TmatrixList <- list()
+	PmatrixList <- list()
 	for ( k in 1:length(growObjList)) { 
 		if (!cov) {
-			TmatrixList[[k]] <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			PmatrixList[[k]] <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, growObj = growObjList[[k]],
 					survObj = survObjList[[k]],integrateType=integrateType, correction=correction) 
 		} else {
-			TmatrixList[[k]] <- createCompoundTmatrix(nEnvClass = length(envMat[1,]),
+			PmatrixList[[k]] <- createCompoundPmatrix(nEnvClass = length(envMat[1,]),
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=envMat,
 					growObj = growObjList[[k]],
@@ -1035,7 +1035,7 @@ makeListTmatrix <- function(growObjList,survObjList,
 		}
 	}
 	
-	return(TmatrixList)
+	return(PmatrixList)
 }
 
 # Function to take a list of growth and survival objects and make a list of Fmatrices

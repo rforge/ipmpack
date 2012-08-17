@@ -5,7 +5,7 @@
 Calculates variation in life expectancy in a discretely stochastic environment.
 }
 \description{
-  Provided a T matrix, defining survival transitions across size, this function provides a vector with variance in life expectancy in units of the time-step used, for each of the size bins.
+  Provided a P matrix, defining survival transitions across size, this function provides a vector with variance in life expectancy in units of the time-step used, for each of the size bins.
 }
 \usage{
 varLifeExpect(IPMmatrix)
@@ -17,7 +17,7 @@ varLifeExpect(IPMmatrix)
 }
 }
 \value{
-  a vector of variance in life expectancies each corresponding to Tmatrix@meshpoints.
+  a vector of variance in life expectancies each corresponding to Pmatrix@meshpoints.
 
 }
 \references{
@@ -36,18 +36,18 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{meanLifeExpect}}, \code{\link{createIPMTmatrix}} 
+\code{\link{meanLifeExpect}}, \code{\link{createIPMPmatrix}} 
 
 }
 \examples{
 # With a single continuous (e.g. size) stage
 dff <- generateData()
-Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), 
 survObj = makeSurvObj(dff))
-vle <- varLifeExpect(Tmatrix)
+vle <- varLifeExpect(Pmatrix)
 
-plot(Tmatrix@meshpoints, vle, ylab = "Variation life expectancy", 
+plot(Pmatrix@meshpoints, vle, ylab = "Variation life expectancy", 
 xlab = "Continuous (e.g. size) stage", type = "l", ylim = c(0,max(vle)))
 
 

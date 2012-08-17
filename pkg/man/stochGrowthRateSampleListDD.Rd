@@ -7,12 +7,12 @@
 \description{
  Estimates the stochastic invasion rate in the presence of density dependence in seedling establishment by iteration; operates by sampling a list of IPMs and recalculating the probability of seed establishment at each time-step. }
 \usage{
-stochGrowthRateSampleListDD(listTmatrix, listFmatrix, nRunIn, tMax,seedList)
+stochGrowthRateSampleListDD(listPmatrix, listFmatrix, nRunIn, tMax,seedList)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{listTmatrix}{
- a list of IPM T matrices corresponding to possible states of the environment.
+  \item{listPmatrix}{
+ a list of IPM P matrices corresponding to possible states of the environment.
 }
   \item{listFmatrix}{
  a list of IPM F matrices  corresponding to possible states of the environment.
@@ -41,6 +41,6 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeListFmatrix}}; \code{\link{makeListTmatrix}}; \code{\link{stochGrowthRateSampleList}}
+\code{\link{makeListFmatrix}}; \code{\link{makeListPmatrix}}; \code{\link{stochGrowthRateSampleList}}
 
 }

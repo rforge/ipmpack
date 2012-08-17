@@ -1,18 +1,18 @@
-\name{diagnosticsTmatrix}
-\alias{diagnosticsTmatrix}
+\name{diagnosticsPmatrix}
+\alias{diagnosticsPmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Creates a series of diagnostic graphs for a T matrix.
+Creates a series of diagnostic graphs for a P matrix.
 }
 \description{
- Displays the effects of increasing number of bins and continuous (size) stage range on a number of predictions from the T matrix to verify that sufficient resolution and continuous stage range are being used. 
+ Displays the effects of increasing number of bins and continuous (size) stage range on a number of predictions from the P matrix to verify that sufficient resolution and continuous stage range are being used. 
 }
 \usage{
-diagnosticsTmatrix(Tmatrix, growObj, survObj, dff=NULL, integrateType, correction, cov = data.frame(covariate = 1), sizesToPlot = c(),extendSizeRange = c())
+diagnosticsPmatrix(Pmatrix, growObj, survObj, dff=NULL, integrateType, correction, cov = data.frame(covariate = 1), sizesToPlot = c(),extendSizeRange = c())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
- \item{Tmatrix}{
+ \item{Pmatrix}{
   an IPMmatrix object.
 }
  \item{growObj}{
@@ -42,9 +42,9 @@ diagnosticsTmatrix(Tmatrix, growObj, survObj, dff=NULL, integrateType, correctio
 
 }
 \details{
-This function provides a series of plots indicative of whether bin choice and size range is adequate. On the first plot, the left panel shows the range of the data as a histogram (if a data-frame is provided) and the range of the state variable fitted in the current Tmatrix; as well as the range of the state variable in two Tmatrices used for comparison, one with the same number of bins but an extended size range (red), and one with the same size range but an increased number of bins (blue) (increased by about 50 percent). If the range in the data and the range in the Tmatrix are mis-matched, the limits of the data used in building the Tmatrix can be adjusted with the \code{minSize} and \code{maxSize} arguments in \code{createIPMTmatrix}.  
+This function provides a series of plots indicative of whether bin choice and size range is adequate. On the first plot, the left panel shows the range of the data as a histogram (if a data-frame is provided) and the range of the state variable fitted in the current Pmatrix; as well as the range of the state variable in two Pmatrices used for comparison, one with the same number of bins but an extended size range (red), and one with the same size range but an increased number of bins (blue) (increased by about 50 percent). If the range in the data and the range in the Pmatrix are mis-matched, the limits of the data used in building the Pmatrix can be adjusted with the \code{minSize} and \code{maxSize} arguments in \code{createIPMPmatrix}.  
 
-The discretization of a continuous function can result in under- or over-estimation of the true density. Where this occurs, the sum of the columns of the discretized Tmatrix will not match predictions from the fitted survival model. The middle panel plots these against each other for the three matrices in the first panel (current, extended range and increased bin number) using the same colours as in the first panel. Lines should fall along the (0,1) line shown in grey; if they do not, the argument \code{correction="constant"} may be of use. This ensures that the columns sum to the fitted survival by multiplying every column in the Integral Projection Model by the value that allows this. The third panel checks whether extending the size range included in the
+The discretization of a continuous function can result in under- or over-estimation of the true density. Where this occurs, the sum of the columns of the discretized Pmatrix will not match predictions from the fitted survival model. The middle panel plots these against each other for the three matrices in the first panel (current, extended range and increased bin number) using the same colours as in the first panel. Lines should fall along the (0,1) line shown in grey; if they do not, the argument \code{correction="constant"} may be of use. This ensures that the columns sum to the fitted survival by multiplying every column in the Integral Projection Model by the value that allows this. The third panel checks whether extending the size range included in the
 matrix and increasing the number of bins (by increasing \code{nBigMatrix} and thereby having narrower bins) does not alter basic predictions from the IPM.
 
 The six panels on the next plot show the discretized IPM (histograms) for the current IPM (top) and one with an increased number of bins (bottom)  and the theoretical density function (red line) . These are plotted either for three chosen sizes (\code{sizesToPlot}) or the 0.25, 0.5 and 0.75 quantiles of either the observed data or the range of meshpoints; this size is printed in the top right hand of every plot. If the theoretical density function  curve is very distant from the histograms, increasing the \code{nBigMatrix} argument may correct this discrepancy. 
@@ -64,45 +64,45 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createIPMTmatrix}}, \code{\link{convergeLambda}}
+\code{\link{createIPMPmatrix}}, \code{\link{convergeLambda}}
 }
 \examples{
 # Example where mesh size does not have a major effect on model output:
 dff <- generateData()
-Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
+Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE),
 	maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), 
 	survObj = makeSurvObj(dff))
-diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff), 
+diagnosticsPmatrix(Pmatrix, growObj = makeGrowthObj(dff), 
 	survObj = makeSurvObj(dff), dff = dff)
 
 # Compare with the following example where mesh size has an important effect on output:
-Tmatrix <- createIPMTmatrix(nBigMatrix = 8, minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- createIPMPmatrix(nBigMatrix = 8, minSize = min(dff$size, na.rm = TRUE), 
 	maxSize = 0.5*max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), 
 		survObj = makeSurvObj(dff))
-diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff), 
+diagnosticsPmatrix(Pmatrix, growObj = makeGrowthObj(dff), 
 	survObj = makeSurvObj(dff), dff = dff)
 
 #with cumul
-Tmatrix <- createIPMTmatrix(nBigMatrix = 10, minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- createIPMPmatrix(nBigMatrix = 10, minSize = min(dff$size, na.rm = TRUE), 
 	maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), 
 	survObj = makeSurvObj(dff), 
 	integrateType = "cumul")
-diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff), 
+diagnosticsPmatrix(Pmatrix, growObj = makeGrowthObj(dff), 
 	survObj = makeSurvObj(dff), dff = dff, integrateType = "cumul")
 
 #with truncated increment (fit is quite bad, lots of loss from integration)
 gr <- makeGrowthObj(dff,Formula=incr ~size )
 gr1 <- convertGrowthObjIncrTruncObj(gr)
-Tmatrix <- createIPMTmatrix(nBigMatrix = 30, minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- createIPMPmatrix(nBigMatrix = 30, minSize = min(dff$size, na.rm = TRUE), 
 	maxSize = max(dff$size, na.rm = TRUE), growObj = gr1, 
 		survObj = makeSurvObj(dff), integrateType = "midpoint")
-diagnosticsTmatrix(Tmatrix, growObj = gr1, survObj = makeSurvObj(dff), dff = dff)
+diagnosticsPmatrix(Pmatrix, growObj = gr1, survObj = makeSurvObj(dff), dff = dff)
 
 #with log increment
-Tmatrix <- createIPMTmatrix(nBigMatrix = 50, minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- createIPMPmatrix(nBigMatrix = 50, minSize = min(dff$size, na.rm = TRUE), 
 	maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff,Formula = logincr~size), 
 		survObj = makeSurvObj(dff))
-diagnosticsTmatrix(Tmatrix, growObj = makeGrowthObj(dff,Formula = logincr~size), 
+diagnosticsPmatrix(Pmatrix, growObj = makeGrowthObj(dff,Formula = logincr~size), 
 	survObj = makeSurvObj(dff), dff = dff)
 
 

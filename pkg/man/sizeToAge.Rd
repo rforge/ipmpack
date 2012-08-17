@@ -5,15 +5,15 @@
 Estimates size/stage to age relationships
 }
 \description{
-  Uses a T matrix and a starting continuous stage value to estimate time to a range of target
+  Uses a P matrix and a starting continuous stage value to estimate time to a range of target
 sizes, from which a size to age pattern can be determined. 
 }
 \usage{
-sizeToAge(Tmatrix, startingSize, targetSize)
+sizeToAge(Pmatrix, startingSize, targetSize)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{Tmatrix}{
+  \item{Pmatrix}{
     object of class IPMmatrix describing growth survival transitions. 
 }
   \item{startingSize}{
@@ -50,10 +50,10 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 dff <- generateData()
-Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE),
+Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff))
 targetSize <- 8
 startingSize <- 0
-sizeToAge(Tmatrix, startingSize, targetSize)
+sizeToAge(Pmatrix, startingSize, targetSize)
 }

@@ -60,7 +60,7 @@ makePostFecObjs(dataf,
   \item{offspringSplitter}{dataframe, with column headings for EVERY
     category, so always at minimum containing a column called "continuous" but also
     including every discrete category that will enter into the Fmatrix (and, if
-    compatibility is required, the Tmatrix), with values defining the number of
+    compatibility is required, the Pmatrix), with values defining the number of
     offspring going into each offspring category; will be re-scaled to
     sum to 1 within the function. THESE MUST appear in alphabetical
     order.}

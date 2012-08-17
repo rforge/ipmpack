@@ -1,14 +1,14 @@
-\name{createIPMTmatrix}
-\alias{createIPMTmatrix}
+\name{createIPMPmatrix}
+\alias{createIPMPmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Builds T matrices.
+Builds P matrices.
 }
 \description{
   Uses growth and survival objects to construct a matrix defining probabilities for transitions between sizes due to growth and survival. Extensions for transition to discrete classes are possible.
 }
 \usage{
-createIPMTmatrix(nEnvClass = 1, nBigMatrix = 50,
+createIPMPmatrix(nEnvClass = 1, nBigMatrix = 50,
 minSize = -1, maxSize = 50, chosenCov = data.frame(covariate=1), growObj, survObj, discreteTrans=1, 
 integrateType = "midpoint", correction="none")
 }
@@ -19,13 +19,13 @@ integrateType = "midpoint", correction="none")
     non-compound matrices.
   }
   \item{nBigMatrix}{
-    numeric, number of size bins in the T matrix, defaults to 50.
+    numeric, number of size bins in the P matrix, defaults to 50.
   }
   \item{minSize}{
-    numeric, minimum size of the T matrix, defaults to -1.
+    numeric, minimum size of the P matrix, defaults to -1.
   }
   \item{maxSize}{
-    numeric, maximum size of the T matrix, defaults to 50.
+    numeric, maximum size of the P matrix, defaults to 50.
   }
   \item{chosenCov}{
     data-frame indicating level of the discrete covariate, or 
@@ -69,7 +69,7 @@ Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured po
 
 Ellner & Rees. 2006. Integral projection models for species with complex demography. The American Naturalist 167, p410-428.
 
-For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
+For information on P matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
 %% ~put references to the literature/web site here ~
 }
 \author{
@@ -79,17 +79,17 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createIPMFmatrix}}, \code{\link{diagnosticsTmatrix}}, \code{\link{makeDiscreteTrans}}  
+\code{\link{createIPMFmatrix}}, \code{\link{diagnosticsPmatrix}}, \code{\link{makeDiscreteTrans}}  
 }
 \examples{
 dff <- generateData()
-Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
 	maxSize=max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), 
 		survObj = makeSurvObj(dff))
 
-slotNames(Tmatrix)
+slotNames(Pmatrix)
 
-image(Tmatrix@meshpoints, Tmatrix@meshpoints, t(Tmatrix), 
+image(Pmatrix@meshpoints, Pmatrix@meshpoints, t(Pmatrix), 
 	xlab = "Continuous (e.g. size) stage at t", 
 		ylab = "Continuous (e.g. size) stage at t+1")
 }

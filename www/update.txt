@@ -2,12 +2,12 @@
 *coerceMatrixIPM
 *convertIncrement
 *createCompoundFmatrix             We have called the F matrices as Fmatrix. I could see it being called FMatrix in the code if you'd like. Es ist mir egal 
-*createCompoundTmatrix             Same as above applies for the T matrix
+*createCompoundPmatrix             Same as above applies for the P matrix
 *createIPMFmatrix                  Same as above
-*createIPMTmatrix                  Same as above
+*createIPMPmatrix                  Same as above
 *createMPMFmatrix                  Same as above
-*createMPMTmatrix                  Same as above
-*diagnosticsTmatrix                  Same as above
+*createMPMPmatrix                  Same as above
+*diagnosticsPmatrix                  Same as above
 *getIPMOutput
 *getIPMOutputDirect
 *getListRegObjects
@@ -30,7 +30,7 @@
 *makeGrowthObjManyCov
 *makeListFmatrix                  Same as above
 *makeListIPMs
-*makeListTmatrix                  Same as above
+*makeListPmatrix                  Same as above
 *makePostFecObjs
 *makePostGrowthObjs
 *makePostSurvivalObjs

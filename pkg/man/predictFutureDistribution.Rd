@@ -17,7 +17,7 @@ predictFutureDistribution(startingSizes, IPM, n.time.steps, startingEnv = 1)
     vector containing the sizes of the desired starting population.
 }
   \item{IPM}{
-    an IPMmatrix object (T matrix if only interested in survival projections, T matrix+ F matrix otherwise).
+    an IPMmatrix object (P matrix if only interested in survival projections, P matrix+ F matrix otherwise).
 }
   \item{n.time.steps}{
     a numeric defining the number of time steps for which projection is required.
@@ -46,7 +46,7 @@ startPop <- rnorm(1000,2,1)
 
 # Build T and F matrix
 dff <- generateData()
-Tmatrix <- createIPMTmatrix(minSize = 1.1*min(dff$size, na.rm = TRUE),
+Pmatrix <- createIPMPmatrix(minSize = 1.1*min(dff$size, na.rm = TRUE),
 maxSize = 1.1*max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff), correction = "constant")
 Fmatrix <- createIPMFmatrix(minSize = 1.1*min(dff$size, na.rm = TRUE),
@@ -54,9 +54,9 @@ maxSize = 1.1*max(dff$size, na.rm = TRUE),
 fecObj = makeFecObj(dff, fecConstants = data.frame(est=0.7), Transform="log"), 
 correction="constant")
 
-# Make an IPMmatrix object containing T matrix + F matrix by replacing the T matrix
-IPM <- Tmatrix
-IPM@.Data <- Tmatrix + Fmatrix
+# Make an IPMmatrix object containing P matrix + F matrix by replacing the P matrix
+IPM <- Pmatrix
+IPM@.Data <- Pmatrix + Fmatrix
 
 # Project population five steps
 a5 <- predictFutureDistribution(startingSizes = startPop, IPM = IPM,

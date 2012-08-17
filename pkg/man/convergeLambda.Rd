@@ -42,7 +42,7 @@ convergeLifeExpectancyLastBin(growObj, survObj,nBigMatrix, minSize, maxSize,
     numeric, minimum size used for meshpoints
   }
   \item{maxSize}{
-    numeric, maximum size used for meshpoints of the T matrix.
+    numeric, maximum size used for meshpoints of the P matrix.
   }
   \item{discreteTrans}{
 	matrix of discrete transitions; or 1 if there is none
@@ -51,7 +51,7 @@ convergeLifeExpectancyLastBin(growObj, survObj,nBigMatrix, minSize, maxSize,
     integration type.
   }
   \item{correction}{
-    correction (see createIPMTmatrix)
+    correction (see createIPMPmatrix)
   }
   \item{preCensus}{
     boolean defining whether fecundity is pre or post census; defaults to pre
@@ -67,7 +67,7 @@ convergeLifeExpectancyLastBin(growObj, survObj,nBigMatrix, minSize, maxSize,
 }
 \value{
   \item{binIncrease}{the number of bins used to increase matrix size in assessing tolerance}
-  \item{Tmatrix}{the final Tmatrix if only LE is being considered}
+  \item{Pmatrix}{the final Pmatrix if only LE is being considered}
   \item{IPM}{the final IPM}
   \item{R0}{the final R0}
   \item{lambda}{the final lambda}
@@ -86,7 +86,7 @@ This code was modified from original code by Melissa Eitzel.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{diagnosticsTmatrix}}
+\code{\link{diagnosticsPmatrix}}
 }
 \examples{
 dff<-generateData()

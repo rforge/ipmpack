@@ -19,13 +19,13 @@ preCensus = TRUE, survObj = NULL, growObj = NULL)
     numeric, number of environmental classes, defaults to 2.
   }
   \item{nBigMatrix}{
-    numeric, number of size bins in the T matrix, defaults to 50.
+    numeric, number of size bins in the P matrix, defaults to 50.
   }
   \item{minSize}{
-    numeric, minimum size of the T matrix, defaults to -1.
+    numeric, minimum size of the P matrix, defaults to -1.
   }
   \item{maxSize}{
-    numeric, maximum size of the T matrix, defaults to 50.
+    numeric, maximum size of the P matrix, defaults to 50.
   }
   \item{envMatrix}{
     envMatrix object defining transitions between environmental states
@@ -84,7 +84,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createCompoundTmatrix}},\code{\link{createIPMFmatrix}}
+\code{\link{createCompoundPmatrix}},\code{\link{createIPMFmatrix}}
 }
 \examples{
 # Data with only continuous stage and two habitats

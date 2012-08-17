@@ -16,7 +16,7 @@ timeToSize(startingSizes, IPM, endSize, startingEnv = 1, maxT = 100, propReach =
 	vector of starting sizes reflecting sizes of individuals in the starting population (in any order).
 }
   \item{IPM}{
-the IPM Tmatrix.
+the IPM Pmatrix.
 }
   \item{endSize}{
 the end size.
@@ -53,12 +53,12 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 #note that with the "fake data" essentially either takes forever or is immediate...
 dff <- generateData()
 startSizes <- rnorm(1000, 2.5, 1)
-Tmatrix <- createIPMTmatrix(minSize = 1.2*min(dff$size, na.rm=TRUE),
+Pmatrix <- createIPMPmatrix(minSize = 1.2*min(dff$size, na.rm=TRUE),
 maxSize = 1.2*max(dff$size, na.rm=TRUE), 
 growObj = makeGrowthObj(dff), 
 survObj = makeSurvObj(dff))
 
-rc <- timeToSize(startingSizes = startSizes, IPM = Tmatrix, endSize = 6, 
+rc <- timeToSize(startingSizes = startSizes, IPM = Pmatrix, endSize = 6, 
 startingEnv = 1, maxT = 1000, propReach = 0.001)
 
 names(rc)
@@ -66,7 +66,7 @@ names(rc)
 par(mfrow=c(2,2), bty = "l")
 ## Make picture with lines for distribution of 
 ## population on different time points
-matplot(Tmatrix@meshpoints, rc$ts.dist, type = "l", xlab = "size", 
+matplot(Pmatrix@meshpoints, rc$ts.dist, type = "l", xlab = "size", 
 ylab = "Number of individuals")
 
 ## Examine time elapsed for propReach to attain the chosen endSize

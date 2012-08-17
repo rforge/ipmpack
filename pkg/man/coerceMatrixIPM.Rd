@@ -14,7 +14,7 @@ coerceMatrixIPM(amat)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{amat}{
-    A matrix population model; or subset (T matrix, F matrix) with any number of bins.
+    A matrix population model; or subset (P matrix, F matrix) with any number of bins.
 }
 }
 \value{

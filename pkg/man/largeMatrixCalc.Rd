@@ -8,11 +8,11 @@ Calculates population growth rate (lambda) and stable stage distribution in a co
 Method to calculate population growth rate (lambda) and stable stage distribution where a large number of bins are used in the IPM, as it may be the case with species that vary largely in size, or models that include size x age interactions.
 }
 \usage{
-largeMatrixCalc(Tmatrix, Fmatrix, tol = 1e-08)
+largeMatrixCalc(Pmatrix, Fmatrix, tol = 1e-08)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{Tmatrix}{
+  \item{Pmatrix}{
 	object of class IPMmatrix describing survival transitions.
 }
   \item{Fmatrix}{
@@ -45,20 +45,20 @@ Modified from Appendix A in Rees and Ellner 2009 (see references).
 
 \examples{
 dff <- generateData()
-Tmatrix <- createIPMTmatrix(minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
 	maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
 Fmatrix <- createIPMFmatrix(minSize = min(dff$size, na.rm = TRUE), 
 	maxSize = max(dff$size, na.rm = TRUE),fecObj = makeFecObj(dff))
 
-largeMatrixCalc(Tmatrix, Fmatrix)
+largeMatrixCalc(Pmatrix, Fmatrix)
 
 par(mfrow=c(1,2),pty="s")
 
-plot(largeMatrixCalc(Tmatrix, Fmatrix)$stableDist, ylab = "Stable stage distribution", 
+plot(largeMatrixCalc(Pmatrix, Fmatrix)$stableDist, ylab = "Stable stage distribution", 
 	xlab = "Continuous (e.g. size) stage", type = "l", col = "blue", lty = 1, ylim = c(0:1))
 
 #Note that this will not always run - as tolerance levels for convergence are set to be quite high
-#plot(largeMatrixCalc(Tmatrix, Fmatrix)$reprodValue, ylab = "Reproductive value", 
+#plot(largeMatrixCalc(Pmatrix, Fmatrix)$reprodValue, ylab = "Reproductive value", 
 #	xlab = "Continuous (e.g. size) stage", type = "l", col = "red", lty = 1, ylim = c(0:1))
 
 }

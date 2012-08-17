@@ -29,7 +29,7 @@ createMPMFmatrix(dataf, bins, offspringClasses = 1, offspringProp = 1, nEnv = 1)
   }
 }
 \details{
-  The median number of offspring produced by individuals in each bin is identified. Fecundity values are distributed across rows and columns accordingly. To obtain a classic matrix population model (A) this can be added to values defined by createMPMTmatrix (A = F + T).    
+  The median number of offspring produced by individuals in each bin is identified. Fecundity values are distributed across rows and columns accordingly. To obtain a classic matrix population model (A) this can be added to values defined by createMPMPmatrix (A = F + T).    
 }
 \value{
   an object of class IPMmatrix.
@@ -46,7 +46,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createIPMFmatrix}}, \code{\link{createMPMTmatrix}}
+\code{\link{createIPMFmatrix}}, \code{\link{createMPMPmatrix}}
 }
 \examples{
 dff <- generateData()

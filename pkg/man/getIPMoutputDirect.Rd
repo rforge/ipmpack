@@ -70,21 +70,21 @@ list of fecundity objects (facultative).
 }
 \value{
   \item{LE}{matrix of life expectancies, columns correspond to
-  meshpoints, rows corresponding to each element of the list of T matrices}
+  meshpoints, rows corresponding to each element of the list of P matrices}
   \item{pTime}{matrix of passage times to the targetSize from each of
-    the meshpoints (columns) and for each element in the T matrix list (columns).}
+    the meshpoints (columns) and for each element in the P matrix list (columns).}
   \item{lambda}{vector of population growth rates (lambda) corresponding to value obtained
-    combining each element of the list of T matrices with the
+    combining each element of the list of P matrices with the
     corresponding element in the list of F matrices; if no F matrix list is provided, this is a vector of NAs.}
   \item{stableStage}{matrix of stable size distributions rows corresponding to values obtained
-    combining each element of the list of T matrices with the
+    combining each element of the list of P matrices with the
     corresponding element in the list of F matrices; if no F matrix list
     is provided, this is a matrix of NAs.}
   \item{meshpoints}{matrix meshpoints.}
   \item{resSize}{matrix providing target sizes for size to age estimate (assuming age=1
     at sizeStart), of length nsizeToAge space equally between the smallest and largest meshpoints.}
   \item{resAge}{matrix providing time in time-steps to get to resSize,
-    rows corresonding sequential elements in the list of T matrices.} 
+    rows corresonding sequential elements in the list of P matrices.} 
   \item{surv.par}{matrix of posteriors of survival parameters (columns,
     each sample is a row).}
   \item{grow.par}{matrix of posteriors of growth parameters (in columns).} 

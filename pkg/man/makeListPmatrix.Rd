@@ -1,14 +1,14 @@
-\name{makeListTmatrix}
-\alias{makeListTmatrix}
+\name{makeListPmatrix}
+\alias{makeListPmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Builds list of T matrices from list growth and survival objects.
+  Builds list of P matrices from list growth and survival objects.
 }
 \description{
-  Uses posteriors (or other) lists of growth and survival objects to create a list of T matrices.
+  Uses posteriors (or other) lists of growth and survival objects to create a list of P matrices.
 }
 \usage{
-makeListTmatrix(growObjList, survObjList, nBigMatrix, 
+makeListPmatrix(growObjList, survObjList, nBigMatrix, 
 	minSize, maxSize, cov = FALSE, envMat = NULL, integrateType = "midpoint",
 		correction = "none")
 }
@@ -52,7 +52,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeListTmatrix}}, \code{\link{makeListIPMs}}
+\code{\link{makeListPmatrix}}, \code{\link{makeListIPMs}}
 }
 \examples{
 dff <- generateData()
@@ -62,11 +62,11 @@ svlist <- makePostSurvivalObjs(dataf = dff, explanatoryVariables="size+size2",me
 grlist <- makePostGrowthObjs(dataf = dff,explanatoryVariables="size+size2",burnin=100, nitt = 500)
 
 # Only first 10 for speed
-Tlist <- makeListTmatrix(growObjList = grlist[1:10], 
+Tlist <- makeListPmatrix(growObjList = grlist[1:10], 
 	survObjList = svlist[1:10], nBigMatrix = 20, minSize = -5, 
 		maxSize = 20, cov = FALSE, envMat = NULL)
 
-# Plots four T matrices at random:
+# Plots four P matrices at random:
 par(mfrow=c(2,2))
 image(Tlist[[1]]@meshpoints, Tlist[[1]]@meshpoints, 
 	t(Tlist[[1]]), xlab = "Continuous (e.g. size) stage at time t", 

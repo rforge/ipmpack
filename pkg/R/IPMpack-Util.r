@@ -5,29 +5,29 @@
 # of T (survival + growth) and F (fecundity) matrices
 # (usually from Bayes fit) 
 #
-# Parameters - TmatrixList
+# Parameters - PmatrixList
 #            - targetSize - the size you want passage time estimated for.
 #            - FmatrixList
 #
 # Returns - a list 
 
-getIPMoutput <- function(TmatrixList,targetSize=c(),FmatrixList=NULL){
+getIPMoutput <- function(PmatrixList,targetSize=c(),FmatrixList=NULL){
 	
 	if (length(targetSize)==0)  { 
 		print("no target size for passage time provided; taking meshpoint median")
-		targetSize <- median(TmatrixList[[1]]@meshpoints)
+		targetSize <- median(PmatrixList[[1]]@meshpoints)
 	}
-	nsamps <- length(TmatrixList)
-	h1 <- TmatrixList[[1]]@meshpoints[2]-TmatrixList[[1]]@meshpoints[1]
-	stableStage <- LE <- pTime <- matrix(NA,nsamps,length(TmatrixList[[1]]@.Data[1,]))
+	nsamps <- length(PmatrixList)
+	h1 <- PmatrixList[[1]]@meshpoints[2]-PmatrixList[[1]]@meshpoints[1]
+	stableStage <- LE <- pTime <- matrix(NA,nsamps,length(PmatrixList[[1]]@.Data[1,]))
 	lambda <- rep(NA,nsamps)
 	for (k in 1:nsamps) {
-		Tmatrix <- TmatrixList[[k]]
-		LE[k,]<-meanLifeExpect(Tmatrix) 
-		pTime[k,]<-passageTime(targetSize,Tmatrix) 
+		Pmatrix <- PmatrixList[[k]]
+		LE[k,]<-meanLifeExpect(Pmatrix) 
+		pTime[k,]<-passageTime(targetSize,Pmatrix) 
 		
 		if (class(FmatrixList)!="NULL") {
-			IPM <- Tmatrix + FmatrixList[[k]]
+			IPM <- Pmatrix + FmatrixList[[k]]
 			lambda[k] <- Re(eigen(IPM)$value[1])
 			stableStage[k,] <- eigen(IPM)$vector[,1]
 			#normalize stable size distribution
@@ -42,7 +42,7 @@ getIPMoutput <- function(TmatrixList,targetSize=c(),FmatrixList=NULL){
 
 # Function to extract IPM output from posteriors 
 # (usually from Bayes fit)  - quicker to do all at once
-# rather than build list of IPM T matrices, then list of IPM F matrices
+# rather than build list of IPM P matrices, then list of IPM F matrices
 #
 # Parameters - survObjlist - list of survival objects
 #            - growObjList - list of growth objects
@@ -103,13 +103,13 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 	for (k in 1:nsamp) {
 		
 		if (!cov) {
-			Tmatrix <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize,  growObj = growObjList[[k]],
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
 					integrateType=integrateType, correction=correction) 
 			
 		} else {
-			Tmatrix <- createCompoundTmatrix(nEnvClass = nEnv,
+			Pmatrix <- createCompoundPmatrix(nEnvClass = nEnv,
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=envMat,growObj = growObjList[[k]],
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
@@ -117,9 +117,9 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 			
 		}
 		
-		LE[k,] <- meanLifeExpect(Tmatrix) 
-		pTime[k,] <- passageTime(targetSize,Tmatrix) 
-		if (k==1) h1 <- diff(Tmatrix@meshpoints)[1]
+		LE[k,] <- meanLifeExpect(Pmatrix) 
+		pTime[k,] <- passageTime(targetSize,Pmatrix) 
+		if (k==1) h1 <- diff(Pmatrix@meshpoints)[1]
 		
 		if (class(fecObjList)!="NULL") {
 			if (!cov) { 
@@ -136,7 +136,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 			
 			
 			
-			IPM <- Tmatrix + Fmatrix
+			IPM <- Pmatrix + Fmatrix
 			lambda[k] <- Re(eigen(IPM)$value[1])
 			stableStage[k,] <- eigen(IPM)$vector[,1]
 			#normalize stable size distribution
@@ -147,7 +147,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		
 		# get size to age results
 		if (nsizeToAge>0) { 
-			res2 <- sizeToAge(Tmatrix=Tmatrix,startingSize=minSize*1.3,
+			res2 <- sizeToAge(Pmatrix=Pmatrix,startingSize=minSize*1.3,
 					targetSize=seq(sizeStart,maxSize*0.9,length=nsizeToAge))
 			resAge[k,] <- res2$timeInYears
 			resSize[k,] <- res2$targetSize
@@ -156,7 +156,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 	}
 	
 	return(list(LE=LE,pTime=pTime,lambda=lambda,stableStage=stableStage,
-					meshpoints=Tmatrix@meshpoints,resAge=resAge,resSize=resSize,
+					meshpoints=Pmatrix@meshpoints,resAge=resAge,resSize=resSize,
 					surv.par=surv.par,grow.par=grow.par))
 	
 }
@@ -164,25 +164,25 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 
 
 ## Function to get passage time FROM a particular size TO a range of sizes
-## (i.e. size to age) when provided with a Tmatrix, a starting size, and a list
+## (i.e. size to age) when provided with a Pmatrix, a starting size, and a list
 ## of target sizes
 #
-# Parameters - Tmatrix
+# Parameters - Pmatrix
 #            - startingSize
 #            - targetSizes
 #
 # Returns - list containing vector of targets, vector of corresponding times, and the startingSize
 #
-sizeToAge <- function(Tmatrix,startingSize,targetSize) {
+sizeToAge <- function(Pmatrix,startingSize,targetSize) {
 	
-	#locate where the first size is in the meshpoints of Tmatrix
-	diffv <- abs(startingSize-Tmatrix@meshpoints)
+	#locate where the first size is in the meshpoints of Pmatrix
+	diffv <- abs(startingSize-Pmatrix@meshpoints)
 	start.index <- median(which(diffv==min(diffv),arr.ind=TRUE))
 	timeInYears <- rep(NA,length(targetSize))
 	
 	#loop over to see where its going
 	for (k in 1:length(targetSize)) {
-		pTime <- passageTime(targetSize[k],Tmatrix)
+		pTime <- passageTime(targetSize[k],Pmatrix)
 		timeInYears[k] <- pTime[start.index]
 	}
 	
@@ -509,7 +509,7 @@ makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10,
 		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosenCov = data.frame(covariate=as.factor(k)),
 				fecObj = fv1,integrateType=integrateType, correction=correction)
-		tpS <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
+		tpS <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosenCov = data.frame(covariate=as.factor(k)),
 				growObj = gr1, survObj = sv1,
 				integrateType=integrateType, correction=correction)
@@ -696,7 +696,7 @@ convertIncrement <- function(dataf, nYrs=1) {
 #
 # Returns - list including LE - Life Expectancy
 #                          pTime - passage time to chosen size
-#                          Tmatrix - Tmatrix
+#                          Pmatrix - Pmatrix
 #                          growObj -
 #                          survObj - survival object
 #
@@ -744,8 +744,8 @@ runSimpleModel <- function(dataf,
 		p2 <- picSurv(dataf,sv1,ncuts=50)
 	}
 	
-	# Make IPM Tmatrix with these objects, and chosen size range, and resolution (nBigMatrix)
-	tmp <- createIPMTmatrix(nBigMatrix = nBigMatrix, minSize = minSize, maxSize = maxSize,
+	# Make IPM Pmatrix with these objects, and chosen size range, and resolution (nBigMatrix)
+	tmp <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, maxSize = maxSize,
 			growObj = gr1, survObj = sv1,integrateType=integrateType, correction=correction)
 	
 	# Get the mean life expect from every size value in IPM
@@ -770,7 +770,7 @@ runSimpleModel <- function(dataf,
 	
 	
 	
-	return(list(pTime=pTime,LE=LE,Tmatrix=tmp,growObj=gr1, survObj=sv1))
+	return(list(pTime=pTime,LE=LE,Pmatrix=tmp,growObj=gr1, survObj=sv1))
 }
 
 
@@ -827,7 +827,7 @@ coerceMatrixIPM <- function(amat) {
 }
 
 
-# Function to build a discrete Tmatrix, with the same slots as an IPMmatrix
+# Function to build a discrete Pmatrix, with the same slots as an IPMmatrix
 # provided with bins and the usual type of data-frame (columns size, sizeNext, surv)
 #
 # Parameters - dataf - a dataframe
@@ -837,7 +837,7 @@ coerceMatrixIPM <- function(amat) {
 # Returns - an object of class IPMmatrix with dim length(bins)*length(bins) containing
 #         - survival transitions
 #
-createMPMTmatrix <- function(dataf, bins, nEnv=1) {
+createMPMPmatrix <- function(dataf, bins, nEnv=1) {
 	
 	loc.now <- findInterval(dataf$size[!is.na(dataf$size) & !is.na(dataf$sizeNext)],bins)+1
 	loc.next <- findInterval(dataf$sizeNext[!is.na(dataf$size) & !is.na(dataf$sizeNext)],bins)+1    

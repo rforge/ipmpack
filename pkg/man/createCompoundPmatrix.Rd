@@ -1,14 +1,14 @@
-\name{createCompoundTmatrix}
-\alias{createCompoundTmatrix}
+\name{createCompoundPmatrix}
+\alias{createCompoundPmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Builds a compound T matrix.
+Builds a compound P matrix.
 }
 \description{
   Uses growth, survival, discreteTrans, and environmental transition objects to construct a matrix defining probabilities for transitions between continuous stages (e.g. size) due to growth and survival given both size and environmental state and discrete stages. 
 }
 \usage{
-createCompoundTmatrix(nEnvClass = 2, nBigMatrix = 50,
+createCompoundPmatrix(nEnvClass = 2, nBigMatrix = 50,
 minSize = -1, maxSize = 50, envMatrix, growObj, survObj,
 discreteTrans = 1, integrateType = "midpoint",correction = "none")
 }
@@ -18,13 +18,13 @@ discreteTrans = 1, integrateType = "midpoint",correction = "none")
     numeric, number of environmental classes, defaults to 2.
   }
   \item{nBigMatrix}{
-    numeric, number of size bins in the T matrix, defaults to 50.
+    numeric, number of size bins in the P matrix, defaults to 50.
   }
   \item{minSize}{
-    numeric, minimum size of the T matrix, defaults to -1.
+    numeric, minimum size of the P matrix, defaults to -1.
   }
   \item{maxSize}{
-    numeric, maximum size of the T matrix, defaults to 50.
+    numeric, maximum size of the P matrix, defaults to 50.
   }
   \item{envMatrix}{
     envMatrix object defining transitions between environmental states
@@ -59,7 +59,7 @@ between ages is reflected by a similar matrix.
   (nBigMatrix + nDisc) * nEnvClass
 }
 \references{
-For information on T matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
+For information on P matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
 
 For habitat x stage modeling:
   Tuljapurkar, Horvitz & Pascarella. 2003. The many growth rates and elasticities of populations in random environments. American Naturalist 162: p489-502.
@@ -84,30 +84,30 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createCompoundFmatrix}},\code{\link{createIPMTmatrix}}
+\code{\link{createCompoundFmatrix}},\code{\link{createIPMPmatrix}}
 }
 \examples{
 # Data with only continuous stage and two habitats
 dff <- generateData()
-Tmatrix <- createCompoundTmatrix(minSize = min(dff$size,na.rm = TRUE), 
+Pmatrix <- createCompoundPmatrix(minSize = min(dff$size,na.rm = TRUE), 
 	maxSize = max(dff$size,na.rm = TRUE), envMatrix = makeEnvObj(dff), 
 		growObj = makeGrowthObj(dff, Formula = sizeNext~size+size2+covariate), 
 			survObj = makeSurvObj(dff, Formula = surv~size+size2+covariate))
 
-image(1:nrow(Tmatrix), 1:ncol(Tmatrix), t(log(Tmatrix)), 
+image(1:nrow(Pmatrix), 1:ncol(Pmatrix), t(log(Pmatrix)), 
 	xlab = "Continuous stage (e.g. size) at t", 
 		ylab = "Continuous stage (e.g. size) at t+1", axes = FALSE)
-axis(1, at = 1:nrow(Tmatrix), lab = round(rep(Tmatrix@meshpoints,Tmatrix@nEnvClass), 2))
-axis(2, at = 1:nrow(Tmatrix), lab = round(rep(Tmatrix@meshpoints,Tmatrix@nEnvClass), 2))
-abline(h = length(Tmatrix@meshpoints) * (1:Tmatrix@nEnvClass))
-abline(v = length(Tmatrix@meshpoints) * (1:Tmatrix@nEnvClass))
+axis(1, at = 1:nrow(Pmatrix), lab = round(rep(Pmatrix@meshpoints,Pmatrix@nEnvClass), 2))
+axis(2, at = 1:nrow(Pmatrix), lab = round(rep(Pmatrix@meshpoints,Pmatrix@nEnvClass), 2))
+abline(h = length(Pmatrix@meshpoints) * (1:Pmatrix@nEnvClass))
+abline(v = length(Pmatrix@meshpoints) * (1:Pmatrix@nEnvClass))
 
 # Data with continuous and discrete stages
 dff <- generateDataDiscrete()
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 discM <- makeDiscreteTrans(dff)
-Tmatrix <- createCompoundTmatrix(minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- createCompoundPmatrix(minSize = min(dff$size, na.rm = TRUE), 
 	maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), 
 		growObj = makeGrowthObj(dff, Formula = sizeNext~size+size2+covariate), 
 			survObj = makeSurvObj(dff, Formula = surv~size+size2+covariate), 

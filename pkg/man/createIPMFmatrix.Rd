@@ -81,7 +81,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createIPMTmatrix}}
+\code{\link{createIPMPmatrix}}
 }
 \examples{
 # Data with only continuous stage and one habitat

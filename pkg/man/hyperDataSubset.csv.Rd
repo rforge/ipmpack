@@ -122,18 +122,18 @@ dimnames(dummy)<-list(1,"seedbank")
 dto@sdToCont<-as.matrix(dummy,dimnames=c(1,"seedbank"))
 dto@discreteSurv[1,1]<-staySB+(1-staySB)*fec3*fec4
 
-#Create the T matrix
-Tmatrix<-createIPMTmatrix(growObj=go,survObj=so,discreteTrans=dto,minSize=0,maxSize=80,nBigMatrix=81,correction="constant")
+#Create the P matrix
+Pmatrix<-createIPMPmatrix(growObj=go,survObj=so,discreteTrans=dto,minSize=0,maxSize=80,nBigMatrix=81,correction="constant")
 
 #Create the F matrix
 Fmatrix<-createIPMFmatrix(fecObj=fo,minSize=0,maxSize=80,nBigMatrix=81,correction="constant")
 
-#Build a T matrix reflecting only the continuous part of the model and check that binning, etc is adequate
-Tmatrix.continuous.only <- createIPMTmatrix(growObj=go,survObj=so,minSize=0,maxSize=80,nBigMatrix=81,correction="constant")
-diagnosticsTmatrix(Tmatrix.continuous.only,growObj=go,survObj=so,dff=d, correction="constant")
+#Build a P matrix reflecting only the continuous part of the model and check that binning, etc is adequate
+Pmatrix.continuous.only <- createIPMPmatrix(growObj=go,survObj=so,minSize=0,maxSize=80,nBigMatrix=81,correction="constant")
+diagnosticsPmatrix(Pmatrix.continuous.only,growObj=go,survObj=so,dff=d, correction="constant")
 
 #Forming the IPM as a result of adding the T and F matrices
-IPM <- Tmatrix + Fmatrix
+IPM <- Pmatrix + Fmatrix
 
 #Population growth rate for the whole life cycle of Hypericum is
 eigen(IPM)$value[1]
