@@ -15,14 +15,12 @@ Demographic data of Hypericum cumulicola in "Florida rosemary scrub at" Archbold
 \details{
 data-frame with headings:
 
-	- idNew: unique plant id (this file contains only a subset of all individuals)
+	- id: unique plant id (this file contains only a subset of all individuals)
 	
 	- bald: population (this subset contains only one population)
 	
-	- year: transition from t to t+1 (this subset contains only data for 1994-1998)
-	
-	- tag: field-based unique identifier
-	
+	- year: transition from t to t+1 (this subset contains only data for 1994-1999)
+		
 	- fireYear: year when the bald was last burned
 	
 	- TSLF: time since last fire
@@ -33,19 +31,19 @@ data-frame with headings:
 	
 	- fec0: probability of reproduction (0= no flowering, 1 = individual was flowering in time t)
 	
-	- fec1: number of fruits per plant (NA if not Fec0Flowering = 0)
+	- fec1: number of fruits per plant (NA if fec0 = 0)
 	
-	- fec2: number of seeds per fruit
+	- fec2: number of seeds per fruit (NA if fec0 = 0)
 	
 	- fec3: probability that seeds produced in year t will germinate that year
 	
 	- fec4: probability of seedling survival prior to the next census
 	
-	- goSB: probability that seeds produced in year t will go into the seedbank
+	- goSB: probability that seeds produced in natural year t will go into the seedbank
 	
 	- staySB: probability that seeds will remain in the seedbank from year t to t+1
 	
-	- cov: annual precipitation in year t (in cm)
+	- cov: annual precipitation in year t (Jan-Dec; in mm)
 	
 	- surv: survival (0 = dead, 1= alive, NAs if not yet recruited)
 	
@@ -53,7 +51,7 @@ data-frame with headings:
 	
 	- ontogenyNext: recruits vs established individuals in time t+1 (0 = individual was recruited in time t+1, 1 = already established individual prior to time t+1, NA = individual not yet recruited or dead in t+1)
 	
-	- covNext: annual precipitation in year t+1 (mm)
+	- covNext: annual precipitation in natural year t+1 (mm)
 }
 
 \references{
