@@ -27,7 +27,7 @@ data-frame with headings:
 	
 	- fec0: probability of reproduction (0= no flowering, 1 = individual was flowering in time t)
 	
-	- fec1: number of fruits per plant (NA if not Fec0Flowering = 0)
+	- fec1: number of fruits per plant (NA if fec0 = 0)
 	
 	- surv: survival (0 = dead, 1= alive, NAs if not yet recruited)
 	
