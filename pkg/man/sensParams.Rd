@@ -1,7 +1,7 @@
 \name{sensParams}
 \alias{sensParams}
 \alias{sensParamsR0}
-\alias{sensParamsLifeExpectancy}
+\alias{sensParamsLifeExpect}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{

@@ -8,7 +8,7 @@ Creates a series of diagnostic graphs for a T matrix.
  Displays the effects of increasing number of bins and continuous (size) stage range on a number of predictions from the T matrix to verify that sufficient resolution and continuous stage range are being used. 
 }
 \usage{
-diagnosticsTmatrix(Tmatrix, growObj, survObj, dff, integrateType, correction, cov = data.frame(covariate = 1))
+diagnosticsTmatrix(Tmatrix, growObj, survObj, dff=NULL, integrateType, correction, cov = data.frame(covariate = 1), sizesToPlot = c(),extendSizeRange = c())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

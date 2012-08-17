@@ -785,7 +785,7 @@ createCompoundTmatrix <- function(nEnvClass = 2,
 				print("warnings - columns that sum to 0 or that have NAs - assuming survival is along the diagonal; plot your Tmatrix to check it")
 				get.matrix[,loc0] <- 0
 				get.matrix[cbind(loc0, loc0)] <- surv(size = y[loc0], 
-						cov = chosenCov, survObj = survObj)
+						cov = data.frame(covariate=as.factor(k)), survObj = survObj)
 			}
 			nvals <- colSums(get.matrix,na.rm=TRUE)
 			get.matrix <- t((t(get.matrix)/nvals) * surv(size = y, 

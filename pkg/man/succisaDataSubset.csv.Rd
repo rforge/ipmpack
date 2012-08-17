@@ -5,7 +5,7 @@
 Succisa pratensis Dataset
 }
 \description{
-Subset of multiple years of demographic data of Succisa pratensis collected at the "Bennekomse Meent" site in the Netherlands. Details are described in Jongejans & de Kroon (2005). More information: E.Jongejans@science.ru.nl
+Subset of multiple years of demographic data of Succisa pratensis collected at the "Bennekomse Meent" site in the Netherlands. Details are described in Jongejans and de Kroon (2005). More information: E.Jongejans@science.ru.nl
 }
 \usage{data(succisaDataSubset)}
 \format{
@@ -46,7 +46,7 @@ data-frame with headings:
 }
 
 \references{
-Jongejans, E. & de Kroon, H. (2005) Space versus time variation in the population dynamics of three co-occurring perennial herbs. Journal of Ecology, 93, 681–692.
+Jongejans, E. and de Kroon, H. (2005) Space versus time variation in the population dynamics of three co-occurring perennial herbs. Journal of Ecology, 93, 681-692.
 
 }
 \author{

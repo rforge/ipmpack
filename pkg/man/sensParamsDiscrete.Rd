@@ -55,10 +55,6 @@ sensParamsDiscreteR0(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
   \item{delta}{
     size of the perturbation desired
   }
-  \item{chosenBin}{
-    for analysis of life expectancy, which bin in the IPM Life
-    expectancy should be compared for
-  }
   }
 \value{
   \item{slam }{a vector of sensitivities of lambda with names
