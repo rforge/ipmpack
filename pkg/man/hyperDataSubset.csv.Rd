@@ -23,17 +23,17 @@ data-frame with headings:
 	
 	- size: length of longest stem in individual (cm) in time t
 	
-	- ontogeny: recruits vs established individuals in time t (0 = individual was recruited in time t, 1 = already established individual prior to time t, NA = individual not yet recruited in time t)
+	- ontogeny: recruits vs established individuals in time t (1 = individual was recruited in time t, 0 = already established individual prior to time t, NA = individual not yet recruited in time t)
 	
-	- fec0: probability of reproduction (0= no flowering, 1 = individual was flowering in time t)
+	- fec0: probability of reproduction (0= no flowering, 1 = individual was flowering in time t, NA = individual not alive in year t)
 	
 	- fec1: number of fruits per plant (NA if fec0 = 0)
 	
-	- surv: survival (0 = dead, 1= alive, NAs if not yet recruited)
+	- surv: survival (0 = dead, 1= alive, NAs if not yet recruited or past dead)
 	
 	- sizeNext: length of longest stem in individual (cm) in time t+1
 	
-	- ontogenyNext: recruits vs established individuals in time t+1 (0 = individual was recruited in time t+1, 1 = already established individual prior to time t+1, NA = individual not yet recruited or dead in t+1)
+	- ontogenyNext: recruits vs established individuals in time t+1 (1 = individual was recruited in time t+1, 0 = already established individual prior to time t+1, NA = individual not yet recruited or dead in t+1)
 }
 
 \references{
@@ -55,31 +55,31 @@ d <- subset(d,is.na(d$size)==FALSE | d$ontogenyNext==1)
 
 #Side-experiments revealed that the following vital rates are size-independent and equal to:
   #Number of seeds produced per fruit
-    fec2Seeds<-13.78
+    fec2 <- 13.78
   #Probability of seedling establishment
-    fec3Establish<-0.001336
+    fec3 <- 0.001336
   #Probability of seedling survival half a year after germinating, corresponding to the next annual census
-    fec4HalfYearSeedlingSurvival<-0.14
+    fec4 <- 0.14
   #Probability of a seed going into the seed bank
-    goSB<-0.08234528
+    goSB <- 0.08234528
   #Probability of a seed staying in the seed bank
-    staySB<-0.672
+    staySB <- 0.672
 #Note that the aforementioned vital rates are function of time since last fire. See Quintana-Ascencio et al (2003) for more information.
 
 #A simple re-organization of the data, getting rid of non-critical information
-d<-d[,c("surv","size","sizeNext","fec0Flowering","fec1Fruits")]
+d <- d[,c("surv","size","sizeNext","fec0","fec1")]
 
 #The following states the continuous (max height of individual plant) part of the IPM. Note that the IPM to be constructed here contains a discrete stage: seedbank.
-d$stage<-d$stageNext<-"continuous"
-d$stage[is.na(d$size)]<-NA
-#If individual did not survive, it is labelled as dead to t+1.
-d$stageNext[d$surv==0]<-"dead"
+d$stage <- d$stageNext <- "continuous"
+d$stage[is.na(d$size)] <- NA
+#If individual did not survive, it is labeled as dead to t+1.
+d$stageNext[d$surv==0] <- "dead"
 #Adds probability of seeds going into (continuous -> seedbank), staying (seedbank -> seedbank) and leaving (continuous -> seedbank) the discrete stage.
-d$number<-1
-sb<-data.frame(stage=c("seedbank","seedbank","continuous"),stageNext=c("seedbank","continuous","seedbank"),surv=1,size=NA,sizeNext=NA,fec0Flowering=NA,fec1Fruits=NA,number=c(staySB,(1-staySB)*fec3Establish*fec4HalfYearSeedlingSurvival,1))
-d<-rbind(d,sb)
-d$stage<-as.factor(d$stage)
-d$stageNext<-as.factor(d$stageNext)
+d$number <- 1
+sb <- data.frame(stage=c("seedbank","seedbank","continuous"),stageNext=c("seedbank","continuous","seedbank"),surv=1,size=NA,sizeNext=NA,fec0=NA,fec1=NA,number=c(staySB,(1-staySB)*fec3*fec4,1))
+d <- rbind(d,sb)
+d$stage <- as.factor(d$stage)
+d$stageNext <- as.factor(d$stageNext)
 
 #Carry out comparisons to establish the best survival model
 testSurv <- survModelComp(dataf=d, expVars = c(surv~1, surv~size, surv~size + size2),
@@ -105,23 +105,22 @@ fo<-makeFecObj(d,Family=c("binomial","poisson"),
                Formula=c(fec0Flowering~size,fec1Fruits~size),
                meanOffspringSize=mean(d[is.na(d$size)==TRUE & is.na(d$sizeNext)==FALSE,"sizeNext"]),
                sdOffspringSize=sd(d[is.na(d$size)==TRUE & is.na(d$sizeNext)==FALSE,"sizeNext"]),
-               fecConstants=data.frame(fec2Seeds=fec2Seeds,
-               fec3Establish=fec3Establish,fec4HalfYearSeedlingSurvival=fec4HalfYearSeedlingSurvival),   
+               fecConstants=data.frame(fec2=fec2,fec3=fec3,fec4=fec4),   
                offspringSplitter=data.frame(seedbank=goSB,continuous=(1-goSB)),
                offspringTypeRates=data.frame(seedbank=c(1,1,1,0,0),
                continuous=rep(1,5),
-               row.names=c("fec0Flowering","fec1Fruits","fec2Seeds","fec3Establish","fec4HalfYearSeedlingSurvival")),
+               row.names=c("fec0","fec1","fec2","fec3","fec4")),
                Transform=c("none","none"))
 
 #Define discrete transition matrix
-dto<-makeDiscreteTrans(d)
-dummy<-as.matrix(fo@offspringRel$coefficients[1])
+dto <- makeDiscreteTrans(d)
+dummy <- as.matrix(fo@offspringRel$coefficients[1])
 dimnames(dummy)<-list(1,"seedbank")
 dto@meanToCont<-as.matrix(dummy,dimnames=c(1,"seedbank"))
 dummy<-as.matrix(fo@sdOffspringSize)
 dimnames(dummy)<-list(1,"seedbank")
 dto@sdToCont<-as.matrix(dummy,dimnames=c(1,"seedbank"))
-dto@discreteSurv[1,1]<-staySB+(1-staySB)*fec3Establish*fec4HalfYearSeedlingSurvival
+dto@discreteSurv[1,1]<-staySB+(1-staySB)*fec3*fec4
 
 #Create the T matrix
 Tmatrix<-createIPMTmatrix(growObj=go,survObj=so,discreteTrans=dto,minSize=0,maxSize=80,nBigMatrix=81,correction="constant")
