@@ -125,10 +125,10 @@ minSize = min(dff$size, na.rm=TRUE), maxSize = max(dff$size, na.rm = TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
 barplot(resR0$slam, 
-main = expression("Parameter sensitivity of R"[0]), 
+main = expression("Parameter sensitivity of net reproductive rate R"[0]), 
 las = 2, cex.names = 0.5) 
 barplot(resR0$elam, 
-main = expression("Parameter elasticity of R"[0]), 
+main = expression("Parameter elasticity of net reproductive rate R"[0]), 
 las = 2, cex.names = 0.5) 
 
 #life expectancy
@@ -139,10 +139,10 @@ TRUE), chosenBin=1)
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
 barplot(resLE$slam, 
-main = expression("Parameter sensitivity of Life Expectancy"), 
+main = expression("Parameter sensitivity of Life Expectancy"*eta[0]), 
 las = 2, cex.names = 0.5) 
 barplot(resLE$elam, 
-main = expression("Parameter elasticity of Life expectancy"), 
+main = expression("Parameter elasticity of Life expectancy"*eta[0]), 
 las = 2, cex.names = 0.5) 
 
 # Same as lambda above, but with two fecundity functions
