@@ -57,8 +57,6 @@ makeListIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,
 	data.frame of constant multipliers for the fecundity model.
 	}
 }
-\details{
-}
 \value{
   list of matrices corresponding to covariates, in order.
 }
