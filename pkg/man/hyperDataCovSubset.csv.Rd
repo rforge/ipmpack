@@ -27,7 +27,7 @@ data-frame with headings:
 	
 	- size: length of longest stem in individual (cm) in time t
 	
-	- ontogeny: recruits vs established individuals in time t (0 = individual was recruited in time t, 1 = already established individual prior to time t, NA = individual not yet recruited in time t)
+	- ontogeny: recruits vs established individuals in time t (1 = individual was recruited in time t, 0 = already established individual prior to time t, NA = individual not yet recruited in time t)
 	
 	- fec0: probability of reproduction (0= no flowering, 1 = individual was flowering in time t)
 	
@@ -43,15 +43,15 @@ data-frame with headings:
 	
 	- staySB: probability that seeds will remain in the seedbank from year t to t+1
 	
-	- cov: annual precipitation in year t (Jan-Dec; in mm)
+	- cov: annual precipitation in year t (Jan-Dec; mm)
 	
 	- surv: survival (0 = dead, 1= alive, NAs if not yet recruited)
 	
 	- sizeNext: length of longest stem in individual (cm) in time t+1
 	
-	- ontogenyNext: recruits vs established individuals in time t+1 (0 = individual was recruited in time t+1, 1 = already established individual prior to time t+1, NA = individual not yet recruited or dead in t+1)
+	- ontogenyNext: recruits vs established individuals in time t+1 (1 = individual was recruited in time t+1, 0 = already established individual prior to time t+1, NA = individual not yet recruited or dead in t+1)
 	
-	- covNext: annual precipitation in natural year t+1 (mm)
+	- covNext: annual precipitation in natural year t+1 (Jan-Dec; mm)
 }
 
 \references{
