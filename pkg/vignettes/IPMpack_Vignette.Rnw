@@ -155,9 +155,6 @@ First, the user must install IPMpack from CRAN using
 
 <<>>=
 library("IPMpack")
-source("/Users/cjessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Base.r")
-source("/Users/cjessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Impl.r")
-source("/Users/cjessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Util.r")
 @
 Next, the user must input demographic data. As mentioned above, most functions of IPMpack require a data file with at minimum columns called {\tt size}, {\tt sizeNext}, {\tt surv}, where `size' is size at time t, `sizeNext' is size one census later, and `surv' is a series of 0s and 1s, indicating if the individual survived or not. In the case of `size' and `sizeNext', data can be transformed (e.g., onto a log scale), if appropriate via functions built into IPMpack. For the purpose of learning how to use IPMpack, the user can either use his/her own data (adjusted to have the appropriate headings, as aforementioned), or generate them with a function built into IPMpack:
 
@@ -259,7 +256,7 @@ The left panel on the first plot shows the range of the data (if the data is pro
 The discretization of a continuous function can result in under- or over-estimation of the true density. Where this is occurs, the sum of the columns of the discretized matrix will not match predictions from the fitted survival model.  The middle panel 
 plots these against each other for the three matrices in the first panel (current, extended range and increased bin number) using the same colours as in the first panel. Lines should fall along the (0,1) line shown in grey; if they do not, the argument {\tt correction="constant"} in {\tt createIPMTmatrix} may be of use. This ensures that the columns sum to the fitted survival by multiplying every column in the Integral Projection Model by the value that allows this. The third panel checks whether extending the size range included in the matrix and increasing the number of bins (by increasing {\tt nBigMatrix} and thereby having narrower bins) does not alter basic predictions from the IPM.
 
-The six panels on the next plot show the discretized IPM (histograms)for the current IPM (top) and one with an increased number of bins (bottom)  and the
+The six panels on the next plot (that may not be present in the pdf of the vignette, but should appear if you run the function) show the discretized IPM (histograms)for the current IPM (top) and one with an increased number of bins (bottom)  and the
 theoretical density function (red line) . These are plotted either for three chosen sizes ({\tt sizesToPlot}) or the 0.25, 0.5 and 0.75 quantiles of either the observed data (if supplied) or the range of meshpoints (if not); this size is printed in the top right hand of every plot. If the theoretical density function curve is very distant from the histograms, increasing the {\tt nBigMatrix} argument may correct this discrepancy. 
 
 Other useful function for verifying that sufficient bins have been used include {\tt convergeLambda} and associated functions; see the help file and try them out. 
