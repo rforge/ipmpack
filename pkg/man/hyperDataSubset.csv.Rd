@@ -102,7 +102,7 @@ abline(a=0,b=1,lty=2)
 
 #Create fecundity object
 fo<-makeFecObj(d,Family=c("binomial","poisson"),
-               Formula=c(fec0Flowering~size,fec1Fruits~size),
+               Formula=c(fec0~size,fec1~size),
                meanOffspringSize=mean(d[is.na(d$size)==TRUE & is.na(d$sizeNext)==FALSE,"sizeNext"]),
                sdOffspringSize=sd(d[is.na(d$size)==TRUE & is.na(d$sizeNext)==FALSE,"sizeNext"]),
                fecConstants=data.frame(fec2=fec2,fec3=fec3,fec4=fec4),   
