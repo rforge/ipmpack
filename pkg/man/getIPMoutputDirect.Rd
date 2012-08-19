@@ -8,7 +8,7 @@ fecundity objects.
 \description{
 Get synthetic values including life expectancy, passage time, and if a
 fecundity matrix is available, population growth rate (lambda), stable stage disctribution, etc. This is essentially identical to getIPMoutput(),but can be a slightly swifter approach since matrices are not stored. It 
-also allows compound matrices to be produced following levels of a discrete covariate (e.g., habitat) (using cov=TRUE). 
+also allows compound matrices to be produced following levels of a discrete covariate (e.g., habitat) (using cov=TRUE). The is helpful when building multiple IPMs for study of parameter uncertainty or stochastic dynamics.
 }  
 \usage{
 getIPMoutputDirect(survObjList, growObjList, targetSize = c(), 
@@ -84,7 +84,7 @@ list of fecundity objects (facultative).
   \item{resSize}{matrix providing target sizes for size to age estimate (assuming age=1
     at sizeStart), of length nsizeToAge space equally between the smallest and largest meshpoints.}
   \item{resAge}{matrix providing time in time-steps to get to resSize,
-    rows corresonding sequential elements in the list of P matrices.} 
+    rows corresponding sequential elements in the list of P matrices.} 
   \item{surv.par}{matrix of posteriors of survival parameters (columns,
     each sample is a row).}
   \item{grow.par}{matrix of posteriors of growth parameters (in columns).} 
@@ -96,7 +96,7 @@ For midpoint: Zuidema, Jongejans, Chien, During, Schieving. 2010. Integral proje
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \seealso{
-  \code{\link{getIPMoutputDirect}} 
+  \code{\link{getIPMoutput}} 
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
