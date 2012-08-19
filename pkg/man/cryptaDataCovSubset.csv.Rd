@@ -5,7 +5,7 @@
 Cryptantha Perennial Dataset with Covariates
 }
 \description{
-Demographic data of Cryptantha flava in the "Redfleet State Park", UT, USA. Life cycle, experimental design and data are described in Salguero-Gomez et al (2012). Data contains a subset of individuals from 2003 to 2012. Full dataset can be obtained upon request to the authors (salguero@demogr.mpg.de and bcasper@sas.upenn.edu).
+Demographic data of Cryptantha flava in the "Redfleet State Park", UT, USA. Life cycle, experimental design and data are described in Salguero-Gomez et al (2012). Data contains a subset of individuals from 2004 to 2010. Full dataset can be obtained upon request to the authors (salguero@demogr.mpg.de and bcasper@sas.upenn.edu).
 }
 \usage{data(cryptaDataCovSubset)}
 \format{
@@ -13,7 +13,7 @@ Demographic data of Cryptantha flava in the "Redfleet State Park", UT, USA. Life
  chr "cryptaDataCovSubset"
 }
 \details{
-data-frame with headings:
+Data-frame with headings:
 
 	- ID: unique plant id (this file contains only a subset of all individuals)
 	
@@ -35,31 +35,27 @@ data-frame with headings:
 	
 	- distance: distance (in cm) of the individual of Cryptantha flava to the shrub. Negative distance imply the individual is "inside" the shrub. Zero implies the individual is at the edge of the shrub's canopy.
 	
-	- year: transition from t to t+1 (this subset contains only data for 2003-2012)
+	- year: transition from t to t+1 (this subset contains only data for 2004-2010)
 	
-	- pNow: annual precipitation (in cm) from June of year t-1 to May of year t
+	- p: annual precipitation (in cm) from June of year t-1 to May of year t
 	
-	- ageNow: age of individual (in years) in year t. Individuals of unknown age are assigned to 999
+	- age: age of individual (in years) in year t. Individuals of unknown age are assigned to 999
 	
-	- sizeNow: total number of rosettes (vegetative and flowering) of the individual in year t
+	- size: total number of rosettes (vegetative and flowering) of the individual in year t
 	
-	- fec0Now: probability of reproduction (0: vegetative, 1: flowering) in year t
+	- fec0: probability of reproduction (0: vegetative, 1: flowering; NA: individual not alive) in year t
 	
-	- fec1Now: number of flowering rosettes in year t
+	- fec1: number of flowering rosettes in year t (NA: fec0 = 0 or NA)
 		
 	- surv: survival (0 = dead, 1= alive, NAs if not yet recruited)
 	
-	- pNext: annual precipitation (in cm) from June of year t to May of year t+1
+	- precNext: annual precipitation (in cm) from June of year t to May of year t+1
 	
 	- ageNext: age of individual (in years) in year t+1. Individuals of unknown age are assigned to 999
 	
 	- sizeNext: total number of rosettes (vegetative and flowering) of the individual in year t+1
 	
-	- fec0Next: probability of reproduction (0: vegetative, 1: flowering) in year t+1
-	
-	- fec1Next: number of flowering rosettes in year t+1
-	
-	}
+}
 
 \references{
 Salguero-Gomez, Siewert, Casper & Tielboerger. Oct 2012. A demographic approach to study effects of climate change in desert plants. Philosophical Transactions of the Royal Society. Series B - Biological Sciences x, pxxx-xxx
