@@ -25,10 +25,10 @@ diagnosticsPmatrix(Pmatrix, growObj, survObj, dff=NULL, integrateType, correctio
   the dataframe from which the survival and growth objects were constructed; if not supplied, defaults to NULL, which will simply result in the size distribution not being plotted. 
 }
  \item{integrateType}{
-  integration type, defaults to ``midpoint" (which uses probability density function); other option is ``cumul" (which uses the cumulative density function).
+  integration type, defaults to \code{midpoint} (which uses probability density function); other option is \code{cumul} (which uses the cumulative density function).
  }
  \item{correction}{
-  correction type, defaults to ``none". The first option is ``constant" which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for survival at that size. The second option is ``discretizeExtremes" which will place all transitions to sizes smaller than minSize into the smallest bing, and transitions to sizes larger than maxSize into the largest bin. 
+correction type, defaults to \code{none}. The first option is \code{constant} which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for survival at that size. The second option is \code{discretizeExtremes} which will place all transitions to sizes smaller than \code{minSize} into the smallest bin, and transitions to sizes larger than \code{maxSize} into the largest bin. 
  }
  \item{cov}{
   a data-frame with one row containing all covariates; defaults to 1, and will be ignored if covariates do not exist in growth and survival objects

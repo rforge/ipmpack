@@ -42,10 +42,8 @@ createIPMCmatrix(clonalObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1,
     function); other option is "cumul" (which uses the cumulative density function)
   }
   \item{correction}{
-    correction type, defaults to "none"; option is "constant" which will
-    multiply every column of the IPM by a constant sufficient to adjust
-    values to those predicted for survival at that size. 
-  }
+  	correction type, defaults to \code{none}. The first option is \code{constant} which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for total fertility at that size. The second option is \code{discretizeExtremes} which will place all transitions to sizes smaller than \code{minSize} into the smallest bin, and transitions to sizes larger than \code{maxSize} into the largest bin.  
+   }
  
 }
 \value{
