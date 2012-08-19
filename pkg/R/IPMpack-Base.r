@@ -933,9 +933,13 @@ createIPMFmatrix <- function(fecObj,
 	# 1. pre-census
 	if (preCensus) { 
 		#print("here")
+		##NOTE that the condition is necessary because you might ONLY have discrete offspring
+		# in which case correction makes no sense
 		if (integrateType=="midpoint"&fecObj@offspringSplitter$continuous>0) { 
 			tmp <- t(outer(X=y,Y=y,.fecPreCensus,cov=chosenCov,fecObj=fecObj))*h 
 		}
+		##NOTE that the condition is necessary because you might ONLY have discrete offspring
+		# in which case correction makes no sense
 		if (integrateType=="cumul"&fecObj@offspringSplitter$continuous>0) {
 			#offspring extremes (pnorm) 
 			tmp.cum <- t(outer(X=y,Y=b,.offspringCum,cov=chosenCov,
@@ -945,12 +949,16 @@ createIPMFmatrix <- function(fecObj,
 			tmp <- t(t(tmp)*.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]])      
 		}
 		
+		##NOTE that the condition is necessary because you might ONLY have discrete offspring
+		# in which case correction makes no sense
 		if (correction=="constant"&fecObj@offspringSplitter$continuous>0) {
 			# in this case, column sums should equal raw fecundity
 			correction <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]]/colSums(tmp)
 			tmp <- t(t(tmp)*correction)
 		}
-		if (correction=="discretizeExtremes"){
+		##NOTE that the condition is necessary because you might ONLY have discrete offspring
+		# in which case correction makes no sense
+		if (correction=="discretizeExtremes"&fecObj@offspringSplitter$continuous>0){
 			tooLow <- .offspringCum(x=y,y=b[1], cov = chosenCov, 
 					fecObj = fecObj)
 			tooHigh <- 1-.offspringCum(x=y,y=b[length(b)],cov = chosenCov, 
@@ -962,11 +970,15 @@ createIPMFmatrix <- function(fecObj,
 		# 2. post-census
 	} else {
 		#print ("Warning: in the current version of IPMpack, createIPMFmatrix still ignores the growObj you provided for your post-breeding F matrix. This will be included in a later version. Survival until breeding is already included in this version.")
+		##NOTE that the condition is necessary because you might ONLY have discrete offspring
+		# in which case correction makes no sense
 		if (integrateType=="midpoint"&fecObj@offspringSplitter$continuous>0) { 
 			tmp <- t(outer(X=y,Y=y,.fecPostCensus,
 							cov=chosenCov,fecObj=fecObj, growObj=growObj,
 							survObj=survObj))*h 
 		}
+		##NOTE that the condition is necessary because you might ONLY have discrete offspring
+		# in which case correction makes no sense
 		if (integrateType=="cumul"&fecObj@offspringSplitter$continuous>0) {
 			#make the extreme bins offspring matrix
 			tmp.cum <- t(outer(X=y,Y=b,.offspringCum,cov=chosenCov,
@@ -985,12 +997,16 @@ createIPMFmatrix <- function(fecObj,
 			
 		}
 		
+		##NOTE that the condition is necessary because you might ONLY have discrete offspring
+		# in which case correction makes no sense
 		if (correction=="constant"&fecObj@offspringSplitter$continuous>0) {
 			# in this case, column sums should equal raw fecundity * survival
 			correction <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]]*surv(size=y,cov=chosenCov,survObj=survObj)/colSums(tmp)
 			tmp <- t(t(tmp)*correction)
 		}
-		if (correction=="discretizeExtremes"){
+		##NOTE that the condition is necessary because you might ONLY have discrete offspring
+		# in which case correction makes no sense
+		if (correction=="discretizeExtremes"&fecObj@offspringSplitter$continuous>0){
 			tooLow <- .offspringCum(x=y,y=b[1], cov = chosenCov, 
 					fecObj = fecObj)
 			tooHigh <- 1-.offspringCum(x=y,y=b[length(b)],cov = chosenCov, 
