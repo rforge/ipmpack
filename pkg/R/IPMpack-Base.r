@@ -633,10 +633,13 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 	b <- minSize + c(0:nBigMatrix) * (maxSize - minSize)/nBigMatrix
 	y <- 0.5 * (b[1:nBigMatrix] + b[2:(nBigMatrix + 1)])
 	h <- y[2] - y[1]
+
+	
 	if (integrateType == "midpoint") {
 		get.matrix <- t(outer(y, y, growSurv, cov = chosenCov, 
 						growthObj = growObj, survObj = survObj)) * h
 	}
+
 	if (integrateType == "cumul") {
 		get.matrix.cum <- t(outer(y, b, growthCum, cov = chosenCov, 
 						growthObj = growObj))
@@ -647,6 +650,7 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 		get.matrix <- t(t(get.matrix) * surv(size = y, cov = chosenCov, 
 						survObj = survObj))
 	}
+
 	if (correction == "constant") {
 		nvals <- colSums(get.matrix,na.rm=TRUE)
 		loc0 <- which(nvals == 0 , arr.ind = TRUE)
@@ -660,6 +664,7 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 		get.matrix <- t((t(get.matrix)/nvals) * surv(size = y, 
 						cov = chosenCov, survObj = survObj))
 	}
+
 	if (correction=="discretizeExtremes"){
 		tooLow <- growthCum(y,b[1], cov = chosenCov, 
 						growthObj = growObj)
@@ -675,15 +680,16 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 			nrow = 1 * nBigMatrix, ncol = 1 * nBigMatrix, meshpoints = y, 
 			env.index = rep(1:nEnvClass, each = nBigMatrix), names.discrete = "")
 	rc[, ] <- get.matrix
+
 	if (class(discreteTrans) == "discreteTrans") {
 		nDisc <- ncol(discreteTrans@discreteSurv)
 		survToDiscrete <- predict(discreteTrans@survToDiscrete, 
 				data.frame(size = y, size2 = (y * y)), type = "response")
 		cont.to.cont <- get.matrix * matrix(1 - survToDiscrete, 
-				nrow = nBigMatrix, ncol = nBigMatrix, byrow = T)
+				nrow = nBigMatrix, ncol = nBigMatrix, byrow = TRUE)
 		disc.to.disc <- discreteTrans@discreteTrans[1:nDisc, 
 						1:nDisc] * matrix(c(discreteTrans@discreteSurv), 
-						nrow = nDisc, ncol = nDisc, byrow = T)
+						nrow = nDisc, ncol = nDisc, byrow = TRUE)
 		disc.to.cont <- matrix(NA, ncol = nDisc, nrow = nBigMatrix)
 		cont.to.disc <- matrix(NA, nrow = nDisc, ncol = nBigMatrix)
 		for (j in 1:nDisc) {
@@ -771,9 +777,9 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 	#loop over habitats / environments
 	for (k in 1:nEnvClass) { 
 		#IPM for individuals starting in env k
-		get.matrix <- createIPMPmatrix <- function (nEnvClass = nEnvClass, 
+		get.matrix <- createIPMPmatrix(nEnvClass = nEnvClass, 
 				nBigMatrix = nBigMatrix, minSize = minSize, maxSize = maxSize, 
-				chosenCov = data.frame(covariate = k), growObj=growObj, survObj=survObj, 
+				chosenCov = data.frame(covariate = as.factor(k)), growObj=growObj, survObj=survObj, 
 				discreteTrans = discreteTrans, 
 				integrateType = integrateType, correction = correction)		
 		
@@ -785,6 +791,8 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 		
 	}
 	
+	nmes<-""
+
 	rc <- new("IPMmatrix",
 			nEnvClass = nEnvClass, 
 			nBigMatrix = nBigMatrix,
@@ -792,7 +800,7 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 			ncol = nEnvClass*(nBigMatrix + nDisc),
 			meshpoints = y,
 			env.index = rep(1:nEnvClass, each = nBigMatrix,
-					names.discrete = nmes))
+			names.discrete = nmes))
 	
 	rc[,] <- megamatrix
 	
