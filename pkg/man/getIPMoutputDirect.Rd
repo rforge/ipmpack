@@ -3,13 +3,13 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Gets IPM output from a list of survival, growth, and (facultatively)
-fecundity objects.
+fecundity objects.   
 }
 \description{
 Get synthetic values including life expectancy, passage time, and if a
 fecundity matrix is available, population growth rate (lambda), stable stage disctribution, etc. This is essentially identical to getIPMoutput(),but can be a slightly swifter approach since matrices are not stored. It 
 also allows compound matrices to be produced following levels of a discrete covariate (e.g., habitat) (using cov=TRUE). 
-}
+}  
 \usage{
 getIPMoutputDirect(survObjList, growObjList, targetSize = c(), 
 	nBigMatrix, minSize, maxSize, discreteTrans = 1,cov = FALSE, 
