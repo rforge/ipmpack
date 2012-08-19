@@ -760,67 +760,11 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 	#loop over habitats / environments
 	for (k in 1:nEnvClass) { 
 		#IPM for individuals starting in env k
-		
-		#print(k)
-		
-		if (integrateType=="midpoint") { 
-			get.matrix <- (maxSize-minSize)*
-					t(outer(y,y,growSurv,cov=data.frame(covariate=as.factor(k)),
-									growthObj=growObj,survObj=survObj))/nBigMatrix  
-		}
-		if (integrateType=="cumul") {
-			get.matrix.cum <- 
-					t(outer(y,b,growthCum,cov=data.frame(covariate=as.factor(k)),
-									growthObj=growObj))
-			get.matrix <- get.matrix.cum[2:(nBigMatrix+1),]-get.matrix.cum[1:nBigMatrix,]
-			get.matrix <- t(t(get.matrix)*surv(size=y,cov=data.frame(covariate=as.factor(k)),survObj=survObj))
-			
-		}
-		
-		#fix any integration issues reducing survival by dividing by col sums and multiply by survival
-		if (correction == "constant") {
-			nvals <- colSums(get.matrix,na.rm=TRUE)
-			loc0 <- which(nvals == 0 , arr.ind = TRUE)
-			if (length(loc0) > 0) {
-				print("warnings - columns that sum to 0 or that have NAs - assuming survival is along the diagonal; plot your Pmatrix to check it")
-				get.matrix[,loc0] <- 0
-				get.matrix[cbind(loc0, loc0)] <- surv(size = y[loc0], 
-						cov = data.frame(covariate=as.factor(k)), survObj = survObj)
-			}
-			nvals <- colSums(get.matrix,na.rm=TRUE)
-			get.matrix <- t((t(get.matrix)/nvals) * surv(size = y, 
-							cov = data.frame(covariate=as.factor(k)), survObj = survObj))
-		}
-		
-		#names of discrete classes default
-		nmes <- ""
-		
-		
-		# In case of discrete classes, take the IPM constructed above and add discrete classes defined in discreteTrans
-		if (class(discreteTrans)=="discreteTrans") {
-			nmes <- rownames(discreteTrans@discreteTrans)
-			survToDiscrete <- predict(discreteTrans@survToDiscrete,data.frame(size=y,size2=(y*y)),type="response")
-			cont.to.cont <- get.matrix*matrix(1-survToDiscrete,nrow=nBigMatrix,ncol=nBigMatrix,byrow=T)
-			disc.to.disc <- discreteTrans@discreteTrans[1:nDisc,1:nDisc]*matrix(c(discreteTrans@discreteSurv),
-					nrow=nDisc,ncol=nDisc,byrow=T)
-			disc.to.cont <- matrix(NA,ncol=nDisc,nrow=nBigMatrix)
-			cont.to.disc <- matrix(NA,nrow=nDisc,ncol=nBigMatrix)
-			
-			#print(discreteTrans@meanToCont)
-			#print(discreteTrans@sdToCont)
-			
-			for (j in 1:nDisc) {
-				tmp<-dnorm(y,discreteTrans@meanToCont[j],discreteTrans@sdToCont[j])*h
-				if (correction=="constant") tmp<-tmp/sum(tmp)
-				
-				#print(tmp)
-				
-				disc.to.cont[,j] <- discreteTrans@discreteSurv[,j]*discreteTrans@discreteTrans["continuous",j]*tmp
-				cont.to.disc[j,] <- discreteTrans@distribToDiscrete[j,]*surv(y,cov=data.frame(covariate=as.factor(k)),survObj)*survToDiscrete
-			}
-			
-			get.matrix <- rbind(cbind(disc.to.disc,cont.to.disc),cbind(disc.to.cont,cont.to.cont))
-		}
+		get.matrix <- createIPMPmatrix <- function (nEnvClass = nEnvClass, 
+				nBigMatrix = nBigMatrix, minSize = minSize, maxSize = maxSize, 
+				chosenCov = data.frame(covariate = k), growObj=growObj, survObj=survObj, 
+				discreteTrans = discreteTrans, 
+				integrateType = integrateType, correction = correction)		
 		
 		# transit them
 		subset <- c(1:nEnvClass)[envMatrix[,k]>0]
