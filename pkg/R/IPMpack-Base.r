@@ -953,8 +953,8 @@ createIPMFmatrix <- function(fecObj,
 		# in which case correction makes no sense
 		if (correction=="constant"&fecObj@offspringSplitter$continuous>0) {
 			# in this case, column sums should equal raw fecundity
-			correction <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]]/colSums(tmp)
-			tmp <- t(t(tmp)*correction)
+			correction.here <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]]/colSums(tmp)
+			tmp <- t(t(tmp)*correction.here)
 		}
 		##NOTE that the condition is necessary because you might ONLY have discrete offspring
 		# in which case correction makes no sense
@@ -1001,8 +1001,8 @@ createIPMFmatrix <- function(fecObj,
 		# in which case correction makes no sense
 		if (correction=="constant"&fecObj@offspringSplitter$continuous>0) {
 			# in this case, column sums should equal raw fecundity * survival
-			correction <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]]*surv(size=y,cov=chosenCov,survObj=survObj)/colSums(tmp)
-			tmp <- t(t(tmp)*correction)
+			correction.here <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]]*surv(size=y,cov=chosenCov,survObj=survObj)/colSums(tmp)
+			tmp <- t(t(tmp)*correction.here)
 		}
 		##NOTE that the condition is necessary because you might ONLY have discrete offspring
 		# in which case correction makes no sense
