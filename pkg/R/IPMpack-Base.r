@@ -1356,7 +1356,9 @@ diagnosticsPmatrix <- function (Pmatrix, growObj, survObj, dff=NULL,
 			
 			ps <- surv(Pmat@meshpoints[loctest[j]], cov, survObj)
 			newd <- data.frame(size = Pmat@meshpoints[loctest[j]], 
-					size2 = Pmat@meshpoints[loctest[j]]^2, covariate = Pmat@env.index[1])
+					size2 = Pmat@meshpoints[loctest[j]]^2, 
+					size3 = Pmat@meshpoints[loctest[j]]^3, 
+					covariate = Pmat@env.index[1])
 			if (length(grep("logsize", names(growObj@fit$coefficients)))) 
 				newd$logsize = log(Pmat@meshpoints[loctest[j]])
 			if (length(growObj@fit$model$covariate) > 0) 
