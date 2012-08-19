@@ -284,12 +284,15 @@ wrapHossfeld <- function(par, dataf) {
 # returns - 
 #
 
-picGrow <- function(dataf,growObj) {
+picGrow <- function(dataf, growObj, mainTitle = "Growth") {
+	predVar <- attr(growObj@fit$terms,"predvars")[[2]]
+	if(predVar == "sizeNext") {
+		plot(dataf$size, dataf$sizeNext,pch=19,xlab="Size at t", ylab="Size at t+1", main = mainTitle)
+	}else{
+		plot(dataf$size, dataf$incr, pch = 19, xlab = "Size at t", ylab="Size increment", main = mainTitle)
+	}
 	
-	
-	plot(dataf$size,dataf$sizeNext,pch=19,xlab="Size at t", ylab="Size at t+1",main="Growth")
-	
-	if (length(grep("covariate",names(growObj@fit$model)))>0) {  
+	if (length(grep("covariate", names(growObj@fit$model))) > 0) {  
 		#convert to 1:n for indexing later and to relate to discrete
 		dataf$covariate <- as.factor(dataf$covariate)
 		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
@@ -317,16 +320,16 @@ picGrow <- function(dataf,growObj) {
 		
 		if (length(grep("decline",tolower(as.character(class(growObj)))))>0 | 
 				length(grep("trunc",tolower(as.character(class(growObj)))))>0) { 
-				pred.size <- .predictMuX(growObj,newd,covPred=k)
+				pred.size <- .predictMuX(growObj, newd, covPred = k)
 			} else  {
-				pred.size <- predict(growObj@fit,newd,type="response")	
+				pred.size <- predict(growObj@fit,newd,type = "response")	
 			}
-		if (length(grep("incr",tolower(as.character(class(growObj)))))==0) {
-			points(sizes,pred.size,type="l",col=k)	
+		if (length(grep("incr", tolower(as.character(class(growObj))))) == 0) {
+			points(sizes, pred.size, type = "l", col = k)	
 		} else { 
-			if (length(grep("logincr",tolower(as.character(class(growObj)))))>0) {
-				points(sizes,sizes+exp(pred.size),type="l",col=k)	} else { 
-				points(sizes,sizes+pred.size,type="l",col=k)	
+			if (length(grep("logincr", tolower(as.character(class(growObj))))) > 0) {
+				points(sizes, sizes + exp(pred.size),type="l",col = k)		} else { 
+				points(sizes, pred.size, type = "l", col = k)	
 			}
 				
 		}
