@@ -660,6 +660,17 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 		get.matrix <- t((t(get.matrix)/nvals) * surv(size = y, 
 						cov = chosenCov, survObj = survObj))
 	}
+	if (correction=="discretizeExtremes"){
+		tooLow <- growthCum(y,b[1], cov = chosenCov, 
+						growthObj = growObj)
+		tooHigh <- 1-growthCum(y,b[length(b)],cov = chosenCov, 
+						growthObj = growObj)
+		get.matrix[1,] <- get.matrix[1,]+tooLow
+		get.matrix[nBigMatrix,] <- get.matrix[nBigMatrix,]+tooHigh
+	}
+	
+	
+	
 	rc <- new("IPMmatrix", nDiscrete = 0, nEnvClass = 1, nBigMatrix = nBigMatrix, 
 			nrow = 1 * nBigMatrix, ncol = 1 * nBigMatrix, meshpoints = y, 
 			env.index = rep(1:nEnvClass, each = nBigMatrix), names.discrete = "")
@@ -939,7 +950,15 @@ createIPMFmatrix <- function(fecObj,
 			correction <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]]/colSums(tmp)
 			tmp <- t(t(tmp)*correction)
 		}
-		
+		if (correction=="discretizeExtremes"){
+			tooLow <- .offspringCum(x=y,y=b[1], cov = chosenCov, 
+					fecObj = fecObj)
+			tooHigh <- 1-.offspringCum(x=y,y=b[length(b)],cov = chosenCov, 
+					fecObj = fecObj)
+			tmp[1,] <- tmp[1,]+tooLow
+			tmp[nBigMatrix,] <- tmp[nBigMatrix,]+tooHigh
+		}
+				
 		# 2. post-census
 	} else {
 		#print ("Warning: in the current version of IPMpack, createIPMFmatrix still ignores the growObj you provided for your post-breeding F matrix. This will be included in a later version. Survival until breeding is already included in this version.")
@@ -971,6 +990,16 @@ createIPMFmatrix <- function(fecObj,
 			correction <-.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]]*surv(size=y,cov=chosenCov,survObj=survObj)/colSums(tmp)
 			tmp <- t(t(tmp)*correction)
 		}
+		if (correction=="discretizeExtremes"){
+			tooLow <- .offspringCum(x=y,y=b[1], cov = chosenCov, 
+					fecObj = fecObj)
+			tooHigh <- 1-.offspringCum(x=y,y=b[length(b)],cov = chosenCov, 
+					fecObj = fecObj)
+			tmp[1,] <- tmp[1,]+tooLow
+			tmp[nBigMatrix,] <- tmp[nBigMatrix,]+tooHigh
+		}
+		
+		
 		
 	}
 	

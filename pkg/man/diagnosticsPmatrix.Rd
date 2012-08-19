@@ -28,7 +28,7 @@ diagnosticsPmatrix(Pmatrix, growObj, survObj, dff=NULL, integrateType, correctio
   integration type, defaults to ``midpoint" (which uses probability density function); other option is ``cumul" (which uses the cumulative density function).
  }
  \item{correction}{
-  correction type, defaults to ``none"; option is ``constant" which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for survival at that size. 
+  correction type, defaults to ``none". The first option is ``constant" which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for survival at that size. The second option is ``discretizeExtremes" which will place all transitions to sizes smaller than minSize into the smallest bing, and transitions to sizes larger than maxSize into the largest bin. 
  }
  \item{cov}{
   a data-frame with one row containing all covariates; defaults to 1, and will be ignored if covariates do not exist in growth and survival objects
@@ -44,10 +44,11 @@ diagnosticsPmatrix(Pmatrix, growObj, survObj, dff=NULL, integrateType, correctio
 \details{
 This function provides a series of plots indicative of whether bin choice and size range is adequate. On the first plot, the left panel shows the range of the data as a histogram (if a data-frame is provided) and the range of the state variable fitted in the current Pmatrix; as well as the range of the state variable in two Pmatrices used for comparison, one with the same number of bins but an extended size range (red), and one with the same size range but an increased number of bins (blue) (increased by about 50 percent). If the range in the data and the range in the Pmatrix are mis-matched, the limits of the data used in building the Pmatrix can be adjusted with the \code{minSize} and \code{maxSize} arguments in \code{createIPMPmatrix}.  
 
-The discretization of a continuous function can result in under- or over-estimation of the true density. Where this occurs, the sum of the columns of the discretized Pmatrix will not match predictions from the fitted survival model. The middle panel plots these against each other for the three matrices in the first panel (current, extended range and increased bin number) using the same colours as in the first panel. Lines should fall along the (0,1) line shown in grey; if they do not, the argument \code{correction="constant"} may be of use. This ensures that the columns sum to the fitted survival by multiplying every column in the Integral Projection Model by the value that allows this. The third panel checks whether extending the size range included in the
-matrix and increasing the number of bins (by increasing \code{nBigMatrix} and thereby having narrower bins) does not alter basic predictions from the IPM.
+The discretization of a continuous function can result in under- or over-estimation of the true density. Where this occurs, the sum of the columns of the discretized Pmatrix will not match predictions from the fitted survival model. The middle panel plots these against each other for the three matrices in the first panel (current, extended range and increased bin number) using the same colours as in the first panel. Lines should fall along the (0,1) line shown in grey; if they do not, the argument \code{correction="constant"} may be of use. This ensures that the columns sum to the fitted survival by multiplying every column in the Integral Projection Model by the value that allows this. The third panel checks whether extending the size range included in the matrix and increasing the number of bins (by increasing \code{nBigMatrix} and thereby having narrower bins) does not alter basic predictions from the IPM.
 
 The six panels on the next plot show the discretized IPM (histograms) for the current IPM (top) and one with an increased number of bins (bottom)  and the theoretical density function (red line) . These are plotted either for three chosen sizes (\code{sizesToPlot}) or the 0.25, 0.5 and 0.75 quantiles of either the observed data or the range of meshpoints; this size is printed in the top right hand of every plot. If the theoretical density function  curve is very distant from the histograms, increasing the \code{nBigMatrix} argument may correct this discrepancy. 
+ 
+Note that it is important that the comparison be "fair" - i.e., whatever the \code{correction} argument used in your current IPM, the same argument must be used in \code{diagnosticsTmatrix.}
  
 }
 \references{
