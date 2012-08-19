@@ -37,7 +37,7 @@ Data-frame with headings:
 	
 	- year: transition from t to t+1 (this subset contains only data for 2004-2010)
 	
-	- p: annual precipitation (in cm) from June of year t-1 to May of year t
+	- prec: annual precipitation (in cm) from June of year t-1 to May of year t
 	
 	- age: age of individual (in years) in year t. Individuals of unknown age are assigned to 999
 	
