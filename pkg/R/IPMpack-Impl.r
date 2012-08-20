@@ -585,7 +585,8 @@ makeClonalObj <- function(dataf,
 #
 # Returns - an object of class discreteTrans
 #
-makeDiscreteTrans <- function(dataf) {
+
+makeDiscreteTrans <- function(dataf, continuousToDiscreteExplanatoryVariables = "size") {
 	
 	#order stage names from discrete to continuous
 	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
@@ -620,8 +621,12 @@ makeDiscreteTrans <- function(dataf) {
 	subdata$cont.to.discrete <- 1
 	subdata$cont.to.discrete[subdata$stageNext == "continuous"] <- 0
 	subdata$size2 <- subdata$size ^ 2
-	survToDiscrete <- glm(cont.to.discrete ~ size + size2, family = binomial, data = subdata)
-			
+	if (sum(subdata$cont.to.discrete)>0) {
+		survToDiscrete <- glm(paste('cont.to.discrete~',continuousToDiscreteExplanatoryVariables,sep=''), family = binomial, data = subdata)
+	} else {
+		survToDiscrete <- glm(rep(0,21)~1,family=binomial)
+	}	
+	
 	rownames(discreteTrans) <- stages	
 	colnames(discreteTrans) <- stages	
 	
