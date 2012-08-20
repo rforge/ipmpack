@@ -614,7 +614,7 @@ makeDiscreteTrans <- function(dataf, continuousToDiscreteExplanatoryVariables = 
 	
 	for (i in stages[1:(length(stages) - 1)])
 		distribToDiscrete[i,] <- sum(dataf[dataf$stage == "continuous" & dataf$stageNext == i,]$number, na.rm = TRUE)
-	distribToDiscrete <- distribToDiscrete/sum(distribToDiscrete,na.rm=TRUE)
+	if (sum(distribToDiscrete)>0) distribToDiscrete <- distribToDiscrete/sum(distribToDiscrete,na.rm=TRUE)
 	
 	
 	subdata <- subset(dataf, dataf$stage == "continuous" & dataf$surv == 1)
