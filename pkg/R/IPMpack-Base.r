@@ -1326,6 +1326,9 @@ diagnosticsPmatrix <- function (Pmatrix, growObj, survObj, dff=NULL,
 	#start plots - put original Pmatrix in black
 	#par(mfrow = c(3, 3), bty = "l")
 	
+	#save plot characters
+	old.par <- par(no.readonly = TRUE) 
+	
 	par(mfrow = c(1, 3), bty = "l",pty="s", mar=c(5,4,4,1))
 	if (!is.null(dff)) { 
 	xlims <- range(c(Pmatrix@meshpoints, Pmatrix1@meshpoints,
@@ -1477,6 +1480,9 @@ diagnosticsPmatrix <- function (Pmatrix, growObj, survObj, dff=NULL,
 			
 		}
 	}
+	
+	#reset plot characters
+	on.exit(par(old.par))
 	
 }
 
