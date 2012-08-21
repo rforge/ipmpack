@@ -23,7 +23,8 @@
  
 \begin{document}
 
-\title{IPMpack: an R package for demographic modeling with Integral Projection Models (v.1.2)}
+\title{IPMpack: an R package for demographic modeling with Integral Projection
+Models (v.1.5)}
 \author{Jessica Metcalf, Sean M. McMahon, Rob Salguero-Gomez, Eelke Jongejans}
 \maketitle
 
@@ -39,7 +40,7 @@ returning model scores, as well as tools for diagnostic tests of the IPM models
 themselves. There are also methods to build population models for varying environments, use Bayesian methods to sample population parameters,  estimate longevity and passage time, sensitivity and elasticity (of either parameters or matrix elements), and much more.
 
 This vignette is intended to introduce the concepts of IPMs as well as the
-implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $1.3$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge (http://ipmpack.r-forge.r-project.org/) that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
+implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $1.5$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge (http://ipmpack.r-forge.r-project.org/) that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
  
 \newpage
 
@@ -71,13 +72,13 @@ plants, basidia in fungi), number of propagules within reproductive structure
 From equation 1: 
 \begin{equation}
 n(y, t+1) = \int\limits_{L}^{U} K(y, x) n(x, t) dx = \int\limits_{L}^{U}
-[T(y, ) + F(y, x)] n(x, t) dx ,
+[P(y, ) + F(y, x)] n(x, t) dx ,
 \end{equation}
 
 where
 
 \begin{equation}
- \int\limits_{L}^{U} T(y, x) n(x, t) dx = \int\limits_{L}^{U}surv(x)growth(y, x)dx ,    
+ \int\limits_{L}^{U} P(y, x) n(x, t) dx = \int\limits_{L}^{U}surv(x)growth(y, x)dx ,    
 \end{equation}
 and
 \begin{equation}
@@ -99,7 +100,7 @@ cycle of the study species) must be defined {\tt a priori}, IPMs
 impose the discretization of the three-dimensional surface defined by
 equation 1 in the last step for the purposes of numerical integration. This produces a typically large matrix (e.g., $100$ x $100$ cells) that is more robust to biases from matrix dimensionality (Zuidema et al. $2010$, Salguero-Gomez \& Plotkin $2010$) and sample size (Ramula et al. $2009$) than classical matrix models.
 
-The goal of IPMpack is to provide a centralized set of quantitative techniques based on IPMs to help ecologists and evolutionary biologists model populations. IPMpack can accommodate multiple vital rates from complex life cycles all grouped into two main sub-kernels: $T$ and $F$ (equation 2) \footnote{Note than in the seminal paper by Easterling et al. ($2000$) this kernel was referred to as $P$, but here we follow the terminology by Caswell ($2001$) and call it $T$ instead). The $T$ kernel (equation 3) describes {\tt growth} between demographic censuses conditional on individuals' survival ({\tt surv}).
+The goal of IPMpack is to provide a centralized set of quantitative techniques based on IPMs to help ecologists and evolutionary biologists model populations. IPMpack can accommodate multiple vital rates from complex life cycles all grouped into two main sub-kernels: $P$ and $F$ (equation 2) \footnote{Note than in the seminal paper by Easterling et al. ($2000$) this kernel was referred to as $P$, but here we follow the terminology by Caswell ($2001$) and call it $P$ instead). The $P$ kernel (equation 3) describes {\tt growth} between demographic censuses conditional on individuals' survival ({\tt surv}).
 }.
 
 This vignette walks through the steps of a basic IPM analysis.  We first
@@ -145,7 +146,7 @@ size of an offspring, this column will contain either the value ``sexual" or
 considered). If this column exists, rows that take these two values will be excluded from the growth analyses (functions {\tt makeGrowthObj} and variants thereof, see below).
 \end{itemize}
 
-The $^*$ symbol above indicates the minimum columns in the data frame required to obtain passage time and life expectancy calculations. These values form the $T$ kernel. If sufficient additional columns are available, a full life-cycle model, containing the $F$ kernel, can be produced and further analyses are possible.  Although {\tt size} and {\tt sizeNext} can be transformed, many of the utility functions assume no transformations in columns in the original data frame pertaining to fertility. Transformations can be formally called in various parts of the package and appropriate $F$ matrices built that account for these transformations. 
+The $^*$ symbol above indicates the minimum columns in the data frame required to obtain passage time and life expectancy calculations. These values form the $P$ kernel. If sufficient additional columns are available, a full life-cycle model, containing the $F$ kernel, can be produced and further analyses are possible.  Although {\tt size} and {\tt sizeNext} can be transformed, many of the utility functions assume no transformations in columns in the original data frame pertaining to fertility. Transformations can be formally called in various parts of the package and appropriate $F$ matrices built that account for these transformations. 
 
 \section{The basics: building an IPM}
 
@@ -461,7 +462,7 @@ them together:
 <<>>= 
 print(Pmatrix+Fmatrix)
 @
-The first three rows and columns concern transitions in and out of the discrete stages; the remainder are the usual T and F matrices describing moving across the continuous variables. The usual types of calculations (sensitivity via {\tt sens}, life expectancy via {\tt meanLifeExpect}, etc) can be applied here too.    
+The first three rows and columns concern transitions in and out of the discrete stages; the remainder are the usual P and F matrices describing moving across the continuous variables. The usual types of calculations (sensitivity via {\tt sens}, life expectancy via {\tt meanLifeExpect}, etc) can be applied here too.    
 
 \section{Discretely varying environments}
 One extension of IPMs is to create a compound IPM matrix where, in addition to
@@ -576,7 +577,7 @@ stochGrowthRateSampleList(listIPMmatrix = IPMlist,
 where {\tt nRunIn} defines the number of time steps to discard from the start of the time series in order to remove transient dynamics, and {\tt tMax} is the total
 number of time steps to run, and should be large enough that increasing it does not substantially change the result (numbers presented here for efficiency are almost certaintly not large enough). Note that {\tt stoch.growth.rate} in the package {\tt popbio} will operate in essentially the same way, and provides more information, more efficiently.  
 
-%Simply taking the eigenvalue of the sum to the compound $T$ and $F$ matrices will
+%Simply taking the eigenvalue of the sum to the compound $P$ and $F$ matrices will
 %provide a sligthly different result given Jensen's inequality. %%check
                                 %%this... read Tulja + Carol stoch
                                 %%elastivity paper. 

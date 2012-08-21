@@ -205,17 +205,17 @@ sizeToAge <- function(Pmatrix,startingSize,targetSize) {
 #            - ncuts - the number of cuts used for binning survival
 # returns - 
 
-picSurv <- function(dataf,survObj,ncuts=20,...) { 
+picSurv <- function(dataf, survObj, ncuts = 20, makeTitle = "Survival", ...) { 
 	
 	#organize data and plot mean of ncut successive sizes, so trend more obvious
 	os<-order(dataf$size); os.surv<-(dataf$surv)[os]; os.size<-(dataf$size)[os]; 
 	psz<-tapply(os.size,as.numeric(cut(os.size,ncuts)),mean,na.rm=TRUE); #print(psz)
-	ps<-tapply(os.surv,as.numeric(cut(os.size,ncuts)),mean,na.rm=TRUE);#print(ps)
+	ps<-tapply(os.surv,as.numeric(cut(os.size,ncuts)), mean, na.rm = TRUE);#print(ps)
 	
 	if (length(grep("covariate",names(survObj@fit$model)))==0) {  
 		#plot data
 		plot(as.numeric(psz),as.numeric(ps),pch=19,
-				xlab="Size at t", ylab="Survival to t+1",main="Survival",...)
+				xlab="Size at t", ylab = "Survival to t+1", main = mainTitle, ...)
 		#Plot fitted models
 		points(dataf$size[order(dataf$size)],surv(dataf$size[order(dataf$size)],data.frame(covariate=1),survObj),type="l",col=2)
 	} else {
@@ -228,7 +228,7 @@ picSurv <- function(dataf,survObj,ncuts=20,...) {
 		ud <- unique(dataf$covariate); ud <- ud[!is.na(ud)]
 		for (k in 1:length(ud)) { 
 			tp <- os.cov==ud[k]
-			psz<-tapply(os.size[tp],as.numeric(cut(os.size[tp],ncuts)),mean,na.rm=TRUE); #print(psz)
+			psz<-tapply(os.size[tp], as.numeric(cut(os.size[tp], ncuts)), mean, na.rm = TRUE); #print(psz)
 			ps<-tapply(os.surv[tp],as.numeric(cut(os.size[tp],ncuts)),mean,na.rm=TRUE);#print(ps)
 			points(as.numeric(psz),as.numeric(ps),pch=19,col=k)
 			newd <- data.frame(size=sizes,size2=sizes^2,size3=sizes^3,
@@ -287,9 +287,12 @@ wrapHossfeld <- function(par, dataf) {
 picGrow <- function(dataf, growObj, mainTitle = "Growth") {
 	predVar <- attr(growObj@fit$terms,"predvars")[[2]]
 	if(predVar == "sizeNext") {
-		plot(dataf$size, dataf$sizeNext,pch=19,xlab="Size at t", ylab="Size at t+1", main = mainTitle)
+		plot(dataf$size, dataf$sizeNext,pch=19, xlab="Size at t", ylab="Size at t+1", main = mainTitle)
+		abline(a = 0, b = 1)
 	}else{
+		dataf$incr <- dataf$sizeNext - dataf$size
 		plot(dataf$size, dataf$incr, pch = 19, xlab = "Size at t", ylab="Size increment", main = mainTitle)
+		abline(a = 0, b = 0)
 	}
 	
 	if (length(grep("covariate", names(growObj@fit$model))) > 0) {  
@@ -298,8 +301,8 @@ picGrow <- function(dataf, growObj, mainTitle = "Growth") {
 		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
 		ud <- unique(dataf$covariate); ud <- ud[!is.na(ud)]
 		for (k in 1:length(ud)) { 
-			tp <- dataf$covariate==ud[k]
-			points(dataf$size[tp], dataf$sizeNext[tp],pch=19,col=k)            
+			tp <- dataf$covariate == ud[k]
+			points(dataf$size[tp], dataf$sizeNext[tp], pch = 19, col = k)            
 		}
 		ud <- as.factor(ud)
 	} else {
@@ -309,12 +312,12 @@ picGrow <- function(dataf, growObj, mainTitle = "Growth") {
 	sizes <- dataf$size[!is.na(dataf$size)]; sizes <- sizes[order(sizes)]
 	
 	for (k in 1:length(ud)) { 
-		newd <- data.frame(size=sizes,size2=sizes^2,size3=sizes^3,
-				covariate=as.factor(rep(ud[k],length(sizes))))
+		newd <- data.frame(size = sizes, size2 = sizes ^ 2,size3 = sizes ^ 3,
+				covariate = as.factor(rep(ud[k],length(sizes))))
 					
-		if(length(grep("logsize",names(growObj@fit$coefficients)))==1)
-			newd$logsize=log(sizes)
-		if(length(grep("logsize2",names(growObj@fit$coefficients)))==1)
+		if(length(grep("logsize", names(growObj@fit$coefficients))) == 1)
+			newd$logsize = log(sizes)
+		if(length(grep("logsize2", names(growObj@fit$coefficients))) == 1)
 			newd$logsize=(log(sizes))^2
 		
 		
@@ -325,13 +328,13 @@ picGrow <- function(dataf, growObj, mainTitle = "Growth") {
 				pred.size <- predict(growObj@fit,newd,type = "response")	
 			}
 		if (length(grep("incr", tolower(as.character(class(growObj))))) == 0) {
-			points(sizes, pred.size, type = "l", col = k)	
+			points(sizes, pred.size, type = "l", col = k + 1)	
 		} else { 
 			if (length(grep("logincr", tolower(as.character(class(growObj))))) > 0) {
-				points(sizes, sizes + exp(pred.size),type="l",col = k)		} else { 
-				points(sizes, pred.size, type = "l", col = k)	
+				points(sizes, sizes + exp(pred.size), type = "l", col = k + 1)		
+			} else { 
+				lines(sizes, pred.size, col = k + 1)	
 			}
-				
 		}
 	}
 }
