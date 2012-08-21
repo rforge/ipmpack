@@ -51,17 +51,17 @@ makeGrowthObj <- function(dataf,
 	
 	#eliminate growth in dead individual
 	if (length(grep("incr", as.character(Formula))) > 0) {
-		if (sum(!is.na(dataf$incr) & dataf$surv==0)>0) {
+		if (sum(!is.na(dataf$incr) & dataf$surv==0,na.rm=TRUE)>0) {
 		print("measures of growth exist where individual has died (surv==0); replacing these with NA")
 		dataf$incr[dataf$surv==0] <- NA
 	}}
 	if (length(grep("sizeNext", as.character(Formula))) > 0) { 
-		if(sum(!is.na(dataf$sizeNext) & dataf$surv==0)>0) {
+		if(sum(!is.na(dataf$sizeNext) & dataf$surv==0,na.rm=TRUE)>0) {
 		print("measures of growth exist where individual has died (surv==0); replacing these with NA")		
 		dataf$sizeNext[dataf$surv==0] <- NA
 	}}
 	if (length(grep("logincr", as.character(Formula))) > 0) {
-		if (sum(!is.na(dataf$logincr) & dataf$surv==0)>0) {
+		if (sum(!is.na(dataf$logincr) & dataf$surv==0,na.rm=TRUE)>0) {
 		print("measures of growth exist where individual has died (surv==0); replacing these with NA")		
 		dataf$logincr[dataf$surv==0] <- NA
 	}}
