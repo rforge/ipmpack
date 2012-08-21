@@ -1897,6 +1897,8 @@ stochPassageTime <- function(chosenSize,IPMmatrix,envMatrix){
 predictFutureDistribution <- function(startingSizes,IPM, n.time.steps, startingEnv=1) {
 	
 	# turn starting sizes into the resolution of the IPM bins
+	breakpoints <- c(IPM@meshpoints-(IPM@meshpoints[2]-IPM@meshpoints[1]),
+			IPM@meshpoints[length(IPM@meshpoints)]+(IPM@meshpoints[2]-IPM@meshpoints[1]))
 	
 	# setup slightly different for coompound or non compound dists
 	if (IPM@nEnvClass>1) {
@@ -1904,17 +1906,15 @@ predictFutureDistribution <- function(startingSizes,IPM, n.time.steps, startingE
 		compound <- TRUE
 		env.index <- IPM@env.index
 		n.new.dist <- rep(0,length(IPM[1,]))
-		for (ev in 1:IPM@nEnvClass) { 
-			index.new.dist <- findInterval(startingSizes[startingEnv==ev],IPM@meshpoints)+1
-			index.new.dist[index.new.dist>length(IPM@meshpoints)] <- length(IPM@meshpoints)
+		for (ev in 1:IPM@nEnvClass) { 			
+			index.new.dist <- findInterval(startingSizes[startingEnv==ev],breakpoints,all.inside=TRUE)
 			loc.sizes <- table(index.new.dist); 
 			n.new.dist[ev==IPM@env.index][as.numeric(names(loc.sizes))] <- loc.sizes
 		}
 		n.new.dist0 <- n.new.dist
 	} else {
 		compound <- FALSE
-		index.new.dist <- findInterval(startingSizes,IPM@meshpoints)+1
-		index.new.dist[index.new.dist>length(IPM@meshpoints)] <- length(IPM@meshpoints)
+		index.new.dist <- findInterval(startingSizes,breakpoints,all.inside=TRUE)
 		loc.sizes <- table(index.new.dist); 
 		env.index <- rep(1,length(IPM@meshpoints))
 		n.new.dist <- rep(0,length(IPM@meshpoints))
