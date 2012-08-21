@@ -48,7 +48,9 @@ The discretization of a continuous function can result in under- or over-estimat
 
 The six panels on the next plot show the discretized IPM (histograms) for the current IPM (top) and one with an increased number of bins (bottom)  and the theoretical density function (red line) . These are plotted either for three chosen sizes (\code{sizesToPlot}) or the 0.25, 0.5 and 0.75 quantiles of either the observed data or the range of meshpoints; this size is printed in the top right hand of every plot. If the theoretical density function  curve is very distant from the histograms, increasing the \code{nBigMatrix} argument may correct this discrepancy. 
  
-Note that it is important that the comparison be "fair" - i.e., whatever the \code{correction} argument used in your current IPM, the same argument must be used in \code{diagnosticsTmatrix.}
+Note that it is important that the comparison be "fair" - i.e., whatever the \code{correction} argument used in your current IPM, the same argument must be used in \code{diagnosticsPmatrix.}
+
+Finally, note that if the correction used is \code{discretizeExtremes} then the column sums of the Pmatrix and survival will not match towards the extremes. 
  
 }
 \references{
@@ -105,6 +107,13 @@ Pmatrix <- createIPMPmatrix(nBigMatrix = 50, minSize = min(dff$size, na.rm = TRU
 		survObj = makeSurvObj(dff))
 diagnosticsPmatrix(Pmatrix, growObj = makeGrowthObj(dff,Formula = logincr~size), 
 	survObj = makeSurvObj(dff), dff = dff)
+
+#example with correction="discretizeExtremes"
+Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE),
+	maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), 
+	survObj = makeSurvObj(dff), correction="discretizeExtremes")
+diagnosticsPmatrix(Pmatrix, growObj = makeGrowthObj(dff), 
+	survObj = makeSurvObj(dff), dff = dff, correction="discretizeExtremes")
 
 
 }
