@@ -15,7 +15,7 @@ makeDiscreteTrans(dataf, continuousToDiscreteExplanatoryVariables = "size")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{dataf}{a dataframe with columns "stage", "stageNext" (both character vectors containing either names of discrete stages or "continuous" or "dead"), "size", "sizeNext", and "surv" (continuous and boolean variables respectively).}
+  \item{dataf}{a dataframe with columns "stage", "stageNext" (both FACTORS (use \code{as.factor}) containing either names of discrete stages or "continuous" or "dead"), "size", "sizeNext", and "surv" (continuous and boolean variables respectively).}
   \item{continuousToDiscreteExplanatoryVariables}{a character defining the relationship defining size influences the probability of individuals in the continuous class moving to one of the discrete classes.}
 }
 \value{
