@@ -2292,7 +2292,8 @@ largeMatrixCalc <- function(Pmatrix, Fmatrix, tol = 1.e-8){
 ## the 
 ##
 ##
-sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
+sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
+		chosenCov=data.frame(covariate=1),
 		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, 
 		delta=1e-4) {
 	
@@ -2324,10 +2325,12 @@ sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 	
 	
 	Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			chosenCov = chosenCov,
 			maxSize = maxSize, growObj = growObj, survObj = survObj, 
 			discreteTrans = discreteTrans, integrateType = integrateType, 
 			correction = correction)
 	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			chosenCov = chosenCov,
 			maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
 			correction = correction,preCensus = preCensus,survObj=survObj,growObj=growObj)
 	IPM <- Pmatrix + Fmatrix
@@ -2339,10 +2342,12 @@ sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 				(1 + delta)
 		Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				chosenCov = chosenCov,
 				survObj = survObj, discreteTrans = discreteTrans, 
 				integrateType = integrateType, correction = correction)
 		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				chosenCov = chosenCov,
 				integrateType = integrateType, correction = correction,
 				preCensus = preCensus,survObj=survObj,growObj=growObj)
 		IPM <- Pmatrix + Fmatrix
@@ -2358,10 +2363,12 @@ sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 	growObj@sd <- growObj@sd * (1 + delta)
 	Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 			maxSize = maxSize, growObj = growObj, survObj = survObj, 
+			chosenCov = chosenCov,
 			discreteTrans = discreteTrans, integrateType = integrateType, 
 			correction = correction)
 	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 			maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
+			chosenCov = chosenCov,
 			correction = correction,preCensus = preCensus,survObj=survObj,growObj=growObj)
 	IPM <- Pmatrix + Fmatrix
 	lambda2 <- Re(eigen(IPM)$value[1])
@@ -2377,10 +2384,12 @@ sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 		Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, growObj = growObj, 
 				survObj = survObj, discreteTrans = discreteTrans, 
+				chosenCov = chosenCov,
 				integrateType = integrateType, correction = correction)
 		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
 				integrateType = integrateType, correction = correction,
+				chosenCov = chosenCov,
 				preCensus = preCensus,survObj=survObj,growObj=growObj)
 		IPM <- Pmatrix + Fmatrix
 		lambda2 <- Re(eigen(IPM)$value[1])
@@ -2397,11 +2406,13 @@ sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 				(1 + delta)
 		Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				chosenCov = chosenCov,
 				survObj = survObj, discreteTrans = discreteTrans, 
 				integrateType = integrateType, correction = correction)
 		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
 				integrateType = integrateType, correction = correction,
+				chosenCov = chosenCov,
 				preCensus = preCensus,survObj=survObj,growObj=growObj)
 		IPM <- Pmatrix + Fmatrix
 		lambda2 <- Re(eigen(IPM)$value[1])
@@ -2416,10 +2427,12 @@ sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 	fecObj@sdOffspringSize <- fecObj@sdOffspringSize *  (1 + delta)
 	Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, 
 			minSize = minSize, maxSize = maxSize, growObj = growObj, 
+			chosenCov = chosenCov,
 			survObj = survObj, discreteTrans = discreteTrans, 
 			integrateType = integrateType, correction = correction)
 	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
 			minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+			chosenCov = chosenCov,
 			integrateType = integrateType, correction = correction,
 			preCensus = preCensus,survObj=survObj,growObj=growObj)
 	IPM <- Pmatrix + Fmatrix
@@ -2440,10 +2453,12 @@ sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 					(1 + delta)
 			Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, 
 					minSize = minSize, maxSize = maxSize, growObj = growObj, 
+					chosenCov = chosenCov,
 					survObj = survObj, discreteTrans = discreteTrans, 
 					integrateType = integrateType, correction = correction)
 			Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
 					minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+					chosenCov = chosenCov,
 					integrateType = integrateType, correction = correction,
 					preCensus = preCensus,survObj=survObj,growObj=growObj)
 			IPM <- Pmatrix + Fmatrix
@@ -2462,6 +2477,7 @@ sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 					(1 + delta)
 			Fmatrix1 <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
 					minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+					chosenCov = chosenCov,
 					integrateType = integrateType, correction = correction,
 					preCensus = preCensus,survObj=survObj,growObj=growObj)
 			IPM <- Pmatrix + Fmatrix1
@@ -2516,10 +2532,12 @@ sensParamsR0 <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize
 	
 	Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 			maxSize = maxSize, growObj = growObj, survObj = survObj, 
+			chosenCov = chosenCov,
 			discreteTrans = discreteTrans, integrateType = integrateType, 
 			correction = correction)
 	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 			maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
+			chosenCov = chosenCov,
 			correction = correction,preCensus = preCensus,survObj=survObj,growObj=growObj)
 	
 	R01 <- R0Calc(Pmatrix,Fmatrix)
@@ -2530,9 +2548,11 @@ sensParamsR0 <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize
 				(1 + delta)
 		Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				chosenCov = chosenCov,
 				survObj = survObj, discreteTrans = discreteTrans, 
 				integrateType = integrateType, correction = correction)
 		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+				chosenCov = chosenCov,
 				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
 				integrateType = integrateType, correction = correction,
 				preCensus = preCensus,survObj=survObj,growObj=growObj)
@@ -2548,9 +2568,11 @@ sensParamsR0 <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize
 	growObj@sd <- growObj@sd * (1 + delta)
 	Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 			maxSize = maxSize, growObj = growObj, survObj = survObj, 
+			chosenCov = chosenCov,
 			discreteTrans = discreteTrans, integrateType = integrateType, 
 			correction = correction)
 	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			chosenCov = chosenCov,
 			maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
 			correction = correction,preCensus = preCensus,survObj=survObj,growObj=growObj)
 	R02 <- R0Calc(Pmatrix,Fmatrix)
@@ -2565,10 +2587,12 @@ sensParamsR0 <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize
 				(1 + delta)
 		Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				chosenCov = chosenCov,
 				survObj = survObj, discreteTrans = discreteTrans, 
 				integrateType = integrateType, correction = correction)
 		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				chosenCov = chosenCov,
 				integrateType = integrateType, correction = correction,
 				preCensus = preCensus,survObj=survObj,growObj=growObj)
 		R02 <- R0Calc(Pmatrix,Fmatrix)
@@ -2586,10 +2610,12 @@ sensParamsR0 <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize
 				(1 + delta)
 		Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				chosenCov = chosenCov,
 				survObj = survObj, discreteTrans = discreteTrans, 
 				integrateType = integrateType, correction = correction)
 		Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+				chosenCov = chosenCov,
 				integrateType = integrateType, correction = correction,
 				preCensus = preCensus,survObj=survObj,growObj=growObj)
 		R02 <- R0Calc(Pmatrix,Fmatrix)
@@ -2604,10 +2630,12 @@ sensParamsR0 <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize
 	fecObj@sdOffspringSize <- fecObj@sdOffspringSize *  (1 + delta)
 	Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, 
 			minSize = minSize, maxSize = maxSize, growObj = growObj, 
+			chosenCov = chosenCov,
 			survObj = survObj, discreteTrans = discreteTrans, 
 			integrateType = integrateType, correction = correction)
 	Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
 			minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+			chosenCov = chosenCov,
 			integrateType = integrateType, correction = correction,
 			preCensus = preCensus,survObj=survObj,growObj=growObj)
 	R02 <- R0Calc(Pmatrix,Fmatrix)
@@ -2627,9 +2655,11 @@ sensParamsR0 <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize
 					(1 + delta)
 			Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, 
 					minSize = minSize, maxSize = maxSize, growObj = growObj, 
+					chosenCov = chosenCov,
 					survObj = survObj, discreteTrans = discreteTrans, 
 					integrateType = integrateType, correction = correction)
 			Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
+					chosenCov = chosenCov,
 					minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
 					integrateType = integrateType, correction = correction,
 					preCensus = preCensus,survObj=survObj,growObj=growObj)
@@ -2648,6 +2678,7 @@ sensParamsR0 <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize
 					(1 + delta)
 			Fmatrix1 <- createIPMFmatrix(nBigMatrix = nBigMatrix, 
 					minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
+					chosenCov = chosenCov,
 					integrateType = integrateType, correction = correction,
 					preCensus = preCensus,survObj=survObj,growObj=growObj)
 			R02 <- R0Calc(Pmatrix,Fmatrix)
@@ -2680,6 +2711,7 @@ sensParamsLifeExpect <- function (growObj, survObj, nBigMatrix, minSize, maxSize
 	
 	Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 			maxSize = maxSize, growObj = growObj, survObj = survObj, 
+			chosenCov = chosenCov,
 			discreteTrans = discreteTrans, integrateType = integrateType, 
 			correction = correction)
 	
@@ -2691,6 +2723,7 @@ sensParamsLifeExpect <- function (growObj, survObj, nBigMatrix, minSize, maxSize
 				(1 + delta)
 		Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				chosenCov = chosenCov,
 				survObj = survObj, discreteTrans = discreteTrans, 
 				integrateType = integrateType, correction = correction)
 		LE2 <- meanLifeExpect(Pmatrix)[chosenBin]
@@ -2705,6 +2738,7 @@ sensParamsLifeExpect <- function (growObj, survObj, nBigMatrix, minSize, maxSize
 	growObj@sd <- growObj@sd * (1 + delta)
 	Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 			maxSize = maxSize, growObj = growObj, survObj = survObj, 
+			chosenCov = chosenCov,
 			discreteTrans = discreteTrans, integrateType = integrateType, 
 			correction = correction)
 	LE2 <- meanLifeExpect(Pmatrix)[chosenBin]
@@ -2719,6 +2753,7 @@ sensParamsLifeExpect <- function (growObj, survObj, nBigMatrix, minSize, maxSize
 				(1 + delta)
 		Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, growObj = growObj, 
+				chosenCov = chosenCov,
 				survObj = survObj, discreteTrans = discreteTrans, 
 				integrateType = integrateType, correction = correction)
 		LE2 <- meanLifeExpect(Pmatrix)[chosenBin]
