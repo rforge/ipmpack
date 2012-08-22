@@ -102,8 +102,10 @@ makeGrowthObj <- function(dataf,
 		if (regType != "constantVar") print("Warning: your regType is ignored because a non-gaussian model is fitted using glm")
 		if (Family=="negbin"){
 			fit <- glm.nb(Formula, data=dataf)
+			fit.here <- fit
 		} else {
 			fit <- glm(Formula, data=dataf, family=Family)
+			fit.here <- fit
 		}           
 	}
 	
