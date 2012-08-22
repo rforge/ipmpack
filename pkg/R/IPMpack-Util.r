@@ -344,12 +344,12 @@ picGrow <- function(dataf, growObj, mainTitle = "Growth") {
 
 makeEnvObj <- function(dataf){
 	#turn into index starting at 1
-	minval <-  min(c(dataf$covariate,dataf$covariateNext))
+	minval <-  min(c(dataf$covariate,dataf$covariateNext),na.rm=TRUE)
 	startEnv <- dataf$covariate-minval+1
 	nextEnv <- dataf$covariateNext-minval+1
 	
 	
-	nEnvClass <- max(c(startEnv,nextEnv))
+	nEnvClass <- max(c(startEnv,nextEnv), na.rm=TRUE)
 	desired.mat <- matrix(0,nEnvClass,nEnvClass) 
 	mats<-table(startEnv,nextEnv)
 	rx <- as.numeric(rownames(mats));#print(rx)
