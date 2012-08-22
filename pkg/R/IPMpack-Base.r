@@ -744,7 +744,8 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 ##
 createDiscretePmatrix <- function (nEnvClass = 1, 
 		meshpoints=1:20,
-		chosenCov = data.frame(covariate = 1), growObj, survObj, 
+		chosenCov = data.frame(covariate = 1), 
+		growObj, survObj, 
 		discreteTrans = 1) {
 
 	y <- meshpoints
@@ -773,7 +774,7 @@ createDiscretePmatrix <- function (nEnvClass = 1,
 		
 		for (j in 1:nDisc) {
 			##this is a weird thing - you are calling it sdToCont but in fact
-			# is is the size variable...
+			# is is the size variabl in neg binom
 			tmp <- dnbinom(y, mu=discreteTrans@meanToCont[j], 
 					size=discreteTrans@sdToCont[j]) 
 			disc.to.cont[, j] <- discreteTrans@discreteSurv[,j] * 
@@ -965,6 +966,7 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 			surv(size=x, cov=cov, survObj=survObj)
 	return(u)
 }
+
 
 
 ## A function that outer can use giving pnorm for offspring reprod
