@@ -5,7 +5,7 @@
 Builds F matrices.
 }
 \description{
-Uses fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calves) by reproductive stages due to sexual reproduction. Currently only pre-census fertility can be handled. 
+Uses fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calves) by reproductive stages due to sexual reproduction. 
 }
 \usage{
 createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 

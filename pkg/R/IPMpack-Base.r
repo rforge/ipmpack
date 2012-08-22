@@ -625,6 +625,19 @@ setClass("IPMmatrix",
 		contains="matrix")
 
 
+
+#Class for the matrix that holds the IPM
+setClass("DiscreteMatrix",
+		representation(nDiscrete = "numeric", #number of discrete classes
+				nEnvClass = "numeric", #number of covariate levels
+				nBigMatrix = "numeric", #the resolution of the IPM
+				meshpoints = "numeric",
+				env.index = "numeric",
+				names.discrete = "character"),
+		contains="matrix")
+
+
+
 #Function creates a single T.IPM (survival and growth
 #transitions only) for a chosen size range, env category
 #(single one at a time) and growth and survival objects
@@ -784,7 +797,7 @@ createDiscretePmatrix <- function (nEnvClass = 1,
 		}
 		get.disc.matrix <- rbind(cbind(disc.to.disc, cont.to.disc), 
 				cbind(disc.to.cont, cont.to.cont))
-		rc <- new("IPMmatrix", nDiscrete = nDisc, nEnvClass = 1, 
+		rc <- new("DiscreteMatrix", nDiscrete = nDisc, nEnvClass = 1, 
 				nBigMatrix = nBigMatrix, nrow = 1 * nBigMatrix + 
 						nDisc, ncol = 1 * nBigMatrix + nDisc, meshpoints = y, 
 				env.index = rep(1:nEnvClass, each = nBigMatrix), 
@@ -1221,7 +1234,7 @@ createDiscreteFmatrix <- function(fecObj,
 		get.matrix[get.matrix<0] <- 0
 	}
 	
-	rc <- new("IPMmatrix",
+	rc <- new("DiscreteMatrix",
 			nDiscrete = nDisc,
 			nEnvClass = 1, 
 			nBigMatrix = nBigMatrix,
