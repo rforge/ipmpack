@@ -629,7 +629,7 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 		chosenCov = data.frame(covariate = 1), growObj, survObj, 
 		discreteTrans = 1, integrateType = "midpoint", correction = "none") {
 	if (class(growObj) == "growthObjPois") 
-		print("warning: IPMs not appropriate with discrete growth processes")
+		print("warning: IPMs not appropriate with discrete growth processes: you can use IPMpack if you define midpoints to correspond to integers and divide P and F matrices by the width of the bins")
 	b <- minSize + c(0:nBigMatrix) * (maxSize - minSize)/nBigMatrix
 	y <- 0.5 * (b[1:nBigMatrix] + b[2:(nBigMatrix + 1)])
 	h <- y[2] - y[1]
