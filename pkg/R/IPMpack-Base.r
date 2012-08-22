@@ -651,8 +651,8 @@ setClass("IPMmatrix",
 createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSize = 50, 
 		chosenCov = data.frame(covariate = 1), growObj, survObj, 
 		discreteTrans = 1, integrateType = "midpoint", correction = "none") {
-	if (class(growObj) == "growthObjPois") 
-		print("warning: IPMs not appropriate with discrete growth processes: you can use IPMpack if you define midpoints to correspond to integers and divide P and F matrices by the width of the bins")
+	if (class(growObj) == "growthObjPois" | class(growObj) =="growthObjNegBin") 
+		print("warning: IPMs not appropriate with discrete growth processes")
 	b <- minSize + c(0:nBigMatrix) * (maxSize - minSize)/nBigMatrix
 	y <- 0.5 * (b[1:nBigMatrix] + b[2:(nBigMatrix + 1)])
 	h <- y[2] - y[1]
@@ -735,6 +735,65 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 	}
 	return(rc)
 }
+
+
+##same function... but for discrete (no integration!)  ####
+###
+### NOTE ASSUMES TRANSITIONS OUT ARE DISCRETE - THIS MEANS THAT SDTOCONT
+### IS THE NEGBINON ISSUE    #########
+##
+createDiscretePmatrix <- function (nEnvClass = 1, 
+		meshpoints=1:20,
+		chosenCov = data.frame(covariate = 1), growObj, survObj, 
+		discreteTrans = 1) {
+
+	y <- meshpoints
+	nBigMatrix <- length(y)
+	
+	get.matrix <- t(outer(y, y, growSurv, cov = chosenCov, 
+						growthObj = growObj, survObj = survObj))
+			
+	
+	rc <- new("IPMmatrix", nDiscrete = 0, nEnvClass = 1, nBigMatrix = nBigMatrix, 
+			nrow = 1 * nBigMatrix, ncol = 1 * nBigMatrix, meshpoints = y, 
+			env.index = rep(1:nEnvClass, each = nBigMatrix), names.discrete = "")
+	rc[, ] <- get.matrix
+	
+	if (class(discreteTrans) == "discreteTrans") {
+		nDisc <- ncol(discreteTrans@discreteSurv)
+		survToDiscrete <- predict(discreteTrans@survToDiscrete, 
+				data.frame(size = y, size2 = (y * y)), type = "response")
+		cont.to.cont <- get.matrix * matrix(1 - survToDiscrete, 
+				nrow = nBigMatrix, ncol = nBigMatrix, byrow = TRUE)
+		disc.to.disc <- discreteTrans@discreteTrans[1:nDisc,1:nDisc] * 
+				matrix(c(discreteTrans@discreteSurv), 
+						nrow = nDisc, ncol = nDisc, byrow = TRUE)
+		disc.to.cont <- matrix(NA, ncol = nDisc, nrow = nBigMatrix)
+		cont.to.disc <- matrix(NA, nrow = nDisc, ncol = nBigMatrix)
+		
+		for (j in 1:nDisc) {
+			##this is a weird thing - you are calling it sdToCont but in fact
+			# is is the size variable...
+			tmp <- dnbinom(y, mu=discreteTrans@meanToCont[j], 
+					size=discreteTrans@sdToCont[j]) 
+			disc.to.cont[, j] <- discreteTrans@discreteSurv[,j] * 
+				  	 discreteTrans@discreteTrans["continuous", j] * tmp
+			cont.to.disc[j, ] <- discreteTrans@distribToDiscrete[j, ] * 
+					surv(y, chosenCov, survObj) * survToDiscrete
+		}
+		get.disc.matrix <- rbind(cbind(disc.to.disc, cont.to.disc), 
+				cbind(disc.to.cont, cont.to.cont))
+		rc <- new("IPMmatrix", nDiscrete = nDisc, nEnvClass = 1, 
+				nBigMatrix = nBigMatrix, nrow = 1 * nBigMatrix + 
+						nDisc, ncol = 1 * nBigMatrix + nDisc, meshpoints = y, 
+				env.index = rep(1:nEnvClass, each = nBigMatrix), 
+				names.discrete = rownames(discreteTrans@discreteTrans)[1:nDisc])
+		rc[, ] <- get.disc.matrix
+	}
+	return(rc)
+}
+
+
 
 
 #Function creates a combo of T.IPMs for a chosen
@@ -1090,6 +1149,90 @@ createIPMFmatrix <- function(fecObj,
 	
 	return(rc)
 }
+
+
+
+### CREATE DISCRETE F MATRIX
+createDiscreteFmatrix <- function(fecObj,
+		nEnvClass = 1,
+		meshpoints=1:20,
+		chosenCov = data.frame(covariate=1),
+		preCensus=TRUE,
+		survObj=NULL,
+		growObj=NULL) {
+	
+	# boundary points b and mesh points y
+	y <- meshpoints;
+	nBigMatrix <- length(y)
+	
+	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1
+	
+	tmp <- matrix(0,ncol=length(y),nrow=length(y))
+	
+	# 1. pre-census
+	if (preCensus) { 
+		##NOTE that the condition is necessary cos you might ONLY have discrete offspring
+		if (fecObj@offspringSplitter$continuous>0) { 
+			tmp <- t(outer(X=y,Y=y,.fecPreCensus,cov=chosenCov,fecObj=fecObj))
+		}
+		##NOTE that the condition is necessary because you might ONLY have discrete offspring
+
+
+		# 2. post-census
+	} else {
+		#print ("Warning: in the current version of IPMpack, createIPMFmatrix still ignores the growObj you provided for your post-breeding F matrix. This will be included in a later version. Survival until breeding is already included in this version.")
+		##NOTE that the condition is necessary because you might ONLY have discrete offspring
+		# in which case correction makes no sense
+		if (fecObj@offspringSplitter$continuous>0) { 
+			tmp <- t(outer(X=y,Y=y,.fecPostCensus,
+							cov=chosenCov,fecObj=fecObj, growObj=growObj,
+							survObj=survObj))
+		}
+
+		
+	}
+	
+	get.matrix <- to.cont <- tmp
+	
+	#discrete classes
+	nDisc <- length(fecObj@offspringSplitter)-1
+	namesDiscrete <- "NA"
+	if (nDisc>0) {
+		namesDiscrete <- colnames(fecObj@offspringSplitter[1:nDisc])
+		to.discrete <- matrix(0,nrow=nDisc,ncol=nBigMatrix)
+		for (i in 1:nDisc) to.discrete[i,] <- apply(.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@offspringTypeRates[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
+		from.discrete <- matrix(0,ncol=nDisc,nrow=nDisc+nBigMatrix)
+		if (names(fecObj@fecByDiscrete)[1]!="NA.") {
+			if (sum(names(fecObj@fecByDiscrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fecByDiscrete are not 100% the same discrete class names in your data.frame offspringSplitter. They should also be in alphabetical order.")
+			if (sum(fecObj@fecByDiscrete)>0) {
+				print ("Warning - number and sizes of offspring produced by individuals in discrete classes cannot be calculated when offspring size is a function of parent size. The Fmatrix contains zeros instead. Only solution at this point: change the F matrix yourself afterwards.")
+			}
+		}
+		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
+	}
+	
+	#print(colSums(get.matrix))
+	
+	#warning about negative numbers
+	if (min(get.matrix)<0) { 
+		print("Warning: fertility values < 0 exist in matrix, consider transforms. Negative values set to zero") 
+		get.matrix[get.matrix<0] <- 0
+	}
+	
+	rc <- new("IPMmatrix",
+			nDiscrete = nDisc,
+			nEnvClass = 1, 
+			nBigMatrix = nBigMatrix,
+			nrow = 1*nBigMatrix+nDisc,
+			ncol =1*nBigMatrix+nDisc,
+			meshpoints = y,
+			env.index = rep(1:nEnvClass,each=nBigMatrix),
+			names.discrete=namesDiscrete)
+	rc[,] <-get.matrix   
+	
+	return(rc)
+}
+
 
 
 
