@@ -107,6 +107,9 @@ setClass("growthObjHossfeld",
 setClass("growthObjPois",
 		representation(fit = "glm"))
 
+setClass("growthObjNegBin",
+		representation(fit = "glm"))
+
 ## SURVIVAL OBJECTS ##
 # Create a generic survival object
 setClass("survObj",
@@ -261,6 +264,26 @@ setMethod("growth",
 			u <- dpois(sizeNext,mux,log=FALSE)  
 			return(u);
 		})
+
+
+#  growth transition (poisson model) probability from size to sizeNext at that covariate level 
+#	NOTE DO NOT USE THIS WITH AN IPM!!
+setMethod("growth", 
+		c("numeric","numeric","data.frame","growthObjNegBin"),
+		function(size,sizeNext,cov,growthObj){
+			newd <- data.frame(cbind(cov,size=size),
+					stringsAsFactors = FALSE)
+			newd$size2 <- size^2
+			newd$size3 <- size^3
+			
+			if (length(grep("logsize",
+							growthObj@fit$formula))>0) { newd$logsize <- log(size)}
+			
+			mux <- predict(growthObj@fit,newd,type="response")
+			u <- dnbinom(sizeNext,mu=mux,size=growthObj@fit$theta,log=FALSE)  
+			return(u);
+		})
+
 
 
 
