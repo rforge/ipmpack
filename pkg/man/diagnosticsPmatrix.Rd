@@ -50,6 +50,8 @@ The six panels on the next plot show the discretized IPM (histograms) for the cu
  
 Note that it is important that the comparison be "fair" - i.e., whatever the \code{correction} argument used in your current IPM, the same argument must be used in \code{diagnosticsPmatrix.}
 
+Note also that if survival is constant across size, the patterns apparent in the life expectancy plot will reflect numerical slippage (since all sizes will have exactly the same life expectancy) and disagreement between the different lines should be ignored. 
+
 Finally, note that if the correction used is \code{discretizeExtremes} then the column sums of the Pmatrix and survival will not match towards the extremes. 
  
 }
