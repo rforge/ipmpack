@@ -751,7 +751,7 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 ### NOTE ASSUMES TRANSITIONS OUT ARE DISCRETE - THIS MEANS THAT SDTOCONT
 ### IS THE NEGBINON ISSUE    #########
 ##
-createDiscretePmatrix <- function (nEnvClass = 1, 
+createIntegerPmatrix <- function (nEnvClass = 1, 
 		meshpoints=1:20,
 		chosenCov = data.frame(covariate = 1), 
 		growObj, survObj, 
@@ -1164,7 +1164,7 @@ createIPMFmatrix <- function(fecObj,
 
 
 ### CREATE DISCRETE F MATRIX
-createDiscreteFmatrix <- function(fecObj,
+createIntegerFmatrix <- function(fecObj,
 		nEnvClass = 1,
 		meshpoints=1:20,
 		chosenCov = data.frame(covariate=1),
