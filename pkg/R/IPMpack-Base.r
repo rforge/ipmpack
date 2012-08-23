@@ -2497,6 +2497,7 @@ sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 
 sensParamsR0 <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
 		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, 
+		chosenCov = data.frame(covariate=1),
 		delta=1e-4) {
 	
 	nfec <- 0
@@ -2694,6 +2695,7 @@ sensParamsR0 <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize
 ## identical for LE ########################################################################
 
 sensParamsLifeExpect <- function (growObj, survObj, nBigMatrix, minSize, maxSize, 
+		chosenCov = data.frame(covariate=1),
 		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, 
 		delta=1e-4,chosenBin=1) {
 	
