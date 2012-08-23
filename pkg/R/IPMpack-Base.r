@@ -275,8 +275,8 @@ setMethod("growth",
 			if (length(grep("logsize",
 							growthObj@fit$formula))>0) { newd$logsize <- log(size)}
 			
-			mux <- predict(growthObj@fit[[1]]],newd,type="response")
-			u <- dnbinom(sizeNext,mu=mux,size=growthObj@fit[[2]]],log=FALSE)  
+			mux <- predict(growthObj@fit[[1]],newd,type="response")
+			u <- dnbinom(sizeNext,mu=mux,size=growthObj@fit[[2]],log=FALSE)  
 			return(u);
 		})
 
