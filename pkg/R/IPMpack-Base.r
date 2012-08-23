@@ -68,10 +68,6 @@ setClass("growthObj",
 setClass("growthObjPois",
 		representation(fit = "glm"))
 
-#setClass("growthObjNegBin",
-#		representation(fit = "list"))
-
-
 # Create a generic growth object with normal errors on increment
 setClass("growthObjIncr",
 		representation(fit = "lm",sd="numeric"))
@@ -108,7 +104,7 @@ setClass("growthObjPois",
 		representation(fit = "glm"))
 
 setClass("growthObjNegBin",
-		representation(fit = "glm"))
+		representation(fit = "list"))
 
 ## SURVIVAL OBJECTS ##
 # Create a generic survival object
@@ -279,8 +275,8 @@ setMethod("growth",
 			if (length(grep("logsize",
 							growthObj@fit$formula))>0) { newd$logsize <- log(size)}
 			
-			mux <- predict(growthObj@fit,newd,type="response")
-			u <- dnbinom(sizeNext,mu=mux,size=growthObj@fit$theta,log=FALSE)  
+			mux <- predict(growthObj@fit[[1]]],newd,type="response")
+			u <- dnbinom(sizeNext,mu=mux,size=growthObj@fit[[2]]],log=FALSE)  
 			return(u);
 		})
 

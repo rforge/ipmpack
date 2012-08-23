@@ -102,7 +102,9 @@ makeGrowthObj <- function(dataf,
 		if (regType != "constantVar") print("Warning: your regType is ignored because a non-gaussian model is fitted using glm")
 		if (Family=="negbin"){
 			fit <- glm.nb(Formula, data=dataf)
-			fit.here <- fit
+			fit.here[[1]] <- glm.convert(fit)
+			fit.here[[2]] <- fit$theta			
+	
 		} else {
 			fit <- glm(Formula, data=dataf, family=Family)
 			fit.here <- fit
@@ -126,7 +128,7 @@ makeGrowthObj <- function(dataf,
 					if (Family=="poisson") { gr1 <- new("growthObjPois"); gr1@fit <- fit } else {print("unidentified object class")}
 				} else {
 					if (class(fit)[1] == "negbin") {
-						gr1 <- new("growthObjNegBin"); gr1@fit <- fit
+						gr1 <- new("growthObjNegBin"); gr1@fit <- fit.here
 					} 
 				}
 			}}    
