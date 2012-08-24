@@ -1,5 +1,6 @@
 \name{getListRegObjects}
 \alias{getListRegObjects}
+\alias{getListRegObjectsFec}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -12,12 +13,13 @@ normal distribution and then defines the corresponding growth or
 survival objects.}
 \usage{
 getListRegObjects(Obj,nsamp=1000)
+getListRegObjectsFec(Obj,nsamp=1000)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Obj}{
-    a growth or survival or fertility object with a slot named "fit"
-    containing an lm or glm, etc
+    a growth or survival object with a slot named "fit" for \code{getListRegObjects} containing an lm or glm, etc or a fertility object with a slot named "fitFec" for \code{getListRegObjectsFec}, likewise. 
+   
   }
   \item{nsamp}{
     desired number of samples from the posterior multivariate normal
@@ -25,7 +27,7 @@ getListRegObjects(Obj,nsamp=1000)
 
 }
 \value{
-  list of objects containing an lm or glm
+  list of growth or survival objects containing an lm or glm; or fertility objects likewise
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
@@ -41,13 +43,16 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff <- generateData()
 gr1 <- makeGrowthObj(dff)
 sv1 <- makeSurvObj(dff)
+fv1 <- makeFecObj(dff,Transform="log")
 
 grList <- getListRegObjects(gr1, nsamp=10)
 svList <- getListRegObjects(sv1, nsamp=10)
+fvList <- getListRegObjectsFec(fv1, nsamp=10)
 
 
 res <- getIPMoutputDirect(survObjList = svList,
                                growObjList = grList,
+                               fecObjList = fvList,
                                targetSize = 6,
                                nBigMatrix = 100,
                                minSize = 1.1*min(dff$size,na.rm=TRUE),
@@ -66,4 +71,15 @@ res <- getIPMoutputDirect(survObjList = svList,
      plot(res$meshpoints, res$pTime[1, ], xlab="Continuous (e.g. Size) stage", 
      	ylab = "Passage time", type = "l", ylim = range(res$pTime, na.rm=TRUE))
      for (j in 1:nrow(res$pTime)) points(res$meshpoints,res$pTime[j, ],col=j,  type = "l")
+     
+     plot(res$meshpoints, Re(res$stableStage[1, ]), xlab="Continuous (e.g. Size) stage", 
+     	ylab = "Stable distribution", type = "l", ylim = range(Re(res$stableStage), na.rm=TRUE))
+     for (j in 1:nrow(res$stableStage)) points(res$meshpoints,Re(res$stableStage[j, ]),
+     	col=j,  type = "l")
+     	
+     hist(res$lambda,col="grey", xlab=expression(lambda), main="")
+     	
+     
+     
+     
 }

@@ -1125,6 +1125,31 @@ getListRegObjects <- function(Obj,nsamp=1000) {
 }
 
 
+
+## Function to take fit of these and output a list of growth objects
+getListRegObjectsFec <- function(Obj,nsamp=1000) {
+	
+	require(mvtnorm)
+	require(MASS)
+
+	objList <- list()
+	
+	#generate new set parameters from mvn
+	for (j in 1:nsamp) {
+		for (k in 1:length(Obj@fitFec)) { 
+		npar <- length(Obj@fitFec[[k]]$coefficients)
+		newpar <- rmvnorm(nsamp, mean = Obj@fitFec[[k]]$coefficients, 
+					sigma = vcov(Obj@fitFec[[k]]))
+		objList[[j]] <- Obj
+		objList[[j]]@fitFec[[k]]$coefficients <- newpar[j,]
+		}
+	}	
+		
+	return(objList)
+}
+
+
+
 ## Function to coerce Growth object to parameters and variance desired
 coerceGrowthObj <- function(growthObj,coeff,sd){
 
