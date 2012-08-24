@@ -657,6 +657,7 @@ setClass("DiscreteMatrix",
 createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSize = 50, 
 		chosenCov = data.frame(covariate = 1), growObj, survObj, 
 		discreteTrans = 1, integrateType = "midpoint", correction = "none") {
+	
 	if (class(growObj) == "growthObjPois" | class(growObj) =="growthObjNegBin") 
 		print("warning: IPMs not appropriate with discrete growth processes")
 	b <- minSize + c(0:nBigMatrix) * (maxSize - minSize)/nBigMatrix
@@ -704,31 +705,32 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 	}
 	
 	
-	
 	rc <- new("IPMmatrix", nDiscrete = 0, nEnvClass = 1, nBigMatrix = nBigMatrix, 
 			nrow = 1 * nBigMatrix, ncol = 1 * nBigMatrix, meshpoints = y, 
 			env.index = rep(1:nEnvClass, each = nBigMatrix), names.discrete = "")
 	rc[, ] <- get.matrix
 
 	if (class(discreteTrans) == "discreteTrans") {
-		nDisc <- ncol(discreteTrans@discreteSurv)
+		nDisc <- ncol(discreteTrans@meanToCont)
 		survToDiscrete <- predict(discreteTrans@survToDiscrete, 
 				data.frame(size = y, size2 = (y * y)), type = "response")
 		cont.to.cont <- get.matrix * matrix(1 - survToDiscrete, 
 				nrow = nBigMatrix, ncol = nBigMatrix, byrow = TRUE)
-		disc.to.disc <- discreteTrans@discreteTrans[1:nDisc, 
-						1:nDisc] * matrix(c(discreteTrans@discreteSurv), 
-						nrow = nDisc, ncol = nDisc, byrow = TRUE)
-		disc.to.cont <- matrix(NA, ncol = nDisc, nrow = nBigMatrix)
-		cont.to.disc <- matrix(NA, nrow = nDisc, ncol = nBigMatrix)
+		disc.to.disc <- discreteTrans@discreteTrans[1:nDisc, 1:nDisc]
+		disc.to.cont <- matrix(0, ncol = nDisc, nrow = nBigMatrix)
+		cont.to.disc <- matrix(0, nrow = nDisc, ncol = nBigMatrix)
 		for (j in 1:nDisc) {
 			tmp <- dnorm(y, discreteTrans@meanToCont[j], discreteTrans@sdToCont[j]) * 
 					h
 			if (correction == "constant") 
 				tmp <- tmp/sum(tmp)
-			disc.to.cont[, j] <- discreteTrans@discreteSurv[,j] * 
-					discreteTrans@discreteTrans["continuous", j] * tmp
-			cont.to.disc[j, ] <- discreteTrans@distribToDiscrete[j, ] * surv(y, chosenCov, survObj) * survToDiscrete
+			disc.to.cont[, j] <- discreteTrans@discreteTrans["continuous", j] * tmp
+		}
+		if (sum(discreteTrans@discreteTrans[1:nDisc,"continuous"])==0) {
+			cont.to.disc[] <- 0
+		} else {
+			cont.to.disc[j, ] <- surv(y, chosenCov, survObj) * survToDiscrete * 
+					discreteTrans@discreteTrans[j,"continuous"] / sum(discreteTrans@discreteTrans[1:nDisc,"continuous"]) 
 		}
 		get.disc.matrix <- rbind(cbind(disc.to.disc, cont.to.disc), 
 				cbind(disc.to.cont, cont.to.cont))
