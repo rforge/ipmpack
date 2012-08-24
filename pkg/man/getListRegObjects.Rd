@@ -45,6 +45,7 @@ gr1 <- makeGrowthObj(dff)
 sv1 <- makeSurvObj(dff)
 fv1 <- makeFecObj(dff,Transform="log")
 
+#higher nsamp are advisable for a detailed analysis
 grList <- getListRegObjects(gr1, nsamp=10)
 svList <- getListRegObjects(sv1, nsamp=10)
 fvList <- getListRegObjectsFec(fv1, nsamp=10)
