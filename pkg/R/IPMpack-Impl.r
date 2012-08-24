@@ -600,7 +600,11 @@ makeDiscreteTrans <- function(dataf,
 		continuousToDiscreteExplanatoryVariables = "size") {
 	
 	#order stage names from discrete to continuous
-	if (is.na(stages[1])) stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
+	if (is.na(stages[1])) {
+		stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
+		if (!is.na(discreteTrans[1])) stages<-c(stages,dimnames(discreteTrans)[[2]])
+	}
+	stages <- unique(stages)
 	stages <- c(stages[!stages%in%c("continuous","dead")],"continuous","dead") 
 	#if no number of instances are not specified, assume each row represents one individual
 	if (("number"%in%names(dataf)) == FALSE) dataf$number <- 1
