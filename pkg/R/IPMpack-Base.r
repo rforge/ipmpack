@@ -138,12 +138,9 @@ setClass("fecObj",
 ## DISCRETE TRANSITION MATRIX OBJECTS ##
 # Create a generic discrete transition matrix object
 setClass("discreteTrans",
-		representation(nclasses = "numeric",
-				discreteTrans = "matrix",
-				discreteSurv = "matrix",
+		representation(discreteTrans = "matrix",
 				meanToCont = "matrix",
 				sdToCont = "matrix",
-				distribToDiscrete = "matrix",
 				survToDiscrete = "glm"))
 
 
