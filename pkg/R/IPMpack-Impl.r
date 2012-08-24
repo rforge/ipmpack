@@ -592,62 +592,72 @@ makeClonalObj <- function(dataf,
 # Returns - an object of class discreteTrans
 #
 
-makeDiscreteTrans <- function(dataf, continuousToDiscreteExplanatoryVariables = "size") {
+makeDiscreteTrans <- function(dataf, 
+		stages = NA,
+		discreteTrans = NA,
+		meanToCont = NA,
+		sdToCont = NA,
+		continuousToDiscreteExplanatoryVariables = "size") {
 	
 	#order stage names from discrete to continuous
-	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
-	stages <- stages[stages!="dead"] 
-	stages <- c(stages[stages!="continuous"],"continuous") 
+	if (is.na(stages[1])) stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
+	stages <- c(stages[!stages%in%c("continuous","dead")],"continuous","dead") 
 	#if no number of instances are not specified, assume each row represents one individual
 	if (("number"%in%names(dataf)) == FALSE) dataf$number <- 1
-	#define the number of classes
-	nclasses <- length(stages)
-	#define matrices to hold the transition between all classes
-	discreteTrans <- matrix(0,nrow=nclasses,ncol=nclasses, dimnames=list(stages,stages))
-	#define matrix to hold sd and mean of re-entry into continous + matrix of  survival for all discrete stages
-	sdToCont <- meanToCont <- discreteSurv <- matrix(NA,nrow=1,ncol=nclasses-1,dimnames=list(1,stages[1:length(stages)-1]))
-	# define matrix to hold transitions from the continuous to the discrete
-	distribToDiscrete <- matrix(NA,ncol=1,nrow=nclasses-1,dimnames=list(stages[1:length(stages)-1],"continuous"))
-	
-	#loop over discrete stages and fill 
-	for (j in stages[1:(length(stages)-1)]) {
-		for (i in stages) discreteTrans[i,j] <- sum(dataf[dataf$stage==j & dataf$stageNext==i,]$number,na.rm=TRUE)
-		discreteSurv[,j] <- sum(discreteTrans[,j],na.rm=T) / sum(dataf[dataf$stage == j,]$number, na.rm = TRUE)
-		discreteTrans[,j] <- discreteTrans[,j] / sum(discreteTrans[,j], na.rm = TRUE)
-		meanToCont[,j] <- mean(dataf[dataf$stage == j & dataf$stageNext == i,]$sizeNext, na.rm = TRUE)
-		sdToCont[,j] <- sd(dataf[dataf$stage == j & dataf$stageNext == i, ]$sizeNext,na.rm = TRUE)
+	#define the number of discrete classes
+	nDiscreteClasses <- length(stages)-2
+	#define the transition between all classes
+	if (is.na(discreteTrans[1])&length(discreteTrans)==1) {
+		discreteTrans <- matrix(0,nrow=nDiscreteClasses+2,ncol=nDiscreteClasses+1, dimnames=list(stages,stages[1:(length(stages)-1)]))
+		for (j in stages[1:(length(stages)-1)]) {
+			for (i in stages) discreteTrans[i,j] <- sum(dataf[dataf$stage==j & dataf$stageNext==i,]$number,na.rm=TRUE)
+		}
 	}
-	
-	for (i in stages[1:(length(stages) - 1)])
-		distribToDiscrete[i,] <- sum(dataf[dataf$stage == "continuous" & dataf$stageNext == i,]$number, na.rm = TRUE)
-	if (sum(distribToDiscrete)>0) distribToDiscrete <- distribToDiscrete/sum(distribToDiscrete,na.rm=TRUE)
-	
-	
-	subdata <- subset(dataf, dataf$stage == "continuous" & dataf$surv == 1)
-	subdata$cont.to.discrete <- 1
-	subdata$cont.to.discrete[subdata$stageNext == "continuous"] <- 0
-	subdata$size2 <- subdata$size ^ 2
-	if (sum(subdata$cont.to.discrete)>0) {
-		survToDiscrete <- glm(paste('cont.to.discrete~',continuousToDiscreteExplanatoryVariables,sep=''), family = binomial, data = subdata)
+	if (class(discreteTrans)!="matrix") stop("Error - the discreteTrans you entered should be a matrix")
+	if (nrow(discreteTrans)!=length(stages)|ncol(discreteTrans)!=(length(stages)-1)) stop("Error - the discreteTrans matrix you entered should be a square matrix with dimensions equal to the number of stages (including continuous)")
+	if (sum(dimnames(discreteTrans)[[1]]==stages)<length(stages)) stop("Error - the row names of your discreteTrans matrix should be in alphabetical order, with continuous being the last one")
+	if (sum(dimnames(discreteTrans)[[2]]==stages[1:(length(stages)-1)])<(length(stages)-1)) stop("Error - the column names of your discreteTrans matrix should be in alphabetical order, with continuous being the last one")
+	for (j in stages[1:(length(stages)-1)]) discreteTrans[,j] <- discreteTrans[,j] / sum(discreteTrans[,j], na.rm = TRUE)
+	#define the mean size of individuals coming from discrete stages to the continuous stage
+	if (is.na(meanToCont[1])&length(meanToCont)==1) {
+		meanToCont <- matrix(NA,nrow=1,ncol=nDiscreteClasses,dimnames=list(1,stages[1:nDiscreteClasses]))
+		for (j in stages[which(as.numeric(discreteTrans["continuous",1:nDiscreteClasses])>0)]) {
+			meanToCont[,j] <- mean(dataf[dataf$stage == j & dataf$stageNext == "continuous",]$sizeNext, na.rm = TRUE)
+		}
+	}
+	if (class(meanToCont)!="matrix") stop("Error - the meanToCont matrix you entered should be a matrix")
+	if (nrow(meanToCont)!=1) stop("Error - the meanToCont matrix you entered should contain just 1 row with means (or NA's for those discrete stages from which no individuals move to the continuous class")
+	if (sum(dimnames(meanToCont)[[2]]==stages[1:nDiscreteClasses])<nDiscreteClasses) stop("Error - the column names of the meanToCont matrix you entered should be in alphabetical order and match the column names of the discrete classes in discreteTrans (so without continuous)")
+	#define the sd size of individuals coming from discrete stages to the continuous stage
+	if (is.na(sdToCont[1])&length(sdToCont)==1) {
+		sdToCont <- matrix(NA,nrow=1,ncol=nDiscreteClasses,dimnames=list(1,stages[1:nDiscreteClasses]))
+		for (j in stages[which(as.numeric(discreteTrans["continuous",1:nDiscreteClasses])>0)]) {
+			sdToCont[,j] <- sd(dataf[dataf$stage == j & dataf$stageNext == "continuous",]$sizeNext, na.rm = TRUE)
+		}
+	}
+	if (class(sdToCont)!="matrix") stop("Error - the sdToCont matrix you entered should be a matrix")
+	if (nrow(sdToCont)!=1) stop("Error - the sdToCont matrix you entered should contain just 1 row with means (or NA's for those discrete stages from which no individuals move to the continuous class")
+	if (sum(dimnames(sdToCont)[[2]]==stages[1:nDiscreteClasses])<nDiscreteClasses) stop("Error - the column names of the sdToCont matrix you entered should be in alphabetical order and match the column names of the discrete classes in discreteTrans (so without continuous)")
+	# make the regression to relate the probability of individuals moving to any of the discrete stages as a function of their size 
+	if (sum(discreteTrans[stages[1:nDiscreteClasses],"continuous"])==0) {
+		survToDiscrete <- glm(rep(0,21)~1, family = binomial)
 	} else {
-		survToDiscrete <- glm(rep(0,21)~1,family=binomial)
-	}	
-	
-	rownames(discreteTrans) <- stages	
-	colnames(discreteTrans) <- stages	
+		subData <- subset(dataf, dataf$stage == "continuous" & dataf$surv == 1)
+		subData$contToDiscrete <- 1
+		subData$contToDiscrete[subData$stageNext == "continuous"] <- 0
+		subData$size2 <- subData$size ^ 2
+		subData$size3 <- subData$size ^ 3
+		if (length(grep("logsize", as.character(continuousToDiscreteExplanatoryVariables))) > 0) subData$logsize <- log(subData$size)
+		survToDiscrete <- glm(paste('contToDiscrete~',continuousToDiscreteExplanatoryVariables,sep=''), family = binomial, data = subData)
+	}
 	
 	#define new object
 	disTrans <- new("discreteTrans")
-	disTrans@nclasses <- nclasses
 	disTrans@discreteTrans <- discreteTrans
-	disTrans@discreteSurv <- discreteSurv
 	disTrans@meanToCont <- meanToCont
 	disTrans@sdToCont <- sdToCont
-	disTrans@distribToDiscrete <- distribToDiscrete
 	disTrans@survToDiscrete <- survToDiscrete
-	
 	return(disTrans)
-	
 }
 
 
