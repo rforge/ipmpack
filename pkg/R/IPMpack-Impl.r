@@ -605,6 +605,7 @@ makeDiscreteTrans <- function(dataf,
 	}
 	stages <- unique(stages)
 	stages <- c(stages[!stages%in%c("continuous","dead")],"continuous","dead") 
+	if (length(stages)==2) stop("Error - no discrete stages found. If no discrete stages are included in your data file, please specify them in the discreteTrans argument of the makeDiscreteTrans function.")
 	#if no number of instances are not specified, assume each row represents one individual
 	if (("number"%in%names(dataf)) == FALSE) dataf$number <- 1
 	#define the number of discrete classes
