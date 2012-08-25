@@ -2318,7 +2318,7 @@ sensParams <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 						i, names(fecObj@fitFec[[i]]$coefficients)))
 	}
 	npar <- length(growObj@fit$coeff) + 1 + length(survObj@fit$coeff) + 
-			length(fecObj@offspringRel$coeff) + 1 + #addedÉ
+			length(fecObj@offspringRel$coeff) + 1 + 
 			(sum(!is.na(fecObj@fecConstants))) + nfec
 	elam <- rep(0, npar)
 	if ((sum(!is.na(fecObj@fecConstants))) > 0) {
@@ -2525,7 +2525,7 @@ sensParamsR0 <- function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize
 						i, names(fecObj@fitFec[[i]]$coefficients)))
 	}
 	npar <- length(growObj@fit$coeff) + 1 + length(survObj@fit$coeff) + 
-			length(fecObj@offspringRel$coeff) + 1 + #addedÉ
+			length(fecObj@offspringRel$coeff) + 1 + 
 			(sum(!is.na(fecObj@fecConstants))) + nfec
 	elam <- rep(0, npar)
 	if ((sum(!is.na(fecObj@fecConstants))) > 0) {
@@ -2834,7 +2834,7 @@ sensParamsDiscrete <-  function (growObj, survObj, fecObj, nBigMatrix, minSize, 
 			#pick element of matrix
 			adj <- rep(discreteTrans@discreteTrans[k,j]*delta,nrow(discreteTrans@discreteTrans)-1)
 			discreteTrans@discreteTrans[k,j] <- discreteTrans@discreteTrans[k,j] * (1 + delta)
-			#alter the other values in the columns so as continue to sum to oneÉ
+			#alter the other values in the columns so as continue to sum to one
 			if (sum(discreteTrans@discreteTrans[k,-j]>0)>0) adj <- adj/sum(discreteTrans@discreteTrans[k,-j]>0)
 			adj[discreteTrans@discreteTrans[-k,j]==0] <- 0
 			discreteTrans@discreteTrans[-k,j] <- discreteTrans@discreteTrans[-k,j]-adj
@@ -3039,7 +3039,8 @@ sensParamsDiscreteR0 <-  function (growObj, survObj, fecObj, nBigMatrix, minSize
 			#pick element of matrix
 			adj <- rep(discreteTrans@discreteTrans[k,j]*delta,nrow(discreteTrans@discreteTrans)-1)
 			discreteTrans@discreteTrans[k,j] <- discreteTrans@discreteTrans[k,j] * (1 + delta)
-			#alter the other values in the columns so as continue to sum to oneÉ
+			#alter the other values in the columns so as continue to sum to one
+		e
 			if (sum(discreteTrans@discreteTrans[k,-j]>0)>0) adj <- adj/sum(discreteTrans@discreteTrans[k,-j]>0)
 			adj[discreteTrans@discreteTrans[-k,j]==0] <- 0
 			discreteTrans@discreteTrans[-k,j] <- discreteTrans@discreteTrans[-k,j]-adj
