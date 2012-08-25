@@ -675,6 +675,7 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 						growthObj = growObj))
 		get.matrix <- get.matrix.cum[2:(nBigMatrix + 1), ] - 
 				get.matrix.cum[1:nBigMatrix, ]
+		#remove because alden...
 		#get.matrix[nBigMatrix, nBigMatrix] <- get.matrix[nBigMatrix, 
 	    #			nBigMatrix] + (1 - sum(get.matrix[, nBigMatrix]))
 		get.matrix <- t(t(get.matrix) * surv(size = y, cov = chosenCov, 
