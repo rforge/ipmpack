@@ -14,11 +14,11 @@
 s
 }
 \usage{
-sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, delta=1e-4)
+sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,  chosenCov = data.frame(covariate = 1),discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, delta=1e-4)
 
-sensParamsR0(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, delta=1e-4)
+sensParamsR0(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,  chosenCov = data.frame(covariate = 1),discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, delta=1e-4)
 
-sensParamsLifeExpect(growObj, survObj, nBigMatrix, minSize, maxSize, 
+sensParamsLifeExpect(growObj, survObj, nBigMatrix, minSize, maxSize,  chosenCov = data.frame(covariate = 1),
     discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, 
 	delta=1e-4,chosenBin=1)
 }
