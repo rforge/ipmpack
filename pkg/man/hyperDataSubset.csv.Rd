@@ -107,7 +107,7 @@ fo<-makeFecObj(d,Family=c("binomial","poisson"),
                sdOffspringSize=sd(d[is.na(d$size)==TRUE & is.na(d$sizeNext)==FALSE,"sizeNext"]),
                fecConstants=data.frame(fec2=fec2,fec3=fec3,fec4=fec4),   
                offspringSplitter=data.frame(seedbank=goSB,continuous=(1-goSB)),
-               offspringTypeRates=data.frame(seedbank=c(1,1,1,0,0),
+               vitalRatesPerOffspringType=data.frame(seedbank=c(1,1,1,0,0),
                continuous=rep(1,5),
                row.names=c("fec0","fec1","fec2","fec3","fec4")),
                Transform=c("none","none"))

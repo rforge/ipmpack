@@ -20,7 +20,7 @@ makePostFecObjs(dataf,
 		meanOffspringSize=NA,
 		sdOffspringSize=NA,
 		offspringSplitter=data.frame(continuous=1),
-		offspringTypeRates=data.frame(NA),
+		vitalRatesPerOffspringType=data.frame(NA),
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1",
 		burnin=3000,nitt=50000) 
@@ -64,7 +64,7 @@ makePostFecObjs(dataf,
     offspring going into each offspring category; will be re-scaled to
     sum to 1 within the function. THESE MUST appear in alphabetical
     order.}
-  \item{offspringTypeRates}{dataframe defining which fecundity rates (both functions and constants) apply to which offspring category. This only needs to be 
+  \item{vitalRatesPerOffspringType}{dataframe defining which fecundity rates (both functions and constants) apply to which offspring category. This only needs to be 
     specified when some fecundity rates do not apply to all offspring categories. The offspring categories in the column names of this dataframe should match those 
     in the offspringSplitter exactly. The row names of the dataframe should match the fecundity column names in the data file and the supplied fecundity constants, 
     in that order. In the dataframe, a '1' indicates that a fecundity rate applies to an offspring category, while a '0' indicates an omission. For instance, establishment

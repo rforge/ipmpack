@@ -330,7 +330,7 @@ Note that {\tt makeFecObj} will use the relationships defined in {\tt Formula} a
 The default arguments required to run {\tt makeFecObj} to create a fecundity
 object from which an F matrix with no discrete stage can be built are {\tt
 offspringSplitter=data.frame(continuous=1)}, {\tt 
-offspringTypeRates=data.frame(NA)} and {\tt fecByDiscrete=data.frame(NA)}.
+vitalRatesPerOffspringType=data.frame(NA)} and {\tt fecByDiscrete=data.frame(NA)}.
 Additionally, note that if there are values other than ``{\tt continuous}" in the {\tt stage} column of the data-frame named {\tt dff} in the example above, then the function will assume that multiple offspring classes are required, and the result will be an IPM with nBigMatrix + the number of offspring classes deduced (which is the number of names in {\tt stage} other than ``{\tt continuous}"). This may lead to a mismatch with the size of the P matrix unless a discrete transition matrix is explicitly being included in the P matrix (see below, incorporating discrete stages).
 
 If the data-frame contains an extra column {\tt offspringNext} that takes the
