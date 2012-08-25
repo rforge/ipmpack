@@ -390,7 +390,6 @@ makeFecObj <- function(dataf,
 		f1@fitFec[[i]] <- glm(Formula[[i]],family=Family[i],data=dataf)
 	}
 	
-	
 	if (offspringSplitter$continuous>0) {
 		if (is.na(meanOffspringSize[1])|is.na(sdOffspringSize[1])) {
 			if (length(dataf$offspringNext)==0) {
@@ -413,7 +412,7 @@ makeFecObj <- function(dataf,
 	
 	if (sum(dim(offspringTypeRates)==c(1,1))<2) {
 		if ((sum(offspringTypeRates==0,na.rm=T)+sum(offspringTypeRates==1,na.rm=T))<(ncol(offspringTypeRates)*nrow(offspringTypeRates))) stop("Error - in offspringTypeRates data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
-		if (sum(names(offspringTypeRates)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in offspringTypeRates should match those in offspringSplitter - and in the same order, with continuous last")
+		#if (sum(names(offspringTypeRates)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in offspringTypeRates should match those in offspringSplitter - and in the same order, with continuous last")
 		if (sum(rownames(offspringTypeRates)==c(fecNames,names(fecConstants)))<(length(Formula)+length(fecConstants))) stop ("Error - the row names in offspringTypeRates should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
 	} else {
 		offspringTypeRates <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(Formula)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
