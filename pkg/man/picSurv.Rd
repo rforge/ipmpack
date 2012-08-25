@@ -8,7 +8,7 @@ Makes pictures of survival.
 Produces figures of value for assessing survival fit given data.
 }
 \usage{
-picSurv(dataf, survObj, ncuts = 20, ...)
+picSurv(dataf, survObj, ncuts = 20, makeTitle = "Survival", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
