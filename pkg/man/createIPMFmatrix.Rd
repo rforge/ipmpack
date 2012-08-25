@@ -71,6 +71,8 @@ For information on F matrix: Caswell. 2001. Matrix population models: constructi
 For midpoint: Zuidema, Jongejans, Chien, During & Schieving. Integral projection models for trees: a new parameterization method and a validation of model output. Journal of Ecology 98, p345-355.
 
 For multiple-vital rate integration on fecundity: Yang, Jongejans, Yang & Bishop. 2011. The effect of consumers and mutualists of Vaccinum membranaceum at Mount St. Helens: dependence on successional context. PLoS One 10, p1-11.
+
+For information on unintentional eviction from IPMs (which the various corrections try and account for) see Williams et al. 2012 Avoiding unintentional eviction from integral projection models. Ecology.
 }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.

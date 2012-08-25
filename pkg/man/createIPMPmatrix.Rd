@@ -68,6 +68,8 @@ Easterling, Ellner & Dixon. 2000. Size-specific sensitivity: a new structured po
 Ellner & Rees. 2006. Integral projection models for species with complex demography. The American Naturalist 167, p410-428.
 
 For information on P matrix: Caswell. 2001. Matrix population models: construction, analysis, and interpretation. 2nd ed. Sinauer. p110-112.
+
+For information on unintentional eviction from IPMs (which the various corrections try and account for) see Williams et al. 2012 Avoiding unintentional eviction from integral projection models. Ecology.
 %% ~put references to the literature/web site here ~
 }
 \author{
