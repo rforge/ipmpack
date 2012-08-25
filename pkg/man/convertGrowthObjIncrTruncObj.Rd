@@ -23,7 +23,9 @@ convertGrowthObjIncrTruncObj(growthObj)
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
-
+\details{
+Note that fitting a truncated normal cannot be done by fitting a normal distribution and cutting off the tails; truncation redistributes the probability density between the size limits which modifies size transition probabilities.
+}
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
