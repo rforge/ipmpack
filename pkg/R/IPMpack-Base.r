@@ -126,7 +126,7 @@ setClass("fecObj",
 				fecConstants = "data.frame",
 				offspringSplitter = "data.frame",
 				fecByDiscrete = "data.frame",
-				offspringTypeRates = "data.frame",
+				vitalRatesPerOffspringType = "data.frame",
 				Transform = "character",
 				offspringRel = "lm",
 				sdOffspringSize = "numeric")
@@ -927,7 +927,7 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fecValues[i,]<-exp(fecValues[i,])
 	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fecValues[i,]<-(fecValues[i,])^2
 	if (length(grep("-1",fecObj@Transform))>0) for (i in grep("-1",fecObj@Transform)) fecValues[i,]<-fecValues[i,]+1
-	prodFecValues <- apply(fecValues[which(fecObj@offspringTypeRates[,"continuous"]==1),],2,prod)*unlist(fecObj@offspringSplitter["continuous"])
+	prodFecValues <- apply(fecValues[which(fecObj@vitalRatesPerOffspringType[,"continuous"]==1),],2,prod)*unlist(fecObj@offspringSplitter["continuous"])
 	return(list(prodFecValues,fecValues))
 }
 
@@ -1127,7 +1127,7 @@ createIPMFmatrix <- function(fecObj,
 	if (nDisc>0) {
 		namesDiscrete <- colnames(fecObj@offspringSplitter[1:nDisc])
 		to.discrete <- matrix(0,nrow=nDisc,ncol=nBigMatrix)
-		for (i in 1:nDisc) to.discrete[i,] <- apply(.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@offspringTypeRates[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
+		for (i in 1:nDisc) to.discrete[i,] <- apply(.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
 		from.discrete <- matrix(0,ncol=nDisc,nrow=nDisc+nBigMatrix)
 		if (names(fecObj@fecByDiscrete)[1]!="NA.") {
 			if (sum(names(fecObj@fecByDiscrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fecByDiscrete are not 100% the same discrete class names in your data.frame offspringSplitter. They should also be in alphabetical order.")
@@ -1210,7 +1210,7 @@ createIntegerFmatrix <- function(fecObj,
 	if (nDisc>0) {
 		namesDiscrete <- colnames(fecObj@offspringSplitter[1:nDisc])
 		to.discrete <- matrix(0,nrow=nDisc,ncol=nBigMatrix)
-		for (i in 1:nDisc) to.discrete[i,] <- apply(.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@offspringTypeRates[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
+		for (i in 1:nDisc) to.discrete[i,] <- apply(.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
 		from.discrete <- matrix(0,ncol=nDisc,nrow=nDisc+nBigMatrix)
 		if (names(fecObj@fecByDiscrete)[1]!="NA.") {
 			if (sum(names(fecObj@fecByDiscrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fecByDiscrete are not 100% the same discrete class names in your data.frame offspringSplitter. They should also be in alphabetical order.")

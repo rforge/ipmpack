@@ -13,12 +13,9 @@ Objects can be created by calls of the form \code{new("discreteTrans", ...)}.
 }
 \section{Slots}{
   \describe{
-    \item{\code{nclasses}:}{Object of class \code{"numeric"} ~~ }
     \item{\code{discreteTrans}:}{Object of class \code{"matrix"} ~~ }
-    \item{\code{discreteSurv}:}{Object of class \code{"matrix"} ~~ }
     \item{\code{meanToCont}:}{Object of class \code{"matrix"} ~~ }
     \item{\code{sdToCont}:}{Object of class \code{"matrix"} ~~ }
-    \item{\code{distribToDiscrete}:}{Object of class \code{"matrix"} ~~ }
     \item{\code{survToDiscrete}:}{Object of class \code{"glm"} ~~ }
   }
 }

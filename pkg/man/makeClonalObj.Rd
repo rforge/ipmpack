@@ -16,7 +16,7 @@ makeClonalObj(dataf, fecConstants=data.frame(NA),
 		Formula=list(fec~size),Family="gaussian",
 		Transform="none",meanOffspringSize=NA,
 		sdOffspringSize=NA,offspringSplitter=data.frame(continuous=1),
-		offspringTypeRates=data.frame(NA),fecByDiscrete=data.frame(NA),
+		vitalRatesPerOffspringType=data.frame(NA),fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1")
 
 }
@@ -37,7 +37,7 @@ makeClonalObj(dataf, fecConstants=data.frame(NA),
   \item{offspringSplitter}{dataframe with values defining the number of
     offspring going into the indicated offspring category; will be re-scaled to
     sum to 1 within the function. This argument needs to be entered as a data.frame, and the names in the data.frame need to precisely match the used stage names in the data file.}
-  \item{offspringTypeRates}{dataframe defining which fecundity rates (both functions and constants) apply to which offspring category. This only needs to be 
+  \item{vitalRatesPerOffspringType}{dataframe defining which fecundity rates (both functions and constants) apply to which offspring category. This only needs to be 
     specified when some fecundity rates do not apply to all offspring categories. The offspring categories in the column names of this dataframe should match those 
     in the offspringSplitter exactly. The row names of the dataframe should match the fecundity column names in the data file and the supplied fecundity constants, 
     in that order. In the dataframe, a '1' indicates that a fecundity rate applies to an offspring category, while a '0' indicates an omission. For instance, establishment

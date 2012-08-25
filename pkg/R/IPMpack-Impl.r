@@ -298,7 +298,7 @@ makeFecObj <- function(dataf,
 		meanOffspringSize=NA,
 		sdOffspringSize=NA,
 		offspringSplitter=data.frame(continuous=1),
-		offspringTypeRates=data.frame(NA),
+		vitalRatesPerOffspringType=data.frame(NA),
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1"){
 	
@@ -410,13 +410,13 @@ makeFecObj <- function(dataf,
 		}
 	}	
 	
-	if (sum(dim(offspringTypeRates)==c(1,1))<2) {
-		if ((sum(offspringTypeRates==0,na.rm=T)+sum(offspringTypeRates==1,na.rm=T))<(ncol(offspringTypeRates)*nrow(offspringTypeRates))) stop("Error - in offspringTypeRates data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
-		#if (sum(names(offspringTypeRates)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in offspringTypeRates should match those in offspringSplitter - and in the same order, with continuous last")
-		if (sum(rownames(offspringTypeRates)==c(fecNames,names(fecConstants)))<(length(Formula)+length(fecConstants))) stop ("Error - the row names in offspringTypeRates should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
+	if (sum(dim(vitalRatesPerOffspringType)==c(1,1))<2) {
+		if ((sum(vitalRatesPerOffspringType==0,na.rm=T)+sum(vitalRatesPerOffspringType==1,na.rm=T))<(ncol(vitalRatesPerOffspringType)*nrow(vitalRatesPerOffspringType))) stop("Error - in vitalRatesPerOffspringType data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
+		#if (sum(names(vitalRatesPerOffspringType)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in vitalRatesPerOffspringType should match those in offspringSplitter - and in the same order, with continuous last")
+		if (sum(rownames(vitalRatesPerOffspringType)==c(fecNames,names(fecConstants)))<(length(Formula)+length(fecConstants))) stop ("Error - the row names in vitalRatesPerOffspringType should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
 	} else {
-		offspringTypeRates <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(Formula)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
-		names(offspringTypeRates) <- names(offspringSplitter)
+		vitalRatesPerOffspringType <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(Formula)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
+		names(vitalRatesPerOffspringType) <- names(offspringSplitter)
 	}
 	
 	if (length(f1@sdOffspringSize)>0) {
@@ -428,7 +428,7 @@ makeFecObj <- function(dataf,
 	f1@fecNames <- fecNames
 	f1@fecConstants <- fecConstants
 	f1@offspringSplitter <- offspringSplitter 
-	f1@offspringTypeRates <- offspringTypeRates 
+	f1@vitalRatesPerOffspringType <- vitalRatesPerOffspringType 
 	f1@fecByDiscrete <- fecByDiscrete
 	f1@Transform <- Transform
 	return(f1)
@@ -448,7 +448,7 @@ makeClonalObj <- function(dataf,
 		meanOffspringSize=NA,
 		sdOffspringSize=NA,
 		offspringSplitter=data.frame(continuous=1),
-		offspringTypeRates=data.frame(NA),
+		vitalRatesPerOffspringType=data.frame(NA),
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1"){
 	
@@ -553,13 +553,13 @@ makeClonalObj <- function(dataf,
 	}
     }
 
-	if (sum(dim(offspringTypeRates)==c(1,1))<2) {
-		if ((sum(offspringTypeRates==0,na.rm=T)+sum(offspringTypeRates==1,na.rm=T))<(ncol(offspringTypeRates)*nrow(offspringTypeRates))) stop("Error - in offspringTypeRates data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
-		if (sum(names(offspringTypeRates)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in offspringTypeRates should match those in offspringSplitter - and in the same order, with continuous last")
-		if (sum(rownames(offspringTypeRates)==c(fecNames,names(fecConstants)))<(length(fecNames)+length(fecConstants))) stop ("Error - the row names in offspringTypeRates should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
+	if (sum(dim(vitalRatesPerOffspringType)==c(1,1))<2) {
+		if ((sum(vitalRatesPerOffspringType==0,na.rm=T)+sum(vitalRatesPerOffspringType==1,na.rm=T))<(ncol(vitalRatesPerOffspringType)*nrow(vitalRatesPerOffspringType))) stop("Error - in vitalRatesPerOffspringType data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
+		if (sum(names(vitalRatesPerOffspringType)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in vitalRatesPerOffspringType should match those in offspringSplitter - and in the same order, with continuous last")
+		if (sum(rownames(vitalRatesPerOffspringType)==c(fecNames,names(fecConstants)))<(length(fecNames)+length(fecConstants))) stop ("Error - the row names in vitalRatesPerOffspringType should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
 	} else {
-		offspringTypeRates <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(fecNames)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
-		names(offspringTypeRates) <- names(offspringSplitter)
+		vitalRatesPerOffspringType <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(fecNames)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
+		names(vitalRatesPerOffspringType) <- names(offspringSplitter)
 	}
 
 	if (length(f1@sdOffspringSize)>0) {
@@ -571,7 +571,7 @@ makeClonalObj <- function(dataf,
 	f1@fecNames <- fecNames
 	f1@fecConstants <- fecConstants
 	f1@offspringSplitter <- offspringSplitter 
-	f1@offspringTypeRates <- offspringTypeRates 
+	f1@vitalRatesPerOffspringType <- vitalRatesPerOffspringType 
 	f1@fecByDiscrete <- fecByDiscrete
 	f1@Transform <- Transform
 	return(f1)
@@ -870,7 +870,7 @@ makePostFecObjs <- function(dataf,
 		meanOffspringSize=NA,
 		sdOffspringSize=NA,
 		offspringSplitter=data.frame(continuous=1),
-		offspringTypeRates=data.frame(NA),
+		vitalRatesPerOffspringType=data.frame(NA),
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1",
 		burnin=3000,nitt=50000) {
@@ -981,13 +981,13 @@ makePostFecObjs <- function(dataf,
 		
 	}
 	
-	if (sum(dim(offspringTypeRates)==c(1,1))<2) {
-		if ((sum(offspringTypeRates==0,na.rm=T)+sum(offspringTypeRates==1,na.rm=T))<(ncol(offspringTypeRates)*nrow(offspringTypeRates))) stop("Error - in offspringTypeRates data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
-		if (sum(names(offspringTypeRates)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in offspringTypeRates should match those in offspringSplitter - and in the same order, with continuous last")
-		if (sum(rownames(offspringTypeRates)==c(fecNames,names(fecConstants)))<(length(fecNames)+length(fecConstants))) stop ("Error - the row names in offspringTypeRates should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
+	if (sum(dim(vitalRatesPerOffspringType)==c(1,1))<2) {
+		if ((sum(vitalRatesPerOffspringType==0,na.rm=T)+sum(vitalRatesPerOffspringType==1,na.rm=T))<(ncol(vitalRatesPerOffspringType)*nrow(vitalRatesPerOffspringType))) stop("Error - in vitalRatesPerOffspringType data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
+		if (sum(names(vitalRatesPerOffspringType)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in vitalRatesPerOffspringType should match those in offspringSplitter - and in the same order, with continuous last")
+		if (sum(rownames(vitalRatesPerOffspringType)==c(fecNames,names(fecConstants)))<(length(fecNames)+length(fecConstants))) stop ("Error - the row names in vitalRatesPerOffspringType should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
 	} else {
-		offspringTypeRates <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(fecNames)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
-		names(offspringTypeRates) <- names(offspringSplitter)
+		vitalRatesPerOffspringType <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(fecNames)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
+		names(vitalRatesPerOffspringType) <- names(offspringSplitter)
 	}
 	
 	
@@ -1010,7 +1010,7 @@ makePostFecObjs <- function(dataf,
 		fv[[k]]@offspringRel <- offspringRel
 		fv[[k]]@sdOffspringSize <- sdOffspringSize
 		fv[[k]]@offspringSplitter <- offspringSplitter
-		fv[[k]]@offspringTypeRates <- offspringTypeRates
+		fv[[k]]@vitalRatesPerOffspringType <- vitalRatesPerOffspringType
 		fv[[k]]@fecByDiscrete <- fecByDiscrete
 		fv[[k]]@Transform <- Transform 
 		}
