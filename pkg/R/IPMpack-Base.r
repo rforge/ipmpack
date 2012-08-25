@@ -1676,6 +1676,11 @@ convergeLambda<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 	
 	lambda.new<-1000
 	delta<-1000
+	
+	print(paste(c("delta: ","new lambda:", "New number of grid points:
+									"),collapse=""))
+	
+	
 	while(delta>tol) {
 		lambda.old <-lambda.new
 		nBigMatrix <- nBigMatrix + binIncrease
@@ -1691,13 +1696,14 @@ convergeLambda<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 		lambda.new <- Re(eigen(IPM)$value[1])
 		
 		delta<-abs(lambda.new-lambda.old)
-		print(delta)
+		print(paste(c( delta, lambda.new,nBigMatrix),collapse=" "))
+		
 	}
 	
 	print(c("Final lambda from iteration:",lambda.new))
 	print(c("Number of bins:",nBigMatrix))
 	
-	output<-list(binIncrease=binIncrease,IPM=IPM,lambda=lambda.new)
+	output <- list(nBigMatrix = nBigMatrix, IPM = IPM, lambda = lambda.new)
 	
 	return(output)
 }

@@ -74,6 +74,8 @@ convergeLifeExpectancyLastBin(growObj, survObj,nBigMatrix, minSize, maxSize,
   \item{LE}{the final vector of life expectancies}
 }
 \details{
+The pattern of change in lambda (or other response variables) can be complex, so it is advisable to start with large binIncrease and small tolerance, and then once one knows a general idea of how big the matrix needs to be, run the function again with a smaller binIncrease but start it closer to the goal. 
+
 For convergeLifeExpectancyFirstBin, if discrete stages are included via discreteTrans then convergeLifeExpectancyFirstBin will use the first discrete bin. 
 }
 \author{
