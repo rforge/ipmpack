@@ -329,7 +329,7 @@ makeFecObj <- function(dataf,
 	stages <- stages[stages!="dead"] 
 	stages <- c(stages[stages!="continuous"],"continuous") 
 	if ((sum(names(offspringSplitter)%in%stages)/length(offspringSplitter))<1) {
-		stop("Error - the variable names in your offspringSplitter data.frame are not all part of the levels of stage or stageNext in your data file. Please fix this by adjusting your offspringSplitter entry to include the correct variable names, e.g. offspringSplitter=data.frame(continuous=.7,seedAge1=.3)")
+		print("Warning - the variable names in your offspringSplitter data.frame are not all part of the levels of stage or stageNext in your data file. This could be because of an mismatch in stage names, or because you included discrete stages in offspringSplitter that are not in the data file but wchich you will introduce in makeDiscreteTrans (in which case you can ignore this warning).")
 	}
 	dummy<-rep(0,length(stages));names(dummy)<-stages;dummy<-as.data.frame(t(as.matrix(dummy)))
 	for (i in names(offspringSplitter)) dummy[i]<-offspringSplitter[i]
