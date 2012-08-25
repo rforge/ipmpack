@@ -1770,7 +1770,7 @@ convergeLifeExpectancyFirstBin<-function(growObj, survObj,nBigMatrix, minSize, m
 		LE.new <- meanLifeExpect(Pmatrix)    
 		
 		delta <- abs(LE.new[1]-LE.old[1])
-		print(paste(c( delta, LE.new,nBigMatrix),collapse=" "))
+		print(paste(c( delta, LE.new[1],nBigMatrix),collapse=" "))
 	}
 	
 	print(c("Final life expectancy of first bin from iteration:",LE.new[1]))
@@ -1802,7 +1802,7 @@ convergeLifeExpectancyLastBin<-function(growObj, survObj,nBigMatrix, minSize, ma
 		LE.new <- meanLifeExpect(Pmatrix)    
 		
 		delta <- abs(LE.new[length(LE.new)]-LE.old[length(LE.old)])
-		print(paste(c( delta, LE.new,nBigMatrix),collapse=" "))
+		print(paste(c( delta, LE.new[length(LE.new)],nBigMatrix),collapse=" "))
 		
 	}
 	
