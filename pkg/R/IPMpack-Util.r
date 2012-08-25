@@ -215,7 +215,7 @@ picSurv <- function(dataf, survObj, ncuts = 20, makeTitle = "Survival", ...) {
 	if (length(grep("covariate",names(survObj@fit$model)))==0) {  
 		#plot data
 		plot(as.numeric(psz),as.numeric(ps),pch=19,
-				xlab="Size at t", ylab = "Survival to t+1", main = mainTitle, ...)
+				xlab="Size at t", ylab = "Survival to t+1", main = makeTitle, ...)
 		#Plot fitted models
 		points(dataf$size[order(dataf$size)],surv(dataf$size[order(dataf$size)],data.frame(covariate=1),survObj),type="l",col=2)
 	} else {
