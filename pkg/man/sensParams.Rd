@@ -64,6 +64,9 @@ sensParamsLifeExpect(growObj, survObj, nBigMatrix, minSize, maxSize,  chosenCov 
     for analysis of life expectancy, which bin in the IPM Life
     expectancy should be compared for
   }
+  \item{chosenCov}{
+level or value of the covariate(s) at which sensitivity estimation is desired
+  }
   }
 \value{
   \item{slam }{a vector of sensitivities of lambda with names

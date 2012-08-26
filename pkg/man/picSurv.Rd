@@ -20,6 +20,9 @@ an object of class survObj.
   \item{ncuts}{
 number of consecutive values for which means of survival and continuous (e.g. size) stage are taken for the plotting.
 }
+  \item{makeTitle}{
+character that defines title, defaults to "Survival"
+}
   \item{\dots}{
 extra arguments to plot (e.g, ylim, etc).
 }
