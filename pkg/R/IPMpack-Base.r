@@ -810,9 +810,9 @@ createIntegerPmatrix <- function (nEnvClass = 1,
 		cont.to.disc <- matrix(0, nrow = nDisc, ncol = nBigMatrix)
 		for (j in 1:nDisc) {
 			if (discreteTrans@distToCont=="poisson") 
-			 tmp <- dpois(y, discreteTrans@meanToCont[j], ) * h
+			 tmp <- dpois(y, discreteTrans@meanToCont[j])
 		 if (discreteTrans@distToCont=="negBin") 
-			 tmp <- dnbinon(y, mu=discreteTrans@meanToCont[j], size=discreteTrans@thetaToCont[j]) * h
+			 tmp <- dnbinom(y, mu=discreteTrans@meanToCont[j], size=discreteTrans@thetaToCont[j])
 		 		 		 
 		if (correction == "constant") 
 				tmp <- tmp/sum(tmp)

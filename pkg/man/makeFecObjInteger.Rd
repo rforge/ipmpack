@@ -1,5 +1,6 @@
 \name{makeFecObjInteger}
 \alias{makeFecObjInteger}
+\alias{makeClonalObjInteger}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -24,6 +25,19 @@ makeFecObjInteger(dataf,
 		offspringSizeExplanatoryVariables="1",
 		distOffspring = "poisson")
 
+makeClonalObjInteger(dataf,
+		fecConstants=data.frame(NA),
+		Formula=list(fec~size),
+		Family="gaussian",
+		Transform="none",
+		meanOffspringSize=NA,
+		thetaOffspringSize=NA,
+		offspringSplitter=data.frame(continuous=1),
+		vitalRatesPerOffspringType=data.frame(NA),
+		fecByDiscrete=data.frame(NA),
+		offspringSizeExplanatoryVariables="1",
+		distOffspring = "poisson")
+
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,8 +45,7 @@ makeFecObjInteger(dataf,
   \item{fecConstants}{a list containing the value by which each of the fecundity rates will be multiplied \emph{in the order defined by the order in \code{Formula}}.  This data frame adjusts the probability of establishment of seeds or other stages in  sexual reproduction that are not explicitly incorporated  for each parent (e.g., 25\% of seeds across all individuals germinate).  The default is NA if no constants are used (equivalent to multiplying by 1).}
   \item{Formula}{a formulas describing the desired explanatory variables (interactions, etc) in classical R style, i.e. separated by `+', `*', `:' and the response variables of choice. Possible covariates include `size', 'size2' (size^2), `size3'  (size^3),`logsize' (log(size)), and `covariate' (if this name is used, the assumption is made that this is a discrete covariate from which compound matrices may be constructed), and any other covariates available in dataf. Again, these must appear  \emph{in the order defined by the Formula argument}.  See \code{\link{formula}} in \code{base} for more details.}
   \item{Family}{a character vector containing the names of the families to be used for the glms, e.g., binomial, poisson, etc. Again, these must appear  \emph{in the order defined by \code{Formula}} }
-  \item{Transform}{a character vector containing the names of the
-    transforms to be used for the response variables, e.g., log, sqrt, -1, etc. Again, these must appear  \emph{in the order defined by \code{Formula}} }
+  \item{Transform}{a character vector containing the names of the transforms to be used for the response variables, e.g., log, sqrt, -1, etc. Again, these must appear  \emph{in the order defined by \code{Formula}} }
   \item{meanOffspringSize}{numeric vector, defining mean offspring size. Defaults to NA, in which case the function will use to data to assess the mean offspring size according to the relationship defined in offspringSizeExplanatoryVariables (which either simply fits a mean, or may fit more complex relationships linking maternal size to offspring size).}
   \item{thetaOffspringSize}{numeric vector, defining size parameter of offspring size. It is only required if the family of offspring size is negative binomial (rather than poisson). Defaults to NA, in which case the function will use the data to assess this parameter using dbinom.}
   \item{offspringSplitter}{dataframe with values defining the number of
