@@ -1132,10 +1132,12 @@ createIPMFmatrix <- function(fecObj,
 	if (nDisc>0) {
 		namesDiscrete <- colnames(fecObj@offspringSplitter[1:nDisc])
 		to.discrete <- matrix(0,nrow=nDisc,ncol=nBigMatrix)
-		if (length(which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1))>1) {
-			for (i in 1:nDisc) to.discrete[i,] <- apply(.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
-		} else {
-			for (i in 1:nDisc) to.discrete[i,] <- .fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1),]*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
+		for (i in 1:nDisc) {
+			if (length(which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1))>1) {
+				to.discrete[i,] <- apply(.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
+			} else {
+				to.discrete[i,] <- .fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1),]*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
+			}
 		}
 		from.discrete <- matrix(0,ncol=nDisc,nrow=nDisc+nBigMatrix)
 		if (names(fecObj@fecByDiscrete)[1]!="NA.") {
@@ -1219,10 +1221,12 @@ createIntegerFmatrix <- function(fecObj,
 	if (nDisc>0) {
 		namesDiscrete <- colnames(fecObj@offspringSplitter[1:nDisc])
 		to.discrete <- matrix(0,nrow=nDisc,ncol=nBigMatrix)
-		if (length(which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1))>1) {
-			for (i in 1:nDisc) to.discrete[i,] <- apply(.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
-		} else {
-			for (i in 1:nDisc) to.discrete[i,] <- .fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1),]*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
+		for (i in 1:nDisc) {
+			if (length(which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1))>1) {
+				to.discrete[i,] <- apply(.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1),],2,prod)*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
+			} else {
+				to.discrete[i,] <- .fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[2]][which(fecObj@vitalRatesPerOffspringType[,namesDiscrete[i]]==1),]*unlist(fecObj@offspringSplitter[namesDiscrete[i]])
+			}
 		}
 		from.discrete <- matrix(0,ncol=nDisc,nrow=nDisc+nBigMatrix)
 		if (names(fecObj@fecByDiscrete)[1]!="NA.") {
