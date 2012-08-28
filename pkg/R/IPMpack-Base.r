@@ -1329,7 +1329,7 @@ createIntegerFmatrix <- function(fecObj,
 		get.matrix[get.matrix<0] <- 0
 	}
 	
-	rc <- new("DiscreteMatrix",
+	rc <- new("IPMmatrix",
 			nDiscrete = nDisc,
 			nEnvClass = 1, 
 			nBigMatrix = nBigMatrix,

@@ -79,7 +79,7 @@ With thanks to Alden Griffith.
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createDiscretePmatrix}}
+\code{\link{makeDiscreteTransInteger}}, \code{\link{makeFecObjInteger}}
 }
 \examples{
 
