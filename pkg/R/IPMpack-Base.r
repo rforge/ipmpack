@@ -823,7 +823,7 @@ createIntegerPmatrix <- function (nEnvClass = 1,
 		get.disc.matrix <- rbind(cbind(disc.to.disc, cont.to.disc), 
 				cbind(disc.to.cont, cont.to.cont))
 
-		rc <- new("DiscreteMatrix", nDiscrete = nDisc, nEnvClass = 1, 
+		rc <- new("IPMmatrix", nDiscrete = nDisc, nEnvClass = 1, 
 				nBigMatrix = nBigMatrix, nrow = 1 * nBigMatrix + 
 						nDisc, ncol = 1 * nBigMatrix + nDisc, meshpoints = y, 
 				env.index = rep(1:nEnvClass, each = nBigMatrix), 
