@@ -810,10 +810,14 @@ createIntegerPmatrix <- function (nEnvClass = 1,
 		cont.to.disc <- matrix(0, nrow = nDisc, ncol = nBigMatrix)
 		for (j in 1:nDisc) {
 			if (discreteTrans@distToCont=="poisson") 
-			 tmp <- dpois(y, discreteTrans@meanToCont[j])
+			 tmp <- dpois(y, discreteTrans@meanToCont[j]) 
 		 if (discreteTrans@distToCont=="negBin") 
-			 tmp <- dnbinom(y, mu=discreteTrans@meanToCont[j], size=discreteTrans@thetaToCont[j])
+			 tmp <- dnbinon(y, mu=discreteTrans@meanToCont[j], size=discreteTrans@thetaToCont[j]) 
 		 		 		 
+		if (correction == "constant") 
+				tmp <- tmp/sum(tmp)
+			disc.to.cont[, j] <- discreteTrans@discreteTrans["continuous", j] * tmp
+		}
 		if (sum(discreteTrans@discreteTrans[1:nDisc,"continuous"])==0) {
 			cont.to.disc[] <- 0
 		} else {
@@ -823,7 +827,7 @@ createIntegerPmatrix <- function (nEnvClass = 1,
 		get.disc.matrix <- rbind(cbind(disc.to.disc, cont.to.disc), 
 				cbind(disc.to.cont, cont.to.cont))
 
-		rc <- new("IPMmatrix", nDiscrete = nDisc, nEnvClass = 1, 
+		rc <- new("DiscreteMatrix", nDiscrete = nDisc, nEnvClass = 1, 
 				nBigMatrix = nBigMatrix, nrow = 1 * nBigMatrix + 
 						nDisc, ncol = 1 * nBigMatrix + nDisc, meshpoints = y, 
 				env.index = rep(1:nEnvClass, each = nBigMatrix), 
@@ -832,8 +836,6 @@ createIntegerPmatrix <- function (nEnvClass = 1,
 	}
 	return(rc)
 }
-
-
 
 
 #Function creates a combo of T.IPMs for a chosen
