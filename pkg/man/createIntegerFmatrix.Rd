@@ -54,6 +54,9 @@ createIntegerPmatrix(nEnvClass = 1,
     createIPMFmatrix in the current version of IPMpack. It will become functional 
     in coming versions.  
   }
+   \item{discreteTrans}{
+    object of class discreteTrans, or numeric.
+  }
  
 }
 \value{

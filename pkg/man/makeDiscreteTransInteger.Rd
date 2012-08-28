@@ -27,7 +27,7 @@ makeDiscreteTransInteger(dataf,
   \item{meanToCont}{a matrix containing the mean sizeNext values for individuals moving from discrete classes to the continuous classes (should contain NA when no individuals move from a particular discrete class to a continuous sizeNext). The column names should be equal (in alphabetical order) to the names of the discrete classes (so no continuous).}
   \item{thetaToCont}{a matrix containing the size parameter of sizeNext values for individuals moving from discrete classes to the continuous classes (should contain NA when no individuals move from a particular discrete class to a continuous sizeNext). The column names should be equal (in alphabetical order) to the names of the discrete classes (so no continuous).}
   \item{continuousToDiscreteExplanatoryVariables}{a character defining the relationship defining size influences the probability of individuals in the continuous class moving to any of the discrete classes. This argument is not relevant when individuals in the continuous stage cannot move into any discrete stage.}
-\item{distOffspring}{
+\item{distToCont}{
 character indicating the desired distribution of emergent sizes (poisson or negative binomial)
 }
 
