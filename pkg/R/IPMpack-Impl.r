@@ -984,7 +984,7 @@ makePostFecObjs <- function(dataf,
 	}
 	
 	if (sum(dim(vitalRatesPerOffspringType)==c(1,1))<2) {
-		if ((sum(vitalRatesPerOffspringType==0,na.rm=T)+sum(vitalRatesPerOffspringType==1,na.rm=T))<(ncol(vitalRatesPerOffspringType)*nrow(vitalRatesPerOffspringType))) stop("Error - in vitalRatesPerOffspringType data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
+		if ((sum(vitalRatesPerOffspringType==0,na.rm=TRUE)+sum(vitalRatesPerOffspringType==1,na.rm=TRUE))<(ncol(vitalRatesPerOffspringType)*nrow(vitalRatesPerOffspringType))) stop("Error - in vitalRatesPerOffspringType data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
 		if (sum(names(vitalRatesPerOffspringType)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in vitalRatesPerOffspringType should match those in offspringSplitter - and in the same order, with continuous last")
 		if (sum(rownames(vitalRatesPerOffspringType)==c(fecNames,names(fecConstants)))<(length(fecNames)+length(fecConstants))) stop ("Error - the row names in vitalRatesPerOffspringType should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
 	} else {
