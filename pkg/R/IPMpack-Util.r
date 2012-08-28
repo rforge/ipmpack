@@ -117,6 +117,11 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 			
 		}
 		
+		if (colSums(Pmatrix)==diag(Pmatrix)) { 
+			print(c("at k=", k, ", poorly defined Pmatrix, skipping"))
+			next()
+		}
+		
 		LE[k,] <- meanLifeExpect(Pmatrix) 
 		pTime[k,] <- passageTime(targetSize,Pmatrix) 
 		if (k==1) h1 <- diff(Pmatrix@meshpoints)[1]
