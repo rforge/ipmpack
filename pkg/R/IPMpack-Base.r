@@ -812,10 +812,8 @@ createIntegerPmatrix <- function (nEnvClass = 1,
 			if (discreteTrans@distToCont=="poisson") 
 			 tmp <- dpois(y, discreteTrans@meanToCont[j]) 
 		 if (discreteTrans@distToCont=="negBin") 
-			 tmp <- dnbinon(y, mu=discreteTrans@meanToCont[j], size=discreteTrans@thetaToCont[j]) 
+			 tmp <- dnbinom(y, mu=discreteTrans@meanToCont[j], size=discreteTrans@thetaToCont[j]) 
 		 		 		 
-		if (correction == "constant") 
-				tmp <- tmp/sum(tmp)
 			disc.to.cont[, j] <- discreteTrans@discreteTrans["continuous", j] * tmp
 		}
 		if (sum(discreteTrans@discreteTrans[1:nDisc,"continuous"])==0) {
