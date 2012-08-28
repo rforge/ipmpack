@@ -147,6 +147,36 @@ setClass("discreteTrans",
 
 
 
+
+## INTEGER FECUNDITY OBJECTS ##
+# Create a generic fecundity object
+setClass("fecObjInteger",
+		representation(fitFec = "list",
+				fecNames = "character",
+				fecConstants = "data.frame",
+				offspringSplitter = "data.frame",
+				fecByDiscrete = "data.frame",
+				vitalRatesPerOffspringType = "data.frame",
+				Transform = "character",
+				offspringRel = "glm",
+				thetaOffspringSize = "numeric",
+				distOffspring = "character")
+)
+
+
+## DISCRETE TRANSITION MATRIX INTEGER OBJECTS ##
+# Create a generic discrete transition matrix object
+setClass("discreteTransInteger",
+		representation(discreteTrans = "matrix",
+				meanToCont = "matrix",
+				thetaToCont = "matrix",
+				survToDiscrete = "glm",
+				distToCont = "character"))
+
+
+
+
+
 ######## DEFINE METHODS ##########################################################################################
 
 #Method to obtain probability of survival using
