@@ -650,14 +650,14 @@ setClass("IPMmatrix",
 
 
 #Class for the matrix that holds the IPM
-setClass("DiscreteMatrix",
-		representation(nDiscrete = "numeric", #number of discrete classes
-				nEnvClass = "numeric", #number of covariate levels
-				nBigMatrix = "numeric", #the resolution of the IPM
-				meshpoints = "numeric",
-				env.index = "numeric",
-				names.discrete = "character"),
-		contains="matrix")
+#setClass("DiscreteMatrix",
+#		representation(nDiscrete = "numeric", #number of discrete classes
+#				nEnvClass = "numeric", #number of covariate levels
+#				nBigMatrix = "numeric", #the resolution of the IPM
+#				meshpoints = "numeric",
+#				env.index = "numeric",
+#				names.discrete = "character"),
+#		contains="matrix")
 
 
 
