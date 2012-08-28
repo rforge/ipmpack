@@ -770,29 +770,33 @@ createIntegerPmatrix <- function (nEnvClass = 1,
 	rc[, ] <- get.matrix
 	
 	if (class(discreteTrans) == "discreteTrans") {
-		nDisc <- ncol(discreteTrans@discreteSurv)
+		nDisc <- ncol(discreteTrans@meanToCont)
 		survToDiscrete <- predict(discreteTrans@survToDiscrete, 
 				data.frame(size = y, size2 = (y * y)), type = "response")
 		cont.to.cont <- get.matrix * matrix(1 - survToDiscrete, 
 				nrow = nBigMatrix, ncol = nBigMatrix, byrow = TRUE)
-		disc.to.disc <- discreteTrans@discreteTrans[1:nDisc,1:nDisc] * 
-				matrix(c(discreteTrans@discreteSurv), 
-						nrow = nDisc, ncol = nDisc, byrow = TRUE)
-		disc.to.cont <- matrix(NA, ncol = nDisc, nrow = nBigMatrix)
-		cont.to.disc <- matrix(NA, nrow = nDisc, ncol = nBigMatrix)
-		
+		disc.to.disc <- discreteTrans@discreteTrans[1:nDisc, 1:nDisc]
+		disc.to.cont <- matrix(0, ncol = nDisc, nrow = nBigMatrix)
+		cont.to.disc <- matrix(0, nrow = nDisc, ncol = nBigMatrix)
 		for (j in 1:nDisc) {
-			##this is a weird thing - you are calling it sdToCont but in fact
-			# is is the size variabl in neg binom
-			tmp <- dnbinom(y, mu=discreteTrans@meanToCont[j], 
-					size=discreteTrans@sdToCont[j]) 
-			disc.to.cont[, j] <- discreteTrans@discreteSurv[,j] * 
-				  	 discreteTrans@discreteTrans["continuous", j] * tmp
-			cont.to.disc[j, ] <- discreteTrans@distribToDiscrete[j, ] * 
-					surv(y, chosenCov, survObj) * survToDiscrete
+			if (discreteTrans@distToCont=="poisson") 
+			 tmp <- dpois(y, discreteTrans@meanToCont[j], ) * h
+		 if (discreteTrans@distToCont=="negBin") 
+			 tmp <- dnbinon(y, mu=discreteTrans@meanToCont[j], size=discreteTrans@thetaToCont[j]) * h
+		 		 		 
+		if (correction == "constant") 
+				tmp <- tmp/sum(tmp)
+			disc.to.cont[, j] <- discreteTrans@discreteTrans["continuous", j] * tmp
+		}
+		if (sum(discreteTrans@discreteTrans[1:nDisc,"continuous"])==0) {
+			cont.to.disc[] <- 0
+		} else {
+			cont.to.disc[j, ] <- surv(y, chosenCov, survObj) * survToDiscrete * 
+					discreteTrans@discreteTrans[j,"continuous"] / sum(discreteTrans@discreteTrans[1:nDisc,"continuous"]) 
 		}
 		get.disc.matrix <- rbind(cbind(disc.to.disc, cont.to.disc), 
 				cbind(disc.to.cont, cont.to.cont))
+
 		rc <- new("DiscreteMatrix", nDiscrete = nDisc, nEnvClass = 1, 
 				nBigMatrix = nBigMatrix, nrow = 1 * nBigMatrix + 
 						nDisc, ncol = 1 * nBigMatrix + nDisc, meshpoints = y, 
@@ -1171,6 +1175,54 @@ createIPMFmatrix <- function(fecObj,
 	
 	return(rc)
 }
+
+
+
+
+
+## A function that outer can use showing numbers from x to y via production and distribution offspring
+.fecPreCensusInteger <- function(x,y,cov=data.frame(covariate=1),fecObj) {
+	newd <- data.frame(cbind(cov,size=x),
+			stringsAsFactors = FALSE)	
+	newd$size2 <- x^2
+	newd$size3 <- x^3
+	
+	if (length(grep("logsize",
+					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
+	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
+	if (fecObj@distOffspring=="poisson")
+			u <- u*dpois(y,predict(fecObj@offspringRel,newdata=newd, type="response"))
+	if (fecObj@distOffspring=="negBin")
+		u <- u*dnbinom(y,mu=predict(fecObj@offspringRel,newdata=newd, type="response"),
+				size=fecObj@thetaOffspringSize)
+
+	#print(cbind(y,predict(fecObj@offspringRel)))
+	
+	
+	return(u)
+}
+#### growth obj generally not needed down below.....
+## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring
+.fecPostCensusInteger <- function(x,y,cov=data.frame(covariate=1),fecObj, growObj,survObj) {
+	newd <- data.frame(cbind(cov,size=x),
+			stringsAsFactors = FALSE)
+	
+	newd$size2 <- x^2
+	newd$size3 <- x^3
+	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
+			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
+	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
+			surv(size=x, cov=cov, survObj=survObj)
+	if (fecObj@distOffspring=="poisson")
+		u <- u*dpois(y,predict(fecObj@offspringRel,newdata=newd, type="response"))
+	if (fecObj@distOffspring=="negBin")
+		u <- u*dnbinom(y,mu=predict(fecObj@offspringRel,newdata=newd, type="response"),
+				size=fecObj@thetaOffspringSize)
+	
+	
+	return(u)
+}
+
 
 
 
