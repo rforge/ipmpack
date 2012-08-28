@@ -1277,17 +1277,20 @@ makeFecObjInteger <- function(dataf,
 				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize  slot, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'sexual' offspring)")
 			}
 			## relationship defining offspring size  
-			f1@offspringRel <- glm(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData, family=distOffspring)
-			if (distOffspring=="negBin") {f1@thetaOffspringSize <- f1@offspringRel$theta
+			if (distOffspring=="poisson") f1@offspringRel <- glm(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData, family="poisson")
+			if (distOffspring=="negBin") {
+				f1@offspringRel <- glm.nb(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData)
+				f1@thetaOffspringSize <- f1@offspringRel$theta;
 				f1@offspringRel <- glm.convert(f1@offspringRel)}
-			
 		} else {
-			f1@offspringRel <- glm(rep(meanOffspringSize[1],21)~1, family=distOffspring)
+			if (distOffspring=="poisson") 
+				f1@offspringRel <- glm(rep(meanOffspringSize[1],21)~1, family="poisson")
 			if (distOffspring=="negBin") { 
+				f1@offspringRel <- glm.nb(rep(meanOffspringSize[1],21)~1)
 				f1@thetaOffspringSize <- f1@offspringRel$theta
 				f1@offspringRel <- glm.convert(f1@offspringRel)}
 		}
-	}	
+	}
 	
 	if (sum(dim(vitalRatesPerOffspringType)==c(1,1))<2) {
 		if ((sum(vitalRatesPerOffspringType==0,na.rm=T)+sum(vitalRatesPerOffspringType==1,na.rm=T))<(ncol(vitalRatesPerOffspringType)*nrow(vitalRatesPerOffspringType))) stop("Error - in vitalRatesPerOffspringType data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
@@ -1426,12 +1429,17 @@ makeClonalObjInteger <- function(dataf,
 				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize and thetaOffspringSize slots, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'clonal' offspring)")
 			}
 			## relationship defining offspring size  
-			f1@offspringRel <- glm(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData, family=distOffspring)
-			if (distOffspring=="negBin") {f1@thetaOffspringSize <- f1@offspringRel$theta;
+			if (distOffspring=="poisson") f1@offspringRel <- glm(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData, family="poisson")
+			if (distOffspring=="negBin") {
+				f1@offspringRel <- glm.nb(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData)
+				f1@thetaOffspringSize <- f1@offspringRel$theta;
 				f1@offspringRel <- glm.convert(f1@offspringRel)}
 		} else {
-			f1@offspringRel <- glm(rep(meanOffspringSize[1],21)~1, family=distOffspring)
-			if (distOffspring=="negBin") { f1@thetaOffspringSize <- f1@offspringRel$theta
+			if (distOffspring=="poisson") 
+				f1@offspringRel <- glm(rep(meanOffspringSize[1],21)~1, family="poisson")
+			if (distOffspring=="negBin") { 
+				f1@offspringRel <- glm.nb(rep(meanOffspringSize[1],21)~1)
+				f1@thetaOffspringSize <- f1@offspringRel$theta
 				f1@offspringRel <- glm.convert(f1@offspringRel)}
 		}
 	}
@@ -1504,23 +1512,31 @@ makeDiscreteTransInteger <- function(dataf,
 	#define the mean size of individuals coming from discrete stages to the continuous stage
 	if (is.na(meanToCont[1])&length(meanToCont)==1) {
 		meanToCont <- matrix(NA,nrow=1,ncol=nDiscreteClasses,dimnames=list(1,stages[1:nDiscreteClasses]))
+		#define theta also so as can use it in the loop....
+		if (is.na(thetaToCont[1])&length(thetaToCont)==1) 
+			thetaToCont <- matrix(NA,nrow=1,ncol=nDiscreteClasses,dimnames=list(1,stages[1:nDiscreteClasses]))
+			
+		
 		for (j in stages[which(as.numeric(discreteTrans["continuous",1:nDiscreteClasses])>0)]) {
-			tmp <- glm(dataf[dataf$stage == j & dataf$stageNext == "continuous",]$sizeNext~1, family=distToCont)
-			meanToCont[,j] <- tmp$coefficient[1]
+		if (distToCont=="poisson")
+			tmp <- glm(dataf[dataf$stage == j & dataf$stageNext == "continuous",]$sizeNext~1,
+					family="poisson")
+		if (distToCont=="negbin") {
+			tmp <- glm.nb(dataf[dataf$stage == j & dataf$stageNext == "continuous",]$sizeNext~1)
+			thetaToCont[,j] <- tmp$theta
 		}
+		
+		meanToCont[,j] <- exp(tmp$coefficient[1])
+			
+			
+	}
 	}
 	if (class(meanToCont)!="matrix") stop("Error - the meanToCont matrix you entered should be a matrix")
 	if (nrow(meanToCont)!=1) stop("Error - the meanToCont matrix you entered should contain just 1 row with means (or NA's for those discrete stages from which no individuals move to the continuous class")
 	if (sum(dimnames(meanToCont)[[2]]==stages[1:nDiscreteClasses])<nDiscreteClasses) stop("Error - the column names of the meanToCont matrix you entered should be in alphabetical order and match the column names of the discrete classes in discreteTrans (so without continuous)")
 	#define the sd size of individuals coming from discrete stages to the continuous stage
-	if (is.na(thetaToCont[1])&length(thetaToCont)==1 & distToCont=="negbin") {
-		thetaToCont <- matrix(NA,nrow=1,ncol=nDiscreteClasses,dimnames=list(1,stages[1:nDiscreteClasses]))
-		for (j in stages[which(as.numeric(discreteTrans["continuous",1:nDiscreteClasses])>0)]) {
-			tmp <- glm(dataf[dataf$stage == j & dataf$stageNext == "continuous",]$sizeNext~1,family=distToCont)
-			thetaToCont[,j] <- tmp$theta
-		}
-	}
-	if (distToCont=="negbin") { 
+	
+if (distToCont=="negbin") { 
 		if (class(thetaToCont)!="matrix") stop("Error - the thetaToCont matrix you entered should be a matrix")
 		if (nrow(thetaToCont)!=1) stop("Error - the thetaToCont matrix you entered should contain just 1 row with means (or NA's for those discrete stages from which no individuals move to the continuous class")
 		if (sum(dimnames(thetaToCont)[[2]]==stages[1:nDiscreteClasses])<nDiscreteClasses) stop("Error - the column names of the thetaToCont matrix you entered should be in alphabetical order and match the column names of the discrete classes in discreteTrans (so without continuous)")
