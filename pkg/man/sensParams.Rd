@@ -104,7 +104,7 @@ Modified following code developed by Rees & Rose 2002 (above).
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{sens}}, \code{\link{elas}}, \code{\link{sensParamsDiscrete}}
+\code{\link{sens}}, \code{\link{elas}}
 }
 \examples{
 dff <- generateData()
