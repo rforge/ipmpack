@@ -327,10 +327,12 @@ makeFecObj <- function(dataf,
 	#order stage names from discrete to continuous
 	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
 	stages <- stages[stages!="dead"] 
-	stages <- c(stages[stages!="continuous"],"continuous") 
 	if ((sum(names(offspringSplitter)%in%stages)/length(offspringSplitter))<1) {
+		stages <- c(stages,names(offspringSplitter))
 		print("Warning - the variable names in your offspringSplitter data.frame are not all part of the levels of stage or stageNext in your data file. This could be because of an mismatch in stage names, or because you included discrete stages in offspringSplitter that are not in the data file but wchich you will introduce in makeDiscreteTrans (in which case you can ignore this warning).")
 	}
+	stages <- unique(stages)
+	stages <- c(stages[stages!="continuous"],"continuous") 
 	dummy<-rep(0,length(stages));names(dummy)<-stages;dummy<-as.data.frame(t(as.matrix(dummy)))
 	for (i in names(offspringSplitter)) dummy[i]<-offspringSplitter[i]
 	offspringSplitter <- dummy
@@ -364,7 +366,6 @@ makeFecObj <- function(dataf,
 	
 	if (length(Formula)>length(Family)) {
 		misE <- (length(Family)+1):length(Formula)
-	#	print(misE)
 		print(c("number of families not the same as the number of Formula supplied, using default of `gaussian' for missing ones which are:",Formula[[misE]],". (which might be exactly what you want)"))
 		Family <- c(Family,rep("gaussian",length(Formula)-length(Family)))
 	}
@@ -383,10 +384,7 @@ makeFecObj <- function(dataf,
 		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
 		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
 		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
-		
 		if (length(intersect(all.vars(Formula[[i]]),colnames(dataf)))<length(all.vars(Formula[[i]]))) print("warning: not all variables in the formula are present in dataf; model cannot be fit")
-		
-		
 		f1@fitFec[[i]] <- glm(Formula[[i]],family=Family[i],data=dataf)
 	}
 	
@@ -416,6 +414,7 @@ makeFecObj <- function(dataf,
 		if (sum(rownames(vitalRatesPerOffspringType)==c(fecNames,names(fecConstants)))<(length(Formula)+length(fecConstants))) stop ("Error - the row names in vitalRatesPerOffspringType should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
 	} else {
 		vitalRatesPerOffspringType <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(Formula)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
+		vitalRatesPerOffspringType <- subset(vitalRatesPerOffspringType,dimnames(vitalRatesPerOffspringType)[[1]]!="NA.")
 		names(vitalRatesPerOffspringType) <- names(offspringSplitter)
 	}
 	
@@ -472,10 +471,12 @@ makeClonalObj <- function(dataf,
 	#order stage names from discrete to continuous
 	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
 	stages <- stages[stages!="dead"] 
-	stages <- c(stages[stages!="continuous"],"continuous") 
 	if ((sum(names(offspringSplitter)%in%stages)/length(offspringSplitter))<1) {
-		stop("Error - the variable names in your offspringSplitter data.frame are not all part of the levels of stage or stageNext in your data file. Please fix this by adjusting your offspringSplitter entry to include the correct variable names, e.g. offspringSplitter=data.frame(continuous=.7,seedAge1=.3)")
+		stages <- c(stages,names(offspringSplitter))
+		print("Warning - the variable names in your offspringSplitter data.frame are not all part of the levels of stage or stageNext in your data file. This could be because of an mismatch in stage names, or because you included discrete stages in offspringSplitter that are not in the data file but wchich you will introduce in makeDiscreteTrans (in which case you can ignore this warning).")
 	}
+	stages <- unique(stages)
+	stages <- c(stages[stages!="continuous"],"continuous") 
 	dummy<-rep(0,length(stages));names(dummy)<-stages;dummy<-as.data.frame(t(as.matrix(dummy)))
 	for (i in names(offspringSplitter)) dummy[i]<-offspringSplitter[i]
 	offspringSplitter <- dummy
@@ -555,13 +556,14 @@ makeClonalObj <- function(dataf,
 
 	if (sum(dim(vitalRatesPerOffspringType)==c(1,1))<2) {
 		if ((sum(vitalRatesPerOffspringType==0,na.rm=T)+sum(vitalRatesPerOffspringType==1,na.rm=T))<(ncol(vitalRatesPerOffspringType)*nrow(vitalRatesPerOffspringType))) stop("Error - in vitalRatesPerOffspringType data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
-		if (sum(names(vitalRatesPerOffspringType)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in vitalRatesPerOffspringType should match those in offspringSplitter - and in the same order, with continuous last")
-		if (sum(rownames(vitalRatesPerOffspringType)==c(fecNames,names(fecConstants)))<(length(fecNames)+length(fecConstants))) stop ("Error - the row names in vitalRatesPerOffspringType should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
+		#if (sum(names(vitalRatesPerOffspringType)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in vitalRatesPerOffspringType should match those in offspringSplitter - and in the same order, with continuous last")
+		if (sum(rownames(vitalRatesPerOffspringType)==c(fecNames,names(fecConstants)))<(length(Formula)+length(fecConstants))) stop ("Error - the row names in vitalRatesPerOffspringType should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
 	} else {
-		vitalRatesPerOffspringType <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(fecNames)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
+		vitalRatesPerOffspringType <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(Formula)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
+		vitalRatesPerOffspringType <- subset(vitalRatesPerOffspringType,dimnames(vitalRatesPerOffspringType)[[1]]!="NA.")
 		names(vitalRatesPerOffspringType) <- names(offspringSplitter)
 	}
-
+	
 	if (length(f1@sdOffspringSize)>0) {
 		if (is.na(f1@sdOffspringSize)) {
 			print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")
