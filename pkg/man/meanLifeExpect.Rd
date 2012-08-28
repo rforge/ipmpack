@@ -73,11 +73,11 @@ mLE <- meanLifeExpect(Pmatrix)
 # shown at level of the first size class
 par(mfrow=c(max(Pmatrix@env.index),1))
 
-xvals <- c(rep(Pmatrix@meshpoints[1],discM@nclasses-1),Pmatrix@meshpoints)
+xvals <- c(rep(Pmatrix@meshpoints[1],ncol(discM@discreteTrans)-1),Pmatrix@meshpoints)
 
 for (k in 1:max(Pmatrix@env.index)) { 
-	indx <- ((k-1)*(discM@nclasses-1+length(Pmatrix@meshpoints))+1):
-		(k*(discM@nclasses-1+length(Pmatrix@meshpoints)))
+	indx <- ((k-1)*(ncol(discM@discreteTrans)-1+length(Pmatrix@meshpoints))+1):
+		(k*(ncol(discM@discreteTrans)-1+length(Pmatrix@meshpoints)))
 	
 	plot(xvals,mLE[indx], 
 		ylab = "Mean life expectancy", 
