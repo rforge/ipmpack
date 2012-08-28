@@ -125,7 +125,7 @@ fo <- makeFecObj(d, Formula=c(fec0~size, fec1~size),
 
 #Define discrete transition matrix - THIS IS WEIRD - UNDER RE-WORKING BY EELKE
 dto<-makeDiscreteTrans(d, 
-		discreteTrans = matrix(c(staySB,(1-staySB)*fec3*fec4,(1-staySB)*(1-fec3*fec4),0,sum(d$number[d$stage=="continuous"&d$stageNext=="continuous"],na.rm=T),sum(d$number[d$stage=="continuous"&d$stageNext=="dead"],na.rm=T)),ncol=2,nrow=3,dimnames=list(c("seedbank","continuous","dead"),c("seedbank","continuous"))),
+		discreteTrans = matrix(c(staySB,(1-staySB)*fec3*fec4,(1-staySB)*(1-fec3*fec4),0,sum(d$number[d$stage=="continuous"&d$stageNext=="continuous"],na.rm=TRUE),sum(d$number[d$stage=="continuous"&d$stageNext=="dead"],na.rm=TRUE)),ncol=2,nrow=3,dimnames=list(c("seedbank","continuous","dead"),c("seedbank","continuous"))),
 		meanToCont = matrix(mean(d$sizeNext[is.na(d$stage)&d$stageNext=="continuous"]),ncol=1,nrow=1,dimnames=list(c("mean"),c("seedbank"))),
 		sdToCont = matrix(sd(d$sizeNext[is.na(d$stage)&d$stageNext=="continuous"]),ncol=1,nrow=1,dimnames=list(c(""),c("seedbank"))))
 
