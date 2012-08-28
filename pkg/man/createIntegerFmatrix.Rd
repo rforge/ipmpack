@@ -57,7 +57,8 @@ createIntegerPmatrix(nEnvClass = 1,
  
 }
 \value{
-  an object of class DiscreteMatrix of dimensions nBigMatrix or nBigMatrix+nDiscrete classes (defined by fecObj@offspringSplitter-1).
+  an object of class IPMmatrix with dimensions length(meshpoints)*length(meshpoints), or
+  length(meshpoints)+nrow(discreteTrans).
 }
 \details{
  do check whether the Pmatrix adequately reflects survival. 
