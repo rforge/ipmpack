@@ -2800,7 +2800,7 @@ sensParamsLifeExpect <- function (growObj, survObj, nBigMatrix, minSize, maxSize
 
 ### sens params for discrete survival bit
 
-sensParamsDiscrete <-  function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
+.sensParamsDiscrete <-  function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
 		chosenCov = data.frame(covariate=1),		
 		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, delta=1e-4) {
 	
@@ -3006,7 +3006,7 @@ sensParamsDiscrete <-  function (growObj, survObj, fecObj, nBigMatrix, minSize, 
 
 
 
-sensParamsDiscreteR0 <-  function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
+.sensParamsDiscreteR0 <-  function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
 		chosenCov = data.frame(covariate=1),
 		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, delta=1e-4) {
 	
