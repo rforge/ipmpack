@@ -49,18 +49,22 @@ createIPMPmatrix(nBigMatrix = 10, growObj = makeGrowthObj(dff),
 	survObj = makeSurvObj(dff), discreteTrans = discTrans)
 	
 # Often some data needed for makeDiscreteTrans are not available as individual records in your data file. For instance the fate of seeds in the seedbank of the generateDataDiscrete() example:
-dffNew <- subset(dff,!dff$stage%in%c("seedAge1","seedOld"))
+dff<-generateData()
 # Now the transition matrix needs to be entered as an argument, as well as the mean and sd of sizeNext values for discrete to continuous transitions. 
-discTransNew <- makeDiscreteTrans(dffNew,
-					discreteTrans = matrix(c(.26,0,0,.74,0,0,0,.44,.07,.48,0,0,.43,.11,.45,.04,0,0,.43,.54),
-					nrow=5, ncol=4, dimnames = list(c("dormant","seedAge1","seedOld","continuous","dead"),
-					c("dormant","seedAge1","seedOld","continuous"))),
-					meanToCont = matrix(c(mean(dffNew$sizeNext[dffNew$stage=="dormant"&dffNew$stageNext=="continuous"],na.rm=TRUE),3.4,2.4),
-					nrow=1, ncol=3, dimnames = list(1,c("dormant","seedAge1","seedOld"))), 
-					sdToCont = matrix(c(sd(dffNew$sizeNext[dffNew$stage=="dormant"&dffNew$stageNext=="continuous"],na.rm=TRUE),2.2,1.8),
-					nrow=1, ncol=3, dimnames = list(1,c("dormant","seedAge1","seedOld"))))
-					 
-
-
-	
+discTrans <- makeDiscreteTrans(dff,
+					discreteTrans = matrix(c(.5,.1,.4,0,0,1),
+					nrow=3, ncol=2, dimnames = list(c("seedbank","continuous","dead"),
+					c("seedbank","continuous"))),
+					meanToCont = matrix(c(mean(dff$sizeNext[is.na(dff$stage)&dff$stageNext=="continuous"],na.rm=TRUE)),
+					nrow=1, ncol=1, dimnames = list(1,c("seedbank"))), 
+					sdToCont = matrix(c(sd(dff$sizeNext[is.na(dff$stage)&dff$stageNext=="continuous"],na.rm=TRUE)),
+					nrow=1, ncol=1, dimnames = list(1,c("seedbank"))))
+Pmatrix<-createIPMPmatrix(nBigMatrix = 10, growObj = makeGrowthObj(dff), 
+	survObj = makeSurvObj(dff), discreteTrans = discTrans)
+Fmatrix<-createIPMFmatrix(nBigMatrix = 10, fecObj = makeFecObj(dff))
+dim(Pmatrix)
+dim(Fmatrix)					
+# To fix this mismatch, all discrete classes (1 in this case) need to be added to the Fmatrix as well, e.g.:
+Fmatrix<-createIPMFmatrix(nBigMatrix = 10, fecObj = makeFecObj(dff, offspringSplitter=data.frame(seedbank=.3,continuous=.7)))
+IPM <- Pmatrix + Fmatrix	
 }
