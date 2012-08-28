@@ -1189,7 +1189,7 @@ createIPMFmatrix <- function(fecObj,
 	
 	if (length(grep("logsize",
 					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
-	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
+	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]
 	if (fecObj@distOffspring=="poisson")
 			u <- u*dpois(y,predict(fecObj@offspringRel,newdata=newd, type="response"))
 	if (fecObj@distOffspring=="negBin")
@@ -1247,7 +1247,7 @@ createIntegerFmatrix <- function(fecObj,
 	if (preCensus) { 
 		##NOTE that the condition is necessary cos you might ONLY have discrete offspring
 		if (fecObj@offspringSplitter$continuous>0) { 
-			tmp <- t(outer(X=y,Y=y,.fecPreCensus,cov=chosenCov,fecObj=fecObj))
+			tmp <- t(outer(X=y,Y=y,.fecPreCensusInteger,cov=chosenCov,fecObj=fecObj))
 		}
 		##NOTE that the condition is necessary because you might ONLY have discrete offspring
 
@@ -1258,7 +1258,7 @@ createIntegerFmatrix <- function(fecObj,
 		##NOTE that the condition is necessary because you might ONLY have discrete offspring
 		# in which case correction makes no sense
 		if (fecObj@offspringSplitter$continuous>0) { 
-			tmp <- t(outer(X=y,Y=y,.fecPostCensus,
+			tmp <- t(outer(X=y,Y=y,.fecPostCensusInteger,
 							cov=chosenCov,fecObj=fecObj, growObj=growObj,
 							survObj=survObj))
 		}
