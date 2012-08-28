@@ -62,11 +62,13 @@ dff <- generateData()
 #same but relating size to incr and discrete covariate
 (gr1 <- makeGrowthObj(dataf = dff, Formula = incr ~ size + covariate, 
 	regType = "declineVar"))
+
+#assess fit 
+picGrow(dff,gr1)
+
 #with declining increment
 (gr1 <- makeGrowthObj(dataf = dff, Formula = incr ~ size + covariate, 
 	regType = "declineVar"))
 
-#assess fit 
-picGrow(dff,gr1)
 
 }
