@@ -855,8 +855,9 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 	# step size for mid point rule, see equations 4 and 5
 	h<-y[2]-y[1]
 	
-	#establish how how many discrete classes there are
-	if (class(discreteTrans)=="discreteTrans") nDisc <- ncol(discreteTrans@discreteSurv) else nDisc <- 0
+	#establish how how many discrete classes there are	
+	nDisc <- ncol(discreteTrans@meanToCont)
+	
 	
 	#indexes for slotting in IPMs
 	indexes <- rep(1:nEnvClass,each=(nBigMatrix+nDisc))
