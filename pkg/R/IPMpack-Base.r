@@ -814,10 +814,6 @@ createIntegerPmatrix <- function (nEnvClass = 1,
 		 if (discreteTrans@distToCont=="negBin") 
 			 tmp <- dnbinom(y, mu=discreteTrans@meanToCont[j], size=discreteTrans@thetaToCont[j])
 		 		 		 
-		if (correction == "constant") 
-				tmp <- tmp/sum(tmp)
-			disc.to.cont[, j] <- discreteTrans@discreteTrans["continuous", j] * tmp
-		}
 		if (sum(discreteTrans@discreteTrans[1:nDisc,"continuous"])==0) {
 			cont.to.disc[] <- 0
 		} else {
