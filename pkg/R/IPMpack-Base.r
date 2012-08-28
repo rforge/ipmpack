@@ -856,7 +856,7 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 	h<-y[2]-y[1]
 	
 	#establish how how many discrete classes there are	
-	if (class(discreteTrans) == "discreteTrans") nDisc <- ncol(discreteTrans@meanToCont)
+	if (class(discreteTrans) == "discreteTrans") nDisc <- ncol(discreteTrans@meanToCont) else nDisc <- 0
 	
 	
 	#indexes for slotting in IPMs
