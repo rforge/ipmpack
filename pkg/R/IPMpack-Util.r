@@ -298,7 +298,7 @@ picGrow <- function(dataf, growObj, mainTitle = "Growth",...) {
 		abline(a = 0, b = 1)
 	}else{
 		dataf$incr <- dataf$sizeNext - dataf$size
-		plot(dataf$size, dataf$incr, pch = 19, xlab = "Size at t", ylab="Size increment", main = mainTitle)
+		plot(dataf$size, dataf$incr, pch = 19, xlab = "Size at t", ylab="Size increment", main = mainTitle,...)
 		abline(a = 0, b = 0)
 	}
 	
