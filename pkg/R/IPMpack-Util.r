@@ -285,7 +285,7 @@ wrapHossfeld <- function(par, dataf) {
 # returns - 
 #
 
-picGrow <- function(dataf, growObj, mainTitle = "Growth") {
+picGrow <- function(dataf, growObj, mainTitle = "Growth",...) {
 	predVar <- attr(growObj@fit$terms,"predvars")[[2]]  #jess quick fix. this function does not work with declineVar either at the moment
 	if (class(growObj)=="growthObjTruncIncr") { 
 		predVar <- "incr"	
@@ -294,7 +294,7 @@ picGrow <- function(dataf, growObj, mainTitle = "Growth") {
 	}
 		
 	if(predVar == "sizeNext") {
-		plot(dataf$size, dataf$sizeNext,pch=19, xlab="Size at t", ylab="Size at t+1", main = mainTitle)
+		plot(dataf$size, dataf$sizeNext,pch=19, xlab="Size at t", ylab="Size at t+1", main = mainTitle,...)
 		abline(a = 0, b = 1)
 	}else{
 		dataf$incr <- dataf$sizeNext - dataf$size

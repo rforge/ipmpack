@@ -8,7 +8,7 @@
 Takes the data file and a growth object and shows the model fit over the data. 
 }
 \usage{
-picGrow(dataf, growObj, mainTitle = "Growth")
+picGrow(dataf, growObj, mainTitle = "Growth",...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -21,6 +21,9 @@ picGrow(dataf, growObj, mainTitle = "Growth")
 }
   \item{mainTitle}{
 	a character string that will be used as in the `main' argument of plot.  Defaults to `Growth'.
+}
+  \item{...}{
+	other arguments to \code{plot}
 }
 }
 \details{
