@@ -92,7 +92,7 @@ dff$sizeNext <- pmax(floor(dff$sizeNext+10),0)
 # make objects
 gr1<-makeGrowthObj(dff,Family="poisson")
 sv1<-makeSurvObj(dff)
-fv1 <- makeFecObjInteger(dff, Formula = log(fec)~size, Transform = "log")
+fv1 <- makeFecObjInteger(dff, Formula = fec~size, Transform = "log")
 
 #plot the new growth object
 par(mfrow=c(1,3),bty="l")
