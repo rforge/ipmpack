@@ -98,7 +98,8 @@ makeGrowthObj <- function(dataf,
 						fit = fit.here)
 				#print(class(fit.here))
 			}
-		}} else {
+		}
+	} else {
 		if (regType != "constantVar") print("Warning: your regType is ignored because a non-gaussian model is fitted using glm")
 		if (Family=="negbin"){
 			fit <- glm.nb(Formula, data=dataf)
@@ -106,7 +107,6 @@ makeGrowthObj <- function(dataf,
 			fit.here[[1]] <- glm.convert(fit)
 			fit.here[[2]] <- fit$theta
 			fit.here[[3]] <- fit  
-	
 		} else {
 			fit <- glm(Formula, data=dataf, family=Family)
 			fit.here <- fit
@@ -116,7 +116,6 @@ makeGrowthObj <- function(dataf,
 	#make the objects
 	#with sizeNext as response
 	if (length(grep("sizeNext", as.character(Formula))) > 0) { 
-		
 		if (class(fit)[1] == "lm") { 
 			gr1 <- new("growthObj")
 			gr1@fit <- fit
@@ -133,7 +132,8 @@ makeGrowthObj <- function(dataf,
 						gr1 <- new("growthObjNegBin"); gr1@fit <- fit.here
 					} 
 				}
-			}}    
+			}
+		}    
 	} else {
 		if (length(grep("incr", as.character(Formula))) > 0) { 
 			
@@ -147,8 +147,6 @@ makeGrowthObj <- function(dataf,
 					gr1@fit <- fit
 				} else {print("undefined object class")}
 			}
-			
-			
 		} else {
 			if (length(grep("logincr", as.character(Formula))) > 0) { 					
 				if (class(fit)[1] == "lm") { 
