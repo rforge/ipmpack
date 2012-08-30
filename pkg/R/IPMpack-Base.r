@@ -1150,9 +1150,6 @@ createIPMFmatrix <- function(fecObj,
 			tmp[1,] <- tmp[1,]+tooLow
 			tmp[nBigMatrix,] <- tmp[nBigMatrix,]+tooHigh
 		}
-		
-		
-		
 	}
 	
 	get.matrix <- to.cont <- tmp
@@ -1173,8 +1170,13 @@ createIPMFmatrix <- function(fecObj,
 		from.discrete <- matrix(0,ncol=nDisc,nrow=nDisc+nBigMatrix)
 		if (names(fecObj@fecByDiscrete)[1]!="NA.") {
 			if (sum(names(fecObj@fecByDiscrete)!=namesDiscrete)>0) stop ("Error - the names of the discrete classes as you provided for the data.frame fecByDiscrete are not 100% the same discrete class names in your data.frame offspringSplitter. They should also be in alphabetical order.")
-			if (sum(fecObj@fecByDiscrete)>0) {
-				print ("Warning - number and sizes of offspring produced by individuals in discrete classes cannot be calculated when offspring size is a function of parent size. The Fmatrix contains zeros instead. Only solution at this point: change the F matrix yourself afterwards.")
+			for (j in 1:nDisc) {
+				for (i in 1:nDisc) {
+					from.discrete[i,j] <- unlist(fecObj@offspringSplitter[namesDiscrete[i]]*fecObj@fecByDiscrete[namesDiscrete[j]])
+				}
+			}
+			if (sum(fecObj@fecByDiscrete)>0&fecObj@offspringSplitter["continuous"]>0) {
+				print ("WARNING - number and sizes of offspring produced by individuals in discrete classes cannot be calculated yet. The Fmatrix contains zeros instead. Only solution at this point: change the F matrix yourself afterwards.")
 			}
 		}
 		get.matrix <- cbind(from.discrete,rbind(to.discrete,to.cont))
