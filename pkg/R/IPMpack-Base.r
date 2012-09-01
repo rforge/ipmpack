@@ -1105,6 +1105,10 @@ createIPMFmatrix <- function(fecObj,
 				
 		# 2. post-census
 	} else {
+		# if no survObj is provided, it is assumed that all individuals survive to the time of breeding
+		if (is.null(survObj)) survObj <- makeSurvObj(data.frame(size=runif(21),surv=rep(1,21)),Formula=surv~size)
+		# if no growObj is provided, it is assumed that all individuals retain the same size until the time of breeding		
+		if (is.null(growObj)) growObj <- makeGrowthObj(data.frame(size=seq(21),sizeNext=seq(21)),Formula=sizeNext~size)
 		#print ("Warning: in the current version of IPMpack, createIPMFmatrix still ignores the growObj you provided for your post-breeding F matrix. This will be included in a later version. Survival until breeding is already included in this version.")
 		##NOTE that the condition is necessary because you might ONLY have discrete offspring
 		# in which case correction makes no sense
@@ -1282,6 +1286,10 @@ createIntegerFmatrix <- function(fecObj,
 
 		# 2. post-census
 	} else {
+		# if no survObj is provided, it is assumed that all individuals survive to the time of breeding
+		if (is.null(survObj)) survObj <- makeSurvObj(data.frame(size=runif(21),surv=rep(1,21)),Formula=surv~size)
+		# if no growObj is provided, it is assumed that all individuals retain the same size until the time of breeding		
+		if (is.null(growObj)) growObj <- makeGrowthObj(data.frame(size=seq(21),sizeNext=seq(21)),Formula=sizeNext~size,Family="poisson")
 		#print ("Warning: in the current version of IPMpack, createIPMFmatrix still ignores the growObj you provided for your post-breeding F matrix. This will be included in a later version. Survival until breeding is already included in this version.")
 		##NOTE that the condition is necessary because you might ONLY have discrete offspring
 		# in which case correction makes no sense
