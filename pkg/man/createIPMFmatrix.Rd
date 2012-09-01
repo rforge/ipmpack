@@ -60,7 +60,8 @@ createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1,
     growth object, describing the growth of parents that survive until the 
     reproduction event starts. Warning: this growth object is still ignored in 
     createIPMFmatrix in the current version of IPMpack. It will become functional 
-    in coming versions. So far it is assumed that at the individuals have the   
+    in coming versions. So far it is assumed that at time of breeding the individuals 
+    have the same size as at the beginning of the time interval.  
   }
  
 }

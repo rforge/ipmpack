@@ -46,13 +46,16 @@ createIntegerPmatrix(nEnvClass = 1,
   }
   \item{survObj}{
     survival object, describing the survival of parents from a census until 
-    the reproduction event starts (at some point during the inter-census time step. 
+    the reproduction event starts (at some point during the inter-census time step).
+    If preCensus = FALSE but no survival object is provided, it is assumed
+    that all individuals survive to the breeding event.  
   }
   \item{growObj}{
     growth object, describing the growth of parents that survive until the 
     reproduction event starts. Warning: this growth object is still ignored in 
     createIPMFmatrix in the current version of IPMpack. It will become functional 
-    in coming versions.  
+    in coming versions. So far it is assumed that at time of breeding the individuals 
+    have the same size as at the beginning of the time interval.
   }
    \item{discreteTrans}{
     object of class discreteTrans, or numeric.
