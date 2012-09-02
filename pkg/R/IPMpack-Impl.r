@@ -136,7 +136,8 @@ makeGrowthObj <- function(dataf,
 			}
 		}    
 	} else {
-		if (length(grep("incr", as.character(Formula))) > 0) { 
+		if (length(grep("incr", as.character(Formula))) > 0 & 
+				length(grep("logincr", as.character(Formula))) == 0) { 
 			
 			if (class(fit)[1] == "lm") { 
 				gr1 <- new("growthObjIncr")
