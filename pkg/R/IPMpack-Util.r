@@ -234,6 +234,8 @@ picSurv <- function(dataf, survObj, ncuts = 20, makeTitle = "Survival", ...) {
 			points(as.numeric(psz),as.numeric(ps),pch=19,col=k)
 			newd <- data.frame(size=sizes,size2=sizes^2,size3=sizes^3,
 					covariate=rep(as.factor(ud[k]),length(sizes)))
+			if(length(grep("expsize",survObj@fit$formula))==1)
+				newd$expsize=exp(sizes)
 			if(length(grep("logsize",survObj@fit$formula))==1)
 				newd$logsize=log(sizes)
 			if(length(grep("logsize2",survObj@fit$formula))==1)
@@ -322,6 +324,8 @@ picGrow <- function(dataf, growObj, mainTitle = "Growth",...) {
 		newd <- data.frame(size = sizes, size2 = sizes ^ 2,size3 = sizes ^ 3,
 				covariate = as.factor(rep(ud[k],length(sizes))))
 					
+		if(length(grep("expsize", names(growObj@fit$coefficients))) == 1)
+			newd$expsize = exp(sizes)
 		if(length(grep("logsize", names(growObj@fit$coefficients))) == 1)
 			newd$logsize = log(sizes)
 		if(length(grep("logsize2", names(growObj@fit$coefficients))) == 1)
@@ -929,6 +933,9 @@ createMPMFmatrix <- function(dataf, bins,offspringClasses=1, offspringProp=1, nE
 		}
 		if(expVar[i] == "size3"){
 			covDf$size3 <- sizeSorted ^ 3
+		}
+		if(expVar[i] == "expsize") {
+			covDf$expsize <- exp(sizeSorted)
 		}
 		if(expVar[i] == "logsize") {
 			covDf$logsize <- log(sizeSorted)

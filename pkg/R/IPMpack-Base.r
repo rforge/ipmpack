@@ -199,6 +199,8 @@ setMethod("surv",
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
+			if (length(grep("expsize",
+							survObj@fit$formula))>0) newd$expsize=exp(size)
 			if (length(grep("logsize",
 							survObj@fit$formula))>0) newd$logsize=log(size)
 			if (length(grep("logsize2",
@@ -230,6 +232,8 @@ setMethod("surv",
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
+			if (length(grep("expsize",
+							survObj@fit$formula))>0) newd$expsize=exp(size)
 			if (length(grep("logsize",
 							survObj@fit$formula))>0) newd$logsize=log(size)
 			if (length(grep("logsize2",
@@ -261,6 +265,8 @@ setMethod("growth",
 					stringsAsFactors = FALSE)
 			newd$size2 <- size^2
 			newd$size3 <- size^3
+			if (length(grep("expsize",
+							growthObj@fit$formula))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							growthObj@fit$formula))>0) { newd$logsize <- log(size)}
 			
@@ -280,6 +286,8 @@ setMethod("growth",
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
+			if (length(grep("expsize",
+							growthObj@fit$formula))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							growthObj@fit$formula))>0) { newd$logsize <- log(size)}
 			
@@ -299,6 +307,8 @@ setMethod("growth",
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
+			if (length(grep("expsize",
+							growthObj@fit$formula))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							growthObj@fit$formula))>0) { newd$logsize <- log(size)}
 			
@@ -319,6 +329,8 @@ setMethod("growth",
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
+			if (length(grep("expsize",
+							growthObj@fit$formula))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							growthObj@fit$formula))>0) newd$logsize=log(size)
 			
@@ -344,6 +356,8 @@ setMethod("growth",
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
+			if (length(grep("expsize",
+							growthObj@fit$formula))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
@@ -365,6 +379,8 @@ setMethod("growth",
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
+			if (length(grep("expsize",
+							growthObj@fit$formula))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							growthObj@fit$formula))>0) newd$logsize=log(size)
 			
@@ -384,6 +400,8 @@ setMethod("growth",
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
+			if (length(grep("expsize",
+							names(growthObj@fit$coefficients)))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
@@ -406,6 +424,8 @@ setMethod("growthCum",
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
+			if (length(grep("expsize",
+							names(growthObj@fit$coefficients)))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
@@ -437,6 +457,8 @@ setMethod("growthCum",
 					stringsAsFactors = FALSE)
 			newd$size2 <- size^2
 			newd$size3 <- size^3
+			if (length(grep("expsize",
+							growthObj@fit$formula))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							growthObj@fit$formula))>0) newd$logsize=log(size)
 			mux <- predict(growthObj@fit,newd,type="response")
@@ -455,6 +477,8 @@ setMethod("growthCum",
 					stringsAsFactors = FALSE)
 			newd$size2 <- size^2
 			newd$size3 <- size^3
+			if (length(grep("expsize",
+							growthObj@fit$formula))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							growthObj@fit$formula))>0) newd$logsize=log(size)
 			
@@ -477,6 +501,8 @@ setMethod("growthCum",
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
+			if (length(grep("expsize",
+							names(growthObj@fit$coefficients)))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
@@ -498,6 +524,8 @@ setMethod("growthCum",
 					stringsAsFactors = FALSE)
 			newd$size2 <- size^2
 			newd$size3 <- size^3
+			if (length(grep("expsize",
+							growthObj@fit$formula))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							growthObj@fit$formula))>0) newd$logsize=log(size)
 			
@@ -519,6 +547,8 @@ setMethod("growthCum",
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
+			if (length(grep("expsize",
+							names(growthObj@fit$coefficients)))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients))) > 0) newd$logsize=log(size)
 			
@@ -542,6 +572,8 @@ setMethod("growth",
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
+			if (length(grep("expsize",
+							names(growthObj@fit$coefficients)))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
@@ -584,6 +616,8 @@ setMethod("growth",
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
+			if (length(grep("expsize",
+							names(growthObj@fit$coefficients))) > 0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients))) > 0) newd$logsize = log(size)
 			
@@ -945,6 +979,7 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 	newd$size3 <- x^3
 	
 	if (length(fecObj@offspringRel)>1) {
+		if (length(grep("expsize", fecObj@offspringRel$formula))>0) { newd$expsize <- exp(x)}
 		if (length(grep("logsize", fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
 	}
 	
@@ -957,6 +992,7 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 	#rownames(fecValues) <- c(fecObj@fecNames,names(fecObj@fecConstants))
 	for (i in 1:length(fecObj@fitFec)) fecValues[i,] <- predict(fecObj@fitFec[[i]],newd,type="response")
 	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fecValues[i,]<-exp(fecValues[i,])
+	if (length(grep("exp",fecObj@Transform))>0) for (i in grep("exp",fecObj@Transform)) fecValues[i,]<-log(fecValues[i,])
 	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fecValues[i,]<-(fecValues[i,])^2
 	if (length(grep("-1",fecObj@Transform))>0) for (i in grep("-1",fecObj@Transform)) fecValues[i,]<-fecValues[i,]+1
 	if (length(which(fecObj@vitalRatesPerOffspringType[,"continuous"]==1))>1) {
@@ -975,6 +1011,8 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 	newd$size2 <- x^2
 	newd$size3 <- x^3
 	
+	if (length(grep("expsize",
+					fecObj@offspringRel$formula))>0) { newd$expsize <- exp(x)}
 	if (length(grep("logsize",
 					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
 	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
@@ -1003,6 +1041,8 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 	
 	newd$size2 <- x^2
 	newd$size3 <- x^3
+	if (length(grep("expsize",fecObj@offspringRel$formula))>0 |
+			length(grep("expsize",growObj@fit$formula))>0) { newd$expsize <- exp(x)}            
 	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
 			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
 	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
@@ -1020,6 +1060,7 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 	
 	newd$size2 <- x^2
 	newd$size3 <- x^3
+	if (length(grep("expsize",fecObj@offspringRel$formula))>0) { newd$expsize <- exp(x)}            
 	if (length(grep("logsize",fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}            
 	u <- pnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)
 	return(u)
@@ -1219,6 +1260,8 @@ createIPMFmatrix <- function(fecObj,
 	newd$size2 <- x^2
 	newd$size3 <- x^3
 	
+	if (length(grep("expsize",
+					fecObj@offspringRel$formula))>0) { newd$expsize <- exp(x)}
 	if (length(grep("logsize",
 					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
 	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]
@@ -1241,6 +1284,8 @@ createIPMFmatrix <- function(fecObj,
 	
 	newd$size2 <- x^2
 	newd$size3 <- x^3
+	if (length(grep("expsize",fecObj@offspringRel$formula))>0 |
+			length(grep("expsize",growObj@fit$formula))>0) { newd$expsize <- exp(x)}            
 	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
 			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
 	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
@@ -1702,6 +1747,8 @@ diagnosticsPmatrix <- function (Pmatrix, growObj, survObj, dff=NULL,
 					size2 = Pmat@meshpoints[loctest[j]]^2, 
 					size3 = Pmat@meshpoints[loctest[j]]^3, 
 					covariate = Pmat@env.index[1])
+			if (length(grep("expsize", names(growObj@fit$coefficients)))) 
+				newd$expsize = log(Pmat@meshpoints[loctest[j]])
 			if (length(grep("logsize", names(growObj@fit$coefficients)))) 
 				newd$logsize = log(Pmat@meshpoints[loctest[j]])
 			if (length(growObj@fit$model$covariate) > 0) 

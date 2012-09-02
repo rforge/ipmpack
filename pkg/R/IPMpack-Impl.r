@@ -17,7 +17,7 @@
 #              formula= - a model formula that requires
 #                    "sizeNext" or "incr" as a reponse variable
 #                    "size" as a possible covariate possibly with
-#                        other combinations including size2 (size^2), size3(size^3), logsize(log(size)
+#                        other combinations including size2 (size^2), size3(size^3), logsize(log(size)), expsize(exp(size))
 #                        and potentially a discrete covariate (called covariate)
 #              responseType - the response variable desired, crucial for building
 #                             the right kind of object. Possible levels are "sizeNext", "incr", "logincr"
@@ -69,6 +69,7 @@ makeGrowthObj <- function(dataf,
 	#create appropriate size based covariates
 	dataf$size2 <- dataf$size ^ 2
 	dataf$size3 <- dataf$size ^ 3
+	if (length(grep("expsize", as.character(Formula))) > 0) dataf$expsize <- exp(dataf$size)
 	if (length(grep("logsize", as.character(Formula))) > 0) dataf$logsize <- log(dataf$size)
 	
 	#setup for discrete covariates if data suggests may be implemented by the
@@ -244,7 +245,7 @@ makegrowthObjHossfeld <- function(dataf) {
 #              formula - a model formula that requires
 #                    "surv" as a reponse variable
 #                    "size" as a possible covariate possibly with
-#                        other combinations including size2 (size^2), size3(size^3), logsize(log(size)
+#                        other combinations including size2 (size^2), size3(size^3), logsize(log(size)), expsize(exp(size))
 #                        and potentially a discrete covariate (called covariate)
 # 
 # Returns - a survival object                   
@@ -260,6 +261,7 @@ makeSurvObj <- function(dataf,
 	#build appropriate size based covariates
 	dataf$size2 <- dataf$size^2
 	dataf$size3 <- dataf$size^3
+	if (length(grep("expsize",as.character(Formula)))>0) dataf$expsize <- exp(dataf$size)
 	if (length(grep("logsize",as.character(Formula)))>0) dataf$logsize <- log(dataf$size)
 	
 
@@ -360,6 +362,7 @@ makeFecObj <- function(dataf,
 	
 	dataf$size2 <- dataf$size^2
 	dataf$size3 <- dataf$size^3
+	if (length(grep("expsize",unlist(as.character(Formula))))>0) dataf$expsize <- exp(dataf$size)
 	if (length(grep("logsize",unlist(as.character(Formula))))>0) dataf$logsize <- log(dataf$size)
 	
 	if (length(Formula)>length(Family)) {
@@ -378,6 +381,7 @@ makeFecObj <- function(dataf,
 		
 		fecNames[i] <- all.vars(Formula[[i]])[1]
 		
+		if (Transform[i]=="exp") dataf[,fecNames[i]] <- exp(dataf[,fecNames[i]])
 		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
 		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
 		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
@@ -506,6 +510,7 @@ makeClonalObj <- function(dataf,
 	
 	dataf$size2 <- dataf$size^2
 	dataf$size3 <- dataf$size^3
+	if (length(grep("expsize",unlist(as.character(Formula))))>0) dataf$expsize <- exp(dataf$size)
 	if (length(grep("logsize",unlist(as.character(Formula))))>0) dataf$logsize <- log(dataf$size)
 	
 	if (length(Formula)>length(Family)) {
@@ -524,6 +529,7 @@ makeClonalObj <- function(dataf,
 		
 		fecNames[i] <- all.vars(Formula[[i]])[1]
 				
+		if (Transform[i]=="exp") dataf[,fecNames[i]] <- exp(dataf[,fecNames[i]])
 		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
 		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
 		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
@@ -651,6 +657,7 @@ makeDiscreteTrans <- function(dataf,
 		subData$contToDiscrete[subData$stageNext == "continuous"] <- 0
 		subData$size2 <- subData$size ^ 2
 		subData$size3 <- subData$size ^ 3
+		if (length(grep("expsize", as.character(continuousToDiscreteExplanatoryVariables))) > 0) subData$expsize <- exp(subData$size)
 		if (length(grep("logsize", as.character(continuousToDiscreteExplanatoryVariables))) > 0) subData$logsize <- log(subData$size)
 		survToDiscrete <- glm(paste('contToDiscrete~',continuousToDiscreteExplanatoryVariables,sep=''), family = binomial, data = subData)
 	}
@@ -705,7 +712,7 @@ makeDiscreteTrans <- function(dataf,
 #              formula= - a model formula that requires
 #                    "sizeNext" or "incr" as a reponse variable
 #                    "size" as a possible covariate possibly with
-#                        other combinations including size2 (size^2), size3(size^3), logsize(log(size)
+#                        other combinations including size2 (size^2), size3(size^3), logsize(log(size)), expsize(exp(size))
 #                        and potentially a discrete covariate (called covariate)
 #              responseType - the response variable desired, crucial for building
 #                             the right kind of object. Possible levels are "sizeNext", "incr", "logincr"
@@ -733,6 +740,7 @@ makePostGrowthObjs <- function(dataf,
 	
 	dataf$size2 <- dataf$size ^ 2
 	dataf$size3 <- dataf$size ^ 3
+	if (length(grep("expsize", explanatoryVariables)) > 0) dataf$expsize <- exp(dataf$size)
 	if (length(grep("logsize", explanatoryVariables)) > 0) dataf$logsize <- log(dataf$size)
 	
 	#setup for discrete covariates if data suggests may be implemented by the
@@ -791,7 +799,7 @@ makePostGrowthObjs <- function(dataf,
 #              formula - a model formula that requires
 #                    "surv" as a reponse variable
 #                    "size" as a possible covariate possibly with
-#                        other combinations including size2 (size^2), size3(size^3), logsize(log(size)
+#                        other combinations including size2 (size^2), size3(size^3), logsize(log(size)), expsize(exp(size))
 #                        and potentially a discrete covariate (called covariate)
 # #            - meanB the mean of the prior of the coefficients for survival (should be the same length as desired coeff)
 #            - varB the variance of the prior of the coeff for survival (note could add for growth also)
@@ -806,6 +814,7 @@ makePostSurvivalObjs <- function(dataf,
 	#build appropriate size based covariates
 	dataf$size2 <- dataf$size ^ 2
 	dataf$size3 <- dataf$size ^ 3
+	if (length(grep("expsize",explanatoryVariables)) > 0) dataf$expsize <- exp(dataf$size)
 	if (length(grep("logsize",explanatoryVariables)) > 0) dataf$logsize <- log(dataf$size)
 	
 	#setup for discrete covariates if data suggests may be implemented by the
@@ -920,6 +929,7 @@ makePostFecObjs <- function(dataf,
 	}
 	
 	dataf$size2 <- dataf$size^2
+	if (length(grep("expsize",as.character(explanatoryVariables)))>0) dataf$expsize <- exp(dataf$size)
 	if (length(grep("logsize",as.character(explanatoryVariables)))>0) dataf$logsize <- log(dataf$size)
 	
 	if (is.na(fecNames[1])) fecNames <- names(dataf)[grep("fec",names(dataf))]
@@ -964,6 +974,7 @@ makePostFecObjs <- function(dataf,
 	
 	for (i in 1:length(fecNames)) {
 		
+		if (Transform[i]=="exp") dataf[,fecNames[i]] <- exp(dataf[,fecNames[i]])
 		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
 		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
 		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
@@ -1239,6 +1250,7 @@ makeFecObjInteger <- function(dataf,
 	
 	dataf$size2 <- dataf$size^2
 	dataf$size3 <- dataf$size^3
+	if (length(grep("expsize",unlist(as.character(Formula))))>0) dataf$expsize <- exp(dataf$size)
 	if (length(grep("logsize",unlist(as.character(Formula))))>0) dataf$logsize <- log(dataf$size)
 	
 	if (length(Formula)>length(Family)) {
@@ -1257,6 +1269,7 @@ makeFecObjInteger <- function(dataf,
 		
 		fecNames[i] <- all.vars(Formula[[i]])[1]
 		
+		if (Transform[i]=="exp") dataf[,fecNames[i]] <- exp(dataf[,fecNames[i]])
 		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
 		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
 		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
@@ -1391,6 +1404,7 @@ makeClonalObjInteger <- function(dataf,
 	
 	dataf$size2 <- dataf$size^2
 	dataf$size3 <- dataf$size^3
+	if (length(grep("expsize",unlist(as.character(Formula))))>0) dataf$expsize <- exp(dataf$size)
 	if (length(grep("logsize",unlist(as.character(Formula))))>0) dataf$logsize <- log(dataf$size)
 	
 	if (length(Formula)>length(Family)) {
@@ -1409,6 +1423,7 @@ makeClonalObjInteger <- function(dataf,
 		
 		fecNames[i] <- all.vars(Formula[[i]])[1]
 		
+		if (Transform[i]=="exp") dataf[,fecNames[i]] <- exp(dataf[,fecNames[i]])
 		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
 		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
 		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
@@ -1548,6 +1563,7 @@ if (distToCont=="negbin") {
 		subData$contToDiscrete[subData$stageNext == "continuous"] <- 0
 		subData$size2 <- subData$size ^ 2
 		subData$size3 <- subData$size ^ 3
+		if (length(grep("expsize", as.character(continuousToDiscreteExplanatoryVariables))) > 0) subData$expsize <- exp(subData$size)
 		if (length(grep("logsize", as.character(continuousToDiscreteExplanatoryVariables))) > 0) subData$logsize <- log(subData$size)
 		survToDiscrete <- glm(paste('contToDiscrete~',continuousToDiscreteExplanatoryVariables,sep=''), family = binomial, data = subData)
 	}
