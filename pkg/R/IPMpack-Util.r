@@ -62,7 +62,8 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		nBigMatrix,minSize,maxSize,discreteTrans = 1,
 		cov=FALSE,fecObjList=NULL, envMat=NULL,
 		nsizeToAge=0, sizeStart=10,
-		integrateType="midpoint", correction="none", storePar=TRUE){
+		integrateType="midpoint", correction="none", storePar=TRUE,
+		chosenCov=data.frame(covariate=1)){
 	
 	# adjust the sample lengths to they are all the same
 	if (length(targetSize)==0)  targetSize <- 0.2*(minSize+maxSize)
@@ -104,13 +105,13 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		
 		if (!cov) {
 			Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-					maxSize = maxSize,  growObj = growObjList[[k]],
+					maxSize = maxSize,  growObj = growObjList[[k]],chosenCov=chosenCov,
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
 					integrateType=integrateType, correction=correction) 
 			
 		} else {
 			Pmatrix <- createCompoundPmatrix(nEnvClass = nEnv,
-					nBigMatrix = nBigMatrix, minSize = minSize, 
+					nBigMatrix = nBigMatrix, minSize = minSize, chosenCov=chosenCov,
 					maxSize = maxSize, envMatrix=envMat,growObj = growObjList[[k]],
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
 					integrateType=integrateType, correction=correction)    

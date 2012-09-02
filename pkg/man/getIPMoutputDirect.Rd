@@ -14,7 +14,8 @@ also allows compound matrices to be produced following levels of a discrete cova
 getIPMoutputDirect(survObjList, growObjList, targetSize = c(), 
 	nBigMatrix, minSize, maxSize, discreteTrans = 1,cov = FALSE, 
 	fecObjList = NULL, envMat = NULL, nsizeToAge = 0, 
-	sizeStart = 10, integrateType = "midpoint",correction = "none", storePar=TRUE)
+	sizeStart = 10, integrateType = "midpoint",correction = "none", storePar=TRUE,
+	chosenCov=data.frame(covariate=1))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -66,6 +67,11 @@ list of fecundity objects (facultative).
   }
   \item{storePar}{
    boolean identifying whether you wish to store matrices of growth and survival parameters - setting "TRUE" will only work if objects are based around lms, glms, or gls
+  }
+  }
+  \item{chosenCov}{
+    data-frame indicating level of the discrete covariate, or 
+    range of values where multiple covariates are modeled.
   }
 }
 \value{
