@@ -977,9 +977,9 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 	
 	newd$size2 <- x^2
 	newd$size3 <- x^3
-	
+	newd$expsize <- exp(x)
+
 	if (length(fecObj@offspringRel)>1) {
-		if (length(grep("expsize", fecObj@offspringRel$formula))>0) { newd$expsize <- exp(x)}
 		if (length(grep("logsize", fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
 	}
 	
