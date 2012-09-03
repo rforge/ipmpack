@@ -119,7 +119,7 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 			
 		}
 		
-		if (onlyLowerTriGrowth) {
+		if (onlyLowerTriGrowth & !cov) {
 			Pmatrix@.Data <- Pmatrix@.Data*lower.tri(Pmatrix@.Data, diag = TRUE)
 			nvals <- colSums(Pmatrix@.Data,na.rm=TRUE)
 			Pmatrix@.Data <- t((t(Pmatrix@.Data)/nvals) *

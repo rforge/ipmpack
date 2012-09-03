@@ -74,7 +74,7 @@ list of fecundity objects (facultative).
   }
    
   \item{onlyLowerTriGrowth}{
-	boolean  - if true, indicates that shrinking is to be avoided, i.e., any values above the diagonal should be set to zero, and the Pmatrix rescaled to continue to sum to survival. 
+	boolean  - if true, indicates that shrinking is to be avoided, i.e., any values above the diagonal should be set to zero, and the Pmatrix rescaled to continue to sum to survival. Note that this will not operate in the case of compound Pmatrices. 
 	
   }
   
