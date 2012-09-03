@@ -67,12 +67,17 @@ list of fecundity objects (facultative).
   }
   \item{storePar}{
    boolean identifying whether you wish to store matrices of growth and survival parameters - setting "TRUE" will only work if objects are based around lms, glms, or gls
-  }
-  }
+  }  
   \item{chosenCov}{
     data-frame indicating level of the discrete covariate, or 
     range of values where multiple covariates are modeled.
   }
+   
+  \item{only.lower.tri.growth}{
+	boolean  - if true, indicates that shrinking is to be avoided, i.e., any values above the diagonal should be set to zero, and the Pmatrix rescaled to continue to sum to survival. 
+	
+  }
+  
 }
 \value{
   \item{LE}{matrix of life expectancies, columns correspond to

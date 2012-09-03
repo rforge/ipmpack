@@ -63,7 +63,8 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		cov=FALSE,fecObjList=NULL, envMat=NULL,
 		nsizeToAge=0, sizeStart=10,
 		integrateType="midpoint", correction="none", storePar=TRUE,
-		chosenCov=data.frame(covariate=1)){
+		chosenCov=data.frame(covariate=1),
+		only.lower.tri.growth=FALSE){
 	
 	# adjust the sample lengths to they are all the same
 	if (length(targetSize)==0)  targetSize <- 0.2*(minSize+maxSize)
@@ -116,6 +117,15 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
 					integrateType=integrateType, correction=correction)    
 			
+		}
+		
+		if (only.lower.tri.growth) {
+			Pmatrix@.Data <- Pmatrix@.Data*lower.tri(Pmatrix@.Data, diag = TRUE)
+			nvals <- colSums(Pmatrix@.Data,na.rm=TRUE)
+			Pmatrix@.Data <- t((t(Pmatrix@.Data)/nvals) *
+							surv(size = Pmatrix@meshpoints, 
+									cov = chosenCov,
+									survObj = survObjList[[k]]))                                    
 		}
 		
 	
