@@ -61,10 +61,10 @@ getIPMoutput <- function(PmatrixList,targetSize=c(),FmatrixList=NULL){
 getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		nBigMatrix,minSize,maxSize,discreteTrans = 1,
 		cov=FALSE,fecObjList=NULL, envMat=NULL,
-		nsizeToAge=0, sizeStart=10,
-		integrateType="midpoint", correction="none", storePar=TRUE,
-		chosenCov=data.frame(covariate=1),
-		only.lower.tri.growth=FALSE){
+		nsizeToAge=0, sizeStart = 10,
+		integrateType = "midpoint", correction = "none", storePar=TRUE,
+		chosenCov = data.frame(covariate = 1),
+		onlyLowerTriGrowth=FALSE){
 	
 	# adjust the sample lengths to they are all the same
 	if (length(targetSize)==0)  targetSize <- 0.2*(minSize+maxSize)
@@ -106,20 +106,20 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		
 		if (!cov) {
 			Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-					maxSize = maxSize,  growObj = growObjList[[k]],chosenCov=chosenCov,
+					maxSize = maxSize,  growObj = growObjList[[k]],
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
 					integrateType=integrateType, correction=correction) 
 			
 		} else {
 			Pmatrix <- createCompoundPmatrix(nEnvClass = nEnv,
-					nBigMatrix = nBigMatrix, minSize = minSize, chosenCov=chosenCov,
+					nBigMatrix = nBigMatrix, minSize = minSize,
 					maxSize = maxSize, envMatrix=envMat,growObj = growObjList[[k]],
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
 					integrateType=integrateType, correction=correction)    
 			
 		}
 		
-		if (only.lower.tri.growth) {
+		if (onlyLowerTriGrowth) {
 			Pmatrix@.Data <- Pmatrix@.Data*lower.tri(Pmatrix@.Data, diag = TRUE)
 			nvals <- colSums(Pmatrix@.Data,na.rm=TRUE)
 			Pmatrix@.Data <- t((t(Pmatrix@.Data)/nvals) *

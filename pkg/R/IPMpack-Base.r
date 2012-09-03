@@ -903,7 +903,8 @@ createCompoundPmatrix <- function(nEnvClass = 2,
 		survObj,
 		discreteTrans=1,
 		integrateType="midpoint",
-		correction="none") {
+		correction="none"
+) {
 	
 	
 	#warnings...

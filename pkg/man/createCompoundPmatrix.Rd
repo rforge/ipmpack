@@ -46,7 +46,7 @@ discreteTrans = 1, integrateType = "midpoint",correction = "none")
   \item{correction}{
 correction type, defaults to \code{none}. The first option is \code{constant} which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for survival at that size. The second option is \code{discretizeExtremes} which will place all transitions to sizes smaller than \code{minSize} into the smallest bin, and transitions to sizes larger than \code{maxSize} into the largest bin. 
   }
-}
+ }
 \details{
 This structure can also be used to define size x age IPMs, where the transition 
 between ages is reflected by a similar matrix.

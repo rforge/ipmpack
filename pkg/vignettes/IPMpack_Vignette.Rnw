@@ -282,7 +282,7 @@ Finally, the user can plot the Pmatrix using {\tt persp} or {\tt
 par(mfrow=c(1,2),bty="l",pty="s")
 persp(Pmatrix@meshpoints, Pmatrix@meshpoints, Pmatrix, ticktype = "detailed", 
 		  xlab = "Size at t", ylab = "Size at t+1", zlab="")
-image(Pmatrix@meshpoints, Pmatrix@meshpoints, t(Pmatrix), ticktype = "detailed", 
+image(Pmatrix@meshpoints, Pmatrix@meshpoints, t(Pmatrix), 
 		  xlab = "Size at t", ylab = "Size at t+1")
 contour(Pmatrix@meshpoints, Pmatrix@meshpoints, t(Pmatrix), add=TRUE)
 @

@@ -15,7 +15,7 @@ getIPMoutputDirect(survObjList, growObjList, targetSize = c(),
 	nBigMatrix, minSize, maxSize, discreteTrans = 1,cov = FALSE, 
 	fecObjList = NULL, envMat = NULL, nsizeToAge = 0, 
 	sizeStart = 10, integrateType = "midpoint",correction = "none", storePar=TRUE,
-	chosenCov=data.frame(covariate=1))
+	chosenCov = data.frame(covariate=1), onlyLowerTriGrowth = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -73,7 +73,7 @@ list of fecundity objects (facultative).
     range of values where multiple covariates are modeled.
   }
    
-  \item{only.lower.tri.growth}{
+  \item{onlyLowerTriGrowth}{
 	boolean  - if true, indicates that shrinking is to be avoided, i.e., any values above the diagonal should be set to zero, and the Pmatrix rescaled to continue to sum to survival. 
 	
   }
