@@ -21,7 +21,6 @@
 
 %\SweaveOpts{prefix.string=Guide/} 
  
-\begin{document}
 
 \title{IPMpack: an R package for demographic modeling with Integral Projection
 Models (v.1.5)}
@@ -239,7 +238,7 @@ and survival as defined above.
 
 \begin{figure}
 \begin{center}
-<<label = fig:triDiag, fig = TRUE, echo = FALSE>>= 
+<<label = triDiag, fig = TRUE, echo = FALSE>>= 
 diagnosticsPmatrix(Pmatrix, gr1, sv1, dff,correction = "constant")
 @
 \end{center}
