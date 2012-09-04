@@ -239,18 +239,18 @@ and survival as defined above.
 
 \begin{figure}
 \begin{center}
-<<label = fig:diag, fig = TRUE, echo = FALSE>>= 
+<<label = fig:triDiag, fig = TRUE, echo = FALSE>>= 
 diagnosticsPmatrix(Pmatrix, gr1, sv1, dff,correction = "constant")
 @
 \end{center}
 \caption{Diagnostic plots for the Pmatrix.}
-\label{fig:diag}
+\label{fig:triDiag}
 \end{figure}
 
 IPMpack includes a useful function {\tt diagnosticsPmatrix} that provides a
 series of plots indicative of whether bin choice and size range is adequate.
 Applying this function as a preliminary step before obtaining demographic and evolutionary output from IPMs can help identify basic problems in the fitting of vital rate functions or in the creation of the IPM matrices before proceeding. Several common problems can be diagnosed with the panelled figure produced by {\tt diagnosticsPmatrix} (Figure
-\ref{fig:diag}).
+\ref{fig:triDiag}).
 
 The left panel on the first plot shows the range of the data (if the data is provided) and the range of the state variable fitted in the matrix (top line, black).  If these are mis-matched, the limits of the data used in building the Pmatrix can be adjusted with the {\tt minSize} and {\tt maxSize} arguments in {\tt createIPMPmatrix}.  The range for two additional Pmatrices that will be used in subsequent comparisons is also provided; one with an increased size range (red) and one with an increased number of bins (blue). 
 
