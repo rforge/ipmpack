@@ -24,7 +24,7 @@
 \begin{document}
 
 \title{IPMpack: an R package for demographic modeling with Integral Projection
-Models (v.1.5)}
+Models (v.1.6)}
 \author{Jessica Metcalf, Sean M. McMahon, Rob Salguero-Gomez, Eelke Jongejans}
 \maketitle
 
@@ -40,7 +40,7 @@ returning model scores, as well as tools for diagnostic tests of the IPM models
 themselves. There are also methods to build population models for varying environments, use Bayesian methods to sample population parameters,  estimate longevity and passage time, sensitivity and elasticity (of either parameters or matrix elements), and much more.
 
 This vignette is intended to introduce the concepts of IPMs as well as the
-implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $1.5$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge (http://ipmpack.r-forge.r-project.org/) that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
+implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $1.6$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge (http://ipmpack.r-forge.r-project.org/) that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
  
 \newpage
 
@@ -629,7 +629,7 @@ r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*1,
                             tMax = length(tVals), growthObj = gr1, 
                             survObj = sv1, fecObj = fv1, nBigMatrix = 20, 
                             minSize = 2*min(dff$size, na.rm = TRUE), 
-                            maxSize = 1.5*max(dff$size, na.rm = TRUE), 
+                            maxSize = 1.6*max(dff$size, na.rm = TRUE), 
                             nMicrosites = 50, correction = "constant")
 print(r)
 @ 
