@@ -79,8 +79,8 @@ $themeroot='http://r-forge.r-project.org/themes/rforge/';
                     <h1><b>IPMpack</b></h1>
                     <p style="font-size:16px;line-height:1.25"><b>Authors:</b><br><br>C. Jessica E. Metcalf <a href="mailto:charlotte.metcalf@zoo.ox.ac.uk" rel="nofollow" style="color:#84002E">charlotte.metcalf@zoo.ox.ac.uk</a><br>Sean M. McMahon <a href="mailto:mcmahons@si.edu" rel="nofollow" style="color:#84002E">mcmahons@si.edu</a><br>Roberto Salguero-Gómez <a href="mailto:salguero@demogr.mpg.de" rel="nofollow" style="color:#84002E">salguero@demogr.mpg.de</a><br>Eelke Jongejans <a href="mailto:e.jongejans@science.ru.nl" rel="nofollow" style="color:#84002E">e.jongejans@science.ru.nl</a><br></p>
                     <p style="font-size:16px;line-height:1.25;text-align:justify"><br><b>Developed at:</b><br><br><a href="http://www.demogr.mpg.de" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">Max Planck Institute for Demographic Research</a></p>
-                    <p style="font-size:16px;line-height:1.25;text-align:justify"><br><b>Resources:</b><br><br>Subscribe to the <a href="http://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/ipmpack-users" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">users email-list</a><br>Download the R package <a href="http://cran.r-project.org/web/packages/IPMpack/index.html" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">IPMpack</a> (latest version: 1.5 (Sep'12). 
-                    There are new sensitivity functions (for life expectancy, R0, etc) and createIntegerPmatrix lets you build population transition models with integer stages only, based on various vital rate models. We've made further improvements to the functions makeFecObj, makeDiscreteTrans and elas. The survival and growth matrix is now called <i>Pmatrix</i> (previously <i>Tmatrix</i>) as suggested by a reviewer. The makeFecObj and similar functions now have a <i>Formula</i> slot in which the regression formula (e.g. nPups~size) can be entered.)</p>
+                    <p style="font-size:16px;line-height:1.25;text-align:justify"><br><b>Resources:</b><br><br>Subscribe to the <a href="http://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/ipmpack-users" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">users email-list</a><p>Download the R package <a href="http://cran.r-project.org/web/packages/IPMpack/index.html" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">IPMpack</a> (latest version: 1.5 (Sep'12). 
+                    There are new sensitivity functions (for life expectancy, R0, etc) and createIntegerPmatrix lets you build population transition models with integer stages only, based on various vital rate models. We've made further improvements to amongst others the functions makeFecObj, makeDiscreteTrans and elas. The survival and growth matrix is now called <i>Pmatrix</i> (previously <i>Tmatrix</i>) as suggested by a reviewer. The makeFecObj and similar functions now have a <i>Formula</i> slot in which the regression formula (e.g. nPups~size) can be entered.)</p>
                   </td>
                   <td width="50px"></td>
                 </tr>
@@ -101,7 +101,7 @@ $themeroot='http://r-forge.r-project.org/themes/rforge/';
                     <a href="#top" class="totop">Back to top</a>
                   </td>
                   <td class="main">
-                    <p><img style="margin:0px;padding:0px;border:none" width="420px" align="middle" src="fig1.jpg?width=400px"><br><br></p>
+                    <p><a href="file:///C:/Users/Eelke/Documents/Eclipse/IPMpack/www/fig1.jpg?width=400px" target="blank"><img style="margin:0px;padding:0px;border:none" width="420px" align="middle" src="fig1.jpg?width=400px"></a><br><br></p>
                     <p class="caption">Fig. 1. <b>IPMpack</b> output examples.</p>
 										<p class="parag">We have set up a IPMpack <a href="http://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/ipmpack-users" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">users email-list</a> so users can ask questions or provide comments, suggestions or criticism that can help us improve the package. <br></p>
                   </td>
@@ -133,7 +133,7 @@ row represents one measurement in the population:</p>
                     <a href="#top" class="totop">Back to top</a>
                   </td>
                   <td style="vertical-align:top;padding:40px" width="420px">
-                    <img style="margin:0px;padding:0px;border:none;width:420px" align="middle" src="fig2.jpg?width=420px">
+                    <a href="fig2.jpg" target="blank"><img style="margin:0px;padding:0px;border:none;width:420px" align="middle" src="fig2.jpg?width=420px"></a>
                     <p class="caption">Fig. 2. <b>IPMpack</b> usage flow-chart.</p><br>
                     <ul>
                       <li>Fits a range of vital rate functions.</li>
