@@ -58,7 +58,7 @@ Data-frame with headings:
 }
 
 \references{
-Salguero-Gomez, Siewert, Casper & Tielboerger. Oct 2012. A demographic approach to study effects of climate change in desert plants. Philosophical Transactions of the Royal Society. Series B - Biological Sciences x, pxxx-xxx
+Salguero-Gomez R, Siewert W, Casper B & Tielboerger K. Oct 2012. A demographic approach to study effects of climate change in desert plants. Philosophical Transactions of the Royal Society. Series B - Biological Sciences x, pxxx-xxx
 
 Lucas R, Forseth I, Casper B. 2008. Using rainout shelters to evaluate climate change effects on the demography of Cryptantha flava. Journal of Ecology 96, p514-522
 

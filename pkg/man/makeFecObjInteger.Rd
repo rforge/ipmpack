@@ -7,41 +7,41 @@
   Function to build fecundity objects 
 }
 \description{
- Allows a series of different glms to be fit all on the way to fecundity, e.g., probability of flowering, number of flower heads produced, etc; as well as fecundity into different discrete classes.  
+ Allows a series of different glms to be fit all on the way to fecundity, e.g., probability of reproducing, number of reproductive structures produced (e.g. flowers), etc; as well as fecundity into different discrete classes.  
   
 }
 \usage{
 
 makeFecObjInteger(dataf,
-		fecConstants=data.frame(NA),
-		Formula=list(fec~size),
-		Family="gaussian",
-		Transform="none",
-		meanOffspringSize=NA,
-		thetaOffspringSize=NA,
-		offspringSplitter=data.frame(continuous=1),
+		fecConstants = data.frame(NA),
+		Formula = list(fec~size),
+		Family = "gaussian",
+		Transform = "none",
+		meanOffspringSize = NA,
+		thetaOffspringSize = NA,
+		offspringSplitter = data.frame(continuous=1),
 		vitalRatesPerOffspringType=data.frame(NA),
-		fecByDiscrete=data.frame(NA),
-		offspringSizeExplanatoryVariables="1",
+		fecByDiscrete = data.frame(NA),
+		offspringSizeExplanatoryVariables = "1",
 		distOffspring = "poisson")
 
 makeClonalObjInteger(dataf,
-		fecConstants=data.frame(NA),
-		Formula=list(fec~size),
-		Family="gaussian",
-		Transform="none",
-		meanOffspringSize=NA,
-		thetaOffspringSize=NA,
-		offspringSplitter=data.frame(continuous=1),
-		vitalRatesPerOffspringType=data.frame(NA),
-		fecByDiscrete=data.frame(NA),
-		offspringSizeExplanatoryVariables="1",
+		fecConstants = data.frame(NA),
+		Formula = list(fec~size),
+		Family = "gaussian",
+		Transform = "none",
+		meanOffspringSize = NA,
+		thetaOffspringSize = NA,
+		offspringSplitter = data.frame(continuous=1),
+		vitalRatesPerOffspringType = data.frame(NA),
+		fecByDiscrete = data.frame(NA),
+		offspringSizeExplanatoryVariables = "1",
 		distOffspring = "poisson")
 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-    \item{dataf}{a dataframe with columns "size", "sizeNext", "stage", "stageNext", and any additional columns with fecundity data. UIf fecundity data is transformed via log, etc, this MUST BE MADE CLEAR in the argument \code{Transform} since the fecundity object produced must generate total reproductive output.)}
+    \item{dataf}{a dataframe with columns "size", "sizeNext", "stage", "stageNext", and any additional columns with fecundity data. If fecundity data is transformed via log, etc, this MUST BE MADE CLEAR in the argument \code{Transform} since the fecundity object produced must generate total reproductive output.)}
   \item{fecConstants}{a list containing the value by which each of the fecundity rates will be multiplied \emph{in the order defined by the order in \code{Formula}}.  This data frame adjusts the probability of establishment of seeds or other stages in  sexual reproduction that are not explicitly incorporated  for each parent (e.g., 25\% of seeds across all individuals germinate).  The default is NA if no constants are used (equivalent to multiplying by 1).}
   \item{Formula}{a formulas describing the desired explanatory variables (interactions, etc) in classical R style, i.e. separated by `+', `*', `:' and the response variables of choice. Possible covariates include `size', 'size2' (size^2), `size3'  (size^3),`logsize' (log(size)), and `covariate' (if this name is used, the assumption is made that this is a discrete covariate from which compound matrices may be constructed), and any other covariates available in dataf. Again, these must appear  \emph{in the order defined by the Formula argument}.  See \code{\link{formula}} in \code{base} for more details.}
   \item{Family}{a character vector containing the names of the families to be used for the glms, e.g., binomial, poisson, etc. Again, these must appear  \emph{in the order defined by \code{Formula}} }
@@ -79,16 +79,16 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 }
 \examples{
-# Generate data with only continuous stage and discretize sizes
+# Takes a generated dataset with only continuous stage values and makes then discrete
 dff <- generateData()
 dff$fec[dff$fec==0] <- NA
-dff$size <- pmax(floor(dff$size+10),0)
-dff$sizeNext <- pmax(floor(dff$sizeNext+10),0)
+dff$size <- pmax(floor(dff$size + 10), 0)
+dff$sizeNext <- pmax(floor(dff$sizeNext + 10), 0)
 
-# make objects Fecundity object with poisson offspring distribution
+# Makes objects Fecundity object with poisson offspring distribution
 fv1 <- makeFecObjInteger(dff, Formula = log(fec)~size, Transform = "log",distOffspring = "poisson")
 
-# make objects Fecundity object with negative binomial offspring distribution
+# Makes objects Fecundity object with negative binomial offspring distribution
 fv1 <- makeFecObjInteger(dff, Formula = log(fec)~size, Transform = "log",distOffspring = "poisson")
 
 }

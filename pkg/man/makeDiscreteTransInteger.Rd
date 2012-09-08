@@ -2,7 +2,7 @@
 \alias{makeDiscreteTransInteger}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Builds matrix for transitions between discrete (e.g. seedbank, dormant) and continuous (e.g. size) stages, for situation where continuous variable is an integer. 
+Builds matrix for transitions between discrete (e.g. seedbank, dormant) and continuous (e.g. size) stages, for situation where continuous variable is an integer (e.g. number of leaves). 
 }
 \description{
   Function that takes a data frame reflecting a population that includes continuous (e.g., size) and discrete (e.g., diapause)
@@ -17,7 +17,7 @@ makeDiscreteTransInteger(dataf,
 		meanToCont = NA,
 		thetaToCont = NA,
 		continuousToDiscreteExplanatoryVariables = "size",
-		distToCont="poisson")
+		distToCont = "poisson")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
