@@ -86,6 +86,72 @@ With thanks to Alden Griffith.
 }
 \examples{
 
+# Open dataset for the herbaceous perennial Cryptantha flava where the state variable is integer (number of rosettes)
+##This is commented out because this does not contain the variable "surv"
+#data(cryptaDataCovSubset)
+#head(cryptaDataCovSubset)
+#d <- cryptaDataCovSubset
+##Instead I upload the data directly from my desktop
+setwd("/Users/robertosalguero-gomez/Desktop/")
+d <- read.table("to csv pleaseIII.csv", header = TRUE, sep = ",", na.strings="NA", dec=".", strip.white=TRUE)
+
+#See the description of the data for information on the variables
+help(cryptaDataCovSubset)
+
+# For this example, focus only on the first annual transition available in the dataset
+d1 <- d[d$year==2004, ]
+
+#Make survival, growth and fecundity objects assuming a poisson distribution
+so <- makeSurvObj(d1)
+go1 <- makeGrowthObj(d1, Formula = sizeNext~size, Family = "poisson")
+fo <- makeFecObjInteger(d1, Formula = fec1~size, distOffspring = "poisson")
+
+#Create P and F matrices
+Pmatrix1 <- createIntegerPmatrix(growObj = go1, survObj = so, meshpoints = 1:101, discreteTrans = 1)
+Fmatrix <- createIntegerFmatrix(fecObj = fo, meshpoints = 1:101)
+
+par(mfrow = c(1, 3), bty = "l")
+##Jess, do you know why the predict is not working here??
+
+plot(d1$size, d1$sizeNext, xlab = "Stage at t", ylab = "Stage at t+1")
+points(1:100, predict(go@fit[[1]], newdata = data.frame(size = 1:100),
+		type = "response"), type = "l", col = 2)
+
+image(Pmatrix@meshpoints, Pmatrix@meshpoints, t(Pmatrix), 
+	xlab = "Stage at t", 
+		ylab = "Stage at t+1")
+image(Fmatrix@meshpoints, Fmatrix@meshpoints, t(Fmatrix), 
+	xlab = "Stage at t", 
+		ylab = "Stage at t+1")		
+
+#Same approach, but with negative binomial instead of poisson for stage transitions
+go2 <- makeGrowthObj(d1, Formula = sizeNext~size, Family = "negbin")
+
+#Recalculate the P matrix
+Pmatrix2 <- createIntegerPmatrix(growObj = go1, survObj = so, meshpoints = 1:101, discreteTrans = 1)
+
+par(mfrow = c(1, 3), bty = "l")
+##Jess, do you know why the predict is not working here??
+
+plot(d1$size, d1$sizeNext, xlab = "Stage at t", ylab = "Stage at t+1")
+points(1:100, predict(go@fit[[1]], newdata = data.frame(size = 1:100),
+		type = "response"), type = "l", col = 2)
+
+image(Pmatrix2@meshpoints, Pmatrix@meshpoints, t(Pmatrix), 
+	xlab = "Stage at t", 
+		ylab = "Stage at t+1")
+image(Fmatrix@meshpoints, Fmatrix@meshpoints, t(Fmatrix), 
+	xlab = "Stage at t", 
+		ylab = "Stage at t+1")		
+
+#The following repeates the same approach, but with negative binomial instead of poisson for stage transitions
+go2 <- makeGrowthObj(dff, Family = "negbin")
+Pmatrix2 <- createIntegerPmatrix(growObj = go2, survObj = so, meshpoints = 1:101, discreteTrans = 1)
+
+
+
+
+
 # Takes a generated dataset with only continuous stage values and makes then discrete
 dff <- generateData()
 dff$fec[dff$fec==0] <- NA
@@ -102,23 +168,21 @@ par(mfrow = c(1, 3), bty = "l")
 plot(dff$size, dff$sizeNext, xlab = "Stage at t", ylab = "Stage at t+1")
 points(1:20, predict(gr1@fit, newdata=data.frame(size=1:20), type = "response"), type="l", col=2)
 
-#make the P and T matrix
-Fmatrix <- createIntegerFmatrix(fecObj = fv1, meshpoints = 1:20)
+#make the P and F matrix
 Pmatrix <- createIntegerPmatrix(meshpoints = 1:20,
 			growObj = gr1, survObj = sv1, 
 			discreteTrans = 1)
+Fmatrix <- createIntegerFmatrix(fecObj = fv1, meshpoints = 1:20)
 
-
-#plot them
-image(Fmatrix@meshpoints, Fmatrix@meshpoints, t(Fmatrix), 
-	xlab = "Stage at t", 
-		ylab = "Stage at t+1")
-
+# Plot the P and F matrix them
 image(Pmatrix@meshpoints, Pmatrix@meshpoints, t(Pmatrix), 
 	xlab = "Stage at t", 
 		ylab = "Stage at t+1")
+image(Fmatrix@meshpoints, Fmatrix@meshpoints, t(Fmatrix), 
+	xlab = "Stage at t", 
+		ylab = "Stage at t+1")		
 
-#same but with negative binomial instead of poisson for stage transitions
+#Same approach, but with negative binomial instead of poisson for stage transitions
 gr1 <- makeGrowthObj(dff, Family = "negbin")
 
 #plot
