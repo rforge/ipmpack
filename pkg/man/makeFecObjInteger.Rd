@@ -79,7 +79,19 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 }
 \examples{
-# Takes a generated dataset with only continuous stage values and makes then discrete
+# Open dataset for the herbaceous perennial Cryptantha flava where the state variable is integer (number of rosettes)
+data(cryptaDataCovSubset)
+head(cryptaDataCovSubset)
+d <- cryptaDataCovSubset
+
+# For this example, focus only on the first annual transition available in the dataset
+d1 <- d[d$year==2005, ]
+
+#Create fecundity object
+fv1 <- makeFecObjInteger(d1, Formula = fec1~size, distOffspring = "poisson")
+
+
+# Another example with a randomized dataset. This takes a generated dataset with only continuous stage values and makes then discrete
 dff <- generateData()
 dff$fec[dff$fec==0] <- NA
 dff$size <- pmax(floor(dff$size + 10), 0)
