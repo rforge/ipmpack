@@ -84,11 +84,14 @@ data(cryptaDataCovSubset)
 head(cryptaDataCovSubset)
 d <- cryptaDataCovSubset
 
-# For this example, focus only on the first annual transition available in the dataset
-d1 <- d[d$year==2005, ]
+#See the description of the data for information on the variables
+help(cryptaDataCovSubset)
 
-#Create fecundity object
-fv1 <- makeFecObjInteger(d1, Formula = fec1~size, distOffspring = "poisson")
+# For this example, focus only on the first annual transition available in the dataset
+d1 <- d[d$year==2004, ]
+
+#Create fecundity object with integer data
+fo <- makeFecObjInteger(d1, Formula = fec1~size, distOffspring = "poisson")
 
 
 # Another example with a randomized dataset. This takes a generated dataset with only continuous stage values and makes then discrete
