@@ -1198,10 +1198,9 @@ coerceSurvObj <- function(survObj,coeff){
 
 
 # Function to graph smoothed contour plots on the kernels, sensitivities and elasticities compare model fits for growth and survival objects built with different linear combinations of covariates. 
-# Growth can have multiple response forms. Uses .makeCovDf.  Separate plot functions. 
 #
 #
-# Returns - list with a summary table of covariates and scores, and a sub-list of growth or survival objects.
+# Returns - a graph with the label for values of changes in stage condition on survival and per-capital sexual/clonal contributions.
 #
 
 contourPlot <- function(M, meshpts, upper, lower, color) {
@@ -1209,10 +1208,5 @@ contourPlot <- function(M, meshpts, upper, lower, color) {
 			xlab="Stage at time t", ylab="Stage at time t+1", color=color, nlevels=20, cex.lab=1.5);
 	return(0);
 
-#contourPlot <- function(M, meshpts, upper, lower, color) {
-#	q <- sum(meshpts<=maxSize); 
-#	filled.contour(meshpts[1:q],meshpts[1:q],M[1:q,1:q], zlim=c(upper,lower),
-#			xlab="Stage at time t", ylab="Stage at time t+1", color=color, nlevels=20, cex.lab=1.5);
-#	return(0);
 }
 
