@@ -144,7 +144,7 @@ image(Fmatrix@meshpoints, Fmatrix@meshpoints, t(Fmatrix),
 	xlab = "Stage at t", 
 		ylab = "Stage at t+1")		
 
-#The following repeates the same approach, but with negative binomial instead of poisson for stage transitions
+#The following repeats the same approach, but with negative binomial instead of poisson for stage transitions
 go2 <- makeGrowthObj(dff, Family = "negbin")
 Pmatrix2 <- createIntegerPmatrix(growObj = go2, survObj = so, meshpoints = 1:101, discreteTrans = 1)
 
