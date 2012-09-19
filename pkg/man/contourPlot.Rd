@@ -10,7 +10,7 @@
 Produces a graph with the smooth kernel and associated value label.
 }
 \description{
-  Outputs a graph that of the smoothed surface of the IPM kernel. This graph also contains a label for values of changes on stage conditional on survival and per-capita sexual/clonal contributions. This function is also applicable to the kernel of the sensitivity and elasticity IPM. This function can also be applied with lifecycles with discrete stages (e.g. seedbank in "hyperDataCovSubset") but the user must be careful with the interpretation of perturbation analyses between discrete and continuous stages since they are logically on a different scale.
+  Outputs a graph with a smoothed surface of the IPM kernel or other chosen matrix. This graph also contains a label for values of changes on stage conditional on survival and per-capita sexual/clonal contributions. This function is applicable to the different components of the IPM separately (i.e. Pmatrix, Fmatrix, C matrix) or to the kernel of the sensitivity and elasticity IPM. This function can also be applied with lifecycles with discrete stages (e.g. seedbank in "hyperDataCovSubset") but the user must be careful with the interpretation of perturbation analyses between discrete and continuous stages since they are logically on a different scale.
 }
 \usage{
 contourPlot(M, meshpts, upper, lower, color)
@@ -76,28 +76,18 @@ maxSize <- max(Fmatrix)
 contourPlot(Fmatrix,Fmatrix@meshpoints,minSize,maxSize,heat.colors)
 
 #Plot IPM contour plot
-contourPlot(IPM,F@meshpoints,minSize,maxSize,heat.colors)
+contourPlot(IPM,Pmatrix@meshpoints,minSize,maxSize,heat.colors)
 
 #Plot IPM sensitivity contour plot
 senIPM <- sens(IPM)
 minSize <- 0
 maxSize <- max(senIPM)
-contourPlot(senIPM,F@meshpoints,minSize,maxSize,heat.colors)
+contourPlot(senIPM,Pmatrix@meshpoints,minSize,maxSize,heat.colors)
 
 #Plot IPM elasticity contour plot
 elaIPM <- elas(IPM)
 minSize <- 0
 maxSize <- max(elaIPM)
-contourPlot(elaIPM,F@meshpoints,minSize,maxSize,heat.colors)
+contourPlot(senIPM,Pmatrix@meshpoints,minSize,maxSize,heat.colors)
 
-senIPM <- sens(IPM)
-contourPlot(senIPM,
-image(Pmatrix@meshpoints, Pmatrix@meshpoints,senIPM, 
-	main = "Sensitivity", xlab = "Continuous (e.g. size) stage in t", 
-		ylab = "Continuous (e.g. size) stage in t+1")
-
-elast <- elas(IPM)
-image(Pmatrix@meshpoints, Pmatrix@meshpoints, t(elast), main = "Elasticity", 
-	xlab = "Continuous (e.g. size) stage in t", 
-		ylab = "Continuous (e.g. size) stage in t+1")
 }
