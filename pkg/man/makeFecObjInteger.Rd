@@ -93,17 +93,4 @@ d1 <- d[d$year==2004, ]
 #Create fecundity object with integer data
 fo <- makeFecObjInteger(d1, Formula = fec1~size, distOffspring = "poisson")
 
-
-# Another example with a randomized dataset. This takes a generated dataset with only continuous stage values and makes then discrete
-dff <- generateData()
-dff$fec[dff$fec==0] <- NA
-dff$size <- pmax(floor(dff$size + 10), 0)
-dff$sizeNext <- pmax(floor(dff$sizeNext + 10), 0)
-
-# Makes objects Fecundity object with poisson offspring distribution
-fv1 <- makeFecObjInteger(dff, Formula = log(fec)~size, Transform = "log",distOffspring = "poisson")
-
-# Makes objects Fecundity object with negative binomial offspring distribution
-fv1 <- makeFecObjInteger(dff, Formula = log(fec)~size, Transform = "log",distOffspring = "poisson")
-
 }
