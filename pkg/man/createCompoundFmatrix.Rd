@@ -91,7 +91,7 @@ Fmatrix <-createCompoundFmatrix(nBigMatrix = 20,
 	minSize = min(dff$size, na.rm = TRUE), 
 		maxSize = max(dff$size, na.rm=TRUE), 
 			envMatrix = makeEnvObj(dff), 
-				fecObj = makeFecObj(dff, Formula = log(fec)~size+size2+covariate, 
+				fecObj = makeFecObj(dff, Formula = fec~size+size2+covariate, 
 					Transform = "log"))
 
 image(1:nrow(Fmatrix), 1:ncol(Fmatrix), t(log(Fmatrix)), 
@@ -107,7 +107,7 @@ dff <- generateDataDiscrete()
 dff$fec[dff$fec==0] <- NA
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
-fv1 <- makeFecObj(dff, Formula = log(fec)~size, Transform = "log", 
+fv1 <- makeFecObj(dff, Formula = fec~size, Transform = "log", 
 	offspringSplitter=data.frame(continuous = 0.9, dormant = 0.1))
 Fmatrix <- createCompoundFmatrix(minSize = min(dff$size, na.rm=TRUE),
 maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), fecObj = fv1)

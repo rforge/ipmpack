@@ -70,7 +70,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 # Data with only continuous stage and one habitat
 dff <- generateData()
 dff$fec[dff$fec==0] <- NA
-cv1 <- makeClonalObj(dff, Formula = log(fec)~size, Transform = "log")
+cv1 <- makeClonalObj(dff, Formula = fec~size, Transform = "log")
 Cmatrix <- createIPMCmatrix(clonalObj = cv1, nBigMatrix = 20, 
 	minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE))
 
