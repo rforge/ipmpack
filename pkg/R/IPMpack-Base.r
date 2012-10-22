@@ -785,11 +785,10 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 		disc.to.cont <- matrix(0, ncol = nDisc, nrow = nBigMatrix)
 		cont.to.disc <- matrix(0, nrow = nDisc, ncol = nBigMatrix)
 		for (j in 1:nDisc) {
-			tmp <- dnorm(y, discreteTrans@meanToCont[j], discreteTrans@sdToCont[j]) * 
-					h
-			if (correction == "constant") 
-				tmp <- tmp/sum(tmp)
-			disc.to.cont[, j] <- discreteTrans@discreteTrans["continuous", j] * tmp
+			tmp <- dnorm(y, discreteTrans@meanToCont[j], discreteTrans@sdToCont[j]) * h
+			if (correction == "constant") tmp <- tmp/sum(tmp)
+			tmp[which(is.na(tmp))] <- 0
+			disc.to.cont[, j]  * tmp
 		}
 		if (sum(discreteTrans@discreteTrans[1:nDisc,"continuous"])==0) {
 			cont.to.disc[] <- 0
