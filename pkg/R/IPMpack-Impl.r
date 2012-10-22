@@ -638,7 +638,7 @@ makeDiscreteTrans <- function(dataf,
 	}
 	if (class(meanToCont)!="matrix") stop("Error - the meanToCont matrix you entered should be a matrix")
 	if (nrow(meanToCont)!=1) stop("Error - the meanToCont matrix you entered should contain just 1 row with means (or NA's for those discrete stages from which no individuals move to the continuous class")
-	if (sum(dimnames(meanToCont)[[2]]==stages[1:nDiscreteClasses])<nDiscreteClasses) stop("Error - the column names of the meanToCont matrix you entered should be in alphabetical order and match the column names of the discrete classes in discreteTrans (so without continuous)")
+	if (sum(dimnames(meanToCont)[[2]]==stages[1:nDiscreteClasses])<nDiscreteClasses) stop("Error - the column names of the meanToCont matrix you entered should be in alphabetical order and match the column names of the discrete classes in discreteTrans (so without continuous). If some of the discete stages are not mentioned in your data file, this error can be fixed by adding those stages first: levels(dataf$stage)<-c(levels(dataf$stage),<unmentioned_discrete_stages>)")
 	#define the sd size of individuals coming from discrete stages to the continuous stage
 	if (is.na(sdToCont[1])&length(sdToCont)==1) {
 		sdToCont <- matrix(NA,nrow=1,ncol=nDiscreteClasses,dimnames=list(1,stages[1:nDiscreteClasses]))
