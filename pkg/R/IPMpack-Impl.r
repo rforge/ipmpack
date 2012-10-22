@@ -648,7 +648,7 @@ makeDiscreteTrans <- function(dataf,
 	}
 	if (class(sdToCont)!="matrix") stop("Error - the sdToCont matrix you entered should be a matrix")
 	if (nrow(sdToCont)!=1) stop("Error - the sdToCont matrix you entered should contain just 1 row with means (or NA's for those discrete stages from which no individuals move to the continuous class")
-	if (sum(dimnames(sdToCont)[[2]]==stages[1:nDiscreteClasses])<nDiscreteClasses) stop("Error - the column names of the sdToCont matrix you entered should be in alphabetical order and match the column names of the discrete classes in discreteTrans (so without continuous)")
+	if (sum(dimnames(sdToCont)[[2]]==stages[1:nDiscreteClasses])<nDiscreteClasses) stop("Error - the column names of the sdToCont matrix you entered should be in alphabetical order and match the column names of the discrete classes in discreteTrans (so without continuous). If some of the discete stages are not mentioned in your data file, this error can be fixed by adding those stages first: levels(dataf$stage)<-c(levels(dataf$stage),<unmentioned_discrete_stages>)")
 	# make the regression to relate the probability of individuals moving to any of the discrete stages as a function of their size 
 	if (sum(discreteTrans[stages[1:nDiscreteClasses],"continuous"])==0) {
 		survToDiscrete <- glm(rep(0,21)~1, family = binomial)
