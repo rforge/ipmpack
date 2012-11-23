@@ -52,7 +52,7 @@ createIPMPmatrix(nBigMatrix = 10, growObj = makeGrowthObj(dff),
 dff<-generateData()
 # Now the transition matrix needs to be entered as an argument, as well as the mean and sd of sizeNext values for discrete to continuous transitions. 
 discTrans <- makeDiscreteTrans(dff,
-					discreteTrans = matrix(c(.5,.1,.4,0,0,1),
+					discreteTrans = matrix(c(.5,.1,.4,0,1,0),
 					nrow=3, ncol=2, dimnames = list(c("seedbank","continuous","dead"),
 					c("seedbank","continuous"))),
 					meanToCont = matrix(c(mean(dff$sizeNext[is.na(dff$stage)&dff$stageNext=="continuous"],na.rm=TRUE)),
