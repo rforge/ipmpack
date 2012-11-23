@@ -788,13 +788,11 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 			tmp <- dnorm(y, discreteTrans@meanToCont[j], discreteTrans@sdToCont[j]) * h
 			if (correction == "constant") tmp <- tmp/sum(tmp)
 			tmp[which(is.na(tmp))] <- 0
-			disc.to.cont[, j]  * tmp
-		}
-		if (sum(discreteTrans@discreteTrans[1:nDisc,"continuous"])==0) {
-			cont.to.disc[] <- 0
-		} else {
-			cont.to.disc[j, ] <- surv(y, chosenCov, survObj) * survToDiscrete * 
+			disc.to.cont[, j]  <- discreteTrans@discreteTrans["continuous", j] * tmp
+			if (discreteTrans@discreteTrans[j,"continuous"]>0) {
+				cont.to.disc[j, ] <- surv(y, chosenCov, survObj) * survToDiscrete * 
 					discreteTrans@discreteTrans[j,"continuous"] / sum(discreteTrans@discreteTrans[1:nDisc,"continuous"]) 
+			}
 		}
 		get.disc.matrix <- rbind(cbind(disc.to.disc, cont.to.disc), 
 				cbind(disc.to.cont, cont.to.cont))
@@ -843,18 +841,16 @@ createIntegerPmatrix <- function (nEnvClass = 1,
 		cont.to.disc <- matrix(0, nrow = nDisc, ncol = nBigMatrix)
 		for (j in 1:nDisc) {
 			if (discreteTrans@distToCont=="poisson") 
-			 tmp <- dpois(y, discreteTrans@meanToCont[j]) 
-		 if (discreteTrans@distToCont=="negBin") 
-			tmp <- dnbinom(y, mu=discreteTrans@meanToCont[j], size=discreteTrans@thetaToCont[j]) 
+				tmp <- dpois(y, discreteTrans@meanToCont[j]) 
+			if (discreteTrans@distToCont=="negBin") 
+				tmp <- dnbinom(y, mu=discreteTrans@meanToCont[j], size=discreteTrans@thetaToCont[j]) 
 		 	tmp[which(is.na(tmp))] <- 0
 		 	disc.to.cont[, j] <- discreteTrans@discreteTrans["continuous", j] * tmp
-		}
-		if (sum(discreteTrans@discreteTrans[1:nDisc,"continuous"])==0) {
-			cont.to.disc[] <- 0
-		} else {
-			cont.to.disc[j, ] <- surv(y, chosenCov, survObj) * survToDiscrete * 
+			if (sum(discreteTrans@discreteTrans[j,"continuous"]>0) {
+				cont.to.disc[j, ] <- surv(y, chosenCov, survObj) * survToDiscrete * 
 					discreteTrans@discreteTrans[j,"continuous"] / sum(discreteTrans@discreteTrans[1:nDisc,"continuous"]) 
-		}
+			}
+		}	
 		get.disc.matrix <- rbind(cbind(disc.to.disc, cont.to.disc), 
 				cbind(disc.to.cont, cont.to.cont))
 
