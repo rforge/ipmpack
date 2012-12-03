@@ -846,7 +846,7 @@ createIntegerPmatrix <- function (nEnvClass = 1,
 				tmp <- dnbinom(y, mu=discreteTrans@meanToCont[j], size=discreteTrans@thetaToCont[j]) 
 		 	tmp[which(is.na(tmp))] <- 0
 		 	disc.to.cont[, j] <- discreteTrans@discreteTrans["continuous", j] * tmp
-			if (sum(discreteTrans@discreteTrans[j,"continuous"]>0) {
+			if (sum(discreteTrans@discreteTrans[j,"continuous"]>0)) {
 				cont.to.disc[j, ] <- surv(y, chosenCov, survObj) * survToDiscrete * 
 					discreteTrans@discreteTrans[j,"continuous"] / sum(discreteTrans@discreteTrans[1:nDisc,"continuous"]) 
 			}
