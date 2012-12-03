@@ -1159,6 +1159,8 @@ createGrowthObj <- function(Formula=sizeNext~size, coeff=c(1,1), sd=1){
 createSurvObj <- function(Formula=surv~size, coeff=c(1,1)){ 
 	var.names <- all.vars(Formula)
 	
+	#not that although var.names will have one extra (cos of response variable
+	# this will correspond to the intercept
 	if (length(coeff)!=(length(var.names))) 
 		stop("not enough coefficients supplied for the chosen Formula")
 	
@@ -1174,6 +1176,62 @@ createSurvObj <- function(Formula=surv~size, coeff=c(1,1)){
 	return(sv1)
 	
 }
+
+
+
+ 
+createFecObj <- function(Formula=list(fec1~size,fec2~size+size2), 
+							coeff=list(c(1,1),c(1,1,1)),
+							Family = c("gaussian","binomial"),
+							Transform = c("log","none"),
+							meanOffspringSize = NA, sdOffspringSize = NA, 
+							offspringSplitter = data.frame(continuous = 1), 
+							vitalRatesPerOffspringType = data.frame(NA), 
+							fecByDiscrete = data.frame(NA), 
+							offspringSizeExplanatoryVariables = "1",
+							fecConstants = data.frame(NA)){ 
+	var.names <- c()
+	fecNames <- rep(NA,length(Formula))
+	for (j in 1:length(Formula)) { 
+		fecNames[j] <- all.vars(Formula[[j]])[1]
+		var.names.here <- all.vars(Formula[[j]])
+		
+		if (length(coeff[[j]])!=(length(var.names.here))) 
+			stop(paste("not enough coefficients supplied for the ",j, "th Formula", sep=""))
+		
+		var.names <- c(var.names,var.names.here)
+	}
+	
+	var.names <- unique(var.names)
+	
+	#build a data-frame with all the right variables
+	dataf<- as.data.frame(matrix(rnorm(3*length(var.names)),3,length(var.names)))
+	colnames(dataf) <- var.names
+	dataf$surv <- sample(c(0,1),nrow(dataf), replace=TRUE)
+	
+	dataf[,fecNames[which(Transform=="log")]] <- pmax(dataf[,fecNames[which(Transform=="log")]],1)
+	dataf[,fecNames[which(Family=="binomial")]] <- rbinom(nrow(dataf),1,0.5)
+	
+	fv1 <- makeFecObj(dataf=dataf, 
+			fecConstants = fecConstants, 
+			Formula = Formula, 
+			Family = Family, 
+			Transform = Transform, meanOffspringSize = meanOffspringSize, 
+			sdOffspringSize = sdOffspringSize, offspringSplitter = offspringSplitter, 
+			vitalRatesPerOffspringType = vitalRatesPerOffspringType, 
+			fecByDiscrete = fecByDiscrete, 
+			offspringSizeExplanatoryVariables = offspringSizeExplanatoryVariables)
+	
+	#now over-write with the desired coefficients!
+	for (j in 1:length(Formula)) { 
+		fv1@fitFec[[j]]$coefficients <- coeff[[j]]
+		}
+	
+	return(fv1)
+	
+}
+
+
 
 
 ### integer related functions
