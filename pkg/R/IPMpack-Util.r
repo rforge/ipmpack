@@ -578,7 +578,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		mean.kids=3.0,sd.kids=0.52,
 		meanYear=c(0,0,0),
 		matVarYear=matrix(c(1.34,0.1,0,0.1,0.04,0,0,0,0.01),3,3), 
-		densDep=TRUE) {
+		densDep=TRUE,maxPop=1e20) {
 		
 	#initiate and set up year index
 	sizes <- rnorm(nSamp,3,0.5)
@@ -653,6 +653,8 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		#print(cbind(sizes,sx,fx))
 		sizes <- c(sizes[sx==1 & fx==0 & !is.na(fx)],babies)
 		if (length(sizes)==0) print("extinct")
+		
+		if (sum(dataf$year)>maxPop) { print("large pop size, breaking");break()}
 		
 	}
 	
