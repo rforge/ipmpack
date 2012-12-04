@@ -638,22 +638,36 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			dataf <- rbind(dataf,
 					data.frame(size=sizes,sizeNext=sizeNext,
 							surv=1*sx,flower=1*fx,fec=seedsx,year=(rep(t,length(sizes))),
-							nSeedlings=rep(nSeedlings,length(sizes)),m.year=rep(m.year,length(sizes)),
-							cg.year=rep(cg.year,length(sizes)),b.year=rep(b.year,length(sizes)), offspringNext=rep(NA,length(sizes))))
+							nSeedlings=rep(nSeedlings,length(sizes)),
+							m.year=rep(m.year,length(sizes)),
+							cg.year=rep(cg.year,length(sizes)),
+							b.year=rep(b.year,length(sizes)), 
+							offspringNext=rep(NA,length(sizes))))
 			#print(head(dataf))
 			dataf <- rbind(dataf,
-					data.frame(size=rep(NA,length(babies)),sizeNext=babies,surv=rep(NA,length(babies)),
+					data.frame(size=rep(NA,length(babies)),sizeNext=babies,
+							surv=rep(NA,length(babies)),
 							flower=rep(NA,length(babies)),
 							fec=rep(NA,length(babies)),year=(rep(t,length(babies))),
-							nSeedlings=rep(nSeedlings,length(babies)),m.year=rep(m.year,length(babies)),
-							cg.year=rep(cg.year,length(babies)),b.year=rep(b.year,length(babies)), offspringNext=rep("sexual",length(babies))))
-		}
+							nSeedlings=rep(nSeedlings,length(babies)),
+							m.year=rep(m.year,length(babies)),
+							cg.year=rep(cg.year,length(babies)),
+							b.year=rep(b.year,length(babies)), 
+							offspringNext=rep("sexual",length(babies))))
+		} 
+		
+					
 		
 		#new pop
 		#print(cbind(sizes,sx,fx))
 		sizes <- c(sizes[sx==1 & fx==0 & !is.na(fx)],babies)
 		if (length(sizes)==0) print("extinct")
 		
+		#thin out the population 
+		if (t<startYr & length(sizes)>2000)
+				sizes <- sample(sizes,size=floor(length(sizes)*0.5), replace=FALSE)
+		
+		#if too big, break			
 		if (sum(dataf$year)>maxPop) { print("large pop size, breaking");break()}
 		
 	}
