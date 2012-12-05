@@ -578,7 +578,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		mean.kids=3.0,sd.kids=0.52,
 		meanYear=c(0,0,0),
 		matVarYear=matrix(c(1.34,0.1,0,0.1,0.04,0,0,0,0.01),3,3), 
-		densDep=TRUE,maxPop=1e20) {
+		densDep=TRUE,maxPop=1e7) {
 		
 	#initiate and set up year index
 	sizes <- rnorm(nSamp,3,0.5)
@@ -589,10 +589,11 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	
 	#total plants
 	totpl <- c(21,57,47,25,25,33,88,94,97,26,85,80,122,175,160,10,6,189)
-	
-	
+		
 	#set up dataframe
-	dataf <- data.frame(sizes=c(),sizeNext=c(),surv=c(),flower=c(),fec=c(),nSeedlings=c(),cg.year=c(),m.year=c(),b.year=c())
+	dataf <-matrix(NA,maxPop,11)
+	
+	count <- 0
 	
 	for (t in 1:nYrs) {
 		
@@ -622,7 +623,8 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		
 		if (densDep) pEst <- min(nSeedlings/max(sum(seedsx),1),1) else pEst <- 1
 		
-		babies <- rnorm(ceiling(pEst*max(sum(seedsx),1)),mean.kids+b.year,sd.kids) #will end up with nrec babies at least 
+		babies <- rnorm(ceiling(pEst*max(sum(seedsx),1)),mean.kids+b.year,sd.kids) 
+		#will end up with nrec babies at least 
 		if (length(babies)<nSeedlings) nSeedlings <- length(babies)
 		
 		#growth
@@ -634,27 +636,38 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		
 		#storage
 		if (t>startYr) {
-			#print(t)
-			dataf <- rbind(dataf,
-					data.frame(size=sizes,sizeNext=sizeNext,
-							surv=1*sx,flower=1*fx,fec=seedsx,year=(rep(t,length(sizes))),
-							nSeedlings=rep(nSeedlings,length(sizes)),
-							m.year=rep(m.year,length(sizes)),
-							cg.year=rep(cg.year,length(sizes)),
-							b.year=rep(b.year,length(sizes)), 
-							offspringNext=rep(NA,length(sizes))))
-			#print(head(dataf))
-			dataf <- rbind(dataf,
-					data.frame(size=rep(NA,length(babies)),sizeNext=babies,
-							surv=rep(NA,length(babies)),
-							flower=rep(NA,length(babies)),
-							fec=rep(NA,length(babies)),year=(rep(t,length(babies))),
-							nSeedlings=rep(nSeedlings,length(babies)),
-							m.year=rep(m.year,length(babies)),
-							cg.year=rep(cg.year,length(babies)),
-							b.year=rep(b.year,length(babies)), 
-							offspringNext=rep("sexual",length(babies))))
-		} 
+			
+			if ((count+length(sizes))>maxPop) { print("large pop size, breaking");break()}
+		
+			chs <- (count+1):(count+length(sizes))
+			dataf[chs,1] <- sizes
+			dataf[chs,2] <- sizeNext
+			dataf[chs,3] <- 1*sx
+			dataf[chs,4] <- 1*fx
+			dataf[chs,5] <- seedsx
+			dataf[chs,6] <- t
+			dataf[chs,7] <- nSeedlings
+			dataf[chs,8] <- m.year
+			dataf[chs,9] <- cg.year
+			dataf[chs,10] <- b.year
+			
+			count <- count + length(sizes)
+			
+							
+		    if ((count+length(babies))>maxPop) { print("large pop size, breaking");break()}
+
+			chs <- (count+1):(count+length(babies))
+			
+			dataf[chs,2] <- babies
+			dataf[chs,6] <- t
+			dataf[chs,7] <- nSeedlings
+			dataf[chs,8] <- m.year
+			dataf[chs,9] <- cg.year
+			dataf[chs,10] <- b.year
+			dataf[chs,11] <- "sexual"
+		
+			count <- count+length(babies) 	
+			} 
 		
 					
 		
@@ -663,12 +676,10 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		sizes <- c(sizes[sx==1 & fx==0 & !is.na(fx)],babies)
 		if (length(sizes)==0) print("extinct")
 		
-		#thin out the population 
-		if (t<startYr & length(sizes)>2000)
-				sizes <- sample(sizes,size=floor(length(sizes)*0.5), replace=FALSE)
+		#thin out the population, it not density dependent 
+		if (t<startYr & length(sizes)>1000 & !densDep)
+				sizes <- sample(sizes,size=500, replace=FALSE)
 		
-		#if too big, break			
-		if (sum(dataf$year)>maxPop) { print("large pop size, breaking");break()}
 		
 	}
 	
@@ -682,6 +693,10 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			matVarYear=matVarYear,
 			nrec=nrec)
 	
+	colnames(dataf) <- c("size","sizeNext","surv","flower","fec",
+			"nSeedlings","year","cg.year","m.year","b.year","offspringNext")
+	dataf <- data.frame(dataf)	
+	
 	dataf$fec[dataf$fec==0] <- NA
 	
 	return(list(dataf=dataf,meanYear=meanYear,matVarYear=matVarYear,list.par=list.par))
@@ -692,11 +707,15 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 #Find years where can estimate all three stochastic vital rates(survival, growth and baby size)
 .identifyPossibleYearsCarlina <- function(dataf){
 	
-	yr1 <- table(dataf$year[!is.na(dataf$size) & !is.na(dataf$sizeNext) & is.na(dataf$offspringNext)])
-	yr2 <- table(dataf$year[!is.na(dataf$size) & !is.na(dataf$surv) & is.na(dataf$offspringNext)])
-	yr3 <- table(dataf$year[!is.na(dataf$sizeNext) & !is.na(dataf$offspringNext)])
+	yr1 <- table(dataf$year[!is.na(dataf$size) & 
+							!is.na(dataf$sizeNext) & is.na(dataf$offspringNext)])
+	yr2 <- table(dataf$year[!is.na(dataf$size) & 
+							!is.na(dataf$surv) & is.na(dataf$offspringNext)])
+	yr3 <- table(dataf$year[!is.na(dataf$sizeNext) & 
+							!is.na(dataf$offspringNext)])
 	
-	good.yrs <- intersect(as.numeric(as.character(names(yr1)[yr1>2])),as.numeric(as.character(names(yr2))[yr2>2]))
+	good.yrs <- intersect(as.numeric(as.character(names(yr1)[yr1>2])),
+			as.numeric(as.character(names(yr2))[yr2>2]))
 	good.yrs <- intersect(good.yrs,as.numeric(as.character(names(yr3)[yr3>2])))
 	
 	return(is.element(dataf$year,good.yrs))
