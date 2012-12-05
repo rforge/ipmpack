@@ -30,7 +30,7 @@
 makeGrowthObj <- function(dataf,
 		Formula=sizeNext~size,
 		regType="constantVar",
-		Family="gaussian") {
+		Family="gaussian", link=NULL) {
 	
 	dataf <- subset(dataf, is.na(dataf$size) == FALSE & is.na(dataf$sizeNext) == 
 					FALSE)
@@ -103,14 +103,24 @@ makeGrowthObj <- function(dataf,
 	} else {
 		if (regType != "constantVar") print("Warning: your regType is ignored because a non-gaussian model is fitted using glm")
 		if (Family=="negbin"){
-			fit <- glm.nb(Formula, data=dataf)
+			if (is.null(link)) { print("setting link to identity"); link <- "identity" }
+			if (link=="identity") fit <- glm.nb(Formula, data=dataf,link="identity")
+			if (link=="log") fit <- glm.nb(Formula, data=dataf,link="log")
+			#if (link=="sqrt") fit <- glm.nb(Formula, data=dataf,link="sqrt")
+			if (link!="identity" & link!="log"){stop("unknown link specified for negative binomial")}
 			fit.here <- list()
-			fit.here[[1]] <- glm.convert(fit)
+			if (link=="log") fit.here[[1]] <- glm.convert(fit)
+			if (link=="identity") { 
+				fit.dummy <-  glm(Formula, data=dataf)
+				fit.dummy$coefficients <- fit$coefficients
+				fit.here[[1]] <- fit.dummy
+			}
 			fit.here[[2]] <- fit$theta
 			fit.here[[3]] <- fit  
 		} else {
-			fit <- glm(Formula, data=dataf, family=Family)
+			fit <- glm(Formula, data=dataf, family=Family,link=link)
 			fit.here <- fit
+			#print("here")
 		}           
 	}
 	

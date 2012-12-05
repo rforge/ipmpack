@@ -10,7 +10,7 @@
 }
 \usage{
 makeGrowthObj(dataf, Formula = sizeNext ~ size, 
-	regType = "constantVar", Family = "gaussian")
+	regType = "constantVar", Family = "gaussian",link=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -29,7 +29,8 @@ makeGrowthObj(dataf, Formula = sizeNext ~ size,
     (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
     `covariate' (if this name is used, the assumption is made that this is a discrete covariate from which compound matrices may be constructed); or any other covariate available in dataf.}
   \item{regType}{possible values include `constantVar' or `declineVar'}
-  \item{Family}{possible values include `gaussian' or `poisson'}
+  \item{Family}{possible values include `gaussian', `poisson', `negbin'}
+   \item{link}{defaults to NULL, currently only relevant with Family="negbin", and only "log" and "identity" are permitted}
   
   }
 \value{
