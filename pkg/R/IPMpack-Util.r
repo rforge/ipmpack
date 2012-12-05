@@ -636,7 +636,8 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		
 		#storage
 		if (t>startYr) {
-			
+			#print(t)
+			#print(count)
 			if ((count+length(sizes))>maxPop) { print("large pop size, breaking");break()}
 		
 			chs <- (count+1):(count+length(sizes))
@@ -695,7 +696,18 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	
 	colnames(dataf) <- c("size","sizeNext","surv","flower","fec",
 			"nSeedlings","year","cg.year","m.year","b.year","offspringNext")
-	dataf <- data.frame(dataf)	
+
+	dataf <- data.frame(dataf,stringsAsFactors = FALSE)	
+	dataf$size <- as.numeric(dataf$size)
+	dataf$sizeNext <- as.numeric(dataf$sizeNext)
+	dataf$surv <- as.numeric(dataf$surv)
+	dataf$flower <- as.numeric(dataf$flower)
+	dataf$fec <- as.numeric(dataf$fec)
+	dataf$nSeedlings <- as.numeric(dataf$nSeedlings)
+	dataf$year <- as.numeric(dataf$year)
+	dataf$cg.year <- as.numeric(dataf$cg.year)
+	dataf$m.year <- as.numeric(dataf$m.year)
+	dataf$b.year <- as.numeric(dataf$b.year)	
 	
 	dataf$fec[dataf$fec==0] <- NA
 	
