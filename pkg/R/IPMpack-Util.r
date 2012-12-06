@@ -700,7 +700,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	dataf <- data.frame(dataf,stringsAsFactors = FALSE)	
 
 	colnames(dataf) <- c("size","sizeNext","surv","flower","fec",
-			"year","nSeedlings","cg.year","m.year","b.year","offspringNext")
+			"year","nSeedlings","m.year","cg.year","b.year","offspringNext")
 	
 	dataf$size <- as.numeric(dataf$size)
 	dataf$sizeNext <- as.numeric(dataf$sizeNext)
