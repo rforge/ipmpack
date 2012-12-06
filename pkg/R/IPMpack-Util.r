@@ -624,8 +624,8 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		if (densDep) pEst <- min(nSeedlings/max(sum(seedsx),1),1) else pEst <- 1
 		
 		babies <- rnorm(ceiling(pEst*max(sum(seedsx),1)),mean.kids+b.year,sd.kids) 
-		#will end up with nrec babies at least 
-		if (length(babies)<nSeedlings) nSeedlings <- length(babies)
+		#will end up with nrec babies at least in density dependent case
+		if (length(babies)<nSeedlings & densDep) nSeedlings <- length(babies)
 		
 		#growth
 		sizeNext <- rnorm(length(sizes),ag+bg*sizes+cg.year,sig)
@@ -678,8 +678,10 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		if (length(sizes)==0) print("extinct")
 		
 		#thin out the population, it not density dependent 
-		if (t<startYr & length(sizes)>1000 & !densDep)
-				sizes <- sample(sizes,size=500, replace=FALSE)
+		if (t<(0.9*startYr) & length(sizes)>1000 & !densDep){
+				sizes <- sample(sizes,size=100, replace=FALSE)
+				print("culled")
+				}
 		
 		
 	}
@@ -694,10 +696,12 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			matVarYear=matVarYear,
 			nrec=nrec)
 	
-	colnames(dataf) <- c("size","sizeNext","surv","flower","fec",
-			"nSeedlings","year","cg.year","m.year","b.year","offspringNext")
-
+		
 	dataf <- data.frame(dataf,stringsAsFactors = FALSE)	
+
+	colnames(dataf) <- c("size","sizeNext","surv","flower","fec",
+			"year","nSeedlings","cg.year","m.year","b.year","offspringNext")
+	
 	dataf$size <- as.numeric(dataf$size)
 	dataf$sizeNext <- as.numeric(dataf$sizeNext)
 	dataf$surv <- as.numeric(dataf$surv)
