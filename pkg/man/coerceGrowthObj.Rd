@@ -11,7 +11,7 @@ supplied with a growth and survival object, over-writes coefficients, and for gr
 }
 \usage{
 
-coerceGrowthObj(growthObj,coeff,sd)
+coerceGrowthObj(growthObj, coeff, sd)
 coerceSurvObj(survObj,coeff)
 
 }
