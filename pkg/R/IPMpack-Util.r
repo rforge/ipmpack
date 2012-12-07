@@ -615,7 +615,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			fx <- 1*(logit(b0+bs*sizes)>runif(ns))
 			#fertility
 			seedsx <- exp(A+B*sizes)*fx*sx
-			seedsx[seedsx>0] <- rpois(sum(seedsx>0),seedsx[seedsx>0])
+			#seedsx[seedsx>0] <- rpois(sum(seedsx>0),seedsx[seedsx>0])
 		} else {
 			sx <- fx <- seedsx <- c()
 			print(c("extinct in year ", t))
@@ -623,7 +623,8 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		
 		if (densDep) pEst <- min(nSeedlings/max(sum(seedsx),1),1) else pEst <- 1
 		
-		babies <- rnorm(ceiling(pEst*max(sum(seedsx),1)),mean.kids+b.year,sd.kids) 
+		babies <- rnorm(ceiling(pEst*max(sum(seedsx,na.rm=TRUE),1)),
+				mean.kids+b.year,sd.kids) 
 		#will end up with nrec babies at least in density dependent case
 		if (length(babies)<nSeedlings & densDep) nSeedlings <- length(babies)
 		
@@ -637,9 +638,10 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		#storage
 		if (t>startYr) {
 			#print(t)
-			#print(count)
+			#don't 'do it at all if too big (so as not to do only adults, etc)
 			if ((count+length(sizes))>maxPop) { print("large pop size, breaking");break()}
-		
+			if ((count+length(sizes)+length(babies))>maxPop) { print("large pop size, breaking");break()}
+			
 			chs <- (count+1):(count+length(sizes))
 			dataf[chs,1] <- sizes
 			dataf[chs,2] <- sizeNext
@@ -654,9 +656,6 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			
 			count <- count + length(sizes)
 			
-							
-		    if ((count+length(babies))>maxPop) { print("large pop size, breaking");break()}
-
 			chs <- (count+1):(count+length(babies))
 			
 			dataf[chs,2] <- babies
@@ -679,7 +678,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		
 		#thin out the population, it not density dependent 
 		if (t<(0.9*startYr) & length(sizes)>1000 & !densDep){
-				sizes <- sample(sizes,size=100, replace=FALSE)
+				sizes <- sample(sizes,size=500, replace=FALSE)
 				print("culled")
 				}
 		
@@ -696,7 +695,8 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			matVarYear=matVarYear,
 			nrec=nrec)
 	
-		
+	dataf <- dataf[1:count,]
+	
 	dataf <- data.frame(dataf,stringsAsFactors = FALSE)	
 
 	colnames(dataf) <- c("size","sizeNext","surv","flower","fec",
