@@ -1231,9 +1231,9 @@ getListRegObjectsFec <- function(Obj,nsamp=1000) {
 coerceGrowthObj <- function(growthObj,coeff,sd){
 
 	if (length(growthObj@fit$coefficients) !=length(coeff)) print("warning: number of desired coefficients to not match number of growth object coefficients")
-	growthObj@fit$coefficients <- coeff
+	growthObj@fit$coefficients <- as.numeric(coeff)
 	
-	growthObj@sd <- sd
+	growthObj@sd <- as.numeric(sd)
 	
 	return(growthObj)
 }
@@ -1243,7 +1243,7 @@ coerceGrowthObj <- function(growthObj,coeff,sd){
 coerceSurvObj <- function(survObj,coeff){
 	
 	if (length(survObj@fit$coefficients) !=length(coeff)) print("warning: number of desired coefficients to not match number of growth object coefficients")
-	survObj@fit$coefficients <- coeff
+	survObj@fit$coefficients <- as.numeric(coeff)
 	
 	return(survObj)
 }
