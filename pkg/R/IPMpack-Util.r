@@ -625,6 +625,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		
 		babies <- rnorm(ceiling(pEst*max(sum(seedsx,na.rm=TRUE),1)),
 				mean.kids+b.year,sd.kids) 
+		#if (count>0) print(c("yr",t-startYr,pEst*max(sum(seedsx,na.rm=TRUE),1),length(babies)))
 		#will end up with nrec babies at least in density dependent case
 		if (length(babies)<nSeedlings & densDep) nSeedlings <- length(babies)
 		
@@ -658,6 +659,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			
 			chs <- (count+1):(count+length(babies))
 			
+			
 			dataf[chs,2] <- babies
 			dataf[chs,6] <- t
 			dataf[chs,7] <- nSeedlings
@@ -666,18 +668,22 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			dataf[chs,10] <- b.year
 			dataf[chs,11] <- "sexual"
 		
+			#print(chs)
+			#print(cbind(chs,dataf[chs,],babies))	
+			#print(dataf[chs,1:6])
+			
 			count <- count+length(babies) 	
 			} 
 		
-					
-		
+						
 		#new pop
 		#print(cbind(sizes,sx,fx))
+	    sizes <- sizeNext
 		sizes <- c(sizes[sx==1 & fx==0 & !is.na(fx)],babies)
 		if (length(sizes)==0) print("extinct")
 		
 		#thin out the population, it not density dependent 
-		if (t<(0.9*startYr) & length(sizes)>1000 & !densDep){
+		if (t<(0.8*startYr) & length(sizes)>1000 & !densDep){
 				sizes <- sample(sizes,size=500, replace=FALSE)
 				print("culled")
 				}
@@ -698,7 +704,8 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	dataf <- dataf[1:count,]
 	
 	dataf <- data.frame(dataf,stringsAsFactors = FALSE)	
-
+	#print(table(dataf[,6]))
+	
 	colnames(dataf) <- c("size","sizeNext","surv","flower","fec",
 			"year","nSeedlings","m.year","cg.year","b.year","offspringNext")
 	
@@ -712,6 +719,8 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	dataf$cg.year <- as.numeric(dataf$cg.year)
 	dataf$m.year <- as.numeric(dataf$m.year)
 	dataf$b.year <- as.numeric(dataf$b.year)	
+	
+	#print(table(dataf$year))
 	
 	dataf$fec[dataf$fec==0] <- NA
 	
@@ -730,9 +739,9 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	yr3 <- table(dataf$year[!is.na(dataf$sizeNext) & 
 							!is.na(dataf$offspringNext)])
 	
-	good.yrs <- intersect(as.numeric(as.character(names(yr1)[yr1>2])),
-			as.numeric(as.character(names(yr2))[yr2>2]))
-	good.yrs <- intersect(good.yrs,as.numeric(as.character(names(yr3)[yr3>2])))
+	good.yrs <- intersect(as.numeric(as.character(names(yr1)[yr1>1])),
+			as.numeric(as.character(names(yr2))[yr2>1]))
+	good.yrs <- intersect(good.yrs,as.numeric(as.character(names(yr3)[yr3>1])))
 	
 	return(is.element(dataf$year,good.yrs))
 }
