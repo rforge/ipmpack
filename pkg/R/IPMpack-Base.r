@@ -393,7 +393,7 @@ setMethod("growth",
 
 # growth for predicting next logincr with decline var
 setMethod("growth", 
-		c("numeric","numeric","data.frame","growthObjLogIncrDeclineVar"),
+		c("numeric", "numeric", "data.frame", "growthObjLogIncrDeclineVar"),
 		function(size,sizeNext,cov,growthObj){
 			newd <- data.frame(cbind(cov,size=size),
 					stringsAsFactors = FALSE)
@@ -405,36 +405,35 @@ setMethod("growth",
 			if (length(grep("logsize",
 							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
-			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
+			mux <- .predictMuX(grObj = growthObj, newData = newd, covPred = cov)
 			sigmax2 <- growthObj@fit$sigmax2
-			var.exp.coef<-growthObj@fit$var.exp.coef
-			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
+			var.exp.coef <- growthObj@fit$var.exp.coef
+			sigmax2 <- sigmax2 * exp(2 * (var.exp.coef * mux));
 			
-			u <- dlnorm(sizeNext-size,mux,sqrt(sigmax2),log=FALSE)  
+			u <- dlnorm(sizeNext - size, mux, sqrt(sigmax2), log = FALSE)  
 			return(u);
 		})
 
 # growth for predicting next logincr with decline var
 setMethod("growthCum", 
-		c("numeric","numeric","data.frame","growthObjLogIncrDeclineVar"),
-		function(size,sizeNext,cov,growthObj){
+		c("numeric", "numeric", "data.frame", "growthObjLogIncrDeclineVar"),
+		function(size, sizeNext, cov, growthObj){
 			
-			newd <- data.frame(cbind(cov,size=size),
+			newd <- data.frame(cbind(cov,size = size),
 					stringsAsFactors = FALSE)
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			
 			if (length(grep("expsize",
 							names(growthObj@fit$coefficients)))>0) newd$expsize <- exp(size)
-			if (length(grep("logsize",
-							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
+			if (length(grep("logsize", names(growthObj@fit$coefficients))) > 0) newd$logsize = log(size)
 			
-			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
+			mux <- .predictMuX(grObj = growthObj, newData=newd, covPred = cov)
 			sigmax2 <- growthObj@fit$sigmax2
-			var.exp.coef<-growthObj@fit$var.exp.coef
-			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
+			var.exp.coef <- growthObj@fit$var.exp.coef
+			sigmax2 <- sigmax2 * exp(2 * (var.exp.coef * mux));
 			
-			u <- plnorm(sizeNext-size,mux,sqrt(sigmax2),log=FALSE)  
+			u <- plnorm(sizeNext - size, mux, sqrt(sigmax2),log = FALSE)  
 			return(u);
 		})
 
@@ -518,16 +517,16 @@ setMethod("growthCum",
 # using pnorm (i.e. getting cumulative at boundary points and doing difference)
 setMethod("growthCum", 
 		c("numeric","numeric","data.frame","growthObjLogIncr"),
-		function(size,sizeNext,cov,growthObj){
+		function(size, sizeNext, cov, growthObj){
 			
 			newd <- data.frame(cbind(cov,size=size),
 					stringsAsFactors = FALSE)
 			newd$size2 <- size^2
 			newd$size3 <- size^3
 			if (length(grep("expsize",
-							growthObj@fit$formula))>0) newd$expsize <- exp(size)
+							names(growthObj@fit$coefficients)))>0) newd$expsize <- exp(size)
 			if (length(grep("logsize",
-							growthObj@fit$formula))>0) newd$logsize=log(size)
+							names(growthObj@fit$coefficients)))>0) newd$logsize=log(size)
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <-growthObj@sd
