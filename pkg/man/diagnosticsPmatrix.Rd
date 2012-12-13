@@ -8,7 +8,7 @@ Creates a series of diagnostic graphs for a P matrix.
  Displays the effects of increasing number of bins and continuous (size) stage range on a number of predictions from the P matrix to verify that sufficient resolution and continuous stage range are being used. 
 }
 \usage{
-diagnosticsPmatrix(Pmatrix, growObj, survObj, dff=NULL, integrateType, correction, cov = data.frame(covariate = 1), sizesToPlot = c(),extendSizeRange = c())
+diagnosticsPmatrix(Pmatrix, growObj, survObj, dff=NULL, integrateType, correction, cov = data.frame(covariate = 1), sizesToPlot = c(), extendSizeRange = c())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
