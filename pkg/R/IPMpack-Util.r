@@ -594,18 +594,19 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	dataf <-matrix(NA,maxPop,11)
 	
 	count <- 0
+
+	#stoch sims
+	tmp <- rmvnorm(nYrs,mean=meanYear,sigma=matVarYear)
 	
 	for (t in 1:nYrs) {
 		
 		#yr effects
 		nSeedlings <- sample(nrec,size=1,replace=FALSE)
-		#stoch sims
-		tmp <- rmvnorm(1,mean=meanYear,sigma=matVarYear)
 		#print(tmp)
 		
-		m.year <- tmp[1]
-		cg.year <- tmp[2]
-		b.year <- tmp[3]
+		m.year <- tmp[t,1]
+		cg.year <- tmp[t,2]
+		b.year <- tmp[t,3]
 		ns <- length(sizes)
 		
 		if (ns>0) { 
@@ -678,8 +679,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 						
 		#new pop
 		#print(cbind(sizes,sx,fx))
-	    sizes <- sizeNext
-		sizes <- c(sizes[sx==1 & fx==0 & !is.na(fx)],babies)
+		sizes <- c(sizeNext[sx==1 & fx==0 & !is.na(fx)],babies)
 		if (length(sizes)==0) print("extinct")
 		
 		#thin out the population, it not density dependent 
