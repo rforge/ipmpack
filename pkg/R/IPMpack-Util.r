@@ -681,13 +681,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		#print(cbind(sizes,sx,fx))
 		sizes <- c(sizeNext[sx==1 & fx==0 & !is.na(fx)],babies)
 		if (length(sizes)==0) print("extinct")
-		
-		#thin out the population, it not density dependent 
-		if (t<(0.8*startYr) & length(sizes)>1000 & !densDep){
-				sizes <- sample(sizes,size=500, replace=FALSE)
-				print("culled")
-				}
-		
+			
 		
 	}
 	
