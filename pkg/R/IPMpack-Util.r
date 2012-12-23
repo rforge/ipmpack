@@ -666,7 +666,9 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			dataf[chs,9] <- cg.year
 			dataf[chs,10] <- b.year
 			dataf[chs,11] <- "sexual"
-						
+			
+			count <- count + length(babies)
+			
 			} 
 		
 						
