@@ -695,7 +695,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	dataf <- data.frame(dataf,stringsAsFactors = FALSE)	
 	#print(table(dataf[,6]))
 	
-	trueGrow <- mean(log((n.per.yr[2:length(n.per.yr)]/n.per.yr[1:(length(n.per.yr)-1)])),na.rm=TRUE)  
+	trueGrow <- mean(log((n.per.yr[(startYr+1):length(n.per.yr)]/n.per.yr[(startYr):(length(n.per.yr)-1)])),na.rm=TRUE)  
 	st<-rep(NA,length(n.per.yr));for (j in 1:length(n.per.yr)) st[j] <- mean(log((n.per.yr[2:j]/n.per.yr[1:(j-1)])),na.rm=TRUE)
 	plot(st); abline(h=trueGrow)
 
