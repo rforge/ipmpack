@@ -578,10 +578,10 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		mean.kids=3.0,sd.kids=0.52,
 		meanYear=c(0,0,0),
 		matVarYear=matrix(c(1.34,0.1,0,0.1,0.04,0,0,0,0.01),3,3), 
-		densDep=TRUE,maxPop=1e7) {
+		densDep=TRUE,maxPop=1e7, sizes=c()) {
 		
 	#initiate and set up year index
-	sizes <- rnorm(nSamp,3,0.5)
+	if (length(sizes)==0) sizes <- rnorm(nSamp,3,0.5)
 	startYr <- (nYrs-nSampleYrs)
 	
 	#recruits
@@ -592,6 +592,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		
 	#set up dataframe
 	dataf <-matrix(NA,maxPop,11)
+	n.per.yr  <-  rep(NA,nYrs)
 	
 	count <- 0
 
@@ -603,17 +604,17 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		#yr effects
 		nSeedlings <- sample(nrec,size=1,replace=FALSE)
 		#print(tmp)
+		n.per.yr[t] <- length(sizes)
 		
 		m.year <- tmp[t,1]
 		cg.year <- tmp[t,2]
 		b.year <- tmp[t,3]
-		ns <- length(sizes)
 		
-		if (ns>0) { 
+		if (n.per.yr[t]>0) { 
 			#survival
-			sx <- 1*(logit(m0+ms*sizes+m.year)>runif(ns))
+			sx <- 1*(logit(m0+ms*sizes+m.year)>runif(n.per.yr[t]))
 			#flowering
-			fx <- 1*(logit(b0+bs*sizes)>runif(ns))
+			fx <- 1*(logit(b0+bs*sizes)>runif(n.per.yr[t]))
 			#fertility
 			seedsx <- exp(A+B*sizes)*fx*sx
 			#seedsx[seedsx>0] <- rpois(sum(seedsx>0),seedsx[seedsx>0])
@@ -657,10 +658,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			dataf[chs,10] <- b.year
 			
 			count <- count + length(sizes)
-			
 			chs <- (count+1):(count+length(babies))
-			
-			
 			dataf[chs,2] <- babies
 			dataf[chs,6] <- t
 			dataf[chs,7] <- nSeedlings
@@ -668,12 +666,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			dataf[chs,9] <- cg.year
 			dataf[chs,10] <- b.year
 			dataf[chs,11] <- "sexual"
-		
-			#print(chs)
-			#print(cbind(chs,dataf[chs,],babies))	
-			#print(dataf[chs,1:6])
-			
-			count <- count+length(babies) 	
+						
 			} 
 		
 						
@@ -700,6 +693,11 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	dataf <- data.frame(dataf,stringsAsFactors = FALSE)	
 	#print(table(dataf[,6]))
 	
+	trueGrow <- mean(log((n.per.yr[2:length(n.per.yr)]/n.per.yr[1:(length(n.per.yr)-1)])),na.rm=TRUE)  
+	st<-rep(NA,length(n.per.yr));for (j in 1:length(n.per.yr)) st[j] <- mean(log((n.per.yr[2:j]/n.per.yr[1:(j-1)])),na.rm=TRUE)
+	plot(st); abline(h=trueGrow)
+
+
 	colnames(dataf) <- c("size","sizeNext","surv","flower","fec",
 			"year","nSeedlings","m.year","cg.year","b.year","offspringNext")
 	
@@ -718,7 +716,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	
 	dataf$fec[dataf$fec==0] <- NA
 	
-	return(list(dataf=dataf,meanYear=meanYear,matVarYear=matVarYear,list.par=list.par))
+	return(list(dataf=dataf,meanYear=meanYear,matVarYear=matVarYear,list.par=list.par,trueGrow=trueGrow))
 	
 }
 

@@ -5,7 +5,7 @@
   Generates random data in the form used by IPMpack based on the population dynamics of Carlina vulgaris
 }
 \description{
-  Simulates growth, survival and fecundity and density dependent seedling establishment to create a dataframe of the form required by the functions and methods used in IPMpack. Demographic stage data is only continuous.  
+  Simulates growth, survival and fecundity and density dependent seedling establishment to create a dataframe of the form required by the functions and methods used in IPMpack. Demographic stage data is only continuous. Note that the number or rows corresponding to each year of the data-frame does not inform about population size, since rows exist that correspond to offspring appearing in the subsequent year. 
 }
 \usage{
 simulateCarlina(nSamp=2000,nYrs=1000,nSampleYrs=15,
@@ -72,6 +72,9 @@ density dependence in seedling establishment or not?
 	}
 \item{maxPop}{
 maxPop no measurements recorded at which to stop iterating - i.e. break the loop and return data up to that year
+	}
+\item{sizes}{
+starting sizes in the population (optional)
 	}
 
 
