@@ -10,7 +10,7 @@
 }
 \usage{
 makeGrowthObj(dataf, Formula = sizeNext ~ size, 
-	regType = "constantVar", Family = "gaussian",link=NULL)
+	regType = "constantVar", Family = "gaussian", link = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

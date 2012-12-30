@@ -433,7 +433,7 @@ setMethod("growthCum",
 			var.exp.coef <- growthObj@fit$var.exp.coef
 			sigmax2 <- sigmax2 * exp(2 * (var.exp.coef * mux));
 			
-			u <- plnorm(sizeNext - size, mux, sqrt(sigmax2),log = FALSE)  
+			u <- plnorm(sizeNext - size, mux, sqrt(sigmax2), log.p =  FALSE)  
 			return(u);
 		})
 
@@ -462,7 +462,7 @@ setMethod("growthCum",
 							growthObj@fit$formula))>0) newd$logsize=log(size)
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <-growthObj@sd
-			u <- pnorm(sizeNext,mux,sigmax,log=FALSE)  
+			u <- pnorm(sizeNext,mux,sigmax, log.p =FALSE)  
 			return(u);
 		})
 
@@ -483,7 +483,7 @@ setMethod("growthCum",
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <-growthObj@sd
-			u <- pnorm(sizeNext,size+mux,sigmax,log=FALSE)  
+			u <- pnorm(sizeNext,size+mux,sigmax, log.p =FALSE)  
 			return(u); 
 		})
 
@@ -530,7 +530,7 @@ setMethod("growthCum",
 			
 			mux <- predict(growthObj@fit,newd,type="response")
 			sigmax <-growthObj@sd
-			u <- plnorm(sizeNext-size,mux,sigmax,log=FALSE)  
+			u <- plnorm(sizeNext-size,mux,sigmax,log.p = FALSE)  
 			return(u);
 		})
 
@@ -555,7 +555,7 @@ setMethod("growthCum",
 			sigmax2 <- growthObj@fit$sigmax2
 			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
-			u <- pnorm(sizeNext,mux,sqrt(sigmax2),log=FALSE)  
+			u <- pnorm(sizeNext,mux,sqrt(sigmax2),log.p =FALSE)  
 			return(u);
 		})
 
@@ -624,7 +624,7 @@ setMethod("growth",
 			sigmax2 <- growthObj@fit$sigmax2
 			var.exp.coef<-growthObj@fit$var.exp.coef
 			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
-			u <- dnorm(sizeNext, size + mux, sqrt(sigmax2), log = FALSE)  
+			u <- dnorm(sizeNext, size + mux, sqrt(sigmax2), log =  FALSE)  
 			return(u);
 		})
 
@@ -634,7 +634,7 @@ setMethod("growth", c("numeric", "numeric", "data.frame", "growthObjHossfeld"),
 		function(size, sizeNext, cov, growthObj) { 
 			mux <- size+Hossfeld(size, growthObj@paras) 
 			sigmax <- growthObj@sd 
-			u <- dnorm(sizeNext, mux, sigmax, log = FALSE) 
+			u <- dnorm(sizeNext, mux, sigmax, log =  FALSE) 
 			return(u)
 		}) 
 
@@ -644,7 +644,7 @@ setMethod("growthCum", c("numeric", "numeric", "data.frame", "growthObjHossfeld"
 		function(size, sizeNext, cov, growthObj) { 
 			mux <- size+Hossfeld(size, growthObj@paras) 
 			sigmax <- growthObj@sd 
-			u <- pnorm(sizeNext, mux, sigmax, log = FALSE) 
+			u <- pnorm(sizeNext, mux, sigmax, log.p =  FALSE) 
 			return(u)
 		}) 
 

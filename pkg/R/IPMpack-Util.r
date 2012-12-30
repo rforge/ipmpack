@@ -1259,8 +1259,8 @@ coerceSurvObj <- function(survObj, coeff){
 #
 
 contourPlot <- function(M, meshpts, upper, lower, color) {
-	filled.contour(meshpts,meshpts,t(M), zlim=c(upper,lower),
-			xlab="Stage at time t", ylab="Stage at time t+1", color=color, nlevels=20, cex.lab=1.5);
+	filled.contour(meshpts, meshpts, t(M), zlim = c(upper, lower),
+			xlab = "Stage at time t", ylab = "Stage at time t+1", color.palette = color, nlevels = 20, cex.lab=1.5);
 	return(0);
 
 }

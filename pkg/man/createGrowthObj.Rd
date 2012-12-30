@@ -18,7 +18,7 @@ createSurvObj(Formula=surv~size, coeff=c(1,1))
 createFecObj(Formula=list(fec1~size,fec2~size+size2), 
 							coeff=list(c(1,1),c(1,1,1)),
 							Family = c("gaussian","binomial"),
-							Transform = c("log","none"),
+							Transform = c("log", "none"),
 							meanOffspringSize = NA, sdOffspringSize = NA, 
 							offspringSplitter = data.frame(continuous = 1), 
 							vitalRatesPerOffspringType = data.frame(NA), 

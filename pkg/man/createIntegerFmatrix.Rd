@@ -125,10 +125,10 @@ Pmatrix2 <- createIntegerPmatrix(growObj = go1, survObj = so, meshpoints = 1:101
 
 par(mfrow = c(1, 3), bty = "l")
 plot(d1$size, d1$sizeNext, xlab = "Stage at t", ylab = "Stage at t+1")
-points(1:100, predict(go@fit[[1]], newdata = data.frame(size = 1:100),
+points(1:100, predict(go2@fit[[1]], newdata = data.frame(size = 1:100),
 		type = "response"), type = "l", col = 2)
 
-image(Pmatrix2@meshpoints, Pmatrix@meshpoints, t(Pmatrix), 
+image(Pmatrix2@meshpoints, Pmatrix2@meshpoints, t(Pmatrix2), 
 	xlab = "Stage at t", 
 		ylab = "Stage at t+1")
 image(Fmatrix@meshpoints, Fmatrix@meshpoints, t(Fmatrix), 
@@ -136,7 +136,8 @@ image(Fmatrix@meshpoints, Fmatrix@meshpoints, t(Fmatrix),
 		ylab = "Stage at t+1")		
 
 #The following repeats the same approach, but with negative binomial instead of poisson for stage transitions
-go2 <- makeGrowthObj(dff, Family = "negbin")
+dff <- generateData()
+go2 <- makeGrowthObj(d1, Family = "negbin")
 Pmatrix2 <- createIntegerPmatrix(growObj = go2, survObj = so, meshpoints = 1:101, discreteTrans = 1)
 
 }

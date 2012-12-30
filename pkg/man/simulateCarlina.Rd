@@ -15,7 +15,8 @@ simulateCarlina(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		ag=1.13,bg=0.74,sig=sqrt(0.095),
 		mean.kids=3.0,sd.kids=0.52,
 		meanYear=c(0,0,0),
-		matVarYear=matrix(c(1.34,0.1,0,0.1,0.04,0,0,0,0.01),3,3),densDep=TRUE,maxPop=1e7)
+		matVarYear=matrix(c(1.34,0.1,0,0.1,0.04,0,0,0,0.01),3,3),densDep=TRUE,maxPop=1e7,
+		sizes = c())
 }
 \arguments{
 	\item{nSamp}{

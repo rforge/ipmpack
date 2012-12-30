@@ -118,7 +118,7 @@ makeGrowthObj <- function(dataf,
 			fit.here[[2]] <- fit$theta
 			fit.here[[3]] <- fit  
 		} else {
-			fit <- glm(Formula, data=dataf, family=Family,link=link)
+			fit <- glm(Formula, data=dataf, family=Family)
 			fit.here <- fit
 			#print("here")
 		}           
