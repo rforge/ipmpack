@@ -639,7 +639,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		sizeNext[sx==0 | fx==1] <- NA
 		
 		#storage
-		if (t>startYr) {
+		if (t > startYr) {
 			#print(t)
 			#don't 'do it at all if too big (so as not to do only adults, etc)
 			if ((count+length(sizes))>maxPop) { print("large pop size, breaking");break()}
