@@ -24,9 +24,7 @@ createFecObj(Formula=list(fec1~size,fec2~size+size2),
 							vitalRatesPerOffspringType = data.frame(NA), 
 							fecByDiscrete = data.frame(NA), 
 							offspringSizeExplanatoryVariables = "1",
-							fecConstants = data.frame(NA)){ 
-
-
+							fecConstants = data.frame(NA))
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
