@@ -19,15 +19,15 @@ contourPlot(M, meshpts, upper, lower, color)
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{M}{
-    a matrix of the type P matrix, F matrix, C matrix, the full IPM (= P + F + C), its sensitivity or elasticity. The function transposes the matrix internally so the user does not have to worry about having size in time t as the x axis and size in time t+1 as the y axis.
+    a matrix of the type P matrix, F matrix, C matrix, the full IPM (= P + F + C), its sensitivity or elasticity. The function transposes the matrix internally so the user does not have to worry about having size in time t as the x axis and size in time t+1 as the y axis.}
   \item{meshpts}{
     meshpoints of the kernel to be plotted.
   \item{upper}{
-    the highest value to be displayed in the "z" axis. If plotting the full IPM, it is recommended to set this value carefully so that the P matrix (which is constrained between 0 and 1) is not visually "lost" due to potentially high value of the F/C matrices (e.g., individuals may contribute to the population sexually/clonally with potentially very high values of recruits). Values of the kernel above the upper threshold color scheme default to white color.
+    the highest value to be displayed in the "z" axis. If plotting the full IPM, it is recommended to set this value carefully so that the P matrix (which is constrained between 0 and 1) is not visually "lost" due to potentially high value of the F/C matrices (e.g., individuals may contribute to the population sexually/clonally with potentially very high values of recruits). Values of the kernel above the upper threshold color scheme default to white color.}
   \item{lower}{
-    the lowest value to be displayed in the "z" axis. If plotting P, F, IPM, mesh-level sensitivity/elasticity values, it is recommended to set this value to 0 since those kernels are always non-negative. If using this function to display mesh-level LTRE differences, negative mesh-cells might be produced (e.g. depicting a negative effect of a treatment IPM relative to the control IPM in a specific region of the IPM, like in recruitment for instance) and thus the user is recommended to set the lowest negative value. Values of the kernel above the lower threshold color scheme default to white color
+    the lowest value to be displayed in the "z" axis. If plotting P, F, IPM, mesh-level sensitivity/elasticity values, it is recommended to set this value to 0 since those kernels are always non-negative. If using this function to display mesh-level LTRE differences, negative mesh-cells might be produced (e.g. depicting a negative effect of a treatment IPM relative to the control IPM in a specific region of the IPM, like in recruitment for instance) and thus the user is recommended to set the lowest negative value. Values of the kernel above the lower threshold color scheme default to white color}
   \item{color}{
-    color scheme with which to display the z values of the kernel. Options are extracted directly from the palette options available via the library "graphics", in function "filled.contour" and library "grDevices", in "palette". Options are: rainbow, heat.colors, terrain.colors, topo.colors and cm.colors.
+    color scheme with which to display the z values of the kernel. Options are extracted directly from the palette options available via the library "graphics", in function "filled.contour" and library "grDevices", in "palette". Options are: rainbow, heat.colors, terrain.colors, topo.colors and cm.colors.}
 }
 
 }
