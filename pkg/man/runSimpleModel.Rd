@@ -69,7 +69,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \examples{
-dff <- generateData()
-a1<-runSimpleModel(dataf=dff, chosenSize=3,do.plot=TRUE)
-names(a1)
+#dff <- generateData()
+#a1<-runSimpleModel(dataf=dff, chosenSize=3,do.plot=TRUE)
+#names(a1)
 }

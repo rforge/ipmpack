@@ -114,7 +114,8 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{generateDataStoch}},\code{\link{generateDataDiscrete}}
 }
 \examples{
-dff <- simulateCarlina(nSamp=1000)
-head(dff$dataf)
+#Uncomment to run
+#dff <- simulateCarlina(nSamp=1000)
+#head(dff$dataf)
 
 }
