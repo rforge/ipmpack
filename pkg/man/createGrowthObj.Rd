@@ -26,7 +26,9 @@ createFecObj(Formula=list(fec1~size,fec2~size+size2),
 							offspringSizeExplanatoryVariables = "1",
 							fecConstants = data.frame(NA))
 }
+
 %- maybe also 'usage' for other objects documented here.
+
 \arguments{
     \item{Formula}{an object of class formula for createGrowthObj or createSurvObj, or a list of formulas for createFecObj}
     \item{coeff}{a numeric vector of length the number of coefficients

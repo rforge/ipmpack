@@ -12,6 +12,7 @@ Produces a graph with the smooth kernel and associated value label.
 \description{
   Outputs a graph with a smoothed surface of the IPM kernel or other chosen matrix. This graph also contains a label for values of changes on stage conditional on survival and per-capita sexual/clonal contributions. This function is applicable to the different components of the IPM separately (i.e. Pmatrix, Fmatrix, C matrix) or to the kernel of the sensitivity and elasticity IPM. This function can also be applied with lifecycles with discrete stages (e.g. seedbank in "hyperDataCovSubset") but the user must be careful with the interpretation of perturbation analyses between discrete and continuous stages since they are logically on a different scale.
 }
+
 \usage{
 contourPlot(M, meshpts, upper, lower, color)
 }
