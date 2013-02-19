@@ -549,13 +549,6 @@ makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10,
 
 
 
-### check variance of mortality
-#mean(c(2.31,0.83,3.50,1.28,-0.16,-0.75,0.63,0.87,1.66,2.39,0.92,0.19,1.04,1.84,3.10,2.28))
-#var(c(2.31,0.83,3.50,1.28,-0.16,-0.75,0.63,0.87,1.66,2.39,0.92,0.19,1.04,1.84,3.10,2.28))
-### check variance of growth
-#mean(c(1.43,1.43,0.85,1.25,1.15,1.22,1.07,0.81,0.98,1.02,0.89,1.27,1.08,1.3,1.4,1.03))
-#var(c(1.43,1.43,0.85,1.25,1.15,1.22,1.07,0.81,0.98,1.02,0.89,1.27,1.08,1.3,1.4,1.03))
-
 ### simulation Carlina ######################################################
 
 ## Function to simulate something a bit like Carlina
@@ -566,19 +559,21 @@ makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10,
 #             - ... bunch of parameters
 #             - meanYear - means for year effects
 #             - matVarYear - variance covariances for year effects
+#             - densDep - model density dependence in seedling establishment or not
 #
 # Returns - list including dataf - data-frame of data
 #                                - various of the simulation parameters for convenience
-
-simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
+#
+#    PARAMETERS FROM TABLE 2 IN REES AND ELLNER 2009
+simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 		m0=-1.37,ms=0.59,
 		b0=-12.05,bs=3.64,
 		A=-1,B=2,
-		ag=1.13,bg=0.74,sig=sqrt(0.095),
-		mean.kids=3.0,sd.kids=0.52,
+		ag=1.14,bg=0.74,sig=0.29,
+		mean.kids=3.16,sd.kids=0.5,
 		meanYear=c(0,0,0),
-		matVarYear=matrix(c(1.34,0.1,0,0.1,0.04,0,0,0,0.01),3,3), 
-		densDep=TRUE,maxPop=1e7, sizes=c()) {
+		matVarYear=matrix(c(1.03,0,0,0,0.037,0.041,0,0.041,0.075),3,3), 
+		densDep=TRUE,maxPerYr=1000,maxStoreSeedlingsPerYr=200,sizes=c()) {
 		
 	#initiate and set up year index
 	if (length(sizes)==0) sizes <- rnorm(nSamp,3,0.5)
@@ -591,8 +586,10 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	totpl <- c(21,57,47,25,25,33,88,94,97,26,85,80,122,175,160,10,6,189)
 		
 	#set up dataframe
-	dataf <-matrix(NA,maxPop,11)
+	dataf <-matrix(NA,(maxPerYr+maxStoreSeedlingsPerYr)*nYrs,11)
+	maxPop <- nrow(dataf)
 	n.per.yr  <-  rep(NA,nYrs)
+	trueGrow <- rep(NA,nYrs)	
 	
 	count <- 0
 
@@ -605,7 +602,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 		nSeedlings <- sample(nrec,size=1,replace=FALSE)
 		#print(tmp)
 		n.per.yr[t] <- length(sizes)
-		
+
 		m.year <- tmp[t,1]
 		cg.year <- tmp[t,2]
 		b.year <- tmp[t,3]
@@ -623,7 +620,7 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			print(c("extinct in year ", t))
 		}
 		
-		if (densDep) pEst <- min(nSeedlings/max(sum(seedsx),1),1) else pEst <- 1
+		if (densDep) pEst <- min(nSeedlings/max(sum(seedsx, na.rm=TRUE),1),1) else pEst <- 1
 		
 		babies <- rnorm(ceiling(pEst*max(sum(seedsx,na.rm=TRUE),1)),
 				mean.kids+b.year,sd.kids) 
@@ -658,8 +655,11 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			dataf[chs,10] <- b.year
 			
 			count <- count + length(sizes)
-			chs <- (count+1):(count+length(babies))
-			dataf[chs,2] <- babies
+			
+			nbabes.store <- min(length(babies),maxStoreSeedlingsPerYr)
+			chs <- (count+1):(count+nbabes.store)
+			
+			dataf[chs,2] <- babies[1:nbabes.store]
 			dataf[chs,6] <- t
 			dataf[chs,7] <- nSeedlings
 			dataf[chs,8] <- m.year
@@ -671,18 +671,16 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 						
 			} 
 		
-
-			
+						
 			#new pop - i.e. those that grew, survive, and didn't flower; as well as babies
 			sizes <- c(sizeNext[sx==1 & fx==0 & !is.na(fx)],babies)
 			if (length(sizes)==0) print("extinct")
 
 			#get true growth rate 
-			n.last <- length(sizes)
-			trueGrow[t] <- log(length(sizes)/n.last)
+			trueGrow[t] <- log(length(sizes)/n.per.yr[t])
 			
 			#cull size at t t down to 1000, if not density dependent
-			if (!densDep) sizes <- sample(size,size=1000, replace=TRUE)
+			if (!densDep) sizes <- sample(sizes,size=maxPerYr, replace=TRUE)
 
 	}
 	
@@ -700,12 +698,11 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	
 	dataf <- data.frame(dataf,stringsAsFactors = FALSE)	
 	#print(table(dataf[,6]))
-	
+
+	#plot(cumsum(trueGrow[startYr:nYrs])/(1:length(trueGrow[startYr:nYrs])),type="l")
 	trueGrow <- mean(trueGrow[startYr:nYrs],na.rm=TRUE)  
-#	st<-rep(NA,length(n.per.yr));for (j in 1:length(n.per.yr)) st[j] <- mean(log((n.per.yr[2:j]/n.per.yr[1:(j-1)])),na.rm=TRUE)
-#	plot(st); abline(h=trueGrow)
-
-
+	#abline(h=trueGrow)
+	
 	colnames(dataf) <- c("size","sizeNext","surv","flower","fec",
 			"year","nSeedlings","m.year","cg.year","b.year","offspringNext")
 	
