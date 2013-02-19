@@ -656,6 +656,8 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 			
 			count <- count + length(sizes)
 			
+			print(lenth(sizes))	
+			
 			nbabes.store <- min(length(babies),maxStoreSeedlingsPerYr)
 			chs <- (count+1):(count+nbabes.store)
 			
@@ -667,8 +669,10 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 			dataf[chs,10] <- b.year
 			dataf[chs,11] <- "sexual"
 			
-			count <- count + length(babies)
-						
+			count <- count + nbabes.store
+					
+			print(nbabes.store)	
+			
 			} 
 		
 						
