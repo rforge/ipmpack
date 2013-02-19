@@ -668,16 +668,22 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 			dataf[chs,11] <- "sexual"
 			
 			count <- count + length(babies)
-			
+						
 			} 
 		
-						
-		#new pop
-		#print(cbind(sizes,sx,fx))
-		sizes <- c(sizeNext[sx==1 & fx==0 & !is.na(fx)],babies)
-		if (length(sizes)==0) print("extinct")
+
 			
-		
+			#new pop - i.e. those that grew, survive, and didn't flower; as well as babies
+			sizes <- c(sizeNext[sx==1 & fx==0 & !is.na(fx)],babies)
+			if (length(sizes)==0) print("extinct")
+
+			#get true growth rate 
+			n.last <- length(sizes)
+			trueGrow[t] <- log(length(sizes)/n.last)
+			
+			#cull size at t t down to 1000, if not density dependent
+			if (!densDep) sizes <- sample(size,size=1000, replace=TRUE)
+
 	}
 	
 	
@@ -695,9 +701,9 @@ simulateCarlina <- function(nSamp=2000,nYrs=1000,nSampleYrs=15,
 	dataf <- data.frame(dataf,stringsAsFactors = FALSE)	
 	#print(table(dataf[,6]))
 	
-	trueGrow <- mean(log((n.per.yr[(startYr+1):length(n.per.yr)]/n.per.yr[(startYr):(length(n.per.yr)-1)])),na.rm=TRUE)  
-	st<-rep(NA,length(n.per.yr));for (j in 1:length(n.per.yr)) st[j] <- mean(log((n.per.yr[2:j]/n.per.yr[1:(j-1)])),na.rm=TRUE)
-	plot(st); abline(h=trueGrow)
+	trueGrow <- mean(trueGrow[startYr:nYrs],na.rm=TRUE)  
+#	st<-rep(NA,length(n.per.yr));for (j in 1:length(n.per.yr)) st[j] <- mean(log((n.per.yr[2:j]/n.per.yr[1:(j-1)])),na.rm=TRUE)
+#	plot(st); abline(h=trueGrow)
 
 
 	colnames(dataf) <- c("size","sizeNext","surv","flower","fec",
