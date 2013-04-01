@@ -1537,7 +1537,7 @@ createIPMCmatrix <- function(clonalObj,
 			chosenCov=chosenCov,
 			integrateType=integrateType,
 			correction=correction, 
-			preCensus=preCenus,
+			preCensus=preCensus,
 			survObj=survObj,
 			growObj=growObj)
 	
