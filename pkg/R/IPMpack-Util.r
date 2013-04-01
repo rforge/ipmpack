@@ -806,26 +806,6 @@ plotResultsStochStruct <- function(tVals,st,covTest,nRunIn=15,log="y",...) {
 }
 
 
-# Function to coerce a general matrix pop model
-# into my IPM form
-#
-# Parameters - a matrix
-#
-# Returns an object of class "IPMmatrix"
-#
-coerceMatrixIPM <- function(amat) {
-	
-	newmat <- as(amat,"IPMmatrix")
-	newmat@nEnvClass <- 1
-	newmat@nBigMatrix <- length(newmat[1,])
-	newmat@meshpoints <- 1:newmat@nBigMatrix
-	newmat@env.index <- 1
-	
-	return(newmat)
-	
-}
-
-
 
 
 # makeCovDf creates a dataframe of size variables for prediction
