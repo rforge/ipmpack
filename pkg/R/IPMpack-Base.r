@@ -1524,7 +1524,10 @@ createIPMCmatrix <- function(clonalObj,
 		maxSize = 50,
 		chosenCov = data.frame(covariate=1),
 		integrateType="midpoint",
-		correction="none") {
+		correction="none", 
+		preCensus=TRUE,
+		survObj=NULL,
+		growObj=NULL) {
 	
 	rc <- createIPMFmatrix(fecObj=clonalObj,
 			nEnvClass=nEnvClass,
@@ -1533,7 +1536,10 @@ createIPMCmatrix <- function(clonalObj,
 			maxSize=maxSize,
 			chosenCov=chosenCov,
 			integrateType=integrateType,
-			correction=correction)
+			correction=correction, 
+			preCensus=preCenus,
+			survObj=survObj,
+			growObj=growObj)
 	
 	return(rc)
 }
