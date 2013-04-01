@@ -43,12 +43,12 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 }
 \examples{
-dff <- generateDataDiscrete()
+dff <- generateData(type="discrete")
 discTrans <- makeDiscreteTrans(dff)
 createIPMPmatrix(nBigMatrix = 10, growObj = makeGrowthObj(dff), 
 	survObj = makeSurvObj(dff), discreteTrans = discTrans)
 	
-# Often some data needed for makeDiscreteTrans are not available as individual records in your data file. For instance the fate of seeds in the seedbank of the generateDataDiscrete() example:
+# Often some data needed for makeDiscreteTrans are not available as individual records in your data file. For instance the fate of seeds in the seedbank of the generateData(type="discrete") example:
 dff<-generateData()
 # Now the transition matrix needs to be entered as an argument, as well as the mean and sd of sizeNext values for discrete to continuous transitions. 
 discTrans <- makeDiscreteTrans(dff,

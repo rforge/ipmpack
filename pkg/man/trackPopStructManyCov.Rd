@@ -76,7 +76,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 ### NOT RUN ####
 
 # Generate relevant data, build objects
-#dff <- generateDataStoch()
+#dff <- generateData(type="stochastic")
 #print(head(dff))
 #gr1 <- makeGrowthObj(dff, Formula = sizeNext~size+size2+covariate1)
 #sv1 <- makeSurvObj(dff, Formula = surv~size+size2+covariate2)

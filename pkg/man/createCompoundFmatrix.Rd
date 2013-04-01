@@ -103,7 +103,7 @@ abline(h = length(Fmatrix@meshpoints)*(1:Fmatrix@nEnvClass))
 abline(v = length(Fmatrix@meshpoints)*(1:Fmatrix@nEnvClass))
 
 # Data with continuous and discrete stages
-dff <- generateDataDiscrete()
+dff <- generateData(type="discrete")
 dff$fec[dff$fec==0] <- NA
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)

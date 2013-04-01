@@ -402,7 +402,7 @@ this variability for complex life cycles (Ellner \& Rees $2006$). To illustrate
 using discrete stages in an IPM, we generate data that includes
 both discrete and continuous life-history stages:
 <<>>= 
-dff <- generateDataDiscrete()
+dff <- generateData(type="discrete")
 @ 
 A quick check indicates that these data contain several types of stage classification (and not just "continuous" as seen up till now):
 <<>>= 
@@ -591,7 +591,7 @@ number of time steps to run, and should be large enough that increasing it does 
 An alternative way of inhabiting stochastic environments is to experience continuously changing covariates (rather than moving between discrete states, as the above describes). In this case, rather than building a single megamatrix, desired variables are obtained by multiplying up a suite of matrices and relying on the weak
 ergodic theorem for convergence (e.g., Tuljapurkar 1990; as described for obtaining $\lambda_s$, above). IPMpack contains code to do this. The user must first define a new data frame containing several time-varying covariates, and then, build the associated survival, growth and fertility objects (note that the default in IPMpack is to assume that if you have a covariate called "coviariate", your aim is to build a compound matrix, so ideally other covariates should have other names): 
 <<>>= 
-dff <- generateDataStoch()
+dff <- generateData(type="stochastic")
 sv1 <- makeSurvObj(dataf = dff, 
                           Formula = surv~size+covariate1+covariate3)
 gr1 <- makeGrowthObj(dataf = dff, 

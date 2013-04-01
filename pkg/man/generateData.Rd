@@ -8,27 +8,39 @@
   Simulates growth, survival and fecundity to create a dataframe of the form required by the functions and methods used in IPMpack. Demographic stage data is only continuous.
 }
 \usage{
-generateData(nSamp=1000)
+generateData(nSamp=1000, type="simple")
 }
 \arguments{
 	\item{nSamp}{
 		number of samples desired in the base population, defaults to 1000
 	}
+	\item{type}{
+		what kind of simulated data is required - supported values include "simple" (which includes only a continuous stage and a discretely varying covariate); "discrete" (which includes a discretely varying life stage); and "stochastic" (which includes stochastically varying covariates)
+	}
+	
+	
 }
 %- maybe also 'usage' for other objects documented here.
 \details{
-Note that the random data created includes only one discrete covariate structuring the population (e.g., habitat type [shaded, open], age [0, 1, 2, 3 years old...], time since fire [0, 1, 2, 3 years...], etc); user can include into the data frame additional discrete covariates if necessary. To include continuous covariates (e.g., precipitation, temperature, light incidence, hurricane recurrence interval, etc) in randomized data, refer to generateDataStoch(). For randomized datasets with complex life cycles that include discrete stages (e.g., seedbank), refer to generateDataDiscrete().
+
 }
 \value{
   A dataframe with headings:
   	- "size": continuous variable, indicating current size.
   	- "sizeNext" continuous variable, indicating size in the next time step.
   	- "surv": boolean, indicating whether individual survived or not to the next time step.
-  	- "covariate": discrete covariate.
-  	- "covariateNext": discrete covariate in the next
+  	- "covariate": discrete covariate (for type="simple").
+  	- "covariateNext": discrete covariate in the next (for type="simple")
   time step.
+    - "covariate1", "covariate2", "covariate3", ...: discrete or continuous covariates (for type="stochastic".
+  
   	- "fec": continuous variable, indicating fecundity.
-}
+     - "stage": character vector, containing names of the discrete stages in that time-step, or "continuous" (for type="discrete").
+     - "stageNext": character vector, containing names of the "discrete" stages in the following time-step, or "continuous" size value  (for type="discrete").
+     - "number": number of individuals moving between stages. "number" = 1 for all movements out of the "continuous" stage; "number" > 1 for all movements out of "discrete" stages. This allows the user to not need to have an individual line for every movement between discrete stages (for type="discrete").
+     
+     
+     }
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
@@ -36,10 +48,16 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{generateDataStoch}},\code{\link{generateDataDiscrete}}
+
 }
 \examples{
-dff <- generateData(nSamp=2000)
+dff <- generateData(nSamp=2000, type="simple")
+head(dff)
+
+dff <- generateData(nSamp=2000, type="discrete")
+head(dff)
+
+dff <- generateData(nSamp=2000, type="stochastic")
 head(dff)
 
 }

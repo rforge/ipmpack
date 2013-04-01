@@ -58,7 +58,7 @@ xlab = "Continuous (e.g. size) stage", type = "l", col="dark gray",
 ylim = c(0,max(meanLifeExpect(Pmatrix))))
 
 # With continuous (e.g. size) and discrete (e.g. seedbank) stages:
-dff <- generateDataDiscrete()
+dff <- generateData(type="discrete")
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 discM <- makeDiscreteTrans(dff)

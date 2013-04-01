@@ -116,7 +116,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{generateDataStoch}},\code{\link{generateDataDiscrete}}
+\code{\link{generateData}}
 }
 \examples{
 #Uncomment to run

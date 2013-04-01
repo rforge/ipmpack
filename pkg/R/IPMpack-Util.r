@@ -398,7 +398,8 @@ makeEnvObj <- function(dataf){
 # size, sizeNext, surv, covariate, covariateNext, fec,
 #
 #
-generateData <- function(nSamp=1000){
+generateData <- function(nSamp=1000, type="simple"){
+	if (type=="simple"){
 	covariate <- sample(0:1, size=nSamp, replace=TRUE, prob = c(0.2, 0.8))
 	covariateNext <- sample(0:1, size=nSamp, replace=TRUE, prob = c(0.8, 0.2))
 	size <- rnorm(nSamp,5,2)
@@ -422,6 +423,15 @@ generateData <- function(nSamp=1000){
 	
 	dataf$sizeNext[dataf$surv==0] <- NA
 	
+	}
+	
+	if (type=="discrete") dataf <-.generateDataDiscrete(nSamp=nSamp)	
+	if (type=="stochastic") dataf <-.generateDataStoch(nSamp=nSamp)	
+	
+	if (type!="simple" & type!="stochastic" & type!="discrete"){
+		stop("unsupported type: supported types include simple, stochastic, or discrete")
+	}
+	
 	return(dataf)
 }
 
@@ -433,18 +443,18 @@ generateData <- function(nSamp=1000){
 #  "dormant" "seedAge1"   "seedOld" 
 #
 # 
-generateDataDiscrete <- function(){
-	size <- rnorm(1000,5,2)
-	sizeNext <- 1+0.8*size+rnorm(1000,0,1)
-	surv <- rbinom(1000,1,logit(-1+0.2*size))
+.generateDataDiscrete <- function(nSamp=1000){
+	size <- rnorm(nSamp,5,2)
+	sizeNext <- 1+0.8*size+rnorm(nSamp,0,1)
+	surv <- rbinom(nSamp,1,logit(-1+0.2*size))
 	sizeNext[surv==0] <- NA
 	fec <- rnorm(length(size),exp(-7+0.9*size),1)
 	fec[size<quantile(size,0.20) | fec<0] <- 0
-	stage <- rep("continuous",1000)
-	stageNext <- rep("continuous",1000)
+	stage <- rep("continuous",nSamp)
+	stageNext <- rep("continuous",nSamp)
 	sizeNext[surv==0] <- NA
 	stageNext[surv==0] <- c("dead")
-	number <- rep(1,1000)
+	number <- rep(1,nSamp)
 	become.dormant <- which(rank(size)%in%sample(rank(size),50,prob=surv*fec))
 	sizeNext[become.dormant] <- NA; stageNext[become.dormant] <- c("dormant")
 	were.dormant <- which(rank(sizeNext)%in%sample(rank(sizeNext),50,prob=surv*fec))
@@ -452,7 +462,8 @@ generateDataDiscrete <- function(){
 	dataf <- rbind(data.frame(size=size,sizeNext=sizeNext,surv=surv,
 					fec=fec,stage=stage,stageNext=stageNext,number=number),
 			data.frame(size=NA,sizeNext=NA,surv=rep(c(1,0),2),fec=0,
-					stage=rep(c("seedAge1","seedOld"),each=2),stageNext=rep(c("seedOld","dead"),2),
+					stage=rep(c("seedAge1","seedOld"),each=2),
+					stageNext=rep(c("seedOld","dead"),2),
 					number=c(202,220,115,121)),
 			data.frame(size=NA,sizeNext=rnorm(113,3,2),surv=1,fec=0,
 					stage=c(rep("seedAge1",33),rep("seedOld",30),rep(NA,50)),
@@ -467,12 +478,12 @@ generateDataDiscrete <- function(){
 # size, sizeNext, surv, fec, stage, stageNext number
 #
 # 
-generateDataStoch <- function(){
-	covariate1 <- rnorm(1000)
-	covariate2 <- rnorm(1000)
-	covariate3 <- rnorm(1000)
-	size <- rnorm(1000,5,2)
-	sizeNext <- 1+0.9*size+3*covariate1+0.01*covariate2+0.2*covariate3+rnorm(1000,0,0.1)
+.generateDataStoch <- function(nSamp=1000){
+	covariate1 <- rnorm(nSamp)
+	covariate2 <- rnorm(nSamp)
+	covariate3 <- rnorm(nSamp)
+	size <- rnorm(nSamp,5,2)
+	sizeNext <- 1+0.9*size+3*covariate1+0.01*covariate2+0.2*covariate3+rnorm(nSamp,0,0.1)
 	
 	fec <- surv <- rep(NA, length(size))
 	surv[!is.na(size)] <- rbinom(sum(!is.na(size)),1,logit(-1+0.2*size[!is.na(size)]))
@@ -480,7 +491,7 @@ generateDataStoch <- function(){
 	fec[size<quantile(size,0.20,na.rm=TRUE) | fec<0] <- 0
 	fec <- 10*fec
 	
-	seedlings <- sample(1:1000,size=100,replace=TRUE)
+	seedlings <- sample(1:nSamp,size=100,replace=TRUE)
 	size[seedlings] <- NA; 
 	sizeNext[seedlings] <- rnorm(100,-2,0.1)
 	surv[seedlings] <- 1
@@ -488,7 +499,7 @@ generateDataStoch <- function(){
 	pfec <- 1*(runif(length(size))<logit(size+covariate1)); #print(pfec)
 	fec[pfec==0] <- 0
 	#fill in stage
-	stage <- stageNext <- rep("continuous",1000)
+	stage <- stageNext <- rep("continuous",nSamp)
 	stage[is.na(size)] <- NA
 	stageNext[is.na(sizeNext)] <- "dead"
 	

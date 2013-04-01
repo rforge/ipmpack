@@ -59,7 +59,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 }
 \examples{
-dff <- generateDataDiscrete()
+dff <- generateData(type="discrete")
 dff$fec[dff$fec==0] <- NA
 dff$size <- pmax(floor(dff$size+10),0)
 dff$sizeNext <- pmax(floor(dff$sizeNext+10),0)

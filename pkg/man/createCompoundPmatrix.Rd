@@ -101,7 +101,7 @@ abline(h = length(Pmatrix@meshpoints) * (1:Pmatrix@nEnvClass))
 abline(v = length(Pmatrix@meshpoints) * (1:Pmatrix@nEnvClass))
 
 # Data with continuous and discrete stages
-dff <- generateDataDiscrete()
+dff <- generateData(type="discrete")
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 discM <- makeDiscreteTrans(dff)
