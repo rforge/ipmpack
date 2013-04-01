@@ -773,97 +773,6 @@ convertIncrement <- function(dataf, nYrs=1) {
 	
 }
 
-## Function to run all analyses with simplest model
-## fits for a dataf object
-#
-# Parameters - dataf - dataframe with right headings, i.e. size, sizeNext, surv
-#            - chosenSize - size for which passage time desired
-#            - minSize - lower limit for IPM - defaults to fraction of smallest observed 
-#            - maxSize - upper limit for IPM - default to produce of largest observed
-#            - nBigMatrix - numerical resolution of IPM - defaults to 500
-#            - do.log - is data on a log scale? (for plotting) - default is TRUE
-#            - do.plot - figures desired? - default is TRUE
-#
-# Returns - list including LE - Life Expectancy
-#                          pTime - passage time to chosen size
-#                          Pmatrix - Pmatrix
-#                          growObj -
-#                          survObj - survival object
-#
-runSimpleModel <- function(dataf,
-		chosenSize,
-		minSize=c(),
-		maxSize=c(),
-		nBigMatrix=500,
-		do.plot=TRUE,
-		is.log=TRUE,
-		integrateType="midpoint", correction="none") {
-	
-	# set up IPM limits if not defined
-	if (length(minSize)==0) {
-		if (min(dataf$size,na.rm=TRUE)<0) minSize <- 2*min(dataf$size,na.rm=TRUE) else minSize <- 0.5*min(dataf$size,na.rm=TRUE)}
-	if (length(maxSize)==0) maxSize <- 1.5*max(dataf$size,na.rm=TRUE)
-	
-	# Make necessary objects - here using simplest polynomials
-	sv1 <- makeSurvObj(dataf)
-	gr1 <- makeGrowthObj(dataf)
-	
-	#print(gr1)
-	
-	# Establish function for plotting 
-	if (is.log) {
-		conv <- function(x) return(exp(x)) 
-		xrange <- range(exp(dataf$size),na.rm=TRUE)
-		xrange[1] <- max(xrange[1],exp(minSize))
-		xrange[2] <- min(xrange[2],exp(maxSize))
-		axes <- "x"
-	} else {
-		conv <- function(x) return(x)
-		xrange <- range(dataf$size,na.rm=TRUE)
-		xrange[1] <- max(xrange[1],minSize)
-		xrange[2] <- min(xrange[2],maxSize)
-		axes <- ""
-	}
-	
-	# Plot data and fitted models corresponding to these objects, if do.plot is TRUE
-	if (do.plot) { 
-		par(mfrow=c(3,2),bty="l")    
-		#growth
-		p1 <- picGrow(dataf,gr1)
-		#survival
-		p2 <- picSurv(dataf,sv1,ncuts=50)
-	}
-	
-	# Make IPM Pmatrix with these objects, and chosen size range, and resolution (nBigMatrix)
-	tmp <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, maxSize = maxSize,
-			growObj = gr1, survObj = sv1,integrateType=integrateType, correction=correction)
-	
-	# Get the mean life expect from every size value in IPM
-	LE <- meanLifeExpect(tmp)
-	varLE <- varLifeExpect(tmp); #print(varLE)
-	if (do.plot) { 
-		plot(conv(tmp@meshpoints), LE,type = "l",xlab = "Size", ylab = "Mean life expectancy",log=axes,
-				xlim=xrange, main="Life expectancy", ylim=range(c(pmax((LE-(sqrt(varLE))),0), (LE+(sqrt(varLE)))))) 
-		points(conv(tmp@meshpoints), pmax((LE-(sqrt(varLE))),0),type="l",lty=3)
-		points(conv(tmp@meshpoints), (LE+(sqrt(varLE))),type="l",lty=3)
-	}
-	
-	# Get the passage time to the targeted size class
-	pTime <- passageTime(chosenSize,tmp); #print(pTime)
-	if (do.plot) { 
-		plot(conv(tmp@meshpoints),pTime,type = "l",xlab = "Size at start",log=axes,
-				ylab = "Time to reach chosen size",ylim=range(pTime[tmp@meshpoints<chosenSize],na.rm=TRUE),
-				xlim=conv(range(tmp@meshpoints[tmp@meshpoints<chosenSize],na.rm=TRUE)), main="Time to reach particular size")
-		abline(v = conv(chosenSize),col = 2) #show the target size in red
-	}
-	
-	
-	
-	
-	return(list(pTime=pTime,LE=LE,Pmatrix=tmp,growObj=gr1, survObj=sv1))
-}
-
-
 
 
 # Function to plot the results of a stochastic simulation
@@ -917,79 +826,7 @@ coerceMatrixIPM <- function(amat) {
 }
 
 
-# Function to build a discrete Pmatrix, with the same slots as an IPMmatrix
-# provided with bins and the usual type of data-frame (columns size, sizeNext, surv)
-#
-# Parameters - dataf - a dataframe
-#            - bins - the lower and upper edge of desired bins
-#            - nEnv - the environment level (currently just defaults)
-#
-# Returns - an object of class IPMmatrix with dim length(bins)*length(bins) containing
-#         - survival transitions
-#
-createMPMPmatrix <- function(dataf, bins, nEnv=1) {
-	
-	loc.now <- findInterval(dataf$size[!is.na(dataf$size) & !is.na(dataf$sizeNext)],bins)+1
-	loc.next <- findInterval(dataf$sizeNext[!is.na(dataf$size) & !is.na(dataf$sizeNext)],bins)+1    
-	
-	nbins <- max(c(loc.next,loc.now))
-	
-	MPM <- matrix(0,nbins,nbins)
-	MPM[,] <- table(loc.next,loc.now)
-	MPM <- t(t(MPM)/as.numeric(table(loc.now)))
-	
-	rc <- new("IPMmatrix",
-			nEnvClass = 1, 
-			nBigMatrix = nbins,
-			nrow = 1*nbins,
-			ncol =1*nbins,
-			meshpoints = 1:nbins,
-			env.index = rep(1:nEnv, each=nbins))
-	
-	rc[,] <- MPM  
-	
-	return(rc)
-}
 
-# Function to build a usual discrete Fmatrix, with the same slots as an IPMmatrix
-# provided with bins and the usual type of data-frame
-#
-# Parameters - dataf - a dataframe
-#            - bins - the lower and upper edge of desired bins
-#            - p.est - probability of seed establishment
-#            - nEnv - the environment level (currently just defaults)
-#
-# Returns - an object of class IPMmatrix with dim length(bins)*length(bins) containing
-#         - fecundity transitions
-#
-# ! assumes no relationship between adult size class and their baby's size class
-#
-
-createMPMFmatrix <- function(dataf, bins,offspringClasses=1, offspringProp=1, nEnv=1) {
-	
-	loc.now <- findInterval(dataf$size[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],bins)+1
-	n.now <- sapply(split(dataf$fec[dataf$fec>0 & !is.na(dataf$size) & !is.na(dataf$fec)],loc.now),median)
-	
-	nbins <- max(loc.now); 
-	#print(nbins)
-	
-	offspringProp <- offspringProp/sum(offspringProp)
-	
-	MPM <- matrix(0,nbins,nbins)
-	for (j in 1:length(offspringClasses)) MPM[offspringClasses[j],as.numeric(names(n.now))] <-  offspringProp[j]*n.now
-	
-	rc <- new("IPMmatrix",
-			nEnvClass = 1, 
-			nBigMatrix = nbins,
-			nrow = 1*nbins,
-			ncol =1*nbins,
-			meshpoints = 1:nbins,
-			env.index = rep(1:nEnv, each=nbins))
-	
-	rc[,] <- MPM  
-	
-	return(rc)
-}
 
 # makeCovDf creates a dataframe of size variables for prediction
 # TODO: make able to use 'covariates'
@@ -1256,19 +1093,5 @@ coerceSurvObj <- function(survObj, coeff){
 	survObj@fit$coefficients[] <- as.numeric(coeff)
 	
 	return(survObj)
-}
-
-
-# Function to graph smoothed contour plots on the kernels, sensitivities and elasticities compare model fits for growth and survival objects built with different linear combinations of covariates. 
-#
-#
-# Returns - a graph with the label for values of changes in stage condition on survival and per-capital sexual/clonal contributions.
-#
-
-contourPlot <- function(M, meshpts, upper, lower, color) {
-	filled.contour(meshpts, meshpts, t(M), zlim = c(upper, lower),
-			xlab = "Stage at time t", ylab = "Stage at time t+1", color.palette = color, nlevels = 20, cex.lab=1.5);
-	return(0);
-
 }
 

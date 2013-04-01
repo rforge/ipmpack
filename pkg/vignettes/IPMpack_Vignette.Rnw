@@ -316,8 +316,7 @@ abline(v = mean(dff$size, na.rm = TRUE), col = 2)  #show the target size in red
 \caption{Associated Life Expectancy and Passage Time}
 \label{fig:three}
 \end{figure}
-The function {\tt runSimpleModel} takes as minimum arguments a data frame and a
-target size (i.e., here type: {\tt runSimpleModel(dff, chosenSize = 4)}) and runs this analysis to create figures for survival, growth, life expectancy and passage time as shown so far, assuming the simplest possible models of survival and growth (basic linear and logistic regressions, no covariates except for size, etc).
+
 
 If the user defines a fertility object - which, for instance, is not always easy with for example trees - IPMpack can also create a transition matrix describing movement between sizes attributable to fertility.
 <<>>= 
