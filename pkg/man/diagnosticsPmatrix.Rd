@@ -69,7 +69,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createIPMPmatrix}}, \code{\link{convergeLambda}}
+\code{\link{createIPMPmatrix}}, \code{\link{convergeIPM}}
 }
 \examples{
 # Example where mesh size does not have a major effect on model output:

@@ -1830,7 +1830,40 @@ diagnosticsPmatrix <- function (Pmatrix, growObj, survObj, dff=NULL,
 #####
 
 
-convergeLambda<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
+convergeIPM<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
+		discreteTrans = 1, integrateType = "midpoint", correction = "none", 
+		preCensus = TRUE, tol=1e-4,
+		binIncrease=5, chosenBin=1, response="lambda"){
+	
+	if (response=="lambda") 
+		rc <- .convergeLambda(growObj=growObj, survObj=survObj, fecObj=fecObj, 
+				nBigMatrix=nBigMatrix, minSize=minSize, maxSize=maxSize, 
+				discreteTrans =discreteTrans, integrateType = integrateType, 
+				correction = correction, preCensus = preCensus,
+				tol=tol,binIncrease=binIncrease)
+			
+	if (response=="R0")	
+		rc <- .convergeR0(growObj=growObj, survObj=survObj, fecObj=fecObj, 
+				nBigMatrix=nBigMatrix, minSize=minSize, maxSize=maxSize, 
+				discreteTrans =discreteTrans, integrateType = integrateType, 
+				correction = correction, preCensus = preCensus,
+				tol=tol,binIncrease=binIncrease)
+			
+	if (response=="lifeExpect")	
+		rc <- .convergeLifeExpectancy(growObj=growObj, survObj=survObj, 
+			nBigMatrix=nBigMatrix, minSize=minSize, maxSize=maxSize, 
+			discreteTrans =discreteTrans, integrateType = integrateType, 
+			correction = correction, 
+			tol=tol,binIncrease=binIncrease, chosenBin=chosenBin)
+
+
+	return(rc)
+
+}
+	
+	
+	
+.convergeLambda<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
 		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, tol=1e-4,binIncrease=5){
 	
 	lambda.new<-1000
@@ -1869,7 +1902,7 @@ convergeLambda<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 
 
 
-convergeR0<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
+.convergeR0<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
 		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, tol=1e-4,binIncrease=5){
 	
 	R0.new<-1000
@@ -1908,16 +1941,15 @@ convergeR0<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 
 
 
-convergeLifeExpectancyFirstBin<-function(growObj, survObj,nBigMatrix, minSize, maxSize, 
+.convergeLifeExpectancy <- function(growObj, survObj,nBigMatrix, minSize, maxSize, 
 		discreteTrans = 1, integrateType = "midpoint", correction = "none", 
-		tol=1e-1,binIncrease=5){
+		tol=1e-1,binIncrease=5, chosenBin=1){
 	
 	LE.new<-1000
 	delta<-1000
 	
 	print(paste(c("delta: ","new LE:", "New number of grid points:"),collapse=""))
-	
-	
+		
 	while(delta>tol) {
 		LE.old <- LE.new
 		nBigMatrix <- nBigMatrix + binIncrease
@@ -1928,51 +1960,18 @@ convergeLifeExpectancyFirstBin<-function(growObj, survObj,nBigMatrix, minSize, m
 		
 		LE.new <- meanLifeExpect(Pmatrix)    
 		
-		delta <- abs(LE.new[1]-LE.old[1])
-		print(paste(c( delta, LE.new[1],nBigMatrix),collapse=" "))
+		delta <- abs(LE.new[chosenBin]-LE.old[chosenBin])
+		print(paste(c( delta, LE.new[chosenBin],nBigMatrix),collapse=" "))
 	}
 	
-	print(c("Final life expectancy of first bin from iteration:",LE.new[1]))
+	print(c("Final life expectancy of chosen bin from iteration:",LE.new[1]))
 	print(c("Number of bins:",nBigMatrix))
 	
-	output<-list(nBigMatrix = nBigMatrix, binIncrease=binIncrease,Pmatrix=Pmatrix,LE=LE.new)
+	output<-list(nBigMatrix = nBigMatrix,
+			binIncrease=binIncrease,Pmatrix=Pmatrix,LE=LE.new)
 	
 	return(output)
 }
-
-
-convergeLifeExpectancyLastBin<-function(growObj, survObj,nBigMatrix, minSize, maxSize, 
-		discreteTrans = 1, integrateType = "midpoint", correction = "none", 
-		tol=1e-1,binIncrease=5){
-	
-	LE.new<-1000
-	delta<-1000
-	
-	print(paste(c("delta: ","new LE:", "New number of grid points:"),collapse=""))
-	
-	while(delta>tol) {
-		LE.old <- LE.new
-		nBigMatrix <- nBigMatrix + binIncrease
-		Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-				maxSize = maxSize, growObj = growObj, survObj = survObj, 
-				discreteTrans = discreteTrans, integrateType = integrateType, 
-				correction = correction)
-		
-		LE.new <- meanLifeExpect(Pmatrix)    
-		
-		delta <- abs(LE.new[length(LE.new)]-LE.old[length(LE.old)])
-		print(paste(c( delta, LE.new[length(LE.new)],nBigMatrix),collapse=" "))
-		
-	}
-	
-	print(c("Final life expectancy of last bin from iteration:",LE.new[length(LE.old)]))
-	print(c("Number of bins:",nBigMatrix))
-	
-	output<-list(nBigMatrix = nBigMatrix,binIncrease=binIncrease,Pmatrix=Pmatrix,LE=LE.new)
-	
-	return(output)
-}
-
 
 
 
