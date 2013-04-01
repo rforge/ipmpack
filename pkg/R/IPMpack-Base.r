@@ -2485,7 +2485,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 	if (!is.null(clonalObj)) {
 		Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-				integrateType = integrateType, correction = correction)
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus, survObj = survObj, growObj = growObj)
 	} else {Cmatrix <- Pmatrix*0 }
 	
 	IPM <- Pmatrix + Fmatrix + Cmatrix
@@ -2514,7 +2515,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 		if (!is.null(clonalObj)) {
 			Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 					chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-					integrateType = integrateType, correction = correction)
+					integrateType = integrateType, correction = correction,
+					preCensus = preCensus, survObj = survObj, growObj = growObj)
 		} 
 		
 		IPM <- Pmatrix + Fmatrix + Cmatrix
@@ -2547,7 +2549,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 		if (!is.null(clonalObj)) {
 			Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 					chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-					integrateType = integrateType, correction = correction)
+					integrateType = integrateType, correction = correction,
+					preCensus = preCensus, survObj = survObj, growObj = growObj)
 		}
 		
 		IPM <- Pmatrix + Fmatrix + Cmatrix
@@ -2577,7 +2580,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 	if (!is.null(clonalObj)) {
 		Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-				integrateType = integrateType, correction = correction)
+				integrateType = integrateType, correction = correction,
+				preCensus = preCensus, survObj = survObj, growObj = growObj)
 	}
 	IPM <- Pmatrix + Fmatrix + Cmatrix
 	
@@ -2609,7 +2613,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				if (!is.null(clonalObj)) {
 					Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 							chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-							integrateType = integrateType, correction = correction)
+							integrateType = integrateType, correction = correction,
+							preCensus = preCensus, survObj = survObj, growObj = growObj)
 				}
 				IPM <- Pmatrix + Fmatrix + Cmatrix
 				
@@ -2641,7 +2646,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				if (!is.null(clonalObj)) {
 					Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 							chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-							integrateType = integrateType, correction = correction)
+							integrateType = integrateType, correction = correction,
+							preCensus = preCensus, survObj = survObj, growObj = growObj)
 				}
 				IPM <- Pmatrix + Fmatrix + Cmatrix
 				
@@ -2672,7 +2678,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 			if (!is.null(clonalObj)) {
 				Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 						chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-						integrateType = integrateType, correction = correction)
+						integrateType = integrateType, correction = correction,
+						preCensus = preCensus, survObj = survObj, growObj = growObj)
 			}
 			IPM <- Pmatrix + Fmatrix + Cmatrix
 			
@@ -2702,7 +2709,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 			if (!is.null(clonalObj)) {
 				Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 						chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-						integrateType = integrateType, correction = correction)
+						integrateType = integrateType, correction = correction,
+						preCensus = preCensus, survObj = survObj, growObj = growObj)
 			}
 			IPM <- Pmatrix + Fmatrix + Cmatrix
 			
@@ -2732,7 +2740,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 			if (!is.null(clonalObj)) {
 				Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 						chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-						integrateType = integrateType, correction = correction)
+						integrateType = integrateType, correction = correction,
+						preCensus = preCensus, survObj = survObj, growObj = growObj)
 			}
 			IPM <- Pmatrix + Fmatrix + Cmatrix
 			
@@ -2766,7 +2775,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				if (!is.null(clonalObj)) {
 					Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 							chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-							integrateType = integrateType, correction = correction)
+							integrateType = integrateType, correction = correction,
+							preCensus = preCensus, survObj = survObj, growObj = growObj)
 				}
 				
 				IPM <- Pmatrix + Fmatrix + Cmatrix
@@ -2799,7 +2809,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				if (!is.null(clonalObj)) {
 					Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 							chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-							integrateType = integrateType, correction = correction)
+							integrateType = integrateType, correction = correction,
+							preCensus = preCensus, survObj = survObj, growObj = growObj)
 				}
 				
 				IPM <- Pmatrix + Fmatrix + Cmatrix
@@ -2831,7 +2842,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				if (!is.null(clonalObj)) {
 					Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 							chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-							integrateType = integrateType, correction = correction)
+							integrateType = integrateType, correction = correction,
+							preCensus = preCensus, survObj = survObj, growObj = growObj)
 				}
 				
 				IPM <- Pmatrix + Fmatrix + Cmatrix
@@ -2864,7 +2876,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				if (!is.null(clonalObj)) {
 					Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 							chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-							integrateType = integrateType, correction = correction)
+							integrateType = integrateType, correction = correction,
+							preCensus = preCensus, survObj = survObj, growObj = growObj)
 				}
 				
 				IPM <- Pmatrix + Fmatrix + Cmatrix
@@ -2896,7 +2909,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				if (!is.null(clonalObj)) {
 					Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 							chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-							integrateType = integrateType, correction = correction)
+							integrateType = integrateType, correction = correction,
+							preCensus = preCensus, survObj = survObj, growObj = growObj)
 				}
 				
 				IPM <- Pmatrix + Fmatrix + Cmatrix
@@ -2924,7 +2938,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 			if (!is.null(clonalObj)) {
 				Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 						chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-						integrateType = integrateType, correction = correction)
+						integrateType = integrateType, correction = correction,
+						preCensus = preCensus, survObj = survObj, growObj = growObj)
 			}
 			
 			IPM <- Pmatrix + Fmatrix + Cmatrix
@@ -2941,7 +2956,7 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 		}
 	}
 	
-	# 5. Clonality
+# 5. Clonality
 	if (!is.null(clonalObj)) {
 		for (i in 1:length(clonalObj@fitFec)) {
 			for (j in 1:length(clonalObj@fitFec[[i]]$coefficients)) {
@@ -2960,7 +2975,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				}
 				Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 						chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-						integrateType = integrateType, correction = correction)
+						integrateType = integrateType, correction = correction,
+						preCensus = preCensus, survObj = survObj, growObj = growObj)
 				
 				IPM <- Pmatrix + Fmatrix + Cmatrix
 				
@@ -2993,7 +3009,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				}
 				Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 						chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-						integrateType = integrateType, correction = correction)
+						integrateType = integrateType, correction = correction,
+						preCensus = preCensus, survObj = survObj, growObj = growObj)
 				
 				IPM <- Pmatrix + Fmatrix + Cmatrix
 				
@@ -3025,7 +3042,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				}
 				Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 						chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-						integrateType = integrateType, correction = correction)
+						integrateType = integrateType, correction = correction,
+						preCensus = preCensus, survObj = survObj, growObj = growObj)
 				
 				IPM <- Pmatrix + Fmatrix + Cmatrix
 				
@@ -3058,7 +3076,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				}
 				Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 						chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-						integrateType = integrateType, correction = correction)
+						integrateType = integrateType, correction = correction,
+						preCensus = preCensus, survObj = survObj, growObj = growObj)
 				
 				IPM <- Pmatrix + Fmatrix + Cmatrix
 				
@@ -3090,7 +3109,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				}
 				Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 						chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-						integrateType = integrateType, correction = correction)
+						integrateType = integrateType, correction = correction,
+						preCensus = preCensus, survObj = survObj, growObj = growObj)
 				
 				IPM <- Pmatrix + Fmatrix + Cmatrix
 				
@@ -3119,7 +3139,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 			}
 			Cmatrix <- createIPMCmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 					chosenCov = chosenCov, maxSize = maxSize, clonalObj = clonalObj,
-					integrateType = integrateType, correction = correction)
+					integrateType = integrateType, correction = correction,
+					preCensus = preCensus, survObj = survObj, growObj = growObj)
 			
 			IPM <- Pmatrix + Fmatrix + Cmatrix
 			
