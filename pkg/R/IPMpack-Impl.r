@@ -1114,22 +1114,6 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE,
 
 
 
-## Function to convert class linear regression for increment
-## to truncIncrement
-convertGrowthObjIncrTruncObj <- function(growthObj){
-	if (class(growthObj)!="growthObjIncr") print("This function only make sense for an object of class growthObjIncr")
-	
-	gr2 <- new("growthObjTruncIncr")
-	gr2@fit$coefficients <- growthObj@fit$coefficients
-	gr2@fit$sigmax2 <- growthObj@sd^2
-	gr2@fit$sigma <- growthObj@sd
-	
-	return(gr2)
-	
-}
-
-
-
 ### new functions createGrowhtObj and createSurvObj which will make up their own data
 
 createGrowthObj <- function(Formula=sizeNext~size, coeff=c(1,1), sd=1){ 

@@ -95,13 +95,6 @@ Pmatrix <- createIPMPmatrix(nBigMatrix = 10, minSize = min(dff$size, na.rm = TRU
 diagnosticsPmatrix(Pmatrix, growObj = makeGrowthObj(dff), 
 	survObj = makeSurvObj(dff), dff = dff, integrateType = "cumul")
 
-#with truncated increment (fit is quite bad, lots of loss from integration)
-gr <- makeGrowthObj(dff,Formula=incr ~size )
-gr1 <- convertGrowthObjIncrTruncObj(gr)
-Pmatrix <- createIPMPmatrix(nBigMatrix = 30, minSize = min(dff$size, na.rm = TRUE), 
-	maxSize = max(dff$size, na.rm = TRUE), growObj = gr1, 
-		survObj = makeSurvObj(dff), integrateType = "midpoint")
-diagnosticsPmatrix(Pmatrix, growObj = gr1, survObj = makeSurvObj(dff), dff = dff)
 
 #with log increment
 Pmatrix <- createIPMPmatrix(nBigMatrix = 50, minSize = min(dff$size, na.rm = TRUE), 

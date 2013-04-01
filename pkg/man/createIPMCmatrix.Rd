@@ -12,7 +12,8 @@ clonal reproduction can be handled.
 }
 \usage{
 createIPMCmatrix(clonalObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 
-	maxSize = 50, chosenCov = data.frame(covariate=1), integrateType="midpoint", correction="none")
+	maxSize = 50, chosenCov = data.frame(covariate=1), integrateType="midpoint", 
+	correction="none",preCensus = TRUE, survObj = NULL, growObj = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -44,6 +45,28 @@ createIPMCmatrix(clonalObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1,
   \item{correction}{
   	correction type, defaults to \code{none}. The first option is \code{constant} which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for total fertility at that size. The second option is \code{discretizeExtremes} which will place all transitions to sizes smaller than \code{minSize} into the smallest bin, and transitions to sizes larger than \code{maxSize} into the largest bin.  
    }
+   \item{preCensus}{
+    logical (TRUE or FALSE), indicating whether the fecundity object should
+    represent an interval between pre-breeding or a post-breeding censusses.
+    defaults to TRUE (pre-breeding census), meaning that all reproduction 
+    and offspring rates required for the F matrix are embedded in fecObj. 
+    Alternatively, an F matrix based on post-breeding census (preCensus=FALSE)
+    requires additional survObj and growObj, to cover the survival and growth
+    of the parents until the reproduction event. 
+  }
+  \item{survObj}{
+    survival object, describing the survival of parents from a census until 
+    the reproduction event starts (at some point during the inter-census time 
+    step). If preCensus = FALSE but no survival object is provided, it is assumed
+    that all individuals survive to the breeding event.  
+  }
+  \item{growObj}{
+    growth object, describing the growth of parents that survive until the 
+    reproduction event starts. Warning: this growth object is still ignored in 
+    createIPMFmatrix in the current version of IPMpack. It will become functional 
+    in coming versions. So far it is assumed that at time of breeding the individuals 
+    have the same size as at the beginning of the time interval.  
+  }
  
 }
 \value{
