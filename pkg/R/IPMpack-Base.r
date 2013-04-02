@@ -3607,5 +3607,89 @@ elas<-function(A) {
 
 
 
+## FUNCTIONS TO BE DEPRECATED ############################
+
+createIPMFmatrix <- function(fecObj,
+		nEnvClass = 1,
+		nBigMatrix = 50,
+		minSize = -1,
+		maxSize = 50,
+		chosenCov = data.frame(covariate=1),
+		integrateType="midpoint",
+		correction="none",
+		preCensus=TRUE,
+		survObj=NULL,
+		growObj=NULL) {
+	
+	print("warning: deprecated! use makeIPMFmatrix instead")
+	
+ rc <- makeIPMFmatrix(fecObj=fecObj,
+		 nEnvClass = nEnvClass,
+		 nBigMatrix = nBigMatrix,
+		 minSize = minSize,
+		 maxSize = maxSize,
+		 chosenCov = chosenCov,
+		 integrateType=integrateType,
+		 correction=correction,
+		 preCensus=preCensus,
+		 survObj=survObj,
+		 growObj=growObj)
+	 
+	 return(rc)
+
+}
+
+
+createIPMCmatrix <- function(clonalObj,
+		nEnvClass = 1,
+		nBigMatrix = 50,
+		minSize = -1,
+		maxSize = 50,
+		chosenCov = data.frame(covariate=1),
+		integrateType="midpoint",
+		correction="none",
+		preCensus=TRUE,
+		survObj=NULL,
+		growObj=NULL) {
+	
+	print("warning: deprecated! use makeIPMCmatrix instead")
+	
+	rc <- makeIPMFmatrix(fecObj=clonalObj,
+			nEnvClass = nEnvClass,
+			nBigMatrix = nBigMatrix,
+			minSize = minSize,
+			maxSize = maxSize,
+			chosenCov = chosenCov,
+			integrateType=integrateType,
+			correction=correction,
+			preCensus=preCensus,
+			survObj=survObj,
+			growObj=growObj)
+		
+		return(rc)
+	
+}
+
+
+
+createIPMPmatrix <- function (nEnvClass = 1, 
+		nBigMatrix = 50, minSize = -1, maxSize = 50, 
+		chosenCov = data.frame(covariate = 1), growObj, survObj, 
+		discreteTrans = 1, integrateType = "midpoint", correction = "none") {
+	
+	print("warning: deprecated! use makeIPMPmatrix instead")
+	
+	rc <- makeIPMPmatrix(nEnvClass = nEnvClass,
+			nBigMatrix = nBigMatrix,
+			minSize = minSize,
+			maxSize = maxSize,
+			chosenCov = chosenCov,
+			integrateType=integrateType,
+			correction=correction)
+	
+	return(rc)
+}
+
+
 
 
