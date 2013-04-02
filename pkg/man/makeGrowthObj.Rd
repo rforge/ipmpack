@@ -1,16 +1,14 @@
 \name{makeGrowthObj}
 \alias{makeGrowthObj}
 
-\title{Functions to build growth objects for constant environments, or
-  discretely varying environments}
+\title{Function to build growth objects }
 \description{
   A function that fits regressions that define growth (following next size,
-  size increment, or log size increment) and from these build growth objects for which methods to build an IPM
-  object are defined.
+  size increment, or log size increment) and from these build growth objects for which methods to build an IPM object are defined; alternatively, the function creates growth objects following a specified formula with specified coefficients and sd.
 }
 \usage{
-makeGrowthObj(dataf, Formula = sizeNext ~ size, 
-	regType = "constantVar", Family = "gaussian", link = NULL)
+makeGrowthObj(dataf=NULL, Formula = sizeNext ~ size, 
+	regType = "constantVar", Family = "gaussian", link = NULL, coeff=NULL,sd=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -31,7 +29,9 @@ makeGrowthObj(dataf, Formula = sizeNext ~ size,
   \item{regType}{possible values include `constantVar' or `declineVar'}
   \item{Family}{possible values include `gaussian', `poisson', `negbin'}
    \item{link}{defaults to NULL, currently only relevant with Family="negbin", and only "log" and "identity" are permitted}
-  
+   \item{coeff}{numeric vector of required coefficients to be imposed if dataf is NULL; must be compatible with Formula}
+   \item{sd}{numeric of required sd to be imposed if dataf is NULL}
+     
   }
 \value{
 An object of class growthObj, or growthObjPois, growthObjIncr, or growthObjLogIncr;
@@ -45,7 +45,7 @@ Slots can be listed by using slotNames(growthObj)
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \note{
-See manual for details on building case-specific growth objects; which may contain different slots, etc.  
+See manual for details on building case-specific growth objects. Note that DeclineVar objects cannot currently be constructed without a data-frame.   
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -70,6 +70,10 @@ picGrow(dff,gr1)
 #with declining increment
 (gr1 <- makeGrowthObj(dataf = dff, Formula = incr ~ size + covariate, 
 	regType = "declineVar"))
+
+#now specifying parameters and supplying no data
+gr1 <- makeGrowthObj(Formula = incr ~ size + covariate,coeff=c(1,1,1),sd=1)
+
 
 
 }

@@ -6,9 +6,8 @@
   Function to build fecundity objects 
 }
 \description{
- Allows a series of different glms to be fit all on the way to fecundity, e.g., probability of flowering, number of flower heads produced, etc; as well as fecundity into different discrete classes.  
-  
-}
+ Allows a series of different glms to be fit all on the way to fecundity, e.g., probability of flowering, number of flower heads produced, etc; as well as fecundity into different discrete classes.  Alternatively, the function creates fecundity objects following a specified list of formulas with specified corresponding list of coefficients. 
+  }
 \usage{
 
 makeFecObj(dataf, fecConstants=data.frame(NA),
@@ -16,7 +15,7 @@ makeFecObj(dataf, fecConstants=data.frame(NA),
 		Transform="none",meanOffspringSize=NA,
 		sdOffspringSize=NA,offspringSplitter=data.frame(continuous=1),
 		vitalRatesPerOffspringType=data.frame(NA),fecByDiscrete=data.frame(NA),
-		offspringSizeExplanatoryVariables="1")
+		offspringSizeExplanatoryVariables="1", coeff=NULL)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -37,7 +36,8 @@ makeFecObj(dataf, fecConstants=data.frame(NA),
     discrete class ; defaults to 0. If specified, ALL discrete classes MUST appear in alphabetical order, 
     so NO "continuous". e.g. fecByDiscrete=data.frame(dormant=0,seedAge1=4.2,seedOld=0)}    
   \item{offspringSizeExplanatoryVariables}{a character defining the relationship defining offspring size; the default is "1", indicating simply fitting a mean and a variance; alternatives would including defining offspring size as a function of maternal size (i.e., offspringSizeExplanatoryVariables="size") or more complex polynomials of size (i.e., offspringSizeExplanatoryVariables="size+size2"). The corresponding relationship is fitted to the data contained in dataf, taking as the response variable the column "sizeNext" in dataf for rows where the column "offspringNext" is equal to "sexual" and the column "stageNext" is equal to "continuous". }  
-     
+    \item{coeff}{list of numeric vector of required coefficients to be imposed if dataf is NULL for each element of the Formula list in order; must be compatible with Formula}
+       
 }
   
 \details{
@@ -66,4 +66,12 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff <- generateData(type="discrete")
 fv1 <- makeFecObj(dff, offspringSplitter = data.frame(continuous = 0.2, seedAge1 = 0.8),
 	fecByDiscrete = data.frame(dormant = 0, seedAge1 = 4.2, seedOld = 0))
+
+#now without any data, imposing desired cofficients
+fv1 <- makeFecObj(Formula=list(Fec~size),
+				offspringSplitter = data.frame(continuous = 0.2, seedAge1 = 0.8),
+				fecByDiscrete = data.frame(dormant = 0, seedAge1 = 4.2, seedOld = 0), 
+				coeff=list(c(1,1)), meanOffspringSize=1,sdOffspringSize=1)
+				
+
 }

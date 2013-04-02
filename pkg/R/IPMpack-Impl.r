@@ -322,7 +322,7 @@ makeSurvObj <- function(dataf=NULL,
 # 3. fecundity models  #######################################################################################################
 
 
-makeFecObj <- function(dataf,
+makeFecObj <- function(dataf=NULL,
 		fecConstants=data.frame(NA),
 		Formula=list(fec~size),
 		Family="gaussian",
@@ -332,8 +332,11 @@ makeFecObj <- function(dataf,
 		offspringSplitter=data.frame(continuous=1),
 		vitalRatesPerOffspringType=data.frame(NA),
 		fecByDiscrete=data.frame(NA),
-		offspringSizeExplanatoryVariables="1"){
+		offspringSizeExplanatoryVariables="1", 
+		coeff=NULL){
 	
+	
+	if (!is.null(dataf)) { 
 	
 	#make sure Formula is a formula or a list of formulas
 	if (class(Formula)=="list") {
@@ -464,6 +467,29 @@ makeFecObj <- function(dataf,
 	f1@vitalRatesPerOffspringType <- vitalRatesPerOffspringType 
 	f1@fecByDiscrete <- fecByDiscrete
 	f1@Transform <- Transform
+	
+	} else {
+		
+	if (is.null(coeff)) stop("require coefficients if data is not supplied")
+	if (is.na(meanOffspringSize) | is.na(sdOffspringSize)) stop("require meanOffspringSize and sdOffspringSize if data is not supplied")
+	
+
+	
+	f1 <- .createFecObj(Formula=Formula, 
+							coeff=coeff,
+							Family = Family,
+							Transform = Transform,
+							meanOffspringSize = meanOffspringSize, 
+							sdOffspringSize = sdOffspringSize, 
+							offspringSplitter = offspringSplitter, 
+							vitalRatesPerOffspringType = vitalRatesPerOffspringType, 
+							fecByDiscrete = fecByDiscrete, 
+							offspringSizeExplanatoryVariables = offspringSizeExplanatoryVariables,
+							fecConstants = fecConstants) 
+	
+		
+	}
+	
 	return(f1)
 }
 
@@ -753,7 +779,7 @@ makeDiscreteTrans <- function(dataf,
 #            - nitt - the total number of iterations
 #
 # Returns - list including list of growth objects, + list of survival objects
-makePostGrowthObjs <- function(dataf,
+.makePostGrowthObjs <- function(dataf,
 		explanatoryVariables = "size+size2+covariate",
 		responseType = "sizeNext",
 		meanB=rep(0,3), varB = rep(1e10), burnin = 3000, nitt = 50000) {
@@ -838,7 +864,7 @@ makePostGrowthObjs <- function(dataf,
 #            - nitt - the total number of iterations
 #
 # Returns - list including list of growth objects, + list of survival objects
-makePostSurvivalObjs <- function(dataf,
+.makePostSurvivalObjs <- function(dataf,
 		explanatoryVariables="size+size2",
 		meanB = rep(0, 3), varB=rep(1e10),burnin=3000, nitt = 50000) {
 	
@@ -903,7 +929,7 @@ makePostSurvivalObjs <- function(dataf,
 #            - nitt - the total number of iterations
 #
 # Returns - list including list of growth objects, + list of survival objects
-makePostFecObjs <- function(dataf,
+.makePostFecObjs <- function(dataf,
 		fecConstants=data.frame(NA),fecNames=NA,
 		explanatoryVariables="size",
 		Family="gaussian",
@@ -1207,7 +1233,11 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE,
 							fecConstants = data.frame(NA)){ 
 	var.names <- c()
 	fecNames <- rep(NA,length(Formula))
+	
+
 	for (j in 1:length(Formula)) { 
+		
+		
 		fecNames[j] <- all.vars(Formula[[j]])[1]
 		var.names.here <- all.vars(Formula[[j]])
 		
@@ -1218,14 +1248,14 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE,
 	}
 	
 	var.names <- unique(var.names)
-	
+		
 	#build a data-frame with all the right variables
 	dataf<- as.data.frame(matrix(rnorm(3*length(var.names)),3,length(var.names)))
 	colnames(dataf) <- var.names
 	dataf$surv <- sample(c(0,1),nrow(dataf), replace=TRUE)
-	
-	dataf[,fecNames[which(Transform=="log")]] <- pmax(dataf[,fecNames[which(Transform=="log")]],1)
-	dataf[,fecNames[which(Family=="binomial")]] <- rbinom(nrow(dataf),1,0.5)
+		
+	if (sum(Transform=="log")>0) dataf[,fecNames[which(Transform=="log")]] <- pmax(dataf[,fecNames[which(Transform=="log")]],1)
+	if (sum(Family=="binomial")>0) ddataf[,fecNames[which(Family=="binomial")]] <- rbinom(nrow(dataf),1,0.5)
 	
 	fv1 <- makeFecObj(dataf=dataf, 
 			fecConstants = fecConstants, 
