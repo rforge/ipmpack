@@ -53,6 +53,6 @@ sv1 <- makeSurvObj(dff, Formula=surv~size)
 sv1 <- makeSurvObj(dff, Formula=surv~size+covariate)
 
 #now specifying parameters and supplying no data
-sv1 <- makeSurvObj(Formula = incr ~ size + covariate,coeff=c(1,1,1))
+sv1 <- makeSurvObj(Formula = surv ~ size + covariate,coeff=c(1,1,1))
 
 }
