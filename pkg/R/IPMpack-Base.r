@@ -2469,6 +2469,9 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 		integrateType = "midpoint", correction = "none", preCensus = TRUE,
 		delta = 1e-04, response="lambda", chosenBin=1) {
 	
+	if (response!="lambda" & response!="R0" & response !="lifeExpect")
+		stop("response must be one of lambda or R0 or lifeExpect")
+	
 	nmes <- elam <- slam <- c()
 	
 	# get the base
@@ -2494,8 +2497,6 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 	if (response=="lambda") rc1 <- Re(eigen(IPM)$value[1])
 	if (response=="R0") rc1 <- R0Calc(Pmatrix, Fmatrix+Cmatrix)
 	if (response=="lifeExpect") rc1 <- meanLifeExpect(Pmatrix)[chosenBin]
-	if (response!="lambda" & response!="R0" & response !="lifeExpect")
-		stop("response must be one of lambda or R0 or lifeExpect")
 	
 	# 1. survival
 	for (j in 1:length(survObj@fit$coeff)) {
@@ -2629,7 +2630,9 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				nmes <- c(nmes, as.character(paste("discrete:",dimnames(discreteTrans@discreteTrans)[[2]][j],"to",dimnames(discreteTrans@discreteTrans)[[1]][i])))
 			}
 		}
-		
+		#if there is more than 2 discrete stages (beyond "continuous" "dead" and one discrete stage)
+        #then survToDiscrete tells you how many of surviving continuous individuals are going into 
+		#discrete classes, but how they distributed also; which is the last column in discreteTrans 
 		if (nrow(discreteTrans@discreteTrans)>3) {
 			for (i in 1:(nrow(discreteTrans@discreteTrans)-2)) {
 				discreteTrans@discreteTrans[i,"continuous"]<-discreteTrans@discreteTrans[i,"continuous"] * (1 + delta)
