@@ -377,9 +377,9 @@ res
 and this output can be plotted out (Figure~\ref{fig:foura} p.~\pageref{fig:foura}) using
 <<label = fig4a, include = FALSE>>= 
 par(mfrow = c(2, 1), bty = "l", pty = "m")
-barplot(res$slam, main = expression("Parameter sensitivity of "*lambda), 
+barplot(res$sens, main = expression("Parameter sensitivity of "*lambda), 
 		    las = 2, cex.names = 0.5)
-barplot(res$elam, main = expression("Parameter elasticity of "*lambda), 
+barplot(res$elas, main = expression("Parameter elasticity of "*lambda), 
 		    las = 2, cex.names = 0.5)
 @
 \begin{figure}
