@@ -1,7 +1,5 @@
 \name{sensParams}
 \alias{sensParams}
-\alias{sensParamsR0}
-\alias{sensParamsLifeExpect}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -11,17 +9,13 @@
 \description{
   Uses perturbation to estimate the sensitivity and elasticity of
   all the parameters underlying an IPM. 
-s
 }
 \usage{
-sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,  chosenCov = data.frame(covariate = 1),discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, delta=1e-4)
+sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,  
+	chosenCov = data.frame(covariate = 1),discreteTrans = 1, 
+	integrateType = "midpoint", correction = "none", preCensus = TRUE, 
+	delta=1e-4, response="lambda", chosenBin=1)
 
-sensParamsR0(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
-discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, chosenCov = data.frame(covariate=1),delta=1e-4)
-
-sensParamsLifeExpect(growObj, survObj, nBigMatrix, minSize, maxSize,  chosenCov = data.frame(covariate = 1),
-    discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, 
-	delta=1e-4,chosenBin=1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -67,11 +61,18 @@ sensParamsLifeExpect(growObj, survObj, nBigMatrix, minSize, maxSize,  chosenCov 
   \item{chosenCov}{
 level or value of the covariate(s) at which sensitivity estimation is desired
   }
+  \item{response}{
+	 whether lambda, R0 or life expectancy of a desired bin (lifeExpect with chosenBin) is required 
+  }
+  \item{chosenBin}{
+which is required for lifeExpect
+  }
+  
   }
 \value{
-  \item{slam }{a vector of sensitivities of lambda with names
+  \item{sens }{a vector of sensitivities of lambda or other variable with names
     corresponding to parameters.}
-  \item{elam }{a vector of elasticities to lambda with names
+  \item{elas }{a vector of elasticities to lambda or other variable with names
     corresponding to parameters.}
 }
 \references{
