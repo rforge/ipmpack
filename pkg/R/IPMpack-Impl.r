@@ -27,10 +27,12 @@
 #
 #
 
-makeGrowthObj <- function(dataf,
+makeGrowthObj <- function(dataf=NULL,
 		Formula=sizeNext~size,
 		regType="constantVar",
-		Family="gaussian", link=NULL) {
+		Family="gaussian", link=NULL, coeff=NULL, sd=NULL) {
+	
+	if (!is.null(dataf)) { 
 	
 	dataf <- subset(dataf, is.na(dataf$size) == FALSE & is.na(dataf$sizeNext) == 
 					FALSE)
@@ -175,6 +177,15 @@ makeGrowthObj <- function(dataf,
 		}    
 	}
 	
+	} else {
+		
+		if (is.null(coeff) | is.null(sd)) stop("require coefficients and standard devaition if data is not supplied")
+		gr1 <- .createGrowthObj(Formula=Formula, coeff=coeff, sd=sd)
+		
+	}
+	
+	
+	
 	return(gr1)
 }
 
@@ -262,8 +273,10 @@ makegrowthObjHossfeld <- function(dataf) {
 # Returns - a survival object                   
 #
 #
-makeSurvObj <- function(dataf,
-		Formula=surv~size+size2){
+makeSurvObj <- function(dataf=NULL,
+		Formula=surv~size+size2, coeff=NULL){
+	
+	if (!is.null(dataf)){	
 	
 	#subset data to include only survival status of individuals with continuous size at the beginning of the transition
 	dataf<-subset(dataf,is.na(dataf$surv)==FALSE)
@@ -293,6 +306,14 @@ makeSurvObj <- function(dataf,
 	fit <- glm(Formula,family=binomial,data=dataf)
 	sv1 <- new("survObj")
 	sv1@fit <- fit
+	
+	} else {
+		
+		if (is.null(coeff)) stop("require coefficients if data is not supplied")
+		sv1 <- .createSurvObj(Formula=Formula, coeff=coeff)
+		
+	}
+	
 	return(sv1)
 }
 
@@ -1116,7 +1137,7 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE,
 
 ### new functions createGrowhtObj and createSurvObj which will make up their own data
 
-createGrowthObj <- function(Formula=sizeNext~size, coeff=c(1,1), sd=1){ 
+.createGrowthObj <- function(Formula=sizeNext~size, coeff=c(1,1), sd=1){ 
 	
 	var.names <- all.vars(Formula)
 	
@@ -1150,7 +1171,7 @@ createGrowthObj <- function(Formula=sizeNext~size, coeff=c(1,1), sd=1){
 
 
 
-createSurvObj <- function(Formula=surv~size, coeff=c(1,1)){ 
+.createSurvObj <- function(Formula=surv~size, coeff=c(1,1)){ 
 	var.names <- all.vars(Formula)
 	
 	#not that although var.names will have one extra (cos of response variable
@@ -1174,7 +1195,7 @@ createSurvObj <- function(Formula=surv~size, coeff=c(1,1)){
 
 
  
-createFecObj <- function(Formula=list(fec1~size,fec2~size+size2), 
+.createFecObj <- function(Formula=list(fec1~size,fec2~size+size2), 
 							coeff=list(c(1,1),c(1,1,1)),
 							Family = c("gaussian","binomial"),
 							Transform = c("log","none"),
