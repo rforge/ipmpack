@@ -25,7 +25,8 @@ makeSurvObj(dataf,Formula=surv~size+size2, coeff=NULL)
     style, i.e. separated by `+', `*', `:'. Possible covariates include `size', 'size2' (size^2), `size3'
     (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
     `covariate'. Response should be 'surv' to match \code{dataf}}
-}
+  \item{coeff}{numeric vector of required coefficients to be imposed if dataf is NULL; must be compatible with Formula}
+ }
 
 \value{
   An object of class survObj which is a S4 object which contains the slots: 

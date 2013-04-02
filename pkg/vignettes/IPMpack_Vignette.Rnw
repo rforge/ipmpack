@@ -156,6 +156,10 @@ First, the user must install IPMpack from CRAN using
 
 <<>>=
 library(IPMpack)
+source("/Users/cjessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Util.r")
+source("/Users/cjessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Base.r")
+source("/Users/cjessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Impl.r")
+
 @
 Next, the user must input demographic data. As mentioned above, most functions of IPMpack require a data file with at minimum columns called {\tt size}, {\tt sizeNext}, {\tt surv}, where `size' is size at time t, `sizeNext' is size one census later, and `surv' is a series of 0s and 1s, indicating if the individual survived or not. In the case of `size' and `sizeNext', data can be transformed (e.g., onto a log scale), if appropriate via functions built into IPMpack. For the purpose of learning how to use IPMpack, the user can either use his/her own data (adjusted to have the appropriate headings, as aforementioned), or generate them with a function built into IPMpack:
 
