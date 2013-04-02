@@ -182,4 +182,21 @@ barplot(res$elas,
 main = expression("Parameter elasticity of population growth rate " *lambda), 
 las = 2, cex.names = 0.5)
 
+
+# Same but with a discrete class
+dff <- generateData(type="discrete")
+res <- sensParams(growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff), 
+	fecObj = makeFecObj(dff), discreteTrans=makeDiscreteTrans(dff),
+	nBigMatrix = 50, minSize = min(dff$size, na.rm = TRUE), 
+	maxSize = max(dff$size, na.rm = TRUE))
+
+par(mfrow = c(2, 1), bty = "l", pty = "m") 
+barplot(res$sens, 
+main = expression("Parameter sensitivity of population growth rate " *lambda), 
+las = 2, cex.names = 0.5) 
+barplot(res$elas, 
+main = expression("Parameter elasticity of population growth rate " *lambda), 
+las = 2, cex.names = 0.5)
+
+
 }
