@@ -334,8 +334,7 @@ makeFecObj <- function(dataf=NULL,
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1", 
 		coeff=NULL){
-	
-	
+		
 	if (!is.null(dataf)) { 
 	
 	#make sure Formula is a formula or a list of formulas
@@ -758,84 +757,7 @@ makeDiscreteTrans <- function(dataf,
 
 
 
-## 6. Models building Bayes posteriors and corresponding growth / survival and Matrices  ##############
 
-# ! these all need better coding up of priors ###
-
-## Using MCMCglmm to get a list of growth posteriors on size
-# with either no covariate, or just 1 discrete covariate
-#
-# Parameters - dataf - dataframe
-#              formula= - a model formula that requires
-#                    "sizeNext" or "incr" as a reponse variable
-#                    "size" as a possible covariate possibly with
-#                        other combinations including size2 (size^2), size3(size^3), logsize(log(size)), expsize(exp(size))
-#                        and potentially a discrete covariate (called covariate)
-#              responseType - the response variable desired, crucial for building
-#                             the right kind of object. Possible levels are "sizeNext", "incr", "logincr"
-#            - meanB the mean of the prior of the coefficients for survival (should be the same length as desired coeff)
-#            - varB the variance of the prior of the coeff for survival (note could add for growth also)
-#            - nitt - the total number of iterations
-#
-# Returns - list including list of growth objects, + list of survival objects
-.makePostGrowthObjs <- function(dataf,
-		explanatoryVariables = "size+size2+covariate",
-		responseType = "sizeNext",
-		meanB=rep(0,3), varB = rep(1e10), burnin = 3000, nitt = 50000) {
-	
-	require(MCMCglmm)
-	
-	if (responseType == "incr" & length(dataf$incr) == 0) {
-		print("building incr as sizeNext-size")
-		dataf$incr <- dataf$sizeNext - dataf$size
-	}
-	
-	if (responseType == "logincr" & length(dataf$logincr) == 0) {
-		print("building logincr as log(sizeNext-size) - pre-build if this is not appropriate")
-		dataf$logincr <- log(dataf$sizeNext - dataf$size)
-	}
-	
-	dataf$size2 <- dataf$size ^ 2
-	dataf$size3 <- dataf$size ^ 3
-	if (length(grep("expsize", explanatoryVariables)) > 0) dataf$expsize <- exp(dataf$size)
-	if (length(grep("logsize", explanatoryVariables)) > 0) dataf$logsize <- log(dataf$size)
-	
-	#setup for discrete covariates if data suggests may be implemented by the
-	#presence of "covariate" and "covariateNext"
-	if ("covariate" %in% strsplit(as.character(explanatoryVariables), "[+-\\*]")[[1]] & length(dataf$covariate) > 0) { 
-		dataf$covariate <- as.factor(dataf$covariate)
-		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
-		
-	}
-	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables), "[+-\\*]")[[1]]&length(dataf$covariateNext) > 0) { 
-		dataf$covariateNext <- as.factor(dataf$covariateNext)
-		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
-	}
-	
-		
-	#get rid of NAs
-	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizeNext),]
-	
-	#fit growth model
-	Formula <- as.formula(paste(responseType, '~', explanatoryVariables, sep = ''))
-	fit <- MCMCglmm(Formula, data = dataf, verbose = FALSE, burnin = burnin, nitt = nitt)
-	dummyFit <- lm(Formula, data = dataf)
-	
-	#create list of growth models reflecting posterior
-	gr <- list()
-	for (k in 1:length(fit$Sol[,1])) {
-		dummyFit$coefficients <- fit$Sol[k,]
-		#dummyFit <- alteredFit(dummyFit = dummyFit, newCoef = fit$Sol[k,],  desiredSd = sqrt(fit$VCV[k, 1]))
-		if (responseType=="sizeNext") gr[[k]] <-  new("growthObj")
-		if (responseType=="incr") gr[[k]] <-  new("growthObjIncr")
-		if (responseType=="logincr") gr[[k]] <-  new("growthObjLogIncr")
-		gr[[k]]@fit <- dummyFit    
-		gr[[k]]@sd <- sqrt(fit$VCV[k, 1])
-	}
-	
-	return(gr)
-	
-}
 
 # replace the growth object fit with a new, desired variance for predict
 .alteredFit <- function(dummyFit = dummyFit, 
@@ -849,244 +771,6 @@ makeDiscreteTrans <- function(dataf,
 }
 
 
-## Using MCMCglmm to get a list of  survival posterios
-# with either no covariate, or just 1 discrete covariate
-#
-# Parameters - dataf - dataframe
-#              formula - a model formula that requires
-#                    "surv" as a reponse variable
-#                    "size" as a possible covariate possibly with
-#                        other combinations including size2 (size^2), size3(size^3), logsize(log(size)), expsize(exp(size))
-#                        and potentially a discrete covariate (called covariate)
-# #            - meanB the mean of the prior of the coefficients for survival (should be the same length as desired coeff)
-#            - varB the variance of the prior of the coeff for survival (note could add for growth also)
-#            - nitt - the total number of iterations
-#
-# Returns - list including list of growth objects, + list of survival objects
-.makePostSurvivalObjs <- function(dataf,
-		explanatoryVariables="size+size2",
-		meanB = rep(0, 3), varB=rep(1e10),burnin=3000, nitt = 50000) {
-	
-	require(MCMCglmm)
-	#build appropriate size based covariates
-	dataf$size2 <- dataf$size ^ 2
-	dataf$size3 <- dataf$size ^ 3
-	if (length(grep("expsize",explanatoryVariables)) > 0) dataf$expsize <- exp(dataf$size)
-	if (length(grep("logsize",explanatoryVariables)) > 0) dataf$logsize <- log(dataf$size)
-	
-	#setup for discrete covariates if data suggests may be implemented by the
-	#presence of "covariate" and "covariateNext"
-	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
-		dataf$covariate <- as.factor(dataf$covariate)
-		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
-		
-	}
-	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) { 
-		dataf$covariateNext <- as.factor(dataf$covariateNext)
-		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
-	}
-			
-	#get rid of NAs
-	dataf <- dataf[!is.na(dataf$size)& !is.na(dataf$surv),]
-	
-	
-	#build formula
-	Formula<-paste('surv','~',explanatoryVariables,sep='')
-	Formula <- as.formula(Formula)
-	
-	#fit survival model 
-	#avoid fitting a prior unless you need to (takes longer with)
-    fit<-MCMCglmm(Formula, data=dataf[!is.na(dataf$surv),], 
-			verbose=FALSE, prior = list(R = list(V = 1, fix = 1)),
-			family="categorical", burnin=burnin,nitt = nitt)        
-	
-	dummy.fit <- glm(Formula, data=dataf,family=binomial)
-	
-	#create list survival models reflecting posterior
-	sv <- list()
-	for (k in 1:length(fit$Sol[,1])) {
-		dummy.fit$coefficients <- fit$Sol[k,]
-		sv[[k]] <-  new("survObjOverDisp")
-		sv[[k]]@fit <- dummy.fit       
-	}
-	
-	return(sv)
-	
-}
-
-
-
-
-## Using MCMCglmm to get a list of  fecundity posteriors - this assumes that
-# only applies to the first three functions
-#
-# Parameters - dataf - dataframe
-#            - covfec - is there a discrete covariate in prob of reproduction
-#            - covseeds - is there a discrete covariate in fecundity production
-#            - meanB the mean of the prior of the coefficients for XX
-#            - varB the variance of the prior of the coeff for XX
-#            - nitt - the total number of iterations
-#
-# Returns - list including list of growth objects, + list of survival objects
-.makePostFecObjs <- function(dataf,
-		fecConstants=data.frame(NA),fecNames=NA,
-		explanatoryVariables="size",
-		Family="gaussian",
-		Transform="none",
-		meanOffspringSize=NA,
-		sdOffspringSize=NA,
-		offspringSplitter=data.frame(continuous=1),
-		vitalRatesPerOffspringType=data.frame(NA),
-		fecByDiscrete=data.frame(NA),
-		offspringSizeExplanatoryVariables="1",
-		burnin=3000,nitt=50000) {
-	
-	require(MCMCglmm)
-	
-	##warnings
-	if (length(dataf$stage)==0) {
-		print("Warning - no column named stage - assuming all continuous")
-		dataf$stageNext <- dataf$stage <- rep("continuous", length(dataf[,1]))
-		dataf$stage[is.na(dataf$size)] <- NA
-		dataf$stageNext[is.na(dataf$sizeNext)] <- "dead"
-	}
-	
-	#order stage names from discrete to continuous
-	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
-	stages <- stages[stages!="dead"] 
-	stages <- c(stages[stages!="continuous"],"continuous") 
-	if ((sum(names(offspringSplitter)%in%stages)/length(offspringSplitter))<1) {
-		stop("Error - the variable names in your offspringSplitter data.frame are not all part of the levels of stage or stageNext in your data file. Please fix this by adjusting your offspringSplitter entry to include the correct variable names, e.g. offspringSplitter=data.frame(continuous=.7,seedAge1=.3)")
-	}
-	dummy<-rep(0,length(stages));names(dummy)<-stages;dummy<-as.data.frame(t(as.matrix(dummy)))
-	for (i in names(offspringSplitter)) dummy[i]<-offspringSplitter[i]
-	offspringSplitter <- dummy
-	
-	##warnings
-	if (ncol(offspringSplitter)>1 & (ncol(offspringSplitter)-1)!=ncol(fecByDiscrete)) {
-		print("Warning - offspring splitter indicates more than just continuous stages. No fecundity by the discrete stages supplied in fecByDiscrete; assumed that is 0")
-		#fecByDiscrete <- matrix(0,col(offspringSplitter)-1,col(offspringSplitter)-1)
-		fecByDiscrete <- offspringSplitter[,1:(ncol(offspringSplitter)-1)]
-		fecByDiscrete[] <- 0
-	}
-	
-	if (sum(offspringSplitter)!=1) {
-		print("Warning - offspring splitter does not sum to 1. It is now rescaled to sum to 1.")
-		offspringSplitter <- offspringSplitter / sum(offspringSplitter) 
-	}
-	
-	if ("covariate"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariate)>0) { 
-		dataf$covariate <- as.factor(dataf$covariate)
-		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
-		
-	}
-	if ("covariateNext"%in%strsplit(as.character(explanatoryVariables),"[+-\\*]")[[1]]&length(dataf$covariateNext)>0) { 
-		dataf$covariateNext <- as.factor(dataf$covariateNext)
-		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
-	}
-	
-	dataf$size2 <- dataf$size^2
-	if (length(grep("expsize",as.character(explanatoryVariables)))>0) dataf$expsize <- exp(dataf$size)
-	if (length(grep("logsize",as.character(explanatoryVariables)))>0) dataf$logsize <- log(dataf$size)
-	
-	if (is.na(fecNames[1])) fecNames <- names(dataf)[grep("fec",names(dataf))]
-	if (length(fecNames)>length(explanatoryVariables)) {
-		misE <- (length(explanatoryVariables)+1):length(fecNames)
-		print(c("number in explanatoryVariables not the same as the number of fecundity columns in the data file, using default of `size' for missing ones which are:",fecNames[misE],". (which might be exactly what you want)"))
-		explanatoryVariables <- c(explanatoryVariables,rep("size",length(fecNames)-length(explanatoryVariables)))
-	}
-	if (length(fecNames)>length(Family)) {
-		misE <- (length(Family)+1):length(fecNames)
-		print(c("number of families not the same as the number of fecundity columns in the data file, using default of `gaussian' for missing ones which are:",fecNames[misE],". (which might be exactly what you want)"))
-		Family <- c(Family,rep("gaussian",length(fecNames)-length(Family)))
-	}
-	if (length(fecNames)>length(Transform)) {
-		misE <- (length(Transform)+1):length(fecNames)
-		print(c("number of transforms not the same as the number of fecundity columns in the data file, using default of `none' for missing ones which are:",fecNames[misE],". (which might be exactly what you want)"))
-		Transform <- c(Transform,rep("none",length(fecNames)-length(Transform)))
-	}
-	
-		
-	
-	if (is.na(meanOffspringSize[1])|is.na(sdOffspringSize[1])) {
-		if (length(dataf$offspringNext)==0) {
-			offspringData<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
-			} else {
-			offspringData<-subset(dataf,dataf$offspringNext=="sexual"&dataf$stageNext=="continuous")
-		}
-		## relationship defining offspring size - note that the mean value is ALWAYS taken from
-		## a lm now (but equivalent to just fitting an intercept if that is desired....)
-		## [worth keeping sd separate from lm though (extracted from lm or not) because otherwise is a pain to adjust (as shown in growth model)]
-		offspringRel <- lm(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData)
-		sdOffspringSize <- summary(offspringRel)$sigma
-	} else {
-		offspringRel <- lm(rep(meanOffspringSize[1],21)~1)
-		sdOffspringSize <- sdOffspringSize
-	}
-	
-	#get rid of NAs
-	dataf <- dataf[!is.na(dataf$size) & !is.na(dataf$sizeNext),]
-	
-	fit <- dummy.fit <- list()
-	
-	for (i in 1:length(fecNames)) {
-		
-		if (Transform[i]=="exp") dataf[,fecNames[i]] <- exp(dataf[,fecNames[i]])
-		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
-		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
-		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
-		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
-		
-		Formula <- paste(fecNames[i],'~',explanatoryVariables[i],sep='')
-		Formula <- as.formula(Formula)
-		
-		fit[[i]] <- MCMCglmm(Formula,
-				data=dataf[!is.na(dataf[,fecNames[i]]),], 
-				verbose=FALSE, burnin=burnin,nitt=nitt,family=Family[i])
-		
-		dummy.fit[[i]] <- glm(Formula,
-				data=dataf[!is.na(dataf[,fecNames[i]]),],family=Family[i])
-		
-	}
-	
-	if (sum(dim(vitalRatesPerOffspringType)==c(1,1))<2) {
-		if ((sum(vitalRatesPerOffspringType==0,na.rm=TRUE)+sum(vitalRatesPerOffspringType==1,na.rm=TRUE))<(ncol(vitalRatesPerOffspringType)*nrow(vitalRatesPerOffspringType))) stop("Error - in vitalRatesPerOffspringType data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
-		if (sum(names(vitalRatesPerOffspringType)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in vitalRatesPerOffspringType should match those in offspringSplitter - and in the same order, with continuous last")
-		if (sum(rownames(vitalRatesPerOffspringType)==c(fecNames,names(fecConstants)))<(length(fecNames)+length(fecConstants))) stop ("Error - the row names in vitalRatesPerOffspringType should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
-	} else {
-		vitalRatesPerOffspringType <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(fecNames)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
-		names(vitalRatesPerOffspringType) <- names(offspringSplitter)
-	}
-	
-	
-	#print(length(fit[[1]]$Sol[,1]))	
-	
-	#create list of growth models reflecing posterior
-	fv <- list()
-	for (k in 1:length(fit[[1]]$Sol[,1])) {
-		fv[[k]] <-  new("fecObj")
-		
-		for (i in 1:length(fecNames)) { 
-			dummy.fit[[i]]$coefficients <- fit[[i]]$Sol[k,]
-			##TODO check over-ride
-			dummy.fit[[i]]$residuals <- rnorm(length(dummy.fit[[i]]$residuals),0,sqrt(fit[[i]]$VCV[k,1]))
-			fv[[k]]@fitFec[[i]] <- dummy.fit[[i]]
-			
-		}
-		
-		fv[[k]]@fecConstants <- fecConstants
-		fv[[k]]@offspringRel <- offspringRel
-		fv[[k]]@sdOffspringSize <- sdOffspringSize
-		fv[[k]]@offspringSplitter <- offspringSplitter
-		fv[[k]]@vitalRatesPerOffspringType <- vitalRatesPerOffspringType
-		fv[[k]]@fecByDiscrete <- fecByDiscrete
-		fv[[k]]@Transform <- Transform 
-		}
-	print(k)
-	
-	return(fv)
-	
-}
 
 
 # Function to take a list of growth and survival objects and make a list of Pmatrices
@@ -1232,8 +916,7 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE,
 							fecConstants = data.frame(NA)){ 
 	var.names <- c()
 	fecNames <- rep(NA,length(Formula))
-	
-
+		
 	for (j in 1:length(Formula)) { 
 		
 		
@@ -1255,16 +938,18 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE,
 		
 	if (sum(Transform=="log")>0) dataf[,fecNames[which(Transform=="log")]] <- pmax(dataf[,fecNames[which(Transform=="log")]],1)
 	if (sum(Family=="binomial")>0) ddataf[,fecNames[which(Family=="binomial")]] <- rbinom(nrow(dataf),1,0.5)
-	
+		
 	fv1 <- makeFecObj(dataf=dataf, 
 			fecConstants = fecConstants, 
 			Formula = Formula, 
 			Family = Family, 
-			Transform = Transform, meanOffspringSize = meanOffspringSize, 
+			Transform = Transform, 
+			meanOffspringSize = meanOffspringSize, 
 			sdOffspringSize = sdOffspringSize, offspringSplitter = offspringSplitter, 
 			vitalRatesPerOffspringType = vitalRatesPerOffspringType, 
 			fecByDiscrete = fecByDiscrete, 
-			offspringSizeExplanatoryVariables = offspringSizeExplanatoryVariables)
+			offspringSizeExplanatoryVariables = offspringSizeExplanatoryVariables, 
+			coeff=NULL)
 	
 	#now over-write with the desired coefficients!
 	for (j in 1:length(Formula)) { 
