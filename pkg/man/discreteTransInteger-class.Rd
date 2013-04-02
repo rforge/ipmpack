@@ -15,7 +15,7 @@ Objects can be created by calls of the form \code{new("discreteTransInteger", ..
     \item{\code{discreteTrans}:}{Object of class \code{"matrix"} ~~ }
     \item{\code{meanToCont}:}{Object of class \code{"matrix"} ~~ }
     \item{\code{thetaToCont}:}{Object of class \code{"matrix"} ~~ }
-    \item{\code{survToDiscrete}:}{Object of class \code{"glm"} ~~ }
+    \item{\code{moveToDiscrete}:}{Object of class \code{"glm"} ~~ }
     \item{\code{distToCont}:}{Object of class \code{"character"} ~~ }
   }
 }

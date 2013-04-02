@@ -706,7 +706,7 @@ makeDiscreteTrans <- function(dataf,
 	if (sum(dimnames(sdToCont)[[2]]==stages[1:nDiscreteClasses])<nDiscreteClasses) stop("Error - the column names of the sdToCont matrix you entered should be in alphabetical order and match the column names of the discrete classes in discreteTrans (so without continuous). If some of the discete stages are not mentioned in your data file, this error can be fixed by adding those stages first: levels(dataf$stage)<-c(levels(dataf$stage),<unmentioned_discrete_stages>)")
 	# make the regression to relate the probability of individuals moving to any of the discrete stages as a function of their size 
 	if (sum(discreteTrans[stages[1:nDiscreteClasses],"continuous"])==0) {
-		survToDiscrete <- glm(rep(0,21)~1, family = binomial)
+		moveToDiscrete <- glm(rep(0,21)~1, family = binomial)
 	} else {
 		subData <- subset(dataf, dataf$stage == "continuous" & dataf$surv == 1)
 		subData$contToDiscrete <- 1
@@ -715,7 +715,7 @@ makeDiscreteTrans <- function(dataf,
 		subData$size3 <- subData$size ^ 3
 		if (length(grep("expsize", as.character(continuousToDiscreteExplanatoryVariables))) > 0) subData$expsize <- exp(subData$size)
 		if (length(grep("logsize", as.character(continuousToDiscreteExplanatoryVariables))) > 0) subData$logsize <- log(subData$size)
-		survToDiscrete <- glm(paste('contToDiscrete~',continuousToDiscreteExplanatoryVariables,sep=''), family = binomial, data = subData)
+		moveToDiscrete <- glm(paste('contToDiscrete~',continuousToDiscreteExplanatoryVariables,sep=''), family = binomial, data = subData)
 	}
 	
 	#define new object
@@ -723,7 +723,7 @@ makeDiscreteTrans <- function(dataf,
 	disTrans@discreteTrans <- discreteTrans
 	disTrans@meanToCont <- meanToCont
 	disTrans@sdToCont <- sdToCont
-	disTrans@survToDiscrete <- survToDiscrete
+	disTrans@moveToDiscrete <- moveToDiscrete
 	return(disTrans)
 }
 
@@ -1344,7 +1344,7 @@ if (distToCont=="negbin") {
 		# make the regression to relate the probability of individuals moving to any of the discrete stages as a function of their size 
 	}
 	if (sum(discreteTrans[stages[1:nDiscreteClasses],"continuous"])==0) {
-		survToDiscrete <- glm(rep(0,21)~1, family = binomial)
+		moveToDiscrete <- glm(rep(0,21)~1, family = binomial)
 	} else {
 		subData <- subset(dataf, dataf$stage == "continuous" & dataf$surv == 1)
 		subData$contToDiscrete <- 1
@@ -1353,7 +1353,7 @@ if (distToCont=="negbin") {
 		subData$size3 <- subData$size ^ 3
 		if (length(grep("expsize", as.character(continuousToDiscreteExplanatoryVariables))) > 0) subData$expsize <- exp(subData$size)
 		if (length(grep("logsize", as.character(continuousToDiscreteExplanatoryVariables))) > 0) subData$logsize <- log(subData$size)
-		survToDiscrete <- glm(paste('contToDiscrete~',continuousToDiscreteExplanatoryVariables,sep=''), family = binomial, data = subData)
+		moveToDiscrete <- glm(paste('contToDiscrete~',continuousToDiscreteExplanatoryVariables,sep=''), family = binomial, data = subData)
 	}
 	
 	#define new object
@@ -1361,7 +1361,7 @@ if (distToCont=="negbin") {
 	disTrans@discreteTrans <- discreteTrans
 	disTrans@meanToCont <- meanToCont
 	disTrans@thetaToCont <- thetaToCont
-	disTrans@survToDiscrete <- survToDiscrete
+	disTrans@moveToDiscrete <- moveToDiscrete
 	disTrans@distToCont <- distToCont
 	return(disTrans)
 }

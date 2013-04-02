@@ -16,7 +16,7 @@ Objects can be created by calls of the form \code{new("discreteTrans", ...)}.
     \item{\code{discreteTrans}:}{Object of class \code{"matrix"} ~~ }
     \item{\code{meanToCont}:}{Object of class \code{"matrix"} ~~ }
     \item{\code{sdToCont}:}{Object of class \code{"matrix"} ~~ }
-    \item{\code{survToDiscrete}:}{Object of class \code{"glm"} ~~ }
+    \item{\code{moveToDiscrete}:}{Object of class \code{"glm"} ~~ }
   }
 }
 \section{Methods}{

@@ -141,7 +141,7 @@ setClass("discreteTrans",
 		representation(discreteTrans = "matrix",
 				meanToCont = "matrix",
 				sdToCont = "matrix",
-				survToDiscrete = "glm"))
+				moveToDiscrete = "glm"))
 
 
 
@@ -170,7 +170,7 @@ setClass("discreteTransInteger",
 		representation(discreteTrans = "matrix",
 				meanToCont = "matrix",
 				thetaToCont = "matrix",
-				survToDiscrete = "glm",
+				moveToDiscrete = "glm",
 				distToCont = "character"))
 
 
@@ -776,9 +776,9 @@ makeIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSiz
 
 	if (class(discreteTrans) == "discreteTrans") {
 		nDisc <- ncol(discreteTrans@meanToCont)
-		survToDiscrete <- predict(discreteTrans@survToDiscrete, 
+		moveToDiscrete <- predict(discreteTrans@moveToDiscrete, 
 				data.frame(size = y, size2 = (y * y)), type = "response")
-		cont.to.cont <- get.matrix * matrix(1 - survToDiscrete, 
+		cont.to.cont <- get.matrix * matrix(1 - moveToDiscrete, 
 				nrow = nBigMatrix, ncol = nBigMatrix, byrow = TRUE)
 		disc.to.disc <- discreteTrans@discreteTrans[1:nDisc, 1:nDisc]
 		disc.to.cont <- matrix(0, ncol = nDisc, nrow = nBigMatrix)
@@ -789,7 +789,7 @@ makeIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSiz
 			tmp[which(is.na(tmp))] <- 0
 			disc.to.cont[, j]  <- discreteTrans@discreteTrans["continuous", j] * tmp
 			if (discreteTrans@discreteTrans[j,"continuous"]>0) {
-				cont.to.disc[j, ] <- surv(y, chosenCov, survObj) * survToDiscrete * 
+				cont.to.disc[j, ] <- surv(y, chosenCov, survObj) * moveToDiscrete * 
 					discreteTrans@discreteTrans[j,"continuous"] / sum(discreteTrans@discreteTrans[1:nDisc,"continuous"]) 
 			}
 		}
@@ -833,9 +833,9 @@ makeIntegerPmatrix <- function (nEnvClass = 1,
 	
 	if (class(discreteTrans) == "discreteTrans") {
 		nDisc <- ncol(discreteTrans@meanToCont)
-		survToDiscrete <- predict(discreteTrans@survToDiscrete, 
+		moveToDiscrete <- predict(discreteTrans@moveToDiscrete, 
 				data.frame(size = y, size2 = (y * y)), type = "response")
-		cont.to.cont <- get.matrix * matrix(1 - survToDiscrete, 
+		cont.to.cont <- get.matrix * matrix(1 - moveToDiscrete, 
 				nrow = nBigMatrix, ncol = nBigMatrix, byrow = TRUE)
 		disc.to.disc <- discreteTrans@discreteTrans[1:nDisc, 1:nDisc]
 		disc.to.cont <- matrix(0, ncol = nDisc, nrow = nBigMatrix)
@@ -848,7 +848,7 @@ makeIntegerPmatrix <- function (nEnvClass = 1,
 		 	tmp[which(is.na(tmp))] <- 0
 		 	disc.to.cont[, j] <- discreteTrans@discreteTrans["continuous", j] * tmp
 			if (sum(discreteTrans@discreteTrans[j,"continuous"]>0)) {
-				cont.to.disc[j, ] <- surv(y, chosenCov, survObj) * survToDiscrete * 
+				cont.to.disc[j, ] <- surv(y, chosenCov, survObj) * moveToDiscrete * 
 					discreteTrans@discreteTrans[j,"continuous"] / sum(discreteTrans@discreteTrans[1:nDisc,"continuous"]) 
 			}
 		}	
@@ -2631,7 +2631,7 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 			}
 		}
 		#if there is more than 2 discrete stages (beyond "continuous" "dead" and one discrete stage)
-        #then survToDiscrete tells you how many of surviving continuous individuals are going into 
+        #then moveToDiscrete tells you how many of surviving continuous individuals are going into 
 		#discrete classes, but how they distributed also; which is the last column in discreteTrans 
 		if (nrow(discreteTrans@discreteTrans)>3) {
 			for (i in 1:(nrow(discreteTrans@discreteTrans)-2)) {
@@ -2728,8 +2728,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 			nmes <- c(nmes, as.character(paste("discrete: sdToCont",dimnames(discreteTrans@sdToCont)[[2]][j])))
 		}
 		
-		for (j in 1:length(discreteTrans@survToDiscrete$coef)) {
-			discreteTrans@survToDiscrete$coefficients[j]<-discreteTrans@survToDiscrete$coefficients[j] * (1 + delta)
+		for (j in 1:length(discreteTrans@moveToDiscrete$coef)) {
+			discreteTrans@moveToDiscrete$coefficients[j]<-discreteTrans@moveToDiscrete$coefficients[j] * (1 + delta)
 			Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 					maxSize = maxSize, growObj = growObj, survObj = survObj,
 					chosenCov = chosenCov, discreteTrans = discreteTrans,
@@ -2752,11 +2752,11 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 			if (response=="R0") rc2 <- R0Calc(Pmatrix, Fmatrix+Cmatrix)
 			if (response=="lifeExpect") rc2 <- meanLifeExpect(Pmatrix)[chosenBin]
 			
-			discreteTrans@survToDiscrete$coefficients[j]<-discreteTrans@survToDiscrete$coefficients[j] / (1 + delta)
+			discreteTrans@moveToDiscrete$coefficients[j]<-discreteTrans@moveToDiscrete$coefficients[j] / (1 + delta)
 			
-			slam <- c(slam,(rc2 - rc1)/(as.numeric(discreteTrans@survToDiscrete$coefficients[j]) * delta))
+			slam <- c(slam,(rc2 - rc1)/(as.numeric(discreteTrans@moveToDiscrete$coefficients[j]) * delta))
 			elam <- c(elam, (rc2 - rc1)/(rc1 * delta))
-			nmes <- c(nmes, as.character(paste("discrete: survToDiscrete",names(discreteTrans@survToDiscrete$coefficients)[j])))
+			nmes <- c(nmes, as.character(paste("discrete: moveToDiscrete",names(discreteTrans@moveToDiscrete$coefficients)[j])))
 		}
 	}
 	
@@ -3191,7 +3191,7 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 	#  not sure makes sense to do distribToDiscrete???	
 	
 	#coefficients linking continuous survival into discrete
-	nmes <- c(nmes, paste("survival from continuous ", names(discreteTrans@survToDiscrete$coefficients),sep=""))
+	nmes <- c(nmes, paste("survival from continuous ", names(discreteTrans@moveToDiscrete$coefficients),sep=""))
 	
 	
 	elam <- rep(NA,length(nmes))
@@ -3338,9 +3338,9 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 	
 	# parameters linking size to survival
 	count <- param.test+count
-	for (param.test in 1:length(discreteTrans@survToDiscrete$coefficients)) { 
+	for (param.test in 1:length(discreteTrans@moveToDiscrete$coefficients)) { 
 		
-		discreteTrans@survToDiscrete$coefficients[param.test] <- discreteTrans@survToDiscrete$coefficients[param.test]* (1 + delta)
+		discreteTrans@moveToDiscrete$coefficients[param.test] <- discreteTrans@moveToDiscrete$coefficients[param.test]* (1 + delta)
 		
 		Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, 
 				minSize = minSize, maxSize = maxSize, growObj = growObj, 
@@ -3357,8 +3357,8 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 		IPM <- Pmatrix + Fmatrix
 		lambda2 <- Re(eigen(IPM)$value[1])
 		
-		discreteTrans@survToDiscrete$coefficients[param.test] <- discreteTrans@survToDiscrete$coefficients[param.test]/ (1 + delta)
-		slam[param.test+count] <- (lambda2 - lambda1)/(discreteTrans@survToDiscrete$coefficient[param.test] * delta)
+		discreteTrans@moveToDiscrete$coefficients[param.test] <- discreteTrans@moveToDiscrete$coefficients[param.test]/ (1 + delta)
+		slam[param.test+count] <- (lambda2 - lambda1)/(discreteTrans@moveToDiscrete$coefficient[param.test] * delta)
 		elam[param.test+count] <- (lambda2 - lambda1)/(lambda1*delta)
 		
 	}
