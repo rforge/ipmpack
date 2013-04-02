@@ -473,7 +473,6 @@ makeFecObj <- function(dataf=NULL,
 	if (is.null(coeff)) stop("require coefficients if data is not supplied")
 	if (is.na(meanOffspringSize) | is.na(sdOffspringSize)) stop("require meanOffspringSize and sdOffspringSize if data is not supplied")
 	
-
 	
 	f1 <- .createFecObj(Formula=Formula, 
 							coeff=coeff,
