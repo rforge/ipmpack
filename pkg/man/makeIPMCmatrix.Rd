@@ -1,14 +1,15 @@
 \name{makeIPMCmatrix}
 \alias{makeIPMCmatrix}
+\alias{createIPMCmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here. 
 \title{
-Builds C matrices.
+Builds C matrices. 
 }
 \description{
 Uses clonality objects to construct a matrix defining per-capita
 contribution to clonal stages (e.g., propagules [seed, spore],
-seedlings, calves) by clonal reproduction. Currently only pre-census
-clonal reproduction can be handled. 
+seedlings, calves) by clonal reproduction. 
+NOTE - old createIPMCmatrix is being deprecated; use makeIPMCmatrix instead.  
 }
 \usage{
 makeIPMCmatrix(clonalObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 

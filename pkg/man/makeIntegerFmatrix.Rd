@@ -1,12 +1,15 @@
 \name{makeIntegerFmatrix}
 \alias{makeIntegerFmatrix}
 \alias{makeIntegerPmatrix}
+\alias{createIntegerFmatrix}
+\alias{createIntegerPmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here. 
 \title{
 Builds P and F matrices built off regressions fitted to discrete variables (with probability mass functions rather than probability density functions).
 }
 \description{
 Uses survival, growth and fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calves) by reproductive stages due to sexual reproduction (for the F matrix); and transition probabilities determined from survival and growth to quasi-continuous stages based on integer data (e.g. number of leaves) as opposed to truly continuous data (e.g. mass). 
+NOTE - old createIntegerPmatrix is being deprecated; use makeIntegerPmatrix instead; etc
 }
 \usage{
 makeIntegerFmatrix(fecObj, nEnvClass = 1, meshpoints = 1:20, 

@@ -1,5 +1,6 @@
 \name{makeCompoundCmatrix}
 \alias{makeCompoundCmatrix}
+\alias{createCompoundCmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds a compound C matrix.
@@ -10,6 +11,7 @@ Builds a compound C matrix.
   sizes due to clonal reporudction given both a continuous state
   (e.g. size) and environmental state, as well as a discrete stage if
   necessary. Currently only pre-census clonal reproduction can be handled.  
+NOTE - old createCompoundCmatrix is being deprecated; use makeCompoundCmatrix instead.  
 }
 \usage{
 makeCompoundCmatrix(nEnvClass = 2, nBigMatrix = 50,

@@ -1,11 +1,14 @@
 \name{makeIPMFmatrix}
 \alias{makeIPMFmatrix}
+\alias{createIPMFmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here. 
 \title{
 Builds F matrices.
 }
 \description{
 Uses fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calves) by reproductive stages due to sexual reproduction. 
+NOTE - old createIPMFmatrix is being deprecated; use makeIPMFmatrix instead.  
+
 }
 \usage{
 makeIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 

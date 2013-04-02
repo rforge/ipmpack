@@ -1,11 +1,13 @@
 \name{makeCompoundFmatrix}
 \alias{makeCompoundFmatrix}
+\alias{createCompoundFmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds a compound F matrix.
 }
 \description{
   Uses fecundity object, and environmental transition objects to construct a matrix defining probabilities for transitions between sizes due to fecundity given both a continuous state (e.g. size) and environmental state, as well as a discrete stage if necessary (e.g. seedbank).  
+NOTE - old createCompoundFmatrix is being deprecated; use makeCompoundFmatrix instead.  
 }
 \usage{
 makeCompoundFmatrix(nEnvClass = 2, nBigMatrix = 50,

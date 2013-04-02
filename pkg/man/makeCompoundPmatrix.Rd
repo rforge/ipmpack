@@ -1,11 +1,13 @@
 \name{makeCompoundPmatrix}
 \alias{makeCompoundPmatrix}
+\alias{createCompoundPmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds a compound P matrix.
 }
 \description{
   Uses growth, survival, discreteTrans, and environmental transition objects to construct a matrix defining probabilities for transitions between continuous stages (e.g. size) due to growth and survival given both size and environmental state and discrete stages. 
+NOTE - old createCompoundPmatrix is being deprecated; use makeCompoundPmatrix instead.  
 }
 \usage{
 makeCompoundPmatrix(nEnvClass = 2, nBigMatrix = 50,

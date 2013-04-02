@@ -1,11 +1,13 @@
 \name{makeIPMPmatrix}
 \alias{makeIPMPmatrix}
+\alias{createIPMPmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds P matrices.
 }
 \description{
   Uses growth and survival objects to construct a matrix defining probabilities for transitions between sizes due to growth and survival. Extensions for transition to discrete classes are possible.
+	NOTE - old createIPMPmatrix is being deprecated; use makeIPMPmatrix instead.  
 }
 \usage{
 makeIPMPmatrix(nEnvClass = 1, nBigMatrix = 50,
