@@ -6,7 +6,7 @@ Builds matrix for transitions between discrete (e.g. seedbank, dormant) and cont
 }
 \description{
   Function that takes a data frame reflecting a population that includes continuous (e.g., size) and discrete (e.g., diapause)
-  classes of individuals, and builds a transition matrix from this for movement between discrete and continuous stages (providing just a single value for the continuous stages; the detail of movement between continuous stages (e.g., sizes) is generated elsewhere). This object can then be used as an argument in the function to "createIPMPmatrix" to build a P matrix that contains both discrete and continuous stages. 
+  classes of individuals, and builds a transition matrix from this for movement between discrete and continuous stages (providing just a single value for the continuous stages; the detail of movement between continuous stages (e.g., sizes) is generated elsewhere). This object can then be used as an argument in the function to "makeIPMPmatrix" to build a P matrix that contains both discrete and continuous stages. 
 
   The dataframe must contain columns  "stage" and "stageNext" with values of the names of the discrete classes and the name "continuous" where appropriate, in the current and subsequent time step. Continuous categories are also defined by their measurements, contained in "size" and "sizeNext". This is necessary for defining the mean and variance of the continuous stage of individuals emerging from discrete stages. Alternatively, you can enter the transition matrix for the discrete stages in the 'discreteTrans' argument.
 }
@@ -39,13 +39,13 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createIPMPmatrix}}
+\code{\link{makeIPMPmatrix}}
 
 }
 \examples{
 dff <- generateData(type="discrete")
 discTrans <- makeDiscreteTrans(dff)
-createIPMPmatrix(nBigMatrix = 10, growObj = makeGrowthObj(dff), 
+makeIPMPmatrix(nBigMatrix = 10, growObj = makeGrowthObj(dff), 
 	survObj = makeSurvObj(dff), discreteTrans = discTrans)
 	
 # Often some data needed for makeDiscreteTrans are not available as individual records in your data file. For instance the fate of seeds in the seedbank of the generateData(type="discrete") example:
@@ -59,12 +59,12 @@ discTrans <- makeDiscreteTrans(dff,
 					nrow=1, ncol=1, dimnames = list(1,c("seedbank"))), 
 					sdToCont = matrix(c(sd(dff$sizeNext[is.na(dff$stage)&dff$stageNext=="continuous"],na.rm=TRUE)),
 					nrow=1, ncol=1, dimnames = list(1,c("seedbank"))))
-Pmatrix<-createIPMPmatrix(nBigMatrix = 10, growObj = makeGrowthObj(dff), 
+Pmatrix<-makeIPMPmatrix(nBigMatrix = 10, growObj = makeGrowthObj(dff), 
 	survObj = makeSurvObj(dff), discreteTrans = discTrans)
-Fmatrix<-createIPMFmatrix(nBigMatrix = 10, fecObj = makeFecObj(dff))
+Fmatrix<-makeIPMFmatrix(nBigMatrix = 10, fecObj = makeFecObj(dff))
 dim(Pmatrix)
 dim(Fmatrix)					
 # To fix this mismatch, all discrete classes (1 in this case) need to be added to the Fmatrix as well, e.g.:
-Fmatrix<-createIPMFmatrix(nBigMatrix = 10, fecObj = makeFecObj(dff, offspringSplitter=data.frame(seedbank=.3,continuous=.7)))
+Fmatrix<-makeIPMFmatrix(nBigMatrix = 10, fecObj = makeFecObj(dff, offspringSplitter=data.frame(seedbank=.3,continuous=.7)))
 IPM <- Pmatrix + Fmatrix	
 }

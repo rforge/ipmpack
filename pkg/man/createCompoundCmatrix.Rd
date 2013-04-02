@@ -1,5 +1,5 @@
-\name{createCompoundCmatrix}
-\alias{createCompoundCmatrix}
+\name{makeCompoundCmatrix}
+\alias{makeCompoundCmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds a compound C matrix.
@@ -12,7 +12,7 @@ Builds a compound C matrix.
   necessary. Currently only pre-census clonal reproduction can be handled.  
 }
 \usage{
-createCompoundCmatrix(nEnvClass = 2, nBigMatrix = 50,
+makeCompoundCmatrix(nEnvClass = 2, nBigMatrix = 50,
 minSize = -1, maxSize = 50, envMatrix, clonalObj, integrateType, correction)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -64,8 +64,8 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createCompoundPmatrix}},\code{\link{createIPMCmatrix}}
+\code{\link{makeCompoundPmatrix}},\code{\link{makeIPMCmatrix}}
 }
 \examples{
-## See createCompoundFmatrix for examples
+## See makeCompoundFmatrix for examples
 }

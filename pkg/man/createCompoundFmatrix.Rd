@@ -1,5 +1,5 @@
-\name{createCompoundFmatrix}
-\alias{createCompoundFmatrix}
+\name{makeCompoundFmatrix}
+\alias{makeCompoundFmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds a compound F matrix.
@@ -8,7 +8,7 @@ Builds a compound F matrix.
   Uses fecundity object, and environmental transition objects to construct a matrix defining probabilities for transitions between sizes due to fecundity given both a continuous state (e.g. size) and environmental state, as well as a discrete stage if necessary (e.g. seedbank).  
 }
 \usage{
-createCompoundFmatrix(nEnvClass = 2, nBigMatrix = 50,
+makeCompoundFmatrix(nEnvClass = 2, nBigMatrix = 50,
 minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType="midpoint", 
 correction="none",
 preCensus = TRUE, survObj = NULL, growObj = NULL)
@@ -56,7 +56,7 @@ preCensus = TRUE, survObj = NULL, growObj = NULL)
   \item{growObj}{
     growth object, describing the growth of parents that survive until the 
     reproduction event starts. Warning: this growth object is still ignored in 
-    createIPMFmatrix in the current version of IPMpack. It will become functional 
+    makeIPMFmatrix in the current version of IPMpack. It will become functional 
     in coming versions.  
   }
 }
@@ -81,13 +81,13 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createCompoundPmatrix}},\code{\link{createIPMFmatrix}}
+\code{\link{makeCompoundPmatrix}},\code{\link{makeIPMFmatrix}}
 }
 \examples{
 # Data with only continuous stage and two habitats
 dff <- generateData()
 dff$fec[dff$fec==0] <- NA
-Fmatrix <-createCompoundFmatrix(nBigMatrix = 20, 
+Fmatrix <-makeCompoundFmatrix(nBigMatrix = 20, 
 	minSize = min(dff$size, na.rm = TRUE), 
 		maxSize = max(dff$size, na.rm=TRUE), 
 			envMatrix = makeEnvObj(dff), 
@@ -109,6 +109,6 @@ dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 fv1 <- makeFecObj(dff, Formula = fec~size, Transform = "log", 
 	offspringSplitter=data.frame(continuous = 0.9, dormant = 0.1))
-Fmatrix <- createCompoundFmatrix(minSize = min(dff$size, na.rm=TRUE),
+Fmatrix <- makeCompoundFmatrix(minSize = min(dff$size, na.rm=TRUE),
 maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), fecObj = fv1)
 }

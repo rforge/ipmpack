@@ -45,9 +45,9 @@ Modified from Appendix A in Rees and Ellner 2009 (see references).
 
 \examples{
 dff <- generateData()
-Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- makeIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
 	maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff))
-Fmatrix <- createIPMFmatrix(minSize = min(dff$size, na.rm = TRUE), 
+Fmatrix <- makeIPMFmatrix(minSize = min(dff$size, na.rm = TRUE), 
 	maxSize = max(dff$size, na.rm = TRUE),fecObj = makeFecObj(dff))
 
 largeMatrixCalc(Pmatrix, Fmatrix)

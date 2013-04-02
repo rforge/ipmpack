@@ -1117,11 +1117,11 @@ makeListPmatrix <- function(growObjList,survObjList,
 	PmatrixList <- list()
 	for ( k in 1:length(growObjList)) { 
 		if (!cov) {
-			PmatrixList[[k]] <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			PmatrixList[[k]] <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, growObj = growObjList[[k]],
 					survObj = survObjList[[k]],integrateType=integrateType, correction=correction) 
 		} else {
-			PmatrixList[[k]] <- createCompoundPmatrix(nEnvClass = length(envMat[1,]),
+			PmatrixList[[k]] <- makeCompoundPmatrix(nEnvClass = length(envMat[1,]),
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=envMat,
 					growObj = growObjList[[k]],
@@ -1144,11 +1144,11 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE,
 	FmatrixList <- list()
 	for ( k in 1:nsamp) {
 		if (!cov) { 
-			FmatrixList[[k]] <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			FmatrixList[[k]] <- makeIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, 
 					fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)
 		} else {
-			FmatrixList[[k]] <- createCompoundFmatrix(nEnvClass = length(envMat[1,]),
+			FmatrixList[[k]] <- makeCompoundFmatrix(nEnvClass = length(envMat[1,]),
 					nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize, envMatrix=envMat,
 					fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)

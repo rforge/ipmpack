@@ -44,11 +44,11 @@ Modified following code developed by Mark Rees & Dylan Childs
 }
 \examples{
 dff <- generateData()
-Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm=TRUE),
+Pmatrix <- makeIPMPmatrix(minSize = min(dff$size, na.rm=TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff))
 
-Fmatrix <- createIPMFmatrix(minSize = min(dff$size, na.rm = TRUE),
+Fmatrix <- makeIPMFmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), fecObj = makeFecObj(dff))
 
 IPM <- Pmatrix + Fmatrix

@@ -136,7 +136,7 @@ nBigMatrix <- 100
 #  The argument correction="discretizeExtremes" places parts of the growth distribution that fall
 #  below minSize or above maxSize into the first and last bin 
 #      
-Pmatrix<-createIPMPmatrix(growObj=go,survObj=so,discreteTrans=dto,
+Pmatrix<-makeIPMPmatrix(growObj=go,survObj=so,discreteTrans=dto,
                           minSize=0,maxSize=80,nBigMatrix=nBigMatrix,
                           correction="discretizeExtremes")
 
@@ -144,12 +144,12 @@ Pmatrix<-createIPMPmatrix(growObj=go,survObj=so,discreteTrans=dto,
 #  The argument correction="discretizeExtremes" places parts of the continuous offspring distribution that fall
 #  below minSize or above maxSize into the first and last bin
 #
-Fmatrix<-createIPMFmatrix(fecObj=fo,
+Fmatrix<-makeIPMFmatrix(fecObj=fo,
                           minSize=0,maxSize=80,nBigMatrix=nBigMatrix,
                           correction="discretizeExtremes")
 
 #Build a P matrix reflecting only the continuous part of the model and check that binning, etc is adequate
-PmatrixContinuousOnly <- createIPMPmatrix(growObj=go,survObj=so,minSize=0,maxSize=70,nBigMatrix=nBigMatrix,correction="discretizeExtremes")
+PmatrixContinuousOnly <- makeIPMPmatrix(growObj=go,survObj=so,minSize=0,maxSize=70,nBigMatrix=nBigMatrix,correction="discretizeExtremes")
 diagnosticsPmatrix(PmatrixContinuousOnly,growObj=go,survObj=so,dff=d, correction="discretizeExtremes")
 
 #Form the IPM as a result of adding the P and F matrices

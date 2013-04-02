@@ -39,17 +39,17 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createIPMPmatrix}} 
+\code{\link{makeIPMPmatrix}} 
 }
 \examples{
 # With a single continuous state variable (e.g. size):
 dff <- generateData()
-Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE),
+Pmatrix <- makeIPMPmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj=makeGrowthObj(dff),
 survObj = makeSurvObj(dff))
 meanLifeExpect(Pmatrix)
 
-Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE),
+Pmatrix <- makeIPMPmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff),
 survObj = makeSurvObj(dff))
 
@@ -62,7 +62,7 @@ dff <- generateData(type="discrete")
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 discM <- makeDiscreteTrans(dff)
-Pmatrix <- createCompoundPmatrix(minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- makeCompoundPmatrix(minSize = min(dff$size, na.rm = TRUE), 
 maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff),
 growObj = makeGrowthObj(dff, Formula = sizeNext~size+size2+covariate),
 survObj = makeSurvObj(dff, Formula = surv~size+size2+covariate), 

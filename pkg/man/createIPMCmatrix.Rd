@@ -1,5 +1,5 @@
-\name{createIPMCmatrix}
-\alias{createIPMCmatrix}
+\name{makeIPMCmatrix}
+\alias{makeIPMCmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here. 
 \title{
 Builds C matrices.
@@ -11,7 +11,7 @@ seedlings, calves) by clonal reproduction. Currently only pre-census
 clonal reproduction can be handled. 
 }
 \usage{
-createIPMCmatrix(clonalObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 
+makeIPMCmatrix(clonalObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 
 	maxSize = 50, chosenCov = data.frame(covariate=1), integrateType="midpoint", 
 	correction="none",preCensus = TRUE, survObj = NULL, growObj = NULL)
 }
@@ -63,7 +63,7 @@ createIPMCmatrix(clonalObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1,
   \item{growObj}{
     growth object, describing the growth of parents that survive until the 
     reproduction event starts. Warning: this growth object is still ignored in 
-    createIPMFmatrix in the current version of IPMpack. It will become functional 
+    makeIPMFmatrix in the current version of IPMpack. It will become functional 
     in coming versions. So far it is assumed that at time of breeding the individuals 
     have the same size as at the beginning of the time interval.  
   }
@@ -86,7 +86,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createIPMPmatrix}},\code{\link{createIPMFmatrix}}
+\code{\link{makeIPMPmatrix}},\code{\link{makeIPMFmatrix}}
 
 }
 \examples{
@@ -94,7 +94,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 dff <- generateData()
 dff$fec[dff$fec==0] <- NA
 cv1 <- makeClonalObj(dff, Formula = fec~size, Transform = "log")
-Cmatrix <- createIPMCmatrix(clonalObj = cv1, nBigMatrix = 20, 
+Cmatrix <- makeIPMCmatrix(clonalObj = cv1, nBigMatrix = 20, 
 	minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE))
 
 slotNames(Cmatrix)

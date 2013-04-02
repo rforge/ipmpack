@@ -36,13 +36,13 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{meanLifeExpect}}, \code{\link{createIPMPmatrix}} 
+\code{\link{meanLifeExpect}}, \code{\link{makeIPMPmatrix}} 
 
 }
 \examples{
 # With a single continuous (e.g. size) stage
 dff <- generateData()
-Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- makeIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), 
 survObj = makeSurvObj(dff))
 vle <- varLifeExpect(Pmatrix)

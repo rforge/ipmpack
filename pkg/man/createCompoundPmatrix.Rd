@@ -1,5 +1,5 @@
-\name{createCompoundPmatrix}
-\alias{createCompoundPmatrix}
+\name{makeCompoundPmatrix}
+\alias{makeCompoundPmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds a compound P matrix.
@@ -8,7 +8,7 @@ Builds a compound P matrix.
   Uses growth, survival, discreteTrans, and environmental transition objects to construct a matrix defining probabilities for transitions between continuous stages (e.g. size) due to growth and survival given both size and environmental state and discrete stages. 
 }
 \usage{
-createCompoundPmatrix(nEnvClass = 2, nBigMatrix = 50,
+makeCompoundPmatrix(nEnvClass = 2, nBigMatrix = 50,
 minSize = -1, maxSize = 50, envMatrix, growObj, survObj,
 discreteTrans = 1, integrateType = "midpoint",correction = "none")
 }
@@ -82,12 +82,12 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createCompoundFmatrix}},\code{\link{createIPMPmatrix}}
+\code{\link{makeCompoundFmatrix}},\code{\link{makeIPMPmatrix}}
 }
 \examples{
 # Data with only continuous stage and two habitats
 dff <- generateData()
-Pmatrix <- createCompoundPmatrix(minSize = min(dff$size,na.rm = TRUE), 
+Pmatrix <- makeCompoundPmatrix(minSize = min(dff$size,na.rm = TRUE), 
 	maxSize = max(dff$size,na.rm = TRUE), envMatrix = makeEnvObj(dff), 
 		growObj = makeGrowthObj(dff, Formula = sizeNext~size+size2+covariate), 
 			survObj = makeSurvObj(dff, Formula = surv~size+size2+covariate))
@@ -105,7 +105,7 @@ dff <- generateData(type="discrete")
 dff$covariate <- sample(1:3, size = nrow(dff), replace = TRUE)
 dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 discM <- makeDiscreteTrans(dff)
-Pmatrix <- createCompoundPmatrix(minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- makeCompoundPmatrix(minSize = min(dff$size, na.rm = TRUE), 
 	maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), 
 		growObj = makeGrowthObj(dff, Formula = sizeNext~size+size2+covariate), 
 			survObj = makeSurvObj(dff, Formula = surv~size+size2+covariate), 

@@ -105,13 +105,13 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 	for (k in 1:nsamp) {
 		
 		if (!cov) {
-			Pmatrix <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+			Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 					maxSize = maxSize,  growObj = growObjList[[k]],
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
 					integrateType=integrateType, correction=correction) 
 			
 		} else {
-			Pmatrix <- createCompoundPmatrix(nEnvClass = nEnv,
+			Pmatrix <- makeCompoundPmatrix(nEnvClass = nEnv,
 					nBigMatrix = nBigMatrix, minSize = minSize,
 					maxSize = maxSize, envMatrix=envMat,growObj = growObjList[[k]],
 					survObj = survObjList[[k]],discreteTrans=discreteTrans,
@@ -135,12 +135,12 @@ getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		
 		if (class(fecObjList)!="NULL") {
 			if (!cov) { 
-				Fmatrix <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+				Fmatrix <- makeIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
 						maxSize = maxSize,  
 						fecObj=fecObjList[[k]],
 						integrateType=integrateType, correction=correction)
 			} else {
-				Fmatrix <- createCompoundFmatrix(nEnvClass = nEnv,
+				Fmatrix <- makeCompoundFmatrix(nEnvClass = nEnv,
 						nBigMatrix = nBigMatrix, minSize = minSize, 
 						maxSize = maxSize, envMatrix=envMat,
 						fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)
@@ -545,10 +545,10 @@ makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10,
 	IPM.list <- list()
 	for (k in 1:length(covs)) { 
 		
-		tpF <- createIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
+		tpF <- makeIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosenCov = data.frame(covariate=as.factor(k)),
 				fecObj = fv1,integrateType=integrateType, correction=correction)
-		tpS <- createIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
+		tpS <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 				maxSize = maxSize, chosenCov = data.frame(covariate=as.factor(k)),
 				growObj = gr1, survObj = sv1,
 				integrateType=integrateType, correction=correction)

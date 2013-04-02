@@ -1,5 +1,5 @@
-\name{createIPMPmatrix}
-\alias{createIPMPmatrix}
+\name{makeIPMPmatrix}
+\alias{makeIPMPmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds P matrices.
@@ -8,7 +8,7 @@ Builds P matrices.
   Uses growth and survival objects to construct a matrix defining probabilities for transitions between sizes due to growth and survival. Extensions for transition to discrete classes are possible.
 }
 \usage{
-createIPMPmatrix(nEnvClass = 1, nBigMatrix = 50,
+makeIPMPmatrix(nEnvClass = 1, nBigMatrix = 50,
 minSize = -1, maxSize = 50, chosenCov = data.frame(covariate=1), growObj, survObj, discreteTrans=1, 
 integrateType = "midpoint", correction="none")
 }
@@ -79,11 +79,11 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createIPMFmatrix}}, \code{\link{diagnosticsPmatrix}}, \code{\link{makeDiscreteTrans}}  
+\code{\link{makeIPMFmatrix}}, \code{\link{diagnosticsPmatrix}}, \code{\link{makeDiscreteTrans}}  
 }
 \examples{
 dff <- generateData()
-Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- makeIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
 	maxSize=max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff), 
 		survObj = makeSurvObj(dff))
 
@@ -91,7 +91,7 @@ image(Pmatrix@meshpoints, Pmatrix@meshpoints, t(Pmatrix),
 	xlab = "Continuous (e.g. size) stage at t", 
 		ylab = "Continuous (e.g. size) stage at t+1")
 
-Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- makeIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
 	maxSize=max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff,regType="declineVar"), 
 		survObj = makeSurvObj(dff))
 
@@ -101,7 +101,7 @@ image(Pmatrix@meshpoints, Pmatrix@meshpoints, t(Pmatrix),
 
 #example with discrete transition matrix
 dff <- generateData(type="discrete")
-Pmatrix <- createIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
+Pmatrix <- makeIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
 	maxSize=max(dff$size, na.rm=TRUE), discreteTrans=makeDiscreteTrans(dff),
 	growObj = makeGrowthObj(dff), 
 		survObj = makeSurvObj(dff))

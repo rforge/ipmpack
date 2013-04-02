@@ -38,7 +38,7 @@ convergeIPM(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
     integration type.
   }
   \item{correction}{
-    correction (see createIPMPmatrix)
+    correction (see makeIPMPmatrix)
   }
   \item{preCensus}{
     boolean defining whether fecundity is pre or post census; defaults to pre

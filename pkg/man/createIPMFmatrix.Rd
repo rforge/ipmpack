@@ -1,5 +1,5 @@
-\name{createIPMFmatrix}
-\alias{createIPMFmatrix}
+\name{makeIPMFmatrix}
+\alias{makeIPMFmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here. 
 \title{
 Builds F matrices.
@@ -8,7 +8,7 @@ Builds F matrices.
 Uses fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calves) by reproductive stages due to sexual reproduction. 
 }
 \usage{
-createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 
+makeIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 
 	maxSize = 50, chosenCov = data.frame(covariate=1), integrateType="midpoint", correction="none", 
 	preCensus = TRUE, survObj = NULL, growObj = NULL)
 }
@@ -59,7 +59,7 @@ createIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1,
   \item{growObj}{
     growth object, describing the growth of parents that survive until the 
     reproduction event starts. Warning: this growth object is still ignored in 
-    createIPMFmatrix in the current version of IPMpack. It will become functional 
+    makeIPMFmatrix in the current version of IPMpack. It will become functional 
     in coming versions. So far it is assumed that at time of breeding the individuals 
     have the same size as at the beginning of the time interval.  
   }
@@ -84,14 +84,14 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{createIPMPmatrix}}
+\code{\link{makeIPMPmatrix}}
 }
 \examples{
 # Data with only continuous stage and one habitat
 dff <- generateData()
 dff$fec[dff$fec==0] <- NA
 fv1 <- makeFecObj(dff, Formula = fec~size, Transform = "log")
-Fmatrix <- createIPMFmatrix(fecObj = fv1, nBigMatrix = 20, 
+Fmatrix <- makeIPMFmatrix(fecObj = fv1, nBigMatrix = 20, 
 	minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), correction="constant")
 
 slotNames(Fmatrix)

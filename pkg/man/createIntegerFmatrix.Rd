@@ -1,6 +1,6 @@
-\name{createIntegerFmatrix}
-\alias{createIntegerFmatrix}
-\alias{createIntegerPmatrix}
+\name{makeIntegerFmatrix}
+\alias{makeIntegerFmatrix}
+\alias{makeIntegerPmatrix}
 %- Also NEED an '\alias' for EACH other topic documented here. 
 \title{
 Builds P and F matrices built off regressions fitted to discrete variables (with probability mass functions rather than probability density functions).
@@ -9,11 +9,11 @@ Builds P and F matrices built off regressions fitted to discrete variables (with
 Uses survival, growth and fecundity objects to construct a matrix defining per-capita contribution to recruitment stages (e.g., propagules [seed, spore], seedlings, calves) by reproductive stages due to sexual reproduction (for the F matrix); and transition probabilities determined from survival and growth to quasi-continuous stages based on integer data (e.g. number of leaves) as opposed to truly continuous data (e.g. mass). 
 }
 \usage{
-createIntegerFmatrix(fecObj, nEnvClass = 1, meshpoints = 1:20, 
+makeIntegerFmatrix(fecObj, nEnvClass = 1, meshpoints = 1:20, 
 	chosenCov = data.frame(covariate=1), 
 	preCensus = TRUE, survObj = NULL, growObj = NULL)
 
-createIntegerPmatrix(nEnvClass = 1, 
+makeIntegerPmatrix(nEnvClass = 1, 
 		meshpoints = 1:20,
 		chosenCov = data.frame(covariate = 1), 
 		growObj, survObj, 
@@ -53,7 +53,7 @@ createIntegerPmatrix(nEnvClass = 1,
   \item{growObj}{
     growth object, describing the growth of parents that survive until the 
     reproductive event starts. Warning: this growth object is still ignored in 
-    createIPMFmatrix in the current version of IPMpack. It will become functional 
+    makeIPMFmatrix in the current version of IPMpack. It will become functional 
     in coming versions. So far it is assumed that at time of breeding the individuals 
     have the same size as at the beginning of the time interval.
   }
@@ -103,8 +103,8 @@ go1 <- makeGrowthObj(d1, Formula = sizeNext~size, Family = "poisson")
 fo <- makeFecObjInteger(d1, Formula = fec1~size, distOffspring = "poisson")
 
 #Create P and F matrices
-Pmatrix1 <- createIntegerPmatrix(growObj = go1, survObj = so, meshpoints = 1:101, discreteTrans = 1)
-Fmatrix <- createIntegerFmatrix(fecObj = fo, meshpoints = 1:101)
+Pmatrix1 <- makeIntegerPmatrix(growObj = go1, survObj = so, meshpoints = 1:101, discreteTrans = 1)
+Fmatrix <- makeIntegerFmatrix(fecObj = fo, meshpoints = 1:101)
 
 par(mfrow = c(1, 3), bty = "l")
 
@@ -121,7 +121,7 @@ image(Fmatrix@meshpoints, Fmatrix@meshpoints, t(Fmatrix),
 go2 <- makeGrowthObj(d1, Formula = sizeNext~size, Family = "negbin")
 
 #Recalculate the P matrix
-Pmatrix2 <- createIntegerPmatrix(growObj = go1, survObj = so, meshpoints = 1:101, discreteTrans = 1)
+Pmatrix2 <- makeIntegerPmatrix(growObj = go1, survObj = so, meshpoints = 1:101, discreteTrans = 1)
 
 par(mfrow = c(1, 3), bty = "l")
 plot(d1$size, d1$sizeNext, xlab = "Stage at t", ylab = "Stage at t+1")
@@ -138,6 +138,6 @@ image(Fmatrix@meshpoints, Fmatrix@meshpoints, t(Fmatrix),
 #The following repeats the same approach, but with negative binomial instead of poisson for stage transitions
 dff <- generateData()
 go2 <- makeGrowthObj(d1, Family = "negbin")
-Pmatrix2 <- createIntegerPmatrix(growObj = go2, survObj = so, meshpoints = 1:101, discreteTrans = 1)
+Pmatrix2 <- makeIntegerPmatrix(growObj = go2, survObj = so, meshpoints = 1:101, discreteTrans = 1)
 
 }
