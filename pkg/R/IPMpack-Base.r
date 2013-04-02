@@ -793,6 +793,8 @@ createIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxS
 					discreteTrans@discreteTrans[j,"continuous"] / sum(discreteTrans@discreteTrans[1:nDisc,"continuous"]) 
 			}
 		}
+		
+	
 		get.disc.matrix <- rbind(cbind(disc.to.disc, cont.to.disc), 
 				cbind(disc.to.cont, cont.to.cont))
 		rc <- new("IPMmatrix", nDiscrete = nDisc, nEnvClass = 1, 
