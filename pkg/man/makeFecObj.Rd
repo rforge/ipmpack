@@ -70,7 +70,7 @@ fv1 <- makeFecObj(dff,
 
 #now without any data, imposing desired cofficients
 fv1 <- makeFecObj(Formula=list(Fec~size),
-				offspringSplitter = data.frame(continuous = 0.2, seedAge1 = 0.8),
+				offspringSplitter = data.frame(continuous = 0.2, dormant=0,seedAge1 = 0.8),
 				fecByDiscrete = data.frame(dormant = 0, seedAge1 = 4.2), 
 				coeff=list(c(1,1)), meanOffspringSize=1,sdOffspringSize=1)
 				
