@@ -181,4 +181,5 @@ las = 2, cex.names = 0.5)
 barplot(res$elas, 
 main = expression("Parameter elasticity of population growth rate " *lambda), 
 las = 2, cex.names = 0.5)
+
 }
