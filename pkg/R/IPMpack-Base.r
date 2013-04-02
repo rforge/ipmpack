@@ -25,6 +25,9 @@ logit <- function(x) { u<-exp(pmin(x,50)); return(u/(1+u))}
 setGeneric("growth",
 		function(size, sizeNext, cov, growthObj) standardGeneric("growth"))
 
+setGeneric("offspringSize",
+		function(size, sizeNext, cov, growthObj) standardGeneric("offspringSize"))
+
 
 # Register a survival  generic
 #
@@ -56,6 +59,9 @@ setGeneric("surv",
 #   the growth transition from size to sizeNext
 setGeneric("growthCum",
 		function(size, sizeNext, cov, growthObj) standardGeneric("growthCum"))
+
+setGeneric("offspringSizeCum",
+		function(size, sizeNext, cov, growthObj) standardGeneric("offspringSizeCum"))
 
 
 ### CLASSES UNDERLYING THE GROWTH / SURVIVAL FUNCTIONS ######
@@ -1091,7 +1097,8 @@ makeIPMFmatrix <- function(fecObj,
 		correction="none",
 		preCensus=TRUE,
 		survObj=NULL,
-		growObj=NULL) {
+		growObj=NULL,
+		offspringObj=NULL) {
 	
 	# boundary points b and mesh points y
 	b<-minSize+c(0:nBigMatrix)*(maxSize-minSize)/nBigMatrix;

@@ -190,7 +190,169 @@ makeGrowthObj <- function(dataf=NULL,
 }
 
 
+### IDENTICAL TO makeGrowthObj - JUST COPIED
+##### ONLY DIFFERENCE IS DATA - don't throw away all NAs in size - and 
+##### focus on ones where offspringNext is sexual or clonal
 
+makeOffspringObj <- function(dataf=NULL,
+		Formula=sizeNext~size,
+		regType="constantVar",
+		Family="gaussian", link=NULL, coeff=NULL, sd=NULL) {
+	
+	if (!is.null(dataf)) { 
+				
+		if (length(dataf$offspringNext) > 0) 
+			dataf <- subset(dataf, dataf$offspringNext %in% c("sexual", 
+							"clonal"))
+		
+		if (length(grep("incr", as.character(Formula))) > 0 & length(dataf$incr) == 0) {
+			print("building incr as sizeNext - size")
+			dataf$incr <- dataf$sizeNext - dataf$size
+		}
+		if (length(grep("logincr", as.character(Formula))) > 0 & length(dataf$logincr) == 0) {
+			print("building logincr as log(sizeNext - size) - pre-build if this is not appropriate")
+			dataf$logincr <- log(dataf$sizeNext - dataf$size)
+		}
+		
+		#eliminate growth in dead individual
+		if (length(grep("incr", as.character(Formula))) > 0) {
+			if (sum(!is.na(dataf$incr) & dataf$surv==0,na.rm=TRUE)>0) {
+				print("measures of growth exist where individual has died (surv==0); replacing these with NA")
+				dataf$incr[dataf$surv==0] <- NA
+			}}
+		if (length(grep("sizeNext", as.character(Formula))) > 0) { 
+			if(sum(!is.na(dataf$sizeNext) & dataf$surv==0,na.rm=TRUE)>0) {
+				print("measures of growth exist where individual has died (surv==0); replacing these with NA")		
+				dataf$sizeNext[dataf$surv==0] <- NA
+			}}
+		if (length(grep("logincr", as.character(Formula))) > 0) {
+			if (sum(!is.na(dataf$logincr) & dataf$surv==0,na.rm=TRUE)>0) {
+				print("measures of growth exist where individual has died (surv==0); replacing these with NA")		
+				dataf$logincr[dataf$surv==0] <- NA
+			}}
+		
+		#create appropriate size based covariates
+		dataf$size2 <- dataf$size ^ 2
+		dataf$size3 <- dataf$size ^ 3
+		if (length(grep("expsize", as.character(Formula))) > 0) dataf$expsize <- exp(dataf$size)
+		if (length(grep("logsize", as.character(Formula))) > 0) dataf$logsize <- log(dataf$size)
+		
+		#setup for discrete covariates if data suggests may be implemented by the
+		#presence of "covariate" and "covariateNext"
+		if ("covariate" %in% unlist(strsplit(as.character(Formula), "[+-\\* ]")) & length(dataf$covariate) > 0) { 
+			dataf$covariate <- as.factor(dataf$covariate)
+			levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
+		}
+		if ("covariateNext" %in% unlist(strsplit(as.character(Formula), "[+-\\* ]")) & length(dataf$covariateNext) > 0) { 
+			dataf$covariateNext <- as.factor(dataf$covariateNext)
+			levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
+		}
+		
+		if (length(intersect(all.vars(Formula),colnames(dataf)))<length(all.vars(Formula))) print("warning: not all variables in the formula are present in dataf; model cannot be fit")
+		
+		#eval fit and make the objects
+		if (Family=="gaussian") { 
+			if (regType == "constantVar")  {
+				fit <- lm(Formula, data=dataf)
+			} else { 
+				if (regType == "declineVar"){
+					require(nlme)
+					fit.here <- gls(Formula, na.action = na.omit, weights = varExp(form =  ~fitted(.)), data = dataf)
+					fit <- list(coefficients = fit.here$coefficients,
+							sigmax2 = summary(fit.here)$sigma^2,
+							var.exp.coef = as.numeric(fit.here$modelStruct$varStruct[1]), 
+							fit = fit.here)
+					#print(class(fit.here))
+				}
+			}
+		} else {
+			if (regType != "constantVar") print("Warning: your regType is ignored because a non-gaussian model is fitted using glm")
+			if (Family=="negbin"){
+				if (is.null(link)) { print("setting link to identity"); link <- "identity" }
+				if (link=="identity") fit <- glm.nb(Formula, data=dataf,link="identity")
+				if (link=="log") fit <- glm.nb(Formula, data=dataf,link="log")
+				#if (link=="sqrt") fit <- glm.nb(Formula, data=dataf,link="sqrt")
+				if (link!="identity" & link!="log"){stop("unknown link specified for negative binomial")}
+				fit.here <- list()
+				if (link=="log") fit.here[[1]] <- glm.convert(fit)
+				if (link=="identity") { 
+					fit.dummy <-  glm(Formula, data=dataf)
+					fit.dummy$coefficients <- fit$coefficients
+					fit.here[[1]] <- fit.dummy
+				}
+				fit.here[[2]] <- fit$theta
+				fit.here[[3]] <- fit  
+			} else {
+				fit <- glm(Formula, data=dataf, family=Family)
+				fit.here <- fit
+				#print("here")
+			}           
+		}
+		
+		#make the objects
+		#with sizeNext as response
+		if (length(grep("sizeNext", as.character(Formula))) > 0) { 
+			if (class(fit)[1] == "lm") { 
+				gr1 <- new("growthObj")
+				gr1@fit <- fit
+				gr1@sd <- summary(fit)$sigma
+			} else {
+				if (class(fit.here)[1] == "gls") { 
+					gr1 <- new("growthObjDeclineVar")
+					gr1@fit <- fit
+				} else {
+					if (class(fit)[1] == "glm") { 
+						if (Family=="poisson") { gr1 <- new("growthObjPois"); gr1@fit <- fit } else {print("unidentified object class")}
+					} else {
+						if (class(fit)[1] == "negbin") {
+							gr1 <- new("growthObjNegBin"); gr1@fit <- fit.here
+						} 
+					}
+				}
+			}    
+		} else {
+			if (length(grep("incr", as.character(Formula))) > 0 & 
+					length(grep("logincr", as.character(Formula))) == 0) { 
+				
+				if (class(fit)[1] == "lm") { 
+					gr1 <- new("growthObjIncr")
+					gr1@fit <- fit
+					gr1@sd <- summary(fit)$sigma
+				} else {
+					if (class(fit.here)[1] == "gls") { 
+						gr1 <- new("growthObjIncrDeclineVar")
+						gr1@fit <- fit
+					} else {print("undefined object class")}
+				}
+			} else {
+				if (length(grep("logincr", as.character(Formula))) > 0) { 					
+					if (class(fit)[1] == "lm") { 
+						gr1 <- new("growthObjLogIncr")
+						gr1@fit <- fit
+						gr1@sd <- summary(fit)$sigma
+					} else {
+						if (class(fit.here)[1] == "gls") { 
+							gr1 <- new("growthObjLogIncrDeclineVar")
+							gr1@fit <- fit
+						} else {print("undefined object class")}
+					}
+				}
+			}    
+		}
+		
+	} else {
+		
+		if (is.null(coeff) | is.null(sd)) stop("require coefficients and standard devaition if data is not supplied")
+		gr1 <- .createGrowthObj(Formula=Formula, coeff=coeff, sd=sd)
+		
+	}
+	
+	
+	
+	return(gr1)
+}
+
+### Function to make a new object of class offspringObj
 
 
 ## Function to create a new Hossfeld growth object
@@ -216,43 +378,6 @@ makegrowthObjHossfeld <- function(dataf) {
 	gr1@sd <- sd(resids, na.rm = T)
 	return(gr1)
 }
-
-
-# Function to create a truncated increment growth model 
-# currently only defined for increment, leftVal is min
-#
-# Paramteres - dataf - a dataframe
-#
-#
-# Retrurns - growth object with truncated increment
-#
-#no covariate, and one polynom, linear regression on increment
-#makeGrowthObjIncrTrunc <- function(dataf,
-#		explanatoryVariables = "size",
-#		responseType = "incr",
-#		leftVal = 0) {
-#	require(censReg)
-#	
-#	dataf$size2 <- dataf$size ^ 2
-#	
-#	Formula <- paste(responseType, '~', explanatoryVariables, sep = '')
-#
-#	if (length(grep("logsize", Formula)) > 0) dataf$logsize <- log(dataf$size)
-#			
-#	if (responseType == "incr") { 
-#		if (length(dataf$incr) == 0) {
-#			print("building incr as sizeNext-size")
-#			dataf$incr <- dataf$sizeNext - dataf$size
-#			dataf$incr[dataf$incr<leftVal] <- NA
-#		}}
-#				
-#	fit <- censReg(as.formula(Formula),data=dataf, left=leftVal)
-#	gr1 <- new("growthObjTruncIncr")
-#	gr1@fit <- fit$estimate
-#	gr1@varcov <- vcov(fit)
-#	return(gr1)
-#}
-
 
 
 
