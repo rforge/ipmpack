@@ -116,37 +116,37 @@ survObj = makeSurvObj(dff), fecObj = makeFecObj(dff, Transform="log"), nBigMatri
 minSize = min(dff$size, na.rm=TRUE), maxSize = max(dff$size, na.rm = TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
-barplot(res$slam, 
+barplot(res$sens, 
 main = expression("Parameter sensitivity of population growth rate "* lambda), 
 las = 2, cex.names = 0.5) 
-barplot(res$elam, 
+barplot(res$elas, 
 main = expression("Parameter elasticity of population growth rate "* lambda), 
 las = 2, cex.names = 0.5) 
 
 #R0
-resR0 <- sensParamsR0(growObj = makeGrowthObj(dff), 
+resR0 <- sensParams(growObj = makeGrowthObj(dff), 
 survObj = makeSurvObj(dff), fecObj = makeFecObj(dff, Transform="log"), nBigMatrix = 50, 
-minSize = min(dff$size, na.rm=TRUE), maxSize = max(dff$size, na.rm = TRUE))
+minSize = min(dff$size, na.rm=TRUE), maxSize = max(dff$size, na.rm = TRUE), response="R0")
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
-barplot(resR0$slam, 
+barplot(resR0$sens, 
 main = expression("Parameter sensitivity of net reproductive rate R"[0]), 
 las = 2, cex.names = 0.5) 
-barplot(resR0$elam, 
+barplot(resR0$elas, 
 main = expression("Parameter elasticity of net reproductive rate R"[0]), 
 las = 2, cex.names = 0.5) 
 
 #life expectancy
-resLE <- sensParamsLifeExpect (growObj = makeGrowthObj(dff), 
+resLE <- sensParams(growObj = makeGrowthObj(dff), 
 survObj = makeSurvObj(dff),  nBigMatrix = 50, 
 minSize = min(dff$size, na.rm=TRUE), maxSize = max(dff$size, na.rm =
-TRUE), chosenBin=1)
+TRUE), chosenBin=1, response="lifeExpect")
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
-barplot(resLE$slam, 
+barplot(resLE$sens, 
 main = expression("Parameter sensitivity of Life Expectancy"*eta[0]), 
 las = 2, cex.names = 0.5) 
-barplot(resLE$elam, 
+barplot(resLE$elas, 
 main = expression("Parameter elasticity of Life expectancy"*eta[0]), 
 las = 2, cex.names = 0.5) 
 
@@ -161,10 +161,10 @@ fecObj = fv1, nBigMatrix = 50, minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
-barplot(res$slam, 
+barplot(res$sens, 
 main = expression("Parameter sensitivity of population growth rate " *lambda), 
 las = 2, cex.names = 0.5) 
-barplot(res$elam, 
+barplot(res$elas, 
 main = expression("Parameter elasticity of population growth rate " *lambda), 
 las = 2, cex.names = 0.5) 
 
@@ -175,10 +175,10 @@ fecObj = fv1, nBigMatrix = 50, minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
-barplot(res$slam, 
+barplot(res$sens, 
 main = expression("Parameter sensitivity of population growth rate " *lambda), 
 las = 2, cex.names = 0.5) 
-barplot(res$elam, 
+barplot(res$elas, 
 main = expression("Parameter elasticity of population growth rate " *lambda), 
 las = 2, cex.names = 0.5)
 }

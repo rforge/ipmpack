@@ -2782,7 +2782,7 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				IPM <- Pmatrix + Fmatrix + Cmatrix
 				
 				if (response=="lambda") rc2 <- Re(eigen(IPM)$value[1])
-				if (response=="R0") rc2 <- R0Calc(Pmatrix, Fmatrix1+Cmatrix)
+				if (response=="R0") rc2 <- R0Calc(Pmatrix, Fmatrix+Cmatrix)
 				if (response=="lifeExpect") rc2 <- meanLifeExpect(Pmatrix)[chosenBin]
 				
 				fecObj@fitFec[[i]]$coefficients[j] <- fecObj@fitFec[[i]]$coefficients[j]/(1 + delta)
@@ -2981,7 +2981,7 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				IPM <- Pmatrix + Fmatrix + Cmatrix
 				
 				if (response=="lambda") rc2 <- Re(eigen(IPM)$value[1])
-				if (response=="R0") rc2 <- R0Calc(Pmatrix, Fmatrix1+Cmatrix)
+				if (response=="R0") rc2 <- R0Calc(Pmatrix, Fmatrix+Cmatrix)
 				if (response=="lifeExpect") rc2 <- meanLifeExpect(Pmatrix)[chosenBin]
 				
 				clonalObj@fitFec[[i]]$coefficients[j] <- clonalObj@fitFec[[i]]$coefficients[j]/(1 + delta)
