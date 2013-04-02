@@ -2460,9 +2460,7 @@ largeMatrixCalc <- function(Pmatrix, Fmatrix, tol = 1.e-8){
 
 
 ## Sensitivity of parameters - works for an IPM built out of
-## growth, survival, discreteTrans, fecundity and clonality objects with a fitted regression
-## as one of their slots. Note that fecObj and growObj need to reflect
-## the 
+## growth, survival, discreteTrans, fecundity and clonality objects.
 ##
 ##
 sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
@@ -2731,7 +2729,7 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 		}
 		
 		for (j in 1:length(discreteTrans@survToDiscrete$coef)) {
-			discreteTrans@survToDiscrete$coef[j]<-discreteTrans@survToDiscrete$coef[j] * (1 + delta)
+			discreteTrans@survToDiscrete$coefficients[j]<-discreteTrans@survToDiscrete$coefficients[j] * (1 + delta)
 			Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
 					maxSize = maxSize, growObj = growObj, survObj = survObj,
 					chosenCov = chosenCov, discreteTrans = discreteTrans,
@@ -2754,11 +2752,11 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 			if (response=="R0") rc2 <- R0Calc(Pmatrix, Fmatrix+Cmatrix)
 			if (response=="lifeExpect") rc2 <- meanLifeExpect(Pmatrix)[chosenBin]
 			
-			discreteTrans@survToDiscrete$coef[j]<-discreteTrans@survToDiscrete$coef[j] / (1 + delta)
+			discreteTrans@survToDiscrete$coefficients[j]<-discreteTrans@survToDiscrete$coefficients[j] / (1 + delta)
 			
-			slam <- c(slam,(rc2 - rc1)/(as.numeric(discreteTrans@survToDiscrete$coef[j]) * delta))
+			slam <- c(slam,(rc2 - rc1)/(as.numeric(discreteTrans@survToDiscrete$coefficients[j]) * delta))
 			elam <- c(elam, (rc2 - rc1)/(rc1 * delta))
-			nmes <- c(nmes, as.character(paste("discrete: survToDiscrete",names(discreteTrans@survToDiscrete$coef)[j])))
+			nmes <- c(nmes, as.character(paste("discrete: survToDiscrete",names(discreteTrans@survToDiscrete$coefficients)[j])))
 		}
 	}
 	
@@ -2794,7 +2792,7 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				
 				slam <- c(slam,(rc2 - rc1)/((as.numeric(fecObj@fitFec[[i]]$coefficients[j]) * delta)))
 				elam <- c(elam,(rc2 - rc1)/(rc1 * delta))
-				nmes <- c(nmes,paste("fecundity: func", i, "coeff", names(fecObj@fitFec[[i]]$coefficients)[j]))
+				nmes <- c(nmes,paste("fecundity: func", i, names(fecObj@fitFec[[i]]$coefficients)[j]))
 			}
 		}
 		
@@ -2993,7 +2991,7 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 				
 				slam <- c(slam,(rc2 - rc1)/((as.numeric(clonalObj@fitFec[[i]]$coefficients[j]) * delta)))
 				elam <- c(elam,(rc2 - rc1)/(rc1 * delta))
-				nmes <- c(nmes,paste("clonality: func", i, "coeff", names(clonalObj@fitFec[[i]]$coefficients)[j]))
+				nmes <- c(nmes,paste("clonality: func", i, names(clonalObj@fitFec[[i]]$coefficients)[j]))
 			}
 		}
 		
