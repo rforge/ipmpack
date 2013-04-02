@@ -63,6 +63,7 @@ $themeroot='http://r-forge.r-project.org/themes/rforge/';
                   <td class="button"><a href="#summary" class="button">SUMMARY</a></td>
                   <td class="button"><a href="#description" class="button">PACKAGE</a></td>
                   <td class="button"><a href="#refs" class="button">REFERENCES</a></td>
+                  <td class="button"><a href="#faqs" class="button">FAQS</a></td>
                 </tr>
               </tbody>
             </table>
@@ -180,6 +181,23 @@ row represents one measurement in the population:</p>
 					<p>Photo credits: <br><i>Xanthoparmelia</i> lichens by Ann Pringle<br>crocs by Owen Jones<br><i>Succisa pratensis</i> by Lidewij Keser
 					<p>Webdesign credits: <br>
 					Fernando Colchero of <a href="http://basta.r-forge.r-project.org/" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">BaSTA</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- 4.4- References:-->
+            <a name="faqs"></a>
+            <table  valign="middle" width="1050px" style="table-layout:fixed;background:#1F1209">
+              <tbody>
+                <tr class="title"><td colspan="2" class="section">FAQs and other pointers</td></tr>
+                <tr style="background:#FFFFFF">
+                  <td style="vertical-align:middle;padding:40px" width="420px">
+				    Here we list frequently asked questions, along with other pointers that we deem useful. Some of the answers are accompanied with links to R code on separate pages. 
+                    <p class="Refs">Can I perform <b>bayesian</b> analyses with <i>IPMpack</i>? <p>No, we have not included functions for bayesian analyses. However, some R code (from previous versions of <i>IPMpack</i>) can be found <a href="bayes.htm">here</a>.
+                    <p><br></p>
+                    <a href="#top" class="totop">Back to top</a>
+                  </td>
+                  <td style="vertical-align:top;padding:40px" width="420px">
                   </td>
                 </tr>
               </tbody>
