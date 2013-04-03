@@ -65,7 +65,7 @@ Note that DeclineVar objects cannot currently be constructed without a data-fram
 dff <- generateData()
 
 #make simple linear regression growth object relating size to size at t+1
-off1 <- makeOffspringObj(dataf = dff, Formula = sizeNext~size)
+off1 <- makeOffspringObj(dataf = dff, Formula = sizeNext~1)
 
 #now specifying parameters and supplying no data
 off1 <- makeOffspringObj(Formula = incr ~ size + covariate,coeff=c(1,1,1),sd=1)
