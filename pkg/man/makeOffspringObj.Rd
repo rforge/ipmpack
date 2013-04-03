@@ -35,7 +35,7 @@ coeff=NULL,sd=NULL, offspringType="sexual")
    \item{link}{defaults to NULL, currently only relevant with Family="negbin", and only "log" and "identity" are permitted}
    \item{coeff}{numeric vector of required coefficients to be imposed if dataf is NULL; must be compatible with Formula}
    \item{sd}{numeric of required sd to be imposed if dataf is NULL}
-   \item{offspringType}{whether the relationship should be fitted for
+   \item{reproductionType}{whether the relationship should be fitted for
      sexual or clonal offspring; the default is "sexual"; this will only be relevant if data is
      provided and has a column "offspringNext"}
      
