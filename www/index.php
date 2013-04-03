@@ -193,7 +193,7 @@ row represents one measurement in the population:</p>
                 <tr style="background:#FFFFFF">
                   <td style="vertical-align:middle;padding:40px" width="420px">
 				    Here we list frequently asked questions, along with other pointers that we deem useful. Some of the answers are accompanied with links to R code on separate pages. 
-                    <p class="Refs">Can I perform <b>bayesian</b> analyses with <i>IPMpack</i>? <p>No, we have not included functions for bayesian analyses. However, some R code (from previous versions of <i>IPMpack</i>) can be found <a href="bayes.htm">here</a>.
+                    <p class="Refs">Can I perform <b>bayesian</b> analyses with <i>IPMpack</i>? <p>No, we have not included functions for bayesian analyses. However, some R code (from previous versions of <i>IPMpack</i>) can be found <a href="bayes.php">here</a>.
                     <p><br></p>
                     <a href="#top" class="totop">Back to top</a>
                   </td>
