@@ -905,8 +905,7 @@ makeCompoundPmatrix <- function(nEnvClass = 2,
 		survObj,
 		discreteTrans=1,
 		integrateType="midpoint",
-		correction="none"
-) {
+		correction="none") {
 	
 	
 	#warnings...
@@ -982,9 +981,9 @@ makeCompoundPmatrix <- function(nEnvClass = 2,
 	newd$size3 <- x^3
 	newd$expsize <- exp(x)
 
-	if (length(fecObj@offspringRel)>1) {
-		if (length(grep("logsize", fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
-	}
+	#if (length(fecObj@offspringRel)>1) {
+	#	if (length(grep("logsize", fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
+	#}
 	
 	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1
 	
@@ -1008,20 +1007,25 @@ makeCompoundPmatrix <- function(nEnvClass = 2,
 
 
 ## A function that outer can use showing numbers from x to y via production and distribution offspring
-.fecPreCensus <- function(x,y,cov=data.frame(covariate=1),fecObj) {
+.fecPreCensus <- function(x,y,cov=data.frame(covariate=1),fecObj,offspringObj=NULL) {
 	newd <- data.frame(cbind(cov,size=x),
 			stringsAsFactors = FALSE)	
 	newd$size2 <- x^2
 	newd$size3 <- x^3
 	
-	if (length(grep("expsize",
+	if (is.null(offspringObj)){
+		if (length(grep("expsize",
 					fecObj@offspringRel$formula))>0) { newd$expsize <- exp(x)}
-	if (length(grep("logsize",
+		if (length(grep("logsize",
 					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
-	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
-			dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),
-					fecObj@sdOffspringSize)
-	
+		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
+				dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),
+						fecObj@sdOffspringSize)
+	} else {
+		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
+				growth(y,newd,fecObj@offspringRel)
+						
+	}
 	#print(cbind(y,predict(fecObj@offspringRel)))
 	
 	
@@ -1038,19 +1042,25 @@ makeCompoundPmatrix <- function(nEnvClass = 2,
 ## REMOVE GROWTH FROM THIS - note that this means 
 #### growth obj generally not needed down below.....
 ## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring
-.fecPostCensus <- function(x,y,cov=data.frame(covariate=1),fecObj, growObj,survObj) {
+.fecPostCensus <- function(x,y,cov=data.frame(covariate=1),fecObj, growObj,survObj,offspringObj=NULL) {
 	newd <- data.frame(cbind(cov,size=x),
 			stringsAsFactors = FALSE)
 	
 	newd$size2 <- x^2
 	newd$size3 <- x^3
-	if (length(grep("expsize",fecObj@offspringRel$formula))>0 |
-			length(grep("expsize",growObj@fit$formula))>0) { newd$expsize <- exp(x)}            
-	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
-			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
-	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
-			dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)*
-			surv(size=x, cov=cov, survObj=survObj)
+
+	if (is.null(offspringObj)){
+		if (length(grep("expsize",fecObj@offspringRel$formula))>0 |
+				length(grep("expsize",growObj@fit$formula))>0) { newd$expsize <- exp(x)}            	
+		if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
+				length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
+		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
+				dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)*
+				surv(size=x, cov=cov, survObj=survObj)
+	} else {
+		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
+				growth(y,newd,fecObj@offspringRel)*surv(size=x, cov=cov, survObj=survObj)				
+	}
 	return(u)
 }
 

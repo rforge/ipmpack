@@ -37,7 +37,7 @@ makeGrowthObj(dataf=NULL, Formula = sizeNext ~ size,
 An object of class growthObj, or growthObjPois, growthObjIncr, or growthObjLogIncr;
 or growthObjDeclineVar, or growthObjIncrDeclineVar, or growthObjLogIncrDeclineVar. 
 These are S4 objects which contain the slots: 
-   \item{fit}{an object of class \code{lm} or \code{glm} or \code{gls} that can be used with predict in the survival methods}
+   \item{fit}{an object of class \code{lm} or \code{glm} or \code{gls} that can be used with predict in the growth methods}
 Slots can be listed by using slotNames(growthObj)   
 
 }
