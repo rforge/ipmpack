@@ -696,8 +696,7 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 			if (!densDep) sizes <- sample(sizes,size=maxPerYr, replace=TRUE)
 
 	}
-	
-	
+		
 	list.par <- list(m0=m0,ms=ms,
 			b0=b0,bs=bs,
 			A=A,B=B,
@@ -734,7 +733,8 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 	
 	dataf$fec[dataf$fec==0] <- NA
 	
-	return(list(dataf=dataf,meanYear=meanYear,matVarYear=matVarYear,list.par=list.par,trueGrow=trueGrow))
+	return(list(dataf=dataf,meanYear=meanYear,matVarYear=matVarYear,
+					list.par=list.par,trueGrow=trueGrow))
 	
 }
 
