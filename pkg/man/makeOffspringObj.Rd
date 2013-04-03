@@ -75,16 +75,21 @@ dff<-generateData()
 dff$fec[dff$fec==0] <- NA
 
 off1 <- makeOffspringObj(dataf = dff, Formula = sizeNext~1)
-fv1 <- makeFecObjNew(dff, Formula = fec~size, Transform = "log")
+fv1 <- makeFecObj(dff, Formula = fec~size, Transform = "log", do.offspring=FALSE)
 Fmatrix1 <- makeIPMFmatrix(fecObj = fv1, nBigMatrix = 20, 
 	minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size,
 na.rm = TRUE), correction="constant", offspringObj=off1)
 
 #compare with the other approach (where offspring object is not separate)
-fv2 <- makeFecObj(dff, Formula = fec~size, Transform = "log",offspringSizeExplanatoryVariables = "1")
+fv2 <- makeFecObj(dff, Formula = fec~size, Transform = "log",
+	offspringSizeExplanatoryVariables = "1", do.offspring=TRUE)
 Fmatrix2 <- makeIPMFmatrix(fecObj = fv2, nBigMatrix = 20, 
 	minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size,
 na.rm = TRUE), correction="constant", offspringObj=NULL)
+
+par(mfrow=c(1,2))
+image(Fmatrix1); image(Fmatrix2)
+
 
 
 }
