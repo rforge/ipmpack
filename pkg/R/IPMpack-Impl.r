@@ -408,7 +408,7 @@ makeFecObj <- function(dataf=NULL,
 		vitalRatesPerOffspringType=data.frame(NA),
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1", 
-		coeff=NULL, do.offspring=FALSE, 
+		coeff=NULL, do.offspring=TRUE, 
 		reproductionType="sexual"){
 		
 	if (!is.null(dataf)) { 
@@ -595,18 +595,18 @@ makeClonalObj <- function(dataf=NULL,
 		offspringSizeExplanatoryVariables="1", 
 		coeff=NULL, do.offspring=FALSE) { 
 
-	f1 <-makeFecObj(dataf=NULL,
-				fecConstants=data.frame(NA),
-				Formula=list(fec~size),
-				Family="gaussian",
-				Transform="none",
-				meanOffspringSize=NA,
-				sdOffspringSize=NA,
-				offspringSplitter=data.frame(continuous=1),
-				vitalRatesPerOffspringType=data.frame(NA),
-				fecByDiscrete=data.frame(NA),
-				offspringSizeExplanatoryVariables="1", 
-				coeff=NULL, do.offspring=FALSE,
+	f1 <-makeFecObj(dataf=dataf,
+				fecConstants=fecConstants,
+				Formula=Formula,
+				Family=Family,
+				Transform=Transform,
+				meanOffspringSize=meanOffspringSize,
+				sdOffspringSize=sdOffspringSize,
+				offspringSplitter=offspringSplitter,
+				vitalRatesPerOffspringType=vitalRatesPerOffspringType,
+				fecByDiscrete=fecByDiscrete,
+				offspringSizeExplanatoryVariables=offspringSizeExplanatoryVariables, 
+				coeff=coeff, do.offspring=do.offspring,
 				reproductionType="clonal")
 	
 	return(f1)
@@ -952,7 +952,9 @@ makeFecObjInteger <- function(dataf,
 		vitalRatesPerOffspringType=data.frame(NA),
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1",
-		distOffspring = "poisson"){
+		distOffspring = "poisson", 
+		coeff=NULL, do.offspring=FALSE, 
+		reproductionType="sexual"){
 	
 	
 	#make sure Formula is a formula or a list of formulas
@@ -1046,10 +1048,10 @@ makeFecObjInteger <- function(dataf,
 		if (is.na(meanOffspringSize[1])) {
 			if (length(dataf$offspringNext)==0) {
 				offspringData<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
-				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize and thetaOffspringSize slots, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'sexual' offspring)")
+				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize and thetaOffspringSize slots, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'sexual/clonal' offspring)")
 			} else {
 				offspringData<-subset(dataf,dataf$offspringNext=="sexual"&dataf$stageNext=="continuous")
-				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize  slot, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'sexual' offspring)")
+				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize  slot, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'sexual/clonal' offspring)")
 			}
 			## relationship defining offspring size  
 			if (distOffspring=="poisson") f1@offspringRel <- glm(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData, family="poisson")
