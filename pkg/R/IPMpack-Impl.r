@@ -197,38 +197,18 @@ makeGrowthObj <- function(dataf=NULL,
 makeOffspringObj <- function(dataf=NULL,
 		Formula=sizeNext~size,
 		regType="constantVar",
-		Family="gaussian", link=NULL, coeff=NULL, sd=NULL) {
+		Family="gaussian", link=NULL, coeff=NULL, sd=NULL, offspringType="sexual") {
 	
 	if (!is.null(dataf)) { 
 				
 		if (length(dataf$offspringNext) > 0) 
-			dataf <- subset(dataf, dataf$offspringNext %in% c("sexual", 
-							"clonal"))
-		
-		if (length(grep("incr", as.character(Formula))) > 0 & length(dataf$incr) == 0) {
-			print("building incr as sizeNext - size")
-			dataf$incr <- dataf$sizeNext - dataf$size
-		}
-		if (length(grep("logincr", as.character(Formula))) > 0 & length(dataf$logincr) == 0) {
-			print("building logincr as log(sizeNext - size) - pre-build if this is not appropriate")
-			dataf$logincr <- log(dataf$sizeNext - dataf$size)
-		}
+			dataf <- subset(dataf, dataf$offspringNext %in% offspringType)
 		
 		#eliminate growth in dead individual
-		if (length(grep("incr", as.character(Formula))) > 0) {
-			if (sum(!is.na(dataf$incr) & dataf$surv==0,na.rm=TRUE)>0) {
-				print("measures of growth exist where individual has died (surv==0); replacing these with NA")
-				dataf$incr[dataf$surv==0] <- NA
-			}}
 		if (length(grep("sizeNext", as.character(Formula))) > 0) { 
 			if(sum(!is.na(dataf$sizeNext) & dataf$surv==0,na.rm=TRUE)>0) {
 				print("measures of growth exist where individual has died (surv==0); replacing these with NA")		
 				dataf$sizeNext[dataf$surv==0] <- NA
-			}}
-		if (length(grep("logincr", as.character(Formula))) > 0) {
-			if (sum(!is.na(dataf$logincr) & dataf$surv==0,na.rm=TRUE)>0) {
-				print("measures of growth exist where individual has died (surv==0); replacing these with NA")		
-				dataf$logincr[dataf$surv==0] <- NA
 			}}
 		
 		#create appropriate size based covariates
@@ -291,8 +271,7 @@ makeOffspringObj <- function(dataf=NULL,
 		
 		#make the objects
 		#with sizeNext as response
-		if (length(grep("sizeNext", as.character(Formula))) > 0) { 
-			if (class(fit)[1] == "lm") { 
+		if (class(fit)[1] == "lm") { 
 				gr1 <- new("growthObj")
 				gr1@fit <- fit
 				gr1@sd <- summary(fit)$sigma
@@ -310,44 +289,12 @@ makeOffspringObj <- function(dataf=NULL,
 					}
 				}
 			}    
-		} else {
-			if (length(grep("incr", as.character(Formula))) > 0 & 
-					length(grep("logincr", as.character(Formula))) == 0) { 
 				
-				if (class(fit)[1] == "lm") { 
-					gr1 <- new("growthObjIncr")
-					gr1@fit <- fit
-					gr1@sd <- summary(fit)$sigma
-				} else {
-					if (class(fit.here)[1] == "gls") { 
-						gr1 <- new("growthObjIncrDeclineVar")
-						gr1@fit <- fit
-					} else {print("undefined object class")}
-				}
-			} else {
-				if (length(grep("logincr", as.character(Formula))) > 0) { 					
-					if (class(fit)[1] == "lm") { 
-						gr1 <- new("growthObjLogIncr")
-						gr1@fit <- fit
-						gr1@sd <- summary(fit)$sigma
-					} else {
-						if (class(fit.here)[1] == "gls") { 
-							gr1 <- new("growthObjLogIncrDeclineVar")
-							gr1@fit <- fit
-						} else {print("undefined object class")}
-					}
-				}
-			}    
-		}
-		
-	} else {
-		
+		} else {
+			
 		if (is.null(coeff) | is.null(sd)) stop("require coefficients and standard devaition if data is not supplied")
 		gr1 <- .createGrowthObj(Formula=Formula, coeff=coeff, sd=sd)
-		
 	}
-	
-	
 	
 	return(gr1)
 }
