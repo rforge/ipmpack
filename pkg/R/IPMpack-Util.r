@@ -680,7 +680,7 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 			
 			count <- count + nbabes.store
 					
-			print(nbabes.store)	
+			#print(nbabes.store)	
 			
 			} 
 		
