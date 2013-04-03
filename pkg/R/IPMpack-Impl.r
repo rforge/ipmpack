@@ -593,7 +593,7 @@ makeClonalObj <- function(dataf=NULL,
 		vitalRatesPerOffspringType=data.frame(NA),
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1", 
-		coeff=NULL, do.offspring=FALSE) { 
+		coeff=NULL, do.offspring=TRUE) { 
 
 	f1 <-makeFecObj(dataf=dataf,
 				fecConstants=fecConstants,
