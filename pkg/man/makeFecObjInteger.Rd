@@ -101,7 +101,7 @@ fo <- makeFecObjInteger(d1, Formula = fec1~size, distOffspring = "poisson")
 
 
 #Example with imposed offspring object
-off1 <- makeOffspringObj(dataf = dff, Formula = sizeNext~1, Family="poisson")
+off1 <- makeOffspringObj(dataf = d1, Formula = sizeNext~1, Family="poisson")
 fo <- makeFecObjInteger(d1, Formula = fec1~size, distOffspring = "poisson", 
 		do.offspring=FALSE)
 Fmatrix <-  makeIntegerFmatrix(fecObj = fo, offspringObj=off1)
