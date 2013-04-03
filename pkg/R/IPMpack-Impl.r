@@ -508,6 +508,8 @@ makeFecObj <- function(dataf=NULL,
 			## relationship defining offspring size - note that the mean value is ALWAYS taken from
 			## a lm now (but equivalent to just fitting an intercept if that is desired....)
 			## [worth keeping sd separate from lm though (extracted from lm or not) because otherwise is a pain to adjust (as shown in growth model)]
+			
+		
 			f1@offspringRel <- lm(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData)
 			f1@sdOffspringSize <- summary(f1@offspringRel)$sigma
 		} else {

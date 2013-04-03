@@ -73,20 +73,15 @@ off1 <- makeOffspringObj(Formula = incr ~ size + covariate,coeff=c(1,1,1),sd=1)
 ##make an Fmatrix with this
 dff<-generateData()
 dff$fec[dff$fec==0] <- NA
-#turn the first 100 into seedlings
-dff$size[1:100] <- dff$stage[1:100] <- NA; 
-dff$sizeNext[1:100] <- rnorm(100)
-dff$surv[1:100] <- 1
-dff$offspringNext[1:100] <- "sexual"
 
-off1 <- makeOffspringObj(dataf = dff, Formula = sizeNext~size)
+off1 <- makeOffspringObj(dataf = dff, Formula = sizeNext~1)
 fv1 <- makeFecObjNew(dff, Formula = fec~size, Transform = "log")
 Fmatrix1 <- makeIPMFmatrix(fecObj = fv1, nBigMatrix = 20, 
 	minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size,
 na.rm = TRUE), correction="constant", offspringObj=off1)
 
 #compare with the other approach (where offspring object is not separate)
-fv2 <- makeFecObj(dff, Formula = fec~size, Transform = "log",offspringSizeExplanatoryVariables = "size")
+fv2 <- makeFecObj(dff, Formula = fec~size, Transform = "log",offspringSizeExplanatoryVariables = "1")
 Fmatrix2 <- makeIPMFmatrix(fecObj = fv2, nBigMatrix = 20, 
 	minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size,
 na.rm = TRUE), correction="constant", offspringObj=NULL)
