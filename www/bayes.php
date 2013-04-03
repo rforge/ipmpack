@@ -60,8 +60,27 @@ $themeroot='http://r-forge.r-project.org/themes/rforge/';
             <table width="1045px" style="table-layout:fixed;background:#FFFFFF" cellpadding="10">
               <tbody>
                 <tr>
-                  <td align="center" valign="top" width="350">
-                    Under construction
+                  <td valign="top" width="350">
+                    Under construction<p>
+
+For performing bayesian IPM analyses the following function might be of use:<p>  
+## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring<p>
+.fecPostCensus <- function(x,y,cov=data.frame(covariate=1),fecObj, growObj,survObj) {<br>
+	newd <- data.frame(cbind(cov,size=x),
+			stringsAsFactors = FALSE)<br>
+	newd$size2 <- x^2<br>
+	newd$size3 <- x^3<br>
+	if (length(grep("expsize",fecObj@offspringRel$formula))>0 |
+			length(grep("expsize", growObj@fit$formula))>0) { newd$expsize <- exp(x)}<br>            
+	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
+			length(grep("logsize", growObj@fit$formula))>0) { newd$logsize <- log(x)}<br>            
+	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
+			dnorm(y,predict(fecObj@offspringRel, newdata=newd, type="response"), fecObj@sdOffspringSize) *
+			surv(size=x, cov=cov, survObj=survObj)<br>
+	return(u)<br>
+}<br>
+
+                    
                   </td>
                 </tr>
               </tbody>
