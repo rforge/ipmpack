@@ -887,8 +887,8 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE,
 							fecByDiscrete = data.frame(NA), 
 							offspringSizeExplanatoryVariables = "1",
 							fecConstants = data.frame(NA), 
-							do.offspring=do.offspring, 
-							reproductionType=reproductionType){ 
+							do.offspring=TRUE, 
+							reproductionType="sexual"){ 
 	var.names <- c()
 	fecNames <- rep(NA,length(Formula))
 		
@@ -953,7 +953,7 @@ makeFecObjInteger <- function(dataf,
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1",
 		distOffspring = "poisson", 
-		coeff=NULL, do.offspring=FALSE, 
+		coeff=NULL, do.offspring=TRUE, 
 		reproductionType="sexual"){
 	
 	
@@ -1044,13 +1044,14 @@ makeFecObjInteger <- function(dataf,
 		f1@fitFec[[i]] <- glm(Formula[[i]],family=Family[i],data=dataf)
 	}
 	
+	if (do.offspring) {
 	if (offspringSplitter$continuous>0) {
 		if (is.na(meanOffspringSize[1])) {
 			if (length(dataf$offspringNext)==0) {
 				offspringData<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
 				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize and thetaOffspringSize slots, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'sexual/clonal' offspring)")
 			} else {
-				offspringData<-subset(dataf,dataf$offspringNext=="sexual"&dataf$stageNext=="continuous")
+				offspringData<-subset(dataf,dataf$offspringNext==reproductionType&dataf$stageNext=="continuous")
 				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize  slot, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'sexual/clonal' offspring)")
 			}
 			## relationship defining offspring size  
@@ -1068,7 +1069,8 @@ makeFecObjInteger <- function(dataf,
 				f1@offspringRel <- glm.convert(f1@offspringRel)}
 		}
 	}
-	
+	} ## end do.offspring
+
 	if (sum(dim(vitalRatesPerOffspringType)==c(1,1))<2) {
 		if ((sum(vitalRatesPerOffspringType==0,na.rm=T)+sum(vitalRatesPerOffspringType==1,na.rm=T))<(ncol(vitalRatesPerOffspringType)*nrow(vitalRatesPerOffspringType))) stop("Error - in vitalRatesPerOffspringType data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
 		#if (sum(names(vitalRatesPerOffspringType)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in vitalRatesPerOffspringType should match those in offspringSplitter - and in the same order, with continuous last")
@@ -1079,7 +1081,7 @@ makeFecObjInteger <- function(dataf,
 		names(vitalRatesPerOffspringType) <- names(offspringSplitter)
 	}
 	
-	if (length(f1@thetaOffspringSize)>0 & distOffspring=="negBin") {
+	if (do.offspring & length(f1@thetaOffspringSize)>0 & distOffspring=="negBin") {
 		if (is.na(f1@thetaOffspringSize)) {
 			print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and thetaOffspringSize; you will not be able to construct an IPM without these values.")
 		}
@@ -1111,141 +1113,24 @@ makeClonalObjInteger <- function(dataf,
 		vitalRatesPerOffspringType=data.frame(NA),
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1",
-		distOffspring = "poisson"){
-	
-	#make sure Formula is a list
-	if (class(Formula)!="list") Formula <- c(Formula)
+		distOffspring = "poisson",
+		coeff=NULL, do.offspring=TRUE){
 	
 	
-	#if stage or stageNext do not exist in dataf, create them assuming that 
-	#everything is continuous. 
-	if (length(dataf$stage)==0) { 
-		dataf$stage <- rep("continuous",nrow(dataf))
-		dataf$stage[is.na(dataf$size)] <- NA
-		dataf$stage <- as.factor(dataf$stage)
-	}
-	if (length(dataf$stageNext)==0) {
-		dataf$stageNext <- rep("continuous",nrow(dataf))
-		dataf$stageNext[dataf$surv==0] <- "dead"
-		dataf$stageNext <- as.factor(dataf$stageNext)
-	}
-	
-	#order stage names from discrete to continuous
-	stages <- names(tapply(c(levels(dataf$stage),levels(dataf$stageNext)),c(levels(dataf$stage),levels(dataf$stageNext)),length))
-	stages <- stages[stages!="dead"] 
-	if ((sum(names(offspringSplitter)%in%stages)/length(offspringSplitter))<1) {
-		stages <- c(stages,names(offspringSplitter))
-		print("Warning - the variable names in your offspringSplitter data.frame are not all part of the levels of stage or stageNext in your data file. This could be because of an mismatch in stage names, or because you included discrete stages in offspringSplitter that are not in the data file but wchich you will introduce in makeDiscreteTrans (in which case you can ignore this warning).")
-	}
-	stages <- unique(stages)
-	stages <- c(stages[stages!="continuous"],"continuous") 
-	dummy<-rep(0,length(stages));names(dummy)<-stages;dummy<-as.data.frame(t(as.matrix(dummy)))
-	for (i in names(offspringSplitter)) dummy[i]<-offspringSplitter[i]
-	offspringSplitter <- dummy
-	
-	##warnings
-	if (ncol(offspringSplitter)>1 & (ncol(offspringSplitter)-1)!=ncol(fecByDiscrete)) {
-		print("Warning - offspring splitter indicates more than just continuous stages. No fecundity by the discrete stages supplied in fecByDiscrete; assumed that is 0")
-		#fecByDiscrete <- matrix(0,col(offspringSplitter)-1,col(offspringSplitter)-1)
-		fecByDiscrete <- offspringSplitter[,1:(ncol(offspringSplitter)-1)]
-		fecByDiscrete[] <- 0
-	}
-	
-	if (sum(offspringSplitter)!=1) {
-		print("Warning - offspring splitter does not sum to 1. It is now rescaled to sum to 1.")
-		offspringSplitter <- offspringSplitter / sum(offspringSplitter) 
-	}
-	
-	if ("covariate" %in% unlist(strsplit(as.character(Formula), "[+-\\* ]")) & length(dataf$covariate) > 0) { 
-		dataf$covariate <- as.factor(dataf$covariate)
-		levels(dataf$covariate) <- 1:length(unique(dataf$covariate))
-	}
-	if ("covariateNext" %in% unlist(strsplit(as.character(Formula), "[+-\\* ]")) & length(dataf$covariateNext) > 0) { 
-		dataf$covariateNext <- as.factor(dataf$covariateNext)
-		levels(dataf$covariateNext) <- 1:length(unique(dataf$covariateNext))
-	}
-	#print(table(dataf$covariate))
-	
-	f1 <- new("fecObjInteger")
-	
-	dataf$size2 <- dataf$size^2
-	dataf$size3 <- dataf$size^3
-	if (length(grep("expsize",unlist(as.character(Formula))))>0) dataf$expsize <- exp(dataf$size)
-	if (length(grep("logsize",unlist(as.character(Formula))))>0) dataf$logsize <- log(dataf$size)
-	
-	if (length(Formula)>length(Family)) {
-		misE <- (length(Family)+1):length(Formula)
-		print(c("number of families not the same as the number of fecundity columns in the data file, using default of `gaussian' for missing ones which are:",Formula[[misE]],". (which might be exactly what you want)"))
-		Family <- c(Family,rep("gaussian",length(Formula)-length(Family)))
-	}
-	if (length(Formula)>length(Transform)) {
-		misE <- (length(Transform)+1):length(Formula)
-		print(c("number of transforms not the same as the number of fecundity columns in the data file, using default of `none' for missing ones which are:",Formula[[misE]],". (which might be exactly what you want)"))
-		Transform <- c(Transform,rep("none",length(Formula)-length(Transform)))
-	}
-	
-	fecNames <- rep(NA,length(Formula))
-	for (i in 1:length(Formula)) {
-		
-		fecNames[i] <- all.vars(Formula[[i]])[1]
-		
-		if (Transform[i]=="exp") dataf[,fecNames[i]] <- exp(dataf[,fecNames[i]])
-		if (Transform[i]=="log") dataf[,fecNames[i]] <- log(dataf[,fecNames[i]])
-		if (Transform[i]=="sqrt") dataf[,fecNames[i]] <- sqrt(dataf[,fecNames[i]])
-		if (Transform[i]=="-1") dataf[,fecNames[i]] <- dataf[,fecNames[i]]-1
-		dataf[!is.finite(dataf[,fecNames[i]]),fecNames[i]] <- NA
-		
-		f1@fitFec[[i]] <- glm(Formula[[i]],family=Family[i],data=dataf)
-	}
-	
-	if (offspringSplitter$continuous>0) {
-		if (is.na(meanOffspringSize[1])) {
-			if (length(dataf$offspringNext)==0) {
-				offspringData<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
-				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize (and thetaOffspringSize for negative binomial distrbutions) slots, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'clonal' offspring)")
-			} else {
-				offspringData<-subset(dataf,dataf$offspringNext=="clonal"&dataf$stageNext=="continuous")
-				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize and thetaOffspringSize slots, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'clonal' offspring)")
-			}
-			## relationship defining offspring size  
-			if (distOffspring=="poisson") f1@offspringRel <- glm(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData, family="poisson")
-			if (distOffspring=="negBin") {
-				f1@offspringRel <- glm.nb(paste('sizeNext~',offspringSizeExplanatoryVariables,sep=''),data=offspringData)
-				f1@thetaOffspringSize <- f1@offspringRel$theta;
-				f1@offspringRel <- glm.convert(f1@offspringRel)}
-		} else {
-			if (distOffspring=="poisson") 
-				f1@offspringRel <- glm(rep(meanOffspringSize[1],21)~1, family="poisson")
-			if (distOffspring=="negBin") { 
-				f1@offspringRel <- glm.nb(rep(meanOffspringSize[1],21)~1)
-				f1@thetaOffspringSize <- f1@offspringRel$theta
-				f1@offspringRel <- glm.convert(f1@offspringRel)}
-		}
-	}
-	
-	if (sum(dim(vitalRatesPerOffspringType)==c(1,1))<2) {
-		if ((sum(vitalRatesPerOffspringType==0,na.rm=T)+sum(vitalRatesPerOffspringType==1,na.rm=T))<(ncol(vitalRatesPerOffspringType)*nrow(vitalRatesPerOffspringType))) stop("Error - in vitalRatesPerOffspringType data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
-		#if (sum(names(vitalRatesPerOffspringType)==names(offspringSplitter))<length(offspringSplitter)) stop("Error - the offspring names in vitalRatesPerOffspringType should match those in offspringSplitter - and in the same order, with continuous last")
-		if (sum(rownames(vitalRatesPerOffspringType)==c(fecNames,names(fecConstants)))<(length(Formula)+length(fecConstants))) stop ("Error - the row names in vitalRatesPerOffspringType should consist of (in order) the names of the fec columns in the dataset and then the names of the fecConstants.")
-	} else {
-		vitalRatesPerOffspringType <- as.data.frame(matrix(1,ncol=length(offspringSplitter),nrow=length(Formula)+length(fecConstants)),row.names=c(fecNames,names(fecConstants)))
-		vitalRatesPerOffspringType <- subset(vitalRatesPerOffspringType,dimnames(vitalRatesPerOffspringType)[[1]]!="NA.")
-		names(vitalRatesPerOffspringType) <- names(offspringSplitter)
-	}
-	
-	if (length(f1@thetaOffspringSize)>0 & distOffspring=="negBin") {
-		if (is.na(f1@thetaOffspringSize)) {
-			print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and thetaOffspringSize; you will not be able to construct an IPM without these values.")
-		}
-	}
-	
-	f1@fecNames <- fecNames
-	f1@fecConstants <- fecConstants
-	f1@offspringSplitter <- offspringSplitter 
-	f1@vitalRatesPerOffspringType <- vitalRatesPerOffspringType 
-	f1@fecByDiscrete <- fecByDiscrete
-	f1@Transform <- Transform
-	f1@distOffspring <- distOffspring
+	f1 <- makeFecObjInteger(dataf=dataf,
+			fecConstants=fecConstants,
+			Formula=Formula,
+			Family=Family,
+			Transform=Transform,
+			meanOffspringSize=meanOffspringSize,
+			thetaOffspringSize=thetaOffspringSize,
+			offspringSplitter=offspringSplitter,
+			vitalRatesPerOffspringType=vitalRatesPerOffspringType,
+			fecByDiscrete=fecByDiscrete,
+			offspringSizeExplanatoryVariables=offspringSizeExplanatoryVariables,
+			distOffspring = distOffspring , 
+			coeff=coeff, do.offspring=do.offspring, 
+			reproductionType="clonal")
 	
 	return(f1)
 }

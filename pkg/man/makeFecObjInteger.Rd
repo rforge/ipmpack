@@ -23,7 +23,9 @@ makeFecObjInteger(dataf,
 		vitalRatesPerOffspringType=data.frame(NA),
 		fecByDiscrete = data.frame(NA),
 		offspringSizeExplanatoryVariables = "1",
-		distOffspring = "poisson")
+		distOffspring = "poisson", 
+		coeff=NULL, do.offspring=TRUE, 
+		reproductionType="sexual")
 
 makeClonalObjInteger(dataf,
 		fecConstants = data.frame(NA),
@@ -36,7 +38,8 @@ makeClonalObjInteger(dataf,
 		vitalRatesPerOffspringType = data.frame(NA),
 		fecByDiscrete = data.frame(NA),
 		offspringSizeExplanatoryVariables = "1",
-		distOffspring = "poisson")
+		distOffspring = "poisson", 
+		coeff=NULL, do.offspring=TRUE)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -58,6 +61,9 @@ makeClonalObjInteger(dataf,
   \item{offspringSizeExplanatoryVariables}{a character defining the relationship defining offspring size; the default is "1", indicating simply fitting a mean and a variance; alternatives would including defining offspring size as a function of maternal size (i.e., offspringSizeExplanatoryVariables="size") or more complex polynomials of size (i.e., offspringSizeExplanatoryVariables="size+size2"). The corresponding relationship is fitted to the data contained in dataf, taking as the response variable the column "sizeNext" in dataf for rows where the column "offspringNext" is equal to "sexual" and the column "stageNext" is equal to "continuous". }  
 \item{distOffspring}{
 character indicating the desired distribution of offspring sizes  (poisson or negative binomial)
+   \item{coeff}{not yet implemented}
+   \item{do.offspring}{argument defining whether you wish to fit an offspring regression as part of this function (TRUE), or do it separately (see makeOffspringObj); if this is FALSE, other argument relating to the offspring distribution will be ignored }
+   \item{reproductionType}{argument specifying if "sexual" or "clonal" offspring should be considered; default is "sexual".}
 }
      
 }
