@@ -553,7 +553,7 @@ makeFecObj <- function(dataf=NULL,
 		if (is.na(meanOffspringSize[1])|is.na(sdOffspringSize[1])) {
 			if (length(dataf$offspringNext)==0) {
 				offspringData<-subset(dataf,is.na(dataf$stage)&dataf$stageNext=="continuous")
-				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize and sdOffspringSize slots, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'sexual' offspring)")
+				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize and sdOffspringSize slots, or through individual data added to your data file (with stage equals NA, or an offspringNext column indicating 'sexual' offspring)")
 			} else {
 				offspringData<-subset(dataf,dataf$offspringNext=="sexual"&dataf$stageNext=="continuous")
 				if (nrow(offspringData) == 0) stop ("Error - no offspring size data are given: these can be given through either the meanOffspringSize and sdOffspringSize slots, or through individual data added to your data file (with stage equals NA, or a offspringNext column indicating 'sexual' offspring)")
