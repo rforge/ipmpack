@@ -26,7 +26,7 @@ makeGrowthObj(dataf=NULL, Formula = sizeNext ~ size,
     style, i.e. separated by `+', `*', `:' and response variable. Possible covariates include `size', 'size2' (size^2), `size3'
     (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
     `covariate' (if this name is used, the assumption is made that this is a discrete covariate from which compound matrices may be constructed); or any other covariate available in dataf.}
-  \item{regType}{possible values include `constantVar' or `declineVar'}
+  \item{regType}{possible values include `constantVar' or `changingVar'}
   \item{Family}{possible values include `gaussian', `poisson', `negbin'}
    \item{link}{defaults to NULL, currently only relevant with Family="negbin", and only "log" and "identity" are permitted}
    \item{coeff}{numeric vector of required coefficients to be imposed if dataf is NULL; must be compatible with Formula}
@@ -66,10 +66,10 @@ picGrow(dff,gr1)
 
 #same but relating size to incr and discrete covariate
 (gr1 <- makeGrowthObj(dataf = dff, Formula = incr ~ size + covariate, 
-	regType = "declineVar"))
+	regType = "changingVar"))
 #with declining increment
 (gr1 <- makeGrowthObj(dataf = dff, Formula = incr ~ size + covariate, 
-	regType = "declineVar"))
+	regType = "changingVar"))
 
 #now specifying parameters and supplying no data
 gr1 <- makeGrowthObj(Formula = incr ~ size + covariate,coeff=c(1,1,1),sd=1)

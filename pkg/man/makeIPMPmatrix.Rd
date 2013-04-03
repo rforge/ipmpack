@@ -94,7 +94,7 @@ image(Pmatrix@meshpoints, Pmatrix@meshpoints, t(Pmatrix),
 		ylab = "Continuous (e.g. size) stage at t+1")
 
 Pmatrix <- makeIPMPmatrix(minSize = min(dff$size, na.rm = TRUE), 
-	maxSize=max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff,regType="declineVar"), 
+	maxSize=max(dff$size, na.rm=TRUE), growObj = makeGrowthObj(dff,regType="changingVar"), 
 		survObj = makeSurvObj(dff))
 
 image(Pmatrix@meshpoints, Pmatrix@meshpoints, t(Pmatrix), 

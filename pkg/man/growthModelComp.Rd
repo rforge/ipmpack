@@ -74,6 +74,6 @@ dff <- generateData()
 growthModelComp(dff, makePlot = TRUE)
 survModelComp(dff, makePlot = TRUE)
 
-growthModelComp(dff, makePlot = TRUE, regressionType = "declineVar")
+growthModelComp(dff, makePlot = TRUE, regressionType = "changingVar")
 
 }

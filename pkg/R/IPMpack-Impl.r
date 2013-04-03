@@ -21,7 +21,7 @@
 #                        and potentially a discrete covariate (called covariate)
 #              responseType - the response variable desired, crucial for building
 #                             the right kind of object. Possible levels are "sizeNext", "incr", "logincr"
-#              regType - options are "constantVar" (i.e. use lm), declineVar (use gls with model for variance)
+#              regType - options are "constantVar" (i.e. use lm), changingVar (use gls with model for variance)
 # 
 # Returns - a growth object                  
 #
@@ -92,7 +92,7 @@ makeGrowthObj <- function(dataf=NULL,
 		if (regType == "constantVar")  {
 			fit <- lm(Formula, data=dataf)
 		} else { 
-			if (regType == "declineVar"){
+			if (regType == "changingVar"){
 				require(nlme)
 				fit.here <- gls(Formula, na.action = na.omit, weights = varExp(form =  ~fitted(.)), data = dataf)
 				fit <- list(coefficients = fit.here$coefficients,
@@ -238,7 +238,7 @@ makeOffspringObj <- function(dataf=NULL,
 			if (regType == "constantVar")  {
 				fit <- lm(Formula, data=dataf)
 			} else { 
-				if (regType == "declineVar"){
+				if (regType == "changingVar"){
 					require(nlme)
 					fit.here <- gls(Formula, na.action = na.omit, weights = varExp(form =  ~fitted(.)), data = dataf)
 					fit <- list(coefficients = fit.here$coefficients,

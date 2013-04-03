@@ -30,7 +30,7 @@ coeff=NULL,sd=NULL, offspringType="sexual")
     style, i.e. separated by `+', `*', `:' and response variable. Possible covariates include `size', 'size2' (size^2), `size3'
     (size^3),`logsize' (log(size)), `logsize2' (log(size)^2), and
     `covariate' (if this name is used, the assumption is made that this is a discrete covariate from which compound matrices may be constructed); or any other covariate available in dataf.}
-  \item{regType}{possible values include `constantVar' or `declineVar'}
+  \item{regType}{possible values include `constantVar' or `changingVar'}
   \item{Family}{possible values include `gaussian', `poisson', `negbin'}
    \item{link}{defaults to NULL, currently only relevant with Family="negbin", and only "log" and "identity" are permitted}
    \item{coeff}{numeric vector of required coefficients to be imposed if dataf is NULL; must be compatible with Formula}

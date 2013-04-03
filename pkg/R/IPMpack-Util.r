@@ -299,7 +299,7 @@ wrapHossfeld <- function(par, dataf) {
 #
 
 picGrow <- function(dataf, growObj, mainTitle = "Growth",...) {
-	predVar <- attr(growObj@fit$terms,"predvars")[[2]]  #jess quick fix. this function does not work with declineVar either at the moment
+	predVar <- attr(growObj@fit$terms,"predvars")[[2]]  #jess quick fix. this function does not work with changingVar either at the moment
 	if (class(growObj)=="growthObjTruncIncr") { 
 		predVar <- "incr"	
 	} else {
