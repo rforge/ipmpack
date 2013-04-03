@@ -1023,7 +1023,7 @@ makeCompoundPmatrix <- function(nEnvClass = 2,
 						fecObj@sdOffspringSize)
 	} else {
 		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
-				growth(y,newd,fecObj@offspringRel)
+				growth(y,y,newd,offspringObj)
 						
 	}
 	#print(cbind(y,predict(fecObj@offspringRel)))
@@ -1042,7 +1042,8 @@ makeCompoundPmatrix <- function(nEnvClass = 2,
 ## REMOVE GROWTH FROM THIS - note that this means 
 #### growth obj generally not needed down below.....
 ## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring
-.fecPostCensus <- function(x,y,cov=data.frame(covariate=1),fecObj, growObj,survObj,offspringObj=NULL) {
+.fecPostCensus <- function(x,y,cov=data.frame(covariate=1),
+		fecObj, growObj,survObj,offspringObj=NULL) {
 	newd <- data.frame(cbind(cov,size=x),
 			stringsAsFactors = FALSE)
 	
@@ -1059,7 +1060,7 @@ makeCompoundPmatrix <- function(nEnvClass = 2,
 				surv(size=x, cov=cov, survObj=survObj)
 	} else {
 		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
-				growth(y,newd,fecObj@offspringRel)*surv(size=x, cov=cov, survObj=survObj)				
+				growth(y,y,newd,offspringObj)*surv(size=x, cov=cov, survObj=survObj)				
 	}
 	return(u)
 }
@@ -1067,15 +1068,19 @@ makeCompoundPmatrix <- function(nEnvClass = 2,
 
 
 ## A function that outer can use giving pnorm for offspring reprod
-.offspringCum <- function(x,y,cov=data.frame(covariate=1),fecObj) {
+.offspringCum <- function(x,y,cov=data.frame(covariate=1),fecObj,offspringObj=NULL) {
 	newd <- data.frame(cbind(cov,size=x),
 			stringsAsFactors = FALSE)
 	
-	newd$size2 <- x^2
-	newd$size3 <- x^3
-	if (length(grep("expsize",fecObj@offspringRel$formula))>0) { newd$expsize <- exp(x)}            
-	if (length(grep("logsize",fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}            
-	u <- pnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)
+	if (is.null(offspringObj)){
+		newd$size2 <- x^2
+		newd$size3 <- x^3
+		if (length(grep("expsize",fecObj@offspringRel$formula))>0) { newd$expsize <- exp(x)}            
+		if (length(grep("logsize",fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}            
+		u <- pnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)
+	} else { 
+		u <- growthCum(y,y,newd, offspringObj)	
+	}
 	return(u)
 }
 
@@ -1127,14 +1132,14 @@ makeIPMFmatrix <- function(fecObj,
 		##NOTE that the condition is necessary because you might ONLY have discrete offspring
 		# in which case correction makes no sense
 		if (integrateType=="midpoint"&fecObj@offspringSplitter$continuous>0) { 
-			tmp <- t(outer(X=y,Y=y,.fecPreCensus,cov=chosenCov,fecObj=fecObj))*h 
+			tmp <- t(outer(X=y,Y=y,.fecPreCensus,cov=chosenCov,fecObj=fecObj, offspringObj=offspringObj))*h 
 		}
 		##NOTE that the condition is necessary because you might ONLY have discrete offspring
 		# in which case correction makes no sense
 		if (integrateType=="cumul"&fecObj@offspringSplitter$continuous>0) {
 			#offspring extremes (pnorm) 
 			tmp.cum <- t(outer(X=y,Y=b,.offspringCum,cov=chosenCov,
-							fecObj=fecObj))
+							fecObj=fecObj,offspringObj=offspringObj))
 			tmp <- tmp.cum[2:(nBigMatrix+1),]-tmp.cum[1:nBigMatrix,]
 			#put in seed production
 			tmp <- t(t(tmp)*.fecRaw(x=y,cov=chosenCov,fecObj=fecObj)[[1]])      
@@ -1151,9 +1156,9 @@ makeIPMFmatrix <- function(fecObj,
 		# in which case correction makes no sense
 		if (correction=="discretizeExtremes"&fecObj@offspringSplitter$continuous>0){
 			tooLow <- .offspringCum(x=y,y=b[1], cov = chosenCov, 
-					fecObj = fecObj)
+					fecObj = fecObj,offspringObj=offspringObj)
 			tooHigh <- 1-.offspringCum(x=y,y=b[length(b)],cov = chosenCov, 
-					fecObj = fecObj)
+					fecObj = fecObj,offspringObj=offspringObj)
 			tmp[1,] <- tmp[1,]+tooLow
 			tmp[nBigMatrix,] <- tmp[nBigMatrix,]+tooHigh
 		}
@@ -1170,19 +1175,19 @@ makeIPMFmatrix <- function(fecObj,
 		if (integrateType=="midpoint"&fecObj@offspringSplitter$continuous>0) { 
 			tmp <- t(outer(X=y,Y=y,.fecPostCensus,
 							cov=chosenCov,fecObj=fecObj, growObj=growObj,
-							survObj=survObj))*h 
+							survObj=survObj,offspringObj=offspringObj))*h 
 		}
 		##NOTE that the condition is necessary because you might ONLY have discrete offspring
 		# in which case correction makes no sense
 		if (integrateType=="cumul"&fecObj@offspringSplitter$continuous>0) {
 			#make the extreme bins offspring matrix
 			tmp.cum <- t(outer(X=y,Y=b,.offspringCum,cov=chosenCov,
-							fecObj=fecObj))
+							fecObj=fecObj,offspringObj=offspringObj))
 			tmpBabies <- tmp.cum[2:(nBigMatrix+1),]-tmp.cum[1:nBigMatrix,]
 			
 			#make the extreme bins growth matrix
 			tmp.cum <- t(outer(X=y,Y=b,growthCum,cov=chosenCov,
-							growObj=growObj))
+							growObj=growObj,offspringObj=offspringObj))
 			tmpGrowth <- tmp.cum[2:(nBigMatrix+1),]-tmp.cum[1:nBigMatrix,]
 			tmpGrowth[nBigMatrix,nBigMatrix] <- tmpGrowth[nBigMatrix,nBigMatrix]+
 					(1-sum(tmpGrowth[,nBigMatrix]))
@@ -1203,9 +1208,9 @@ makeIPMFmatrix <- function(fecObj,
 		# in which case correction makes no sense
 		if (correction=="discretizeExtremes"&fecObj@offspringSplitter$continuous>0){
 			tooLow <- .offspringCum(x=y,y=b[1], cov = chosenCov, 
-					fecObj = fecObj)
+					fecObj = fecObj,offspringObj=offspringObj)
 			tooHigh <- 1-.offspringCum(x=y,y=b[length(b)],cov = chosenCov, 
-					fecObj = fecObj)
+					fecObj = fecObj,offspringObj=offspringObj)
 			tmp[1,] <- tmp[1,]+tooLow
 			tmp[nBigMatrix,] <- tmp[nBigMatrix,]+tooHigh
 		}
@@ -1268,48 +1273,57 @@ makeIPMFmatrix <- function(fecObj,
 
 
 ## A function that outer can use showing numbers from x to y via production and distribution offspring
-.fecPreCensusInteger <- function(x,y,cov=data.frame(covariate=1),fecObj) {
+.fecPreCensusInteger <- function(x,y,cov=data.frame(covariate=1),fecObj,offspringObj=NULL) {
 	newd <- data.frame(cbind(cov,size=x),
 			stringsAsFactors = FALSE)	
 	newd$size2 <- x^2
 	newd$size3 <- x^3
 	
-	if (length(grep("expsize",
+	if (is.null(offspringObj)){
+		if (length(grep("expsize",
 					fecObj@offspringRel$formula))>0) { newd$expsize <- exp(x)}
-	if (length(grep("logsize",
+		if (length(grep("logsize",
 					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
-	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]
-	if (fecObj@distOffspring=="poisson")
-			u <- u*dpois(y,predict(fecObj@offspringRel,newdata=newd, type="response"))
-	if (fecObj@distOffspring=="negBin")
-		u <- u*dnbinom(y,mu=predict(fecObj@offspringRel,newdata=newd, type="response"),
+		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]
+		if (fecObj@distOffspring=="poisson")
+				u <- u*dpois(y,predict(fecObj@offspringRel,newdata=newd, type="response"))
+		if (fecObj@distOffspring=="negBin")
+			u <- u*dnbinom(y,mu=predict(fecObj@offspringRel,newdata=newd, type="response"),
 				size=fecObj@thetaOffspringSize)
-
+	} else {
+		u <- u*growth(y,y,newd, offspringObj)
+				
+	}
+	
 	#print(cbind(y,predict(fecObj@offspringRel)))
-	
-	
+		
 	return(u)
 }
 #### growth obj generally not needed down below.....
 ## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring
-.fecPostCensusInteger <- function(x,y,cov=data.frame(covariate=1),fecObj, growObj,survObj) {
+.fecPostCensusInteger <- function(x,y,cov=data.frame(covariate=1),fecObj, growObj,survObj, offspringObj) {
 	newd <- data.frame(cbind(cov,size=x),
 			stringsAsFactors = FALSE)
 	
-	newd$size2 <- x^2
-	newd$size3 <- x^3
-	if (length(grep("expsize",fecObj@offspringRel$formula))>0 |
+	if (is.null(offspringObj)){
+		newd$size2 <- x^2
+		newd$size3 <- x^3
+		if (length(grep("expsize",fecObj@offspringRel$formula))>0 |
 			length(grep("expsize",growObj@fit$formula))>0) { newd$expsize <- exp(x)}            
-	if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
+		if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
 			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
-	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
+		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
 			surv(size=x, cov=cov, survObj=survObj)
-	if (fecObj@distOffspring=="poisson")
-		u <- u*dpois(y,predict(fecObj@offspringRel,newdata=newd, type="response"))
-	if (fecObj@distOffspring=="negBin")
-		u <- u*dnbinom(y,mu=predict(fecObj@offspringRel,newdata=newd, type="response"),
+		if (fecObj@distOffspring=="poisson")
+			u <- u*dpois(y,predict(fecObj@offspringRel,newdata=newd, type="response"))
+		if (fecObj@distOffspring=="negBin")
+			u <- u*dnbinom(y,mu=predict(fecObj@offspringRel,newdata=newd, type="response"),
 				size=fecObj@thetaOffspringSize)
-	
+		} else {
+			u <- u*growth(y,y,newd, offspringObj)
+			
+		}
+
 	
 	return(u)
 }
@@ -1324,7 +1338,7 @@ makeIntegerFmatrix <- function(fecObj,
 		chosenCov = data.frame(covariate=1),
 		preCensus=TRUE,
 		survObj=NULL,
-		growObj=NULL) {
+		growObj=NULL, offspringObj=NULL) {
 	
 	# boundary points b and mesh points y
 	y <- meshpoints;
@@ -1338,7 +1352,7 @@ makeIntegerFmatrix <- function(fecObj,
 	if (preCensus) { 
 		##NOTE that the condition is necessary cos you might ONLY have discrete offspring
 		if (fecObj@offspringSplitter$continuous>0) { 
-			tmp <- t(outer(X=y,Y=y,.fecPreCensusInteger,cov=chosenCov,fecObj=fecObj))
+			tmp <- t(outer(X=y,Y=y,.fecPreCensusInteger,cov=chosenCov,fecObj=fecObj, offspringObj= offspringObj))
 		}
 		##NOTE that the condition is necessary because you might ONLY have discrete offspring
 
@@ -1355,7 +1369,7 @@ makeIntegerFmatrix <- function(fecObj,
 		if (fecObj@offspringSplitter$continuous>0) { 
 			tmp <- t(outer(X=y,Y=y,.fecPostCensusInteger,
 							cov=chosenCov,fecObj=fecObj, growObj=growObj,
-							survObj=survObj))
+							survObj=survObj, offspringObj= offspringObj))
 		}
 
 		
@@ -1446,7 +1460,7 @@ makeCompoundFmatrix <- function(nEnvClass = 2,
 		correction="none",
 		preCensus=TRUE,
 		survObj=NULL,
-		growObj=NULL) {
+		growObj=NULL, offspringObj=NULL) {
 	
 	#warnings...
 	if (nEnvClass!=nrow(envMatrix)) {
@@ -1484,7 +1498,7 @@ makeCompoundFmatrix <- function(nEnvClass = 2,
 				integrateType=integrateType,
 				correction=correction,preCensus=preCensus,
 				survObj=survObj,
-				growObj=growObj)
+				growObj=growObj, offspringObj= offspringObj)
 		
 		#print(range(get.matrix))
 		#print(get.matrix[1:5,1:5])
@@ -1546,7 +1560,7 @@ makeIPMCmatrix <- function(clonalObj,
 		correction="none", 
 		preCensus=TRUE,
 		survObj=NULL,
-		growObj=NULL) {
+		growObj=NULL, offspringObj= NULL) {
 	
 	rc <- makeIPMFmatrix(fecObj=clonalObj,
 			nEnvClass=nEnvClass,
@@ -1558,7 +1572,7 @@ makeIPMCmatrix <- function(clonalObj,
 			correction=correction, 
 			preCensus=preCensus,
 			survObj=survObj,
-			growObj=growObj)
+			growObj=growObj, offspringObj= offspringObj)
 	
 	return(rc)
 }
@@ -1592,7 +1606,10 @@ makeCompoundCmatrix <- function(nEnvClass = 2,
 		envMatrix,
 		clonalObj,
 		integrateType="midpoint",
-		correction="none") {
+		correction="none",
+		preCensus=TRUE,
+		survObj=NULL,
+		growObj=NULL, offspringObj= NULL) {
 	
 	rc <- makeCompoundFmatrix(nEnvClass = nEnvClass,
 			nBigMatrix = nBigMatrix,
@@ -1601,7 +1618,10 @@ makeCompoundCmatrix <- function(nEnvClass = 2,
 			envMatrix = envMatrix,
 			fecObj = clonalObj,
 			integrateType=integrateType,
-			correction=correction)
+			correction=correction,
+			preCensus=preCensus,
+			survObj=survObj,
+			growObj=growObj, offspringObj= offspringObj)
 	
 	return(rc) 
 }
