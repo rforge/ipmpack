@@ -859,6 +859,7 @@ growthModelComp <- function(dataf,
 		testType = "AIC",
 		makePlot = FALSE,
 		mainTitle = "",
+		plotLegend = TRUE,
 		legendPos = "topright", ...) {
 	varN <- length(expVars)
 	typeN <- length(regressionType)
@@ -883,7 +884,7 @@ growthModelComp <- function(dataf,
 	
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
-		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars,  testType = "AIC",  plotLegend = TRUE, mainTitle = mainTitle, legendPos, ...)
+		plotGrowthModelComp(grObj = grObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars,  testType = "AIC",  plotLegend = plotLegend, mainTitle = mainTitle, legendPos, ...)
 	}
 	return(outputList)
 }
@@ -894,6 +895,7 @@ survModelComp <- function(dataf,
 		testType = "AIC",
 		makePlot = FALSE,
 		mainTitle = "", ncuts = 20,
+		plotLegend = TRUE, 
 		legendPos = "bottomleft", ...) {
 	varN <- length(expVars)
 	treatN <- varN
@@ -912,7 +914,7 @@ survModelComp <- function(dataf,
 	# PLOT SECTION #
 	if(makePlot == TRUE) {
 		## this is the surv picture    
-		plotSurvModelComp(svObj = svObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, testType = "AIC", plotLegend = TRUE, mainTitle = mainTitle, ncuts = ncuts, legendPos = legendPos, ...)
+		plotSurvModelComp(svObj = svObj, summaryTable = summaryTable, dataf = dataf, expVars = expVars, testType = "AIC", plotLegend = plotLegend, mainTitle = mainTitle, ncuts = ncuts, legendPos = legendPos, ...)
 	}
 	return(outputList)
 }	
