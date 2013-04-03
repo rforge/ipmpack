@@ -99,4 +99,14 @@ d1 <- d[d$year==2004, ]
 #Create fecundity object with integer data
 fo <- makeFecObjInteger(d1, Formula = fec1~size, distOffspring = "poisson")
 
+
+#Example with imposed offspring object
+off1 <- makeOffspringObj(dataf = dff, Formula = sizeNext~1, Family="poisson")
+fo <- makeFecObjInteger(d1, Formula = fec1~size, distOffspring = "poisson", 
+		do.offspring=FALSE)
+Fmatrix <-  makeIntegerFmatrix(fecObj = fo, offspringObj=off1)
+
+
+
+
 }

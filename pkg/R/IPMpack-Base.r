@@ -1279,12 +1279,13 @@ makeIPMFmatrix <- function(fecObj,
 	newd$size2 <- x^2
 	newd$size3 <- x^3
 	
+	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]
+	
 	if (is.null(offspringObj)){
 		if (length(grep("expsize",
 					fecObj@offspringRel$formula))>0) { newd$expsize <- exp(x)}
 		if (length(grep("logsize",
 					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
-		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]
 		if (fecObj@distOffspring=="poisson")
 				u <- u*dpois(y,predict(fecObj@offspringRel,newdata=newd, type="response"))
 		if (fecObj@distOffspring=="negBin")
@@ -1301,9 +1302,12 @@ makeIPMFmatrix <- function(fecObj,
 }
 #### growth obj generally not needed down below.....
 ## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring
-.fecPostCensusInteger <- function(x,y,cov=data.frame(covariate=1),fecObj, growObj,survObj, offspringObj) {
+.fecPostCensusInteger <- function(x,y,cov=data.frame(covariate=1),fecObj, growObj,survObj, offspringObj=NULL) {
 	newd <- data.frame(cbind(cov,size=x),
 			stringsAsFactors = FALSE)
+	
+	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
+			surv(size=x, cov=cov, survObj=survObj)
 	
 	if (is.null(offspringObj)){
 		newd$size2 <- x^2
@@ -1312,8 +1316,7 @@ makeIPMFmatrix <- function(fecObj,
 			length(grep("expsize",growObj@fit$formula))>0) { newd$expsize <- exp(x)}            
 		if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
 			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
-		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
-			surv(size=x, cov=cov, survObj=survObj)
+		
 		if (fecObj@distOffspring=="poisson")
 			u <- u*dpois(y,predict(fecObj@offspringRel,newdata=newd, type="response"))
 		if (fecObj@distOffspring=="negBin")
