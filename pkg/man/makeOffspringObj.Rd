@@ -9,7 +9,7 @@
   following a specified formula with specified coefficients and sd. Note
   that if an "offspringNext" column is available in the data, the data
   will be subsetted based on whether offspringType="sexual" or "clonal"
-  (the default is "sexual"); - otherwise, appopriate data must
+  (the default is "sexual"); - otherwise, appropriate data must
   be supplied. 
 }
 \usage{
