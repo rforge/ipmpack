@@ -17,7 +17,7 @@ makeClonalObj(dataf, fecConstants=data.frame(NA),
 		Transform="none",meanOffspringSize=NA,
 		sdOffspringSize=NA,offspringSplitter=data.frame(continuous=1),
 		vitalRatesPerOffspringType=data.frame(NA),fecByDiscrete=data.frame(NA),
-		offspringSizeExplanatoryVariables="1", coeff=NULL,doOffspring=FALSE)
+		offspringSizeExplanatoryVariables="1", coeff=NULL,doOffspring=TRUE)
 
 }
 %- maybe also 'usage' for other objects documented here.
