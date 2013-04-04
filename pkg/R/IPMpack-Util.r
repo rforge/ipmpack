@@ -794,21 +794,23 @@ convertIncrement <- function(dataf, nYrs=1) {
 # Returns - 
 #
 .plotResultsStochStruct <- function(tVals,meshpoints,st,covTest,nRunIn=15,log="y",...) { 
-	
-	maxval <- max(colSums(st[,nRunIn:length(tVals)]))
-	minval <- min(colSums(st[,nRunIn:length(tVals)]))
-	
-	par(mfrow=c(2,2),bty="l")
+		
+	par(mfrow=c(1,3),bty="l", pty="s")
 	plot(tVals[nRunIn:length(tVals)],
 			colSums(st[,nRunIn:length(tVals)]),
 			xlab="Time", 
-			ylab="Population size",type="l",log=log,ylim=c(minval,maxval+2),...)
+			ylab="Population size",type="l",...)
 	abline(v=1:max(tVals),lty=3)
+	
 	for (j in 1:ncol(covTest)) {
 		#normalized
-		yvals <- (covTest[,j]-mean(covTest[,j]))/sd(covTest[,j])
-		points(tVals,maxval+yvals,type="l",lty=3,col=j+1)
+		covTest[,j] <- (covTest[,j]-mean(covTest[,j]))/sd(covTest[,j])
 	}
+
+	matplot(tVals[nRunIn:length(tVals)],covTest[nRunIn:length(tVals),],
+			type="l",lty=3,col=1:ncol(covTest),xlab="Time", ylab="Covariates")
+	abline(v=1:max(tVals),lty=3)
+	
 	
 	if (log=="y") st <- log(st)
 	
