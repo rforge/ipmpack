@@ -24,7 +24,7 @@ makeFecObjInteger(dataf,
 		fecByDiscrete = data.frame(NA),
 		offspringSizeExplanatoryVariables = "1",
 		distOffspring = "poisson", 
-		coeff=NULL, do.offspring=TRUE, 
+		coeff=NULL, doOffspring=TRUE, 
 		reproductionType="sexual")
 
 makeClonalObjInteger(dataf,
@@ -39,7 +39,7 @@ makeClonalObjInteger(dataf,
 		fecByDiscrete = data.frame(NA),
 		offspringSizeExplanatoryVariables = "1",
 		distOffspring = "poisson", 
-		coeff=NULL, do.offspring=TRUE)
+		coeff=NULL, doOffspring=TRUE)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -62,7 +62,7 @@ makeClonalObjInteger(dataf,
 \item{distOffspring}{
 character indicating the desired distribution of offspring sizes  (poisson or negative binomial)
    \item{coeff}{not yet implemented}
-   \item{do.offspring}{argument defining whether you wish to fit an offspring regression as part of this function (TRUE), or do it separately (see makeOffspringObj); if this is FALSE, other argument relating to the offspring distribution will be ignored }
+   \item{doOffspring}{argument defining whether you wish to fit an offspring regression as part of this function (TRUE), or do it separately (see makeOffspringObj); if this is FALSE, other argument relating to the offspring distribution will be ignored }
    \item{reproductionType}{argument specifying if "sexual" or "clonal" offspring should be considered; default is "sexual".}
 }
      
@@ -103,7 +103,7 @@ fo <- makeFecObjInteger(d1, Formula = fec1~size, distOffspring = "poisson")
 #Example with imposed offspring object
 off1 <- makeOffspringObj(dataf = d1, Formula = sizeNext~1, Family="poisson")
 fo <- makeFecObjInteger(d1, Formula = fec1~size, distOffspring = "poisson", 
-		do.offspring=FALSE)
+		doOffspring=FALSE)
 Fmatrix <-  makeIntegerFmatrix(fecObj = fo, offspringObj=off1)
 
 

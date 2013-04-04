@@ -408,7 +408,7 @@ makeFecObj <- function(dataf=NULL,
 		vitalRatesPerOffspringType=data.frame(NA),
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1", 
-		coeff=NULL, do.offspring=TRUE, 
+		coeff=NULL, doOffspring=TRUE, 
 		reproductionType="sexual"){
 		
 	if (!is.null(dataf)) { 
@@ -500,7 +500,7 @@ makeFecObj <- function(dataf=NULL,
 		f1@fitFec[[i]] <- glm(Formula[[i]],family=Family[i],data=dataf)
 	}
 	
-	if (do.offspring) { 
+	if (doOffspring) { 
 	if (offspringSplitter$continuous>0) {
 		if (is.na(meanOffspringSize[1])|is.na(sdOffspringSize[1])) {
 			if (length(dataf$offspringNext)==0) {
@@ -522,7 +522,7 @@ makeFecObj <- function(dataf=NULL,
 			f1@sdOffspringSize <- sdOffspringSize
 		}
 	}	
-	} #end of do.offspring loop
+	} #end of doOffspring loop
 	
 	if (sum(dim(vitalRatesPerOffspringType)==c(1,1))<2) {
 		if ((sum(vitalRatesPerOffspringType==0,na.rm=T)+sum(vitalRatesPerOffspringType==1,na.rm=T))<(ncol(vitalRatesPerOffspringType)*nrow(vitalRatesPerOffspringType))) stop("Error - in vitalRatesPerOffspringType data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
@@ -534,7 +534,7 @@ makeFecObj <- function(dataf=NULL,
 		names(vitalRatesPerOffspringType) <- names(offspringSplitter)
 	}
 	
-	if (do.offspring & length(f1@sdOffspringSize)>0) {
+	if (doOffspring & length(f1@sdOffspringSize)>0) {
 		if (is.na(f1@sdOffspringSize)) {
 			print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and sdOffspringSize; you will not be able to construct an IPM without these values.")
 		}
@@ -550,7 +550,7 @@ makeFecObj <- function(dataf=NULL,
 	} else {
 		
 	if (is.null(coeff)) stop("require coefficients if data is not supplied")
-	if (do.offspring) if (is.na(meanOffspringSize) | is.na(sdOffspringSize)) stop("require meanOffspringSize and sdOffspringSize if data is not supplied")
+	if (doOffspring) if (is.na(meanOffspringSize) | is.na(sdOffspringSize)) stop("require meanOffspringSize and sdOffspringSize if data is not supplied")
 	
 	
 	f1 <- .createFecObj(Formula=Formula, 
@@ -563,7 +563,7 @@ makeFecObj <- function(dataf=NULL,
 							vitalRatesPerOffspringType = vitalRatesPerOffspringType, 
 							fecByDiscrete = fecByDiscrete, 
 							offspringSizeExplanatoryVariables = offspringSizeExplanatoryVariables,
-							fecConstants = fecConstants, do.offspring=do.offspring, 
+							fecConstants = fecConstants, doOffspring=doOffspring, 
 							reproductionType=reproductionType) 
 	
 		
@@ -593,7 +593,7 @@ makeClonalObj <- function(dataf=NULL,
 		vitalRatesPerOffspringType=data.frame(NA),
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1", 
-		coeff=NULL, do.offspring=TRUE) { 
+		coeff=NULL, doOffspring=TRUE) { 
 
 	f1 <-makeFecObj(dataf=dataf,
 				fecConstants=fecConstants,
@@ -606,7 +606,7 @@ makeClonalObj <- function(dataf=NULL,
 				vitalRatesPerOffspringType=vitalRatesPerOffspringType,
 				fecByDiscrete=fecByDiscrete,
 				offspringSizeExplanatoryVariables=offspringSizeExplanatoryVariables, 
-				coeff=coeff, do.offspring=do.offspring,
+				coeff=coeff, doOffspring=doOffspring,
 				reproductionType="clonal")
 	
 	return(f1)
@@ -887,7 +887,7 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE,
 							fecByDiscrete = data.frame(NA), 
 							offspringSizeExplanatoryVariables = "1",
 							fecConstants = data.frame(NA), 
-							do.offspring=TRUE, 
+							doOffspring=TRUE, 
 							reproductionType="sexual"){ 
 	var.names <- c()
 	fecNames <- rep(NA,length(Formula))
@@ -924,7 +924,7 @@ makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE,
 			vitalRatesPerOffspringType = vitalRatesPerOffspringType, 
 			fecByDiscrete = fecByDiscrete, 
 			offspringSizeExplanatoryVariables = offspringSizeExplanatoryVariables, 
-			coeff=NULL, do.offspring=do.offspring, 
+			coeff=NULL, doOffspring=doOffspring, 
 			reproductionType=reproductionType)
 	
 	#now over-write with the desired coefficients!
@@ -953,7 +953,7 @@ makeFecObjInteger <- function(dataf,
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1",
 		distOffspring = "poisson", 
-		coeff=NULL, do.offspring=TRUE, 
+		coeff=NULL, doOffspring=TRUE, 
 		reproductionType="sexual"){
 	
 	
@@ -1044,7 +1044,7 @@ makeFecObjInteger <- function(dataf,
 		f1@fitFec[[i]] <- glm(Formula[[i]],family=Family[i],data=dataf)
 	}
 	
-	if (do.offspring) {
+	if (doOffspring) {
 	if (offspringSplitter$continuous>0) {
 		if (is.na(meanOffspringSize[1])) {
 			if (length(dataf$offspringNext)==0) {
@@ -1069,7 +1069,7 @@ makeFecObjInteger <- function(dataf,
 				f1@offspringRel <- glm.convert(f1@offspringRel)}
 		}
 	}
-	} ## end do.offspring
+	} ## end doOffspring
 
 	if (sum(dim(vitalRatesPerOffspringType)==c(1,1))<2) {
 		if ((sum(vitalRatesPerOffspringType==0,na.rm=T)+sum(vitalRatesPerOffspringType==1,na.rm=T))<(ncol(vitalRatesPerOffspringType)*nrow(vitalRatesPerOffspringType))) stop("Error - in vitalRatesPerOffspringType data.frame only 0's and 1's are allowed: a 1 indicates that a fecundity rate applies to that offspring type. ")
@@ -1081,7 +1081,7 @@ makeFecObjInteger <- function(dataf,
 		names(vitalRatesPerOffspringType) <- names(offspringSplitter)
 	}
 	
-	if (do.offspring & length(f1@thetaOffspringSize)>0 & distOffspring=="negBin") {
+	if (doOffspring & length(f1@thetaOffspringSize)>0 & distOffspring=="negBin") {
 		if (is.na(f1@thetaOffspringSize)) {
 			print("Warning - could not estimate parameters for the distribution of offspring size; defaults must be supplied for meanOffspringSize and thetaOffspringSize; you will not be able to construct an IPM without these values.")
 		}
@@ -1114,7 +1114,7 @@ makeClonalObjInteger <- function(dataf,
 		fecByDiscrete=data.frame(NA),
 		offspringSizeExplanatoryVariables="1",
 		distOffspring = "poisson",
-		coeff=NULL, do.offspring=TRUE){
+		coeff=NULL, doOffspring=TRUE){
 	
 	
 	f1 <- makeFecObjInteger(dataf=dataf,
@@ -1129,7 +1129,7 @@ makeClonalObjInteger <- function(dataf,
 			fecByDiscrete=fecByDiscrete,
 			offspringSizeExplanatoryVariables=offspringSizeExplanatoryVariables,
 			distOffspring = distOffspring , 
-			coeff=coeff, do.offspring=do.offspring, 
+			coeff=coeff, doOffspring=doOffspring, 
 			reproductionType="clonal")
 	
 	return(f1)
