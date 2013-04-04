@@ -194,6 +194,8 @@ row represents one measurement in the population:</p>
                   <td style="vertical-align:middle;padding:40px" width="420px">
 				    Here we list frequently asked questions, along with other pointers that we deem useful. Some of the answers are accompanied with links to R code on separate pages. If you have additional questions, please subscribe to the <a href="http://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/ipmpack-users" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">users email-list</a> and post your questions there. 
                     <p class="Refs">Can I perform <b>bayesian</b> analyses with <i>IPMpack</i>? <p>No, we do not include functions for bayesian analyses. However, some R code (from previous versions of <i>IPMpack</i>) can be found <a href="bayes.php">here</a>.
+                    <p class="Refs">How do I <b>plot</b> my matrices? <p>From version 2.0 <i>IPMpack</i> no longer contains the function countourPlot. Instead we recommend you use image.plot of the 'fields' package.
+                    <p class="Refs">How do I compare my IPMs with <b>matrix</b> models?<p>The relationships stored in your vital rate objects can of course be used to parameterize matrix models as well as IPMs. On a separate <a href="bayes.php">page</a> we provide some code to get you started building matrix models from the vital rate objects yourself (we decided to focus our efforts on good-running IPM code and not to continue developing code for matrix models within <i>IPMpack</i>.
                     <p><br></p>
                     <a href="#top" class="totop">Back to top</a>
                   </td>
