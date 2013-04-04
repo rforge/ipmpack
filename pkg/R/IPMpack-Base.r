@@ -3435,17 +3435,20 @@ stochGrowthRateSampleList <- function(nRunIn,tMax,listIPMmatrix=NULL,
 	
 	if (densDep & (is.null(listPmatrix) | is.null(listFmatrix))){
 		stop("Require listPmatrix & listFmatrix for densDep=TRUE")
-		nmatrices <- length(listPmatrix)
-		nBigMatrix <- length(listPmatrix[[1]][,1])
 	}
 		
 	if (!densDep & is.null(listIPMmatrix)) {
 		stop("Require listIPMmatrix for densDep=TRUE")		
-		nmatrices <- length(listIPMmatrix)
-		nBigMatrix <- length(listIPMmatrix[[1]][,1])
 	}		
 	
-		
+	if (densDep) {
+		nmatrices <- length(listPmatrix)
+		nBigMatrix <- length(listPmatrix[[1]][,1]) 
+	} else { 
+		nmatrices <- length(listIPMmatrix)
+		nBigMatrix <- length(listIPMmatrix[[1]][,1])
+	}
+	
 	nt<-rep(1,nBigMatrix)
 	Rt<-rep(NA,tMax)
 	
