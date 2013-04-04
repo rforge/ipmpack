@@ -11,8 +11,9 @@
   all the parameters underlying an IPM. 
 }
 \usage{
-sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,  
-	chosenCov = data.frame(covariate = 1),discreteTrans = 1, 
+sensParams(growObj, survObj, fecObj=NULL, clonalObj=NULL, 
+	nBigMatrix, minSize, maxSize,  
+	chosenCov = data.frame(covariate = 1), discreteTrans = 1, 
 	integrateType = "midpoint", correction = "none", preCensus = TRUE, 
 	delta=1e-4, response="lambda", chosenBin=1)
 
@@ -29,6 +30,10 @@ sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
     a fecundity object (not necessary for life
     expectancy analysis).
   }
+  \item{clonalObj}{
+    a clonality object (not necessary for life
+    expectancy analysis).
+  }
   \item{nBigMatrix}{
     numeric, number of bins of size used in the IPM matrix.
   }
@@ -38,34 +43,68 @@ sensParams(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
   \item{maxSize}{
     numeric, maximum size used for meshpoints of the IPM matrix.
   }
+  \item{chosenCov}{
+level or value of the covariate(s) at which sensitivity estimation is desired
+  }
   \item{discreteTrans}{
 	matrix of discrete transitions; or 1 if there is none
   }
   \item{integrateType}{
-    integration type.
+    integration type, defaults to "midpoint" (which uses probability density
+    function); other option is "cumul" (which uses the cumulative density function)
   }
   \item{correction}{
-    correction.
-  }
-  \item{preCensus}{
-    boolean saying if preCensus fertility or not (not necessary for life
+ correction type, defaults to \code{none}. The first option is \code{constant} which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for total fertility at that size. The second option is \code{discretizeExtremes} which will place all transitions to sizes smaller than \code{minSize} into the smallest bin, and transitions to sizes larger than \code{maxSize} into the largest bin.  
+ }
+  \item{preCensusFec}{
+    logical (TRUE or FALSE), indicating whether the fecundity object 
+    represents an interval between pre-breeding or a post-breeding censusses.
+    Defaults to TRUE (pre-breeding census), meaning that all reproduction 
+    and offspring rates required for the F matrix are embedded in fecObj. 
+    Alternatively, an F matrix based on post-breeding census (preCensusFec=FALSE)
+    uses postCensusSurvObjFec and postCensusGrowObjFec, to cover the survival and growth
+    of the parents until the reproduction event. (not necessary for life
     expectancy analysis)
+  }
+  \item{postCensusSurvObjFec){
+    survival object representing the survival of the parents until the reproduction event. 
+    If not specified (and preCensusFec = FALSE) it is assumed that all parents survive until 
+    the reproduction event. (not necessary for life expectancy analysis)
+  }
+  \item{postCensusGrowObjFec){
+    growth object representing the growth of surviving parents until the reproduction event. 
+    If not specified (and preCensusFec = FALSE) it is assumed that the parents do not grow until 
+    the reproduction event. (not necessary for life expectancy analysis)
+  }
+  \item{preCensusClonal}{
+    logical (TRUE or FALSE), indicating whether the clonality object 
+    represents an interval between pre-breeding or a post-'breeding' censusses.
+    Defaults to TRUE (pre-'breeding' census), meaning that all clonal propagation 
+    and offspring rates required for the C matrix are embedded in clonalObj. 
+    Alternatively, an C matrix based on post-'breeding' census (preCensusClonal=FALSE)
+    uses postCensusSurvObjClonal and postCensusGrowObjClonal, to cover the survival and growth
+    of the parents until the clonal propagation event. (not necessary for life
+    expectancy analysis)
+  }
+  \item{postCensusSurvObjClonal){
+    survival object representing the survival of the parents until the clonal propagation event. 
+    If not specified (and preCensusClonal = FALSE) it is assumed that all parents survive until 
+    the clonal propagation event. (not necessary for life expectancy analysis)
+  }
+  \item{postCensusGrowObjClonal){
+    growth object representing the growth of surviving parents until the clonal propagation event. 
+    If not specified (and preCensusClonal = FALSE) it is assumed that the parents do not grow until 
+    the clonal propagation event. (not necessary for life expectancy analysis)
   }
   \item{delta}{
     size of the perturbation desired
-  }
-  \item{chosenBin}{
-    for analysis of life expectancy, which bin in the IPM Life
-    expectancy should be compared for
-  }
-  \item{chosenCov}{
-level or value of the covariate(s) at which sensitivity estimation is desired
   }
   \item{response}{
 	 whether lambda, R0 or life expectancy of a desired bin (lifeExpect with chosenBin) is required 
   }
   \item{chosenBin}{
-which is required for lifeExpect
+    for analysis of life expectancy, which bin in the IPM Life
+    expectancy should be compared for
   }
   
   }
@@ -182,7 +221,6 @@ barplot(res$elas,
 main = expression("Parameter elasticity of population growth rate " *lambda), 
 las = 2, cex.names = 0.5)
 
-
 # Same but with a discrete class
 dff <- generateData(type="discrete")
 res <- sensParams(growObj = makeGrowthObj(dff), survObj = makeSurvObj(dff), 
@@ -197,6 +235,5 @@ las = 2, cex.names = 0.5)
 barplot(res$elas, 
 main = expression("Parameter elasticity of population growth rate " *lambda), 
 las = 2, cex.names = 0.5)
-
 
 }
