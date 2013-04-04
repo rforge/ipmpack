@@ -33,6 +33,9 @@ stochGrowthRateSampleList(nRunIn,tMax,listIPMmatrix=NULL,
 \item{seedList}{
     numeric, a vector of the number of successful recruit corresponding to possible states of the environment. 
 }
+\item{densDep}{
+Boolean indicating whether density dependence in seedling establishment should be implemented
+}
 }
 \value{
 a numeric converging on high enough log lambda_s for sufficient tMax; note that if the population size declines to zero, this may return NAs because of logging.

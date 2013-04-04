@@ -788,7 +788,7 @@ convertIncrement <- function(dataf, nYrs=1) {
 # structure run
 #
 # Parameters - tVals - time points
-#            - st - output of trackPopStructManyCovSeedBank or trackPopStructManyCov
+#            - st - output of stochGrowthRateManyCov
 #            - covTest - the key covariate for germination / flowering
 #            - nRunIn - how many to leave off pics
 # Returns - 

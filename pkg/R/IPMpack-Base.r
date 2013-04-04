@@ -3429,7 +3429,7 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 # Returns lambda_s (no density dependence)
 
 stochGrowthRateSampleList <- function(nRunIn,tMax,listIPMmatrix=NULL,
-					listPmatrix=NULL, listFmatrix=NULL,
+					listPmatrix=NULL, listFmatrix=NULL, seedList = NULL,
 					densDep=FALSE){
 	require(MASS)
 	

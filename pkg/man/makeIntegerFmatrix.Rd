@@ -14,7 +14,7 @@ NOTE - old createIntegerPmatrix is being deprecated; use makeIntegerPmatrix inst
 \usage{
 makeIntegerFmatrix(fecObj, nEnvClass = 1, meshpoints = 1:20, 
 	chosenCov = data.frame(covariate=1), 
-	preCensus = TRUE, survObj = NULL, growObj = NULL)
+	preCensus = TRUE, survObj = NULL, growObj = NULL, offspringObj=NULL)
 
 makeIntegerPmatrix(nEnvClass = 1, 
 		meshpoints = 1:20,
@@ -62,6 +62,9 @@ makeIntegerPmatrix(nEnvClass = 1,
   }
    \item{discreteTrans}{
     object of class discreteTrans, or numeric.
+  }
+  \item{offspringObj}{
+    growth object, describing the size of offspring (this process may alternatively appear in fecObj).  
   }
  
 }

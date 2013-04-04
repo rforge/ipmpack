@@ -15,7 +15,7 @@
 \usage{
 makeOffspringObj(dataf=NULL, Formula = sizeNext ~ size, 
 	regType = "constantVar", Family = "gaussian", link = NULL,
-coeff=NULL,sd=NULL, offspringType="sexual")
+coeff=NULL,sd=NULL, reproductionType="sexual")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

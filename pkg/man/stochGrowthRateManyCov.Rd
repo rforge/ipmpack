@@ -12,7 +12,8 @@ dependence is specified.
 \usage{
 stochGrowthRateManyCov(covariate, nRunIn, tMax,
 growthObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
-nMicrosites, integrateType,correction, trackStruct=FALSE)
+nMicrosites,integrateType = "midpoint", correction = "none",
+trackStruct=FALSE, plot=FALSE, ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -85,7 +86,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{trackPopStructManyCov}},
+\code{\link{stochGrowthRateSampleList}},
 }
 \examples{
 
