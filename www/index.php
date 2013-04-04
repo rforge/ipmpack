@@ -63,7 +63,7 @@ $themeroot='http://r-forge.r-project.org/themes/rforge/';
                   <td class="button"><a href="#summary" class="button">SUMMARY</a></td>
                   <td class="button"><a href="#description" class="button">PACKAGE</a></td>
                   <td class="button"><a href="#refs" class="button">REFERENCES</a></td>
-                  <td class="button"><a href="#faqs" class="button">FAQS</a></td>
+                  <td class="button"><a href="#faqs" class="button">FAQ</a></td>
                 </tr>
               </tbody>
             </table>
@@ -96,7 +96,7 @@ $themeroot='http://r-forge.r-project.org/themes/rforge/';
                 <tr class="title"><td colspan="2" class="section">Project summary</td></tr>
                 <tr style="background:#FFFFFF">
                   <td class="main">
-                    <p class="parag"><b>IPMpack</b> is an R package (R Development Core Team 2011) that allows users to build and analyse Integral Projection Models. An IPM is a demographic tool to explore the dynamics of populations where individuals' fates depend on state variables that are continuous (e.g. weight, diameter at breast height, height, limb length, rosette diameter...) or quasi-continuous (number of leaves, age, number of reproductive structures) and may be a mixture of discrete (e.g. seedbank) and continuous. IPMs track the distribution of individuals <i>n</i> across these state variables between census times (e.g., year <i>t</i> and year <i>t+1</i>) by projecting from models that define the underlying vital rates (e.g., survival, growth, reproduction) as a function of the (quasi-)continuous state variables. Version 1.5 of <a href="http://cran.r-project.org/web/packages/IPMpack/index.html" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">IPMpack</a> is now available on CRAN /  R-Forge. For those who wish to try it, it can be installed by opening the R console and typing: <br></p>
+                    <p class="parag"><b>IPMpack</b> is an R package (R Development Core Team 2013) that allows users to build and analyse Integral Projection Models. An IPM is a demographic tool to explore the dynamics of populations where individuals' fates depend on state variables that are continuous (e.g. weight, diameter at breast height, height, limb length, rosette diameter...) or quasi-continuous (number of leaves, age, number of reproductive structures) and may be a mixture of discrete (e.g. seedbank) and continuous. IPMs track the distribution of individuals <i>n</i> across these state variables between census times (e.g., year <i>t</i> and year <i>t+1</i>) by projecting from models that define the underlying vital rates (e.g., survival, growth, reproduction) as a function of the (quasi-)continuous state variables. Version 1.5 of <a href="http://cran.r-project.org/web/packages/IPMpack/index.html" rel="nofollow" style="color:#84002E;font-family:verdana" target="_blank">IPMpack</a> is now available on CRAN /  R-Forge. For those who wish to try it, it can be installed by opening the R console and typing: <br></p>
 										<p><code>install.packages("IPMpack", repos = "http://R-Forge.R-project.org", type = "source")</code>
 					<p><br></p>
 

@@ -79,7 +79,7 @@ For performing bayesian IPM analyses the following function might be of use:<p>
 			surv(size=x, cov=cov, survObj=survObj)<br>
 	return(u)<br>
 }<br>
-
+<p><br><a href="index.php">back to the main page</a>
                     
                   </td>
                 </tr>
