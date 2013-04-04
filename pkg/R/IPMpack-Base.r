@@ -3428,54 +3428,46 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 #
 # Returns lambda_s (no density dependence)
 
-stochGrowthRateSampleList <- function(listIPMmatrix,nRunIn,tMax){
+stochGrowthRateSampleList <- function(nRunIn,tMax,listIPMmatrix=NULL,
+					listPmatrix=NULL, listFmatrix=NULL,
+					densDep=FALSE){
 	require(MASS)
 	
-	nmatrices <- length(listIPMmatrix)
+	if (densDep & (is.null(listPmatrix) | is.null(listFmatrix))){
+		stop("Require listPmatrix & listFmatrix for densDep=TRUE")
+		nmatrices <- length(listPmatrix)
+		nBigMatrix <- length(listPmatrix[[1]][,1])
+	}
+		
+	if (!densDep & is.null(listIPMmatrix)) {
+		stop("Require listIPMmatrix for densDep=TRUE")		
+		nmatrices <- length(listIPMmatrix)
+		nBigMatrix <- length(listIPMmatrix[[1]][,1])
+	}		
 	
-	nt<-rep(1,length(listIPMmatrix[[1]][,1]))
+		
+	nt<-rep(1,nBigMatrix)
 	Rt<-rep(NA,tMax)
+	
+	pEst <- 1
 	
 	for (t in 1:tMax) {
 		year.type <- sample(1:nmatrices,size=1,replace=FALSE)
-		nt1<-listIPMmatrix[[year.type]] %*% nt	
-		sum.nt1<-sum(nt1)
-		Rt[t]<-log(sum.nt1)
-		nt<-nt1/sum.nt1
-		
+		if (densDep) { 
+			nseeds <- sum(listFmatrix[[year.type]]%*%nt)
+			pEst <- min(seedList[min(year.type+1,nmatrices)]/nseeds,1)
+			nt1 <- (listPmatrix[[year.type]]+pEst*listFmatrix[[year.type]])%*% nt
+			sum.nt1 <- sum(nt1)
+			Rt[t] <- log(sum.nt1)-log(sum(nt))
+			nt <- nt1
+		} else {
+			nt1<-listIPMmatrix[[year.type]] %*% nt	
+			sum.nt1<-sum(nt1)
+			Rt[t]<-log(sum.nt1)
+			nt<-nt1/sum.nt1
+		}		
 	}
-	
-	res <- mean(Rt[nRunIn:tMax],na.rm=TRUE)
-	return(res)
-}
-
-
-## Function to estimate stochastic growth rate
-## with density dependence in seedling establishment
-#
-# Parameters - listPmatrix - list of Pmatrices
-#            - listFmatrix - list of Fmatrices
-#            - nRunIn
-#            - tMax
-#            - seedList - observed recruits in each of the years
-#
-# Returns stoch growth rate
-
-stochGrowthRateSampleListDD <- function (listPmatrix, listFmatrix,nRunIn, tMax,seedList) {
-	require(MASS)
-	nmatrices <- length(listPmatrix)
-	nt <- rep(1, length(listPmatrix[[1]][, 1]))
-	Rt <- rep(NA, tMax)
-	for (t in 1:tMax) {
-		year.type <- sample(1:nmatrices, size = 1, replace = FALSE)
-		nseeds <- sum(listFmatrix[[year.type]]%*%nt)
-		pEst <- min(seedList[min(year.type+1,nmatrices)]/nseeds,1)
-		nt1 <- (listPmatrix[[year.type]]+pEst*listFmatrix[[year.type]])%*% nt
-		sum.nt1 <- sum(nt1)
-		Rt[t] <- log(sum.nt1)-log(sum(nt))
-		nt <- nt1
-	}
-	res <- mean(Rt[nRunIn:tMax], na.rm = TRUE)
+		res <- mean(Rt[nRunIn:tMax],na.rm=TRUE)
 	return(res)
 }
 
@@ -3494,7 +3486,8 @@ stochGrowthRateSampleListDD <- function (listPmatrix, listFmatrix,nRunIn, tMax,s
 stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 		growthObj,survObj,fecObj,
 		nBigMatrix,minSize,maxSize, nMicrosites,
-		integrateType="midpoint",correction="none"){
+		integrateType="midpoint",correction="none", 
+		trackStruct=FALSE, plot=FALSE,...){
 	require(MASS)
 	
 	
@@ -3508,7 +3501,7 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 	
 	#density dep in seedling establishment 
 	if (sum(nMicrosites)>0) { dd <- TRUE; seeds <- 10000 } else { dd <- FALSE; p.est <- 1}
-	
+	if (trackStruct) rc <- matrix(NA,nBigMatrix,tMax)
 	
 	for (t in 1:tMax) {
 		if (dd) p.est <- min(nMicrosites[min(t,length(nMicrosites))]/seeds,1) 	
@@ -3539,82 +3532,31 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 		IPM.here <- p.est*tpF@.Data+tpS@.Data
 		nt1<-IPM.here %*% nt	
 		sum.nt1<-sum(nt1)
-		if (!dd) { 
-			Rt[t]<-log(sum.nt1)
-			nt<-nt1/sum.nt1
-		} else {
-			Rt[t]<-log(sum.nt1)-log(sum(nt))
+		
+		if (!trackStruct){
+			if (!dd) { 
+				Rt[t]<-log(sum.nt1)
+				nt<-nt1/sum.nt1
+			} else {
+				Rt[t]<-log(sum.nt1)-log(sum(nt))
+				nt<-nt1	
+			}} else {
 			nt<-nt1	
+			rc[,t] <- nt1
 		}
+		
 		
 		
 	}
 	
-	res <- mean(Rt[nRunIn:tMax],na.rm=TRUE)
-	return(res)
-}
-
-
-# Approach to get track pop struct
-# with time-varying covariates; assuming density
-# dep in seedling establishment (i.e limited no microsites)
-#
-# Parameters - covariate - the covariates (temperature, etc)
-#            - nRunIn - the burnin before establishing lambda_s
-#            - tMax - the total time-horizon for getting lambda_s
-#
-# Returns matrix with time as columns, and pop struct as rows
-
-
-trackPopStructManyCov<-function(covariate,nRunIn,tMax,
-		growthObj,survObj,fecObj,
-		nBigMatrix,minSize,maxSize,
-		nMicrosites,integrateType="midpoint",correction="none"){
-	require(MASS)
-	
-	nt <- rep(1,nBigMatrix)
-	rc <- matrix(NA,nBigMatrix,tMax)
-	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1 
-	tmp.fecObj <- fecObj
-	#density dep? 
-	if (sum(nMicrosites)>0) { dd <- TRUE; seeds <- 10000 } else { dd <- FALSE}
-	
-	
-	
-	for (t in 1:tMax) {
-		if (dd) p.est <- min(nMicrosites[min(t,length(nMicrosites))]/seeds,1) 	
-		
-		#if you don't do this, rownames return errors...
-		covariatet <- covariate[t,]
-		row.names(covariatet) <- NULL
-		
-		#but if you have only one column, then it can forget its a data-frame
-		if (ncol(covariate)==1) { 
-			covariatet <- data.frame(covariatet)
-			colnames(covariatet) <- colnames(covariate)	
-		}
-		
-		tpS <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, chosenCov = covariatet,
-				growObj = growthObj, survObj = survObj,
-				integrateType=integrateType, correction=correction)
-		tpF <- makeIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-				maxSize = maxSize, chosenCov = covariatet,
-				fecObj = tmp.fecObj,
-				integrateType=integrateType, correction=correction)
-		
-		#total seeds for next year 
-		if (dd) seeds <- sum(tpF%*%nt)
-		
-		IPM.here <- p.est*tpF+tpS
-		nt1<-IPM.here %*% nt	
-		rc[,t] <- nt1
-		nt<-nt1
-		
-		
+	if (trackStruct & plot){
+		.plotResultsStochStruct(tVals=1:tMax, meshpoints=tpS@meshpoints,
+				st=rc,covTest=covariate, nRunIn = nRunIn,  ...) 	
 	}
 	
-	return(list(rc=rc,IPM.here=tpS))
+	if (!trackStruct) {res <- mean(Rt[nRunIn:tMax],na.rm=TRUE); return(list(Rt=res))}
+	if (trackStruct) return(list(rc=rc,IPM.here=tpS))
+	
 }
 
 

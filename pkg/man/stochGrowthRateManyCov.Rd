@@ -2,7 +2,7 @@
 \alias{stochGrowthRateManyCov}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Estimates stochastic population growth rates (lambda_s) or invasion rate with many varying covariates.
+Estimates stochastic population growth rates (lambda_s) or invasion rate with many varying covariates. Alternatively, tracks population structure in a stochastic environment if trackStruct  is TRUE.
 }
 \description{
 Iterates a population vector through a time series of covariates according to
@@ -12,7 +12,7 @@ dependence is specified.
 \usage{
 stochGrowthRateManyCov(covariate, nRunIn, tMax,
 growthObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
-nMicrosites, integrateType,correction)
+nMicrosites, integrateType,correction, trackStruct=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -52,12 +52,25 @@ nMicrosites, integrateType,correction)
   \item{correction}{
     correction type, defaults to "none"; option is "constant" which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for survival at that continuous stage value.
   }
-}
+  \item{trackStruct}{
+	Boolean indicating whether you want to track the population structure (beyond simply estimating the growth rate)
+  }
+  \item{plot}{
+	Boolean indicating whether a plot of the population structure is desired. 
+  }  
+  \item{...}{
+	extra arguments relating to plotting if trackStruct and plot are TRUE. 
+  }
+ }
 \details{
 Forms of density dependence beyond density dependence in seedling establishment not yet defined.
 }
 \value{
-numeric, converging on log lambda_s (no density dependence) or invasion rate (density dependence) for large enough tMax, and if covariate distribution is stationary. 
+\item{Rt} {if trackStruct is TRUE, numeric, converging on log lambda_s, or invasion rate (density dependence) for large enough tMax, and if covariate distribution is stationary. }
+\item{rc}{matrix of the numbers of individuals in each size and seed
+  class (row) over time (columns).}
+\item{IPM.here}{IPM constructed corresponding to pop structure and
+  covariates at tMax.}
 }
 \references{
 Ellner & Rees. 2007. Stochastic stable population growth in integral projection models: theory and application. Journal of Mathematical Biology 54, p227-256.
@@ -102,6 +115,14 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 #maxSize = 1.1*max(dff$size, na.rm = TRUE), nMicrosites = 0)
 
 #r
+
+# Track population strucuture instead
+#st <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 5*10, 
+#tMax = length(tVals), growthObj = gr1, survObj = sv1, fecObj = fv1, 
+#nBigMatrix = 100, 
+#minSize = 1.1*min(dff$size, na.rm = TRUE), 
+#maxSize = 1.1*max(dff$size, na.rm = TRUE), nMicrosites = 0, 
+#trackStruct=TRUE,plot=TRUE)
 
 
 }

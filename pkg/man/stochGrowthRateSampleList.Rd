@@ -2,24 +2,36 @@
 \alias{stochGrowthRateSampleList}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Estimating the stochastic population growth rate (lambda_s).
+  Estimating the stochastic population growth rate (lambda_s) or invasion rat.
 }
 \description{
  Estimates the stochastic growth rate (lambda_s) by iteration; operates by sampling a list of IPMs. Note that the function stoch.growth.rate in the package popbio does this more efficiently and with more useful output; but may fail for large bin numbers. 
+ If densDept is TRUE, estimates the stochastic invasion rate in the presence of density dependence in seedling establishment by iteration; operates by sampling a list of IPMs and recalculating the probability of seed establishment at each time-step. }
 }
 \usage{
-stochGrowthRateSampleList(listIPMmatrix, nRunIn, tMax)
+stochGrowthRateSampleList(nRunIn,tMax,listIPMmatrix=NULL,
+					listPmatrix=NULL, listFmatrix=NULL,seedList=NULL,
+					densDep=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{listIPMmatrix}{
- a list of IPMmatrix objects corresponding to possible states of the environment.
-}
-  \item{nRunIn}{
+\item{nRunIn}{
     numeric, the size of the burnin,
 }
-  \item{tMax}{
+\item{tMax}{
     numeric, the total samples desired.
+}
+\item{listIPMmatrix}{
+ 	a list of IPMmatrix objects corresponding to possible states of the environment.
+	}
+\item{listPmatrix}{
+ a list of IPM P matrices corresponding to possible states of the environment.
+}
+\item{listFmatrix}{
+ a list of IPM F matrices  corresponding to possible states of the environment.
+}
+\item{seedList}{
+    numeric, a vector of the number of successful recruit corresponding to possible states of the environment. 
 }
 }
 \value{

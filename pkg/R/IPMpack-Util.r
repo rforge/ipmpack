@@ -793,24 +793,28 @@ convertIncrement <- function(dataf, nYrs=1) {
 #            - nRunIn - how many to leave off pics
 # Returns - 
 #
-plotResultsStochStruct <- function(tVals,st,covTest,nRunIn=15,log="y",...) { 
+.plotResultsStochStruct <- function(tVals,meshpoints,st,covTest,nRunIn=15,log="y",...) { 
+	
+	maxval <- max(colSums(st[,nRunIn:length(tVals)]))
+	minval <- min(colSums(st[,nRunIn:length(tVals)]))
 	
 	par(mfrow=c(2,2),bty="l")
 	plot(tVals[nRunIn:length(tVals)],
-			colSums(st$rc[,nRunIn:length(tVals)]+1),
+			colSums(st[,nRunIn:length(tVals)]),
 			xlab="Time", 
-			ylab="Population size",type="l",log=log,...)
+			ylab="Population size",type="l",log=log,ylim=c(minval,maxval+2),...)
 	abline(v=1:max(tVals),lty=3)
-	covTestplot <- exp(mean(colSums(st$rc[,nRunIn:length(tVals)])) +
-					((covTest-mean(covTest))/sd(covTest))*
-					sd(colSums(st$rc[,nRunIn:length(tVals)])))
-	points(tVals,covTestplot+1,type="l",lty=3,col=2)
+	for (j in 1:ncol(covTest)) {
+		#normalized
+		yvals <- (covTest[,j]-mean(covTest[,j]))/sd(covTest[,j])
+		points(tVals,maxval+yvals,type="l",lty=3,col=j+1)
+	}
 	
-	if (log=="y") st$rc <- log(st$rc)
+	if (log=="y") st <- log(st)
 	
 	image(tVals[nRunIn:length(tVals)],
-			st$IPM.here@meshpoints,
-			t(st$rc[,nRunIn:length(tVals)]+1),
+			meshpoints,
+			t(st[,nRunIn:length(tVals)]),
 			ylab="Size", xlab="Time")
 }
 
