@@ -14,7 +14,7 @@ NOTE - old createIPMCmatrix is being deprecated; use makeIPMCmatrix instead.
 \usage{
 makeIPMCmatrix(clonalObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 
 	maxSize = 50, chosenCov = data.frame(covariate=1), integrateType="midpoint", 
-	correction="none",preCensus = TRUE, survObj = NULL, growObj = NULL)
+	correction="none",preCensus = TRUE, survObj = NULL, growObj = NULL, offspringObj=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -67,6 +67,9 @@ makeIPMCmatrix(clonalObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1,
     makeIPMFmatrix in the current version of IPMpack. It will become functional 
     in coming versions. So far it is assumed that at time of breeding the individuals 
     have the same size as at the beginning of the time interval.  
+  }
+  \item{offspringObj}{
+    growth object, describing the size of offspring (this process may alternatively appear in fecObj).  
   }
  
 }

@@ -13,7 +13,7 @@ NOTE - old createCompoundFmatrix is being deprecated; use makeCompoundFmatrix in
 makeCompoundFmatrix(nEnvClass = 2, nBigMatrix = 50,
 minSize = -1, maxSize = 50, envMatrix, fecObj, integrateType="midpoint", 
 correction="none",
-preCensus = TRUE, survObj = NULL, growObj = NULL)
+preCensus = TRUE, survObj = NULL, growObj = NULL, offspringObj=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -61,6 +61,10 @@ preCensus = TRUE, survObj = NULL, growObj = NULL)
     makeIPMFmatrix in the current version of IPMpack. It will become functional 
     in coming versions.  
   }
+   \item{offspringObj}{
+    growth object, describing the size of offspring (this process may alternatively appear in fecObj).  
+  }
+  
 }
 \value{
   an object of class IPMmatrix with dimensions

@@ -15,7 +15,7 @@ NOTE - old createCompoundCmatrix is being deprecated; use makeCompoundCmatrix in
 }
 \usage{
 makeCompoundCmatrix(nEnvClass = 2, nBigMatrix = 50,
-minSize = -1, maxSize = 50, envMatrix, clonalObj, integrateType, correction)
+minSize = -1, maxSize = 50, envMatrix, clonalObj, integrateType, correction, offspringObj=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -44,6 +44,10 @@ minSize = -1, maxSize = 50, envMatrix, clonalObj, integrateType, correction)
   }
   \item{correction}{
  correction type, defaults to \code{none}. The first option is \code{constant} which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for total fertility at that size. The second option is \code{discretizeExtremes} which will place all transitions to sizes smaller than \code{minSize} into the smallest bin, and transitions to sizes larger than \code{maxSize} into the largest bin.    }
+  \item{offspringObj}{
+    growth object, describing the size of offspring (this process may alternatively appear in fecObj).  
+  }
+ 
 }
 \value{
   an object of class IPMmatrix with dimensions
