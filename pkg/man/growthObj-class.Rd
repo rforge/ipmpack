@@ -2,8 +2,7 @@
 \Rdversion{1.1}
 \docType{class}
 \alias{growthObj-class}
-%\alias{growth,numeric,numeric,numeric,growthObj-method}
-%\alias{growthIntegrate,numeric,numeric,numeric,numeric,growthObj-method}
+
 
 \title{Class "growthObj"}
 \description{

@@ -39,6 +39,9 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 \code{\link{makeGrowthObj}},\code{\link{makeSurvObj}},\code{\link{getIPMoutputDirect}}
 }
 \examples{
+
+# # #  TODO: Cory will do everything
+
 # Data with size and sizeNext
 dff <- generateData()
 gr1 <- makeGrowthObj(dff)
