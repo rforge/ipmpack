@@ -25,9 +25,6 @@ logit <- function(x) { u<-exp(pmin(x,50)); return(u/(1+u))}
 setGeneric("growth",
 		function(size, sizeNext, cov, growthObj) standardGeneric("growth"))
 
-setGeneric("offspringSize",
-		function(size, sizeNext, cov, growthObj) standardGeneric("offspringSize"))
-
 
 # Register a survival  generic
 #
@@ -59,9 +56,6 @@ setGeneric("surv",
 #   the growth transition from size to sizeNext
 setGeneric("growthCum",
 		function(size, sizeNext, cov, growthObj) standardGeneric("growthCum"))
-
-setGeneric("offspringSizeCum",
-		function(size, sizeNext, cov, growthObj) standardGeneric("offspringSizeCum"))
 
 
 ### CLASSES UNDERLYING THE GROWTH / SURVIVAL FUNCTIONS ######
