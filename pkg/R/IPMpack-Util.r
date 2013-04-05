@@ -712,9 +712,9 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 	dataf <- data.frame(dataf,stringsAsFactors = FALSE)	
 	#print(table(dataf[,6]))
 
-	#plot(cumsum(trueGrow[startYr:nYrs])/(1:length(trueGrow[startYr:nYrs])),type="l")
+	plot(cumsum(trueGrow[startYr:nYrs])/(1:length(trueGrow[startYr:nYrs])),type="l")
 	trueGrow <- mean(trueGrow[startYr:nYrs],na.rm=TRUE)  
-	#abline(h=trueGrow)
+	abline(h=trueGrow)
 	
 	colnames(dataf) <- c("size","sizeNext","surv","flower","fec",
 			"year","nSeedlings","m.year","cg.year","b.year","offspringNext")
