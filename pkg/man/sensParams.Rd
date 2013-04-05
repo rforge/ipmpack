@@ -115,7 +115,7 @@ level or value of the covariate(s) at which sensitivity estimation is desired
     corresponding to parameters.}
 }
 \references{
-Rees & Rose. 2002. Evolution of flowering strategies in Oenothera
+Rees and Rose. 2002. Evolution of flowering strategies in Oenothera
 glazioviana: an integral projection model approach. Proceedings of the Royal Society London Seres B 269, p1509-1515.
 }
 \author{
