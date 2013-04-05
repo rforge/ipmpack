@@ -1,8 +1,8 @@
 \name{sampleSequentialIPMs}
-\alias{sampleSequentialIPMs}
+\alias{.makeListIPMs}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-MakeS list IPMs where there is a discrete covariate.
+Makes a list of IPMs where there is a discrete covariate.
 }
 \description{
 Wrapper function to build the IPM corresponding to every level of the discrete covariate, and return a list of these. 
@@ -60,8 +60,11 @@ sampleSequentialIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,
 \value{
   list of matrices corresponding to covariates, in order.
 }
+\note{
+	Formerly makeListIPMs(). makeListIPMs() is no longer supported but has been hidden (.makeListIPMs()) and can be accessed for backward compatibility.
+}
 \author{
-C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+Cory Merow, C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

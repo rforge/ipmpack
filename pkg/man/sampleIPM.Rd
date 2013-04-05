@@ -1,11 +1,11 @@
-\name{.makeListPmatrix }
+\name{sampleIPM }
 \alias{.makeListPmatrix }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Builds list of P matrices from list growth and survival objects.
+  Builds list of IPMs or P matrices from list growth, survival, fecundity and discreteTrans objects.
 }
 \description{
-  Uses posteriors (or other) lists of growth and survival objects to create a list of P matrices.
+  Uses lists of vital rate objects to create a list of IPM or P matrices.
 }
 \usage{
 .makeListPmatrix (growObjList, survObjList, nBigMatrix, 

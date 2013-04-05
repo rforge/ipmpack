@@ -16,13 +16,18 @@ variance covariance matrix that defines them using a multivariate normal distrib
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Obj}{
-    a growth or survival object with a slot named "fit" for \code{.getListRegObjects} containing an lm or glm, etc or a fertility object with a slot named "fitFec" for \code{.getListRegObjectsFec}, likewise. 
-   
+    a growth or survival object with a slot named "fit" containing an lm or glm, etc., or a fertility object with a slot named "fitFec" for \code{.getListRegObjectsFec}, likewise. 
   }
-  \item{nsamp}{
-    desired number of samples from the posterior multivariate normal
+  \item{nSamp}{
+    desired number of samples from the multivariate normal
   }
-
+  \item{nDiscreteGrowthTransitions}{
+    number of transitions used to estimate a discreteTrans object. This is used to estimate the correct variance for sampling the discreteTrans object. It is only required if a discreteTransObject is provided.
+  } 
+  \item{nDiscreteOffspringTransitions}{
+    number of transitions used to estimate transition probabilities between discrete offspring stages (stored in the @offspringSplitter slot of a fecObj). This is used to estimate the correct variance for the sampling. It is only required if a fecObject is provided.  } 
+  \item{nOffspring}{
+    number of transitions used to the offspring size distribution (stored in the @offspringRel and @offspringsd slots of a fecObj). This is used to estimate the correct variance for the sampling. It is only required if a fecObject is provided.  } 
 }
 \value{
   The output is list of the provided vital rate object with different parameter values in each list element, e.g. a list of growth or survival objects containing an lm or glm; or fertility objects likewise.

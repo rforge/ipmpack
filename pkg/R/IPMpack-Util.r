@@ -1284,4 +1284,45 @@ sampleIPMOutput <- function(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=
 }
 
 
+,makeListIPMs<- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10, 
+    integrateType="midpoint", correction="none",
+    explSurv=surv~size+size2+covariates,
+    explGrow=sizeNext~size+size2+covariates, 
+    regType="constantVar",explFec=fec~size,Family="gaussian", 
+    Transform="none",fecConstants=data.frame(NA)) {
+  
+  #convert to 1:n for indexing later
+  dataf$covariates <- as.factor(dataf$covariates)
+  levels(dataf$covariates) <- 1:length(unique(dataf$covariates))
+  
+  print(explSurv)
+  sv1 <- makeSurvObj(dataf=dataf,
+      Formula=explSurv)
+  gr1 <- makeGrowthObj(dataf=dataf,
+      Formula=explGrow,
+      regType=regType)
+  
+  fv1 <- makeFecObj(dataf=dataf,Formula=explFec, Family=Family, Transform=Transform, 
+      fecConstants=fecConstants) 
+  
+  covs <- unique(dataf$covariates)
+  covs <- covs[!is.na(covs)]
+  
+  #print(covs)
+  
+  IPM.list <- list()
+  for (k in 1:length(covs)) { 
+    
+    tpF <- makeIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
+        maxSize = maxSize, chosenCov = data.frame(covariates=as.factor(k)),
+        fecObj = fv1,integrateType=integrateType, correction=correction)
+    tpS <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
+        maxSize = maxSize, chosenCov = data.frame(covariates=as.factor(k)),
+        growObj = gr1, survObj = sv1,
+        integrateType=integrateType, correction=correction)
+    IPM.list[[k]] <- tpF+tpS
+  }
+  return(IPM.list)
+  
+}
 
