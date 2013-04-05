@@ -1092,10 +1092,12 @@ coerceSurvObj <- function(survObj, coeff){
 	return(survObj)
 }
 
+#===============================================================================
 ## Parametric boostrap of vital rate objects
 # created by cory on 6-4-13 as a modification of getListRegObjs()
+#===============================================================================
 
-sampleVitalRateObj <- function(Obj,nsamp=100,n.discrete.growth.transitions=NULL,n.discrete.offspring.transitions=NULL,n.offspring=NULL) {
+sampleVitalRateObj <- function(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDiscreteOffspringTransitions=NULL,nOffspring=NULL) {
   require(mvtnorm)
   require(MASS)
   require(rv)
@@ -1106,14 +1108,14 @@ sampleVitalRateObj <- function(Obj,nsamp=100,n.discrete.growth.transitions=NULL,
   # what is the difference between offspring splitter transitions and discrete
   # for discrete transition matrices objects
   if( sum(class(Obj)==c("discreteTrans","discreteTransInteger")) ) {
-    if(is.null(n.discrete.growth.transitions)){ 
+    if(is.null(nDiscreteGrowthTransitions)){ 
       stop('Error: Please specify the total number of transitions that were used to estimate the discrete transitions in Obj@discreteTrans to allow the function to estimate the appropriate variance for resampling them')
     } 
-    if(!is.null(n.discrete.growth.transitions)){ 
-      for (j in 1:nsamp) {
+    if(!is.null(nDiscreteGrowthTransitions)){ 
+      for (j in 1:nSamp) {
         objList[[j]] <- Obj
         for (k in 1:ncol(Obj@discreteTrans)){
-          newpar0 <- rvdirichlet(1,n.discrete.growth.transitions* as.numeric(Obj@discreteTrans[,k]))
+          newpar0 <- rvdirichlet(1,nDiscreteGrowthTransitions* as.numeric(Obj@discreteTrans[,k]))
           objList[[j]]@discreteTrans[,k] <- sims(newpar0)[1,]
         }
       }
@@ -1123,8 +1125,8 @@ sampleVitalRateObj <- function(Obj,nsamp=100,n.discrete.growth.transitions=NULL,
   
   # for growth and survival objects
   if( !sum(class(Obj)==c("fecObj","fecObjInteger","discreteTrans", "discreteTransInteger")) ) {
-    newpar <- rmvnorm(nsamp, mean = Obj@fit$coefficients, sigma = vcov(Obj@fit))
-    for (j in 1:nsamp) {
+    newpar <- rmvnorm(nSamp, mean = Obj@fit$coefficients, sigma = vcov(Obj@fit))
+    for (j in 1:nSamp) {
       objList[[j]] <- Obj
       objList[[j]]@fit$coefficients <- newpar[j,]
     }
@@ -1132,7 +1134,7 @@ sampleVitalRateObj <- function(Obj,nsamp=100,n.discrete.growth.transitions=NULL,
   
   # for fecundity objects
   if( sum(class(Obj)==c("fecObj","fecObjInteger")) ) {
-    for (j in 1:nsamp) {
+    for (j in 1:nSamp) {
       
       # sample fecundity regression parameters
       for (k in 1:length(Obj@fitFec)) { 
@@ -1144,25 +1146,25 @@ sampleVitalRateObj <- function(Obj,nsamp=100,n.discrete.growth.transitions=NULL,
       
       # sample discrete transitions from dirichlet
       if(ncol(Obj@offspringSplitter)>1){ # only if there are discrete fec stages
-        if(is.null(n.discrete.offspring.transitions)){ 
+        if(is.null(nDiscreteOffspringTransitions)){ 
           stop('Error: Please specify the total number of discrete transitions that were used to estimate the fecundity transition in Obj@offspringSplitter to allow the function to estimate the appropriate variance for resampling them')
         } 
-        if(!is.null(n.discrete.offspring.transitions)){
-          newpar2 <- rvdirichlet(1,n.discrete.offspring.transitions* as.numeric(Obj@offspringSplitter))
+        if(!is.null(nDiscreteOffspringTransitions)){
+          newpar2 <- rvdirichlet(1,nDiscreteOffspringTransitions* as.numeric(Obj@offspringSplitter))
           objList[[j]]@offspringSplitter[] <- sims(newpar2)[1,]
         }
       }
       
       # sample the offspring sizes
       # TODO: OffspringRel currently does not store all the information from the regression, which it should so that this works with offspring models that have more than an intercept
-      if(is.null(n.offspring)){ 
+      if(is.null(nOffspring)){ 
         stop('Error: Please specify the total number of offspring that were used to estimate the offspring size distribtuion in Obj@offspringRel to allow the function to estimate the appropriate variance for resampling them')
       } 
       # TODO: Make work with the new OffspringObjs	
-      if(!is.null(n.offspring)){ 
-        newpar3 <- rnorm(1,coefficients(Obj@offspringRel)[1], Obj@sdOffspringSize/sqrt(n.offspring))
+      if(!is.null(nOffspring)){ 
+        newpar3 <- rnorm(1,coefficients(Obj@offspringRel)[1], Obj@sdOffspringSize/sqrt(nOffspring))
         objList[[j]]@offspringRel$coefficients[] <- newpar3
-        newpar4 <- rnorm(1,Obj@sdOffspringSize, sqrt(2*Obj@sdOffspringSize^4)/(n.offspring-1))
+        newpar4 <- rnorm(1,Obj@sdOffspringSize, sqrt(2*Obj@sdOffspringSize^4)/(nOffspring-1))
         objList[[j]]@sdOffspringSize <- newpar4
       }
     }	
@@ -1170,4 +1172,115 @@ sampleVitalRateObj <- function(Obj,nsamp=100,n.discrete.growth.transitions=NULL,
   
   return(objList)
 }
+
+#===============================================================================
+## Use list of vital rate objects to make List of IPMS
+# created by cory on 6-4-13 as a modification of getListIPMs()
+#===============================================================================
+
+# TODO: MAKE WORK FOR OFFSPRING OBJS
+
+sampleIPM<- function(growObjList=NULL,survObjList=NULL,fecObjList=NULL, offspringObjList=NULL, discreteTransList=1, nBigMatrix,minSize,maxSize, covariates=FALSE, 
+    envMat=NULL,integrateType="midpoint",correction="none",warn=TRUE) {
+  
+  if(!is.null(offspringObjList)){
+    stop('Sorry, lists of offspring objects are not yet supported. However, specify offspring size distributions via makeFecObj() is supported. Please set offspringObjList=NULL, or modify the function to accept offspring objects and email it to us.')
+  }
+  # make the same number of samples for each vital rate object
+  n.samples=max(c(length(growObjList),length(survObjList),length(fecObjList)))
+  
+  if(!is.null(growObjList) & length(growObjList)<n.samples){
+    if(warn) warning('Length of growth object list is less than the length of another vital rate object list, so some members of the growth object list have been repeated.')
+    growthObjList=sample(growObjList,size=n.samples,replace=T)
+  }
+  
+  if(!is.null(survObjList) & length(survObjList)<n.samples ){
+    if(warn) warning('Length of survival object list is less than the length of another vital rate object list, so some members of the survival object list have been repeated.')
+    survObjList=sample(survObjList,size=n.samples,replace=T)
+  }
+  
+  if(!is.null(fecObjList) & length(fecObjList)<n.samples ){
+    if(warn) warning('Length of fec object list is less than the length of another vital rate object list, so some members of the fec object list have been repeated.')
+    fecObjList=sample(fecObjList,size=n.samples,replace=T)
+  }
+  
+  if(!is.null(growObjList) & length(discreteTransList)<n.samples ){
+    # if(warn) warning('Length of discreteTrans list is less than the length of another vital rate object list, so some members of the discreteTrans list have been repeated.')
+    discreteTransList=sample(discreteTransList,size=n.samples,replace=T)
+  }
+  
+  if(!is.null(growObjList)){
+    PmatrixList=.makeListPmatrix(growObjList,survObjList, nBigMatrix, minSize,maxSize, covariates=covariates, envMat=envMat,discreteTrans=discreteTransList, integrateType=integrateType, correction=correction) 
+    matrixList=PmatrixList
+  }
+  
+  if(!is.null(fecObjList)){
+    FmatrixList=.makeListFmatrix(fecObjList, nBigMatrix=nBigMatrix, minSize=minSize, maxSize=maxSize, covariates=covariates, envMat=envMat, integrateType=integrateType, correction=correction) 
+    matrixList=FmatrixList
+  }	
+  
+  if(!is.null(growObjList) & !is.null(fecObjList)){
+    for(i in 1:n.samples){ 
+      matrixList[[i]] <- PmatrixList[[i]] # to get all the Pmatrix slots
+      matrixList[[i]]@.Data <- PmatrixList[[i]]+FmatrixList[[i]] 
+    }
+  }
+  
+  return(matrixList)
+}
+
+#===============================================================================
+## Use list of IPMs to make List of IPM output
+# created by cory on 6-4-13 as a modification of getIPMOutput() and getIPMOutputDirect()
+#===============================================================================
+
+sampleIPMOutput <- function(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=c(), sizeToAgeStartSize=c(),sizeToAgeTargetSize=c(),warn=TRUE){
+  # removed from old version of getIPMOutputDirect
+  # # 		cov=FALSE, envMat=NULL,
+  # # 		chosenCov = data.frame(covariate = 1),
+  # # 		onlyLowerTriGrowth=FALSE)
+  
+  # if only a Pmatrix is supplied, just call it IPMList for simplicity
+  if(is.null(IPMList))  IPMList=PMatrixList
+  if ( is.null(passageTimeTargetSize) )  { 
+    if(warn) print("no target size for passage time provided; taking meshpoint median")
+    passageTimeTargetSize <- median(IPMList[[1]]@meshpoints)
+  }
+  if ( is.null(sizeToAgeStartSize) )  { 
+    if(warn) print("no starting size for size to age provided; taking minimum size")
+    sizeToAgeStartSize <- min(IPMList[[1]]@meshpoints)
+  }
+  if ( is.null(sizeToAgeTargetSize) )  { 
+    if(warn) print("no target size for size to age provided; taking meshpoint values")
+    sizeToAgeTargetSize <- IPMList[[1]]@meshpoints
+  }
+  nSamps <- length(IPMList)
+  
+  stableStage <- LE <- pTime <- matrix(NA,nSamps,length(IPMList[[1]]@.Data[1,]))
+  lambda <- rep(NA,nSamps)
+  resAge <- resSize <- matrix(NA,nSamps,length(sizeToAgeTargetSize)) 
+  h1 <- diff(IPMList[[1]]@meshpoints)[1]
+  
+  for (k in 1:nSamps) {
+    IPM <- IPMList[[k]]
+    LE[k,]<-meanLifeExpect(IPM) 
+    pTime[k,]<-passageTime(passageTimeTargetSize,IPM) 
+    
+    if (is.null(PMatrixList)) {
+      lambda[k] <- Re(eigen(IPM)$value[1])
+      stableStage[k,] <- eigen(IPM)$vector[,1]
+      #normalize stable size distribution
+      stableStage[k,] <- stableStage[k,]/(h1*sum(stableStage[k,]))
+    }
+    # get size to age results
+    res2 <- sizeToAge(Pmatrix=IPM,startingSize=sizeToAgeStartSize, targetSize=sizeToAgeTargetSize)
+    resAge[k,] <- res2$timeInYears
+    resSize[k,] <- res2$targetSize
+  }
+  
+  return(list(LE=LE,pTime=pTime,lambda=lambda,stableStage=stableStage,
+          resAge=resAge,resSize=resSize,meshpoints=IPM@meshpoints))	
+}
+
+
 
