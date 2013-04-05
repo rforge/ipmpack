@@ -2486,3 +2486,32 @@ createIntegerFmatrix <- function(fecObj,
 	return(rc)
 	
 }
+
+# =============================================================================
+# =============================================================================
+## Function to get passage time FROM a particular size TO a range of sizes
+## (i.e. size to age) when provided with a Pmatrix, a starting size, and a list
+## of target sizes
+#
+# Parameters - Pmatrix
+#            - startingSize
+#            - targetSizes
+#
+# Returns - list containing vector of targets, vector of corresponding times, and the startingSize
+#
+sizeToAge <- function(Pmatrix,startingSize,targetSize) {
+  
+  #locate where the first size is in the meshpoints of Pmatrix
+  diffv <- abs(startingSize-Pmatrix@meshpoints)
+  start.index <- median(which(diffv==min(diffv),arr.ind=TRUE))
+  timeInYears <- rep(NA,length(targetSize))
+  
+  #loop over to see where its going
+  for (k in 1:length(targetSize)) {
+    pTime <- passageTime(targetSize[k],Pmatrix)
+    timeInYears[k] <- pTime[start.index]
+  }
+  
+  return(list(timeInYears=timeInYears,targetSize=targetSize,startingSize=startingSize))
+  
+}
