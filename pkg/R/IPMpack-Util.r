@@ -712,8 +712,8 @@ sampleVitalRateObj <- function(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDi
       for (j in 1:nSamp) {
         objList[[j]] <- Obj
         for (k in 1:ncol(Obj@discreteTrans)){
-          newpar0 <- rvdirichlet(1,nDiscreteGrowthTransitions* as.numeric(Obj@discreteTrans[,k]))
-          objList[[j]]@discreteTrans[,k] <- sims(newpar0)[1,]
+          newpar0 <- rv::rvdirichlet(1,nDiscreteGrowthTransitions* as.numeric(Obj@discreteTrans[,k]))
+          objList[[j]]@discreteTrans[,k] <- rv::sims(newpar0)[1,]
         }
       }
     }
@@ -747,8 +747,8 @@ sampleVitalRateObj <- function(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDi
           stop('Error: Please specify the total number of discrete transitions that were used to estimate the fecundity transition in Obj@offspringSplitter to allow the function to estimate the appropriate variance for resampling them')
         } 
         if(!is.null(nDiscreteOffspringTransitions)){
-          newpar2 <- rvdirichlet(1,nDiscreteOffspringTransitions* as.numeric(Obj@offspringSplitter))
-          objList[[j]]@offspringSplitter[] <- sims(newpar2)[1,]
+          newpar2 <- rv::rvdirichlet(1,nDiscreteOffspringTransitions* as.numeric(Obj@offspringSplitter))
+          objList[[j]]@offspringSplitter[] <- rv::sims(newpar2)[1,]
         }
       }
       

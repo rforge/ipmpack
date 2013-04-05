@@ -1,4 +1,4 @@
-\name{sampleIPMoutput}
+\name{sampleIPMOutput}
 \alias{.getIPMoutput}
 \alias{.getIPMoutputDirect}
 
@@ -65,7 +65,7 @@ sampleIPMOutput(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=c(), sizeToA
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-	\code{\link{sampleIPM}},\code{\link{sampleIPMoutput}},\code{\link{sampleSequentialIPM}}
+	\code{\link{sampleIPM}},\code{\link{sampleVitalRateObj}},\code{\link{sampleSequentialIPM}}
 }
 
 \examples{

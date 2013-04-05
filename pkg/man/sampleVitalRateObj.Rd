@@ -46,7 +46,7 @@ Cory Merow, C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eel
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{sampleIPM}},\code{\link{sampleIPMoutput}},\code{\link{sampleSequentialIPM}}
+\code{\link{sampleIPM}},\code{\link{sampleIPMOutput}},\code{\link{sampleSequentialIPM}}
 }
 
 \examples{
