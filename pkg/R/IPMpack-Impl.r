@@ -1,4 +1,5 @@
 
+
 ## FUNCTIONS FOR TURNING DATA INTO GROWTH AND SURVIVAL OBJECTS ############################
 ## uses linear and logistic regressions, with various polynomials
 # dataf must have columns "size", "sizeNext", "surv",
@@ -7,7 +8,8 @@
 # and "fec", "age";  age is for picking out seedling sizes for full IPM
 
 
-
+# =============================================================================
+# =============================================================================
 ## 1. Growth  models  #############################################
 
 
@@ -190,6 +192,8 @@ makeGrowthObj <- function(dataf=NULL,
 }
 
 
+# =============================================================================
+# =============================================================================
 ### IDENTICAL TO makeGrowthObj - JUST COPIED
 ##### ONLY DIFFERENCE IS DATA - don't throw away all NAs in size - and 
 ##### focus on ones where offspringNext is sexual or clonal
@@ -304,7 +308,8 @@ makeOffspringObj <- function(dataf=NULL,
 
 ### Function to make a new object of class offspringObj
 
-
+# =============================================================================
+# =============================================================================
 ## Function to create a new Hossfeld growth object
 #
 # Parameters - dataf - a dataframe
@@ -330,12 +335,10 @@ makegrowthObjHossfeld <- function(dataf) {
 }
 
 
+# 2. Survival models  #########################################################
 
-# 2. Survival models  #######################################################################################################
-
-
-
-
+# =============================================================================
+# =============================================================================
 #General function for survival 
 #
 # Parameters - dataf - the data-frame (which must contain the headings found in the formulas)
@@ -394,9 +397,10 @@ makeSurvObj <- function(dataf=NULL,
 
 
 
-# 3. fecundity models  #######################################################################################################
+# 3. fecundity models  ########################################################
 
-
+# =============================================================================
+# =============================================================================
 makeFecObj <- function(dataf=NULL,
 		fecConstants=data.frame(NA),
 		Formula=list(fec~size),
@@ -581,6 +585,8 @@ makeFecObj <- function(dataf=NULL,
 
 # 3a. clonality models  #######################################################################################################
 
+# =============================================================================
+# =============================================================================
 #now as a wrapper...
 makeClonalObj <- function(dataf=NULL,
 		fecConstants=data.frame(NA),
@@ -617,6 +623,8 @@ makeClonalObj <- function(dataf=NULL,
 
 # 4. Discrete Transition models  #######################################################################################################
 
+# =============================================================================
+# =============================================================================
 ## Function to take a data-frame and make a discrete transition object
 ## for combining with a continuous P matrix
 #
@@ -704,246 +712,8 @@ makeDiscreteTrans <- function(dataf,
 ## 5. Models including Data Augmentation models #############################################################
 
 
-# Function to augment mortality data for large trees
-# Parameters dataf - existing data frame
-#            size.thresh - the size above which tree death is being augmented
-#            prop.dead - the proportion of these expected to be dead
-
-.deathDataAugment <- function (dataf, size.thresh, prop.dead) { 
-	
-	n.now <- sum(dataf$size > size.thresh)
-	n.new.dead <- ceiling(prop.dead * n.now / (1 - prop.dead))
-	new.size <- rnorm(n.new.dead,size.thresh, sd(dataf$size[dataf$size > size.thresh]))
-	
-	datanew <- data.frame(size = new.size, sizeNext = rep(NA, n.new.dead), surv = rep(0, n.new.dead), 
-			covariate = rep(0, n.new.dead), covariateNext = rep(0, n.new.dead),
-			fec = rep(NA, n.new.dead)) 
-	
-	dataf.new <- rbind(dataf,datanew)
-	
-	return(dataf.new)
-	
-}
-
-
-
-
-
-
-
-
-# replace the growth object fit with a new, desired variance for predict
-.alteredFit <- function(dummyFit = dummyFit, 
-		newCoef = dummyFit$coefficients, 
-		desiredSd = 1) {
-	dummyFit$coefficients[] <- newCoef
-	dummyFit$residuals <- rnorm(length(dummyFit$residuals), mean = 0, sd = desiredSd)	
-	# need to use qr here to assign dummyFit so that there is no warning when decomposed for n
-	# Error in rnorm(residDf, 0, sd = desiredSd) : object 'residDf' not found
-	return(dummyFit)	
-}
-
-
-
-
-# Function to take a list of growth and survival objects and make a list of Pmatrices
-#
-# Parameters - growObjList - a list of growth objects
-#            - survObjList - a list of survival objects
-#            - nBigMatrix - the number of bins
-#            - minSize - the minimum size
-#            - maxSize - the maximum size
-#            - cov - is a discrete covariate considered
-#            - envMat - enviromental matrix for transition between
-# 
-# Returns    - a list of Pmatrices
-.makeListPmatrix  <- function(growObjList,survObjList,
-    nBigMatrix,minSize,maxSize, cov=FALSE, envMat=NULL,
-    integrateType="midpoint",correction="none", discreteTransList=1) {
-  
-  if (length(growObjList)>length(survObjList)) { 
-    survObjList <- sample(survObjList,size=length(growObjList),replace=TRUE)
-  } else { 
-    if (length(growObjList)<length(survObjList))  
-      growObjList <- sample(growObjList,size=length(survObjList),replace=TRUE)
-  }
-  
-  nsamp <- length(growObjList)
-  
-  if(length(discreteTransList)<n.samples ){
-    # if(warn) warning('Length of discreteTrans list is less than the length of another vital rate object list, so some members of the discreteTrans list have been repeated.')
-    discreteTransList <- sample(discreteTransList,size=n.samples,replace=T)
-  }
-  
-  PmatrixList <- list()
-  for ( k in 1:length(growObjList)) { 
-    if (!cov) {
-      PmatrixList[[k]] <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-          maxSize = maxSize, growObj = growObjList[[k]],discreteTrans=discreteTransList[[k]],
-          survObj = survObjList[[k]],integrateType=integrateType, correction=correction) 
-    } else {
-      PmatrixList[[k]] <- makeCompoundPmatrix(nEnvClass = length(envMat[1,]),
-          nBigMatrix = nBigMatrix, minSize = minSize, 
-          maxSize = maxSize, envMatrix=envMat,discreteTrans=discreteTransList[[k]],
-          growObj = growObjList[[k]],
-          survObj = survObjList[[k]],integrateType=integrateType, correction=correction)    
-    }
-  }
-  
-  return(PmatrixList)
-}
-
-# Function to take a list of growth and survival objects and make a list of Fmatrices
-
-.makeListFmatrix  <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE, 
-		envMat=NULL,integrateType="midpoint",correction="none") {
-	
-	nsamp <- max(length(fecObjList))
-	if (length(fecObjList)<nsamp)  
-		fecObjList <- sample(fecObjList,size=nsamp,replace=TRUE)
-	
-	FmatrixList <- list()
-	for ( k in 1:nsamp) {
-		if (!cov) { 
-			FmatrixList[[k]] <- makeIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-					maxSize = maxSize, 
-					fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)
-		} else {
-			FmatrixList[[k]] <- makeCompoundFmatrix(nEnvClass = length(envMat[1,]),
-					nBigMatrix = nBigMatrix, minSize = minSize, 
-					maxSize = maxSize, envMatrix=envMat,
-					fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)
-		}
-		
-		FmatrixList[[k]] <-  FmatrixList[[k]]
-	}
-	return(FmatrixList)
-}
-
-
-
-### new functions createGrowhtObj and createSurvObj which will make up their own data
-
-.createGrowthObj <- function(Formula=sizeNext~size, coeff=c(1,1), sd=1){ 
-	
-	var.names <- all.vars(Formula)
-	
-	if (length(coeff)!=(length(var.names))) #length var.names, because intercept not named 
-		stop("not enough coefficients supplied for the chosen Formula")
-	
-	dataf<- as.data.frame(matrix(rnorm(3*length(var.names)),3,length(var.names)))
-	colnames(dataf) <- var.names
-	
-	fit <- lm(Formula, data=dataf)
-	
-	if (length(grep("sizeNext", as.character(Formula))) > 0) { 
-		
-		gr1 <- new("growthObj")
-		gr1@fit <- fit
-		gr1@fit$coefficients <- coeff
-		gr1@sd <- sd
-	}  
-	
-	if (length(grep("incr", as.character(Formula))) > 0) { 
-		
-		gr1 <- new("growthObjIncr")
-		gr1@fit <- fit
-		gr1@fit$coefficients <- coeff
-		gr1@sd <- sd
-	}  
-	
-	return(gr1)
-	
-}
-
-
-
-.createSurvObj <- function(Formula=surv~size, coeff=c(1,1)){ 
-	var.names <- all.vars(Formula)
-	
-	#not that although var.names will have one extra (cos of response variable
-	# this will correspond to the intercept
-	if (length(coeff)!=(length(var.names))) 
-		stop("not enough coefficients supplied for the chosen Formula")
-	
-	dataf<- as.data.frame(matrix(rnorm(3*length(var.names)),3,length(var.names)))
-	colnames(dataf) <- var.names
-	dataf$surv <- sample(c(0,1),nrow(dataf), replace=TRUE)
-	
-	fit <- glm(Formula, data=dataf, family=binomial)
-	
-	sv1 <- new("survObj")
-	sv1@fit <- fit
-	
-	return(sv1)
-	
-}
-
-
-
- 
-.createFecObj <- function(Formula=list(fec1~size,fec2~size+size2), 
-							coeff=list(c(1,1),c(1,1,1)),
-							Family = c("gaussian","binomial"),
-							Transform = c("log","none"),
-							meanOffspringSize = NA, sdOffspringSize = NA, 
-							offspringSplitter = data.frame(continuous = 1), 
-							vitalRatesPerOffspringType = data.frame(NA), 
-							fecByDiscrete = data.frame(NA), 
-							offspringSizeExplanatoryVariables = "1",
-							fecConstants = data.frame(NA), 
-							doOffspring=TRUE, 
-							reproductionType="sexual"){ 
-	var.names <- c()
-	fecNames <- rep(NA,length(Formula))
-		
-	for (j in 1:length(Formula)) { 
-		
-		
-		fecNames[j] <- all.vars(Formula[[j]])[1]
-		var.names.here <- all.vars(Formula[[j]])
-		
-		if (length(coeff[[j]])!=(length(var.names.here))) 
-			stop(paste("not enough coefficients supplied for the ",j, "th Formula", sep=""))
-		
-		var.names <- c(var.names,var.names.here)
-	}
-	
-	var.names <- unique(var.names)
-		
-	#build a data-frame with all the right variables
-	dataf<- as.data.frame(matrix(rnorm(3*length(var.names)),3,length(var.names)))
-	colnames(dataf) <- var.names
-	dataf$surv <- sample(c(0,1),nrow(dataf), replace=TRUE)
-		
-	if (sum(Transform=="log")>0) dataf[,fecNames[which(Transform=="log")]] <- pmax(dataf[,fecNames[which(Transform=="log")]],1)
-	if (sum(Family=="binomial")>0) ddataf[,fecNames[which(Family=="binomial")]] <- rbinom(nrow(dataf),1,0.5)
-		
-	fv1 <- makeFecObj(dataf=dataf, 
-			fecConstants = fecConstants, 
-			Formula = Formula, 
-			Family = Family, 
-			Transform = Transform, 
-			meanOffspringSize = meanOffspringSize, 
-			sdOffspringSize = sdOffspringSize, offspringSplitter = offspringSplitter, 
-			vitalRatesPerOffspringType = vitalRatesPerOffspringType, 
-			fecByDiscrete = fecByDiscrete, 
-			offspringSizeExplanatoryVariables = offspringSizeExplanatoryVariables, 
-			coeff=NULL, doOffspring=doOffspring, 
-			reproductionType=reproductionType)
-	
-	#now over-write with the desired coefficients!
-	for (j in 1:length(Formula)) { 
-		fv1@fitFec[[j]]$coefficients <- coeff[[j]]
-		}
-	
-	return(fv1)
-	
-}
-
-
-
-
+# =============================================================================
+# =============================================================================
 ### integer related functions
 
 makeFecObjInteger <- function(dataf,
@@ -1103,10 +873,8 @@ makeFecObjInteger <- function(dataf,
 	return(f1)
 }
 
-
-
-
-
+# =============================================================================
+# =============================================================================
 makeClonalObjInteger <- function(dataf,
 		fecConstants=data.frame(NA),
 		Formula=list(fec~size),
@@ -1141,11 +909,8 @@ makeClonalObjInteger <- function(dataf,
 }
 
 
-
-
-
-
-
+# =============================================================================
+# =============================================================================
 makeDiscreteTransInteger <- function(dataf, 
 		stages = NA,
 		discreteTrans = NA,

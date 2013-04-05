@@ -1,6 +1,7 @@
 
 
-
+# =============================================================================
+# =============================================================================
 ## Function to get passage time FROM a particular size TO a range of sizes
 ## (i.e. size to age) when provided with a Pmatrix, a starting size, and a list
 ## of target sizes
@@ -29,8 +30,9 @@ sizeToAge <- function(Pmatrix,startingSize,targetSize) {
 }
 
 
-
-## FUNCTION FOR MAKING PICTURE OF SURVIVAL DATA AND FITTED SURVIVAL OBJECT ############################
+# =============================================================================
+# =============================================================================
+## FUNCTION FOR MAKING PICTURE OF SURVIVAL DATA AND FITTED SURVIVAL OBJECT ####
 ## and PICTURE GROWTH DATA AND FITTED GROWTH OBJECT  
 # ** note that growth may need redefining if new growth  objects are defined
 
@@ -80,13 +82,11 @@ picSurv <- function(dataf, survObj, ncuts = 20, makeTitle = "Survival", ...) {
 		}
 	} 
 	
-	
-	
-	
-	
+
 }
 
-
+# =============================================================================
+# =============================================================================
 ## Function defining growth using Hossfeld function
 #
 # Parameters - size - DBH
@@ -98,7 +98,8 @@ Hossfeld <- function(size,par) {
 	return(deltDBH)
 }
 
-
+# =============================================================================
+# =============================================================================
 ## Function to fit Hossfeld function using optim 
 #
 # Parameters - par - three parameters
@@ -112,7 +113,8 @@ wrapHossfeld <- function(par, dataf) {
 	return(ss) 
 } 
 
-
+# =============================================================================
+# =============================================================================
 # Function to make pic of growth object fit with data
 #
 # parameters - dataf - the dataframe
@@ -183,8 +185,9 @@ picGrow <- function(dataf, growObj, mainTitle = "Growth",...) {
 		}
 	}
 }
-
-## FUNCTION FOR TURNING DATA INTO MATRIX DEFINING ENVIRONMENTAL TRANSITIONS ############################
+# =============================================================================
+# =============================================================================
+## FUNCTION FOR TURNING DATA INTO MATRIX DEFINING ENVIRONMENTAL TRANSITIONS ###
 ## data is vector of env level at t, and one timestep later, at t+1
 
 makeEnvObj <- function(dataf){
@@ -210,8 +213,8 @@ makeEnvObj <- function(dataf){
 	
 }
 
-
-
+# =============================================================================
+# =============================================================================
 ## FUNCTIONS FOR SIMULATING DATA ############################
 ## Return a data-frame with the headings used in the 'makeObject' functions
 
@@ -258,7 +261,8 @@ generateData <- function(nSamp=1000, type="simple"){
 	return(dataf)
 }
 
-
+# =============================================================================
+# =============================================================================
 ## FUNCTION FOR MAKING A LIST OF IPMS ############################################
 # to do for stoch env with a single discrete covariate. ##########################
 
@@ -305,7 +309,8 @@ sampleSequentialIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10,
 }
 
 
-
+# =============================================================================
+# =============================================================================
 ### simulation Carlina ######################################################
 
 ## Function to simulate something a bit like Carlina
@@ -485,8 +490,8 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 	
 }
 
-
-
+# =============================================================================
+# =============================================================================
 ## Convert Increment - where exact dates of census vary but some multiplier of yearly increments
 ## are desired; this function takes a data-frame (with columns size, sizeNext,
 ## and, importantly exactDate, exactDatel)
@@ -511,7 +516,8 @@ convertIncrement <- function(dataf, nYrs=1) {
 	
 }
 
-
+# =============================================================================
+# =============================================================================
 # Function to compare model fits for growth and survival objects built with different linear combinations of covariates. 
 # Growth can have multiple response forms. Uses .makeCovDf.  Separate plot functions. 
 #
@@ -554,7 +560,8 @@ growthModelComp <- function(dataf,
 	return(outputList)
 }
 
-
+# =============================================================================
+# =============================================================================
 survModelComp <- function(dataf, 
 		expVars = c(surv~1, surv~size, surv~size + size2), 
 		testType = "AIC",
@@ -584,6 +591,8 @@ survModelComp <- function(dataf,
 	return(outputList)
 }	
 
+# =============================================================================
+# =============================================================================
 # Plot functions for model comparison.  Plots the series of fitted models for growth and survival objects.  
 # Can plot a legend with the model covariates and model test criterion scores (defaults to AIC).
 
@@ -619,6 +628,8 @@ plotGrowthModelComp <- function(grObj, summaryTable, dataf, expVars,  testType =
 	}
 }
 
+# =============================================================================
+# =============================================================================
 plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "AIC", plotLegend = TRUE, mainTitle = "", ncuts = 20, legendPos = "bottomleft", ...) {
 	treatN <- length(svObj)
 	#ncuts <- 20  # survival bins
@@ -638,9 +649,8 @@ plotSurvModelComp <- function(svObj, summaryTable, dataf,  expVars, testType = "
 	}
 }
 
-
-
-
+# =============================================================================
+# =============================================================================
 ## Function to add pdf to model comparison pics
 addPdfGrowthPic <- function(respType = "sizeNext",
 		sizesPlotAt=c(20,50,60),
@@ -684,7 +694,8 @@ addPdfGrowthPic <- function(respType = "sizeNext",
 		}}
 }
 
-
+# =============================================================================
+# =============================================================================
 ## Function to coerce Growth object to parameters and variance desired
 coerceGrowthObj <- function(growthObj, coeff, sd){
 
@@ -696,7 +707,8 @@ coerceGrowthObj <- function(growthObj, coeff, sd){
 	return(growthObj)
 }
 
-
+# =============================================================================
+# =============================================================================
 ## Function to coerce Survival object to parameters desired
 coerceSurvObj <- function(survObj, coeff){
 	
@@ -706,10 +718,10 @@ coerceSurvObj <- function(survObj, coeff){
 	return(survObj)
 }
 
-#===============================================================================
+# =============================================================================
+# =============================================================================
 ## Parametric boostrap of vital rate objects
 # created by cory on 6-4-13 as a modification of getListRegObjs()
-#===============================================================================
 
 sampleVitalRateObj <- function(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDiscreteOffspringTransitions=NULL,nOffspring=NULL) {
   require(mvtnorm)
@@ -787,10 +799,10 @@ sampleVitalRateObj <- function(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDi
   return(objList)
 }
 
-#===============================================================================
+# =============================================================================
+# =============================================================================
 ## Use list of vital rate objects to make List of IPMS
 # created by cory on 6-4-13 as a modification of getListIPMs()
-#===============================================================================
 
 # TODO: MAKE WORK FOR OFFSPRING OBJS
 
@@ -849,10 +861,10 @@ sampleIPM<- function(
 
 
 
-#===============================================================================
+# =============================================================================
+# =============================================================================
 ## Use list of IPMs to make List of IPM output
 # created by cory on 6-4-13 as a modification of getIPMOutput() and getIPMOutputDirect()
-#===============================================================================
 
 sampleIPMOutput <- function(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=c(), sizeToAgeStartSize=c(),sizeToAgeTargetSize=c(),warn=TRUE){
   # removed from old version of getIPMOutputDirect
