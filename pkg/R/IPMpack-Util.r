@@ -1026,7 +1026,7 @@ addPdfGrowthPic <- function(respType = "sizeNext",
 }
 
 ## Function to take fit of these and output a list of growth objects
-getListRegObjects <- function(Obj,nsamp=1000) {
+.getListRegObjects <- function(Obj,nsamp=1000) {
 	
 	require(mvtnorm)
 	require(MASS)
@@ -1048,7 +1048,7 @@ getListRegObjects <- function(Obj,nsamp=1000) {
 
 
 ## Function to take fit of these and output a list of growth objects
-getListRegObjectsFec <- function(Obj,nsamp=1000) {
+.getListRegObjectsFec <- function(Obj,nsamp=1000) {
 	
 	require(mvtnorm)
 	require(MASS)
@@ -1090,5 +1090,84 @@ coerceSurvObj <- function(survObj, coeff){
 	survObj@fit$coefficients[] <- as.numeric(coeff)
 	
 	return(survObj)
+}
+
+## Parametric boostrap of vital rate objects
+# created by cory on 6-4-13 as a modification of getListRegObjs()
+
+sampleVitalRateObj <- function(Obj,nsamp=100,n.discrete.growth.transitions=NULL,n.discrete.offspring.transitions=NULL,n.offspring=NULL) {
+  require(mvtnorm)
+  require(MASS)
+  require(rv)
+  
+  objList <- list()
+  #generate new set parameters from mvn
+  
+  # what is the difference between offspring splitter transitions and discrete
+  # for discrete transition matrices objects
+  if( sum(class(Obj)==c("discreteTrans","discreteTransInteger")) ) {
+    if(is.null(n.discrete.growth.transitions)){ 
+      stop('Error: Please specify the total number of transitions that were used to estimate the discrete transitions in Obj@discreteTrans to allow the function to estimate the appropriate variance for resampling them')
+    } 
+    if(!is.null(n.discrete.growth.transitions)){ 
+      for (j in 1:nsamp) {
+        objList[[j]] <- Obj
+        for (k in 1:ncol(Obj@discreteTrans)){
+          newpar0 <- rvdirichlet(1,n.discrete.growth.transitions* as.numeric(Obj@discreteTrans[,k]))
+          objList[[j]]@discreteTrans[,k] <- sims(newpar0)[1,]
+        }
+      }
+    }
+  }
+  
+  
+  # for growth and survival objects
+  if( !sum(class(Obj)==c("fecObj","fecObjInteger","discreteTrans", "discreteTransInteger")) ) {
+    newpar <- rmvnorm(nsamp, mean = Obj@fit$coefficients, sigma = vcov(Obj@fit))
+    for (j in 1:nsamp) {
+      objList[[j]] <- Obj
+      objList[[j]]@fit$coefficients <- newpar[j,]
+    }
+  }
+  
+  # for fecundity objects
+  if( sum(class(Obj)==c("fecObj","fecObjInteger")) ) {
+    for (j in 1:nsamp) {
+      
+      # sample fecundity regression parameters
+      for (k in 1:length(Obj@fitFec)) { 
+        newpar <- rmvnorm(1, mean = Obj@fitFec[[k]]$coefficients, 
+            sigma = vcov(Obj@fitFec[[k]]))
+        objList[[j]] <- Obj
+        objList[[j]]@fitFec[[k]]$coefficients <- newpar
+      }
+      
+      # sample discrete transitions from dirichlet
+      if(ncol(Obj@offspringSplitter)>1){ # only if there are discrete fec stages
+        if(is.null(n.discrete.offspring.transitions)){ 
+          stop('Error: Please specify the total number of discrete transitions that were used to estimate the fecundity transition in Obj@offspringSplitter to allow the function to estimate the appropriate variance for resampling them')
+        } 
+        if(!is.null(n.discrete.offspring.transitions)){
+          newpar2 <- rvdirichlet(1,n.discrete.offspring.transitions* as.numeric(Obj@offspringSplitter))
+          objList[[j]]@offspringSplitter[] <- sims(newpar2)[1,]
+        }
+      }
+      
+      # sample the offspring sizes
+      # TODO: OffspringRel currently does not store all the information from the regression, which it should so that this works with offspring models that have more than an intercept
+      if(is.null(n.offspring)){ 
+        stop('Error: Please specify the total number of offspring that were used to estimate the offspring size distribtuion in Obj@offspringRel to allow the function to estimate the appropriate variance for resampling them')
+      } 
+      # TODO: Make work with the new OffspringObjs	
+      if(!is.null(n.offspring)){ 
+        newpar3 <- rnorm(1,coefficients(Obj@offspringRel)[1], Obj@sdOffspringSize/sqrt(n.offspring))
+        objList[[j]]@offspringRel$coefficients[] <- newpar3
+        newpar4 <- rnorm(1,Obj@sdOffspringSize, sqrt(2*Obj@sdOffspringSize^4)/(n.offspring-1))
+        objList[[j]]@sdOffspringSize <- newpar4
+      }
+    }	
+  } 
+  
+  return(objList)
 }
 

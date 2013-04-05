@@ -1,6 +1,6 @@
-\name{getListRegObjects}
-\alias{getListRegObjects}
-\alias{getListRegObjectsFec}
+\name{.getListRegObjects}
+\alias{.getListRegObjects}
+\alias{.getListRegObjectsFec}
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
@@ -12,13 +12,13 @@ variance covariance matrix that defines them using a multivariate
 normal distribution and then defines the corresponding growth or
 survival objects.}
 \usage{
-getListRegObjects(Obj,nsamp=1000)
-getListRegObjectsFec(Obj,nsamp=1000)
+.getListRegObjects(Obj,nsamp=1000)
+.getListRegObjectsFec(Obj,nsamp=1000)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{Obj}{
-    a growth or survival object with a slot named "fit" for \code{getListRegObjects} containing an lm or glm, etc or a fertility object with a slot named "fitFec" for \code{getListRegObjectsFec}, likewise. 
+    a growth or survival object with a slot named "fit" for \code{.getListRegObjects} containing an lm or glm, etc or a fertility object with a slot named "fitFec" for \code{.getListRegObjectsFec}, likewise. 
    
   }
   \item{nsamp}{
@@ -49,9 +49,9 @@ sv1 <- makeSurvObj(dff)
 fv1 <- makeFecObj(dff,Transform="log")
 
 #higher nsamp are advisable for a detailed analysis
-grList <- getListRegObjects(gr1, nsamp=10)
-svList <- getListRegObjects(sv1, nsamp=10)
-fvList <- getListRegObjectsFec(fv1, nsamp=10)
+grList <- .getListRegObjects(gr1, nsamp=10)
+svList <- .getListRegObjects(sv1, nsamp=10)
+fvList <- .getListRegObjectsFec(fv1, nsamp=10)
 
 
 res <- getIPMoutputDirect(survObjList = svList,
