@@ -67,11 +67,13 @@ trackStruct=FALSE, plot=FALSE, ...)
 Forms of density dependence beyond density dependence in seedling establishment not yet defined.
 }
 \value{
-\item{Rt} {if trackStruct is TRUE, numeric, converging on log lambda_s, or invasion rate (density dependence) for large enough tMax, and if covariate distribution is stationary. }
-\item{rc}{matrix of the numbers of individuals in each size and seed
-  class (row) over time (columns).}
-\item{IPM.here}{IPM constructed corresponding to pop structure and
-  covariates at tMax.}
+\item{Rt} {
+If trackStruct is TRUE, numeric, converging on log lambda_s, or invasion rate (density dependence) for large enough tMax, and if covariate distribution is stationary. 
+}
+\item{rc}{
+matrix of the numbers of individuals in each size and seed class (row) over time (columns).
+}
+\item{IPM.here}{IPM constructed corresponding to pop structure and covariates at tMax.}
 }
 \references{
 Ellner & Rees. 2007. Stochastic stable population growth in integral projection models: theory and application. Journal of Mathematical Biology 54, p227-256.
