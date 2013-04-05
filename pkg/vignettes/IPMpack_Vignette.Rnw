@@ -566,7 +566,7 @@ plot(Pmatrix@meshpoints, pTimes[1:Pmatrix@nBigMatrix],
 Adding a fertility object to this analysis, the user can also define a full life
 cycle IPM model for across environments. With such information, obtaining the stochastic population rate of increase $\lambda_s$ in this environment is relatively straight-forward. IPMpack does this by sampling a very large number of environments and corresponding IPMs, and multiplying them together (Childs et al. $2004$). At the moment, this is only defined for the case where environments (defined by the discrete covariates) are distributed independently (i.e. the next state does not depend on the previous state). To do this, the user must first define a list of IPMs (each the sum of a matrix of survival-growth transitions, and a matrix of fecundity transitions corresponding to a particular environment):
 <<>>= 
-IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 25, minSize = -5, 
+IPMlist <- sampleSequentialIPMs(dataf = dff, nBigMatrix = 25, minSize = -5, 
                         maxSize = 35, explSurv = surv~size+covariate, 
                         explGrow = sizeNext~size+size2+covariate, 
                         explFec = fec~size, Transform="log",correction = "constant")

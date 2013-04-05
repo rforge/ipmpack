@@ -516,7 +516,7 @@ generateData <- function(nSamp=1000, type="simple"){
 ## FUNCTION FOR MAKING A LIST OF IPMS ############################################
 # to do for stoch env with a single discrete covariate. ##########################
 
-makeListIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10, 
+sampleSequentialIPMs <- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10, 
 		integrateType="midpoint", correction="none",
 		explSurv=surv~size+size2+covariate,
 		explGrow=sizeNext~size+size2+covariate, 

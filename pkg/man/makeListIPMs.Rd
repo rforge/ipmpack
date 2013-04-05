@@ -1,5 +1,5 @@
-\name{makeListIPMs}
-\alias{makeListIPMs}
+\name{sampleSequentialIPMs}
+\alias{sampleSequentialIPMs}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 MakeS list IPMs where there is a discrete covariate.
@@ -8,7 +8,7 @@ MakeS list IPMs where there is a discrete covariate.
 Wrapper function to build the IPM corresponding to every level of the discrete covariate, and return a list of these. 
 }
 \usage{
-makeListIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,	
+sampleSequentialIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,	
 	integrateType = "midpoint", correction = "none", 
 		explSurv = surv ~ size + size2 + covariate, 
 		explGrow = sizeNext ~ size + size2 + covariate,
@@ -68,7 +68,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 \examples{
 dff <- generateData()
-IPMlist <- makeListIPMs(dff, Transform="log")
+IPMlist <- sampleSequentialIPMs(dff, Transform="log")
 }
 \keyword{ ~kwd1 }
 \keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

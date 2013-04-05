@@ -52,11 +52,11 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeListIPMs}}
+\code{\link{sampleSequentialIPMs}}
 }
 \examples{
 dff <- generateData()
-IPMlist <- makeListIPMs(dataf = dff, nBigMatrix = 10, minSize = -5, 
+IPMlist <- sampleSequentialIPMs(dataf = dff, nBigMatrix = 10, minSize = -5, 
 maxSize = 15,fecConstants=data.frame(1e6), correction="constant")
 stochGrowthRateSampleList(listIPMmatrix = IPMlist,nRunIn = 100, tMax = 5000) 
 }

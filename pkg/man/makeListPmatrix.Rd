@@ -52,7 +52,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{.makeListPmatrix }}, \code{\link{makeListIPMs}}
+\code{\link{.makeListPmatrix }}, \code{\link{sampleSequentialIPMs}}
 }
 \examples{
 
