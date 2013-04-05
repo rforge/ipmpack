@@ -1181,43 +1181,47 @@ sampleVitalRateObj <- function(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDi
 
 # TODO: MAKE WORK FOR OFFSPRING OBJS
 
-sampleIPM<- function(growObjList=NULL,survObjList=NULL,fecObjList=NULL, offspringObjList=NULL, discreteTransList=1, nBigMatrix,minSize,maxSize, covariates=FALSE, 
-    envMat=NULL,integrateType="midpoint",correction="none",warn=TRUE) {
+sampleIPM<- function(
+    growObjList=NULL,survObjList=NULL,fecObjList=NULL,
+    offspringObjList=NULL, discreteTransList=1, 
+    nBigMatrix,minSize,maxSize, 
+    covariates=FALSE,envMat=NULL,
+    integrateType="midpoint",correction="none",warn=TRUE) {
   
   if(!is.null(offspringObjList)){
     stop('Sorry, lists of offspring objects are not yet supported. However, specify offspring size distributions via makeFecObj() is supported. Please set offspringObjList=NULL, or modify the function to accept offspring objects and email it to us.')
   }
   # make the same number of samples for each vital rate object
-  n.samples=max(c(length(growObjList),length(survObjList),length(fecObjList)))
+  n.samples <- max(c(length(growObjList),length(survObjList),length(fecObjList)))
   
   if(!is.null(growObjList) & length(growObjList)<n.samples){
     if(warn) warning('Length of growth object list is less than the length of another vital rate object list, so some members of the growth object list have been repeated.')
-    growthObjList=sample(growObjList,size=n.samples,replace=T)
+    growthObjList <- sample(growObjList,size=n.samples,replace=T)
   }
   
   if(!is.null(survObjList) & length(survObjList)<n.samples ){
     if(warn) warning('Length of survival object list is less than the length of another vital rate object list, so some members of the survival object list have been repeated.')
-    survObjList=sample(survObjList,size=n.samples,replace=T)
+    survObjList <- sample(survObjList,size=n.samples,replace=T)
   }
   
   if(!is.null(fecObjList) & length(fecObjList)<n.samples ){
     if(warn) warning('Length of fec object list is less than the length of another vital rate object list, so some members of the fec object list have been repeated.')
-    fecObjList=sample(fecObjList,size=n.samples,replace=T)
+    fecObjList <- sample(fecObjList,size=n.samples,replace=T)
   }
   
   if(!is.null(growObjList) & length(discreteTransList)<n.samples ){
     # if(warn) warning('Length of discreteTrans list is less than the length of another vital rate object list, so some members of the discreteTrans list have been repeated.')
-    discreteTransList=sample(discreteTransList,size=n.samples,replace=T)
+    discreteTransList <- sample(discreteTransList,size=n.samples,replace=T)
   }
   
   if(!is.null(growObjList)){
-    PmatrixList=.makeListPmatrix(growObjList,survObjList, nBigMatrix, minSize,maxSize, covariates=covariates, envMat=envMat,discreteTrans=discreteTransList, integrateType=integrateType, correction=correction) 
-    matrixList=PmatrixList
+    PmatrixList <- .makeListPmatrix(growObjList,survObjList, nBigMatrix, minSize,maxSize, cov=covariates, envMat=envMat,discreteTrans=discreteTransList, integrateType=integrateType, correction=correction) 
+    matrixList <- PmatrixList
   }
   
   if(!is.null(fecObjList)){
-    FmatrixList=.makeListFmatrix(fecObjList, nBigMatrix=nBigMatrix, minSize=minSize, maxSize=maxSize, covariates=covariates, envMat=envMat, integrateType=integrateType, correction=correction) 
-    matrixList=FmatrixList
+    FmatrixList <- .makeListFmatrix(fecObjList, nBigMatrix=nBigMatrix, minSize=minSize, maxSize=maxSize, cov=covariates, envMat=envMat, integrateType=integrateType, correction=correction) 
+    matrixList <- FmatrixList
   }	
   
   if(!is.null(growObjList) & !is.null(fecObjList)){
@@ -1229,6 +1233,8 @@ sampleIPM<- function(growObjList=NULL,survObjList=NULL,fecObjList=NULL, offsprin
   
   return(matrixList)
 }
+
+
 
 #===============================================================================
 ## Use list of IPMs to make List of IPM output
