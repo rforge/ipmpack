@@ -6,8 +6,9 @@
 }
 \description{
  Estimates the stochastic growth rate (lambda_s) by iteration; operates by sampling a list of IPMs. Note that the function stoch.growth.rate in the package popbio does this more efficiently and with more useful output; but may fail for large bin numbers. 
- If densDept is TRUE, estimates the stochastic invasion rate in the presence of density dependence in seedling establishment by iteration; operates by sampling a list of IPMs and recalculating the probability of seed establishment at each time-step. }
-}
+ If densDept is TRUE, estimates the stochastic invasion rate in the presence of density dependence in seedling establishment by iteration; operates by sampling a list of IPMs and recalculating the probability of seed establishment at each time-step. 
+ }
+
 \usage{
 stochGrowthRateSampleList(nRunIn,tMax,listIPMmatrix=NULL,
 					listPmatrix=NULL, listFmatrix=NULL,seedList=NULL,
@@ -39,7 +40,6 @@ Boolean indicating whether density dependence in seedling establishment should b
 }
 \value{
 a numeric converging on high enough log lambda_s for sufficient tMax; note that if the population size declines to zero, this may return NAs because of logging.
-
 }
 \references{
 Caswell, 2001. Matrix population models: analysis, construction and
