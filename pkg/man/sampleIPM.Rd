@@ -12,7 +12,7 @@ sampleIPM( growObjList=NULL,survObjList=NULL,fecObjList=NULL,
     offspringObjList=NULL, discreteTransList=1, 
     nBigMatrix,minSize,maxSize, 
     covariates=FALSE,envMat=NULL,
-    integrateType="midpoint",correction="none",warn=TRUE
+    integrateType="midpoint",correction="none",warn=TRUE)
 % past arguments
 % growObjList, survObjList, nBigMatrix, 
 % 	minSize, maxSize, cov = FALSE, envMat = NULL, integrateType = "midpoint",

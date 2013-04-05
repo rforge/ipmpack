@@ -1108,9 +1108,9 @@
   
   nsamp <- length(growObjList)
   
-  if(length(discreteTransList)<n.samples ){
+  if(length(discreteTransList)<nsamp ){
     # if(warn) warning('Length of discreteTrans list is less than the length of another vital rate object list, so some members of the discreteTrans list have been repeated.')
-    discreteTransList <- sample(discreteTransList,size=n.samples,replace=T)
+    discreteTransList <- sample(discreteTransList,size=nsamp,replace=T)
   }
   
   PmatrixList <- list()
