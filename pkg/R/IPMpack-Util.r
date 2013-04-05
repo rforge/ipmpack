@@ -1270,10 +1270,11 @@ sampleIPMOutput <- function(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=
       lambda[k] <- Re(eigen(IPM)$value[1])
       stableStage[k,] <- eigen(IPM)$vector[,1]
       #normalize stable size distribution
-      stableStage[k,] <- stableStage[k,]/(h1*sum(stableStage[k,]))
+      stableStage[k,] <- stableStage[k,]/sum(stableStage[k,])
     }
     # get size to age results
-    res2 <- sizeToAge(Pmatrix=IPM,startingSize=sizeToAgeStartSize, targetSize=sizeToAgeTargetSize)
+    res2 <- sizeToAge(Pmatrix=IPM,startingSize=sizeToAgeStartSize, 
+        targetSize=sizeToAgeTargetSize)
     resAge[k,] <- res2$timeInYears
     resSize[k,] <- res2$targetSize
   }
