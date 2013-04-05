@@ -86,12 +86,12 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \examples{
 # Open dataset for the herbaceous perennial Cryptantha flava where the state variable is integer (number of rosettes)
-data(cryptaDataCovSubset)
-head(cryptaDataCovSubset)
-d <- cryptaDataCovSubset
+data(dataIPMpackCryptantha)
+head(dataIPMpackCryptantha)
+d <- dataIPMpackCryptantha
 
 #See the description of the data for information on the variables
-help(cryptaDataCovSubset)
+help(dataIPMpackCryptantha)
 
 # For this example, focus only on the first annual transition available in the dataset
 d1 <- d[d$year==2004, ]
