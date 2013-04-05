@@ -656,8 +656,8 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 			chs <- (count+1):(count+length(sizes))
 			dataf[chs,1] <- sizes
 			dataf[chs,2] <- sizeNext
-			dataf[chs,3] <- 1*sx
-			dataf[chs,4] <- 1*fx
+			dataf[chs,3] <- sx
+			dataf[chs,4] <- fx
 			dataf[chs,5] <- seedsx
 			dataf[chs,6] <- t
 			dataf[chs,7] <- nSeedlings
@@ -692,7 +692,7 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 			#get true growth rate 
 			trueGrow[t] <- log(length(sizes)/n.per.yr[t])
 			
-			#cull size at t t down to 1000, if not density dependent
+			#cull size at t t down to maxPerYr, if not density dependent
 			if (!densDep) sizes <- sample(sizes,size=maxPerYr, replace=TRUE)
 
 	}
