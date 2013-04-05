@@ -15,7 +15,10 @@ NOTE - old createCompoundCmatrix is being deprecated; use makeCompoundCmatrix in
 }
 \usage{
 makeCompoundCmatrix(nEnvClass = 2, nBigMatrix = 50,
-minSize = -1, maxSize = 50, envMatrix, clonalObj, integrateType, correction, offspringObj=NULL)
+	minSize = -1, maxSize = 50, envMatrix, clonalObj, 
+	integrateType ="midpoint", correction = "none", 
+	preCensus = TRUE, survObj = NULL, growObj = NULL, 
+	offspringObj = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

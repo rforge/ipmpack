@@ -14,8 +14,11 @@
 sensParams(growObj, survObj, fecObj=NULL, clonalObj=NULL, 
 	nBigMatrix, minSize, maxSize,  
 	chosenCov = data.frame(covariate = 1), discreteTrans = 1, 
-	integrateType = "midpoint", correction = "none", preCensus = TRUE, 
-	delta=1e-4, response="lambda", chosenBin=1)
+	integrateType = "midpoint", correction = "none", preCensusFec = TRUE, 	
+	postCensusSurvObjFec = NULL, postCensusGrowObjFec = NULL,  
+	preCensusClonal = TRUE, postCensusSurvObjClonal = NULL, 
+	postCensusGrowObjClonal = NULL, delta = 1e-04, 
+	response="lambda", chosenBin=1)
 
 }
 %- maybe also 'usage' for other objects documented here.
@@ -54,8 +57,7 @@ level or value of the covariate(s) at which sensitivity estimation is desired
     function); other option is "cumul" (which uses the cumulative density function)
   }
   \item{correction}{
- correction type, defaults to \code{none}. The first option is \code{constant} which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for total fertility at that size. The second option is \code{discretizeExtremes} which will place all transitions to sizes smaller than \code{minSize} into the smallest bin, and transitions to sizes larger than \code{maxSize} into the largest bin.  
- }
+ correction type, defaults to \code{none}. The first option is \code{constant} which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for total fertility at that size. The second option is \code{discretizeExtremes} which will place all transitions to sizes smaller than \code{minSize} into the smallest bin, and transitions to sizes larger than \code{maxSize} into the largest bin.  }
   \item{preCensusFec}{
     logical (TRUE or FALSE), indicating whether the fecundity object 
     represents an interval between pre-breeding or a post-breeding censusses.
@@ -64,17 +66,13 @@ level or value of the covariate(s) at which sensitivity estimation is desired
     Alternatively, an F matrix based on post-breeding census (preCensusFec=FALSE)
     uses postCensusSurvObjFec and postCensusGrowObjFec, to cover the survival and growth
     of the parents until the reproduction event. (not necessary for life
-    expectancy analysis)
-  }
+    expectancy analysis)}
   \item{postCensusSurvObjFec){
     survival object representing the survival of the parents until the reproduction event. 
-    If not specified (and preCensusFec = FALSE) it is assumed that all parents survive until 
-    the reproduction event. (not necessary for life expectancy analysis)
+    If not specified (and preCensusFec = FALSE) it is assumed that all parents survive until the reproduction event. (not necessary for life expectancy analysis)
   }
   \item{postCensusGrowObjFec){
-    growth object representing the growth of surviving parents until the reproduction event. 
-    If not specified (and preCensusFec = FALSE) it is assumed that the parents do not grow until 
-    the reproduction event. (not necessary for life expectancy analysis)
+    growth object representing the growth of surviving parents until the reproduction event. If not specified (and preCensusFec = FALSE) it is assumed that the parents do not grow until the reproduction event. (not necessary for life expectancy analysis)
   }
   \item{preCensusClonal}{
     logical (TRUE or FALSE), indicating whether the clonality object 
