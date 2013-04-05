@@ -2,7 +2,7 @@
 \alias{.makeListPmatrix }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Builds list of IPMs or P matrices from list growth, survival, fecundity and discreteTrans objects.
+  Builds list of IPMs or P matrices from list growth, survival, fecundity and discreteTrans objects. It is helpful when building multiple IPMs for study of parameter uncertainty or stochastic dynamics.
 }
 \description{
   Uses lists of vital rate objects to create a list of IPM or P matrices.

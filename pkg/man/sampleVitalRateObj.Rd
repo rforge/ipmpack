@@ -8,10 +8,13 @@ Calculates growth objects reflecting distribution of parameters from lm or glm.
 }
 \description{
 Generate parametric bootstrap samples for vital rate objects (e.g. class growthObj, survObj, fecObj, etc.) from estimated parameters and the
-variance covariance matrix that defines them using a multivariate normal distribution.}
+variance covariance matrix that defines them using a multivariate normal distribution. It is helpful when building multiple IPMs for study of parameter uncertainty or stochastic dynamics.
+}
 \usage{
-.getListRegObjects(Obj,nsamp=1000)
-.getListRegObjectsFec(Obj,nsamp=1000)
+sampleVitalRateObj(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDiscreteOffspringTransitions=NULL,nOffspring=NULL)
+
+%.getListRegObjects(Obj,nsamp=1000)
+%.getListRegObjectsFec(Obj,nsamp=1000)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,7 +22,7 @@ variance covariance matrix that defines them using a multivariate normal distrib
     a growth or survival object with a slot named "fit" containing an lm or glm, etc., or a fertility object with a slot named "fitFec" for \code{.getListRegObjectsFec}, likewise. 
   }
   \item{nSamp}{
-    desired number of samples from the multivariate normal
+    desired number of samples from the multivariate normal.
   }
   \item{nDiscreteGrowthTransitions}{
     number of transitions used to estimate a discreteTrans object. This is used to estimate the correct variance for sampling the discreteTrans object. It is only required if a discreteTransObject is provided.
@@ -29,6 +32,7 @@ variance covariance matrix that defines them using a multivariate normal distrib
   \item{nOffspring}{
     number of transitions used to the offspring size distribution (stored in the @offspringRel and @offspringsd slots of a fecObj). This is used to estimate the correct variance for the sampling. It is only required if a fecObject is provided.  } 
 }
+
 \value{
   The output is list of the provided vital rate object with different parameter values in each list element, e.g. a list of growth or survival objects containing an lm or glm; or fertility objects likewise.
 }
