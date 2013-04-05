@@ -1285,7 +1285,7 @@ sampleIPMOutput <- function(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=
 }
 
 
-,makeListIPMs<- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10, 
+.makeListIPMs<- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10, 
     integrateType="midpoint", correction="none",
     explSurv=surv~size+size2+covariates,
     explGrow=sizeNext~size+size2+covariates, 
