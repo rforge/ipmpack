@@ -47,6 +47,25 @@ makeCompoundCmatrix(nEnvClass = 2, nBigMatrix = 50,
   }
   \item{correction}{
  correction type, defaults to \code{none}. The first option is \code{constant} which will multiply every column of the IPM by a constant sufficient to adjust values to those predicted for total fertility at that size. The second option is \code{discretizeExtremes} which will place all transitions to sizes smaller than \code{minSize} into the smallest bin, and transitions to sizes larger than \code{maxSize} into the largest bin.    }
+   \item{preCensus}{
+    logical (TRUE or FALSE), indicating whether the fecundity object should
+    represent an interval between pre-breeding or a post-breeding censusses.
+    defaults to TRUE (pre-breeding census), meaning that all reproduction 
+    and offspring rates required for the F matrix are embedded in fecObj. 
+    Alternatively, an F matrix based on post-breeding census (preCensus=FALSE)
+    requires additional survObj and growObj, to cover the survival and growth
+    of the parents until the reproduction event. 
+  }
+  \item{survObj}{
+    suvival object, describing the survival of parents from a census until 
+    the reproduction event starts (at some point during the inter-census time step. 
+  }
+  \item{growObj}{
+    growth object, describing the growth of parents that survive until the 
+    reproduction event starts. Warning: this growth object is still ignored in 
+    makeIPMFmatrix in the current version of IPMpack. It will become functional 
+    in coming versions.  
+  } 
   \item{offspringObj}{
     growth object, describing the size of offspring (this process may alternatively appear in fecObj).  
   }
