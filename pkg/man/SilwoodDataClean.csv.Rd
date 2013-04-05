@@ -1,5 +1,5 @@
-\name{SilwoodDataClean}
-\alias{SilwoodDataClean}
+\name{dataIPMpackSilwood}
+\alias{dataIPMpackSilwood}
 \docType{data}
 \title{
 Silwood Monocarp Dataset
@@ -7,10 +7,10 @@ Silwood Monocarp Dataset
 \description{
 Demographic data of several monocarpic plants from Silwood (UK)
 }
-\usage{data(SilwoodDataClean)}
+\usage{data(dataIPMpackSilwood)}
 \format{
   The format is:
- chr "SilwoodDataClean"
+ chr "dataIPMpackSilwood"
 }
 \details{
 data-frame with headings:
@@ -45,11 +45,11 @@ data-frame with headings:
 Data used in: Metcalf, C.J.E., Rees, M., Alexander, J.M., Rose, K.E. 2006. Growth-survival trade-offs and allometries in rosette-forming perennials. Funct. Ecol. 20, 217-225.
 }
 \examples{
-data(SilwoodDataClean)
-print(head(SilwoodDataClean))
-plot(SilwoodDataClean$rtcr,SilwoodDataClean$rtcrNext,
+data(dataIPMpackSilwood)
+print(head(dataIPMpackSilwood))
+plot(dataIPMpackSilwood$rtcr,dataIPMpackSilwood$rtcrNext,
 xlab="size now", ylab="size next", pch=19,log="xy")
-## maybe str(SilwoodDataClean) ; plot(SilwoodDataClean) ...
+## maybe str(dataIPMpackSilwood) ; plot(dataIPMpackSilwood) ...
 }
 \keyword{datasets}
 
