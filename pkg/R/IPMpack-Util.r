@@ -697,6 +697,7 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 
 	}
 		
+
 	list.par <- list(m0=m0,ms=ms,
 			b0=b0,bs=bs,
 			A=A,B=B,
