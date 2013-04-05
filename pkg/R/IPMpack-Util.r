@@ -1,180 +1,6 @@
 
 
 
-# Function to extract IPM output from a list
-# of P (survival + growth) and F (fecundity) matrices
-# (usually from Bayes fit) 
-#
-# Parameters - PmatrixList
-#            - targetSize - the size you want passage time estimated for.
-#            - FmatrixList
-#
-# Returns - a list 
-
-.getIPMoutput <- function(PmatrixList,targetSize=c(),FmatrixList=NULL){
-	
-	if (length(targetSize)==0)  { 
-		print("no target size for passage time provided; taking meshpoint median")
-		targetSize <- median(PmatrixList[[1]]@meshpoints)
-	}
-	nsamps <- length(PmatrixList)
-	h1 <- PmatrixList[[1]]@meshpoints[2]-PmatrixList[[1]]@meshpoints[1]
-	stableStage <- LE <- pTime <- matrix(NA,nsamps,length(PmatrixList[[1]]@.Data[1,]))
-	lambda <- rep(NA,nsamps)
-	for (k in 1:nsamps) {
-		Pmatrix <- PmatrixList[[k]]
-		LE[k,]<-meanLifeExpect(Pmatrix) 
-		pTime[k,]<-passageTime(targetSize,Pmatrix) 
-		
-		if (class(FmatrixList)!="NULL") {
-			IPM <- Pmatrix + FmatrixList[[k]]
-			lambda[k] <- Re(eigen(IPM)$value[1])
-			stableStage[k,] <- eigen(IPM)$vector[,1]
-			#normalize stable size distribution
-			stableStage[k,] <- stableStage[k,]/(h1*sum(stableStage[k,]))
-		}
-	}
-	
-	return(list(LE=LE,pTime=pTime,lambda=lambda,stableStage=stableStage))
-	
-}
-
-
-# Function to extract IPM output from posteriors 
-# (usually from Bayes fit)  - quicker to do all at once
-# rather than build list of IPM P matrices, then list of IPM F matrices
-#
-# Parameters - survObjlist - list of survival objects
-#            - growObjList - list of growth objects
-#            - targetSize - the size you want passage time estimated for.
-#            - nBigMatrix - the number of bins
-#            - minSize - the minimum size
-#            - maxSize - the maximum size
-#            - cov - do you want to fit a discrete covariate
-#            - fecObjList - list of fecundity objects
-#            - envMat - matrix of env transitions (only if cov=TRUE)
-#            - nsizeToAge - numeric describing how many size to age defined (0 - 100s)
-# 
-#
-# Returns - a list 
-
-.getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
-		nBigMatrix,minSize,maxSize,discreteTrans = 1,
-		cov=FALSE,fecObjList=NULL, envMat=NULL,
-		nsizeToAge=0, sizeStart = 10,
-		integrateType = "midpoint", correction = "none", storePar=TRUE,
-		chosenCov = data.frame(covariate = 1),
-		onlyLowerTriGrowth=FALSE){
-	
-	# adjust the sample lengths to they are all the same
-	if (length(targetSize)==0)  targetSize <- 0.2*(minSize+maxSize)
-	nsamp <- max(length(growObjList),length(survObjList),length(fecObjList))
-	if (length(survObjList)<nsamp)  
-		survObjList <- sample(survObjList,size=nsamp,replace=TRUE)
-	if (length(growObjList)<nsamp)  
-		growObjList <- sample(growObjList,size=nsamp,replace=TRUE)
-	if (class(fecObjList)!="NULL") {
-		if (length(fecObjList)<nsamp)  
-			fecObjList <- sample(fecObjList,size=nsamp,replace=TRUE)
-	}
-	
-	# store chosen parameters
-	if (storePar){
-	surv.par <- matrix(NA,nsamp,length(survObjList[[1]]@fit$coefficients))
-	grow.par <- matrix(NA,nsamp,length(growObjList[[1]]@fit$coefficients)+1)
-	for (k in 1:nsamp) {
-		surv.par[k,] <- survObjList[[k]]@fit$coefficients
-		grow.par[k,] <- c(growObjList[[k]]@fit$coefficients,growObjList[[k]]@sd)
-	}} else { surv.par <- grow.par <- c()}
-	
-	#set up storage
-	if (class(discreteTrans)=="discreteTrans") nDisc <- (ncol(discreteTrans@discreteTrans)-1) else nDisc <- 0
-	
-	if (class(envMat)!="NULL") nEnv <- envMat@nEnvClass else nEnv <- 1
-	LE <- pTime <- matrix(NA,nsamp,(nBigMatrix+nDisc)*nEnv)
-	if (class(fecObjList)=="NULL") {
-		lambda <- stableStage <- c()
-	} else {
-		stableStage <- matrix(NA,nsamp,(nBigMatrix+nDisc)*nEnv)
-		lambda <- rep(NA,nsamp)
-	}
-	if (nsizeToAge==0) { resAge <- resSize <- c() } else { resAge <- resSize <- matrix(NA,nsamp,nsizeToAge)} 
-	if (length(sizeStart)==0) { if (minSize<0) sizeStart <- 0.5*minSize else sizeStart <- 2*minSize }
-	
-	#go!
-	for (k in 1:nsamp) {
-		
-		if (!cov) {
-			Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-					maxSize = maxSize,  growObj = growObjList[[k]],
-					survObj = survObjList[[k]],discreteTrans=discreteTrans,
-					integrateType=integrateType, correction=correction) 
-			
-		} else {
-			Pmatrix <- makeCompoundPmatrix(nEnvClass = nEnv,
-					nBigMatrix = nBigMatrix, minSize = minSize,
-					maxSize = maxSize, envMatrix=envMat,growObj = growObjList[[k]],
-					survObj = survObjList[[k]],discreteTrans=discreteTrans,
-					integrateType=integrateType, correction=correction)    
-			
-		}
-		
-		if (onlyLowerTriGrowth & !cov) {
-			Pmatrix@.Data <- Pmatrix@.Data*lower.tri(Pmatrix@.Data, diag = TRUE)
-			nvals <- colSums(Pmatrix@.Data,na.rm=TRUE)
-			Pmatrix@.Data <- t((t(Pmatrix@.Data)/nvals) *
-							surv(size = Pmatrix@meshpoints, 
-									cov = chosenCov,
-									survObj = survObjList[[k]]))                                    
-		}
-		
-	
-		LE[k,] <- meanLifeExpect(Pmatrix) 
-		pTime[k,] <- passageTime(targetSize,Pmatrix) 
-		if (k==1) h1 <- diff(Pmatrix@meshpoints)[1]
-		
-		if (class(fecObjList)!="NULL") {
-			if (!cov) { 
-				Fmatrix <- makeIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-						maxSize = maxSize,  
-						fecObj=fecObjList[[k]],
-						integrateType=integrateType, correction=correction)
-			} else {
-				Fmatrix <- makeCompoundFmatrix(nEnvClass = nEnv,
-						nBigMatrix = nBigMatrix, minSize = minSize, 
-						maxSize = maxSize, envMatrix=envMat,
-						fecObj=fecObjList[[k]],integrateType=integrateType, correction=correction)
-			}
-			
-			
-			
-			IPM <- Pmatrix + Fmatrix
-			lambda[k] <- Re(eigen(IPM)$value[1])
-			stableStage[k,] <- eigen(IPM)$vector[,1]
-			#normalize stable size distribution
-			stableStage[k,] <- stableStage[k,]/(h1*sum(stableStage[k,]))
-			
-			#print("here2")
-		}
-		
-		# get size to age results
-		if (nsizeToAge>0) { 
-			res2 <- sizeToAge(Pmatrix=Pmatrix,startingSize=minSize*1.3,
-					targetSize=seq(sizeStart,maxSize*0.9,length=nsizeToAge))
-			resAge[k,] <- res2$timeInYears
-			resSize[k,] <- res2$targetSize
-		}
-		
-	}
-	
-	return(list(LE=LE,pTime=pTime,lambda=lambda,stableStage=stableStage,
-					meshpoints=Pmatrix@meshpoints,resAge=resAge,resSize=resSize,
-					surv.par=surv.par,grow.par=grow.par))
-	
-}
-
-
-
 ## Function to get passage time FROM a particular size TO a range of sizes
 ## (i.e. size to age) when provided with a Pmatrix, a starting size, and a list
 ## of target sizes
@@ -201,9 +27,6 @@ sizeToAge <- function(Pmatrix,startingSize,targetSize) {
 	return(list(timeInYears=timeInYears,targetSize=targetSize,startingSize=startingSize))
 	
 }
-
-
-
 
 
 
@@ -431,83 +254,6 @@ generateData <- function(nSamp=1000, type="simple"){
 	if (type!="simple" & type!="stochastic" & type!="discrete"){
 		stop("unsupported type: supported types include simple, stochastic, or discrete")
 	}
-	
-	return(dataf)
-}
-
-## Generate a simple data-frame for continuous and discrete covariates
-#  with a total of 1000 measurements in columns called
-# size, sizeNext, surv, fec, stage, stageNext number
-# Stage contains names including "continuous", and then a range
-# of names for discrete stages, e.g., in this example,
-#  "dormant" "seedAge1"   "seedOld" 
-#
-# 
-.generateDataDiscrete <- function(nSamp=1000){
-	size <- rnorm(nSamp,5,2)
-	sizeNext <- 1+0.8*size+rnorm(nSamp,0,1)
-	surv <- rbinom(nSamp,1,logit(-1+0.2*size))
-	sizeNext[surv==0] <- NA
-	fec <- rnorm(length(size),exp(-7+0.9*size),1)
-	fec[size<quantile(size,0.20) | fec<0] <- 0
-	stage <- rep("continuous",nSamp)
-	stageNext <- rep("continuous",nSamp)
-	sizeNext[surv==0] <- NA
-	stageNext[surv==0] <- c("dead")
-	number <- rep(1,nSamp)
-	become.dormant <- which(rank(size)%in%sample(rank(size),50,prob=surv*fec))
-	sizeNext[become.dormant] <- NA; stageNext[become.dormant] <- c("dormant")
-	were.dormant <- which(rank(sizeNext)%in%sample(rank(sizeNext),50,prob=surv*fec))
-	size[were.dormant] <- NA; stage[were.dormant] <- c("dormant")
-	dataf <- rbind(data.frame(size=size,sizeNext=sizeNext,surv=surv,
-					fec=fec,stage=stage,stageNext=stageNext,number=number),
-			data.frame(size=NA,sizeNext=NA,surv=rep(c(1,0),2),fec=0,
-					stage=rep(c("seedAge1","seedOld"),each=2),
-					stageNext=rep(c("seedOld","dead"),2),
-					number=c(202,220,115,121)),
-			data.frame(size=NA,sizeNext=rnorm(113,3,2),surv=1,fec=0,
-					stage=c(rep("seedAge1",33),rep("seedOld",30),rep(NA,50)),
-					stageNext=c("continuous"),number=1))
-	
-	
-	return(dataf)
-}
-
-## Generate a simple data-frame for continuous and discrete covariates
-#  with a total of 1000 measurements in columns called
-# size, sizeNext, surv, fec, stage, stageNext number
-#
-# 
-.generateDataStoch <- function(nSamp=1000){
-	covariate1 <- rnorm(nSamp)
-	covariate2 <- rnorm(nSamp)
-	covariate3 <- rnorm(nSamp)
-	size <- rnorm(nSamp,5,2)
-	sizeNext <- 1+0.9*size+3*covariate1+0.01*covariate2+0.2*covariate3+rnorm(nSamp,0,0.1)
-	
-	fec <- surv <- rep(NA, length(size))
-	surv[!is.na(size)] <- rbinom(sum(!is.na(size)),1,logit(-1+0.2*size[!is.na(size)]))
-	fec[!is.na(size)] <- rnorm(sum(!is.na(size)),exp(-7+0.9*size[!is.na(size)]),1)
-	fec[size<quantile(size,0.20,na.rm=TRUE) | fec<0] <- 0
-	fec <- 10*fec
-	
-	seedlings <- sample(1:nSamp,size=100,replace=TRUE)
-	size[seedlings] <- NA; 
-	sizeNext[seedlings] <- rnorm(100,-2,0.1)
-	surv[seedlings] <- 1
-	#set to flower when covariate1 is around 1.5
-	pfec <- 1*(runif(length(size))<logit(size+covariate1)); #print(pfec)
-	fec[pfec==0] <- 0
-	#fill in stage
-	stage <- stageNext <- rep("continuous",nSamp)
-	stage[is.na(size)] <- NA
-	stageNext[is.na(sizeNext)] <- "dead"
-	
-	dataf <- data.frame(size=size,sizeNext=sizeNext,surv=surv,
-			covariate1=covariate1,covariate2=covariate2,covariate3=covariate3,
-			fec=fec, stage=stage,stageNext=stageNext, number=rep(1,length(size)))
-	
-	dataf$sizeNext[dataf$surv==0] <- NA
 	
 	return(dataf)
 }
@@ -740,24 +486,6 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 }
 
 
-#Find years where can estimate all three stochastic vital rates(survival, growth and baby size)
-.identifyPossibleYearsCarlina <- function(dataf){
-	
-	yr1 <- table(dataf$year[!is.na(dataf$size) & 
-							!is.na(dataf$sizeNext) & is.na(dataf$offspringNext)])
-	yr2 <- table(dataf$year[!is.na(dataf$size) & 
-							!is.na(dataf$surv) & is.na(dataf$offspringNext)])
-	yr3 <- table(dataf$year[!is.na(dataf$sizeNext) & 
-							!is.na(dataf$offspringNext)])
-	
-	good.yrs <- intersect(as.numeric(as.character(names(yr1)[yr1>1])),
-			as.numeric(as.character(names(yr2))[yr2>1]))
-	good.yrs <- intersect(good.yrs,as.numeric(as.character(names(yr3)[yr3>1])))
-	
-	return(is.element(dataf$year,good.yrs))
-}
-
-
 
 ## Convert Increment - where exact dates of census vary but some multiplier of yearly increments
 ## are desired; this function takes a data-frame (with columns size, sizeNext,
@@ -781,76 +509,6 @@ convertIncrement <- function(dataf, nYrs=1) {
 	dataf$incr <- dataf$incrNew
 	return(dataf)
 	
-}
-
-
-
-# Function to plot the results of a stochastic simulation
-# structure run
-#
-# Parameters - tVals - time points
-#            - st - output of stochGrowthRateManyCov
-#            - covTest - the key covariate for germination / flowering
-#            - nRunIn - how many to leave off pics
-# Returns - 
-#
-.plotResultsStochStruct <- function(tVals,meshpoints,st,covTest,nRunIn=15,log="y",...) { 
-		
-	par(mfrow=c(1,3),bty="l", pty="s")
-	plot(tVals[nRunIn:length(tVals)],
-			colSums(st[,nRunIn:length(tVals)]),
-			xlab="Time", 
-			ylab="Population size",type="l",...)
-	abline(v=1:max(tVals),lty=3)
-	
-	for (j in 1:ncol(covTest)) {
-		#normalized
-		covTest[,j] <- (covTest[,j]-mean(covTest[,j]))/sd(covTest[,j])
-	}
-
-	matplot(tVals[nRunIn:length(tVals)],covTest[nRunIn:length(tVals),],
-			type="l",lty=3,col=1:ncol(covTest),xlab="Time", ylab="Covariates")
-	abline(v=1:max(tVals),lty=3)
-	
-	
-	if (log=="y") st <- log(st)
-	
-	image(tVals[nRunIn:length(tVals)],
-			meshpoints,
-			t(st[,nRunIn:length(tVals)]),
-			ylab="Size", xlab="Time")
-}
-
-
-
-
-# makeCovDf creates a dataframe of size variables for prediction
-# TODO: make able to use 'covariates'
-.makeCovDf <- function(size, explanatoryVariables) {
-	sizeSorted <- sort(size)
-	splitVars <- strsplit(explanatoryVariables, split = "\\+")
-	expVar <- unlist(splitVars[grep("size", splitVars)])
-	covDf <- data.frame(size = sizeSorted)
-	for(i in 1:length(expVar)) {
-		if(is.null(expVar[i])) next
-		expVar[i] <- sub('[[:space:]]', '', expVar[i])
-		if(expVar[i] == "size2") {
-			covDf$size2 <- sizeSorted ^ 2
-		}
-		if(expVar[i] == "size3"){
-			covDf$size3 <- sizeSorted ^ 3
-		}
-		if(expVar[i] == "expsize") {
-			covDf$expsize <- exp(sizeSorted)
-		}
-		if(expVar[i] == "logsize") {
-			covDf$logsize <- log(sizeSorted)
-		}
-		if(expVar[i] == "logsize2") {
-			covDf$logsize2 <- log(sizeSorted ^ 2)
-		}
-	}
-	return(covDf)
 }
 
 
@@ -1025,51 +683,6 @@ addPdfGrowthPic <- function(respType = "sizeNext",
 			}
 		}}
 }
-
-## Function to take fit of these and output a list of growth objects
-.getListRegObjects <- function(Obj,nsamp=1000) {
-	
-	require(mvtnorm)
-	require(MASS)
-	
-	#generate new set parameters from mvn
-	npar <- length(Obj@fit$coefficients)
-	newpar <- rmvnorm(nsamp, mean = Obj@fit$coefficients, sigma = vcov(Obj@fit))
-	
-	objList <- list()
-	
-	for (j in 1:nsamp) {
-		objList[[j]] <- Obj
-		objList[[j]]@fit$coefficients <- newpar[j,]
-	}
-	
-	return(objList)
-}
-
-
-
-## Function to take fit of these and output a list of growth objects
-.getListRegObjectsFec <- function(Obj,nsamp=1000) {
-	
-	require(mvtnorm)
-	require(MASS)
-
-	objList <- list()
-	
-	#generate new set parameters from mvn
-	for (j in 1:nsamp) {
-		for (k in 1:length(Obj@fitFec)) { 
-		npar <- length(Obj@fitFec[[k]]$coefficients)
-		newpar <- rmvnorm(nsamp, mean = Obj@fitFec[[k]]$coefficients, 
-					sigma = vcov(Obj@fitFec[[k]]))
-		objList[[j]] <- Obj
-		objList[[j]]@fitFec[[k]]$coefficients <- newpar[j,]
-		}
-	}	
-		
-	return(objList)
-}
-
 
 
 ## Function to coerce Growth object to parameters and variance desired
@@ -1291,45 +904,5 @@ sampleIPMOutput <- function(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=
 }
 
 
-.makeListIPMs<- function(dataf, nBigMatrix=10, minSize=-2,maxSize=10, 
-    integrateType="midpoint", correction="none",
-    explSurv=surv~size+size2+covariates,
-    explGrow=sizeNext~size+size2+covariates, 
-    regType="constantVar",explFec=fec~size,Family="gaussian", 
-    Transform="none",fecConstants=data.frame(NA)) {
-  
-  #convert to 1:n for indexing later
-  dataf$covariates <- as.factor(dataf$covariates)
-  levels(dataf$covariates) <- 1:length(unique(dataf$covariates))
-  
-  print(explSurv)
-  sv1 <- makeSurvObj(dataf=dataf,
-      Formula=explSurv)
-  gr1 <- makeGrowthObj(dataf=dataf,
-      Formula=explGrow,
-      regType=regType)
-  
-  fv1 <- makeFecObj(dataf=dataf,Formula=explFec, Family=Family, Transform=Transform, 
-      fecConstants=fecConstants) 
-  
-  covs <- unique(dataf$covariates)
-  covs <- covs[!is.na(covs)]
-  
-  #print(covs)
-  
-  IPM.list <- list()
-  for (k in 1:length(covs)) { 
-    
-    tpF <- makeIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-        maxSize = maxSize, chosenCov = data.frame(covariates=as.factor(k)),
-        fecObj = fv1,integrateType=integrateType, correction=correction)
-    tpS <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize,
-        maxSize = maxSize, chosenCov = data.frame(covariates=as.factor(k)),
-        growObj = gr1, survObj = sv1,
-        integrateType=integrateType, correction=correction)
-    IPM.list[[k]] <- tpF+tpS
-  }
-  return(IPM.list)
-  
-}
+
 

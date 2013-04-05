@@ -134,7 +134,8 @@ setClass("fecObj",
 
 
 
-
+# =============================================================================
+# =============================================================================
 ## DISCRETE TRANSITION MATRIX OBJECTS ##
 # Create a generic discrete transition matrix object
 setClass("discreteTrans",
@@ -143,11 +144,8 @@ setClass("discreteTrans",
 				sdToCont = "matrix",
 				moveToDiscrete = "glm"))
 
-
-
-
-
-
+# =============================================================================
+# =============================================================================
 ## INTEGER FECUNDITY OBJECTS ##
 # Create a generic fecundity object
 setClass("fecObjInteger",
@@ -163,7 +161,8 @@ setClass("fecObjInteger",
 				distOffspring = "character")
 )
 
-
+# =============================================================================
+# =============================================================================
 ## DISCRETE TRANSITION MATRIX INTEGER OBJECTS ##
 # Create a generic discrete transition matrix object
 setClass("discreteTransInteger",
@@ -179,6 +178,8 @@ setClass("discreteTransInteger",
 
 ######## DEFINE METHODS ##########################################################################################
 
+# =============================================================================
+# =============================================================================
 #Method to obtain probability of survival using
 # logistic regression on size with a single covariate
 #
@@ -212,6 +213,8 @@ setMethod("surv",
 			return(u);
 		})
 
+# =============================================================================
+# =============================================================================
 #Method to obtain probability of survival using
 # logistic regression on size with a single covariate
 #  where the logistic regression was modeled with over-dispersion
@@ -245,8 +248,8 @@ setMethod("surv",
 			return(u);
 		})
 
-
-
+# =============================================================================
+# =============================================================================
 # Method to obtain growth transitions -
 # here linear regression to size (with powers) with a single covariate
 #
@@ -276,6 +279,8 @@ setMethod("growth",
 			return(u);
 		})
 
+# =============================================================================
+# =============================================================================
 #  growth transition (poisson model) probability from size to sizeNext at that covariate level 
 #	NOTE DO NOT USE THIS WITH AN IPM!!
 setMethod("growth", 
@@ -296,7 +301,8 @@ setMethod("growth",
 			return(u);
 		})
 
-
+# =============================================================================
+# =============================================================================
 #  growth transition (poisson model) probability from size to sizeNext at that covariate level 
 #	NOTE DO NOT USE THIS WITH AN IPM!!
 setMethod("growth", 
@@ -317,9 +323,8 @@ setMethod("growth",
 			return(u);
 		})
 
-
-
-
+# =============================================================================
+# =============================================================================
 # growth for predicting next incr 
 setMethod("growth", 
 		c("numeric","numeric","data.frame","growthObjIncr"),
@@ -344,7 +349,8 @@ setMethod("growth",
 		})
 
 
-
+# =============================================================================
+# =============================================================================
 # growth for predicting next truncated incr 
 setMethod("growth", 
 		c("numeric","numeric","data.frame","growthObjTruncIncr"),
@@ -368,7 +374,8 @@ setMethod("growth",
 		})
 
 
-
+# =============================================================================
+# =============================================================================
 # growth for predicting next logincr 
 setMethod("growth", 
 		c("numeric","numeric","data.frame","growthObjLogIncr"),
@@ -390,7 +397,8 @@ setMethod("growth",
 			return(u);
 		})
 
-
+# =============================================================================
+# =============================================================================
 # growth for predicting next logincr with decline var
 setMethod("growth", 
 		c("numeric", "numeric", "data.frame", "growthObjLogIncrDeclineVar"),
@@ -414,6 +422,8 @@ setMethod("growth",
 			return(u);
 		})
 
+# =============================================================================
+# =============================================================================
 # growth for predicting next logincr with decline var
 setMethod("growthCum", 
 		c("numeric", "numeric", "data.frame", "growthObjLogIncrDeclineVar"),
@@ -438,12 +448,8 @@ setMethod("growthCum",
 		})
 
 
-
-
-
-
-
-
+# =============================================================================
+# =============================================================================
 # Slightly alternative approach, using cumulative probs ##
 
 # growth for predicting next size with a polynomial or log
@@ -466,6 +472,8 @@ setMethod("growthCum",
 			return(u);
 		})
 
+# =============================================================================
+# =============================================================================
 # growth for predicting next incr with a polynomial or log
 # using pnorm (i.e. getting cumulative at boundary points and doing difference)
 setMethod("growthCum", 
@@ -487,8 +495,8 @@ setMethod("growthCum",
 			return(u); 
 		})
 
-
-
+# =============================================================================
+# =============================================================================
 # growth for predicting next truncated incr with cumulative 
 setMethod("growthCum", 
 		c("numeric","numeric","data.frame","growthObjTruncIncr"),
@@ -512,7 +520,8 @@ setMethod("growthCum",
 			return(u); 
 		})
 
-
+# =============================================================================
+# =============================================================================
 # growth for predicting next logincr with a polynomial or log
 # using pnorm (i.e. getting cumulative at boundary points and doing difference)
 setMethod("growthCum", 
@@ -534,7 +543,8 @@ setMethod("growthCum",
 			return(u);
 		})
 
-
+# =============================================================================
+# =============================================================================
 #Simple growth methods, using  declining variance in growth
 # using pnorm (i.e. getting cumulative at boundary points and doing difference)
 setMethod("growthCum", 
@@ -559,9 +569,8 @@ setMethod("growthCum",
 			return(u);
 		})
 
-
-
-
+# =============================================================================
+# =============================================================================
 #Simple growth methods, using  declining variance in growth
 setMethod("growth", 
 		c("numeric","numeric","data.frame","growthObjDeclineVar"),
@@ -584,28 +593,8 @@ setMethod("growth",
 			return(u);
 		})
 
-
-# function to predict growth object - NOTE THAT THIS will not work with factors / contrasts
-.predictMuX <- function(grObj, newData, covPred = 1) {
-	dataBase <- newData
-	coefNames <- attr(grObj@fit$coefficients, "names")
-	coefValues <- as.matrix(grObj@fit$coefficients)
-	covNames <- coefNames[grep("covariate", coefNames)]
-	covPos <- as.numeric(unlist(strsplit(covNames, "covariate")))
-	covPos <- as.numeric(covPos[!is.na(covPos)])
-	covDf <- as.data.frame(matrix(0, nrow = dim(newData)[1], ncol = length(covPos)))
-	names(covDf) <- covNames
-	# Turn "on" intended covariate and build newDataFrame
-	if(covPred != 1) {
-		covDf[, (covPred - 1)] <- 1
-	}
-	newData <- cbind(dataBase, covDf)
-	newDataSubset <- as.matrix(cbind(1, newData[, (names(newData) %in% coefNames)]))
-	predValues <- as.matrix(newDataSubset) %*% matrix(coefValues, length(coefValues), 1)
-	return(as.numeric(predValues))
-}
-
-
+# =============================================================================
+# =============================================================================
 #same but with declining variance in growth on incrment
 setMethod("growth", 
 		c("numeric","numeric","data.frame","growthObjIncrDeclineVar"),
@@ -628,7 +617,8 @@ setMethod("growth",
 			return(u);
 		})
 
-
+# =============================================================================
+# =============================================================================
 ## Define a new growth method for Hossfeld growth (classic midpoint rule approach)
 setMethod("growth", c("numeric", "numeric", "data.frame", "growthObjHossfeld"), 
 		function(size, sizeNext, cov, growthObj) { 
@@ -638,7 +628,8 @@ setMethod("growth", c("numeric", "numeric", "data.frame", "growthObjHossfeld"),
 			return(u)
 		}) 
 
-
+# =============================================================================
+# =============================================================================
 ## Define a new growth method for Hossfeld growth (classic midpoint rule approach)
 setMethod("growthCum", c("numeric", "numeric", "data.frame", "growthObjHossfeld"), 
 		function(size, sizeNext, cov, growthObj) { 
@@ -648,9 +639,8 @@ setMethod("growthCum", c("numeric", "numeric", "data.frame", "growthObjHossfeld"
 			return(u)
 		}) 
 
-
-
-
+# =============================================================================
+# =============================================================================
 # Method combining growth and survival for doing outer (not a generic, so that don't have to
 # define for all the different classes / growth and surv take care of that)
 growSurv <- function(size,sizeNext,cov,growthObj,survObj){
@@ -663,13 +653,15 @@ growSurv <- function(size,sizeNext,cov,growthObj,survObj){
 
 
 ### CLASSES AND FUNCTIONS FOR MATRICES (ENV, TMATRIX [compound or not], FMATRIX) #################
-
+# =============================================================================
+# =============================================================================
 #Class for the matrix that holds the env matrix 
 setClass("envMatrix",
 		representation(nEnvClass = "numeric"), #number of covariate levels
 		contains="matrix")
 
-
+# =============================================================================
+# =============================================================================
 #Class for the matrix that holds the IPM
 setClass("IPMmatrix",
 		representation(nDiscrete = "numeric", #number of discrete classes
@@ -680,8 +672,8 @@ setClass("IPMmatrix",
 				names.discrete = "character"),
 		contains="matrix")
 
-
-
+# =============================================================================
+# =============================================================================
 #Class for the matrix that holds the IPM
 #setClass("DiscreteMatrix",
 #		representation(nDiscrete = "numeric", #number of discrete classes
@@ -807,7 +799,8 @@ makeIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSiz
 	return(rc)
 }
 
-
+# =============================================================================
+# =============================================================================
 ##same function... but for discrete (no integration!)  ####
 ###
 ### NOTE ASSUMES TRANSITIONS OUT ARE DISCRETE - THIS MEANS THAT SDTOCONT
@@ -865,7 +858,8 @@ makeIntegerPmatrix <- function (nEnvClass = 1,
 	return(rc)
 }
 
-
+# =============================================================================
+# =============================================================================
 #Function creates a combo of T.IPMs for a chosen
 #size range, with range env categories and transitions 
 #between them
@@ -961,124 +955,9 @@ makeCompoundPmatrix <- function(nEnvClass = 2,
 }
 
 
-## Extra functions for use with outer in building the IPMFmatrix
-
-## Get raw numbers of offspring produced by every size class by multiplying up the constants,
-## and doing all the "predict: values needed; and taking out only the babies that go to the continuous classes
-
-.fecRaw <- function(x,cov=data.frame(covariate=1),fecObj) { 
-	
-	newd <- data.frame(cbind(cov,size=x),
-			stringsAsFactors = FALSE)
-	
-	newd$size2 <- x^2
-	newd$size3 <- x^3
-	newd$expsize <- exp(x)
-
-	#if (length(fecObj@offspringRel)>1) {
-	#	if (length(grep("logsize", fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
-	#}
-	
-	fecObj@fecConstants[is.na(fecObj@fecConstants)] <- 1
-	
-	#fecundity rates
-	fecValues <- matrix(c(rep(1,length(fecObj@fitFec)),unlist(fecObj@fecConstants)),
-			ncol=length(x),nrow=length(fecObj@fitFec)+
-					length(fecObj@fecConstants))
-	#rownames(fecValues) <- c(fecObj@fecNames,names(fecObj@fecConstants))
-	for (i in 1:length(fecObj@fitFec)) fecValues[i,] <- predict(fecObj@fitFec[[i]],newd,type="response")
-	if (length(grep("log",fecObj@Transform))>0) for (i in grep("log",fecObj@Transform)) fecValues[i,]<-exp(fecValues[i,])
-	if (length(grep("exp",fecObj@Transform))>0) for (i in grep("exp",fecObj@Transform)) fecValues[i,]<-log(fecValues[i,])
-	if (length(grep("sqrt",fecObj@Transform))>0) for (i in grep("sqrt",fecObj@Transform)) fecValues[i,]<-(fecValues[i,])^2
-	if (length(grep("-1",fecObj@Transform))>0) for (i in grep("-1",fecObj@Transform)) fecValues[i,]<-fecValues[i,]+1
-	if (length(which(fecObj@vitalRatesPerOffspringType[,"continuous"]==1))>1) {
-		prodFecValues <- apply(fecValues[which(fecObj@vitalRatesPerOffspringType[,"continuous"]==1),],2,prod)*unlist(fecObj@offspringSplitter["continuous"])
-	} else {
-		prodFecValues <- fecValues[which(fecObj@vitalRatesPerOffspringType[,"continuous"]==1),]*unlist(fecObj@offspringSplitter["continuous"])
-	}
-	return(list(prodFecValues,fecValues))
-}
-
-
-## A function that outer can use showing numbers from x to y via production and distribution offspring
-.fecPreCensus <- function(x,y,cov=data.frame(covariate=1),fecObj,offspringObj=NULL) {
-	newd <- data.frame(cbind(cov,size=x),
-			stringsAsFactors = FALSE)	
-	newd$size2 <- x^2
-	newd$size3 <- x^3
-	
-	if (is.null(offspringObj)){
-		if (length(grep("expsize",
-					fecObj@offspringRel$formula))>0) { newd$expsize <- exp(x)}
-		if (length(grep("logsize",
-					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
-		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
-				dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),
-						fecObj@sdOffspringSize)
-	} else {
-		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
-				growth(y,y,newd,offspringObj)
-						
-	}
-	#print(cbind(y,predict(fecObj@offspringRel)))
-	
-	
-	return(u)
-}
-
-
-# TO DO .fecPostCensus properly (i.e. include size changes between the census and reproduction event) the following steps have to be made:
-# 1. use growSurv to determine what the distribution of size is at the reproduction event given initial size x
-# 2. over this distribution of sizes x2 at the reproduction event, what are the expected number of offspring: per x2: .fecRaw(x=x2,...)
-# 3. multiply the expected number of offspring per x2 with the probability that an offspring is of size y, using dnorm(y,predict(..., newdata=newd2, ...) where newd2 is calculated for all levels of x2
-# all in all, Eelke wonders if the outer-solution is still useful in the .fecPostCensus case, since x2 needs to have a certain distribution, which is not passed down to .fecPostCensus... 
-
-## REMOVE GROWTH FROM THIS - note that this means 
-#### growth obj generally not needed down below.....
-## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring
-.fecPostCensus <- function(x,y,cov=data.frame(covariate=1),
-		fecObj, growObj,survObj,offspringObj=NULL) {
-	newd <- data.frame(cbind(cov,size=x),
-			stringsAsFactors = FALSE)
-	
-	newd$size2 <- x^2
-	newd$size3 <- x^3
-
-	if (is.null(offspringObj)){
-		if (length(grep("expsize",fecObj@offspringRel$formula))>0 |
-				length(grep("expsize",growObj@fit$formula))>0) { newd$expsize <- exp(x)}            	
-		if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
-				length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
-		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
-				dnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)*
-				surv(size=x, cov=cov, survObj=survObj)
-	} else {
-		u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
-				growth(y,y,newd,offspringObj)*surv(size=x, cov=cov, survObj=survObj)				
-	}
-	return(u)
-}
-
-
-
-## A function that outer can use giving pnorm for offspring reprod
-.offspringCum <- function(x,y,cov=data.frame(covariate=1),fecObj,offspringObj=NULL) {
-	newd <- data.frame(cbind(cov,size=x),
-			stringsAsFactors = FALSE)
-	
-	if (is.null(offspringObj)){
-		newd$size2 <- x^2
-		newd$size3 <- x^3
-		if (length(grep("expsize",fecObj@offspringRel$formula))>0) { newd$expsize <- exp(x)}            
-		if (length(grep("logsize",fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}            
-		u <- pnorm(y,predict(fecObj@offspringRel,newdata=newd, type="response"),fecObj@sdOffspringSize)
-	} else { 
-		u <- growthCum(y,y,newd, offspringObj)	
-	}
-	return(u)
-}
-
-
+## Extra functions for use with outer in building the IPMFmatrix ##############
+# =============================================================================
+# =============================================================================
 #Function creates a single F.IPM (fecundity transitions only)
 #for a chosen size range, env category (single one at a time)
 #and survival and fecundity objects (assume survival 
@@ -1262,72 +1141,8 @@ makeIPMFmatrix <- function(fecObj,
 	return(rc)
 }
 
-
-
-
-
-## A function that outer can use showing numbers from x to y via production and distribution offspring
-.fecPreCensusInteger <- function(x,y,cov=data.frame(covariate=1),fecObj,offspringObj=NULL) {
-	newd <- data.frame(cbind(cov,size=x),
-			stringsAsFactors = FALSE)	
-	newd$size2 <- x^2
-	newd$size3 <- x^3
-	
-	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]
-	
-	if (is.null(offspringObj)){
-		if (length(grep("expsize",
-					fecObj@offspringRel$formula))>0) { newd$expsize <- exp(x)}
-		if (length(grep("logsize",
-					fecObj@offspringRel$formula))>0) { newd$logsize <- log(x)}
-		if (fecObj@distOffspring=="poisson")
-				u <- u*dpois(y,predict(fecObj@offspringRel,newdata=newd, type="response"))
-		if (fecObj@distOffspring=="negBin")
-			u <- u*dnbinom(y,mu=predict(fecObj@offspringRel,newdata=newd, type="response"),
-				size=fecObj@thetaOffspringSize)
-	} else {
-		u <- u*growth(y,y,newd, offspringObj)
-				
-	}
-	
-	#print(cbind(y,predict(fecObj@offspringRel)))
-		
-	return(u)
-}
-#### growth obj generally not needed down below.....
-## A function that outer can use showing numbers from x to y via production, growth, survival and distribution offspring
-.fecPostCensusInteger <- function(x,y,cov=data.frame(covariate=1),fecObj, growObj,survObj, offspringObj=NULL) {
-	newd <- data.frame(cbind(cov,size=x),
-			stringsAsFactors = FALSE)
-	
-	u <- .fecRaw(x=x,cov=cov,fecObj=fecObj)[[1]]*
-			surv(size=x, cov=cov, survObj=survObj)
-	
-	if (is.null(offspringObj)){
-		newd$size2 <- x^2
-		newd$size3 <- x^3
-		if (length(grep("expsize",fecObj@offspringRel$formula))>0 |
-			length(grep("expsize",growObj@fit$formula))>0) { newd$expsize <- exp(x)}            
-		if (length(grep("logsize",fecObj@offspringRel$formula))>0 |
-			length(grep("logsize",growObj@fit$formula))>0) { newd$logsize <- log(x)}            
-		
-		if (fecObj@distOffspring=="poisson")
-			u <- u*dpois(y,predict(fecObj@offspringRel,newdata=newd, type="response"))
-		if (fecObj@distOffspring=="negBin")
-			u <- u*dnbinom(y,mu=predict(fecObj@offspringRel,newdata=newd, type="response"),
-				size=fecObj@thetaOffspringSize)
-		} else {
-			u <- u*growth(y,y,newd, offspringObj)
-			
-		}
-
-	
-	return(u)
-}
-
-
-
-
+# =============================================================================
+# =============================================================================
 ### CREATE DISCRETE F MATRIX
 makeIntegerFmatrix <- function(fecObj,
 		nEnvClass = 1,
@@ -1424,11 +1239,8 @@ makeIntegerFmatrix <- function(fecObj,
 	return(rc)
 }
 
-
-
-
-
-
+# =============================================================================
+# =============================================================================
 #Function creates a combo of F.IPMs for a chosen
 #size range, with range env categories and transitions 
 #between them
@@ -1528,7 +1340,8 @@ makeCompoundFmatrix <- function(nEnvClass = 2,
 
 
 
-
+# =============================================================================
+# =============================================================================
 #Function creates a single F.IPM (fecundity transitions only)
 #for a chosen size range, env category (single one at a time)
 #and survival and fecundity objects (assume survival 
@@ -1574,10 +1387,8 @@ makeIPMCmatrix <- function(clonalObj,
 	return(rc)
 }
 
-
-
-
-
+# =============================================================================
+# =============================================================================
 #Function creates a combo of F.IPMs for a chosen
 #size range, with range env categories and transitions 
 #between them
@@ -1623,10 +1434,8 @@ makeCompoundCmatrix <- function(nEnvClass = 2,
 	return(rc) 
 }
 
-
-
-
-
+# =============================================================================
+# =============================================================================
 # For a single Pmatrix (!not compound and no discrete stages!), this functions makes a series
 # of diagnostic plots - this is defined for growthObj,
 # growthObjIncr - modification required
@@ -1859,13 +1668,11 @@ diagnosticsPmatrix <- function (Pmatrix, growObj, survObj, dff=NULL,
 
 
 
-
-
-
 ##### Functions to identify sensible numbers of bins - help file on desktop  with data-frame setup
 #####
 
-
+# =============================================================================
+# =============================================================================
 convergeIPM<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
 		discreteTrans = 1, integrateType = "midpoint", correction = "none", 
 		preCensus = TRUE, tol=1e-4,
@@ -1897,124 +1704,14 @@ convergeIPM<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 
 }
 	
-	
-	
-.convergeLambda<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
-		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, tol=1e-4,binIncrease=5){
-	
-	lambda.new<-1000
-	delta<-1000
-	
-	print(paste(c("delta: ","new lambda:", "New number of grid points:
-									"),collapse=""))
-	
-	
-	while(delta>tol) {
-		lambda.old <-lambda.new
-		nBigMatrix <- nBigMatrix + binIncrease
-		Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-				maxSize = maxSize, growObj = growObj, survObj = survObj, 
-				discreteTrans = discreteTrans, integrateType = integrateType, 
-				correction = correction)
-		Fmatrix <- makeIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-				maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
-				correction = correction, preCensus = preCensus,survObj=survObj,growObj=growObj)
-		
-		IPM <- Pmatrix + Fmatrix
-		lambda.new <- Re(eigen(IPM)$value[1])
-		
-		delta<-abs(lambda.new-lambda.old)
-		print(paste(c( delta, lambda.new,nBigMatrix),collapse=" "))
-		
-	}
-	
-	print(c("Final lambda from iteration:",lambda.new))
-	print(c("Number of bins:",nBigMatrix))
-	
-	output <- list(nBigMatrix = nBigMatrix, IPM = IPM, lambda = lambda.new)
-	
-	return(output)
-}
-
-
-
-.convergeR0<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
-		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, tol=1e-4,binIncrease=5){
-	
-	R0.new<-1000
-	delta<-1000
-	
-	
-	print(paste(c("delta: ","new R0:", "New number of grid points:"),collapse=""))
-	
-	while(delta>tol) {
-		R0.old <-R0.new
-		nBigMatrix <- nBigMatrix + binIncrease
-		Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-				maxSize = maxSize, growObj = growObj, survObj = survObj, 
-				discreteTrans = discreteTrans, integrateType = integrateType, 
-				correction = correction)
-		Fmatrix <- makeIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-				maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
-				correction = correction, preCensus = preCensus,survObj=survObj,growObj=growObj)
-		
-		R0.new <- R0Calc(Pmatrix,Fmatrix)
-		
-		delta<-abs(R0.new-R0.old)
-		print(paste(c( delta, R0.new,nBigMatrix),collapse=" "))
-	}
-	
-	IPM <- Pmatrix + Fmatrix
-	
-	print(c("Final R0 from iteration:",R0.new))
-	print(c("Number of bins:",nBigMatrix))
-	
-	output<-list(nBigMatrix = nBigMatrix, binIncrease=binIncrease,IPM=IPM,R0=R0.new)
-	
-	return(output)
-}
-
-
-
-
-.convergeLifeExpectancy <- function(growObj, survObj,nBigMatrix, minSize, maxSize, 
-		discreteTrans = 1, integrateType = "midpoint", correction = "none", 
-		tol=1e-1,binIncrease=5, chosenBin=1){
-	
-	LE.new<-1000
-	delta<-1000
-	
-	print(paste(c("delta: ","new LE:", "New number of grid points:"),collapse=""))
-		
-	while(delta>tol) {
-		LE.old <- LE.new
-		nBigMatrix <- nBigMatrix + binIncrease
-		Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-				maxSize = maxSize, growObj = growObj, survObj = survObj, 
-				discreteTrans = discreteTrans, integrateType = integrateType, 
-				correction = correction)
-		
-		LE.new <- meanLifeExpect(Pmatrix)    
-		
-		delta <- abs(LE.new[chosenBin]-LE.old[chosenBin])
-		print(paste(c( delta, LE.new[chosenBin],nBigMatrix),collapse=" "))
-	}
-	
-	print(c("Final life expectancy of chosen bin from iteration:",LE.new[1]))
-	print(c("Number of bins:",nBigMatrix))
-	
-	output<-list(nBigMatrix = nBigMatrix,
-			binIncrease=binIncrease,Pmatrix=Pmatrix,LE=LE.new)
-	
-	return(output)
-}
 
 
 
 ### FUNCTIONS FOR EXTRACTING INTEGRATED DEMOGRAPHIC MEASURES ########################
 ### i.e. life-expectancy and passage time
 
-
+# =============================================================================
+# =============================================================================
 #Generic for mean life expectancy
 #parameters - an IPM
 # returns - the life expectancy for every starting size. 
@@ -2028,7 +1725,8 @@ meanLifeExpect <- function(IPMmatrix){
 }
 
 
-
+# =============================================================================
+# =============================================================================
 #Generic for variance life expectancy (p119 Caswell)
 #parameters - an IPM
 # returns - the variance in life expectancy for every starting size. 
@@ -2047,7 +1745,8 @@ varLifeExpect <- function(IPMmatrix){
 
 
 
-
+# =============================================================================
+# =============================================================================
 #Generic for survivorship
 #parameters - IPMmatrix - an IPM
 #           - size1 - a size at age 1
@@ -2081,10 +1780,8 @@ survivorship <- function(IPMmatrix, loc, maxAge=300){
 	return(list(surv.curv=surv.curv,stage.agesurv=stage.agesurv, mortality = mortality))
 }
 
-
-
-
-
+# =============================================================================
+# =============================================================================
 #Generic for first passage time 
 #parameters - an IPM
 #           - a size for which passage time is required            
@@ -2121,9 +1818,8 @@ passageTime <- function(chosenSize,IPMmatrix){
 	return(time.to.absorb)
 }
 
-
-
-
+# =============================================================================
+# =============================================================================
 #Generic for first variance first passage time (not sure!!!)
 #parameters - an IPM
 #           - a size for which passage time is required            
@@ -2152,88 +1848,9 @@ varPassageTime <- function(chosenSize,IPMmatrix){
 	return(vartimeAbsorb)
 }
 
-
-
-
-#Generic for life expectancy in a modeled stoch env  -NEEDS DOUBLE-CHECKING
-#parameters - a compound IPM of dim nEnvClass*nBigMatrix
-#           - an environmental matrix
-# returns - the life expectancy for each of the sizes in the IPM (columns)
-#           for each of the starting env states
-#
-#
-.stochLifeExpect <- function(IPMmatrix,envMatrix){
-	require(MASS)
-	
-	matrix.dim <- length(IPMmatrix[1,])
-	nstages <- IPMmatrix@nBigMatrix
-	nstates <- IPMmatrix@nEnvClass
-	
-	pis <- Re(eigen(envMatrix)$vector[,1])
-	pis <- pis/(sum(pis))
-	
-	#print(pis)
-	
-	#ckron <- kronecker(envMatrix,diag(nstages))  #doesnt work??
-	m <- IPMmatrix  #%*%ckron  #eq 29 in carols paper
-	
-	Itilda <- diag(matrix.dim)
-	
-	#not used in this one
-	eatildas <- array(dim=c(nstates*nstages,nstages,nstates))
-	eatildas[,,] <-0
-	for (i in 1:nstates){
-		eatildas[,,i] <- Itilda[,((i-1)*nstages+1):(nstages*i)]
-	}
-	
-	qatildas <- array(dim=c(nstates*nstages,nstages,nstates));
-	qatildas[,,]<-0
-	for (i in 1:nstates) {
-		indext <-((i-1)*nstages+1):(nstages*i) 
-		qatildas[indext,,i] <- IPMmatrix[indext,indext]/envMatrix[i,i]
-		#print( IPMmatrix[cbind(indext,indext)]/envMatrix[i,i] )
-	}                            #array of qatildas, eqn 26
-	#need to remove env effect since mega-matrix pre-built 
-	
-	#print(qatildas)
-	
-	etilda <- array(dim=c(nstates*nstages,nstages));
-	etilda[,]<-0
-	for (i in 1:nstates) { 
-		etilda[((i-1)*nstages+1):(nstages*i),] <- diag(nstages);
-	}                            #etilda, eqn 27
-	
-	I <- diag(nstages);                 #identity matrix of dimension K x K
-	
-	Ns.markov <- array(dim=c(nstages,nstages,nstates)); #set up for array of Ns
-	Ns.markov[,,]<-0
-	for (i in 1:nstates){ 
-		Ns.markov[,,i] <- I + t(etilda)%*%(solve(Itilda-m))%*%qatildas[,,i];
-		#eqn 28, conditional on initial state 1
-	}
-	
-	#print(Ns.markov)
-	
-	#average over all initial states %%%%%
-	Nbar.markov <- rep(0,nstages);
-	for (i in 1:nstates) { 
-		Nbar.markov <-  Nbar.markov + pis[i] * Ns.markov[,,i]; 
-	}                         #eqn 29, weight each fundamntal matrix by expctd frequency 
-	
-	
-	
-	#lifeexp, column sums
-	lifeexp.markov<-matrix(0,nstates,nstages); #set up array
-	for (i in 1:nstates) { 
-		lifeexp.markov[i,] <- apply(Ns.markov[,,i], 2, sum);
-	}
-	
-	return(lifeexp.markov)
-}
-
-
+# =============================================================================
+# =============================================================================
 ##Function to estimate Stochastic Passage Time
-
 stochPassageTime <- function(chosenSize,IPMmatrix,envMatrix){
 	require(MASS)
 	#get the right index for the size you want
@@ -2265,8 +1882,8 @@ stochPassageTime <- function(chosenSize,IPMmatrix,envMatrix){
 
 
 ### Short term changes / matrix iteration functions ##############################################
-
-
+# =============================================================================
+# =============================================================================
 ## TO DO - ADJUST TO ALLOW DISCRETE CLASSES ##
 
 ## Function to predict distribution in x time-steps given starting
@@ -2328,7 +1945,8 @@ predictFutureDistribution <- function(startingSizes,IPM, n.time.steps, startingE
 	return(list(n.new.dist0=n.new.dist0,n.new.dist=n.new.dist))     
 }
 
-
+# =============================================================================
+# =============================================================================
 ## TO DO - ADJUST TO ALLOW DISCRETE CLASSES ##
 
 ## Function to see how long it takes to get from a starting distribution to an final size
@@ -2433,7 +2051,8 @@ timeToSize <- function(startingSizes,IPM,endSize, startingEnv=1, maxT=100, propR
 
 
 
-
+# =============================================================================
+# =============================================================================
 # Calculate R0 
 #
 # Parameters - Fmatrix, Pmatrix
@@ -2449,6 +2068,8 @@ R0Calc<-function(Pmatrix, Fmatrix){
 	return(ave.R0)
 }
 
+# =============================================================================
+# =============================================================================
 # Calculate lambda and stable stage dist
 # for constant env for really huge matrices
 # using Matrix package for numerical efficiency
@@ -2489,10 +2110,8 @@ largeMatrixCalc <- function(Pmatrix, Fmatrix, tol = 1.e-8){
 	
 }
 
-
-
-
-
+# =============================================================================
+# =============================================================================
 ## Sensitivity of parameters - works for an IPM built out of
 ## growth, survival, discreteTrans, fecundity and clonality objects.
 ##
@@ -3224,219 +2843,9 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 }
 
 
-
-
-
-### sens params for discrete survival bit
-
-.sensParamsDiscrete <-  function (growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
-		chosenCov = data.frame(covariate=1),		
-		discreteTrans = 1, integrateType = "midpoint", correction = "none", preCensus = TRUE, delta=1e-4) {
-	
-	
-	#all the transitions - note that this is in the order of the columns, 
-	nmes <- paste("",c(outer(colnames(discreteTrans@discreteTrans),colnames(discreteTrans@discreteTrans),paste,sep="-")),sep="")
-	
-	# all survival out of discrete stages
-	nmes <- c(nmes,paste("survival from",colnames(discreteTrans@discreteSurv),sep=""))
-	
-	# all means out of discrete stages
-	nmes <- c(nmes,paste("mean from ",colnames(discreteTrans@meanToCont),sep=""))
-	
-	# all sds out of discrete stages
-	nmes <- c(nmes,paste("sd from ",colnames(discreteTrans@sdToCont),sep=""))
-	
-	#  not sure makes sense to do distribToDiscrete???	
-	
-	#coefficients linking continuous survival into discrete
-	nmes <- c(nmes, paste("survival from continuous ", names(discreteTrans@moveToDiscrete$coefficients),sep=""))
-	
-	
-	elam <- rep(NA,length(nmes))
-	names(elam) <- nmes
-	slam <- elam
-	Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-			maxSize = maxSize, growObj = growObj, survObj = survObj, 
-			chosenCov = chosenCov,
-			discreteTrans = discreteTrans, integrateType = integrateType, 
-			correction = correction)
-	Fmatrix <- makeIPMFmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-			chosenCov = chosenCov,
-			maxSize = maxSize, fecObj = fecObj, integrateType = integrateType, 
-			correction = correction,preCensus = preCensus,survObj=survObj,growObj=growObj)
-	IPM <- Pmatrix + Fmatrix
-	lambda1 <- Re(eigen(IPM)$value[1])
-	
-	#all the transitions
-	param.test <- 0
-	for (j in 1:nrow(discreteTrans@discreteTrans)) {
-		for (k in 1:nrow(discreteTrans@discreteTrans)) {
-			
-			#print(c(rownames(discreteTrans@discreteTrans)[k],colnames(discreteTrans@discreteTrans)[j]))
-			
-			param.test <- param.test+1
-			
-			if (discreteTrans@discreteTrans[k,j]==0) next()
-			
-			#pick element of matrix
-			adj <- rep(discreteTrans@discreteTrans[k,j]*delta,nrow(discreteTrans@discreteTrans)-1)
-			discreteTrans@discreteTrans[k,j] <- discreteTrans@discreteTrans[k,j] * (1 + delta)
-			#alter the other values in the columns so as continue to sum to one
-			if (sum(discreteTrans@discreteTrans[k,-j]>0)>0) adj <- adj/sum(discreteTrans@discreteTrans[k,-j]>0)
-			adj[discreteTrans@discreteTrans[-k,j]==0] <- 0
-			discreteTrans@discreteTrans[-k,j] <- discreteTrans@discreteTrans[-k,j]-adj
-			
-			#print(colSums(discreteTrans@discreteTrans))
-			
-			
-			Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, 
-					minSize = minSize, maxSize = maxSize, growObj = growObj, 
-					chosenCov = chosenCov,
-					survObj = survObj, discreteTrans = discreteTrans, 
-					integrateType = integrateType, correction = correction)
-			
-			Fmatrix <- makeIPMFmatrix(nBigMatrix = nBigMatrix, 
-					minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
-					chosenCov = chosenCov,
-					integrateType = integrateType, correction = correction,
-					preCensus = preCensus,survObj=survObj,growObj=growObj)
-			
-			IPM <- Pmatrix + Fmatrix
-			lambda2 <- Re(eigen(IPM)$value[1])
-			discreteTrans@discreteTrans[k,j] <-  discreteTrans@discreteTrans[k,j]/(1 + delta)	
-			discreteTrans@discreteTrans[-k,j] <- discreteTrans@discreteTrans[-k,j]+adj
-			
-			slam[param.test] <- (lambda2 - lambda1)/(discreteTrans@discreteTrans[k,j] * delta)
-			elam[param.test] <- (lambda2 - lambda1)/(lambda1*delta)
-		}}
-	
-	
-	# all survival out of discrete stages
-	count <- param.test
-	for (param.test in 1:length(discreteTrans@discreteSurv)) { 
-		
-		discreteTrans@discreteSurv[param.test] <- discreteTrans@discreteSurv[param.test]* (1 + delta)
-		
-		Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, 
-				minSize = minSize, maxSize = maxSize, growObj = growObj, 
-				survObj = survObj, discreteTrans = discreteTrans, 
-				chosenCov = chosenCov,
-				integrateType = integrateType, correction = correction)
-		
-		Fmatrix <- makeIPMFmatrix(nBigMatrix = nBigMatrix, 
-				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
-				chosenCov = chosenCov,
-				integrateType = integrateType, correction = correction,
-				preCensus = preCensus,survObj=survObj,growObj=growObj)
-		
-		IPM <- Pmatrix + Fmatrix
-		lambda2 <- Re(eigen(IPM)$value[1])
-		
-		discreteTrans@discreteSurv[param.test] <- discreteTrans@discreteSurv[param.test]/ (1 + delta)
-		slam[param.test+count] <- (lambda2 - lambda1)/(discreteTrans@discreteSurv[param.test] * delta)
-		elam[param.test+count] <- (lambda2 - lambda1)/(lambda1*delta)
-		
-	}
-	
-	
-	# all mean values coming out of discrete stages
-	count <- param.test+count
-	for (param.test in 1:length(discreteTrans@meanToCont)) { 
-		
-		discreteTrans@meanToCont[param.test] <- discreteTrans@meanToCont[param.test]* (1 + delta)
-		
-		Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, 
-				minSize = minSize, maxSize = maxSize, growObj = growObj, 
-				chosenCov = chosenCov,
-				survObj = survObj, discreteTrans = discreteTrans, 
-				integrateType = integrateType, correction = correction)
-		
-		Fmatrix <- makeIPMFmatrix(nBigMatrix = nBigMatrix, 
-				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
-				chosenCov = chosenCov,
-				integrateType = integrateType, correction = correction,
-				preCensus = preCensus,survObj=survObj,growObj=growObj)
-		
-		IPM <- Pmatrix + Fmatrix
-		lambda2 <- Re(eigen(IPM)$value[1])
-		
-		discreteTrans@meanToCont[param.test] <- discreteTrans@meanToCont[param.test]/ (1 + delta)
-		slam[param.test+count] <- (lambda2 - lambda1)/(discreteTrans@meanToCont[param.test] * delta)
-		elam[param.test+count] <- (lambda2 - lambda1)/(lambda1*delta)
-		
-	}
-	
-	
-	# all sd values coming out of discrete stages
-	count <- param.test+count
-	for (param.test in 1:length(discreteTrans@sdToCont)) { 
-		
-		discreteTrans@sdToCont[param.test] <- discreteTrans@sdToCont[param.test]* (1 + delta)
-		
-		Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, 
-				minSize = minSize, maxSize = maxSize, growObj = growObj, 
-				chosenCov = chosenCov,
-				survObj = survObj, discreteTrans = discreteTrans, 
-				integrateType = integrateType, correction = correction)
-		
-		Fmatrix <- makeIPMFmatrix(nBigMatrix = nBigMatrix, 
-				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
-				chosenCov = chosenCov,
-				integrateType = integrateType, correction = correction,
-				preCensus = preCensus,survObj=survObj,growObj=growObj)
-		
-		IPM <- Pmatrix + Fmatrix
-		lambda2 <- Re(eigen(IPM)$value[1])
-		
-		discreteTrans@sdToCont[param.test] <- discreteTrans@sdToCont[param.test]/ (1 + delta)
-		slam[param.test+count] <- (lambda2 - lambda1)/(discreteTrans@sdToCont[param.test][param.test] * delta)
-		elam[param.test+count] <- (lambda2 - lambda1)/(lambda1*delta)
-		
-	}
-	
-	# parameters linking size to survival
-	count <- param.test+count
-	for (param.test in 1:length(discreteTrans@moveToDiscrete$coefficients)) { 
-		
-		discreteTrans@moveToDiscrete$coefficients[param.test] <- discreteTrans@moveToDiscrete$coefficients[param.test]* (1 + delta)
-		
-		Pmatrix <- makeIPMPmatrix(nBigMatrix = nBigMatrix, 
-				minSize = minSize, maxSize = maxSize, growObj = growObj, 
-				chosenCov = chosenCov,
-				survObj = survObj, discreteTrans = discreteTrans, 
-				integrateType = integrateType, correction = correction)
-		
-		Fmatrix <- makeIPMFmatrix(nBigMatrix = nBigMatrix, 
-				minSize = minSize, maxSize = maxSize, fecObj = fecObj, 
-				chosenCov = chosenCov,
-				integrateType = integrateType, correction = correction,
-				preCensus = preCensus,survObj=survObj,growObj=growObj)
-		
-		IPM <- Pmatrix + Fmatrix
-		lambda2 <- Re(eigen(IPM)$value[1])
-		
-		discreteTrans@moveToDiscrete$coefficients[param.test] <- discreteTrans@moveToDiscrete$coefficients[param.test]/ (1 + delta)
-		slam[param.test+count] <- (lambda2 - lambda1)/(discreteTrans@moveToDiscrete$coefficient[param.test] * delta)
-		elam[param.test+count] <- (lambda2 - lambda1)/(lambda1*delta)
-		
-	}
-	
-	print("Did not calculate sensitivities and elasticities for:")
-	print(c(names(slam[is.na(slam)])))
-	print("Values of zero")
-	
-	slam <- slam[!is.na(slam)]
-	elam <- elam[!is.na(elam)]
-	
-	return(list(slam = slam, elam = elam))
-	
-}
-
-
-
-
 ### FUNCTIONS FOR EXTRACTING STOCH GROWTH RATE ########################
-
+# =============================================================================
+# =============================================================================
 # Generic approach to get stoch rate
 # by sampling list IPM
 #
@@ -3492,8 +2901,8 @@ stochGrowthRateSampleList <- function(nRunIn,tMax,listIPMmatrix=NULL,
 	return(res)
 }
 
-
-
+# =============================================================================
+# =============================================================================
 # Approach to get stoch rate
 # with time-varying covariates
 #
@@ -3585,9 +2994,10 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 
 
 
-## FUNCTIONS FOR SENSITIVITY AND ELASTICITY ############################
+## FUNCTIONS FOR SENSITIVITY AND ELASTICITY ###################################
 
-
+# =============================================================================
+# =============================================================================
 #parameters - an IPM (with full survival and fecundity complement)
 # returns - the sensitivity of every transition for pop growth
 sens<-function(A) {
@@ -3598,6 +3008,8 @@ sens<-function(A) {
 	return(s/vw); 
 }   
 
+# =============================================================================
+# =============================================================================
 #parameters - an IPM (with full survival and fecundity complement)
 # returns - the elasticity of every transition for pop growth
 elas<-function(A) {
@@ -3608,8 +3020,9 @@ elas<-function(A) {
 
 
 
-## FUNCTIONS TO BE DEPRECATED ############################
-
+## FUNCTIONS TO BE DEPRECATED #################################################
+# =============================================================================
+# =============================================================================
 createIPMFmatrix <- function(fecObj,
 		nEnvClass = 1,
 		nBigMatrix = 50,
@@ -3640,7 +3053,8 @@ createIPMFmatrix <- function(fecObj,
 
 }
 
-
+# =============================================================================
+# =============================================================================
 createIPMCmatrix <- function(clonalObj,
 		nEnvClass = 1,
 		nBigMatrix = 50,
@@ -3671,8 +3085,8 @@ createIPMCmatrix <- function(clonalObj,
 	
 }
 
-
-
+# =============================================================================
+# =============================================================================
 createIPMPmatrix <- function (nEnvClass = 1, 
 		nBigMatrix = 50, minSize = -1, maxSize = 50, 
 		chosenCov = data.frame(covariate = 1), growObj, survObj, 
@@ -3694,7 +3108,8 @@ createIPMPmatrix <- function (nEnvClass = 1,
 }
 
 
-
+# =============================================================================
+# =============================================================================
 createIntegerPmatrix <- function (nEnvClass = 1, 
 		meshpoints=1:20,
 		chosenCov = data.frame(covariate = 1), 
