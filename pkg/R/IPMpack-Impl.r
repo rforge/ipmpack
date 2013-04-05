@@ -758,34 +758,39 @@ makeDiscreteTrans <- function(dataf,
 # 
 # Returns    - a list of Pmatrices
 .makeListPmatrix  <- function(growObjList,survObjList,
-		nBigMatrix,minSize,maxSize, cov=FALSE, envMat=NULL,
-		integrateType="midpoint",correction="none") {
-	
-	if (length(growObjList)>length(survObjList)) { 
-		survObjList <- sample(survObjList,size=length(growObjList),replace=TRUE)
-	} else { 
-		if (length(growObjList)<length(survObjList))  
-			growObjList <- sample(growObjList,size=length(survObjList),replace=TRUE)
-	}
-	
-	nsamp <- length(growObjList)
-	
-	PmatrixList <- list()
-	for ( k in 1:length(growObjList)) { 
-		if (!cov) {
-			PmatrixList[[k]] <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
-					maxSize = maxSize, growObj = growObjList[[k]],
-					survObj = survObjList[[k]],integrateType=integrateType, correction=correction) 
-		} else {
-			PmatrixList[[k]] <- makeCompoundPmatrix(nEnvClass = length(envMat[1,]),
-					nBigMatrix = nBigMatrix, minSize = minSize, 
-					maxSize = maxSize, envMatrix=envMat,
-					growObj = growObjList[[k]],
-					survObj = survObjList[[k]],integrateType=integrateType, correction=correction)    
-		}
-	}
-	
-	return(PmatrixList)
+    nBigMatrix,minSize,maxSize, cov=FALSE, envMat=NULL,
+    integrateType="midpoint",correction="none", discreteTransList=1) {
+  
+  if (length(growObjList)>length(survObjList)) { 
+    survObjList <- sample(survObjList,size=length(growObjList),replace=TRUE)
+  } else { 
+    if (length(growObjList)<length(survObjList))  
+      growObjList <- sample(growObjList,size=length(survObjList),replace=TRUE)
+  }
+  
+  nsamp <- length(growObjList)
+  
+  if(length(discreteTransList)<n.samples ){
+    # if(warn) warning('Length of discreteTrans list is less than the length of another vital rate object list, so some members of the discreteTrans list have been repeated.')
+    discreteTransList <- sample(discreteTransList,size=n.samples,replace=T)
+  }
+  
+  PmatrixList <- list()
+  for ( k in 1:length(growObjList)) { 
+    if (!cov) {
+      PmatrixList[[k]] <- makeIPMPmatrix(nBigMatrix = nBigMatrix, minSize = minSize, 
+          maxSize = maxSize, growObj = growObjList[[k]],discreteTrans=discreteTransList[[k]],
+          survObj = survObjList[[k]],integrateType=integrateType, correction=correction) 
+    } else {
+      PmatrixList[[k]] <- makeCompoundPmatrix(nEnvClass = length(envMat[1,]),
+          nBigMatrix = nBigMatrix, minSize = minSize, 
+          maxSize = maxSize, envMatrix=envMat,discreteTrans=discreteTransList[[k]],
+          growObj = growObjList[[k]],
+          survObj = survObjList[[k]],integrateType=integrateType, correction=correction)    
+    }
+  }
+  
+  return(PmatrixList)
 }
 
 # Function to take a list of growth and survival objects and make a list of Fmatrices
