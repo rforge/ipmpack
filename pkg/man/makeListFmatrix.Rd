@@ -1,5 +1,5 @@
-\name{makeListFmatrix}
-\alias{makeListFmatrix}
+\name{.makeListFmatrix }
+\alias{.makeListFmatrix }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Builds list of F (sexual reproduction) matrices from lists of growth, survival and fecundity objects.
@@ -8,7 +8,7 @@ Builds list of F (sexual reproduction) matrices from lists of growth, survival a
 Uses posteriors (or other) lists of growth, fecundity and survival objects to create a list of F (sexual reproduction) matrices.
 }
 \usage{
-makeListFmatrix(fecObjList, nBigMatrix, minSize, 
+.makeListFmatrix (fecObjList, nBigMatrix, minSize, 
 	maxSize, cov = FALSE, envMat = NULL, integrateType = "midpoint",
 		correction = "none")
 }
@@ -56,7 +56,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeListPmatrix}}, \code{\link{makeListIPMs}}
+\code{\link{.makeListPmatrix }}, \code{\link{makeListIPMs}}
 }
 \examples{
 dff <- generateData()

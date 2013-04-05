@@ -11,7 +11,7 @@
 #
 # Returns - a list 
 
-getIPMoutput <- function(PmatrixList,targetSize=c(),FmatrixList=NULL){
+.getIPMoutput <- function(PmatrixList,targetSize=c(),FmatrixList=NULL){
 	
 	if (length(targetSize)==0)  { 
 		print("no target size for passage time provided; taking meshpoint median")
@@ -58,7 +58,7 @@ getIPMoutput <- function(PmatrixList,targetSize=c(),FmatrixList=NULL){
 #
 # Returns - a list 
 
-getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
+.getIPMoutputDirect <- function(survObjList,growObjList,targetSize=c(),
 		nBigMatrix,minSize,maxSize,discreteTrans = 1,
 		cov=FALSE,fecObjList=NULL, envMat=NULL,
 		nsizeToAge=0, sizeStart = 10,

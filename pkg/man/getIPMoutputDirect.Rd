@@ -1,5 +1,5 @@
-\name{getIPMoutputDirect}
-\alias{getIPMoutputDirect}
+\name{.getIPMoutputDirect}
+\alias{.getIPMoutputDirect}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Gets IPM output from a list of survival, growth, and (facultatively)
@@ -7,11 +7,11 @@ fecundity objects.
 }
 \description{
 Get synthetic values including life expectancy, passage time, and if a
-fecundity matrix is available, population growth rate (lambda), stable stage disctribution, etc. This is essentially identical to getIPMoutput(),but can be a slightly swifter approach since matrices are not stored. It 
+fecundity matrix is available, population growth rate (lambda), stable stage disctribution, etc. This is essentially identical to .getIPMoutput(),but can be a slightly swifter approach since matrices are not stored. It 
 also allows compound matrices to be produced following levels of a discrete covariate (e.g., habitat) (using cov=TRUE). The is helpful when building multiple IPMs for study of parameter uncertainty or stochastic dynamics.
 }  
 \usage{
-getIPMoutputDirect(survObjList, growObjList, targetSize = c(), 
+.getIPMoutputDirect(survObjList, growObjList, targetSize = c(), 
 	nBigMatrix, minSize, maxSize, discreteTrans = 1,cov = FALSE, 
 	fecObjList = NULL, envMat = NULL, nsizeToAge = 0, 
 	sizeStart = 10, integrateType = "midpoint",correction = "none", storePar=TRUE,
@@ -107,7 +107,7 @@ For midpoint: Zuidema, Jongejans, Chien, During, Schieving. 2010. Integral proje
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 }
 \seealso{
-  \code{\link{getIPMoutput}} 
+  \code{\link{.getIPMoutput}} 
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
@@ -122,7 +122,7 @@ grList <- .getListRegObjects(gr1, nsamp=10)
 svList <- .getListRegObjects(sv1, nsamp=10)
 
 
-res <- getIPMoutputDirect(survObjList = svList,
+res <- .getIPMoutputDirect(survObjList = svList,
                                growObjList = grList,
                                targetSize = 6,
                                nBigMatrix = 100,

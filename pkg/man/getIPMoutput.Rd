@@ -1,5 +1,5 @@
-\name{getIPMoutput}
-\alias{getIPMoutput}
+\name{.getIPMoutput}
+\alias{.getIPMoutput}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Gets IPM output from a list of P matrices (only survival and size information) or full IPMs (P matrices + F matrices; the latter include sexual reproduction information).
@@ -8,7 +8,7 @@ Gets IPM output from a list of P matrices (only survival and size information) o
 Gets synthetic values including life expectancy, passage time, and, if a fecundity matrix is available, population growth rate (lambda), stable stage distribution, reproductive output, etc. 
 }
 \usage{
-getIPMoutput(PmatrixList, targetSize = c(), FmatrixList = NULL)
+.getIPMoutput(PmatrixList, targetSize = c(), FmatrixList = NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -47,7 +47,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-  \code{\link{getIPMoutputDirect}} 
+  \code{\link{.getIPMoutputDirect}} 
 }
 \examples{
 dff <- generateData()

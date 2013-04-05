@@ -36,7 +36,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeGrowthObj}},\code{\link{makeSurvObj}},\code{\link{getIPMoutputDirect}}
+\code{\link{makeGrowthObj}},\code{\link{makeSurvObj}},\code{\link{.getIPMoutputDirect}}
 }
 \examples{
 
@@ -54,7 +54,7 @@ svList <- .getListRegObjects(sv1, nsamp=10)
 fvList <- .getListRegObjectsFec(fv1, nsamp=10)
 
 
-res <- getIPMoutputDirect(survObjList = svList,
+res <- .getIPMoutputDirect(survObjList = svList,
                                growObjList = grList,
                                fecObjList = fvList,
                                targetSize = 6,

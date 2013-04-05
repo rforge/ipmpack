@@ -1,5 +1,5 @@
-\name{makeListPmatrix}
-\alias{makeListPmatrix}
+\name{.makeListPmatrix }
+\alias{.makeListPmatrix }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
   Builds list of P matrices from list growth and survival objects.
@@ -8,7 +8,7 @@
   Uses posteriors (or other) lists of growth and survival objects to create a list of P matrices.
 }
 \usage{
-makeListPmatrix(growObjList, survObjList, nBigMatrix, 
+.makeListPmatrix (growObjList, survObjList, nBigMatrix, 
 	minSize, maxSize, cov = FALSE, envMat = NULL, integrateType = "midpoint",
 		correction = "none")
 }
@@ -52,7 +52,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeListPmatrix}}, \code{\link{makeListIPMs}}
+\code{\link{.makeListPmatrix }}, \code{\link{makeListIPMs}}
 }
 \examples{
 

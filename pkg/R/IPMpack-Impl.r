@@ -757,7 +757,7 @@ makeDiscreteTrans <- function(dataf,
 #            - envMat - enviromental matrix for transition between
 # 
 # Returns    - a list of Pmatrices
-makeListPmatrix <- function(growObjList,survObjList,
+.makeListPmatrix  <- function(growObjList,survObjList,
 		nBigMatrix,minSize,maxSize, cov=FALSE, envMat=NULL,
 		integrateType="midpoint",correction="none") {
 	
@@ -790,7 +790,7 @@ makeListPmatrix <- function(growObjList,survObjList,
 
 # Function to take a list of growth and survival objects and make a list of Fmatrices
 
-makeListFmatrix <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE, 
+.makeListFmatrix  <- function(fecObjList,nBigMatrix,minSize,maxSize, cov=FALSE, 
 		envMat=NULL,integrateType="midpoint",correction="none") {
 	
 	nsamp <- max(length(fecObjList))
