@@ -67,11 +67,11 @@ level or value of the covariate(s) at which sensitivity estimation is desired
     uses postCensusSurvObjFec and postCensusGrowObjFec, to cover the survival and growth
     of the parents until the reproduction event. (not necessary for life
     expectancy analysis)}
-  \item{postCensusSurvObjFec){
+  \item{postCensusSurvObjFec}{
     survival object representing the survival of the parents until the reproduction event. 
     If not specified (and preCensusFec = FALSE) it is assumed that all parents survive until the reproduction event. (not necessary for life expectancy analysis)
   }
-  \item{postCensusGrowObjFec){
+  \item{postCensusGrowObjFec}{
     growth object representing the growth of surviving parents until the reproduction event. If not specified (and preCensusFec = FALSE) it is assumed that the parents do not grow until the reproduction event. (not necessary for life expectancy analysis)
   }
   \item{preCensusClonal}{
@@ -84,12 +84,12 @@ level or value of the covariate(s) at which sensitivity estimation is desired
     of the parents until the clonal propagation event. (not necessary for life
     expectancy analysis)
   }
-  \item{postCensusSurvObjClonal){
+  \item{postCensusSurvObjClonal}{
     survival object representing the survival of the parents until the clonal propagation event. 
     If not specified (and preCensusClonal = FALSE) it is assumed that all parents survive until 
     the clonal propagation event. (not necessary for life expectancy analysis)
   }
-  \item{postCensusGrowObjClonal){
+  \item{postCensusGrowObjClonal}{
     growth object representing the growth of surviving parents until the clonal propagation event. 
     If not specified (and preCensusClonal = FALSE) it is assumed that the parents do not grow until 
     the clonal propagation event. (not necessary for life expectancy analysis)
