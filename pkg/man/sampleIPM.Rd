@@ -74,32 +74,30 @@ Cory Merow, C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eel
 }
 
 \examples{
-
 # ===========================================================================
 # Sample Vital Rate Objects
 	# Parametric bootstrap sample for a growth object 
 		dff <- generateData(type='discrete')
 		gr1 <- makeGrowthObj(dff)
-		gr1List=sampleVitalRateObj(gr1,nSamp=16)
+		gr1List=sampleVitalRateObj(gr1,nSamp=9)
 
 	# Parametric bootstrap sample for a survival object 
 		sv1 <- makeSurvObj(dff)
-		sv1List=sampleVitalRateObj(sv1,nSamp=16)
+		sv1List=sampleVitalRateObj(sv1,nSamp=9)
 
 	# Parametric bootstrap sample for a fecundity object 
 		fv1 <- makeFecObj(dff)
 		fv1List=sampleVitalRateObj(
-			fv1,nSamp=16,
+			fv1,nSamp=9,
 			nDiscreteOffspringTransitions =100,
 			nOffspring=100)
 
 	# Parametric bootstrap sample for a discrete transition object 
 		dt1 <- makeDiscreteTrans(dff)
 		dt1List=sampleVitalRateObj(
-			dt1,nSamp=16,
+			dt1,nSamp=9,
 			nDiscreteGrowthTransitions=100)
 # ===========================================================================
-# Make List of IPMs from the 
 	# Make a list of growth/survival (P) matrices (omitting fecundity)
 		Pmatrixlist=sampleIPM(
 			growObjList=gr1List,
@@ -107,7 +105,7 @@ Cory Merow, C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eel
 			fecObjList =NULL,
 			nBigMatrix = 20, minSize = -5, maxSize = 20)
 		# plot results
-		par(mfrow=c(4,4))
+		par(mfrow=c(3,3))
 		lapply(Pmatrixlist,image)
 
 	# Combine the list of fecundity objects with a single survival and growth object in a list of IPMs to look at just the impact of uncertainty in fecundity parameter estimates on population growth rate
@@ -152,5 +150,4 @@ Cory Merow, C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eel
 			sizeToAgeTargetSize=c(6,7,8,9,10))
 		qlambda=quantile(IPMout3[['lambda']],probs=c(.025,.5,.975))
 		boxplot(IPMout3[['resAge']])
-     
 }
