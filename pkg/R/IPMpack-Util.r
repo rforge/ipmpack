@@ -327,7 +327,8 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 	count <- 0
 
 	#stoch sims
-	tmp <- rmvnorm(nYrs,mean=meanYear,sigma=matVarYear)
+	if (sum(matVarYear)>0) tmp <- rmvnorm(nYrs,mean=meanYear,sigma=matVarYear) else 
+		tmp <- matrix(0,nYrs,3)
 	
 	for (t in 1:nYrs) {
 		
