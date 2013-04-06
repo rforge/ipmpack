@@ -765,7 +765,7 @@ sampleIPM<- function(
   }
   
   if(!is.null(growObjList)){
-    PmatrixList <- .makeListPmatrix(growObjList,survObjList, nBigMatrix, minSize,maxSize, cov=covariates, envMat=envMat,discreteTrans=discreteTransList, integrateType=integrateType, correction=correction) 
+    PmatrixList <- .makeListPmatrix(growObjList=growObjList, survObjList=survObjList, nBigMatrix=nBigMatrix, minSize=minSize, maxSize=maxSize, cov=covariates, envMat=envMat,discreteTrans=discreteTransList, integrateType=integrateType, correction=correction) 
     matrixList <- PmatrixList
   }
   
