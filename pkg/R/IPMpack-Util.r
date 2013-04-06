@@ -733,7 +733,7 @@ sampleVitalRateObj <- function(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDi
 
 sampleIPM<- function(
     growObjList=NULL,survObjList=NULL,fecObjList=NULL,
-    offspringObjList=NULL, discreteTransList=1, 
+    offspringObjList=NULL, discTransList=1, 
     nBigMatrix,minSize,maxSize, 
     covariates=FALSE,envMat=NULL,
     integrateType="midpoint",correction="none",warn=TRUE) {
@@ -759,13 +759,13 @@ sampleIPM<- function(
     fecObjList <- sample(fecObjList,size=n.samples,replace=T)
   }
   
-  if(!is.null(growObjList) & length(discreteTransList)<n.samples ){
+  if(!is.null(growObjList) & length(discTransList)<n.samples ){
     # if(warn) warning('Length of discreteTrans list is less than the length of another vital rate object list, so some members of the discreteTrans list have been repeated.')
-    discreteTransList <- sample(discreteTransList,size=n.samples,replace=T)
+    discTransList <- sample(discTransList,size=n.samples,replace=T)
   }
   
   if(!is.null(growObjList)){
-    PmatrixList <- .makeListPmatrix(growObjList,survObjList, nBigMatrix, minSize,maxSize, cov=covariates, envMat=envMat,discreteTrans=discreteTransList, integrateType=integrateType, correction=correction) 
+    PmatrixList <- .makeListPmatrix(growObjList,survObjList, nBigMatrix, minSize,maxSize, cov=covariates, envMat=envMat,discreteTrans=discTransList, integrateType=integrateType, correction=correction) 
     matrixList <- PmatrixList
   }
   
