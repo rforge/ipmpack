@@ -1,4 +1,5 @@
 \name{sampleIPMOutput}
+\alias{sampleIPMOutput}
 \alias{.getIPMoutput}
 \alias{.getIPMoutputDirect}
 

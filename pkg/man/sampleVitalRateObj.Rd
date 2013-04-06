@@ -1,4 +1,5 @@
 \name{sampleVitalRateObj}
+\alias{sampleVitalRateObj}
 \alias{.getListRegObjects}
 \alias{.getListRegObjectsFec}
 

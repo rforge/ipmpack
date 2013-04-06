@@ -1,4 +1,5 @@
-\name{sampleIPM }
+\name{sampleIPM}
+\alias{sampleIPM}
 \alias{.makeListPmatrix }
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
