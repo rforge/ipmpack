@@ -11,7 +11,11 @@ Generate parametric bootstrap samples for vital rate objects (e.g. class growthO
 variance covariance matrix that defines them using a multivariate normal distribution. It is helpful when building multiple IPMs for study of parameter uncertainty or stochastic dynamics.
 }
 \usage{
-sampleVitalRateObj(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDiscreteOffspringTransitions=NULL,nOffspring=NULL)
+sampleVitalRateObj(Obj,
+									nSamp=100,
+									nDiscreteGrowthTransitions=NULL,
+									nDiscreteOffspringTransitions=NULL,
+									nOffspring=NULL)
 
 %.getListRegObjects(Obj,nsamp=1000)
 %.getListRegObjectsFec(Obj,nsamp=1000)
@@ -28,9 +32,11 @@ sampleVitalRateObj(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDiscreteOffspr
     number of transitions used to estimate a discreteTrans object. This is used to estimate the correct variance for sampling the discreteTrans object. It is only required if a discreteTransObject is provided.
   } 
   \item{nDiscreteOffspringTransitions}{
-    number of transitions used to estimate transition probabilities between discrete offspring stages (stored in the @offspringSplitter slot of a fecObj). This is used to estimate the correct variance for the sampling. It is only required if a fecObject is provided.  } 
+    number of transitions used to estimate transition probabilities between discrete offspring stages (stored in the @offspringSplitter slot of a fecObj). This is used to estimate the correct variance for the sampling. It is only required if a fecObject is provided.  
+  } 
   \item{nOffspring}{
-    number of transitions used to the offspring size distribution (stored in the @offspringRel and @offspringsd slots of a fecObj). This is used to estimate the correct variance for the sampling. It is only required if a fecObject is provided.  } 
+    number of transitions used to the offspring size distribution (stored in the @offspringRel and @offspringsd slots of a fecObj). This is used to estimate the correct variance for the sampling. It is only required if a fecObject is provided.  
+  } 
 }
 
 \value{

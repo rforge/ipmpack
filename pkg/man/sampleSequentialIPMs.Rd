@@ -35,7 +35,7 @@ sampleSequentialIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,
 	integration type.
 	}
   \item{correction}{
-	correction.
+	correction for unintentional eviction (individuals move outside the size range of the IPM). This correction redistributes individuals so that column sums of the IPM match expected survival for that column.
 	}
  \item{explSurv}{
 	Formula and explanatory variables used in the survival model.
@@ -49,9 +49,9 @@ sampleSequentialIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,
  \item{explFec}{
 	explanatory variables used in the fecundity.
 	}
-  \item{Family}{a character vector containing the names of the families to be used for the glms, e.g., binomial, poisson, etc. Again, these must appear  \emph{in the
+ \item{Family}{a character vector containing the names of the families to be used for the glms, e.g., binomial, poisson, etc. Again, these must appear  \emph{in the
       order defined by the list of formula} }
-  \item{Transform}{a character vector containing the names of the
+ \item{Transform}{a character vector containing the names of the
     transforms to be used for the response variables, e.g., log, sqrt, -1, etc. Again, these must appear  \emph{in the order defined by the list of formula} }
  \item{fecConstants}{
 	data.frame of constant multipliers for the fecundity model.
