@@ -327,8 +327,11 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 	count <- 0
 
 	#stoch sims
-	if (sum(matVarYear)>0) tmp <- rmvnorm(nYrs,mean=meanYear,sigma=matVarYear) else 
+	if (sum(matVarYear)!=0) {
+		tmp <- rmvnorm(nYrs,mean=meanYear,sigma=matVarYear) 
+	} else {
 		tmp <- matrix(0,nYrs,3)
+	}
 	
 	for (t in 1:nYrs) {
 		
@@ -340,6 +343,9 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 		m.year <- tmp[t,1]
 		cg.year <- tmp[t,2]
 		b.year <- tmp[t,3]
+		
+		
+		#print(c(m.year,cg.year,b.year))
 		
 		if (n.per.yr[t]>0) { 
 			#survival
