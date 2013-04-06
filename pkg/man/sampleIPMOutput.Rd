@@ -15,11 +15,11 @@ sampleIPMOutput(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=c(), sizeToA
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{PmatrixList}{
+  \item{IPMList}{
     List of survival-size IPM matrices for which summary statistics desired. When this information is included, population growth rate (lambda), and stable stage distribution will  be provided.
 	}
-  \item{PmatrixList}{
-    List of survival-size (T) matrices for which summary statistics desired. When this information is included, only passage time and sizeToAge calculations will be provided 
+  \item{PMatrixList}{
+    List of survival-growth (P) matrices for which summary statistics desired. When this information is included, only passage time and sizeToAge calculations will be provided 
 	}
   \item{passageTimeTargetSize}{
     Target size for passage time. If none is provided defaults to the median of the IPM meshpoints.
@@ -30,6 +30,9 @@ sampleIPMOutput(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=c(), sizeToA
 	 \item{sizeToAgeTargetSize}{
     Target size to determine the expected age which sizeToAgeTargetSize will be reached. If none is provided defaults to the IPM meshpoints.
 	}
+	\item{warn}{
+		turn warning messages on/off.
+  }
 }
 \value{
   \item{LE}{matrix of life expectancies, columns correspond to
