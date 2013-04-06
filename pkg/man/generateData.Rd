@@ -15,7 +15,7 @@ generateData(nSamp=1000, type="simple")
 		number of samples desired in the base population, defaults to 1000
 	}
 	\item{type}{
-		what kind of simulated data is required - supported values include "simple" (which includes only a continuous stage and a discretely varying covariate); "discrete" (which includes a discretely varying life stage); and "stochastic" (which includes stochastically varying covariates)
+		the kind of simulated data required. Supported values include "simple" (which includes only a continuous stage and a discretely varying covariate); "discrete" (which includes a discretely varying life stage); and "stochastic" (which includes stochastically varying covariates)
 	}
 	
 	
@@ -47,9 +47,9 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-%\seealso{
-%
-%}
+\seealso{
+\code{\link{simulateCarlina}}
+}
 \examples{
 dff <- generateData(nSamp=2000, type="simple")
 head(dff)
