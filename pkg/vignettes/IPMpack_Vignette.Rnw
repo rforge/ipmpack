@@ -156,7 +156,7 @@ First, the user must install IPMpack from CRAN using
 ({\tt library(IPMpack)}) (see help files for problems with installation or loading). 
 
 <<>>=
-library(IPMpack)
+# library(IPMpack)
 
 @
 <<results=hide, echo=FALSE>>=
