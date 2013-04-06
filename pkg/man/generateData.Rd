@@ -21,9 +21,9 @@ generateData(nSamp=1000, type="simple")
 	
 }
 %- maybe also 'usage' for other objects documented here.
-\details{
-
-}
+%\details{
+%
+%}
 \value{
   A dataframe with headings:
   	- "size": continuous variable, indicating current size.
@@ -47,9 +47,9 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
-\seealso{
-
-}
+%\seealso{
+%
+%}
 \examples{
 dff <- generateData(nSamp=2000, type="simple")
 head(dff)

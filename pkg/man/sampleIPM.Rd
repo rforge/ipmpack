@@ -70,7 +70,7 @@ Cory Merow, C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eel
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{sampleVitalRateObj}},\code{\link{sampleIPMOutput}},\code{\link{sampleSequentialIPM}}
+\code{\link{sampleVitalRateObj}},\code{\link{sampleIPMOutput}},\code{\link{sampleSequentialIPMs}}
 }
 
 \examples{

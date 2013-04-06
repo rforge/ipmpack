@@ -67,7 +67,7 @@ trackStruct=FALSE, plot=FALSE, ...)
 Forms of density dependence beyond density dependence in seedling establishment not yet defined.
 }
 \value{
-\item{Rt} {
+\item{Rt}{
 If trackStruct is TRUE, numeric, converging on log lambda_s, or invasion rate (density dependence) for large enough tMax, and if covariate distribution is stationary. 
 }
 \item{rc}{
