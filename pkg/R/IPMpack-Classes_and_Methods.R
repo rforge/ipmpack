@@ -657,5 +657,38 @@ setClass("IPMmatrix",
         names.discrete = "character"),
     contains="matrix")
 
+# =============================================================================
+# =============================================================================
+# Method combining growth and survival for doing outer (not a generic, so that don't have to
+# define for all the different classes / growth and surv take care of that)
+growSurv <- function(size,sizeNext,cov,growthObj,survObj){
+  growth(size, sizeNext, cov, growthObj) * surv(size,cov,survObj)
+}
 
+# =============================================================================
+# =============================================================================
+## Function defining growth using Hossfeld function
+#
+# Parameters - size - DBH
+#            - par - three parameters
+#
+# Returns - growth increment (not log scale)
+Hossfeld <- function(size,par) {
+  deltDBH <- (par[2]*par[3]*size^(par[3]-1))/((par[2]+((size^par[3])/par[1]))^2)
+  return(deltDBH)
+}
 
+# =============================================================================
+# =============================================================================
+## Function to fit Hossfeld function using optim 
+#
+# Parameters - par - three parameters
+#            - dataf - a data-frame
+#
+# Returns the SS
+
+wrapHossfeld <- function(par, dataf) { 
+  pred <- Hossfeld(dataf$size, par[1:3]) 
+  ss <- sum((pred - dataf$incr)^2, na.rm = T)
+  return(ss) 
+} 

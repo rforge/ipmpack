@@ -56,33 +56,6 @@ picSurv <- function(dataf, survObj, ncuts = 20, makeTitle = "Survival", ...) {
 
 }
 
-# =============================================================================
-# =============================================================================
-## Function defining growth using Hossfeld function
-#
-# Parameters - size - DBH
-#            - par - three parameters
-#
-# Returns - growth increment (not log scale)
-Hossfeld <- function(size,par) {
-	deltDBH <- (par[2]*par[3]*size^(par[3]-1))/((par[2]+((size^par[3])/par[1]))^2)
-	return(deltDBH)
-}
-
-# =============================================================================
-# =============================================================================
-## Function to fit Hossfeld function using optim 
-#
-# Parameters - par - three parameters
-#            - dataf - a data-frame
-#
-# Returns the SS
-
-wrapHossfeld <- function(par, dataf) { 
-	pred <- Hossfeld(dataf$size, par[1:3]) 
-	ss <- sum((pred - dataf$incr)^2, na.rm = T)
-	return(ss) 
-} 
 
 # =============================================================================
 # =============================================================================
@@ -156,33 +129,7 @@ picGrow <- function(dataf, growObj, mainTitle = "Growth",...) {
 		}
 	}
 }
-# =============================================================================
-# =============================================================================
-## FUNCTION FOR TURNING DATA INTO MATRIX DEFINING ENVIRONMENTAL TRANSITIONS ###
-## data is vector of env level at t, and one timestep later, at t+1
 
-makeEnvObj <- function(dataf){
-	#turn into index starting at 1
-	minval <-  min(c(dataf$covariate,dataf$covariateNext),na.rm=TRUE)
-	startEnv <- dataf$covariate-minval+1
-	nextEnv <- dataf$covariateNext-minval+1
-	
-	
-	nEnvClass <- max(c(startEnv,nextEnv), na.rm=TRUE)
-	desired.mat <- matrix(0,nEnvClass,nEnvClass) 
-	mats<-table(startEnv,nextEnv)
-	rx <- as.numeric(rownames(mats));#print(rx)
-	cx <- as.numeric(colnames(mats))
-	desired.mat[cbind(rep(rx,length(cx)),rep(cx,each=length(rx)))]=c(as.matrix(mats))
-	
-	rc <- new("envMatrix",
-			nEnvClass = nEnvClass)
-	
-	rc@.Data <- t(t(desired.mat)/colSums(desired.mat))
-	
-	return(rc) 
-	
-}
 
 # =============================================================================
 # =============================================================================
@@ -891,6 +838,242 @@ sampleIPMOutput <- function(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=
   
   return(list(LE=LE,pTime=pTime,lambda=lambda,stableStage=stableStage,
           resAge=resAge,resSize=resSize,meshpoints=IPM@meshpoints))	
+}
+
+# =============================================================================
+# =============================================================================
+logit <- function(x) { u<-exp(pmin(x,50)); return(u/(1+u))}
+
+# =============================================================================
+# =============================================================================
+# For a single Pmatrix (!not compound and no discrete stages!), this functions makes a series
+# of diagnostic plots - this is defined for growthObj,
+# growthObjIncr - modification required
+# if other objects used
+#
+# Parameters - the Pmatrix
+#            - growObj - growth object used to build it
+#            - survObj - survival object used to build it
+#            - dff - the data from which it was built
+#            - integrateType - "midpoint", or "cumul" - should
+#                 correspond to what the IPM was built with
+#            - do you want to implement the corrections for integration? 
+# Returns - 
+#
+
+diagnosticsPmatrix <- function (Pmatrix, growObj, survObj, dff=NULL, 
+    integrateType = "midpoint", 
+    correction = "none", cov = data.frame(covariate = 1), 
+    sizesToPlot=c(),extendSizeRange=c()) {
+  print("Range of Pmatrix is ")
+  print(range(c(Pmatrix)))
+  if (Pmatrix@meshpoints[1] > 0) 
+    new.min <- Pmatrix@meshpoints[1]/2
+  else new.min <- Pmatrix@meshpoints[1] * 1.5
+  new.max <- 1.5 * max(Pmatrix@meshpoints)
+  
+  if (length(extendSizeRange)>0 & length(extendSizeRange)!=2) print("require two values for extendSizeRange, reflecting upper and lower limits")
+  if (length(extendSizeRange)>0) { new.min <- extendSizeRange[1]; new.max <- extendSizeRange[2]}
+  
+  
+  #colours for 1) current; 2) bigger size range; 3) bigger no bins
+  cols <- c("black","tomato","darkblue")
+  ltys <- c(1,1,3)
+  
+  #matrix with bigger size range
+  Pmatrix1 <- makeIPMPmatrix(nEnvClass = 1, nBigMatrix = length(Pmatrix@meshpoints), 
+      minSize = new.min, maxSize = new.max, 
+      chosenCov = cov, growObj = growObj, survObj = survObj, 
+      integrateType = integrateType, correction = correction)
+  
+  if (sum(is.na(Pmatrix1)) > 0) {
+    print("Pmatrix with extended size range returns NAs; changing these to 0, and putting survival value onto diagonal for columns that sum to zero")
+    Pmatrix1[is.na(Pmatrix1)] <- 0
+    bad <- which(colSums(Pmatrix1) == 0, arr.ind = TRUE)
+    if (length(bad) > 0) 
+      Pmatrix1[cbind(bad, bad)] <- surv(size = Pmatrix1@meshpoints[bad], 
+          cov = cov, survObj = survObj)
+  }
+  
+  
+  #matrix with bigger number of bins	  
+  Pmatrix2 <- makeIPMPmatrix(nEnvClass = 1, nBigMatrix = floor(length(Pmatrix@meshpoints) * 
+              1.5), minSize =Pmatrix@meshpoints[1], maxSize = max(Pmatrix@meshpoints), 
+      chosenCov = cov, growObj = growObj, survObj = survObj, 
+      integrateType = integrateType, correction = correction)
+  
+  if (sum(is.na(Pmatrix2)) > 0) {
+    print("Pmatrix with extended number of bins returns NAs; changing these to 0, and putting survival value onto diagonal for columns that sum to zero")
+    Pmatrix2[is.na(Pmatrix2)] <- 0
+    bad <- which(colSums(Pmatrix2) == 0, arr.ind = TRUE)
+    if (length(bad) > 0) 
+      Pmatrix2[cbind(bad, bad)] <- surv(size = Pmatrix2@meshpoints[bad], 
+          cov = cov, survObj = survObj)
+  }
+  
+  #start plots - put original Pmatrix in black
+  #par(mfrow = c(3, 3), bty = "l")
+  
+  #save plot characters
+  old.par <- par(no.readonly = TRUE) 
+  
+  par(mfrow = c(1, 3), bty = "l",pty="s", mar=c(5,4,4,1))
+  if (!is.null(dff)) { 
+    xlims <- range(c(Pmatrix@meshpoints, Pmatrix1@meshpoints,
+            dff$size, dff$sizeNext), na.rm = TRUE)
+    a1 <- hist(c(dff$size, dff$sizeNext), xlab = "Sizes observed", axes=FALSE,
+        ylab = "Frequency", main = "", xlim = xlims, col="lightgrey", border="lightgrey",plot=TRUE)
+    axis(1); axis(2)
+  } else {
+    a1 <- list(); a1$counts <- 1:100
+    xlims <- range(c(Pmatrix@meshpoints, Pmatrix1@meshpoints))
+    plot(1:100,type="n",xlab = "Sizes", ylab="", ylim=range(a1$counts), xlim=xlims)	
+  } 
+  
+  lcs <- c(0.8,0.6,0.4)	
+  lcs.x <- mean(xlims) 
+  
+  text(lcs.x ,max(a1$counts)*lcs[1],"Current",pos=3,col=cols[1])
+  arrows(Pmatrix@meshpoints[1], max(a1$counts)*lcs[1],Pmatrix@meshpoints[length(Pmatrix@meshpoints)], max(a1$counts)*lcs[1],col=cols[1], length=0.1, code=3,lty=ltys[1])
+  text(lcs.x ,max(a1$counts)*lcs[2],"Extended range",pos=3,col=cols[2])
+  arrows(Pmatrix1@meshpoints[1], max(a1$counts)*lcs[2],Pmatrix1@meshpoints[length(Pmatrix1@meshpoints)], max(a1$counts)*lcs[2],col=cols[2], length=0.1, code=3,lty=ltys[1])
+  text(lcs.x ,max(a1$counts)*lcs[3],"Increased no of bins",pos=3,col=cols[3])
+  arrows(Pmatrix2@meshpoints[1], max(a1$counts)*lcs[3],Pmatrix2@meshpoints[length(Pmatrix2@meshpoints)], max(a1$counts)*lcs[3],col=cols[3], length=0.1, code=3,lty=ltys[1])
+  
+  #legend("topright", legend = "fitted range", col = "black", lty = 2, bty = "n") ##!!! change this
+  title("Size range")
+  
+  #survival sums
+  lims <- range(c(colSums(Pmatrix), surv(Pmatrix@meshpoints, cov, survObj)))
+  plot(colSums(Pmatrix), surv(Pmatrix@meshpoints, cov, survObj), 
+      type = "n", xlab = "Surviving in Pmatrix", ylab = "Should be surviving",col=cols[1],lty=ltys[1], 
+      xlim=lims,ylim=lims)
+  abline(0, 1, lwd=2,col="grey")
+  points(colSums(Pmatrix), surv(Pmatrix@meshpoints, cov, survObj), type = "l", col = cols[1],lty=ltys[1])
+  points(colSums(Pmatrix1), surv(Pmatrix1@meshpoints, cov, survObj), type = "l", col = cols[2],lty=ltys[2])
+  points(colSums(Pmatrix2), surv(Pmatrix2@meshpoints, cov, survObj), type = "l", col = cols[3],lty=ltys[3])
+  title("Survival")
+  #text(lims[2],lims[2],"(0,1)",pos=1)	
+  
+  # mtext("Points should lie along the 0,1 line, shown in grey", side=1,outer=TRUE,line=-1)
+  
+  
+  
+  LE <- meanLifeExpect(Pmatrix)
+  LE1 <- meanLifeExpect(Pmatrix1)
+  LE2 <- meanLifeExpect(Pmatrix2)
+  
+  plot(Pmatrix@meshpoints, LE, type = "l", xlim = range(Pmatrix1@meshpoints), 
+      ylim = range(c(LE, LE1)), xlab = "Sizes", ylab = "Life expectancy",col=cols[1],lty=ltys[1])
+  points(Pmatrix1@meshpoints, LE1, type = "l", col = cols[2],lty=ltys[2])
+  points(Pmatrix2@meshpoints, LE2, type = "l", col = cols[3],lty=ltys[3])
+  legend("topleft", legend = c("Current", "Extended range", "Increased no of bins"), col = cols, lty = ltys, bty = "n")
+  title("Life expectancy")
+  
+  #mtext("Increasing size range (red) or number of bins (blue) should not alter life expectancy estimates", side=1,outer=TRUE,line=-1)
+  
+  
+  
+  if (length(sizesToPlot)==0 & !is.null(dff)) sizesToPlot <- as.numeric(quantile(dff$size,c(0.25, 0.5,0.75),na.rm=TRUE))
+  if (length(sizesToPlot)==0 & is.null(dff)) sizesToPlot <- as.numeric(quantile(Pmatrix@meshpoints,c(0.25, 0.5,0.75),na.rm=TRUE))
+  
+  loctest <- rep(NA,length(sizesToPlot))
+  
+  print("Please hit any key for the next plot")	
+  scan(quiet="TRUE")
+  
+  par(mfrow = c(2, 3), bty = "l",pty="s")
+  
+  
+  for (kk in c(1,3)) {
+    if (kk==1) Pmat <- Pmatrix	
+    if (kk==3) Pmat <- Pmatrix2	
+    
+    h <- diff(Pmat@meshpoints)[1]
+    testSizes <- seq(min(Pmat@meshpoints), max(Pmat@meshpoints), 
+        length = 5000)
+    for (j in 1:3) {
+      
+      loctest[j] <- which(abs(Pmat@meshpoints-sizesToPlot[j])==min(abs(Pmat@meshpoints-sizesToPlot[j])),arr.ind=TRUE)[1]
+      
+      #print(loctest[j])
+      
+      ps <- surv(Pmat@meshpoints[loctest[j]], cov, survObj)
+      newd <- data.frame(size = Pmat@meshpoints[loctest[j]], 
+          size2 = Pmat@meshpoints[loctest[j]]^2, 
+          size3 = Pmat@meshpoints[loctest[j]]^3, 
+          covariate = Pmat@env.index[1])
+      if (length(grep("expsize", names(growObj@fit$coefficients)))) 
+        newd$expsize = log(Pmat@meshpoints[loctest[j]])
+      if (length(grep("logsize", names(growObj@fit$coefficients)))) 
+        newd$logsize = log(Pmat@meshpoints[loctest[j]])
+      if (length(growObj@fit$model$covariate) > 0) 
+        if (is.factor(growObj@fit$model$covariate)) 
+          newd$covariate <- as.factor(newd$covariate)
+      if (length(grep("decline", tolower(as.character(class(growObj))))) > 0 | 
+          length(grep("trunc", tolower(as.character(class(growObj))))) > 0) {
+        mux <- .predictMuX(growObj, newd)
+      } else {
+        mux <- predict(growObj@fit, newd, type = "response")
+      }
+      if (length(grep("incr", tolower(as.character(class(growObj))))) >  0 & 
+          length(grep("logincr", tolower(as.character(class(growObj))))) == 0) {
+        mux <- Pmat@meshpoints[loctest[j]] + mux
+      }
+      if (length(grep("decline", tolower(as.character(class(growObj))))) ==  0 &
+          length(grep("trunc", tolower(as.character(class(growObj))))) == 0) {
+        sigmax2 <- growObj@sd^2
+      } else {
+        sigmax2 <- growObj@fit$sigmax2
+        var.exp.coef <- growObj@fit$var.exp.coef
+        sigmax2 <- sigmax2 * exp(2 * (var.exp.coef * mux))
+        if (length(grep("trunc", tolower(as.character(class(growObj))))) > 0) 
+          sigmax2 <- growObj@fit$sigmax2
+      }
+      
+      #  range.x <- range(Pmat@meshpoints[loctest[j]] + c(-3.5 * sqrt(sigmax2), +3.5 * sqrt(sigmax2)))
+      range.x <- range(mux + c(-3.5 * sqrt(sigmax2), +3.5 * sqrt(sigmax2)))
+      
+      plot(Pmat@meshpoints, Pmat@.Data[, loctest[j]]/h/ps, 
+          type = "n", xlim = range.x, xlab = "Size next", ylab = "Kernel")
+      
+      #if (j == 1 & kk==1) title("Numerical resolution and growth")
+      if (j == 2 & kk==1) mtext("Numerical resolution and growth",3,line=4,font=2)
+      if (j ==1 & kk==1) title("Current Pmatrix")
+      if (j ==1 & kk==3) title("Increased bins")
+      
+      
+      
+      for (k in 1:length(Pmat@meshpoints)) {
+        points(c(Pmat@meshpoints[k]) + c(-h/2, h/2), rep(Pmat@.Data[k,loctest[j]], 2)/h/ps, type = "l",col=cols[kk])
+        points(rep(Pmat@meshpoints[k] + h/2, 2), c(0, Pmat@.Data[k, loctest[j]]/h/ps), type = "l", 
+            lty = 1,col=cols[kk])
+        points(rep(Pmat@meshpoints[k] - h/2, 2), c(0,Pmat@.Data[k, loctest[j]]/h/ps), type = "l", 
+            lty = 1,col=cols[kk])
+      }
+      if (length(grep("logincr", tolower(as.character(class(growObj))))) == 0 &
+          length(grep("trunc", tolower(as.character(class(growObj))))) == 0) {
+        points(testSizes, dnorm(testSizes, mux, sqrt(sigmax2)), type = "l", col = 2)
+      } else {
+        if (length(grep("trunc", tolower(as.character(class(growObj))))) > 0) {
+          require(truncnorm)
+          points(testSizes, dtruncnorm(testSizes, a = Pmat@meshpoints[loctest[j]], 
+                  b = Inf, mean = mux, sd = sqrt(sigmax2)), type = "l",col = 2)
+        } else {
+          points(testSizes, dlnorm(testSizes - Pmat@meshpoints[loctest[j]], 
+                  mux, sqrt(sigmax2)), type = "l", col = 2)
+        }
+      }
+      
+      legend("topright",legend=paste("size=",round(Pmat@meshpoints[loctest[j]],2)), col = "white", 
+          lty = 1, bty = "n")
+      
+    }
+  }
+  
+  #reset plot characters
+  on.exit(par(old.par))
+  
 }
 
 

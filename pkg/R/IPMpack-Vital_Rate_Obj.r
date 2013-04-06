@@ -1001,49 +1001,30 @@ if (distToCont=="negbin") {
 
 # =============================================================================
 # =============================================================================
-#Function creates a combo of F.IPMs for a chosen
-#size range, with range env categories and transitions 
-#between them
-#and growth and survival objects
-#
-#Parameters -
-#   nEnvClass - the number of env classes, defaults to 2, should match dim envMatrix
-#   nBigMatrix - the number of size bins in the model
-#   minSize - lower end of desired size range
-#   maxSize - upper end of desired size range
-#   envMatrix - a matrix describing transiions between env
-#   fecObj - a fecundity object
-#   integrateType - NOT YET IMPLEMENTED
-#
-#Returns -
-#  an IPM object
+## FUNCTION FOR TURNING DATA INTO MATRIX DEFINING ENVIRONMENTAL TRANSITIONS ###
+## data is vector of env level at t, and one timestep later, at t+1
 
-
-makeCompoundCmatrix <- function(nEnvClass = 2,
-    nBigMatrix = 50,
-    minSize = -1,
-    maxSize = 50,
-    envMatrix,
-    clonalObj,
-    integrateType="midpoint",
-    correction="none",
-    preCensus=TRUE,
-    survObj=NULL,
-    growObj=NULL, offspringObj= NULL) {
+makeEnvObj <- function(dataf){
+  #turn into index starting at 1
+  minval <-  min(c(dataf$covariate,dataf$covariateNext),na.rm=TRUE)
+  startEnv <- dataf$covariate-minval+1
+  nextEnv <- dataf$covariateNext-minval+1
   
-  rc <- makeCompoundFmatrix(nEnvClass = nEnvClass,
-      nBigMatrix = nBigMatrix,
-      minSize = minSize,
-      maxSize = maxSize,
-      envMatrix = envMatrix,
-      fecObj = clonalObj,
-      integrateType=integrateType,
-      correction=correction,
-      preCensus=preCensus,
-      survObj=survObj,
-      growObj=growObj, offspringObj= offspringObj)
+  
+  nEnvClass <- max(c(startEnv,nextEnv), na.rm=TRUE)
+  desired.mat <- matrix(0,nEnvClass,nEnvClass) 
+  mats<-table(startEnv,nextEnv)
+  rx <- as.numeric(rownames(mats));#print(rx)
+  cx <- as.numeric(colnames(mats))
+  desired.mat[cbind(rep(rx,length(cx)),rep(cx,each=length(rx)))]=c(as.matrix(mats))
+  
+  rc <- new("envMatrix",
+      nEnvClass = nEnvClass)
+  
+  rc@.Data <- t(t(desired.mat)/colSums(desired.mat))
   
   return(rc) 
+  
 }
 
 
