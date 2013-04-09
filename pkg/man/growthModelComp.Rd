@@ -62,7 +62,7 @@ Plotting calls the functions \code{plotGrowthModelComp} or \code{plotSurvModelCo
   a list with a summary table of class \code{dataframe} with models and scores and list of containing the objects of class grObj and survObj for each model.
 }
 \author{
-C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans & Cory Merow.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

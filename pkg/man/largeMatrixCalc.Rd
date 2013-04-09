@@ -35,7 +35,7 @@ Caswell. 2001. Matrix population models: construction, analysis, and interpretat
 Garcia, Dahlgren, Ehrlen. 2011. No evidence of senescence in a 300-year-old mountain herb. Journal of Ecology 99, p1424-1430.
 }
 \author{
-C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans & Cory Merow.
 }
 \note{
 Modified from Appendix A in Rees and Ellner 2009 (see references).

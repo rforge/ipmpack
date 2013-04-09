@@ -117,7 +117,7 @@ Rees and Rose. 2002. Evolution of flowering strategies in Oenothera
 glazioviana: an integral projection model approach. Proceedings of the Royal Society London Seres B 269, p1509-1515.
 }
 \author{
-C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans & Cory Merow.
 }
 \note{
 Modified following code developed by Rees & Rose 2002 (above).  

@@ -25,7 +25,7 @@ Class \code{"\linkS4class{structure}"}, by class "matrix", distance 3.
 Class \code{"\linkS4class{vector}"}, by class "matrix", distance 4, with explicit coerce.
 }
 \author{
-C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans & Cory Merow.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

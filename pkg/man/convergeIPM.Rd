@@ -72,7 +72,7 @@ Different choices for responses will yield different values. The pattern of chan
 For the life expectancy option, if discrete stages are included via discreteTrans then if chosenBin=1, this function will use the first discrete bin. 
 }
 \author{
-C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans & Cory Merow.
 }
 \note{
 This code was modified from original code by Melissa Eitzel. 

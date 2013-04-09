@@ -34,7 +34,7 @@ Currently this does not accept IPMs with discrete stages (e.g. seedbank).
  \item{n.new.dist}{final frequency distribution.}
 }
 \author{
-C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans & Cory Merow.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

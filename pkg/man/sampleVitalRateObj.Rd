@@ -47,7 +47,7 @@ sampleVitalRateObj(Obj,
 	This function has replaced the functionality of getListRegObjects and getListRegObjects. Those functions are no longer supported but have been hidden (.getListRegObjects and .getListRegObjects) and can be accessed for backward compatibility.
 }
 \author{
-Cory Merow, C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans.
+Cory Merow, C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans & Cory Merow.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
