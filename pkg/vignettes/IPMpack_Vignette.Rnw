@@ -13,7 +13,6 @@
 \usepackage{pgf}
 \usepackage{a4wide}
 
-
 % \VignetteIndexEntry{IPMpack: An R Package for demographic modeling}
 % \VignetteDepends{Matrix, MASS, nlme, mvtnorm, methods}
 % \VignetteKeyword{kwd1}
@@ -22,11 +21,11 @@
 %\SweaveOpts{prefix.string=Guide/} 
  
 \begin{document}
+\SweaveOpts{concordance=TRUE}
 
 \title{IPMpack: an R package for demographic modeling with Integral Projection
 Models (v.1.6)}
-\author{Jessica Metcalf, Sean M. McMahon, Rob Salguero-Gomez, Eelke Jongejans,
-Cory Merow}
+\author{Jessica Metcalf, Sean M. McMahon, Rob Salguero-Gomez,\\ Eelke Jongejans, Cory Merow}
 \maketitle
 
 
@@ -156,8 +155,11 @@ First, the user must install IPMpack from CRAN using
 ({\tt library(IPMpack)}) (see help files for problems with installation or loading). 
 
 <<>>=
-# library(IPMpack)
+library(IPMpack)
 
+@
+<<echo=false>>=
+options(continue="  ") # removes those stupid plus signs from R continuations
 @
 <<results=hide, echo=FALSE>>=
 # Jess's Computer
@@ -187,6 +189,7 @@ head(dff)
 
 for simplicity, no discrete covariates are included in this first example. Figure~\ref{fig:zero} (p.~\pageref{fig:zero}) is produced by the following code:
 
+% to change figure appearence:<<>>=options(SweaveHooks=list(fig=function() par(mar=c(5.1, 4.1, 1.1, 2.1))))
 <<label = fig0, include = FALSE>>= 
 plot(dff$size, dff$sizeNext, xlab = "Size at t", ylab = "Size at t+1")
 @
@@ -300,7 +303,7 @@ Finally, the user can plot the Pmatrix using {\tt persp} or {\tt
 <<label = fig2, fig = TRUE, echo = FALSE>>= 
 par(mfrow=c(1,2),bty="l",pty="s")
 persp(Pmatrix@meshpoints, Pmatrix@meshpoints, Pmatrix, ticktype = "detailed", 
-		  xlab = "Size at t", ylab = "Size at t+1", zlab="")
+  	  xlab = "Size at t", ylab = "Size at t+1", zlab="")
 image(Pmatrix@meshpoints, Pmatrix@meshpoints, t(Pmatrix), 
 		  xlab = "Size at t", ylab = "Size at t+1")
 contour(Pmatrix@meshpoints, Pmatrix@meshpoints, t(Pmatrix), add=TRUE)
@@ -394,7 +397,7 @@ res
 @ 
 and this output can be plotted out (Figure~\ref{fig:foura} p.~\pageref{fig:foura}) using
 <<label = fig4a, include = FALSE>>= 
-par(mfrow = c(2, 1), bty = "l", pty = "m")
+par(mfrow = c(2, 1), bty = "l", pty = "m",mar=c())
 barplot(res$sens, main = expression("Parameter sensitivity of "*lambda), 
 		    las = 2, cex.names = 0.5)
 barplot(res$elas, main = expression("Parameter elasticity of "*lambda), 
@@ -768,4 +771,3 @@ If the user wishes to fit a growth model with, for example, gamma errors, a simi
 
 
 \end{document}
-
