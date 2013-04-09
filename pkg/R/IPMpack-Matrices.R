@@ -940,3 +940,19 @@ makeIPMFmatrix <- function(fecObj,
 }
 
 
+# ===========================================================================
+# ===========================================================================
+# function to make an IPM from P, F, and C matrices that has all the same slot definitions as the P matrix
+makeIPMmatrix = function(Pmatrix,Fmatrix,Cmatrix=NULL){
+  if(is.null(Cmatrix)){ #make an empty placeholder
+    Cmatrix=Fmatrix
+    Cmatrix@.Data=0*Fmatrix@.Data
+  }
+  IPMmatrix=Pmatrix
+  IPMmatrix@.Data <- 	IPMmatrix@.Data + Fmatrix@.Data + Cmatrix@.Data
+  return(IPMmatrix)
+}
+
+# ===========================================================================
+# ===========================================================================
+

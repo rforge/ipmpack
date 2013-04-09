@@ -81,7 +81,7 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeIPMFmatrix}}, \code{\link{diagnosticsPmatrix}}, \code{\link{makeDiscreteTrans}}  
+\code{\link{makeIPMFmatrix}},\code{\link{makeIPMmatrix}}, \code{\link{diagnosticsPmatrix}}, \code{\link{makeDiscreteTrans}}  
 }
 \examples{
 dff <- generateData()

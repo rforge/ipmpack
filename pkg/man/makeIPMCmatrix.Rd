@@ -90,9 +90,9 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez & Eelke Jongejans
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \seealso{
-\code{\link{makeIPMPmatrix}},\code{\link{makeIPMFmatrix}}
-
+\code{\link{makeIPMPmatrix}},\code{\link{makeIPMFmatrix},\code{\link{makeIPMmatrix}}
 }
+
 \examples{
 # Data with only continuous stage and one habitat
 dff <- generateData()

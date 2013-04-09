@@ -24,8 +24,9 @@
 \begin{document}
 
 \title{IPMpack: an R package for demographic modeling with Integral Projection
-Models (v.1.5)}
-\author{Jessica Metcalf, Sean M. McMahon, Rob Salguero-Gomez, Eelke Jongejans}
+Models (v.1.6)}
+\author{Jessica Metcalf, Sean M. McMahon, Rob Salguero-Gomez, Eelke Jongejans,
+Cory Merow}
 \maketitle
 
 
@@ -40,7 +41,7 @@ returning model scores, as well as tools for diagnostic tests of the IPM models
 themselves. There are also methods to build population models for varying environments, use Bayesian methods to sample population parameters,  estimate longevity and passage time, sensitivity and elasticity (of either parameters or matrix elements), and much more.
 
 This vignette is intended to introduce the concepts of IPMs as well as the
-implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $1.5$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge (http://ipmpack.r-forge.r-project.org/) that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
+implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $1.6$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge (http://ipmpack.r-forge.r-project.org/) that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
  
 \newpage
 
@@ -156,7 +157,8 @@ First, the user must install IPMpack from CRAN using
 
 \begin{Schunk}
 \begin{Sinput}
-> library("IPMpack")
+> # library(IPMpack)
+> 
 \end{Sinput}
 \end{Schunk}
 Next, the user must input demographic data. As mentioned above, most functions of IPMpack require a data file with at minimum columns called {\tt size}, {\tt sizeNext}, {\tt surv}, where `size' is size at time t, `sizeNext' is size one census later, and `surv' is a series of 0s and 1s, indicating if the individual survived or not. In the case of `size' and `sizeNext', data can be transformed (e.g., onto a log scale), if appropriate via functions built into IPMpack. For the purpose of learning how to use IPMpack, the user can either use his/her own data (adjusted to have the appropriate headings, as aforementioned), or generate them with a function built into IPMpack:
@@ -172,13 +174,13 @@ A quick check indicates that this contains sensible (fictional) information:
 > head(dff)
 \end{Sinput}
 \begin{Soutput}
-      size  sizeNext surv covariate covariateNext        fec      stage
-1 5.096741  4.261369    0         1             0 11.7951986 continuous
-2 5.453092  4.352565    0         0             0  7.1677199 continuous
-3 3.651964  1.053892    0         1             0  1.4883059 continuous
-4       NA -1.985458   NA         1             0         NA       <NA>
-5 4.431822  3.018367    1         1             0  0.4929436 continuous
-6 3.680777  3.358329    0         1             0 14.4894098 continuous
+      size sizeNext surv covariate covariateNext       fec      stage
+1 6.840241       NA    0         1             0  3.457957 continuous
+2 8.576726 8.685411    1         0             0 28.098036 continuous
+3 5.483423 3.541569    1         1             0  2.602421 continuous
+4 5.163830 4.502620    1         1             0  0.000000 continuous
+5       NA 2.292289   NA         1             0        NA       <NA>
+6 5.690758 4.725808    1         1             0  7.909692 continuous
    stageNext
 1 continuous
 2 continuous
@@ -198,7 +200,7 @@ for simplicity, no discrete covariates are included in this first example. Figur
 \end{Schunk}
 \begin{figure}
 \begin{center}
-\includegraphics{IPMpack_Vignette-fig0}
+\includegraphics{IPMpack_vignette-fig0}
 \end{center}
 \caption{Size at t and size at t+1}
 \label{fig:zero}
@@ -223,3 +225,804 @@ As an example, let us first define objects built as simple polynomial regression
 \begin{Schunk}
 \begin{Sinput}
 > gr1 <- makeGrowthObj(dataf = dff, Formula = sizeNext~size+size2)
+> sv1 <- makeSurvObj(dff, Formula = surv~size+size2)
+\end{Sinput}
+\end{Schunk}
+In both these functions, the argument {\tt Formula} contains formulas of the type used in linear or logistic regressions in $R$, built around the possible defined range of transforms of  {\tt size} currently available ({\tt size2} which is size$^2$, {\tt size3} which is size$^3$, and {\tt logsize} which is log(size). Currently further transforms of  {\tt size} are not possible. This function can also be used to fit models that include a single discrete covariate (e.g., light environment, age, etc) as long as this exists in the {\tt dataf} in a column named {\tt covariate}. For instance, the user could model the population dynamics according to  {\tt size + covariate} or  {\tt size + logsize*covariate}, etc. For more complex analyses, other covariates (time since fire, precipitation, etc) can be fitted as long as they exist within {\tt dataf}. For the growth model, possibilities for the response variable in the {\tt Formula} are: {\tt sizeNext} meaning that the reponse variable is size at the next census time, or {\tt incr} meaning that the response variable is the size increment that has accrued between the two census times (common among tree demographic studies), and {\tt logincr} meaning that the response variable is the log of the size increment that has acrrued between the two census intervals.
+
+Glancing at the source code will confirm that all these functions simply fit a linear regression relating size at t+1 or increment to size at t and covariates for growth, as for survival. The survival and growth objects created have a slot called `fit' that holds the regression and a slot sd that holds the variance around the regression. 
+\begin{Schunk}
+\begin{Sinput}
+> gr1
+\end{Sinput}
+\begin{Soutput}
+An object of class "growthObj"
+Slot "fit":
+
+Call:
+lm(formula = Formula, data = dataf)
+
+Coefficients:
+(Intercept)         size        size2  
+   -0.07442      0.93372     -0.01330  
+
+
+Slot "sd":
+[1] 1.101756
+\end{Soutput}
+\end{Schunk}
+Note that before building growth or survival objects in IPMpack, careful model assessement and comparison are recommended, using all the usual regression tools available in R (plotting the fitted {\tt lm} or {\tt glm} to check for patterns of residuals, outliers etc). IPMpack also contains two functions that allow the user to check these two relationships against the data used for them in order to explore goodness of fit and effect of mesh size, shown in Figure~\ref{fig:one} (p.~\pageref{fig:one}).
+\begin{Schunk}
+\begin{Sinput}
+> par(mfrow = c(1, 2), bty = "l", pty = "m")
+> p1 <- picGrow(dff, gr1)
+> p2 <- picSurv(dff, sv1, ncuts = 30)
+\end{Sinput}
+\end{Schunk}
+\begin{figure}
+\begin{center}
+\includegraphics{IPMpack_vignette-fig1}
+\end{center}
+\caption{Growth and survival objects}
+\label{fig:one}
+\end{figure}
+To build a demographic model describing survival and growth transitions from these objects, the user can use the function {\tt makeIPMPmatrix}, i.e.: 
+\begin{Schunk}
+\begin{Sinput}
+> Pmatrix <- makeIPMPmatrix(nBigMatrix = 50, 
++                             minSize = -5, maxSize = 35, 
++                             growObj = gr1, survObj = sv1, 
++                             correction = "constant")
+\end{Sinput}
+\end{Schunk}
+where {\tt nBigMatrix} is the numbers of bins used, {\tt minSize} and
+{\tt maxSize} define the limits of the IPM, $U$ and $L$ in the
+equations above. Typically, these ranges should usually extend to beyond the
+smallest and largest size measurement, but the user might want to exclude
+outliers). The objects {\tt growObj} and {\tt survObj} define changes in size
+and survival as defined above. 
+
+\begin{figure}
+\begin{center}
+\begin{Schunk}
+\begin{Soutput}
+[1] "Range of Pmatrix is "
+[1] 9.299338e-278  2.838052e-01
+[1] "Please hit any key for the next plot"
+\end{Soutput}
+\end{Schunk}
+\includegraphics{IPMpack_vignette-triDiag}
+\end{center}
+\caption{Diagnostic plots for the Pmatrix.}
+\label{fig:triDiag}
+\end{figure}
+
+IPMpack includes a useful function {\tt diagnosticsPmatrix} that provides a
+series of plots indicative of whether bin choice and size range is adequate.
+Applying this function as a preliminary step before obtaining demographic and evolutionary output from IPMs can help identify basic problems in the fitting of vital rate functions or in the creation of the IPM matrices before proceeding. Several common problems can be diagnosed with the panelled figure produced by {\tt diagnosticsPmatrix} (Figure
+\ref{fig:triDiag}).
+
+The left panel on the first plot shows the range of the data (if the data is provided) and the range of the state variable fitted in the matrix (top line, black).  If these are mis-matched, the limits of the data used in building the Pmatrix can be adjusted with the {\tt minSize} and {\tt maxSize} arguments in {\tt makeIPMPmatrix}.  The range for two additional Pmatrices that will be used in subsequent comparisons is also provided; one with an increased size range (red) and one with an increased number of bins (blue). 
+
+The discretization of a continuous function can result in under- or over-estimation of the true density. Where this is occurs, the sum of the columns of the discretized matrix will not match predictions from the fitted survival model.  The middle panel 
+plots these against each other for the three matrices in the first panel (current, extended range and increased bin number) using the same colours as in the first panel. Lines should fall along the (0,1) line shown in grey; if they do not, the argument {\tt correction="constant"} in {\tt makeIPMPmatrix} may be of use. This ensures that the columns sum to the fitted survival by multiplying every column in the Integral Projection Model by the value that allows this. The third panel checks whether extending the size range included in the matrix and increasing the number of bins (by increasing {\tt nBigMatrix} and thereby having narrower bins) does not alter basic predictions from the IPM.
+
+The six panels on the next plot (that may not be present in the pdf of the vignette, but should appear if you run the function) show the discretized IPM (histograms)for the current IPM (top) and one with an increased number of bins (bottom)  and the
+theoretical density function (red line). These are plotted either for three chosen sizes ({\tt sizesToPlot}) or the 0.25, 0.5 and 0.75 quantiles of either the observed data (if supplied) or the range of meshpoints (if not); this size is printed in the top right hand of every plot. If the theoretical density function curve is very distant from the histograms, increasing the {\tt nBigMatrix} argument may correct this discrepancy. 
+
+Another useful function for verifying that sufficient bins have been used
+is {\tt convergeIPM}; see the help file and try it out.
+
+The {\tt makeIPMPmatrix} function builds around methods defined so that it
+will provide appropriate output whatever the survival and growth objects are
+(e.g. error structure, covariates). The P matrix contains a matrix defining the
+transitions, but also other useful slots, e.g., the meshpoints, covariates,
+grid size. The user can access this information by writing:
+\begin{Schunk}
+\begin{Sinput}
+> slotNames(Pmatrix)
+\end{Sinput}
+\begin{Soutput}
+[1] ".Data"          "nDiscrete"      "nEnvClass"      "nBigMatrix"    
+[5] "meshpoints"     "env.index"      "names.discrete"
+\end{Soutput}
+\end{Schunk}
+and obtain the slots by using the $@$ symbol, e.g., 
+\begin{Schunk}
+\begin{Sinput}
+> Pmatrix@meshpoints
+\end{Sinput}
+\begin{Soutput}
+ [1] -4.6 -3.8 -3.0 -2.2 -1.4 -0.6  0.2  1.0  1.8  2.6  3.4  4.2  5.0  5.8  6.6
+[16]  7.4  8.2  9.0  9.8 10.6 11.4 12.2 13.0 13.8 14.6 15.4 16.2 17.0 17.8 18.6
+[31] 19.4 20.2 21.0 21.8 22.6 23.4 24.2 25.0 25.8 26.6 27.4 28.2 29.0 29.8 30.6
+[46] 31.4 32.2 33.0 33.8 34.6
+\end{Soutput}
+\end{Schunk}
+Finally, the user can plot the Pmatrix using {\tt persp} or {\tt
+  image} (Figure~\ref{fig:two}). 
+\begin{figure}
+\begin{center}
+\includegraphics{IPMpack_vignette-fig2}
+\end{center}
+\caption{Transition matrix encompassing survival and growth transitions only}
+\label{fig:two}
+\end{figure}
+%Cory says: add image, makes it easier to compare to sensitivities and elasticities
+Next, with this, the user can obtain the life expectancy, and passage time to a chosen size (here set at the mean) for the range of meshpoints
+\begin{Schunk}
+\begin{Sinput}
+> LE <- meanLifeExpect(Pmatrix)
+> pTime <- passageTime(mean(dff$size, na.rm = TRUE), Pmatrix)
+\end{Sinput}
+\end{Schunk}
+and the user can also plot these against {\tt Pmatrix@meshpoints} to examine how
+life expectancy and passage vary as a function of size (Figure~\ref{fig:three} p.~\pageref{fig:three}).
+\begin{figure}
+\begin{center}
+\includegraphics{IPMpack_vignette-fig3}
+\end{center}
+\caption{Associated Life Expectancy and Passage Time}
+\label{fig:three}
+\end{figure}
+
+
+If the user defines a fertility object - which, for instance, is not always easy with for example trees - IPMpack can also create a transition matrix describing movement between sizes attributable to fertility.
+\begin{Schunk}
+\begin{Sinput}
+> fv1 <- makeFecObj(dff, Formula = fec~size, 	
++                   Family = "gaussian", 
++                   Transform = "log")
+> Fmatrix <- makeIPMFmatrix(nBigMatrix = 50, minSize = -5,
++                             maxSize = 35, 
++                             fecObj = fv1, 
++                             correction = "constant")
+\end{Sinput}
+\end{Schunk}
+Note that {\tt makeFecObj} will use the relationships defined in {\tt Formula} and the family defined in {\tt Family} with transforms defined in {\tt Transform} in the order supplied. Please note that the fecundity {\tt Formula} MUST match the {\tt Transform} since IPMPack needs to combine the parameters from  {\tt Formula}  with the right  {\tt Transform}  to appropriately build the F matrixs. 
+
+The default arguments required to run {\tt makeFecObj} to create a fecundity
+object from which an F matrix with no discrete stage can be built are {\tt
+offspringSplitter=data.frame(continuous=1)}, {\tt 
+vitalRatesPerOffspringType=data.frame(NA)} and {\tt fecByDiscrete=data.frame(NA)}.
+Additionally, note that if there are values other than ``{\tt continuous}" in the {\tt stage} column of the data-frame named {\tt dff} in the example above, then the function will assume that multiple offspring classes are required, and the result will be an IPM with nBigMatrix + the number of offspring classes deduced (which is the number of names in {\tt stage} other than ``{\tt continuous}"). This may lead to a mismatch with the size of the P matrix unless a discrete transition matrix is explicitly being included in the P matrix (see below, incorporating discrete stages).
+
+If the data-frame contains an extra column {\tt offspringNext} that takes the
+values {\tt sexual}, and that corresponds to rows where both {\tt size} and {\tt sizeNext} are different from NA, the user can define a relationship between maternal size and offspring size through the {\tt makeFecObj} argument {\tt offspringSizeExplanatoryVariables}. The default is to only fit an intercept, equivalent to simply having a mean and variance of offspring size. The function {\tt makeFecObj} also allows users to simply over-write the mean and variance of offpsring size with the values of their choice (arguments {\tt meanOffspringSize} and {\tt sdOffspringSize}).
+
+The function {\tt makeClonalObj} operates identically to {\tt makeFecObj} except that offspring are only considered for fitting the distribution of mean and standard deviation of offspring size if the column {\tt offspringNext} takes the values {\tt clonal}. Rows where {\tt offspringNext} takes the values ``sexual" or ``clonal" are excluded from the survival and growth analyses ({\tt makeGrowthObj} and {\tt makeSurvObj}).
+
+The user can combine the F matrix with (an identically built, i.e., same bin number, size limits and discrete classes) survival-growth transition P matrix to obtain a full Integral Projection Model, and its population growth rate $\lambda$, sensitivity, elasticity, etc. 
+\begin{Schunk}
+\begin{Sinput}
+> IPM <- Pmatrix + Fmatrix
+> Re(eigen(IPM)$value[1])
+\end{Sinput}
+\begin{Soutput}
+[1] 2.496296
+\end{Soutput}
+\begin{Sinput}
+> sensitivity <- sens(IPM)
+> elasticity <- elas(IPM)
+\end{Sinput}
+\end{Schunk}
+These outputs can be plotted against the meshpoints (Figure~\ref{fig:four} p.~\pageref{fig:four}).
+\begin{figure}
+\begin{center}
+\includegraphics{IPMpack_vignette-fig4}
+\end{center}
+\caption{Measures off a full IPM}
+\label{fig:four}
+\end{figure}
+In addition to perturbation measures from mesh cells, the user can also obtain sensitivity and elasticity of particular parameters that underlie the kernels, e.g., doing:
+\begin{Schunk}
+\begin{Sinput}
+> res <- sensParams(growObj = gr1, survObj = sv1, fecObj = fv1, 
++                   nBigMatrix = 50, minSize = -5, maxSize = 15)
+> res
+\end{Sinput}
+\begin{Soutput}
+$sens
+                survival: (Intercept)                        survival: size 
+                           0.21215210                            0.44397635 
+                      survival: size2                   growth: (Intercept) 
+                           1.02198244                            0.10272086 
+                         growth: size                         growth: size2 
+                           0.21835832                            0.51042733 
+                           growth: sd         fecundity: func 1 (Intercept) 
+                           0.03642218                            2.18155375 
+               fecundity: func 1 size fecundity: offspring rel  (Intercept) 
+                           4.51140084                            0.71277108 
+         fecundity: sd offspring size 
+                           0.12323411 
+
+$elas
+                survival: (Intercept)                        survival: size 
+                         -0.105153516                           0.043882546 
+                      survival: size2                   growth: (Intercept) 
+                         -0.001118036                          -0.003061620 
+                         growth: size                         growth: size2 
+                          0.081659861                          -0.002719719 
+                           growth: sd         fecundity: func 1 (Intercept) 
+                          0.016072187                           0.140127846 
+               fecundity: func 1 size fecundity: offspring rel  (Intercept) 
+                          0.559446404                           0.558956451 
+         fecundity: sd offspring size 
+                          0.026404075 
+\end{Soutput}
+\end{Schunk}
+and this output can be plotted out (Figure~\ref{fig:foura} p.~\pageref{fig:foura}) using
+\begin{Schunk}
+\begin{Sinput}
+> par(mfrow = c(2, 1), bty = "l", pty = "m")
+> barplot(res$sens, main = expression("Parameter sensitivity of "*lambda), 
++ 		    las = 2, cex.names = 0.5)
+> barplot(res$elas, main = expression("Parameter elasticity of "*lambda), 
++ 		    las = 2, cex.names = 0.5)
+\end{Sinput}
+\end{Schunk}
+\begin{figure}
+\begin{center}
+\includegraphics{IPMpack_vignette-fig4a}
+\end{center}
+\caption{Sensitivity and elasticity of parameter values}
+\label{fig:foura}
+\end{figure}
+%Similar code could be developed to explore sensitivity of other emergent %measures, e.g., mean passage time, etc. 
+
+
+\section{Incorporating discrete stages}
+Populations are often structured by both discrete and a continuous stages.  For
+example, many plant populations may persist for many years in a seedbank as well
+as having size-determined fates after they germinate. IPMpack can incorporate
+this variability for complex life cycles (Ellner \& Rees $2006$). To illustrate
+using discrete stages in an IPM, we generate data that includes
+both discrete and continuous life-history stages:
+\begin{Schunk}
+\begin{Sinput}
+> dff <- generateData(type="discrete")
+\end{Sinput}
+\end{Schunk}
+A quick check indicates that these data contain several types of stage classification (and not just "continuous" as seen up till now):
+\begin{Schunk}
+\begin{Sinput}
+> table(dff$stage)
+\end{Sinput}
+\begin{Soutput}
+continuous    dormant   seedAge1    seedOld 
+       950         50         35         32 
+\end{Soutput}
+\end{Schunk}
+Given this data structure, the user can make a fertility object that reflects the
+fact that propagules (seeds in this example) produced in one year may 
+recruit directly into the continuous phase (e.g., seedling), or may end up in a
+discrete stage (e.g., seed bank). The {\tt makeFecObj} (and similar functions)
+has an argument called {\tt offspringSplitter} that allows the user to define
+these paths:
+\begin{Schunk}
+\begin{Sinput}
+> fv1 <- makeFecObj(dataf = dff, Transform = "log", 
++                   offspringSplitter = data.frame(continuous = 0.2, 
++                   dormant = 0, seedAge1 = 0.8, seedOld = 0), 
++                   fecByDiscrete = data.frame(dormant = 0, 
++                   seedAge1 = 0, seedOld = 0))
+\end{Sinput}
+\end{Schunk}
+In this example, 20\% of seeds produced at $t$ end up in the continuous part of
+the population structure at $t+1$ (for example, they might directly recruit as
+rosettes from one year to the next) and 80\% of seeds recruit into the "one year
+old seeds" stage. Although in this case no individuals are recruited at $t+1$
+into the "dormant" or "old seeds" stages (since these will come from adult
+plants or the seed bank), they are included because {\tt offspringSplitter} is
+where IPMpack identifies all the existing discrete stages. The argument {\tt fecByDiscrete} reflects the fact that none of the discrete classes addressed in this example are likely to directly produce offspring (which may not always be the case). The resulting fecundity object can be used with {\tt makeIPMFmatrix} in the usual way:
+\begin{Schunk}
+\begin{Sinput}
+> Fmatrix <- makeIPMFmatrix(fecObj = fv1, nBigMatrix = 5, 
++                             minSize = min(dff$size, na.rm = TRUE), 
++                             maxSize = max(dff$size, na.rm = TRUE), 
++                             correction = "constant")
+\end{Sinput}
+\end{Schunk}
+The user also needs a {\tt Pmatrix} that reflects the same structure. The
+continuous part of the P matrix will be the standard structure:
+\begin{Schunk}
+\begin{Sinput}
+> gr1 <- makeGrowthObj(dataf = dff, 
++                       Formula = sizeNext~size)
+> sv1 <- makeSurvObj(dff,  Formula = surv~size)
+\end{Sinput}
+\end{Schunk}
+Movement in and out of discrete stages is defined via an add-on of a transition matrix, that is defined using: 
+\begin{Schunk}
+\begin{Sinput}
+> discTrans <- makeDiscreteTrans(dff)
+\end{Sinput}
+\end{Schunk}
+which captures survival and transitions between discrete stages and the
+continuous stage (note that this function will not work unless the data frame
+{\tt dff} contains appropriate columns {\tt stage} and {\tt stageNext}).  The
+user can then construct the P matrix:
+\begin{Schunk}
+\begin{Sinput}
+> Pmatrix <- makeIPMPmatrix(nBigMatrix = 5, 	
++                             growObj = makeGrowthObj(dff), 
++                             survObj = makeSurvObj(dff), 
++                             discreteTrans = discTrans, 
++                             correction = "constant")
+\end{Sinput}
+\end{Schunk}
+Note that both the P matrix and the F matrix in this example have a rather small number of bins just for ease of comparison, and that a higher number is almost certainly advisable. The user can examine both matrices: 
+\begin{Schunk}
+\begin{Sinput}
+> print(Pmatrix)
+\end{Sinput}
+\begin{Soutput}
+An object of class "IPMmatrix"
+              [,1]         [,2]         [,3]          [,4]          [,5]
+[1,]  3.600000e-01 0.000000e+00 0.000000e+00  1.415925e-02  2.560069e-01
+[2,]  0.000000e+00 0.000000e+00 0.000000e+00  0.000000e+00  0.000000e+00
+[3,]  0.000000e+00 4.439560e-01 4.323308e-01  0.000000e+00  0.000000e+00
+[4,]  6.400000e-01 7.252566e-02 1.127810e-01  4.142798e-01  7.571397e-19
+[5,]  4.502774e-08 1.813828e-06 9.957502e-07  1.589465e-24  5.947600e-02
+[6,]  6.277758e-38 3.413070e-19 2.152353e-20  7.477653e-97  5.728810e-34
+[7,]  1.734416e-90 4.832136e-40 1.139003e-42 4.313567e-218 6.766189e-115
+[8,] 9.495685e-166 5.147279e-69 1.475654e-73  0.000000e+00 9.798979e-245
+              [,6]          [,7]          [,8]
+[1,]  1.333179e-03  1.831697e-08  2.220446e-16
+[2,]  0.000000e+00  0.000000e+00  0.000000e+00
+[3,]  0.000000e+00  0.000000e+00  0.000000e+00
+[4,]  7.753713e-72 1.349656e-159 4.570834e-290
+[5,]  1.247050e-14  4.444322e-62 3.081672e-152
+[6,]  2.459320e-06  1.794507e-13  2.547619e-63
+[7,]  5.947072e-47  8.884678e-14  2.582495e-23
+[8,] 1.763390e-136  5.393805e-63  3.209974e-32
+Slot "nDiscrete":
+[1] 3
+
+Slot "nEnvClass":
+[1] 1
+
+Slot "nBigMatrix":
+[1] 5
+
+Slot "meshpoints":
+[1]  4.1 14.3 24.5 34.7 44.9
+
+Slot "env.index":
+[1] 1 1 1 1 1
+
+Slot "names.discrete":
+[1] "dormant"  "seedAge1" "seedOld" 
+\end{Soutput}
+\begin{Sinput}
+> print(Fmatrix)
+\end{Sinput}
+\begin{Soutput}
+An object of class "IPMmatrix"
+     [,1] [,2] [,3]         [,4]         [,5]         [,6]         [,7]
+[1,]    0    0    0 0.000000e+00 0.000000e+00 0.0000000000 0.0000000000
+[2,]    0    0    0 1.002385e-01 2.000051e-01 0.3990686200 0.7962586783
+[3,]    0    0    0 0.000000e+00 0.000000e+00 0.0000000000 0.0000000000
+[4,]    0    0    0 1.478507e-03 2.950054e-03 0.0058862219 0.0117447351
+[5,]    0    0    0 1.169841e-02 2.334176e-02 0.0465736347 0.0929280303
+[6,]    0    0    0 1.072830e-02 2.140610e-02 0.0427114402 0.0852218220
+[7,]    0    0    0 1.140343e-03 2.275319e-03 0.0045399271 0.0090584831
+[8,]    0    0    0 1.404885e-05 2.803158e-05 0.0000559312 0.0001115991
+             [,8]
+[1,] 0.0000000000
+[2,] 1.5887690760
+[3,] 0.0000000000
+[4,] 0.0234341835
+[5,] 0.1854186143
+[6,] 0.1700424737
+[7,] 0.0180743245
+[8,] 0.0002226729
+Slot "nDiscrete":
+[1] 3
+
+Slot "nEnvClass":
+[1] 1
+
+Slot "nBigMatrix":
+[1] 5
+
+Slot "meshpoints":
+[1] -0.8042093  2.0405761  4.8853615  7.7301470 10.5749324
+
+Slot "env.index":
+[1] 1 1 1 1 1
+
+Slot "names.discrete":
+[1] "dormant"  "seedAge1" "seedOld" 
+\end{Soutput}
+\end{Schunk}
+and check for example that the slot {\tt namesDiscrete} is aligned for both of them, and add
+them together:
+\begin{Schunk}
+\begin{Sinput}
+> print(Pmatrix+Fmatrix)
+\end{Sinput}
+\begin{Soutput}
+              [,1]         [,2]         [,3]         [,4]         [,5]
+[1,]  3.600000e-01 0.000000e+00 0.000000e+00 1.415925e-02 2.560069e-01
+[2,]  0.000000e+00 0.000000e+00 0.000000e+00 1.002385e-01 2.000051e-01
+[3,]  0.000000e+00 4.439560e-01 4.323308e-01 0.000000e+00 0.000000e+00
+[4,]  6.400000e-01 7.252566e-02 1.127810e-01 4.157583e-01 2.950054e-03
+[5,]  4.502774e-08 1.813828e-06 9.957502e-07 1.169841e-02 8.281775e-02
+[6,]  6.277758e-38 3.413070e-19 2.152353e-20 1.072830e-02 2.140610e-02
+[7,]  1.734416e-90 4.832136e-40 1.139003e-42 1.140343e-03 2.275319e-03
+[8,] 9.495685e-166 5.147279e-69 1.475654e-73 1.404885e-05 2.803158e-05
+             [,6]         [,7]         [,8]
+[1,] 0.0013331794 1.831697e-08 2.220446e-16
+[2,] 0.3990686200 7.962587e-01 1.588769e+00
+[3,] 0.0000000000 0.000000e+00 0.000000e+00
+[4,] 0.0058862219 1.174474e-02 2.343418e-02
+[5,] 0.0465736347 9.292803e-02 1.854186e-01
+[6,] 0.0427138995 8.522182e-02 1.700425e-01
+[7,] 0.0045399271 9.058483e-03 1.807432e-02
+[8,] 0.0000559312 1.115991e-04 2.226729e-04
+\end{Soutput}
+\end{Schunk}
+The first three rows and columns concern transitions in and out of the discrete stages; the remainder are the usual P and F matrices describing moving across the continuous variables. The usual types of calculations (sensitivity via {\tt sens}, life expectancy via {\tt meanLifeExpect}, etc) can be applied here too.    
+
+\section{Discretely varying environments}
+One extension of IPMs is to create a compound IPM matrix where, in addition to
+moving between continuous sizes, individuals move through discrete environments where the discrete environmental states have an expected sequence, and therefore can be described by a transition matrix of their own (e.g. light environments for tropical trees, as in Metcalf et al. $2009$).
+
+To explore this type of dynamic, the user needs  either to provide or simulate
+an environmental variable at $t$ and the corresponding value at $t+1$. Here, it
+has been generated as part of the {\tt generateData} function (See above). From
+this generated data, the user can then create an environmental transition matrix
+that describes how the environment tends to move between these states from one
+census time to the next. If the data has been set up as described, there is a function that will do this for the user:
+\begin{Schunk}
+\begin{Sinput}
+> dff <- generateData()
+> env1 <- makeEnvObj(dff) 
+> env1
+\end{Sinput}
+\begin{Soutput}
+An object of class "envMatrix"
+          [,1]      [,2]
+[1,] 0.2046569 0.1521739
+[2,] 0.7953431 0.8478261
+Slot "nEnvClass":
+[1] 2
+\end{Soutput}
+\end{Schunk}
+The user can now use IPMpack to create a survival-growth transition P matrix that encompasses movement across environments, first redefining the survival and growth
+objects to fit a discrete covariate, by changing the {\tt Formula} argument: 
+\begin{Schunk}
+\begin{Sinput}
+> gr1 <- makeGrowthObj(dff, Formula = sizeNext~size+covariate)
+> sv1 <- makeSurvObj(dff, Formula = surv~size+covariate)
+\end{Sinput}
+\end{Schunk}
+Note that these functions will only work appropriately for a discrete
+covariate if the value of the covariate at time $t$ is available as a
+column in the data frame names {\tt covariate} and the value of the
+covariate at the next census is available as a column in the data
+frame called {\tt covariateNext}. IPMpack functions use the presence
+of a column in the data frame called {\tt covariate} as a cue to
+renumber values in these two columns to numeric levels between 1 and
+the observed number of covariate levels to facilitate looping, and
+changes them into factors. Once this step is implemented, these
+functions can be used to create a compound P matrix, using {\tt makeCompoundPmatrix}: 
+\begin{Schunk}
+\begin{Sinput}
+> Pmatrix <- makeCompoundPmatrix(nBigMatrix = 50, minSize = -5, 
++                                  maxSize = 35, 
++                                  envMatrix = env1, growObj = gr1, 
++                                  survObj = sv1, 
++                                  correction = "constant")
+\end{Sinput}
+\end{Schunk}
+\begin{figure}
+\begin{center}
+\includegraphics{IPMpack_vignette-figCompound}
+\end{center}
+\caption{Compound P matrix IPM shown on a log scale: whiter colours indicate
+  more likely transitions; and the four different panels indicate each
+  of the four environments.}
+\label{fig:five}
+\end{figure}
+Essentially, the compound P matrix is a large matrix with stacked IPMs
+corresponding to each environment, modified to reflect movement
+between environmental states defined by {\ env1}. Passage time can be
+calculated using a similar function, but now including the environmental
+matrix as an argument (equivalent life expectancy functions are in development): 
+\begin{Schunk}
+\begin{Sinput}
+> pTimes <- stochPassageTime(Pmatrix@meshpoints[15], Pmatrix, env1)
+\end{Sinput}
+\end{Schunk}
+The resulting vectors contain the life expectancy and time to reach each size for individuals starting in each different environmental class, concatenated together (i.e. there are {\tt nBigMatrix} values in the LE matrix ranging over the first environment, then {\tt nBigMatrix} values ranging over the second environment, etc). The user can plot these against meshpoints 
+(Figure~\ref{fig:five} p.~\pageref{fig:five}), 
+each colour indicates a different starting environment. Similar syntax can be used for passage time (although note that here the function name has changed): 
+\begin{figure}
+\begin{center}
+\includegraphics{IPMpack_vignette-fig5}
+\end{center}
+\caption{Passage time for a compound IPM;   different colours reflect predictions for individuals starting in different environments}
+\label{fig:five}
+\end{figure}
+
+Adding a fertility object to this analysis, the user can also define a full life
+cycle IPM model for across environments. With such information, obtaining the stochastic population rate of increase $\lambda_s$ in this environment is relatively straight-forward. IPMpack does this by sampling a very large number of environments and corresponding IPMs, and multiplying them together (Childs et al. $2004$). At the moment, this is only defined for the case where environments (defined by the discrete covariates) are distributed independently (i.e. the next state does not depend on the previous state). To do this, the user must first define a list of IPMs (each the sum of a matrix of survival-growth transitions, and a matrix of fecundity transitions corresponding to a particular environment):
+\begin{Schunk}
+\begin{Sinput}
+> IPMlist <- sampleSequentialIPMs(dataf = dff, nBigMatrix = 25, minSize = -5, 
++                         maxSize = 35, explSurv = surv~size+covariate, 
++                         explGrow = sizeNext~size+size2+covariate, 
++                         explFec = fec~size, Transform="log",correction = "constant")
+\end{Sinput}
+\begin{Soutput}
+surv ~ size + covariate
+\end{Soutput}
+\end{Schunk}
+Note that in this example IPMpack uses an arbitrary selection of
+formulas for the various linear and logistic
+regressions ({\tt explGrow}, {\tt explSurv}, etc). In reality,
+model selection will need to be used to establish this. Importantly, each
+environment type requires sufficient data (years of data) to quantify population
+behaviours in that environment as if it were an IPM in a single environment.  
+Next, the user can estimate $\lambda_s$ using:
+\begin{Schunk}
+\begin{Sinput}
+> stochGrowthRateSampleList(listIPMmatrix = IPMlist, 
++                           nRunIn = 30, tMax = 50)
+\end{Sinput}
+\begin{Soutput}
+[1] 1.098022
+\end{Soutput}
+\end{Schunk}
+where {\tt nRunIn} defines the number of time steps to discard from the start of the time series in order to remove transient dynamics, and {\tt tMax} is the total
+number of time steps to run, and should be large enough that increasing it does not substantially change the result (numbers presented here for efficiency are almost certaintly not large enough). Note that {\tt stoch.growth.rate} in the package {\tt popbio} will operate in essentially the same way, and provides more information, more efficiently.  
+
+%Simply taking the eigenvalue of the sum to the compound $P$ and $F$ matrices will
+%provide a sligthly different result given Jensen's inequality. %%check
+                                %%this... read Tulja + Carol stoch
+                                %%elastivity paper. 
+
+\section{More generally varying environments}
+
+An alternative way of inhabiting stochastic environments is to experience continuously changing covariates (rather than moving between discrete states, as the above describes). In this case, rather than building a single megamatrix, desired variables are obtained by multiplying up a suite of matrices and relying on the weak
+ergodic theorem for convergence (e.g., Tuljapurkar 1990; as described for obtaining $\lambda_s$, above). IPMpack contains code to do this. The user must first define a new data frame containing several time-varying covariates, and then, build the associated survival, growth and fertility objects (note that the default in IPMpack is to assume that if you have a covariate called "coviariate", your aim is to build a compound matrix, so ideally other covariates should have other names): 
+\begin{Schunk}
+\begin{Sinput}
+> dff <- generateData(type="stochastic")
+> sv1 <- makeSurvObj(dataf = dff, 
++                           Formula = surv~size+covariate1+covariate3)
+> gr1 <- makeGrowthObj(dataf = dff, 
++                              Formula = sizeNext~size+covariate1+covariate2)
+> fv1 <- makeFecObj(dataf = dff, fecConstants = data.frame(1.8), 
++                   Formula = fec~size, Transform = "log")
+\end{Sinput}
+\end{Schunk}
+As before, the user can explore the data: 
+\begin{Schunk}
+\begin{Sinput}
+> head(dff)
+\end{Sinput}
+\begin{Soutput}
+      size  sizeNext surv covariate1 covariate2 covariate3      fec      stage
+1 6.051791        NA    0 -0.5747144 -0.7975715 -1.0363875 8.823700 continuous
+2       NA -2.058545    1  1.9344100 -3.2526792 -0.1503998 7.335473       <NA>
+3 6.516192        NA    0 -0.2123185  0.1524222 -0.2537894 1.815700 continuous
+4 3.153085        NA    0 -1.0864944  0.3782422 -0.4146202 0.000000 continuous
+5 5.718612  4.299649    1 -0.5887571 -1.9217186  0.2250534 0.000000 continuous
+6 5.243961  1.711085    1 -1.2315500 -0.5680018 -0.9262012 0.000000 continuous
+   stageNext number
+1 continuous      1
+2 continuous      1
+3 continuous      1
+4 continuous      1
+5 continuous      1
+6 continuous      1
+\end{Soutput}
+\end{Schunk}
+and glance at the objects, e.g., 
+\begin{Schunk}
+\begin{Sinput}
+> gr1
+\end{Sinput}
+\begin{Soutput}
+An object of class "growthObj"
+Slot "fit":
+
+Call:
+lm(formula = Formula, data = dataf)
+
+Coefficients:
+(Intercept)         size   covariate1   covariate2  
+    1.01376      0.89507      3.00776      0.01686  
+
+
+Slot "sd":
+[1] 0.2123438
+\end{Soutput}
+\end{Schunk}
+To explore demographic projections for this model, the user must decide on
+a time scale and time length, and define it by a vector called
+`tVals'.  This time series can be used to reflect patterns in environmental data
+that repeat.  In this example we set {\tt tVals} to reflect monthly intervals
+over $4$ years, with years as the time scale and build covariates that vary
+seasonally, i.e., they fluctuates randomly around a sine wave which peaks once a
+year.  From this simulation, the user can generate a matrix containing time as
+rows and different covariates in columns.
+\begin{Schunk}
+\begin{Sinput}
+> tVals <- seq(1, 4, by = 1/12)
+> covTest <- c(1 + 0.5*sin(2*pi*tVals))
+> covMatTest <- data.frame(covariate1 = rnorm(length(covTest), covTest, 0.5) - 1, 
++                          covariate2 = rnorm(length(covTest), covTest, 0.5) - 1, 
++                          covariate3 = rnorm(length(covTest), covTest, 0.5) - 1)
+\end{Sinput}
+\end{Schunk}
+Note that  if there is no apparent temporal pattern to the data, one could
+simply generate random normal distributions of the covariates using their observed mean and variance. Other types of temporal patterns (multiannual, etc) are also possible. With this setup, the user can then estimate the stochastic growth rate over these years, using the geometric mean of the population growth rate (Tuljapurkar $1990$; Childs et al. $2004$), for these particular covariates using:
+\begin{Schunk}
+\begin{Sinput}
+> r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*1, 
++                             tMax = length(tVals), growthObj = gr1, 
++                             survObj = sv1, fecObj = fv1, nBigMatrix = 20, 
++                             minSize = 2*min(dff$size, na.rm = TRUE), 
++                             maxSize = 1.6*max(dff$size, na.rm = TRUE), 
++                             nMicrosites = 50, correction = "constant")
+> print(r)
+\end{Sinput}
+\begin{Soutput}
+$Rt
+[1] 0.02766218
+\end{Soutput}
+\end{Schunk}
+Setting nRunIn = $12*1$ in this example is equivalent to discarding the first 
+year of the simulation (likely to contain transients) since the chosen time step
+is months.Note that in this formula, it was assumed that density-dependence acts on
+seedling establishment, and that $50$ microsites are available for seedling
+establishment in every time step. Setting nMicrosites = $0$ allows for
+calculations without density-dependence, and nMicrosites can also be a vector,
+if the number of microsites fluctuates through time. It may also be interesting
+to have a glance at what has been happening to the population structure over
+this time-course, and the arguments {\tt trackStruct} and {\tt plot} allows this.
+
+
+\section{Parameter uncertainty in a constant environment}
+
+TODO: Cory
+
+
+\section{Building your own objects and methods}
+What if growth is best reflected by a saturating function, rather than by the
+linear regression models provided?  In this case the user may want to define a
+new class of growth object.  An example of this follows:
+\begin{Schunk}
+\begin{Sinput}
+> setClass("growthObjSaturate", representation(paras = "numeric", sd = "numeric"))
+\end{Sinput}
+\end{Schunk}
+Then define the functional form of the mean prediction, with relevant parameters: 
+\begin{Schunk}
+\begin{Sinput}
+> fSaturate <- function(size, pars) { 
++     u <- exp(pmin(pars[1] + pars[2] * size, 50))
++     u <- pars[3] * 1/(1+u)
++     return(u)
++ }
+\end{Sinput}
+\end{Schunk}
+where the third parameter indicates the asymptotic size. The user can then
+estimate the parameters by fitting this function to the data using a wrapper
+function and the R function {\tt optim}.
+\begin{Schunk}
+\begin{Sinput}
+> wrapSaturate <- function(par, dataf) { 
++     pred <- fSaturate(dataf$size, par[1:3])
++     ss <- sum((pred - dataf$sizeNext)^2, na.rm = TRUE)
++     return(ss)
++     }
+> tmp <- optim(c(1, 1, 1), wrapSaturate, dataf = dff, method = "Nelder-Mead")
+> tmp    
+\end{Sinput}
+\begin{Soutput}
+$par
+[1]   93.266042 -106.996957    5.982115
+
+$value
+[1] 5954.328
+
+$counts
+function gradient 
+     152       NA 
+
+$convergence
+[1] 0
+
+$message
+NULL
+\end{Soutput}
+\end{Schunk}
+
+For simplicity, one can assume normally distributed errors: 
+
+\begin{Schunk}
+\begin{Sinput}
+> resids <- fSaturate(dff$size, tmp$par) - dff$sizeNext
+> sdSaturate <- sd(resids, na.rm = TRUE)
+\end{Sinput}
+\end{Schunk}
+
+With these parameters, the user can then define the new growth object:
+
+\begin{Schunk}
+\begin{Sinput}
+> gr1 <- new("growthObjSaturate")
+> gr1@paras <- tmp$par
+> gr1@sd <- sdSaturate
+\end{Sinput}
+\end{Schunk}
+
+Finally, the user must define a method appropriate for this type of object. 
+
+\begin{Schunk}
+\begin{Sinput}
+> setMethod("growth", c("numeric", "numeric", "numeric", "growthObjSaturate"), 
++           function(size, sizeNext, cov, growthObj){
++               mux <- fSaturate(size, growthObj@paras)
++               sigmax <- growthObj@sd
++               u <- dnorm(sizeNext, mux, sigmax, log = F)  
++               return(u);
++           })
+\end{Sinput}
+\begin{Soutput}
+[1] "growth"
+\end{Soutput}
+\end{Schunk}
+By putting {\tt growthObjSaturate} in the signature, R will use this particular method for all objects with this signature. Now, the user can go ahead and use all the other code as previously, without a need for further definitions. 
+
+If the user wishes to fit a growth model with, for example, gamma errors, a similar approach can be used, but with `dgamma' instead of dnorm in the last line of growth method, and appropriate slots defined in the object, etc. 
+
+\section*{Selected References}
+
+
+
+\begin{itemize}
+\item Caswell. 2001. Matrix population models: analysis, construction and interpretation. 2nd ed. Sinauer. Massachussetts, USA.
+
+\item Childs, Rees, Rose, Grubb \& Ellner. 2004. Evolution of size-dependent flowering in a variable environment: Construction and analysis of a stochastic integral projection model. Proc. Roy. Soc. Lond. Ser. B. 271: 471-475.
+
+\item Cochran \& Ellner. 1995. Simple methods for calculating age-based life history parameters for stage-structured populations. Ecological Monographs 62: 345-364.
+
+\item Ellner \& Rees. 2006. Integral projection models for species with complex life-histories. American Naturalist 167: 410-428.
+
+\item Metcalf, Horvitz, Tuljapurkar \& Clark. 2009. A time to grow and a time to die: a  new way to analyze the dynamics of size, light, age and death of tropical trees. Ecology 90: 2766-2778.
+
+\item Rees \& Rose. 2002. Evolution of flowering strategies in Oenothera glazioviana: an integral projection model approach. Proc. Roy. Soc. Lond. Ser. B. 269: 1509-1515.
+
+\item Ramula, Rees \& Buckley. 2009. Integral projection models perform better for small demographic data sets than matrix population models: a case study of two perennial herbs. Journal of Applied Ecology 46: 1048-1053.
+
+\item Salguero-Gomez \& Plotkin. 2010. Matrix dimensionality bias demographic inferences: implications for comparative plant demography. The American Naturalist 176: 710-722
+
+\item Tuljapurkar. 1990. Population Dynamics in Variable Environments. Springer. New York, USA.
+
+\item Zuidema, Jongejans, Chien, During \& Schieving. 2010. Integral Projection Models for trees: a new parameterization and a validation of model output. Journal of Ecology 98: 345-355.
+
+
+\end{itemize}
+
+%\section{Extensions}
+
+%\begin{itemize}
+%\item  sensitivity / elasticity a la Carol Tulja
+%\item stable size dist in stoch env
+%\item survivorship in a stochastic environment
+%\item density dependence generic functions
+%\item age structure
+%\item jim style multi-year census interval growth bayes
+%\item loop analysis (see Zuidema in Ecology showing fast growing
+%  trees contribute more)
+%\end{itemize}
+
+
+\end{document}
+
