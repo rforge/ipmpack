@@ -137,6 +137,7 @@ Modified following code developed by Rees & Rose 2002 (above).
   of the proportional change in the parameter; analagous calculations
   are used for R0 and life expectancy. 
 
+	Note that in previous versions of IPMpack (pre 2.0), the output of this function was mis-aligned. 
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
