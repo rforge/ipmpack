@@ -13,7 +13,6 @@
 \usepackage{pgf}
 \usepackage{a4wide}
 
-
 % \VignetteIndexEntry{IPMpack: An R Package for demographic modeling}
 % \VignetteDepends{Matrix, MASS, nlme, mvtnorm, methods}
 % \VignetteKeyword{kwd1}
@@ -22,11 +21,11 @@
 %\SweaveOpts{prefix.string=Guide/} 
  
 \begin{document}
+\input{IPMpack_Vignette-concordance}
 
 \title{IPMpack: an R package for demographic modeling with Integral Projection
-Models (v.1.6)}
-\author{Jessica Metcalf, Sean M. McMahon, Rob Salguero-Gomez, Eelke Jongejans,
-Cory Merow}
+Models (v. 2.0)}
+\author{Jessica Metcalf, Sean M. McMahon, Rob Salguero-Gomez,\\ Eelke Jongejans, Cory Merow}
 \maketitle
 
 
@@ -41,7 +40,7 @@ returning model scores, as well as tools for diagnostic tests of the IPM models
 themselves. There are also methods to build population models for varying environments, use Bayesian methods to sample population parameters,  estimate longevity and passage time, sensitivity and elasticity (of either parameters or matrix elements), and much more.
 
 This vignette is intended to introduce the concepts of IPMs as well as the
-implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $1.6$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge (http://ipmpack.r-forge.r-project.org/) that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
+implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $2.0$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge (http://ipmpack.r-forge.r-project.org/) that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
  
 \newpage
 
@@ -157,7 +156,7 @@ First, the user must install IPMpack from CRAN using
 
 \begin{Schunk}
 \begin{Sinput}
-> # library(IPMpack)
+> library(IPMpack)
 > 
 \end{Sinput}
 \end{Schunk}
@@ -174,25 +173,19 @@ A quick check indicates that this contains sensible (fictional) information:
 > head(dff)
 \end{Sinput}
 \begin{Soutput}
-      size sizeNext surv covariate covariateNext       fec      stage
-1 6.840241       NA    0         1             0  3.457957 continuous
-2 8.576726 8.685411    1         0             0 28.098036 continuous
-3 5.483423 3.541569    1         1             0  2.602421 continuous
-4 5.163830 4.502620    1         1             0  0.000000 continuous
-5       NA 2.292289   NA         1             0        NA       <NA>
-6 5.690758 4.725808    1         1             0  7.909692 continuous
-   stageNext
-1 continuous
-2 continuous
-3 continuous
-4 continuous
-5 continuous
-6 continuous
+      size sizeNext surv covariate covariateNext      fec      stage  stageNext
+1       NA 2.796694   NA         1             0       NA       <NA> continuous
+2 8.134692       NA    0         1             0 20.22415 continuous continuous
+3       NA 2.173153   NA         1             0       NA       <NA> continuous
+4 2.906117 3.813917    1         1             0  0.00000 continuous continuous
+5 7.220106       NA    0         1             0 22.09114 continuous continuous
+6       NA 1.838917   NA         1             1       NA       <NA> continuous
 \end{Soutput}
 \end{Schunk}
 
 for simplicity, no discrete covariates are included in this first example. Figure~\ref{fig:zero} (p.~\pageref{fig:zero}) is produced by the following code:
 
+% to change figure appearence:<<>>=options(SweaveHooks=list(fig=function() par(mar=c(5.1, 4.1, 1.1, 2.1))))
 \begin{Schunk}
 \begin{Sinput}
 > plot(dff$size, dff$sizeNext, xlab = "Size at t", ylab = "Size at t+1")
@@ -200,7 +193,7 @@ for simplicity, no discrete covariates are included in this first example. Figur
 \end{Schunk}
 \begin{figure}
 \begin{center}
-\includegraphics{IPMpack_vignette-fig0}
+\includegraphics{IPMpack_Vignette-fig0}
 \end{center}
 \caption{Size at t and size at t+1}
 \label{fig:zero}
@@ -244,11 +237,11 @@ lm(formula = Formula, data = dataf)
 
 Coefficients:
 (Intercept)         size        size2  
-   -0.07442      0.93372     -0.01330  
+   -0.12385      0.94242     -0.01104  
 
 
 Slot "sd":
-[1] 1.101756
+[1] 1.155452
 \end{Soutput}
 \end{Schunk}
 Note that before building growth or survival objects in IPMpack, careful model assessement and comparison are recommended, using all the usual regression tools available in R (plotting the fitted {\tt lm} or {\tt glm} to check for patterns of residuals, outliers etc). IPMpack also contains two functions that allow the user to check these two relationships against the data used for them in order to explore goodness of fit and effect of mesh size, shown in Figure~\ref{fig:one} (p.~\pageref{fig:one}).
@@ -261,7 +254,7 @@ Note that before building growth or survival objects in IPMpack, careful model a
 \end{Schunk}
 \begin{figure}
 \begin{center}
-\includegraphics{IPMpack_vignette-fig1}
+\includegraphics{IPMpack_Vignette-fig1}
 \end{center}
 \caption{Growth and survival objects}
 \label{fig:one}
@@ -270,9 +263,9 @@ To build a demographic model describing survival and growth transitions from the
 \begin{Schunk}
 \begin{Sinput}
 > Pmatrix <- makeIPMPmatrix(nBigMatrix = 50, 
-+                             minSize = -5, maxSize = 35, 
-+                             growObj = gr1, survObj = sv1, 
-+                             correction = "constant")
+                              minSize = -5, maxSize = 35, 
+                              growObj = gr1, survObj = sv1, 
+                              correction = "constant")
 \end{Sinput}
 \end{Schunk}
 where {\tt nBigMatrix} is the numbers of bins used, {\tt minSize} and
@@ -287,11 +280,11 @@ and survival as defined above.
 \begin{Schunk}
 \begin{Soutput}
 [1] "Range of Pmatrix is "
-[1] 9.299338e-278  2.838052e-01
+[1] 5.118067e-253  2.754937e-01
 [1] "Please hit any key for the next plot"
 \end{Soutput}
 \end{Schunk}
-\includegraphics{IPMpack_vignette-triDiag}
+\includegraphics{IPMpack_Vignette-triDiag}
 \end{center}
 \caption{Diagnostic plots for the Pmatrix.}
 \label{fig:triDiag}
@@ -343,7 +336,7 @@ Finally, the user can plot the Pmatrix using {\tt persp} or {\tt
   image} (Figure~\ref{fig:two}). 
 \begin{figure}
 \begin{center}
-\includegraphics{IPMpack_vignette-fig2}
+\includegraphics{IPMpack_Vignette-fig2}
 \end{center}
 \caption{Transition matrix encompassing survival and growth transitions only}
 \label{fig:two}
@@ -360,7 +353,7 @@ and the user can also plot these against {\tt Pmatrix@meshpoints} to examine how
 life expectancy and passage vary as a function of size (Figure~\ref{fig:three} p.~\pageref{fig:three}).
 \begin{figure}
 \begin{center}
-\includegraphics{IPMpack_vignette-fig3}
+\includegraphics{IPMpack_Vignette-fig3}
 \end{center}
 \caption{Associated Life Expectancy and Passage Time}
 \label{fig:three}
@@ -371,12 +364,12 @@ If the user defines a fertility object - which, for instance, is not always easy
 \begin{Schunk}
 \begin{Sinput}
 > fv1 <- makeFecObj(dff, Formula = fec~size, 	
-+                   Family = "gaussian", 
-+                   Transform = "log")
+                    Family = "gaussian", 
+                    Transform = "log")
 > Fmatrix <- makeIPMFmatrix(nBigMatrix = 50, minSize = -5,
-+                             maxSize = 35, 
-+                             fecObj = fv1, 
-+                             correction = "constant")
+                              maxSize = 35, 
+                              fecObj = fv1, 
+                              correction = "constant")
 \end{Sinput}
 \end{Schunk}
 Note that {\tt makeFecObj} will use the relationships defined in {\tt Formula} and the family defined in {\tt Family} with transforms defined in {\tt Transform} in the order supplied. Please note that the fecundity {\tt Formula} MUST match the {\tt Transform} since IPMPack needs to combine the parameters from  {\tt Formula}  with the right  {\tt Transform}  to appropriately build the F matrixs. 
@@ -399,7 +392,7 @@ The user can combine the F matrix with (an identically built, i.e., same bin num
 > Re(eigen(IPM)$value[1])
 \end{Sinput}
 \begin{Soutput}
-[1] 2.496296
+[1] 2.779769
 \end{Soutput}
 \begin{Sinput}
 > sensitivity <- sens(IPM)
@@ -409,7 +402,7 @@ The user can combine the F matrix with (an identically built, i.e., same bin num
 These outputs can be plotted against the meshpoints (Figure~\ref{fig:four} p.~\pageref{fig:four}).
 \begin{figure}
 \begin{center}
-\includegraphics{IPMpack_vignette-fig4}
+\includegraphics{IPMpack_Vignette-fig4}
 \end{center}
 \caption{Measures off a full IPM}
 \label{fig:four}
@@ -418,37 +411,37 @@ In addition to perturbation measures from mesh cells, the user can also obtain s
 \begin{Schunk}
 \begin{Sinput}
 > res <- sensParams(growObj = gr1, survObj = sv1, fecObj = fv1, 
-+                   nBigMatrix = 50, minSize = -5, maxSize = 15)
+                    nBigMatrix = 50, minSize = -5, maxSize = 15)
 > res
 \end{Sinput}
 \begin{Soutput}
 $sens
                 survival: (Intercept)                        survival: size 
-                           0.21215210                            0.44397635 
+                           0.22275111                            0.43669853 
                       survival: size2                   growth: (Intercept) 
-                           1.02198244                            0.10272086 
+                           0.94665162                            0.10378569 
                          growth: size                         growth: size2 
-                           0.21835832                            0.51042733 
+                           0.20630438                            0.45350843 
                            growth: sd         fecundity: func 1 (Intercept) 
-                           0.03642218                            2.18155375 
+                           0.03562893                            2.43432537 
                fecundity: func 1 size fecundity: offspring rel  (Intercept) 
-                           4.51140084                            0.71277108 
+                           4.73947163                            0.72956267 
          fecundity: sd offspring size 
-                           0.12323411 
+                           0.10512269 
 
 $elas
                 survival: (Intercept)                        survival: size 
-                         -0.105153516                           0.043882546 
+                        -0.0764585048                          0.0285780509 
                       survival: size2                   growth: (Intercept) 
-                         -0.001118036                          -0.003061620 
+                         0.0004183822                         -0.0046218331 
                          growth: size                         growth: size2 
-                          0.081659861                          -0.002719719 
+                         0.0699093391                         -0.0017997428 
                            growth: sd         fecundity: func 1 (Intercept) 
-                          0.016072187                           0.140127846 
+                         0.0148026149                          0.3031497834 
                fecundity: func 1 size fecundity: offspring rel  (Intercept) 
-                          0.559446404                           0.558956451 
+                         0.4889714219                          0.4881224841 
          fecundity: sd offspring size 
-                          0.026404075 
+                         0.0182808796 
 \end{Soutput}
 \end{Schunk}
 and this output can be plotted out (Figure~\ref{fig:foura} p.~\pageref{fig:foura}) using
@@ -456,14 +449,14 @@ and this output can be plotted out (Figure~\ref{fig:foura} p.~\pageref{fig:foura
 \begin{Sinput}
 > par(mfrow = c(2, 1), bty = "l", pty = "m")
 > barplot(res$sens, main = expression("Parameter sensitivity of "*lambda), 
-+ 		    las = 2, cex.names = 0.5)
+  		    las = 2, cex.names = 0.5)
 > barplot(res$elas, main = expression("Parameter elasticity of "*lambda), 
-+ 		    las = 2, cex.names = 0.5)
+  		    las = 2, cex.names = 0.5)
 \end{Sinput}
 \end{Schunk}
 \begin{figure}
 \begin{center}
-\includegraphics{IPMpack_vignette-fig4a}
+\includegraphics{IPMpack_Vignette-fig4a}
 \end{center}
 \caption{Sensitivity and elasticity of parameter values}
 \label{fig:foura}
@@ -502,10 +495,10 @@ these paths:
 \begin{Schunk}
 \begin{Sinput}
 > fv1 <- makeFecObj(dataf = dff, Transform = "log", 
-+                   offspringSplitter = data.frame(continuous = 0.2, 
-+                   dormant = 0, seedAge1 = 0.8, seedOld = 0), 
-+                   fecByDiscrete = data.frame(dormant = 0, 
-+                   seedAge1 = 0, seedOld = 0))
+                    offspringSplitter = data.frame(continuous = 0.2, 
+                    dormant = 0, seedAge1 = 0.8, seedOld = 0), 
+                    fecByDiscrete = data.frame(dormant = 0, 
+                    seedAge1 = 0, seedOld = 0))
 \end{Sinput}
 \end{Schunk}
 In this example, 20\% of seeds produced at $t$ end up in the continuous part of
@@ -518,9 +511,9 @@ where IPMpack identifies all the existing discrete stages. The argument {\tt fec
 \begin{Schunk}
 \begin{Sinput}
 > Fmatrix <- makeIPMFmatrix(fecObj = fv1, nBigMatrix = 5, 
-+                             minSize = min(dff$size, na.rm = TRUE), 
-+                             maxSize = max(dff$size, na.rm = TRUE), 
-+                             correction = "constant")
+                              minSize = min(dff$size, na.rm = TRUE), 
+                              maxSize = max(dff$size, na.rm = TRUE), 
+                              correction = "constant")
 \end{Sinput}
 \end{Schunk}
 The user also needs a {\tt Pmatrix} that reflects the same structure. The
@@ -528,7 +521,7 @@ continuous part of the P matrix will be the standard structure:
 \begin{Schunk}
 \begin{Sinput}
 > gr1 <- makeGrowthObj(dataf = dff, 
-+                       Formula = sizeNext~size)
+                        Formula = sizeNext~size)
 > sv1 <- makeSurvObj(dff,  Formula = surv~size)
 \end{Sinput}
 \end{Schunk}
@@ -545,10 +538,10 @@ user can then construct the P matrix:
 \begin{Schunk}
 \begin{Sinput}
 > Pmatrix <- makeIPMPmatrix(nBigMatrix = 5, 	
-+                             growObj = makeGrowthObj(dff), 
-+                             survObj = makeSurvObj(dff), 
-+                             discreteTrans = discTrans, 
-+                             correction = "constant")
+                              growObj = makeGrowthObj(dff), 
+                              survObj = makeSurvObj(dff), 
+                              discreteTrans = discTrans, 
+                              correction = "constant")
 \end{Sinput}
 \end{Schunk}
 Note that both the P matrix and the F matrix in this example have a rather small number of bins just for ease of comparison, and that a higher number is almost certainly advisable. The user can examine both matrices: 
@@ -557,25 +550,25 @@ Note that both the P matrix and the F matrix in this example have a rather small
 > print(Pmatrix)
 \end{Sinput}
 \begin{Soutput}
-An object of class "IPMmatrix"
-              [,1]         [,2]         [,3]          [,4]          [,5]
-[1,]  3.600000e-01 0.000000e+00 0.000000e+00  1.415925e-02  2.560069e-01
-[2,]  0.000000e+00 0.000000e+00 0.000000e+00  0.000000e+00  0.000000e+00
-[3,]  0.000000e+00 4.439560e-01 4.323308e-01  0.000000e+00  0.000000e+00
-[4,]  6.400000e-01 7.252566e-02 1.127810e-01  4.142798e-01  7.571397e-19
-[5,]  4.502774e-08 1.813828e-06 9.957502e-07  1.589465e-24  5.947600e-02
-[6,]  6.277758e-38 3.413070e-19 2.152353e-20  7.477653e-97  5.728810e-34
-[7,]  1.734416e-90 4.832136e-40 1.139003e-42 4.313567e-218 6.766189e-115
-[8,] 9.495685e-166 5.147279e-69 1.475654e-73  0.000000e+00 9.798979e-245
+An object of class "IPMmatrix" (from the global environment)
+              [,1]         [,2]          [,3]          [,4]          [,5]
+[1,]  2.400000e-01 0.000000e+00  0.000000e+00  2.003633e-02  5.469304e-01
+[2,]  0.000000e+00 0.000000e+00  0.000000e+00  0.000000e+00  0.000000e+00
+[3,]  0.000000e+00 4.439560e-01  4.323308e-01  0.000000e+00  0.000000e+00
+[4,]  7.599997e-01 7.252746e-02  1.127820e-01  4.123578e-01  1.646836e-16
+[5,]  2.614185e-07 1.723834e-08  5.730283e-10  4.056637e-26  2.435412e-01
+[6,]  2.635339e-34 1.153554e-26  3.173120e-31 3.608533e-104  3.256619e-39
+[7,]  7.785986e-82 2.173348e-56  1.915010e-65 2.902468e-235 3.937620e-130
+[8,] 6.741677e-150 1.152842e-97 1.259590e-112  0.000000e+00 4.305001e-274
               [,6]          [,7]          [,8]
-[1,]  1.333179e-03  1.831697e-08  2.220446e-16
+[1,]  9.412645e-01  9.898322e-01  9.981076e-01
 [2,]  0.000000e+00  0.000000e+00  0.000000e+00
 [3,]  0.000000e+00  0.000000e+00  0.000000e+00
-[4,]  7.753713e-72 1.349656e-159 4.570834e-290
-[5,]  1.247050e-14  4.444322e-62 3.081672e-152
-[6,]  2.459320e-06  1.794507e-13  2.547619e-63
-[7,]  5.947072e-47  8.884678e-14  2.582495e-23
-[8,] 1.763390e-136  5.393805e-63  3.209974e-32
+[4,]  2.019317e-60 2.043307e-142 4.803041e-254
+[5,]  4.489071e-05  6.828349e-47 2.412840e-118
+[6,]  9.023625e-03  2.063338e-04  1.096007e-35
+[7,]  1.640129e-53  5.637640e-15  4.501635e-06
+[8,] 2.695550e-157  1.392826e-78  1.671860e-29
 Slot "nDiscrete":
 [1] 3
 
@@ -598,25 +591,25 @@ Slot "names.discrete":
 > print(Fmatrix)
 \end{Sinput}
 \begin{Soutput}
-An object of class "IPMmatrix"
+An object of class "IPMmatrix" (from the global environment)
      [,1] [,2] [,3]         [,4]         [,5]         [,6]         [,7]
-[1,]    0    0    0 0.000000e+00 0.000000e+00 0.0000000000 0.0000000000
-[2,]    0    0    0 1.002385e-01 2.000051e-01 0.3990686200 0.7962586783
-[3,]    0    0    0 0.000000e+00 0.000000e+00 0.0000000000 0.0000000000
-[4,]    0    0    0 1.478507e-03 2.950054e-03 0.0058862219 0.0117447351
-[5,]    0    0    0 1.169841e-02 2.334176e-02 0.0465736347 0.0929280303
-[6,]    0    0    0 1.072830e-02 2.140610e-02 0.0427114402 0.0852218220
-[7,]    0    0    0 1.140343e-03 2.275319e-03 0.0045399271 0.0090584831
-[8,]    0    0    0 1.404885e-05 2.803158e-05 0.0000559312 0.0001115991
-             [,8]
-[1,] 0.0000000000
-[2,] 1.5887690760
-[3,] 0.0000000000
-[4,] 0.0234341835
-[5,] 0.1854186143
-[6,] 0.1700424737
-[7,] 0.0180743245
-[8,] 0.0002226729
+[1,]    0    0    0 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+[2,]    0    0    0 0.1222833802 0.2154825401 0.3797141117 0.6691159598
+[3,]    0    0    0 0.0000000000 0.0000000000 0.0000000000 0.0000000000
+[4,]    0    0    0 0.0034023031 0.0059953930 0.0105648249 0.0186168824
+[5,]    0    0    0 0.0129234415 0.0227731356 0.0401298451 0.0707150958
+[6,]    0    0    0 0.0116360277 0.0205045101 0.0361321704 0.0636705645
+[7,]    0    0    0 0.0024834344 0.0043762019 0.0077115558 0.0135889736
+[8,]    0    0    0 0.0001256383 0.0002213944 0.0003901318 0.0006874736
+            [,8]
+[1,] 0.000000000
+[2,] 1.179087513
+[3,] 0.000000000
+[4,] 0.032805874
+[5,] 0.124611116
+[6,] 0.112197544
+[7,] 0.023945908
+[8,] 0.001211436
 Slot "nDiscrete":
 [1] 3
 
@@ -627,7 +620,7 @@ Slot "nBigMatrix":
 [1] 5
 
 Slot "meshpoints":
-[1] -0.8042093  2.0405761  4.8853615  7.7301470 10.5749324
+[1] -0.04093497  2.14493987  4.33081471  6.51668955  8.70256439
 
 Slot "env.index":
 [1] 1 1 1 1 1
@@ -643,24 +636,24 @@ them together:
 > print(Pmatrix+Fmatrix)
 \end{Sinput}
 \begin{Soutput}
-              [,1]         [,2]         [,3]         [,4]         [,5]
-[1,]  3.600000e-01 0.000000e+00 0.000000e+00 1.415925e-02 2.560069e-01
-[2,]  0.000000e+00 0.000000e+00 0.000000e+00 1.002385e-01 2.000051e-01
-[3,]  0.000000e+00 4.439560e-01 4.323308e-01 0.000000e+00 0.000000e+00
-[4,]  6.400000e-01 7.252566e-02 1.127810e-01 4.157583e-01 2.950054e-03
-[5,]  4.502774e-08 1.813828e-06 9.957502e-07 1.169841e-02 8.281775e-02
-[6,]  6.277758e-38 3.413070e-19 2.152353e-20 1.072830e-02 2.140610e-02
-[7,]  1.734416e-90 4.832136e-40 1.139003e-42 1.140343e-03 2.275319e-03
-[8,] 9.495685e-166 5.147279e-69 1.475654e-73 1.404885e-05 2.803158e-05
-             [,6]         [,7]         [,8]
-[1,] 0.0013331794 1.831697e-08 2.220446e-16
-[2,] 0.3990686200 7.962587e-01 1.588769e+00
-[3,] 0.0000000000 0.000000e+00 0.000000e+00
-[4,] 0.0058862219 1.174474e-02 2.343418e-02
-[5,] 0.0465736347 9.292803e-02 1.854186e-01
-[6,] 0.0427138995 8.522182e-02 1.700425e-01
-[7,] 0.0045399271 9.058483e-03 1.807432e-02
-[8,] 0.0000559312 1.115991e-04 2.226729e-04
+              [,1]         [,2]          [,3]         [,4]         [,5]
+[1,]  2.400000e-01 0.000000e+00  0.000000e+00 0.0200363250 0.5469304323
+[2,]  0.000000e+00 0.000000e+00  0.000000e+00 0.1222833802 0.2154825401
+[3,]  0.000000e+00 4.439560e-01  4.323308e-01 0.0000000000 0.0000000000
+[4,]  7.599997e-01 7.252746e-02  1.127820e-01 0.4157600921 0.0059953930
+[5,]  2.614185e-07 1.723834e-08  5.730283e-10 0.0129234415 0.2663143232
+[6,]  2.635339e-34 1.153554e-26  3.173120e-31 0.0116360277 0.0205045101
+[7,]  7.785986e-82 2.173348e-56  1.915010e-65 0.0024834344 0.0043762019
+[8,] 6.741677e-150 1.152842e-97 1.259590e-112 0.0001256383 0.0002213944
+             [,6]         [,7]        [,8]
+[1,] 0.9412645395 0.9898321762 0.998107604
+[2,] 0.3797141117 0.6691159598 1.179087513
+[3,] 0.0000000000 0.0000000000 0.000000000
+[4,] 0.0105648249 0.0186168824 0.032805874
+[5,] 0.0401747358 0.0707150958 0.124611116
+[6,] 0.0451557957 0.0638768983 0.112197544
+[7,] 0.0077115558 0.0135889736 0.023950409
+[8,] 0.0003901318 0.0006874736 0.001211436
 \end{Soutput}
 \end{Schunk}
 The first three rows and columns concern transitions in and out of the discrete stages; the remainder are the usual P and F matrices describing moving across the continuous variables. The usual types of calculations (sensitivity via {\tt sens}, life expectancy via {\tt meanLifeExpect}, etc) can be applied here too.    
@@ -682,10 +675,10 @@ census time to the next. If the data has been set up as described, there is a fu
 > env1
 \end{Sinput}
 \begin{Soutput}
-An object of class "envMatrix"
-          [,1]      [,2]
-[1,] 0.2046569 0.1521739
-[2,] 0.7953431 0.8478261
+An object of class "envMatrix" (from the global environment)
+         [,1]      [,2]
+[1,] 0.207858 0.2180095
+[2,] 0.792142 0.7819905
 Slot "nEnvClass":
 [1] 2
 \end{Soutput}
@@ -711,20 +704,20 @@ functions can be used to create a compound P matrix, using {\tt makeCompoundPmat
 \begin{Schunk}
 \begin{Sinput}
 > Pmatrix <- makeCompoundPmatrix(nBigMatrix = 50, minSize = -5, 
-+                                  maxSize = 35, 
-+                                  envMatrix = env1, growObj = gr1, 
-+                                  survObj = sv1, 
-+                                  correction = "constant")
+                                   maxSize = 35, 
+                                   envMatrix = env1, growObj = gr1, 
+                                   survObj = sv1, 
+                                   correction = "constant")
 \end{Sinput}
 \end{Schunk}
 \begin{figure}
 \begin{center}
-\includegraphics{IPMpack_vignette-figCompound}
+\includegraphics{IPMpack_Vignette-figCompound}
 \end{center}
 \caption{Compound P matrix IPM shown on a log scale: whiter colours indicate
   more likely transitions; and the four different panels indicate each
   of the four environments.}
-\label{fig:five}
+\label{fig:compound}
 \end{figure}
 Essentially, the compound P matrix is a large matrix with stacked IPMs
 corresponding to each environment, modified to reflect movement
@@ -737,11 +730,11 @@ matrix as an argument (equivalent life expectancy functions are in development):
 \end{Sinput}
 \end{Schunk}
 The resulting vectors contain the life expectancy and time to reach each size for individuals starting in each different environmental class, concatenated together (i.e. there are {\tt nBigMatrix} values in the LE matrix ranging over the first environment, then {\tt nBigMatrix} values ranging over the second environment, etc). The user can plot these against meshpoints 
-(Figure~\ref{fig:five} p.~\pageref{fig:five}), 
+(Figure~\ref{fig:compound} p.~\pageref{fig:compound}), 
 each colour indicates a different starting environment. Similar syntax can be used for passage time (although note that here the function name has changed): 
 \begin{figure}
 \begin{center}
-\includegraphics{IPMpack_vignette-fig5}
+\includegraphics{IPMpack_Vignette-fig5}
 \end{center}
 \caption{Passage time for a compound IPM;   different colours reflect predictions for individuals starting in different environments}
 \label{fig:five}
@@ -752,9 +745,9 @@ cycle IPM model for across environments. With such information, obtaining the st
 \begin{Schunk}
 \begin{Sinput}
 > IPMlist <- sampleSequentialIPMs(dataf = dff, nBigMatrix = 25, minSize = -5, 
-+                         maxSize = 35, explSurv = surv~size+covariate, 
-+                         explGrow = sizeNext~size+size2+covariate, 
-+                         explFec = fec~size, Transform="log",correction = "constant")
+                          maxSize = 35, explSurv = surv~size+covariate, 
+                          explGrow = sizeNext~size+size2+covariate, 
+                          explFec = fec~size, Transform="log",correction = "constant")
 \end{Sinput}
 \begin{Soutput}
 surv ~ size + covariate
@@ -770,10 +763,10 @@ Next, the user can estimate $\lambda_s$ using:
 \begin{Schunk}
 \begin{Sinput}
 > stochGrowthRateSampleList(listIPMmatrix = IPMlist, 
-+                           nRunIn = 30, tMax = 50)
+                            nRunIn = 30, tMax = 50)
 \end{Sinput}
 \begin{Soutput}
-[1] 1.098022
+[1] 0.9589606
 \end{Soutput}
 \end{Schunk}
 where {\tt nRunIn} defines the number of time steps to discard from the start of the time series in order to remove transient dynamics, and {\tt tMax} is the total
@@ -792,11 +785,11 @@ ergodic theorem for convergence (e.g., Tuljapurkar 1990; as described for obtain
 \begin{Sinput}
 > dff <- generateData(type="stochastic")
 > sv1 <- makeSurvObj(dataf = dff, 
-+                           Formula = surv~size+covariate1+covariate3)
+                            Formula = surv~size+covariate1+covariate3)
 > gr1 <- makeGrowthObj(dataf = dff, 
-+                              Formula = sizeNext~size+covariate1+covariate2)
+                               Formula = sizeNext~size+covariate1+covariate2)
 > fv1 <- makeFecObj(dataf = dff, fecConstants = data.frame(1.8), 
-+                   Formula = fec~size, Transform = "log")
+                    Formula = fec~size, Transform = "log")
 \end{Sinput}
 \end{Schunk}
 As before, the user can explore the data: 
@@ -805,20 +798,20 @@ As before, the user can explore the data:
 > head(dff)
 \end{Sinput}
 \begin{Soutput}
-      size  sizeNext surv covariate1 covariate2 covariate3      fec      stage
-1 6.051791        NA    0 -0.5747144 -0.7975715 -1.0363875 8.823700 continuous
-2       NA -2.058545    1  1.9344100 -3.2526792 -0.1503998 7.335473       <NA>
-3 6.516192        NA    0 -0.2123185  0.1524222 -0.2537894 1.815700 continuous
-4 3.153085        NA    0 -1.0864944  0.3782422 -0.4146202 0.000000 continuous
-5 5.718612  4.299649    1 -0.5887571 -1.9217186  0.2250534 0.000000 continuous
-6 5.243961  1.711085    1 -1.2315500 -0.5680018 -0.9262012 0.000000 continuous
-   stageNext number
-1 continuous      1
-2 continuous      1
-3 continuous      1
-4 continuous      1
-5 continuous      1
-6 continuous      1
+      size   sizeNext surv  covariate1  covariate2  covariate3       fec
+1 6.144161  2.4964978    1 -1.37708726  0.06461963  0.04225096 10.718089
+2 6.285217  7.2999286    1  0.32767896  0.80907220 -2.56955928 15.455672
+3 4.987102  6.2020666    1  0.05816489 -0.98098656  1.97993957 18.070853
+4 8.098899  7.9949051    1 -0.10380446  0.15835975  0.57531303  4.087797
+5 1.973361 -1.4453697    1 -1.41426118 -0.48906325  0.02070159  0.000000
+6 2.664400  0.2417873    1 -1.05573823 -1.66826460 -0.41425870  0.000000
+       stage  stageNext number
+1 continuous continuous      1
+2 continuous continuous      1
+3 continuous continuous      1
+4 continuous continuous      1
+5 continuous continuous      1
+6 continuous continuous      1
 \end{Soutput}
 \end{Schunk}
 and glance at the objects, e.g., 
@@ -835,11 +828,11 @@ lm(formula = Formula, data = dataf)
 
 Coefficients:
 (Intercept)         size   covariate1   covariate2  
-    1.01376      0.89507      3.00776      0.01686  
+    1.00686      0.90317      3.00288      0.01198  
 
 
 Slot "sd":
-[1] 0.2123438
+[1] 0.2170714
 \end{Soutput}
 \end{Schunk}
 To explore demographic projections for this model, the user must decide on
@@ -855,8 +848,8 @@ rows and different covariates in columns.
 > tVals <- seq(1, 4, by = 1/12)
 > covTest <- c(1 + 0.5*sin(2*pi*tVals))
 > covMatTest <- data.frame(covariate1 = rnorm(length(covTest), covTest, 0.5) - 1, 
-+                          covariate2 = rnorm(length(covTest), covTest, 0.5) - 1, 
-+                          covariate3 = rnorm(length(covTest), covTest, 0.5) - 1)
+                           covariate2 = rnorm(length(covTest), covTest, 0.5) - 1, 
+                           covariate3 = rnorm(length(covTest), covTest, 0.5) - 1)
 \end{Sinput}
 \end{Schunk}
 Note that  if there is no apparent temporal pattern to the data, one could
@@ -864,16 +857,16 @@ simply generate random normal distributions of the covariates using their observ
 \begin{Schunk}
 \begin{Sinput}
 > r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*1, 
-+                             tMax = length(tVals), growthObj = gr1, 
-+                             survObj = sv1, fecObj = fv1, nBigMatrix = 20, 
-+                             minSize = 2*min(dff$size, na.rm = TRUE), 
-+                             maxSize = 1.6*max(dff$size, na.rm = TRUE), 
-+                             nMicrosites = 50, correction = "constant")
+                              tMax = length(tVals), growthObj = gr1, 
+                              survObj = sv1, fecObj = fv1, nBigMatrix = 20, 
+                              minSize = 2*min(dff$size, na.rm = TRUE), 
+                              maxSize = 1.6*max(dff$size, na.rm = TRUE), 
+                              nMicrosites = 50, correction = "constant")
 > print(r)
 \end{Sinput}
 \begin{Soutput}
 $Rt
-[1] 0.02766218
+[1] 0.04318964
 \end{Soutput}
 \end{Schunk}
 Setting nRunIn = $12*1$ in this example is equivalent to discarding the first 
@@ -905,10 +898,10 @@ Then define the functional form of the mean prediction, with relevant parameters
 \begin{Schunk}
 \begin{Sinput}
 > fSaturate <- function(size, pars) { 
-+     u <- exp(pmin(pars[1] + pars[2] * size, 50))
-+     u <- pars[3] * 1/(1+u)
-+     return(u)
-+ }
+      u <- exp(pmin(pars[1] + pars[2] * size, 50))
+      u <- pars[3] * 1/(1+u)
+      return(u)
+  }
 \end{Sinput}
 \end{Schunk}
 where the third parameter indicates the asymptotic size. The user can then
@@ -917,23 +910,23 @@ function and the R function {\tt optim}.
 \begin{Schunk}
 \begin{Sinput}
 > wrapSaturate <- function(par, dataf) { 
-+     pred <- fSaturate(dataf$size, par[1:3])
-+     ss <- sum((pred - dataf$sizeNext)^2, na.rm = TRUE)
-+     return(ss)
-+     }
+      pred <- fSaturate(dataf$size, par[1:3])
+      ss <- sum((pred - dataf$sizeNext)^2, na.rm = TRUE)
+      return(ss)
+      }
 > tmp <- optim(c(1, 1, 1), wrapSaturate, dataf = dff, method = "Nelder-Mead")
 > tmp    
 \end{Sinput}
 \begin{Soutput}
 $par
-[1]   93.266042 -106.996957    5.982115
+[1]  1.9680857 -0.3600552 12.0381036
 
 $value
-[1] 5954.328
+[1] 4381.111
 
 $counts
 function gradient 
-     152       NA 
+     398       NA 
 
 $convergence
 [1] 0
@@ -967,12 +960,12 @@ Finally, the user must define a method appropriate for this type of object.
 \begin{Schunk}
 \begin{Sinput}
 > setMethod("growth", c("numeric", "numeric", "numeric", "growthObjSaturate"), 
-+           function(size, sizeNext, cov, growthObj){
-+               mux <- fSaturate(size, growthObj@paras)
-+               sigmax <- growthObj@sd
-+               u <- dnorm(sizeNext, mux, sigmax, log = F)  
-+               return(u);
-+           })
+            function(size, sizeNext, cov, growthObj){
+                mux <- fSaturate(size, growthObj@paras)
+                sigmax <- growthObj@sd
+                u <- dnorm(sizeNext, mux, sigmax, log = F)  
+                return(u);
+            })
 \end{Sinput}
 \begin{Soutput}
 [1] "growth"
@@ -1025,4 +1018,3 @@ If the user wishes to fit a growth model with, for example, gamma errors, a simi
 
 
 \end{document}
-
