@@ -24,7 +24,7 @@
 \SweaveOpts{concordance=TRUE}
 
 \title{IPMpack: an R package for demographic modeling with Integral Projection
-Models (v.1.6)}
+Models (v. 2.0)}
 \author{Jessica Metcalf, Sean M. McMahon, Rob Salguero-Gomez,\\ Eelke Jongejans, Cory Merow}
 \maketitle
 
@@ -40,7 +40,7 @@ returning model scores, as well as tools for diagnostic tests of the IPM models
 themselves. There are also methods to build population models for varying environments, use Bayesian methods to sample population parameters,  estimate longevity and passage time, sensitivity and elasticity (of either parameters or matrix elements), and much more.
 
 This vignette is intended to introduce the concepts of IPMs as well as the
-implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $1.6$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge (http://ipmpack.r-forge.r-project.org/) that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
+implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $2.0$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge (http://ipmpack.r-forge.r-project.org/) that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
  
 \newpage
 
@@ -162,20 +162,13 @@ library(IPMpack)
 options(continue="  ") # removes those stupid plus signs from R continuations
 @
 <<results=hide, echo=FALSE>>=
-# Jess's Computer
-source("/Users/jessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Util.r")
-source("/Users/jessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Analyses.r")
-source("/Users/jessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Vital_Rate_Obj.r")
-source("/Users/jessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Hidden.r")
-source("/Users/jessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Classes_and_Methods.r")
-source("/Users/jessicametcalf/Documents/workspace/IPMpack/pkg/R/IPMpack-Matrices.r")
-# Cory's Computer
-#source("/Users/ctg/Documents/Misc_Work/IPMpack/IPMpack/R/IPMpack-Util.r")
-#source("/Users/ctg/Documents/Misc_Work/IPMpack/IPMpack/R/IPMpack-Analyses.r")
-#source("/Users/ctg/Documents/Misc_Work/IPMpack/IPMpack/R/IPMpack-Vital_Rate_Obj.r")
-#source("/Users/ctg/Documents/Misc_Work/IPMpack/IPMpack/R/IPMpack-Hidden.r")
-#source("/Users/ctg/Documents/Misc_Work/IPMpack/IPMpack/R/IPMpack-Classes_and_Methods.r")
-#source("/Users/ctg/Documents/Misc_Work/IPMpack/IPMpack/R/IPMpack-Matrices.r")
+library(IPMpack)
+#source("/Applications/eclipse//IPMpack/R/IPMpack-Util.r")
+#source("/Applications/eclipse//IPMpack/R/IPMpack-Analyses.r")
+#source("/Applications/eclipse//IPMpack/R/IPMpack-Vital_Rate_Obj.r")
+#source("/Applications/eclipse//IPMpack/R/IPMpack-Hidden.r")
+#source("/Applications/eclipse//IPMpack/R/IPMpack-Classes_and_Methods.r")
+#source("/Applications/eclipse//IPMpack/R/IPMpack-Matrices.r")
 @
 Next, the user must input demographic data. As mentioned above, most functions of IPMpack require a data file with at minimum columns called {\tt size}, {\tt sizeNext}, {\tt surv}, where `size' is size at time t, `sizeNext' is size one census later, and `surv' is a series of 0s and 1s, indicating if the individual survived or not. In the case of `size' and `sizeNext', data can be transformed (e.g., onto a log scale), if appropriate via functions built into IPMpack. For the purpose of learning how to use IPMpack, the user can either use his/her own data (adjusted to have the appropriate headings, as aforementioned), or generate them with a function built into IPMpack:
 
@@ -397,7 +390,7 @@ res
 @ 
 and this output can be plotted out (Figure~\ref{fig:foura} p.~\pageref{fig:foura}) using
 <<label = fig4a, include = FALSE>>= 
-par(mfrow = c(2, 1), bty = "l", pty = "m",mar=c())
+par(mfrow = c(2, 1), bty = "l", pty = "m")
 barplot(res$sens, main = expression("Parameter sensitivity of "*lambda), 
 		    las = 2, cex.names = 0.5)
 barplot(res$elas, main = expression("Parameter elasticity of "*lambda), 
@@ -542,7 +535,7 @@ abline(v = length(Pmatrix@meshpoints) * (1:Pmatrix@nEnvClass))
 \caption{Compound P matrix IPM shown on a log scale: whiter colours indicate
   more likely transitions; and the four different panels indicate each
   of the four environments.}
-\label{fig:five}
+\label{fig:compound}
 \end{figure}
 Essentially, the compound P matrix is a large matrix with stacked IPMs
 corresponding to each environment, modified to reflect movement
@@ -553,7 +546,7 @@ matrix as an argument (equivalent life expectancy functions are in development):
 pTimes <- stochPassageTime(Pmatrix@meshpoints[15], Pmatrix, env1)
 @ 
 The resulting vectors contain the life expectancy and time to reach each size for individuals starting in each different environmental class, concatenated together (i.e. there are {\tt nBigMatrix} values in the LE matrix ranging over the first environment, then {\tt nBigMatrix} values ranging over the second environment, etc). The user can plot these against meshpoints 
-(Figure~\ref{fig:five} p.~\pageref{fig:five}), 
+(Figure~\ref{fig:compound} p.~\pageref{fig:compound}), 
 each colour indicates a different starting environment. Similar syntax can be used for passage time (although note that here the function name has changed): 
 \begin{figure}
 \begin{center}
