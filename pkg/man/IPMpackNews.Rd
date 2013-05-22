@@ -10,13 +10,7 @@ Learn about recent changes to IPMpack.
 \usage{
 IPMpackNews()
 }
-%- maybe also 'usage' for other objects documented here.
-\arguments{
 
-}
-\references{
-
-}
 \author{
 C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans & Cory Merow.
 }

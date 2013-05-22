@@ -163,6 +163,7 @@ options(continue="  ") # removes those stupid plus signs from R continuations
 @
 <<results=hide, echo=FALSE>>=
 library(IPMpack)
+# USE THIS FOR RUNNING THE R PACKAGE CHECK
 #source("/Applications/eclipse//IPMpack/R/IPMpack-Util.r")
 #source("/Applications/eclipse//IPMpack/R/IPMpack-Analyses.r")
 #source("/Applications/eclipse//IPMpack/R/IPMpack-Vital_Rate_Obj.r")
