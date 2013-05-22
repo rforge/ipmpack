@@ -1076,6 +1076,16 @@ diagnosticsPmatrix <- function (Pmatrix, growObj, survObj, dff=NULL,
   
 }
 
+# =============================================================================
+# =============================================================================
+# show the news file
+
+IPMpackNews <- function () 
+{
+  newsfile <- file.path(system.file(package = "IPMpack"), 
+      "IPMpackNews")
+  file.show(newsfile)
+}
 
 
 

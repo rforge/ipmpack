@@ -7,6 +7,8 @@
 * An introduction to IPMpack was published in Methods in Ecology and Evolution:
 	http://onlinelibrary.wiley.com/doi/10.1111/2041-210x.12001/abstract
 	
+* See the IPMpack vignette using:  vignette('IPMpack_Vignette')
+	
 ========================================================================
 Changes in 2.0:
 * We have substantially streamlined IPMpack by homogenizing function naming and argument conventions and consolidating related functions in an effort to make functions easier to find and remember. 
