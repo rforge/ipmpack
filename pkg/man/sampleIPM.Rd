@@ -65,7 +65,7 @@ sampleIPM( growObjList=NULL,survObjList=NULL,fecObjList=NULL,
   }
 }
 \author{
-Cory Merow, C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans & Cory Merow.
+Cory Merow, C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~

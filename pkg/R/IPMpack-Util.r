@@ -651,7 +651,7 @@ coerceSurvObj <- function(survObj, coeff){
 sampleVitalRateObj <- function(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDiscreteOffspringTransitions=NULL,nOffspring=NULL) {
   require(mvtnorm)
   require(MASS)
-  require(rv)
+  require(MCMCpack)
   
   objList <- list()
   #generate new set parameters from mvn
@@ -666,8 +666,7 @@ sampleVitalRateObj <- function(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDi
       for (j in 1:nSamp) {
         objList[[j]] <- Obj
         for (k in 1:ncol(Obj@discreteTrans)){
-          newpar0 <- rv::rvdirichlet(1,nDiscreteGrowthTransitions* as.numeric(Obj@discreteTrans[,k]))
-          objList[[j]]@discreteTrans[,k] <- rv::sims(newpar0)[1,]
+          objList[[j]]@discreteTrans[,k] <- rdirichlet(1, nDiscreteGrowthTransitions * as.numeric(Obj@discreteTrans[,k]))
         }
       }
     }
@@ -701,8 +700,7 @@ sampleVitalRateObj <- function(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDi
           stop('Error: Please specify the total number of discrete transitions that were used to estimate the fecundity transition in Obj@offspringSplitter to allow the function to estimate the appropriate variance for resampling them')
         } 
         if(!is.null(nDiscreteOffspringTransitions)){
-          newpar2 <- rv::rvdirichlet(1,nDiscreteOffspringTransitions* as.numeric(Obj@offspringSplitter))
-          objList[[j]]@offspringSplitter[] <- rv::sims(newpar2)[1,]
+          objList[[j]]@offspringSplitter[] <- rdirichlet(1, nDiscreteOffspringTransitions * as.numeric(Obj@offspringSplitter))
         }
       }
       

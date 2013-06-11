@@ -65,7 +65,7 @@ sampleSequentialIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,
 	Formerly makeListIPMs(). makeListIPMs() is no longer supported but has been hidden (.makeListIPMs()) and can be accessed for backward compatibility.
 }
 \author{
-Cory Merow, C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans & Cory Merow.
+Cory Merow, C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
