@@ -54,7 +54,8 @@ maxSize = 1.1*max(dff$size, na.rm = TRUE),
 fecObj = makeFecObj(dff, fecConstants = data.frame(est=0.7), Transform="log"), 
 correction="constant")
 
-# Make an IPMmatrix object containing P matrix + F matrix by replacing the P matrix
+# Make an IPMmatrix object containing P matrix + F matrix 
+# by replacing the P matrix
 IPM <- Pmatrix
 IPM@.Data <- Pmatrix + Fmatrix
 

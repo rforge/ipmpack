@@ -85,7 +85,8 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans 
 
 }
 \examples{
-# Open dataset for the herbaceous perennial Cryptantha flava where the state variable is integer (number of rosettes)
+# Open dataset for the herbaceous perennial Cryptantha flava where 
+# the state variable is integer (number of rosettes)
 data(dataIPMpackCryptantha)
 head(dataIPMpackCryptantha)
 d <- dataIPMpackCryptantha
@@ -93,7 +94,8 @@ d <- dataIPMpackCryptantha
 #See the description of the data for information on the variables
 help(dataIPMpackCryptantha)
 
-# For this example, focus only on the first annual transition available in the dataset
+# For this example, focus only on the first annual transition 
+# available in the dataset
 d1 <- d[d$year==2004, ]
 
 #Create fecundity object with integer data

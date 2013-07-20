@@ -50,7 +50,8 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
 \examples{
-#note that with the "fake data" essentially either takes forever or is immediate...
+#note that with the "fake data" essentially either takes 
+#forever or is immediate...
 dff <- generateData()
 startSizes <- rnorm(1000, 2.5, 1)
 Pmatrix <- makeIPMPmatrix(minSize = 1.2*min(dff$size, na.rm=TRUE),

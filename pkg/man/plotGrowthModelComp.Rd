@@ -74,10 +74,6 @@ dff <- generateData()
 
 grModels <- growthModelComp(dff, makePlot = FALSE)
 
-##TODO - NEEDS PROPER FORMULAS FOR LAST ARGUMENT
-#plotGrowthModelComp(grObj = grModels$growthObjects, 
-#summaryTable = grModels$summaryTable, dataf = dff, 
-# expVars = as.character(grModels$summaryTable[,1]))
 
 
 }

@@ -103,8 +103,10 @@ Fmatrix <-makeCompoundFmatrix(nBigMatrix = 20,
 image(1:nrow(Fmatrix), 1:ncol(Fmatrix), t(log(Fmatrix)), 
 	xlab="Continuous state (e.g. size) at t", 
 		ylab="Continuous state (e.g. size) at t+1", axes = FALSE)
-axis(1, at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints, Fmatrix@nEnvClass), 2))
-axis(2,at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints,Fmatrix@nEnvClass), 2))
+axis(1, at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints, 
+    Fmatrix@nEnvClass), 2))
+axis(2,at = 1:nrow(Fmatrix), lab = round(rep(Fmatrix@meshpoints,
+    Fmatrix@nEnvClass), 2))
 abline(h = length(Fmatrix@meshpoints)*(1:Fmatrix@nEnvClass))
 abline(v = length(Fmatrix@meshpoints)*(1:Fmatrix@nEnvClass))
 
@@ -116,5 +118,6 @@ dff$covariateNext <- sample(1:3, size = nrow(dff), replace = TRUE)
 fv1 <- makeFecObj(dff, Formula = fec~size, Transform = "log", 
 	offspringSplitter=data.frame(continuous = 0.9, dormant = 0.1))
 Fmatrix <- makeCompoundFmatrix(minSize = min(dff$size, na.rm=TRUE),
-maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), fecObj = fv1)
+maxSize = max(dff$size, na.rm = TRUE), envMatrix = makeEnvObj(dff), 
+    fecObj = fv1)
 }

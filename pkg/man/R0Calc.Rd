@@ -41,6 +41,7 @@ Pmatrix <- makeIPMPmatrix(minSize = min(dff$size, na.rm = TRUE),
 maxSize = max(dff$size, na.rm = TRUE), growObj = makeGrowthObj(dff), 
 survObj = makeSurvObj(dff), correction="constant")
 Fmatrix <- makeIPMFmatrix(minSize = min(dff$size, na.rm = TRUE),
-maxSize = max(dff$size, na.rm = TRUE), fecObj = makeFecObj(dff,Formula=fec~size), correction="constant")
+maxSize = max(dff$size, na.rm = TRUE), 
+fecObj = makeFecObj(dff,Formula=fec~size), correction="constant")
 R0Calc(Pmatrix, Fmatrix)
 }

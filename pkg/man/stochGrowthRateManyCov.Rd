@@ -101,8 +101,9 @@ C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans 
 #sv1 <- makeSurvObj(dff, Formula = surv~size+size2+covariate2)
 #fv1 <- makeFecObj(dff, Formula = fec~size+size2,Transform="log")
 
-# Generate time series of covariates for which population growth rate is required
-# Here set to be seasonal environment. Names of covariates must be same as in dff
+# Generate time series of covariates for which population growth rate 
+#is required. Here set to be seasonal environment. 
+#Names of covariates must be same as in dff
 #tVals <- seq(1,100,by = 1/12)
 #covTest <- (1 + 0.5*sin(2*pi*tVals))
 #covMatTest <- data.frame(covariate1 = rnorm(length(covTest),covTest,0.5) - 1, 

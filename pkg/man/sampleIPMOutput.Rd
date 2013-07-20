@@ -107,7 +107,9 @@ sampleIPMOutput(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=c(), sizeToA
 		par(mfrow=c(3,3))
 		lapply(Pmatrixlist,image)
 
-	# Combine the list of fecundity objects with a single survival and growth object in a list of IPMs to look at just the impact of uncertainty in fecundity parameter estimates on population growth rate
+	# Combine the list of fecundity objects with a single survival 
+	# and growth object in a list of IPMs to look at just the impact 
+	# of uncertainty in fecundity parameter estimates on population growth rate
 		IPMlist2=sampleIPM(
 			growObjList=list(gr1),
 			survObjList=list(sv1),
@@ -117,7 +119,9 @@ sampleIPMOutput(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=c(), sizeToA
 		# plot results
 		lapply(IPMlist2,image) 
 
-	# Combine the lists of all vital rate objects in a list of IPMs to look at the impact of uncertainty in all parameters on population growth rate
+	# Combine the lists of all vital rate objects in a list of IPMs 
+	# to look at the impact of uncertainty in all parameters on population 
+	# growth rate
 		IPMlist3=sampleIPM(
 			growObjList=gr1List,
 			survObjList=sv1List,
@@ -136,12 +140,14 @@ sampleIPMOutput(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=c(), sizeToA
 		lines(IPMout1$meshpoints,qLE[1,],type='l',lty=3)
 		lines(IPMout1$meshpoints,qLE[3,],type='l',lty=3)
 
-	# Get uncertainty in lambda from the list of IPMs where only fecundity varied
+	# Get uncertainty in lambda from the list of IPMs where only 
+	# fecundity varied
 		IPMout2=sampleIPMOutput(IPMList=IPMlist2)
 		qlambda=quantile(IPMout2[['lambda']],probs=c(.025,.5,.975))
 		boxplot(IPMout2[['lambda']])
 	
-	# Get uncertainty in lambda and passage time from size 5 to a series of size from the list of IPMs where all vital rates varied
+	# Get uncertainty in lambda and passage time from size 5 to a 
+	# series of size from the list of IPMs where all vital rates varied
 		IPMout3=sampleIPMOutput(
 			IPMList=IPMlist3,
 			passageTimeTargetSize=c(10),

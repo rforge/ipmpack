@@ -137,7 +137,7 @@ Modified following code developed by Rees & Rose 2002 (above).
   of the proportional change in the parameter; analagous calculations
   are used for R0 and life expectancy. 
 
-	Note that in previous versions of IPMpack (pre 2.0), the output of this function was mis-aligned. 
+	NOTE: in previous versions of IPMpack (pre 2.0), the output of this function was mis-aligned. 
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
@@ -150,8 +150,9 @@ dff <- generateData()
 
 #lambda
 res <- sensParams(growObj = makeGrowthObj(dff), 
-survObj = makeSurvObj(dff), fecObj = makeFecObj(dff, Transform="log"), nBigMatrix = 50, 
-minSize = min(dff$size, na.rm=TRUE), maxSize = max(dff$size, na.rm = TRUE))
+survObj = makeSurvObj(dff), fecObj = makeFecObj(dff, Transform="log"), 
+nBigMatrix = 50, minSize = min(dff$size, na.rm=TRUE), 
+maxSize = max(dff$size, na.rm = TRUE))
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
 barplot(res$sens, 
@@ -163,8 +164,9 @@ las = 2, cex.names = 0.5)
 
 #R0
 resR0 <- sensParams(growObj = makeGrowthObj(dff), 
-survObj = makeSurvObj(dff), fecObj = makeFecObj(dff, Transform="log"), nBigMatrix = 50, 
-minSize = min(dff$size, na.rm=TRUE), maxSize = max(dff$size, na.rm = TRUE), response="R0")
+survObj = makeSurvObj(dff), fecObj = makeFecObj(dff, Transform="log"), 
+nBigMatrix = 50, minSize = min(dff$size, na.rm=TRUE), 
+maxSize = max(dff$size, na.rm = TRUE), response="R0")
 
 par(mfrow = c(2, 1), bty = "l", pty = "m") 
 barplot(resR0$sens, 
@@ -190,9 +192,9 @@ las = 2, cex.names = 0.5)
 
 # Same as lambda above, but with two fecundity functions
 dff$fec2 <- dff$fec>0 #create binomial describing e.g., prob of flowering
-dff$fec[dff$fec==0] <- NA #take out zeros to avoid infinity when fit on a log scale
-fv1 <- makeFecObj(dff, Formula = c(fec~size+size2,fec2~size), Transform=c("log","none"),
-Family = c("gaussian","binomial"))
+dff$fec[dff$fec==0] <- NA #take out zeros to avoid Inf when fit with log
+fv1 <- makeFecObj(dff, Formula = c(fec~size+size2,fec2~size), 
+    Transform=c("log","none"),Family = c("gaussian","binomial"))
 
 res <- sensParams(growObj=makeGrowthObj(dff), survObj = makeSurvObj(dff), 
 fecObj = fv1, nBigMatrix = 50, minSize = min(dff$size, na.rm = TRUE), 

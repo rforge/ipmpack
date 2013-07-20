@@ -98,7 +98,8 @@ dff <- generateData()
 dff$fec[dff$fec==0] <- NA
 fv1 <- makeFecObj(dff, Formula = fec~size, Transform = "log")
 Fmatrix <- makeIPMFmatrix(fecObj = fv1, nBigMatrix = 20, 
-	minSize = min(dff$size, na.rm = TRUE), maxSize = max(dff$size, na.rm = TRUE), correction="constant")
+	minSize = min(dff$size, na.rm = TRUE), 
+	maxSize = max(dff$size, na.rm = TRUE), correction="constant")
 
 slotNames(Fmatrix)
 
