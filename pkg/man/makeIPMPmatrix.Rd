@@ -11,7 +11,8 @@ Builds P matrices.
 }
 \usage{
 makeIPMPmatrix(nEnvClass = 1, nBigMatrix = 50,
-minSize = -1, maxSize = 50, chosenCov = data.frame(covariate=1), growObj, survObj, discreteTrans=1, 
+minSize = -1, maxSize = 50, chosenCov = data.frame(covariate=1), 
+growObj, survObj, discreteTrans=1, 
 integrateType = "midpoint", correction="none")
 }
 %- maybe also 'usage' for other objects documented here.

@@ -10,12 +10,16 @@ Compares growth and survival objects built from different covariate sets.
 Function compares model fits for growth and survival objects built with different linear combinations of covariates (plotting currently restricted to transforms of size; but comparison can include any chosen covariates).  Growth can have multiple response forms. 
 Returns a list containing a summary table of covariates and scores, and another list containing all of the growth (or survival) objects used in the comparison.}
 \usage{
-growthModelComp(dataf, expVars = c(sizeNext~1,  sizeNext~size, sizeNext~size + size2), 
+growthModelComp(dataf, 
+    expVars = c(sizeNext~1,  sizeNext~size, sizeNext~size + size2), 
 	regressionType = "constantVar",  testType = "AIC", 
-		makePlot = FALSE, mainTitle = "", plotLegend = TRUE, legendPos = "topright",...)
+		makePlot = FALSE, mainTitle = "", plotLegend = TRUE, 
+		  legendPos = "topright",...)
 		
-survModelComp(dataf, expVars = c(surv~1,  surv~size, surv~size + size2), testType = "AIC", 
-	makePlot = FALSE, mainTitle = "",ncuts=20, plotLegend = TRUE, legendPos = "bottomleft", ...)
+survModelComp(dataf, expVars = c(surv~1,  surv~size, surv~size + size2), 
+    testType = "AIC", 
+	makePlot = FALSE, mainTitle = "",ncuts=20, plotLegend = TRUE, 
+	   legendPos = "bottomleft", ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

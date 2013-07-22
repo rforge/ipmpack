@@ -14,7 +14,8 @@ NOTE - old createIPMCmatrix is being deprecated; use makeIPMCmatrix instead.
 \usage{
 makeIPMCmatrix(clonalObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 
 	maxSize = 50, chosenCov = data.frame(covariate=1), integrateType="midpoint", 
-	correction="none",preCensus = TRUE, survObj = NULL, growObj = NULL, offspringObj=NULL)
+	correction="none",preCensus = TRUE, survObj = NULL, growObj = NULL, 
+	offspringObj=NULL)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

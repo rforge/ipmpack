@@ -11,7 +11,9 @@ Builds matrix for transitions between discrete (e.g. seedbank, dormant) and cont
   The dataframe must contain columns  "stage" and "stageNext" with values of the names of the discrete classes and the name "continuous" where appropriate, in the current and subsequent time step. Continuous categories are also defined by their measurements, contained in "size" and "sizeNext". This is necessary for defining the mean and variance of the continuous stage of individuals emerging from discrete stages. Alternatively, you can enter the transition matrix for the discrete stages in the 'discreteTrans' argument.
 }
 \usage{
-makeDiscreteTrans(dataf, stages = NA, discreteTrans = NA, meanToCont = NA, sdToCont = NA, continuousToDiscreteExplanatoryVariables = "size")
+makeDiscreteTrans(dataf, stages = NA, discreteTrans = NA, 
+    meanToCont = NA, sdToCont = NA, 
+        continuousToDiscreteExplanatoryVariables = "size")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

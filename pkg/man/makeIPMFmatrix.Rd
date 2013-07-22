@@ -12,7 +12,8 @@ NOTE - old createIPMFmatrix is being deprecated; use makeIPMFmatrix instead.
 }
 \usage{
 makeIPMFmatrix(fecObj, nEnvClass = 1, nBigMatrix = 50, minSize = -1, 
-	maxSize = 50, chosenCov = data.frame(covariate=1), integrateType="midpoint", correction="none", 
+	maxSize = 50, chosenCov = data.frame(covariate=1), 
+	integrateType="midpoint", correction="none", 
 	preCensus = TRUE, survObj = NULL, growObj = NULL, offspringObj=NULL)
 }
 %- maybe also 'usage' for other objects documented here.

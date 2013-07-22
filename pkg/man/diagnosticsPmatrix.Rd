@@ -9,7 +9,8 @@ Creates a series of diagnostic graphs for a P matrix.
 }
 \usage{
 diagnosticsPmatrix(Pmatrix, growObj, survObj, dff=NULL, integrateType, 
-correction, cov = data.frame(covariate = 1), sizesToPlot = c(), extendSizeRange = c())
+correction, cov = data.frame(covariate = 1), sizesToPlot = c(), 
+extendSizeRange = c())
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

@@ -14,7 +14,8 @@ plotGrowthModelComp(grObj,summaryTable, dataf, expVars,
 testType = "AIC", 
 plotLegend = TRUE, mainTitle = "", legendPos = "topright",...)
 
-plotSurvModelComp(svObj, summaryTable, dataf, expVars, testType = "AIC",  plotLegend = TRUE, mainTitle = "",ncuts=20, 
+plotSurvModelComp(svObj, summaryTable, dataf, expVars, 
+testType = "AIC",  plotLegend = TRUE, mainTitle = "",ncuts=20, 
 legendPos = "bottomleft",...) 
 }
 %- maybe also 'usage' for other objects documented here.

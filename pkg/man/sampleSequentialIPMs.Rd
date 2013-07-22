@@ -9,7 +9,8 @@ Makes a list of IPMs where there is a discrete covariate.
 Wrapper function to build the IPM corresponding to every level of the discrete covariate, and return a list of these. 
 }
 \usage{
-sampleSequentialIPMs(dataf, nBigMatrix = 10, minSize = -2, maxSize = 10,	
+sampleSequentialIPMs(dataf, nBigMatrix = 10, minSize = -2, 
+    maxSize = 10,	
 	integrateType = "midpoint", correction = "none", 
 		explSurv = surv ~ size + size2 + covariate, 
 		explGrow = sizeNext ~ size + size2 + covariate,

@@ -11,7 +11,8 @@ Gets IPM output from a list of P matrices (only survival and size information) o
 Gets synthetic values including life expectancy, passage time, and, if a fecundity matrix is available, population growth rate (lambda), stable stage distribution, reproductive output, etc. It is helpful when building multiple IPMs for study of parameter uncertainty or stochastic dynamics.
 }
 \usage{
-sampleIPMOutput(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=c(), sizeToAgeStartSize=c(),sizeToAgeTargetSize=c(),warn=TRUE)
+sampleIPMOutput(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=c(), 
+sizeToAgeStartSize=c(),sizeToAgeTargetSize=c(),warn=TRUE)
 %.getIPMoutput(PmatrixList, targetSize = c(), FmatrixList = NULL)
 }
 %- maybe also 'usage' for other objects documented here.

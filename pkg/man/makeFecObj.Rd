@@ -15,7 +15,8 @@ makeFecObj(dataf, fecConstants=data.frame(NA),
 		Transform="none",meanOffspringSize=NA,
 		sdOffspringSize=NA,offspringSplitter=data.frame(continuous=1),
 		vitalRatesPerOffspringType=data.frame(NA),fecByDiscrete=data.frame(NA),
-		offspringSizeExplanatoryVariables="1", coeff=NULL,doOffspring=TRUE, reproductionType="sexual")
+		offspringSizeExplanatoryVariables="1", coeff=NULL,doOffspring=TRUE, 
+		reproductionType="sexual")
 
 }
 %- maybe also 'usage' for other objects documented here.
