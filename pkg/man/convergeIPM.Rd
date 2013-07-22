@@ -9,7 +9,9 @@
 }
 \usage{
 convergeIPM(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize, 
-				discreteTrans = 1, integrateType = "midpoint", correction = "none",  preCensus = TRUE, tol=1e-4,binIncrease=5, chosenBin=1, response="lambda")
+				discreteTrans = 1, integrateType = "midpoint", 
+				correction = "none",  preCensus = TRUE, tol=1e-4,
+				binIncrease=5, chosenBin=1, response="lambda")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
