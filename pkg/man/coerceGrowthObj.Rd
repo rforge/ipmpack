@@ -4,10 +4,12 @@
 
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-  Function to coerce growth or survival objects, i.e., impose user-defined parameters 
+  Function to coerce growth or survival objects, i.e., impose user-defined 
+  parameters 
 }
 \description{
-supplied with a growth and survival object, over-writes coefficients, and for growth, the sd of growth 
+Supplied with a growth and survival object, over-writes coefficients, and for 
+growth, the sd of growth 
 }
 \usage{
 
@@ -24,7 +26,8 @@ coerceSurvObj(survObj,coeff)
 }
   
 \details{
-  These functions can be used to impose coefficients and sd on growth and survival objects where direct fitting is not desired
+  These functions can be used to impose coefficients and sd on growth and 
+  survival objects where direct fitting is not desired
 }
 
 \value{
