@@ -1,7 +1,5 @@
 
 
-##can you do this to get rid of the warnings? check 
-#require(nlme) #apparently doesn't help!
 
 
 ##### Functions to identify sensible numbers of bins - help file on desktop  with data-frame setup
