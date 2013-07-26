@@ -12,9 +12,12 @@ Generate parametric bootstrap samples for vital rate objects (e.g. class growthO
 variance covariance matrix that defines them using a multivariate normal distribution. It is helpful when building multiple IPMs for study of parameter uncertainty or stochastic dynamics.
 }
 \usage{
-sampleVitalRateObj(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,
-									nDiscreteOffspringTransitions=NULL,
-									nOffspring=NULL)
+sampleVitalRateObj(
+				Obj, 
+				nSamp=100, 
+				nDiscreteGrowthTransitions=NULL,
+				nDiscreteOffspringTransitions = NULL,
+				nOffspring = NULL)
 
 %.getListRegObjects(Obj,nsamp=1000)
 %.getListRegObjectsFec(Obj,nsamp=1000)
