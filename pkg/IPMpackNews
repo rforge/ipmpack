@@ -5,7 +5,7 @@
 	http://lists.r-forge.r-project.org/cgi-bin/mailman/listinfo/ipmpack-users
 
 * An introduction to IPMpack was published in Methods in Ecology and Evolution:
-	http://onlinelibrary.wiley.com/doi/10.1111/2041-210x.12001/abstract
+	http://dx.doi.org/10.1111/2041-210x.12001
 	
 * See the IPMpack vignette using:  vignette('IPMpack_Vignette')
 	
