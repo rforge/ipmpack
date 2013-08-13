@@ -15,7 +15,8 @@
 #   cov - the covariate (light, etc) this time-step
 #   grow.obj - the growth object 
 #
-#   Note "growth" takes a SINGLE value for covariate although can take a VECTOR for size,sizeNext
+#   Note "growth" takes a SINGLE value for covariate although can take a VECTOR 
+#   for size,sizeNext
 #
 #
 # Returns -
@@ -31,7 +32,8 @@ setGeneric("growth",
 #   cov - the covariate (light env, etc)
 #   surv.obj - the survival object
 #
-#   Note "surv" takes a SINGLE value for covariate although can take a VECTOR for size
+#   Note "surv" takes a SINGLE value for covariate although can take a VECTOR 
+#   for size
 #
 #Returns -
 #  The survival probability at size
@@ -47,7 +49,8 @@ setGeneric("surv",
 #   cov - the covariate (light, etc) this time-step
 #   grow.obj - the growth object 
 #
-#   Note "growth" takes a SINGLE value for covariate although can take a VECTOR for size,sizeNext
+#   Note "growth" takes a SINGLE value for covariate although can take a VECTOR 
+#   for size,sizeNext
 #
 #
 # Returns -
@@ -174,8 +177,7 @@ setClass("discreteTransInteger",
 
 
 
-######## DEFINE METHODS ##########################################################################################
-
+######## DEFINE METHODS #######################################################
 # =============================================================================
 # =============================================================================
 #Method to obtain probability of survival using
@@ -241,7 +243,7 @@ setMethod("surv",
               survObj@fit$formula))>0) newd$logsize2=(log(size))^2
       
       u <- predict(survObj@fit,newd,type="link")
-      c2 <- ((16 * sqrt(3))/(15 * pi))^2  #from MCMCglmm course notes, search for c2
+      c2 <- ((16 * sqrt(3))/(15 * pi))^2  #from MCMCglmm course , search for c2
       u <- logit(u/sqrt(1+c2)) 
       return(u);
     })
@@ -279,7 +281,8 @@ setMethod("growth",
 
 # =============================================================================
 # =============================================================================
-#  growth transition (poisson model) probability from size to sizeNext at that covariate level 
+#  growth transition (poisson model) probability from size to sizeNext at that 
+#  covariate level 
 #	NOTE DO NOT USE THIS WITH AN IPM!!
 setMethod("growth", 
     c("numeric","numeric","data.frame","growthObjPois"),
@@ -301,7 +304,8 @@ setMethod("growth",
 
 # =============================================================================
 # =============================================================================
-#  growth transition (poisson model) probability from size to sizeNext at that covariate level 
+#  growth transition (poisson model) probability from size to sizeNext at that 
+#  covariate level 
 #	NOTE DO NOT USE THIS WITH AN IPM!!
 setMethod("growth", 
     c("numeric","numeric","data.frame","growthObjNegBin"),
@@ -434,8 +438,9 @@ setMethod("growthCum",
       
       if (length(grep("expsize",
               names(growthObj@fit$coefficients)))>0) newd$expsize <- exp(size)
-      if (length(grep("logsize", names(growthObj@fit$coefficients))) > 0) newd$logsize = log(size)
-      
+      if (length(grep("logsize", names(growthObj@fit$coefficients))) > 0) {
+          newd$logsize = log(size)
+      }
       mux <- .predictMuX(grObj = growthObj, newData=newd, covPred = cov)
       sigmax2 <- growthObj@fit$sigmax2
       var.exp.coef <- growthObj@fit$var.exp.coef
@@ -617,7 +622,7 @@ setMethod("growth",
 
 # =============================================================================
 # =============================================================================
-## Define a new growth method for Hossfeld growth (classic midpoint rule approach)
+## Define a new growth method for Hossfeld growth (classic midpoint rule)
 setMethod("growth", c("numeric", "numeric", "data.frame", "growthObjHossfeld"), 
     function(size, sizeNext, cov, growthObj) { 
       mux <- size+Hossfeld(size, growthObj@paras) 
@@ -628,8 +633,9 @@ setMethod("growth", c("numeric", "numeric", "data.frame", "growthObjHossfeld"),
 
 # =============================================================================
 # =============================================================================
-## Define a new growth method for Hossfeld growth (classic midpoint rule approach)
-setMethod("growthCum", c("numeric", "numeric", "data.frame", "growthObjHossfeld"), 
+## Define a new growth method for Hossfeld growth (classic midpoint rule)
+setMethod("growthCum", c("numeric", "numeric", "data.frame", 
+                "growthObjHossfeld"), 
     function(size, sizeNext, cov, growthObj) { 
       mux <- size+Hossfeld(size, growthObj@paras) 
       sigmax <- growthObj@sd 
@@ -637,7 +643,7 @@ setMethod("growthCum", c("numeric", "numeric", "data.frame", "growthObjHossfeld"
       return(u)
     }) 
 
-### CLASSES AND FUNCTIONS FOR MATRICES (ENV, TMATRIX [compound or not], FMATRIX) #################
+### CLASSES AND FUNCTIONS FOR MATRICES (ENV, TMATRIX [compound or not], FMATRIX) 
 # =============================================================================
 # =============================================================================
 #Class for the matrix that holds the env matrix 
@@ -659,7 +665,8 @@ setClass("IPMmatrix",
 
 # =============================================================================
 # =============================================================================
-# Method combining growth and survival for doing outer (not a generic, so that don't have to
+# Method combining growth and survival for doing outer (not a generic, so that 
+# don't have to
 # define for all the different classes / growth and surv take care of that)
 growSurv <- function(size,sizeNext,cov,growthObj,survObj){
   growth(size, sizeNext, cov, growthObj) * surv(size,cov,survObj)
