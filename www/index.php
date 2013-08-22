@@ -175,6 +175,7 @@ row represents one measurement in the population:</p>
 				    Papers using IPMpack:
                     <p class="Refs">Metcalf CJE, McMahon SM, Salguero-GÃ³mez R & Jongejans E (2013) <b>IPMpack: an R package for Integral Projection Models</b>. <i>Meth Ecol Evol</i> 4:195-200 <a href="www.ru.nl/publish/pages/654854/metcalf_2013_methods_ecol_evol.pdf">PDF</a><br><br></p>
                     <p class="Refs">Dauer JT & Jongejans E (2013) <b>Elucidating the population dynamics of Japanese knotweed using integral projection models</b>. <i>PLoS ONE</i> in press<br><br></p>
+                    <p class="Refs">Salguero-Gómez R, Siewert W, Casper BC & Tielbörger K (2012) <b>A demographic approach to study effects of climate change in desert plants</b>. <i>Phil Trans Roy Soc B Biol Sci</i> 367:3100-3114 <a href="dx.doi.org/10.1098/rstb.2012.0074">DOI</a><br><br></p>
 					<p><br><br><br></p>
 					<p><br><br><br></p>
 					<p>A list of all known IPM papers can be downloaded here: <a href="IPMpublications.xlsx">IPMpublications</a>. Please <a href="mailto:E.Jongejans@science.ru.nl?subject=newOrMissedIPMPaper">email us</a> if we missed (a new) one.
