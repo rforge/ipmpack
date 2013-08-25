@@ -1257,7 +1257,7 @@
   dataf$surv <- sample(c(0,1),nrow(dataf), replace=TRUE)
   
   if (sum(Transform=="log")>0) dataf[,fecNames[which(Transform=="log")]] <- pmax(dataf[,fecNames[which(Transform=="log")]],1)
-  if (sum(Family=="binomial")>0) ddataf[,fecNames[which(Family=="binomial")]] <- rbinom(nrow(dataf),1,0.5)
+  if (sum(Family=="binomial")>0) dataf[,fecNames[which(Family=="binomial")]] <- rbinom(nrow(dataf),1,0.5)
   
   fv1 <- makeFecObj(dataf=dataf, 
       fecConstants = fecConstants, 
