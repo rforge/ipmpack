@@ -255,6 +255,8 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 		matVarYear=matrix(c(1.03,0,0,0,0.037,0.041,0,0.041,0.075),3,3), 
 		densDep=TRUE,maxPerYr=1000,maxStoreSeedlingsPerYr=200,sizes=c()) {
 		
+	require(mvtnorm)
+	
 	#initiate and set up year index
 	if (length(sizes)==0) sizes <- rnorm(nSamp,3,0.5)
 	startYr <- (nYrs-nSampleYrs)
