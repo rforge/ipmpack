@@ -253,7 +253,7 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 		mean.kids=3.16,sd.kids=0.5,
 		meanYear=c(0,0,0),
 		matVarYear=matrix(c(1.03,0,0,0,0.037,0.041,0,0.041,0.075),3,3),
-		varB=0,
+		varA=0,varB=0,
 		densDep=TRUE,maxPerYr=1000,maxStoreSeedlingsPerYr=200,sizes=c()) {
 		
 	require(mvtnorm)
@@ -269,7 +269,7 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 	totpl <- c(21,57,47,25,25,33,88,94,97,26,85,80,122,175,160,10,6,189)
 		
 	#set up dataframe
-	dataf <-matrix(NA,(maxPerYr+maxStoreSeedlingsPerYr)*nYrs,12)
+	dataf <-matrix(NA,(maxPerYr+maxStoreSeedlingsPerYr)*nYrs,13)
 	maxPop <- nrow(dataf)
 	n.per.yr  <-  rep(NA,nYrs)
 	trueGrow <- rep(NA,nYrs)	
@@ -282,6 +282,7 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 	} else {
 		tmp <- matrix(0,nYrs,3)
 	}
+	if (varA!=0) tmpA <- rnorm(nYrs,mean=A,sd=sqrt(varA))
 	if (varB!=0) tmpB <- rnorm(nYrs,mean=B,sd=sqrt(varB))
 	
 	for (t in 1:nYrs) {
@@ -295,6 +296,7 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 		cg.year <- tmp[t,2]
 		b.year <- tmp[t,3]
 		
+		if (varA!=0) A.year <- tmpA[t] else A.year <- A
 		if (varB!=0) B.year <- tmpB[t] else B.year <- B
 		
 		
@@ -306,7 +308,7 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 			#flowering
 			fx <- 1*(logit(b0+bs*sizes)>runif(n.per.yr[t]))
 			#fertility
-			seedsx <- exp(A+B.year*sizes)*fx*sx
+			seedsx <- exp(A.year+B.year*sizes)*fx*sx
 			#seedsx[seedsx>0] <- rpois(sum(seedsx>0),seedsx[seedsx>0])
 		} else {
 			sx <- fx <- seedsx <- c()
@@ -346,7 +348,8 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 			dataf[chs,8] <- m.year
 			dataf[chs,9] <- cg.year
 			dataf[chs,10] <- b.year
-			dataf[chs,12] <- B.year
+			dataf[chs,12] <- A.year
+			dataf[chs,13] <- B.year
 			
 			count <- count + length(sizes)
 						
@@ -360,7 +363,8 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 			dataf[chs,9] <- cg.year
 			dataf[chs,10] <- b.year
 			dataf[chs,11] <- "sexual"
-			dataf[chs,12] <- B.year
+			dataf[chs,12] <- A.year
+			dataf[chs,13] <- B.year
 			
 			count <- count + nbabes.store
 					
@@ -401,7 +405,8 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 	#abline(h=trueGrow)
 	
 	colnames(dataf) <- c("size","sizeNext","surv","flower","fec",
-			"year","nSeedlings","m.year","cg.year","b.year","offspringNext","B.year")
+			"year","nSeedlings","m.year","cg.year","b.year","offspringNext",
+			"A.year","B.year")
 	
 	dataf$size <- as.numeric(dataf$size)
 	dataf$sizeNext <- as.numeric(dataf$sizeNext)
@@ -413,6 +418,7 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 	dataf$cg.year <- as.numeric(dataf$cg.year)
 	dataf$m.year <- as.numeric(dataf$m.year)
 	dataf$b.year <- as.numeric(dataf$b.year)	
+	dataf$A.year <- as.numeric(dataf$A.year)	
 	dataf$B.year <- as.numeric(dataf$B.year)	
 	
 	#print(table(dataf$year))
