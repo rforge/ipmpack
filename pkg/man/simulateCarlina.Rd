@@ -16,7 +16,7 @@ simulateCarlina(nSamp=200,nYrs=1000,nSampleYrs=15,
 		mean.kids=3.16,sd.kids=0.5,
 		meanYear=c(0,0,0),
 		matVarYear=matrix(c(1.03,0,0,0,0.037,0.041,0,0.041,0.075),3,3),
-		densDep=TRUE,
+		varA=0,varB=0,densDep=TRUE,
 		maxPerYr=1000,maxStoreSeedlingsPerYr=200,
 		sizes = c())
 }
@@ -67,9 +67,14 @@ variance kid size
 mean year effects
 	}
 \item{matVarYear}{
-var-covariance in year effects
+var-covariance in year effects for survival, growth and offspring size
 	}
-
+\item{varA}{
+variance in seed intercept year effects - defaults to zero 
+    }
+\item{varB}{
+variance in seed slope year effects - defaults to zero 
+    }
 \item{densDep}{
 density dependence in seedling establishment or not? 
 	}
