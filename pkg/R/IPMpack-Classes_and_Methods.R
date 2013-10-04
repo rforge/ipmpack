@@ -572,6 +572,28 @@ setMethod("growthCum",
       return(u);
     })
 
+setMethod("growthCum", 
+		c("numeric","numeric","data.frame","growthObjIncrDeclineVar"),
+		function(size, sizeNext, cov, growthObj){
+			newd <- data.frame(cbind(cov,size=size),
+					stringsAsFactors = FALSE)
+			newd$size2 <- size^2
+			newd$size3 <- size^3
+			
+			if (length(grep("expsize",
+							names(growthObj@fit$coefficients))) > 0) newd$expsize <- exp(size)
+			if (length(grep("logsize",
+							names(growthObj@fit$coefficients))) > 0) newd$logsize = log(size)
+			
+			mux <- .predictMuX(grObj=growthObj,newData=newd,covPred=cov)
+			sigmax2 <- growthObj@fit$sigmax2
+			var.exp.coef<-growthObj@fit$var.exp.coef
+			sigmax2<-sigmax2*exp(2*(var.exp.coef*mux));
+			u <- pnorm(sizeNext, size + mux, sqrt(sigmax2), log.p =  FALSE)  
+			return(u);
+		})
+
+
 # =============================================================================
 # =============================================================================
 #Simple growth methods, using  declining variance in growth
