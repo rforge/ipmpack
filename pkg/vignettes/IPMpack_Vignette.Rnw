@@ -24,7 +24,7 @@
 \SweaveOpts{concordance=TRUE}
 
 \title{IPMpack: an R package for demographic modeling with Integral Projection
-Models (v. 2.0)}
+Models (v. 2.1)}
 \author{Jessica Metcalf, Sean M. McMahon, Rob Salguero-Gomez,\\ Eelke Jongejans, Cory Merow}
 \maketitle
 
