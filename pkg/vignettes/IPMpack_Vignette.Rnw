@@ -103,7 +103,7 @@ equation 1 in the last step for the purposes of numerical integration. This prod
 The goal of IPMpack is to provide a centralized set of quantitative techniques based on IPMs to help ecologists and evolutionary biologists model populations. IPMpack can accommodate multiple vital rates from complex life cycles all grouped into two main sub-kernels: $P$ and $F$ (equation 2) \footnote{Note that we follow the terminology of the seminal paper by Easterling et al. ($2000$). The $P$ kernel (equation 3) describes {\tt growth} between demographic censuses conditional on individuals' survival ({\tt surv}).
 }.
 
-This vignette walks through the steps of a basic IPM analysis.  We first
+This vignette walks through the steps of a basic IPM analysis. We first
 describe the kind of data necessary to build an IPM.  If users begin `from
 scratch', they must input data in a specific format (described below).  However
 it is possible to jump past this step and use IPMpack capabilities on IPMs that
