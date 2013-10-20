@@ -36,8 +36,9 @@ makeGrowthObj <- function(dataf=NULL,
 	
 	if (!is.null(dataf)) { 
 	
-	dataf <- subset(dataf, is.na(dataf$size) == FALSE & is.na(dataf$sizeNext) == 
-					FALSE)
+	dataf <- subset(dataf, is.na(dataf$size) == FALSE)
+	
+	if (length(dataf$sizeNext)>0) dataf <- subset(dataf, is.na(dataf$sizeNext) == FALSE)
 	
 	
 	if (length(dataf$offspringNext) > 0) 
