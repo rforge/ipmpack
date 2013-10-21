@@ -143,6 +143,7 @@ picGrow <- function(dataf, growObj, mainTitle = "Growth",...) {
 #
 #
 generateData <- function(nSamp=1000, type="simple"){
+	if (nSamp<100) stop("Error: nSamp in generateData should be at least 100")
 	if (type=="simple"){
 	covariate <- sample(0:1, size=nSamp, replace=TRUE, prob = c(0.2, 0.8))
 	covariateNext <- sample(0:1, size=nSamp, replace=TRUE, prob = c(0.8, 0.2))
