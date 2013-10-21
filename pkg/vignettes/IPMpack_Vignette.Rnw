@@ -732,11 +732,16 @@ If the user wishes to fit a growth model with, for example, gamma errors, a simi
 
 \item Metcalf, Horvitz, Tuljapurkar \& Clark. 2009. A time to grow and a time to die: a  new way to analyze the dynamics of size, light, age and death of tropical trees. Ecology 90: 2766-2778.
 
-\item Rees \& Rose. 2002. Evolution of flowering strategies in Oenothera glazioviana: an integral projection model approach. Proc. Roy. Soc. Lond. Ser. B. 269: 1509-1515.
+\item Metcalf, McMahon, Salguero-Gómez \& Jongejans. 2013. IPMpack: an R package
+for Integral Projection Models. Methods in Ecology and Evolution 4: 195-200
+
+\item Rees \& Rose. 2002. Evolution of flowering strategies in {\it Oenothera
+glazioviana}: an integral projection model approach. Proc. Roy. Soc. Lond. Ser.
+B. 269: 1509-1515.
 
 \item Ramula, Rees \& Buckley. 2009. Integral projection models perform better for small demographic data sets than matrix population models: a case study of two perennial herbs. Journal of Applied Ecology 46: 1048-1053.
 
-\item Salguero-Gomez \& Plotkin. 2010. Matrix dimensionality bias demographic inferences: implications for comparative plant demography. The American Naturalist 176: 710-722
+\item Salguero-Gomez \& Plotkin. 2010. Matrix dimensionality bias demographic inferences: implications for comparative plant demography. American Naturalist 176: 710-722
 
 \item Tuljapurkar. 1990. Population Dynamics in Variable Environments. Springer. New York, USA.
 
