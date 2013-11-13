@@ -602,10 +602,115 @@ number of time steps to run, and should be large enough that increasing it does 
                                 %%this... read Tulja + Carol stoch
                                 %%elastivity paper. 
 
+
+\section{Kernels describing transitions dependent on size and age}
+We can use the same structures as used for environmental transitions to build
+models that encompass transitions both over size and between age classes. For
+illustration, we need to generate a data-set with an age covariate - since
+IPMpack doesn't have a function to generate one at the moment. We are going to call the age variable ``covariate''.
+<<>>=
+dff <- generateData()
+dff$covariate <- sample(c(1:4),nrow(dff),replace=TRUE)
+@
+Note that there is going to be no particular relationship between size and age
+since we've made it up in a rather random way....  - but this will serve for the
+purpose of illustration. Next, we create growth and survival objects that
+incorporate age using:
+<<>>=
+gr1 <- makeGrowthObj(dataf = dff,
+                     Formula=sizeNext~size+covariate,
+                     regType="constantVar",
+                     Family="gaussian")
+sv1 <- makeSurvObj(dff, Formula = surv~size+covariate)
+@
+We now also need to create a matrix that will move individuals between the
+different age classes:
+<<>>=
+n.age.classes <- max(dff$covariate,na.rm=TRUE)
+ ageMat <- new("envMatrix", nEnvClass = n.age.classes)
+ ageMat@.Data <- matrix(0,n.age.classes,n.age.classes)
+ageMat@.Data[cbind(2:n.age.classes,1:(n.age.classes-1))] <- 1
+ageMat@.Data[n.age.classes,n.age.classes] <- 1
+@
+This matrix is set to be of the same class as above ({\tt envMatrix}), so as it
+will move individuals between age classes appropriately. It can be shown as
+follows:
+<<>>=
+print(ageMat)
+@
+To build a demographic model describing growth and survival transitions, and
+encompassing movement between different age classes from these objects, we
+can use the function {\tt makeCompoundPmatrix}, i.e.:
+<<>>=
+Pmatrix <- makeCompoundPmatrix(nBigMatrix = 50, minSize = -5,
+                               maxSize = 35,
+                               envMatrix = ageMat,
+                               growObj = gr1,
+                               survObj = sv1,
+                               correction = "constant")
+@
+where {\tt nBigMatrix.matrix} is the number of bins used, {\tt minSize} and {\tt maxSize} define the limits of
+the IPM (which should usually extend to beyond the smallest and largest size measurements) and the growth and survival objects are as above.  We can
+plot this Pmatrix using the below:
+
+\begin{figure}
+\begin{center}
+<<label=figCompound, fig=TRUE, echo=TRUE>>=
+image(as(Pmatrix[,],'sparseMatrix'),
+	xlab = "Continuous stage (e.g. size) at t",
+		ylab = "Continuous stage (e.g. size) at t+1", axes = FALSE)
+@
+\end{center}
+\caption{Compound P matrix IPM shown on a log scale: darker colours indicate
+  more likely transitions; and the four different panels indicate each
+  of the four ages.}
+\label{fig:compound}
+\end{figure}
+
+And we can also make a fecundity object
+<<>>=
+fv1 <- makeFecObj(dff, Formula = fec~size,
+                    Family = "gaussian",
+                    Transform = "log")
+@
+then create a new age matrix to place the young into the first age class,
+<<>>=
+n.age.classes <- max(dff$covariate,na.rm=TRUE)
+ ageMat1 <- new("envMatrix", nEnvClass = n.age.classes)
+ ageMat1@.Data <- matrix(0,n.age.classes,n.age.classes)
+ageMat1@.Data[1,2:n.age.classes] <- 1
+@
+and then build the age/size fertility matrix -
+<<>>=
+Fmatrix <- makeCompoundFmatrix(nBigMatrix = 50, minSize = -5,
+                               maxSize = 35,
+                               envMatrix = ageMat1,
+                               fecObj = fv1,
+                               correction = "constant")
+@
+and then plot the full matrix
+\begin{figure}
+\begin{center}
+<<label=figCompound, fig=TRUE, echo=TRUE>>=
+IPM <- Pmatrix+Fmatrix
+image(as(log(IPM),'sparseMatrix'),
+	xlab = "Continuous stage (e.g. size) at t",
+		ylab = "Continuous stage (e.g. size) at t+1", axes = FALSE)
+@
+\end{center}
+\caption{Compound IPM shown on a log scale: light colours indicate
+  more likely transitions; and the four different panels indicate each
+  of the four ages.}
+\label{fig:compound}
+\end{figure}
+
+
+
+
 \section{More generally varying environments}
 
-An alternative way of inhabiting stochastic environments is to experience continuously changing covariates (rather than moving between discrete states, as the above describes). In this case, rather than building a single megamatrix, desired variables are obtained by multiplying up a suite of matrices and relying on the weak
-ergodic theorem for convergence (e.g., Tuljapurkar 1990; as described for obtaining $\lambda_s$, above). IPMpack contains code to do this. The user must first define a new data frame containing several time-varying covariates, and then build the associated survival, growth and fertility objects (note that the default in IPMpack is to assume that if you have a covariate called "coviariate", your aim is to build a compound matrix, so ideally other covariates should have other names): 
+An alternative way of inhabiting stochastic environments is to experience continuously changing covariates (rather
+than moving between discrete states, as the above describes). In this case, rather than building a single megamatrix, desired variables are obtained by multiplying up a suite of matrices and relying on the weak ergodic theorem for convergence (e.g., Tuljapurkar 1990; as described for obtaining $\lambda_s$, above). IPMpack contains code to do this. The user must first define a new data frame containing several time-varying covariates, and then build the associated survival, growth and fertility objects (note that the default in IPMpack is to assume that if you have a covariate called "coviariate", your aim is to build a compound matrix, so ideally other covariates should have other names):
 <<>>= 
 dff <- generateData(type="stochastic")
 sv1 <- makeSurvObj(dataf = dff, 
