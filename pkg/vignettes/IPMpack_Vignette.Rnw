@@ -627,8 +627,8 @@ We now also need to create a matrix that will move individuals between the
 different age classes:
 <<>>=
 n.age.classes <- max(dff$covariate,na.rm=TRUE)
- ageMat <- new("envMatrix", nEnvClass = n.age.classes)
- ageMat@.Data <- matrix(0,n.age.classes,n.age.classes)
+ageMat <- new("envMatrix", nEnvClass = n.age.classes)
+ageMat@.Data <- matrix(0,n.age.classes,n.age.classes)
 ageMat@.Data[cbind(2:n.age.classes,1:(n.age.classes-1))] <- 1
 ageMat@.Data[n.age.classes,n.age.classes] <- 1
 @
@@ -645,6 +645,7 @@ can use the function {\tt makeCompoundPmatrix}, i.e.:
 Pmatrix <- makeCompoundPmatrix(nBigMatrix = 50, minSize = -5,
                                maxSize = 35,
                                envMatrix = ageMat,
+							   nEnvClass = 4,
                                growObj = gr1,
                                survObj = sv1,
                                correction = "constant")
