@@ -677,8 +677,8 @@ fv1 <- makeFecObj(dff, Formula = fec~size,
 then create a new age matrix to place the young into the first age class,
 <<>>=
 n.age.classes <- max(dff$covariate,na.rm=TRUE)
- ageMat1 <- new("envMatrix", nEnvClass = n.age.classes)
- ageMat1@.Data <- matrix(0,n.age.classes,n.age.classes)
+ageMat1 <- new("envMatrix", nEnvClass = n.age.classes)
+ageMat1@.Data <- matrix(0,n.age.classes,n.age.classes)
 ageMat1@.Data[1,2:n.age.classes] <- 1
 @
 and then build the age/size fertility matrix -
@@ -686,6 +686,7 @@ and then build the age/size fertility matrix -
 Fmatrix <- makeCompoundFmatrix(nBigMatrix = 50, minSize = -5,
                                maxSize = 35,
                                envMatrix = ageMat1,
+							   nEnvClass = 4,
                                fecObj = fv1,
                                correction = "constant")
 @
