@@ -8,6 +8,7 @@
 \alias{growthCum,numeric,numeric,data.frame,growthObjTruncIncr-method}
 \alias{growthCum,numeric,numeric,data.frame,growthObjHossfeld-method}
 \alias{growthCum,numeric,numeric,data.frame,growthObjLogIncrDeclineVar-method}
+\alias{growthCum,numeric,numeric,data.frame,growthObjIncrDeclineVar-method}
 
 \title{ ~~ Methods for Function \code{growthCum}  ~~}
 \description{
