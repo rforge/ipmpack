@@ -245,7 +245,7 @@ setMethod("surv",
       
       u <- predict(survObj@fit,newd,type="link")
       c2 <- ((16 * sqrt(3))/(15 * pi))^2  #from MCMCglmm course , search for c2
-      u <- logit(u/sqrt(1+c2)) 
+      u <- invLogit(u/sqrt(1+c2)) 
       return(u);
     })
 

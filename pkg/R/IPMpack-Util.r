@@ -153,7 +153,7 @@ generateData <- function(nSamp=1000, type="simple"){
 	seedlings <- sample(1:nSamp,size=100,replace=TRUE)
 	size[seedlings] <- NA; sizeNext[seedlings] <- rnorm(100,2,0.5)
 	fec <- surv <- rep(NA, length(size))
-	surv[!is.na(size)] <- rbinom(sum(!is.na(size)),1,logit(-1+0.2*size[!is.na(size)]))
+	surv[!is.na(size)] <- rbinom(sum(!is.na(size)),1,invLogit(-1+0.2*size[!is.na(size)]))
 	fec[!is.na(size)] <- rnorm(sum(!is.na(size)),exp(-7+0.9*size[!is.na(size)]),1)
 	fec[size<quantile(size,0.20,na.rm=TRUE) | fec<0] <- 0
 	fec <- fec*10
@@ -305,9 +305,9 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 		
 		if (n.per.yr[t]>0) { 
 			#survival
-			sx <- 1*(logit(m0+ms*sizes+m.year)>runif(n.per.yr[t]))
+			sx <- 1*(invLogit(m0+ms*sizes+m.year)>runif(n.per.yr[t]))
 			#flowering
-			fx <- 1*(logit(b0+bs*sizes)>runif(n.per.yr[t]))
+			fx <- 1*(invLogit(b0+bs*sizes)>runif(n.per.yr[t]))
 			#fertility
 			seedsx <- exp(A.year+B.year*sizes)*fx*sx
 			#seedsx[seedsx>0] <- rpois(sum(seedsx>0),seedsx[seedsx>0])
@@ -857,7 +857,7 @@ sampleIPMOutput <- function(IPMList=NULL,PMatrixList=NULL,passageTimeTargetSize=
 
 # =============================================================================
 # =============================================================================
-logit <- function(x) { u<-exp(pmin(x,50)); return(u/(1+u))}
+invLogit <- function(x) { u<-exp(pmin(x,50)); return(u/(1+u))}
 
 # =============================================================================
 # =============================================================================
