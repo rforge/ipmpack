@@ -1,7 +1,7 @@
 Package: IPMpack
 Type: Package
 Title: Builds and analyses Integral Projection Models (IPMs).
-Version: 2.0
+Version: 2.1
 Date: 2012-7-4
 Author: CJE Metcalf, SM McMahon, R Salguero-Gomez, E Jongejans, C Merow
 Maintainer: Sean McMahon <ipmpack@gmail.com>
