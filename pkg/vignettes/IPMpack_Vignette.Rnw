@@ -577,7 +577,7 @@ plot(Pmatrix@meshpoints, pTimes[1:Pmatrix@nBigMatrix],
 
 Adding a fertility object to this analysis, the user can also define a full life
 cycle IPM model for across environments. With such information, obtaining the stochastic population rate of increase $\lambda_s$ in this environment is relatively straight-forward. IPMpack does this by sampling a very large number of environments and corresponding IPMs, and multiplying them together (Childs et al. $2004$). At the moment, this is only defined for the case where environments (defined by the discrete covariates) are distributed independently (i.e. the next state does not depend on the previous state). To do this, the user must first define a list of IPMs (each the sum of a matrix of survival-growth transitions, and a matrix of fecundity transitions corresponding to a particular environment):
-<<>>= 
+<<sampleSequentialIPMs, echo=TRUE>>= 
 IPMlist <- sampleSequentialIPMs(dataf = dff, nBigMatrix = 25, minSize = -5, 
                         maxSize = 35, explSurv = surv~size+covariate, 
                         explGrow = sizeNext~size+size2+covariate, 
@@ -590,7 +590,7 @@ model selection will need to be used to establish this. Importantly, each
 environment type requires sufficient data (years of data) to quantify population
 behaviours in that environment as if it were an IPM in a single environment.  
 Next, the user can estimate $\lambda_s$ using:
-<<>>= 
+<<stochGrowth, echo=TRUE>>= 
 stochGrowthRateSampleList(listIPMmatrix = IPMlist, 
                           nRunIn = 30, tMax = 50)
 @ 
@@ -713,7 +713,7 @@ image(as(log(IPM),'sparseMatrix'),
 
 An alternative way of inhabiting stochastic environments is to experience continuously changing covariates (rather
 than moving between discrete states, as the above describes). In this case, rather than building a single megamatrix, desired variables are obtained by multiplying up a suite of matrices and relying on the weak ergodic theorem for convergence (e.g., Tuljapurkar 1990; as described for obtaining $\lambda_s$, above). IPMpack contains code to do this. The user must first define a new data frame containing several time-varying covariates, and then build the associated survival, growth and fertility objects (note that the default in IPMpack is to assume that if you have a covariate called "coviariate", your aim is to build a compound matrix, so ideally other covariates should have other names):
-<<>>= 
+<<buildNew, echo=TRUE>>= 
 dff <- generateData(type="stochastic")
 sv1 <- makeSurvObj(dataf = dff, 
                           Formula = surv~size+covariate1+covariate3)
@@ -723,11 +723,11 @@ fv1 <- makeFecObj(dataf = dff, fecConstants = data.frame(1.8),
                   Formula = fec~size, Transform = "log")
 @ 
 As before, the user can explore the data: 
-<<>>= 
+<<headDff, echo=TRUE>>= 
 head(dff)
 @ 
 and glance at the objects, e.g., 
-<<>>= 
+<<grobj, echo=TRUE>>= 
 gr1
 @ 
 To explore demographic projections for this model, the user must decide on
@@ -738,7 +738,7 @@ over $4$ years, with years as the time scale and build covariates that vary
 seasonally, i.e., they fluctuates randomly around a sine wave which peaks once a
 year.  From this simulation, the user can generate a matrix containing time as
 rows and different covariates in columns.
-<<>>= 
+<<covTests, echo=TRUE>>= 
 tVals <- seq(1, 4, by = 1/12)
 covTest <- c(1 + 0.5*sin(2*pi*tVals))
 covMatTest <- data.frame(covariate1 = rnorm(length(covTest), covTest, 0.5) - 1, 
@@ -747,7 +747,7 @@ covMatTest <- data.frame(covariate1 = rnorm(length(covTest), covTest, 0.5) - 1,
 @ 
 Note that  if there is no apparent temporal pattern to the data, one could
 simply generate random normal distributions of the covariates using their observed mean and variance. Other types of temporal patterns (multiannual, etc) are also possible. With this setup, the user can then estimate the stochastic growth rate over these years, using the geometric mean of the population growth rate (Tuljapurkar $1990$; Childs et al. $2004$), for these particular covariates using:
-<<>>= 
+<<stochGROWTH, echo=TRUE>>= 
 r <- stochGrowthRateManyCov(covariate = covMatTest, nRunIn = 12*1, 
                             tMax = length(tVals), growthObj = gr1, 
                             survObj = sv1, fecObj = fv1, nBigMatrix = 20, 
@@ -770,11 +770,11 @@ this time-course, and the arguments {\tt trackStruct} and {\tt plot} allows this
 What if growth is best reflected by a saturating function, rather than by the
 linear regression models provided?  In this case the user may want to define a
 new class of growth object.  An example of this follows:
-<<>>= 
+<<setClass, echo=TRUE>>= 
 setClass("growthObjSaturate", representation(paras = "numeric", sd = "numeric"))
 @ 
 Then define the functional form of the mean prediction, with relevant parameters: 
-<<>>= 
+<<fsat, echo=TRUE>>= 
 fSaturate <- function(size, pars) { 
     u <- exp(pmin(pars[1] + pars[2] * size, 50))
     u <- pars[3] * 1/(1+u)
@@ -784,7 +784,7 @@ fSaturate <- function(size, pars) {
 where the third parameter indicates the asymptotic size. The user can then
 estimate the parameters by fitting this function to the data using a wrapper
 function and the R function {\tt optim}.
-<<>>= 
+<<wrapSat,echo=TRUE>>= 
 wrapSaturate <- function(par, dataf) { 
     pred <- fSaturate(dataf$size, par[1:3])
     ss <- sum((pred - dataf$sizeNext)^2, na.rm = TRUE)
@@ -796,14 +796,14 @@ tmp
 
 For simplicity, one can assume normally distributed errors: 
 
-<<>>= 
+<<residsSd, echo=TRUE>>= 
 resids <- fSaturate(dff$size, tmp$par) - dff$sizeNext
 sdSaturate <- sd(resids, na.rm = TRUE)
 @ 
 
 With these parameters, the user can then define the new growth object:
 
-<<>>= 
+<<gr1new, echo=TRUE>>= 
 gr1 <- new("growthObjSaturate")
 gr1@paras <- tmp$par
 gr1@sd <- sdSaturate
@@ -811,7 +811,7 @@ gr1@sd <- sdSaturate
 
 Finally, the user must define a method appropriate for this type of object. 
 
-<<>>= 
+<<newmethod,echo=TRUE>>= 
 setMethod("growth", c("numeric", "numeric", "numeric", "growthObjSaturate"), 
           function(size, sizeNext, cov, growthObj){
               mux <- fSaturate(size, growthObj@paras)

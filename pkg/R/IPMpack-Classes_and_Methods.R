@@ -64,14 +64,14 @@ setGeneric("growthCum",
 ## GROWTH OBJECTS ##
 # Create a generic growth object containing a lm
 setClass("growthObj",
-    representation(fit = "lm",sd="numeric"))
+    representation(fit = "lm", sd = "numeric"))
 
 setClass("growthObjPois",
     representation(fit = "glm"))
 
 # Create a generic growth object with normal errors on increment
 setClass("growthObjIncr",
-    representation(fit = "lm",sd="numeric"))
+    representation(fit = "lm", sd = "numeric"))
 
 # Create a generic growth object with truncated normal errors on increment
 setClass("growthObjTruncIncr",
@@ -79,7 +79,7 @@ setClass("growthObjTruncIncr",
 
 # Create a generic growth object with log normal errors on increment
 setClass("growthObjLogIncr",
-    representation(fit = "lm",sd="numeric"))
+    representation(fit = "lm", sd = "numeric"))
 
 # Create a generic growth object with declining errors 
 setClass("growthObjDeclineVar",
@@ -180,7 +180,8 @@ setClass("discreteTransInteger",
 ######## DEFINE METHODS #######################################################
 # =============================================================================
 # =============================================================================
-#Method to obtain probability of survival using
+# SURVIVAL METHODS
+# Method to obtain probability of survival using
 # logistic regression on size with a single covariate
 #
 #Parameters -
@@ -215,7 +216,7 @@ setMethod("surv",
 
 # =============================================================================
 # =============================================================================
-#Method to obtain probability of survival using
+# Method to obtain probability of survival using
 # logistic regression on size with a single covariate
 #  where the logistic regression was modeled with over-dispersion
 #  (e.g., using MCMCglmm) - !over-dispersion assumed to be set to 1
@@ -250,6 +251,7 @@ setMethod("surv",
 
 # =============================================================================
 # =============================================================================
+# GROWTH METHODS
 # Method to obtain growth transitions -
 # here linear regression to size (with powers) with a single covariate
 #
@@ -459,7 +461,7 @@ setMethod("growthCum",
 # using pnorm (i.e. getting cumulative at boundary points and doing difference)
 setMethod("growthCum", 
     c("numeric","numeric","data.frame","growthObj"),
-    function(size,sizeNext,cov,growthObj){
+    function(size, sizeNext, cov, growthObj){
       
       newd <- data.frame(cbind(cov,size=size),
           stringsAsFactors = FALSE)

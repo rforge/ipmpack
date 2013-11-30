@@ -1,0 +1,921 @@
+?image
+R.home()
+library(IPMpack)
+citation("IPMpack")
+?updata
+?update
+?updata.packages
+?install.packages
+old.packages()
+2-2
+update.packages
+update.packages()
+y
+library(IPMpack)
+dff <- generateData()#
+gr1 <- makeGrowthObj(dff)#
+sv1 <- makeSurvObj(dff)#
+ipm <- createIPMPmatrix(growObj = gr1, survObj = sv1)
+ipm
+ipmf <- createIPMFmatrix(growObj = gr1, survObj = sv1)
+fo1 <- makeFecObj(dff)
+ipmf <- createIPMFmatrix(fecObj = fo1)
+?foreach
+library(foreach)
+?foreach
+?dunif
+dunif(seq())
+?vector
+vector(length = 5)
+vector(mode = "numeric", length = 5)
+library(IPMpack)
+dff<-generateData(10)#
+#
+#for growth#
+gr1 <- makeGrowthObj(data = dff, Formula = logincr ~ logsize, regType = "declineVar")
+?date
+library(date)
+?date
+library(chron)
+?optim
+?par
+?tablex
+?xtable
+library(xtable)
+?xtable
+library(colorBrewer)
+?brewer
+brewer(5, name = "qualitative")
+brewer.pal(5, name = "qualitative")
+brewer.pal(5, name = "Set1", type = "qual"
+)
+brewer.pal(5, name = Accent)
+brewer.pal(5, name = "Accent")
+?class
+?data.frame
+?colclasses
+as.numeric
+?as.numeric
+?optom
+?optim
+?seed
+?random
+?random.seed
+?setseed
+set.seed
+?set.seed
+library(xtable)
+?xtable
+?sweave
+library(sweave)
+?Sweave
+?rmvnorm
+?mvrnorm
+file.path(R.home(), "share", "texmf", "Sweave.sty")
+have <- plot(seq(100), seq(100 + rnorm(100, 4, 5)), col = c(100), ylab = "this is the y label", xlab = "this is the xlab")
+have <- plot(seq(100), seq(100 + rnorm(100, 4, 56)), col = c(100), ylab = "this is the y label", xlab = "this is the xlab")
+have <- plot(seq(100), seq(100 * rnorm(100, 4, 56)), col = c(100), ylab = "this is the y label", xlab = "this is the xlab")
+have <- plot(seq(100), seq(100) + rnorm(100, 4, 56)), col = c(100), ylab = "this is the y label", xlab = "this is the xlab")
+have <- plot(seq(100), seq(100) + rnorm(100, 4, 56), col = c(100), ylab = "this is the y label", xlab = "this is the xlab")
+have <- plot(seq(100), seq(100) + rnorm(100, 4, 4), col = c(100), ylab = "this is the y label", xlab = "this is the xlab")
+have <- plot(seq(100), seq(100) * rnorm(100, 4, 4), col = c(100), ylab = "this is the y label", xlab = "this is the xlab")
+library(IPMpack)
+?createIPMmatrix
+?makeIPMPmatrix
+createIPMPmatrix
+?createIPMPmatrix
+?read.table
+20 * 25 *9
+20*5*4*3
+1200 *7.5
+install.packages(c("rj", "rj.gd"), repos="http://download.walware.de/rj-1.1")
+library(rj)
+?Hossfeld
+Hossfeld
+update()
+updates()
+?license
+?progress.bar
+??progress
+for(i in 1:100000) {}
+for(i in 1:100000) {x <- i * 24}
+txtProgressBar(style = 3)
+txtProgressBar(style = 3)# slow#
+testit <- function(x = sort(runif(20)), ...)#
+{#
+    pb <- txtProgressBar(...)#
+    for(i in c(0, x, 1)) {Sys.sleep(0.5); setTxtProgressBar(pb, i)}#
+    Sys.sleep(1)#
+    close(pb)#
+}#
+testit()#
+testit(runif(10))#
+testit(style = 3)
+pb <- tkProgressBar("test progress bar", "Some information in %",#
+                    0, 100, 50)#
+Sys.sleep(0.5)#
+u <- c(0, sort(runif(20, 0, 100)), 100)#
+for(i in u) {#
+    Sys.sleep(0.1)#
+    info <- sprintf("%d%% done", round(i))#
+    setTkProgressBar(pb, i, sprintf("test (%s)", info), info)#
+}#
+Sys.sleep(5)#
+close(pb)
+testit(style = 3)
+x1 <- c(4, 3, 4, 3, 4, 5, 4, 5, 6, 5, 5, 6, 7, 6, 7, 8 )#
+x2 <- c(8, 7, 8, 7, 8, 7, 6, 5, 5, 6, 5, 4, 4, 5, 4, 3 )#
+x3 <- c(1, 2, 1, 2, 1, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4 )#
+x4 <- c(1, 2, 3, 4, 8, 7, 8, 9, 7, 6, 5, 4, 3, 3, 2, 1 )#
+df <- data.frame(x1, x2, x3, x4)
+matrix(c(1, 2, 3, 4, 4, 4), 2, 3, byrow=TRUE)#
+layout(matrix(c(1, 2, 3, 4, 4, 4), 2, 3, byrow=TRUE))#
+layout.show(4)
+layout.show(2)
+pie(mean(df),main=”Pie-chart”)#
+barplot(mean(df), main=”Barplot”)#
+boxplot(df, main=”Boxplots”)#
+matplot(df,type=”l”, main=”Line diagram”)
+df
+pie(mean(df))
+pie(df)
+mean(df)
+row.means(df)
+apply(df, mean)
+apply(df, 2,mean)
+pie(apply(df, 2,mean))
+xx <- (apply(df, 2,mean)
+)
+matplot(xx)
+barplot(xx)
+boxplot(xx)
+pie(xx)
+3000000/40
+exp(45)
+exp(4)
+exp600
+exp(20)
+exp(25)
+exp(15)
+exp(14)
+?check
+?mtext
+lg5.ML.a <- function(a, params, doy, dbh, resid.sd) {	pred.dbh <- lg5.pred.a(a, params, doy)	pred.ML <- -sum(dnorm(dbh, pred.dbh, resid.sd, log = T))}
+xx <- rnorm(10, 4, 4)
+xx
+sd(xx)
+xx <- rnorm(10, 4, 4); print(sd(xx))
+?check
+?system
+library(IPMpack)
+?makeGrowthObj
+dff <- generateData()#
+sizeRange <- c(1:20)#
+sizeInit <- 1#
+Hossfeld(sizeRange, rep(1, 3))#
+plot(Hossfeld(1:10, rep(1, 3)), type = "l", #
+    ylab = "Predicted increment from t to t+1", #
+	xlab = "Continuous (size) stage in time t", col = "dark gray")
+dff <- generateData()#
+gr1 <- makegrowthObjHossfeld(dff)
+picGrow(gr1)
+gr1
+picGrow(dff,gr1)
+gr1 <- makeGrowthObj(dff, Formula = size~ sizeNext)
+gr1
+makeGrowthObj
+str(gr1)
+gr1
+makeGrowthObj
+picGrow
+sv1
+?dtnorm
+??dtnorm
+dt <- read.table(file = "~/Dropbox/SIGEO/SERC/INTERNS/Mike_project/SAS_Ready_data.txt")
+head(dt)
+dt <- read.table(file = "~/Dropbox/SIGEO/SERC/INTERNS/Mike_project/SAS_Ready_data.txt", header = TRUE)
+head(dt)
+attach(dt)
+ts.plot(am_pm, co2_ppm)
+ts.plot( co2_ppm)
+summary(dt)
+?boxplot
+boxplot on a formula:#
+boxplot(count ~ spray, data = InsectSprays, col = "lightgray")
+boxplot(decrease ~ treatment, data = OrchardSprays,#
+        log = "y", col = "bisque")#
+#
+rb <- boxplot(decrease ~ treatment, data = OrchardSprays, col = "bisque")#
+title("Comparing boxplot()s and non-robust mean +/- SD")#
+#
+mn.t <- tapply(OrchardSprays$decrease, OrchardSprays$treatment, mean)#
+sd.t <- tapply(OrchardSprays$decrease, OrchardSprays$treatment, sd)#
+xi <- 0.3 + seq(rb$n)#
+points(xi, mn.t, col = "orange", pch = 18)#
+arrows(xi, mn.t - sd.t, xi, mn.t + sd.t,#
+       code = 3, col = "pink", angle = 75, length = .1)
+mat <- cbind(Uni05 = (1:100)/21, Norm = rnorm(100),#
+             `5T` = rt(100, df = 5), Gam2 = rgamma(100, shape = 2))#
+boxplot(as.data.frame(mat),#
+        main = "boxplot(as.data.frame(mat), main = ...)")#
+par(las = 1) # all axis labels horizontal#
+boxplot(as.data.frame(mat), main = "boxplot(*, horizontal = TRUE)",#
+        horizontal = TRUE)
+Using 'at = ' and adding boxplots -- example idea by Roger Bivand :#
+#
+boxplot(len ~ dose, data = ToothGrowth,#
+        boxwex = 0.25, at = 1:3 - 0.2,#
+        subset = supp == "VC", col = "yellow",#
+        main = "Guinea Pigs' Tooth Growth",#
+        xlab = "Vitamin C dose mg",#
+        ylab = "tooth length",#
+        xlim = c(0.5, 3.5), ylim = c(0, 35), yaxs = "i")#
+boxplot(len ~ dose, data = ToothGrowth, add = TRUE,#
+        boxwex = 0.25, at = 1:3 + 0.2,#
+        subset = supp == "OJ", col = "orange")#
+legend(2, 9, c("Ascorbic acid", "Orange juice"),#
+       fill = c("yellow", "orange"))
+help(boxplot)
+boxplot(len ~ dose, data = ToothGrowth,#
+        boxwex = 0.25, at = 1:3 - 0.2,#
+        subset = supp == "VC", col = "yellow",#
+        main = "Guinea Pigs' Tooth Growth",#
+        xlab = "Vitamin C dose mg",#
+        ylab = "tooth length",#
+        xlim = c(0.5, 3.5), ylim = c(0, 35), yaxs = "i")#
+boxplot(len ~ dose, data = ToothGrowth, add = TRUE,#
+        boxwex = 0.25, at = 1:3 + 0.2,#
+        subset = supp == "OJ", col = "orange")#
+legend(2, 9, c("Ascorbic acid", "Orange juice"),#
+       fill = c("yellow", "orange"))#
+#
+## more examples in  help(bxp)
+PTList
+300*300
+all.teams <- c("Arizona Cardinals", "Atlanta Falcons", "Baltimore Ravens", "Buffalo Bills", "Carolina Panthers", "Chicago Bears", "Cincinnati Bengals", "Cleveland Browns", "Dallas Cowboys", "Denver Broncos", "Detroit Lions", "Green Bay Packers", "Houston Texans", "Indianapolis Colts", "Jacksonville Jaguars", "Kansas City Chiefs", "Miami Dolphins", "Minnesota Vikings", "New England Patriots", "New Orleans Saints", "New York Giants", "New York Jets", "Oakland Raiders", "Philadelphia Eagles", "Pittsburgh Steelers", "San Diego Chargers", "San Francisco 49ers", "Seattle Seahawks", "St. Louis Rams", "Tampa Bay Buccaneers", "Tennessee Titans", "Washington Redskins")
+all.teams <- c("Cardinals", "Falcons", "Ravens", "Bills", "Panthers", "Bears", "Bengals", "Browns", "Cowboys", "Broncos", "Lions", "Packers", "Texans", "Colts", "Jaguars", "Chiefs", "Dolphins", "Vikings", "Patriots", "Saints", "Giants", "Jets", "Raiders", "Eagles", "Steelers", "Chargers", "49ers", "Seahawks", "Rams", "Bay Buccaneers", "Titans", "Redskins")
+agb <- get.agb(WD, 40, 40)
+get.agb <- function(WD, D, H) {#
+	agb <- exp(-2.977 + log(WD * D^2 * H))#
+	return(agb)#
+	}#
+WD <- seq(0.35, 0.55, length = 100)#
+agb <- get.agb(WD, 40, 40)#
+plot(WD, agb)
+plot(WD, agb, type = "l")
+WD <- seq(0.35, 0.55, length = 100)#
+D <- 1:100#
+H <- seq(30, 45, length = 100)#
+agb <- get.agb(WD, 40, 40)
+par(mfrow = c(2,2))#
+plot(WD, get.agb(WD, mean(D), mean(H)), type = "l")#
+plot(D, get.agb(mean(WD), D, mean(H)), type = "l")#
+plot(H, get.agb(mean(WD), mean(D), H), type = "l")
+plot(D, log(get.agb(mean(WD), D, mean(H))), type = "l")
+get.agb(mean(WD), mean(D), 35)#
+get.agb(mean(WD), mean(D), 40)
+WD <- seq(0.35, 0.55, length = 100)#
+D <- seq(0.1, 1, length = 100)#
+H <- seq(30, 45, length = 100)#
+agb <- get.agb(WD, 40, 40)#
+#
+par(mfrow = c(2,2))#
+plot(WD, get.agb(WD, mean(D), mean(H)), type = "l")#
+plot(D, log(get.agb(mean(WD), D, mean(H))), type = "l")#
+plot(H, get.agb(mean(WD), mean(D), H), type = "l")
+par(mfrow = c(2,2))#
+plot(WD, get.agb(WD, mean(D), mean(H)), type = "l")#
+plot(D,(get.agb(mean(WD), D, mean(H))), type = "l")#
+plot(H, get.agb(mean(WD), mean(D), H), type = "l")
+get.agb(mean(WD), mean(D), 35)#
+get.agb(mean(WD), mean(D), 40)
+get.agb(0.50, mean(D), 35) / get.agb(0.45, mean(D), 35)
+get.agb(0.50, mean(D), 35) / get.agb(0.4, mean(D), 35)
+5.44 / 6.17
+5.44 / 5.68
+6.17 /5.44
+5.68 /5.44
+?AIC
+?BIC
+library(IPMpack)
+?meanLifeExpect
+?meanPassageTime
+library(lme4)
+?glmr
+?glmer
+(gm1 <- glmer(cbind(incidence, size - incidence) ~ period + (1 | herd),#
+              data = cbpp, family = binomial))
+?plyr
+aply
+library(plyr)
+?plyr
+sTangle ~/Dropbox/IPMS/IPM_guide/Appendices/Appendix_A/files_for_rnw/IPM_Guide_Appendix_A.Rnw
+sTangle(~/Dropbox/IPMS/IPM_guide/Appendices/Appendix_A/files_for_rnw/IPM_Guide_Appendix_A.Rnw)
+sTangle("~/Dropbox/IPMS/IPM_guide/Appendices/Appendix_A/files_for_rnw/IPM_Guide_Appendix_A.Rnw")
+Stangle("~/Dropbox/IPMS/IPM_guide/Appendices/Appendix_A/files_for_rnw/IPM_Guide_Appendix_A.Rnw")
+getwd()
+?image.plot
+library(fields)
+as.real
+re
+d
+code chunk number 1: options#
+####################################################
+  # to make sure the r code doesn't overflow off the page #
+  options(width=60)#
+  # to hide those stupid continuation prompts#
+  options(prompt=" ",continue="  ")#
+  library(nlme)#
+  library(fields)#
+####################################################
+### code chunk number 2: data.entry#
+####################################################
+d <- read.csv('Appendix_A_Simple_data.csv')
+code chunk number 3: IPM_Guide_Appendix_A.Rnw:81-82#
+####################################################
+head(d)#
+####################################################
+### code chunk number 4: IPM_Guide_Appendix_A.Rnw:87-88#
+####################################################
+tail(d)#
+####################################################
+### code chunk number 5: fig1#
+####################################################
+    par(mfrow=c(2,2),mar=c(4,4,2,1)) #
+    plot(d$size,jitter(d$surv),xlab="Size (t)", ylab="Survival to t+1") # jittered #
+    plot(d$size,d$sizeNext,xlab="Size (t)",ylab="Size (t+1)")  #
+    plot(d$size,d$fec.seed,xlab="Size (t)",ylab="Seed Number") #
+    hist(d$sizeNext[is.na(d$size)],main='',xlab='Recruit Size')#
+####################################################
+### code chunk number 6: params#
+####################################################
+params=data.frame(#
+  surv.int=NA,          # Intercept from logistic regression of survival #
+  surv.slope=NA,        # Slope from logistic regression of survival #
+  growth.int=NA,        # Intercept from linear regression of growth#
+  growth.slope=NA,      # Slope from linear regression of growth#
+  growth.sd=NA,         # Residual sd from the linear regression of growth#
+  seed.int=NA,          # Intercept from Poisson regression of seed number#
+  seed.slope=NA,        # Slope from Poisson regression of seed number#
+  recruit.size.mean=NA, # Mean recruit size#
+  recruit.size.sd=NA,   # Standard deviation of recruit size#
+  establishment.prob=NA # Probability of establishment#
+)#
+####################################################
+### code chunk number 7: IPM_Guide_Appendix_A.Rnw:155-167#
+####################################################
+# 1. survival: logistic regression#
+surv.reg=glm(surv~size,data=d,family=binomial())#
+summary(surv.reg)#
+params$surv.int=coefficients(surv.reg)[1]#
+params$surv.slope=coefficients(surv.reg)[2]#
+#
+# 2. growth: linear regression#
+growth.reg=lm(sizeNext~size,data=d)#
+summary(growth.reg)#
+params$growth.int=coefficients(growth.reg)[1]#
+params$growth.slope=coefficients(growth.reg)[2]#
+params$growth.sd=sd(resid(growth.reg))#
+####################################################
+### code chunk number 8: IPM_Guide_Appendix_A.Rnw:172-177#
+####################################################
+# 3. seeds: Poisson regression#
+seed.reg=glm(fec.seed~size,data=d,family=poisson())#
+summary(seed.reg)#
+params$seed.int=coefficients(seed.reg)[1]#
+params$seed.slope=coefficients(seed.reg)[2]#
+####################################################
+### code chunk number 9: IPM_Guide_Appendix_A.Rnw:180-183#
+####################################################
+# 4. size distribution of recruits#
+params$recruit.size.mean=mean(d$sizeNext[is.na(d$size)])#
+params$recruit.size.sd=sd(d$sizeNext[is.na(d$size)])#
+####################################################
+### code chunk number 10: IPM_Guide_Appendix_A.Rnw:187-189#
+####################################################
+# 5. establishment probability#
+params$establishment.prob=sum(is.na(d$size))/sum(d$fec.seed,na.rm=TRUE)#
+####################################################
+### code chunk number 11: fig2#
+####################################################
+    par(mfrow=c(2,2))#
+    xx=seq(0,8,by=.01) # sizes at which to evaluate predictions#
+    plot(d$size,jitter(d$surv), xlab="Size (t)",ylab="Survival to t+1") # jittered #
+    lines(xx,predict(surv.reg,#
+      data.frame(size=xx),type='response'), col='red',lwd=3)#
+    plot(d$size,d$sizeNext,xlab="Size (t)",ylab="Size (t+1)")  #
+    lines(xx,predict(growth.reg,data.frame(size=xx)),col='red',lwd=3)#
+    plot(d$size,d$fec.seed,xlab="Size (t)",ylab="Seed Number (t)")#
+    lines(xx,predict(seed.reg,#
+      data.frame(size=xx),type='response'),col='red',lwd=3)#
+    hist(d$sizeNext[is.na(d$size)],freq=FALSE,xlab="Recruit size",main='')#
+    lines(xx,dnorm(xx,params$recruit.size.mean,#
+      params$recruit.size.sd), col='red',lwd=3)#
+####################################################
+### code chunk number 12: IPM_Guide_Appendix_A.Rnw:230-247#
+####################################################
+  # 1. survival probability function#
+s.x=function(x,params) {#
+  u=exp(params$surv.int+params$surv.slope*x)#
+  return(u/(1+u))#
+}#
+#
+# 2. growth function#
+g.yx=function(xp,x,params) { 			#
+  dnorm(xp,mean=params$growth.int+params$growth.slope*x,sd=params$growth.sd)#
+}#
+#
+# 3. reproduction function      #
+f.yx=function(xp,x,params) { 		#
+  params$establishment.prob*#
+    dnorm(xp,mean=params$recruit.size.mean,sd=params$recruit.size.sd)*#
+    exp(params$seed.int+params$seed.slope*x)#
+}#
+####################################################
+### code chunk number 13: define_mesh#
+####################################################
+min.size=.9*min(c(d$size,d$sizeNext),na.rm=T)#
+max.size=1.1*max(c(d$size,d$sizeNext),na.rm=T)#
+#
+n=100 # number of cells in the matrix#
+b=min.size+c(0:n)*(max.size-min.size)/n # boundary points  #
+y=0.5*(b[1:n]+b[2:(n+1)]) # mesh points#
+h=y[2]-y[1] # step size#
+####################################################
+### code chunk number 14: make_matrix#
+####################################################
+G=h*outer(y,y,g.yx,params=params) # growth matrix#
+S=s.x(y,params=params)            # survival #
+F=h*outer(y,y,f.yx,params=params) # reproduction matrix#
+P=G                               # placeholder; redefine P on the next line#
+for(i in 1:n) P[,i]=G[,i]*S[i]    # growth/survival matrix#
+K=P+F                             # full matrix
+code chunk number 15: lam#
+####################################################
+(lam <- Re(eigen(K)$values[1]))#
+w.eigen <- Re(eigen(K)$vectors[,1])#
+stable.dist <- w.eigen/sum(w.eigen) #
+v.eigen <- Re(eigen(t(K))$vectors[,1])#
+repro.val <- v.eigen/v.eigen[1]
+code chunk number 15: lam#
+####################################################
+(lam <- Re(eigen(K)$values[1]))#
+w.eigen <- Re(eigen(K)$vectors[,1])#
+stable.dist <- w.eigen/sum(w.eigen) #
+v.eigen <- Re(eigen(t(K))$vectors[,1])#
+repro.val <- v.eigen/v.eigen[1] #
+####################################################
+### code chunk number 16: sens#
+####################################################
+v.dot.w=sum(stable.dist*repro.val)*h#
+sens=outer(repro.val,stable.dist)/v.dot.w#
+elas=matrix(as.vector(sens)*as.vector(K)/lam,nrow=n)#
+####################################################
+### code chunk number 17: fig3#
+####################################################
+    par(mfrow=c(2,3),mar=c(4,5,2,2)) #
+    image.plot(y,y,t(K), xlab="Size (t)",ylab="Size (t+1)",#
+      col=topo.colors(100), main="IPM matrix")#
+    contour(y,y,t(K), add = TRUE, drawlabels = TRUE)#
+    plot(y,stable.dist,xlab="Size",type="l",main="Stable size distribution")#
+    plot(y,repro.val,xlab="Size",type="l",main="Reproductive values") #
+    image.plot(y,y,t(elas),xlab="Size (t)",ylab="Size (t+1)",main="Elasticity")#
+    image.plot(y,y,t(sens),xlab="Size (t)",ylab="Size (t+1)", main="Sensitivity")
+code chunk number 18: fig4#
+####################################################
+  plot(growth.reg$model$size,abs(resid(growth.reg)),#
+    xlab='size',ylab='residual')#
+####################################################
+### code chunk number 19: gls#
+####################################################
+growth.reg=gls(sizeNext~size,weights=varExp(),na.action=na.omit, data=d)#
+summary(growth.reg)
+code chunk number 18: fig4#
+####################################################
+  plot(growth.reg$model$size,abs(resid(growth.reg)),#
+    xlab='size',ylab='residual')#
+####################################################
+### code chunk number 19: gls#
+####################################################
+growth.reg=gls(sizeNext~size,weights=varExp(),na.action=na.omit, data=d)#
+summary(growth.reg)#
+####################################################
+### code chunk number 20: gls_plot#
+####################################################
+    plot(d$size,d$sizeNext,main='Growth/Shrinkage/Stasis')  #
+    lines(xx,predict(growth.reg,data.frame(size=xx)),col='red',lwd=3)#
+####################################################
+### code chunk number 21: growth_var_params#
+####################################################
+params$growth.int=coefficients(growth.reg)[1]#
+params$growth.slope=coefficients(growth.reg)[2]#
+params$growth.sigma2=summary(growth.reg)$sigma^2 #
+params$growth.sigma2.exp=as.numeric(growth.reg$modelStruct$varStruct)
+code chunk number 18: fig4#
+####################################################
+  plot(growth.reg$model$size,abs(resid(growth.reg)),#
+    xlab='size',ylab='residual')#
+####################################################
+### code chunk number 19: gls#
+####################################################
+growth.reg=gls(sizeNext~size,weights=varExp(),na.action=na.omit, data=d)#
+summary(growth.reg)#
+####################################################
+### code chunk number 20: gls_plot#
+####################################################
+    plot(d$size,d$sizeNext,main='Growth/Shrinkage/Stasis')  #
+    lines(xx,predict(growth.reg,data.frame(size=xx)),col='red',lwd=3)#
+####################################################
+### code chunk number 21: growth_var_params#
+####################################################
+params$growth.int=coefficients(growth.reg)[1]#
+params$growth.slope=coefficients(growth.reg)[2]#
+params$growth.sigma2=summary(growth.reg)$sigma^2 #
+params$growth.sigma2.exp=as.numeric(growth.reg$modelStruct$varStruct)#
+####################################################
+### code chunk number 22: IPM_Guide_Appendix_A.Rnw:377-381#
+####################################################
+g.yx=function(xp,x,params) { 			#
+  dnorm(xp,mean=params$growth.int+params$growth.slope*x, #
+    sd=sqrt(params$growth.sigma2*exp(2*params$growth.sigma2.exp*x)))#
+}
+code chunk number 18: fig4#
+####################################################
+  plot(growth.reg$model$size,abs(resid(growth.reg)),#
+    xlab='size',ylab='residual')#
+####################################################
+### code chunk number 19: gls#
+####################################################
+growth.reg=gls(sizeNext~size,weights=varExp(),na.action=na.omit, data=d)#
+summary(growth.reg)#
+####################################################
+### code chunk number 20: gls_plot#
+####################################################
+    plot(d$size,d$sizeNext,main='Growth/Shrinkage/Stasis')  #
+    lines(xx,predict(growth.reg,data.frame(size=xx)),col='red',lwd=3)#
+####################################################
+### code chunk number 21: growth_var_params#
+####################################################
+params$growth.int=coefficients(growth.reg)[1]#
+params$growth.slope=coefficients(growth.reg)[2]#
+params$growth.sigma2=summary(growth.reg)$sigma^2 #
+params$growth.sigma2.exp=as.numeric(growth.reg$modelStruct$varStruct)#
+####################################################
+### code chunk number 22: IPM_Guide_Appendix_A.Rnw:377-381#
+####################################################
+g.yx=function(xp,x,params) { 			#
+  dnorm(xp,mean=params$growth.int+params$growth.slope*x, #
+    sd=sqrt(params$growth.sigma2*exp(2*params$growth.sigma2.exp*x)))#
+}#
+####################################################
+### code chunk number 23: IPM_Guide_Appendix_A.Rnw:385-399#
+####################################################
+G=h*outer(y,y,g.yx,params=params) # growth matrix#
+S=s.x(y,params=params)            # survival #
+P=G                               # placeholder; redefine P on the next line#
+for(i in 1:n) P[,i]=G[,i]*S[i]    # growth/survival matrix#
+F=h*outer(y,y,f.yx,params=params) # reproduction matrix#
+K=P+F                             # full matrix#
+(lam=Re(eigen(K)$values[1]))      # new population growth rate#
+w.eigen=Re(eigen(K)$vectors[,1])#
+stable.dist=w.eigen/sum(w.eigen) #
+v.eigen=Re(eigen(t(K))$vectors[,1])#
+repro.val=v.eigen/v.eigen[1] #
+v.dot.w=sum(stable.dist*repro.val)*h#
+sens=outer(repro.val,stable.dist)/v.dot.w#
+elas=matrix(as.vector(sens)*as.vector(K)/lam,nrow=n)
+code chunk number 18: fig4#
+####################################################
+  plot(growth.reg$model$size,abs(resid(growth.reg)),#
+    xlab='size',ylab='residual')#
+####################################################
+### code chunk number 19: gls#
+####################################################
+growth.reg=gls(sizeNext~size,weights=varExp(),na.action=na.omit, data=d)#
+summary(growth.reg)#
+####################################################
+### code chunk number 20: gls_plot#
+####################################################
+    plot(d$size,d$sizeNext,main='Growth/Shrinkage/Stasis')  #
+    lines(xx,predict(growth.reg,data.frame(size=xx)),col='red',lwd=3)#
+####################################################
+### code chunk number 21: growth_var_params#
+####################################################
+params$growth.int=coefficients(growth.reg)[1]#
+params$growth.slope=coefficients(growth.reg)[2]#
+params$growth.sigma2=summary(growth.reg)$sigma^2 #
+params$growth.sigma2.exp=as.numeric(growth.reg$modelStruct$varStruct)#
+####################################################
+### code chunk number 22: IPM_Guide_Appendix_A.Rnw:377-381#
+####################################################
+g.yx=function(xp,x,params) { 			#
+  dnorm(xp,mean=params$growth.int+params$growth.slope*x, #
+    sd=sqrt(params$growth.sigma2*exp(2*params$growth.sigma2.exp*x)))#
+}#
+####################################################
+### code chunk number 23: IPM_Guide_Appendix_A.Rnw:385-399#
+####################################################
+G=h*outer(y,y,g.yx,params=params) # growth matrix#
+S=s.x(y,params=params)            # survival #
+P=G                               # placeholder; redefine P on the next line#
+for(i in 1:n) P[,i]=G[,i]*S[i]    # growth/survival matrix#
+F=h*outer(y,y,f.yx,params=params) # reproduction matrix#
+K=P+F                             # full matrix#
+(lam=Re(eigen(K)$values[1]))      # new population growth rate#
+w.eigen=Re(eigen(K)$vectors[,1])#
+stable.dist=w.eigen/sum(w.eigen) #
+v.eigen=Re(eigen(t(K))$vectors[,1])#
+repro.val=v.eigen/v.eigen[1] #
+v.dot.w=sum(stable.dist*repro.val)*h#
+sens=outer(repro.val,stable.dist)/v.dot.w#
+elas=matrix(as.vector(sens)*as.vector(K)/lam,nrow=n)#
+####################################################
+### code chunk number 24: fig5#
+####################################################
+    par(mfrow=c(2,3),mar=c(4,5,2,2)) #
+    image.plot(y,y,t(K), xlab="Size (t)",ylab="Size (t+1)",#
+      col=topo.colors(100), main="IPM matrix")#
+    contour(y,y,t(K), add = TRUE, drawlabels = TRUE)#
+    plot(y,stable.dist,xlab="Size",type="l",main="Stable size distribution")#
+    plot(y,repro.val,xlab="Size",type="l",main="Reproductive values") #
+    image.plot(y,y,t(elas),xlab="Size (t)",ylab="Size (t+1)",main="Elasticity")#
+    image.plot(y,y,t(sens),xlab="Size (t)",ylab="Size (t+1)", main="Sensitivity")
+code chunk number 18: fig4#
+####################################################
+  plot(growth.reg$model$size,abs(resid(growth.reg)),#
+    xlab='size',ylab='residual')#
+####################################################
+### code chunk number 19: gls#
+####################################################
+growth.reg=gls(sizeNext~size,weights=varExp(),na.action=na.omit, data=d)#
+summary(growth.reg)#
+####################################################
+### code chunk number 20: gls_plot#
+####################################################
+    plot(d$size,d$sizeNext,main='Growth/Shrinkage/Stasis')  #
+    lines(xx,predict(growth.reg,data.frame(size=xx)),col='red',lwd=3)#
+####################################################
+### code chunk number 21: growth_var_params#
+####################################################
+params$growth.int=coefficients(growth.reg)[1]#
+params$growth.slope=coefficients(growth.reg)[2]#
+params$growth.sigma2=summary(growth.reg)$sigma^2 #
+params$growth.sigma2.exp=as.numeric(growth.reg$modelStruct$varStruct)#
+####################################################
+### code chunk number 22: IPM_Guide_Appendix_A.Rnw:377-381#
+####################################################
+g.yx=function(xp,x,params) { 			#
+  dnorm(xp,mean=params$growth.int+params$growth.slope*x, #
+    sd=sqrt(params$growth.sigma2*exp(2*params$growth.sigma2.exp*x)))#
+}#
+####################################################
+### code chunk number 23: IPM_Guide_Appendix_A.Rnw:385-399#
+####################################################
+G=h*outer(y,y,g.yx,params=params) # growth matrix#
+S=s.x(y,params=params)            # survival #
+P=G                               # placeholder; redefine P on the next line#
+for(i in 1:n) P[,i]=G[,i]*S[i]    # growth/survival matrix#
+F=h*outer(y,y,f.yx,params=params) # reproduction matrix#
+K=P+F                             # full matrix#
+(lam=Re(eigen(K)$values[1]))      # new population growth rate#
+w.eigen=Re(eigen(K)$vectors[,1])#
+stable.dist=w.eigen/sum(w.eigen) #
+v.eigen=Re(eigen(t(K))$vectors[,1])#
+repro.val=v.eigen/v.eigen[1] #
+v.dot.w=sum(stable.dist*repro.val)*h#
+sens=outer(repro.val,stable.dist)/v.dot.w#
+elas=matrix(as.vector(sens)*as.vector(K)/lam,nrow=n)#
+####################################################
+### code chunk number 24: fig5#
+####################################################
+    par(mfrow=c(2,3),mar=c(4,5,2,2)) #
+    image.plot(y,y,t(K), xlab="Size (t)",ylab="Size (t+1)",#
+      col=topo.colors(100), main="IPM matrix")#
+    contour(y,y,t(K), add = TRUE, drawlabels = TRUE)#
+    plot(y,stable.dist,xlab="Size",type="l",main="Stable size distribution")#
+    plot(y,repro.val,xlab="Size",type="l",main="Reproductive values") #
+    image.plot(y,y,t(elas),xlab="Size (t)",ylab="Size (t+1)",main="Elasticity")#
+    image.plot(y,y,t(sens),xlab="Size (t)",ylab="Size (t+1)", main="Sensitivity")#
+####################################################
+### code chunk number 25: fig_eviction#
+####################################################
+    plot(y,s.x(y,params),xlab="Size",type="l",#
+      ylab='Survival Probability',lwd=12)#
+    points(y,apply(P,2,sum),col='red',lwd=3,cex=.1,pch=19)
+code chunk number 23: IPM_Guide_Appendix_A.Rnw:385-399#
+####################################################
+G=h*outer(y,y,g.yx,params=params) # growth matrix#
+S=s.x(y,params=params)            # survival #
+P=G                               # placeholder; redefine P on the next line#
+for(i in 1:n) P[,i]=G[,i]*S[i]    # growth/survival matrix#
+F=h*outer(y,y,f.yx,params=params) # reproduction matrix#
+K=P+F                             # full matrix#
+(lam=Re(eigen(K)$values[1]))      # new population growth rate#
+w.eigen=Re(eigen(K)$vectors[,1])#
+stable.dist=w.eigen/sum(w.eigen) #
+v.eigen=Re(eigen(t(K))$vectors[,1])#
+repro.val=v.eigen/v.eigen[1] #
+v.dot.w=sum(stable.dist*repro.val)*h#
+sens=outer(repro.val,stable.dist)/v.dot.w#
+elas=matrix(as.vector(sens)*as.vector(K)/lam,nrow=n)
+par(mfrow=c(2,3),mar=c(4,5,2,2)) #
+    image.plot(y,y,t(K), xlab="Size (t)",ylab="Size (t+1)",#
+      col=topo.colors(100), main="IPM matrix")#
+    contour(y,y,t(K), add = TRUE, drawlabels = TRUE)#
+    plot(y,stable.dist,xlab="Size",type="l",main="Stable size distribution")#
+    plot(y,repro.val,xlab="Size",type="l",main="Reproductive values") #
+    image.plot(y,y,t(elas),xlab="Size (t)",ylab="Size (t+1)",main="Elasticity")#
+    image.plot(y,y,t(sens),xlab="Size (t)",ylab="Size (t+1)", main="Sensitivity")
+code chunk number 1: options#
+####################################################
+  # to make sure the r code doesn't overflow off the page #
+  options(width=60)#
+  # to hide those stupid continuation prompts#
+  options(prompt=" ",continue="  ")#
+  library(nlme)#
+  library(fields)#
+####################################################
+### code chunk number 2: data.entry#
+####################################################
+d <- read.csv('Appendix_A_Simple_data.csv')#
+####################################################
+### code chunk number 3: IPM_Guide_Appendix_A.Rnw:81-82#
+####################################################
+head(d)#
+####################################################
+### code chunk number 4: IPM_Guide_Appendix_A.Rnw:87-88#
+####################################################
+tail(d)#
+####################################################
+### code chunk number 5: fig1#
+####################################################
+    par(mfrow=c(2,2),mar=c(4,4,2,1)) #
+    plot(d$size,jitter(d$surv),xlab="Size (t)", ylab="Survival to t+1") # jittered #
+    plot(d$size,d$sizeNext,xlab="Size (t)",ylab="Size (t+1)")  #
+    plot(d$size,d$fec.seed,xlab="Size (t)",ylab="Seed Number") #
+    hist(d$sizeNext[is.na(d$size)],main='',xlab='Recruit Size')#
+####################################################
+### code chunk number 6: params#
+####################################################
+params=data.frame(#
+  surv.int=NA,          # Intercept from logistic regression of survival #
+  surv.slope=NA,        # Slope from logistic regression of survival #
+  growth.int=NA,        # Intercept from linear regression of growth#
+  growth.slope=NA,      # Slope from linear regression of growth#
+  growth.sd=NA,         # Residual sd from the linear regression of growth#
+  seed.int=NA,          # Intercept from Poisson regression of seed number#
+  seed.slope=NA,        # Slope from Poisson regression of seed number#
+  recruit.size.mean=NA, # Mean recruit size#
+  recruit.size.sd=NA,   # Standard deviation of recruit size#
+  establishment.prob=NA # Probability of establishment#
+)#
+####################################################
+### code chunk number 7: IPM_Guide_Appendix_A.Rnw:155-167#
+####################################################
+# 1. survival: logistic regression#
+surv.reg=glm(surv~size,data=d,family=binomial())#
+summary(surv.reg)#
+params$surv.int=coefficients(surv.reg)[1]#
+params$surv.slope=coefficients(surv.reg)[2]#
+#
+# 2. growth: linear regression#
+growth.reg=lm(sizeNext~size,data=d)#
+summary(growth.reg)#
+params$growth.int=coefficients(growth.reg)[1]#
+params$growth.slope=coefficients(growth.reg)[2]#
+params$growth.sd=sd(resid(growth.reg))#
+####################################################
+### code chunk number 8: IPM_Guide_Appendix_A.Rnw:172-177#
+####################################################
+# 3. seeds: Poisson regression#
+seed.reg=glm(fec.seed~size,data=d,family=poisson())#
+summary(seed.reg)#
+params$seed.int=coefficients(seed.reg)[1]#
+params$seed.slope=coefficients(seed.reg)[2]#
+####################################################
+### code chunk number 9: IPM_Guide_Appendix_A.Rnw:180-183#
+####################################################
+# 4. size distribution of recruits#
+params$recruit.size.mean=mean(d$sizeNext[is.na(d$size)])#
+params$recruit.size.sd=sd(d$sizeNext[is.na(d$size)])#
+####################################################
+### code chunk number 10: IPM_Guide_Appendix_A.Rnw:187-189#
+####################################################
+# 5. establishment probability#
+params$establishment.prob=sum(is.na(d$size))/sum(d$fec.seed,na.rm=TRUE)#
+####################################################
+### code chunk number 11: fig2#
+####################################################
+    par(mfrow=c(2,2))#
+    xx=seq(0,8,by=.01) # sizes at which to evaluate predictions#
+    plot(d$size,jitter(d$surv), xlab="Size (t)",ylab="Survival to t+1") # jittered #
+    lines(xx,predict(surv.reg,#
+      data.frame(size=xx),type='response'), col='red',lwd=3)#
+    plot(d$size,d$sizeNext,xlab="Size (t)",ylab="Size (t+1)")  #
+    lines(xx,predict(growth.reg,data.frame(size=xx)),col='red',lwd=3)#
+    plot(d$size,d$fec.seed,xlab="Size (t)",ylab="Seed Number (t)")#
+    lines(xx,predict(seed.reg,#
+      data.frame(size=xx),type='response'),col='red',lwd=3)#
+    hist(d$sizeNext[is.na(d$size)],freq=FALSE,xlab="Recruit size",main='')#
+    lines(xx,dnorm(xx,params$recruit.size.mean,#
+      params$recruit.size.sd), col='red',lwd=3)#
+####################################################
+### code chunk number 12: IPM_Guide_Appendix_A.Rnw:230-247#
+####################################################
+  # 1. survival probability function#
+s.x=function(x,params) {#
+  u=exp(params$surv.int+params$surv.slope*x)#
+  return(u/(1+u))#
+}#
+#
+# 2. growth function#
+g.yx=function(xp,x,params) { 			#
+  dnorm(xp,mean=params$growth.int+params$growth.slope*x,sd=params$growth.sd)#
+}#
+#
+# 3. reproduction function      #
+f.yx=function(xp,x,params) { 		#
+  params$establishment.prob*#
+    dnorm(xp,mean=params$recruit.size.mean,sd=params$recruit.size.sd)*#
+    exp(params$seed.int+params$seed.slope*x)#
+}
+library(IPMpack)
+k
+Stangle("/Applications/eclipse/pkg/vignettes/IPMpack_Vignette.Rnw")
+Stangle("IPMpack_Vignette.Rnw")
+?makeFecObj
+library(IPMpack)
+?generateData
+dff <- generateData()#
+#make simple logistic regression survival object relating survival to size at t#
+sv1 <- makeSurvObj(dff, Formula=surv~size)#
+#assess fit for model with discrete environmental classes fitted#
+sv1 <- makeSurvObj(dff, Formula=surv~size+covariate)#
+#
+#now specifying parameters and supplying no data#
+sv1 <- makeSurvObj(Formula = surv ~ size + covariate,coeff=c(1,1,1))
+sv1
+code chunk number 4: IPMpack_Vignette.Rnw:175-176#
+####################################################
+dff <- generateData()#
+####################################################
+### code chunk number 5: IPMpack_Vignette.Rnw:179-180#
+####################################################
+head(dff)#
+####################################################
+### code chunk number 6: fig0#
+####################################################
+plot(dff$size, dff$sizeNext, xlab = "Size at t", ylab = "Size at t+1")
+code chunk number 8: IPMpack_Vignette.Rnw:215-217#
+####################################################
+gr1 <- makeGrowthObj(dataf = dff, Formula = sizeNext~size+size2)#
+sv1 <- makeSurvObj(dff, Formula = surv~size+size2)
+code chunk number 26: IPMpack_Vignette.Rnw:422-423#
+####################################################
+table(dff$stage)
+dff$stage
+dff <- generateData(type="discrete")#
+####################################################
+### code chunk number 26: IPMpack_Vignette.Rnw:422-423#
+####################################################
+table(dff$stage)
+code chunk number 6: fig0#
+####################################################
+plot(dff$size, dff$sizeNext, xlab = "Size at t", ylab = "Size at t+1")#
+####################################################
+### code chunk number 7: fig0#
+####################################################
+plot(dff$size, dff$sizeNext, xlab = "Size at t", ylab = "Size at t+1")#
+####################################################
+### code chunk number 8: IPMpack_Vignette.Rnw:215-217#
+####################################################
+gr1 <- makeGrowthObj(dataf = dff, Formula = sizeNext~size+size2)#
+sv1 <- makeSurvObj(dff, Formula = surv~size+size2)#
+####################################################
+### code chunk number 9: IPMpack_Vignette.Rnw:222-223#
+####################################################
+gr1
+str(gr1)
+dff
+par(mfrow = c(1, 2), bty = "l", pty = "m")#
+p1 <- picGrow(dff, gr1)#
+p2 <- picSurv(dff, sv1, ncuts = 30)
+gr1
+str(gr1)
+gr1@fit
+plot(gr1@fit)
+code chunk number 11: fig1#
+####################################################
+par(mfrow = c(1, 2), bty = "l", pty = "m")#
+p1 <- picGrow(dff, gr1)#
+p2 <- picSurv(dff, sv1, ncuts = 30)
+code chunk number 12: IPMpack_Vignette.Rnw:241-245#
+####################################################
+Pmatrix <- makeIPMPmatrix(nBigMatrix = 50, #
+                            minSize = -5, maxSize = 35, #
+                            growObj = gr1, survObj = sv1, #
+                            correction = "constant")
+diagnosticsPmatrix(Pmatrix, gr1, sv1, dff,correction = "constant")
+j
+?generateData
+?join
