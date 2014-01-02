@@ -652,8 +652,8 @@ makeIPMPmatrix <- function (nEnvClass = 1, nBigMatrix = 50, minSize = -1, maxSiz
         growthObj = growObj)
     tooHigh <- 1-growthCum(y,b[length(b)],cov = chosenCov, 
         growthObj = growObj)
-    get.matrix[1,] <- get.matrix[1,]+tooLow
-    get.matrix[nBigMatrix,] <- get.matrix[nBigMatrix,]+tooHigh
+    get.matrix[1,] <- get.matrix[1,]+tooLow * surv(size = y, cov = chosenCov, survObj = survObj)
+    get.matrix[nBigMatrix,] <- get.matrix[nBigMatrix,]+tooHigh * surv(size = y, cov = chosenCov, survObj = survObj)
   }
   
   
