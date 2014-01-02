@@ -402,7 +402,8 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 	#print(table(dataf[,6]))
 
 	#plot(cumsum(trueGrow[startYr:nYrs])/(1:length(trueGrow[startYr:nYrs])),type="l")
-	vartrueGrow <- var(trueGrow[startYr:nYrs],na.rm=TRUE)  
+	vartrueGrow <- var(trueGrow[startYr:nYrs],na.rm=TRUE) 
+	meantrueGrow <- mean(exp(trueGrow[startYr:nYrs]),na.rm=TRUE)  
 	trueGrow <- mean(trueGrow[startYr:nYrs],na.rm=TRUE)  
 	#abline(h=trueGrow)
 	
@@ -428,7 +429,8 @@ simulateCarlina <- function(nSamp=200,nYrs=1000,nSampleYrs=15,
 	dataf$fec[dataf$fec==0] <- NA
 	
 	return(list(dataf=dataf,meanYear=meanYear,matVarYear=matVarYear,
-					list.par=list.par,trueGrow=trueGrow,vartrueGrow=vartrueGrow))
+					list.par=list.par,trueGrow=trueGrow,
+					vartrueGrow=vartrueGrow,meantrueGrow=meantrueGrow))
 	
 }
 

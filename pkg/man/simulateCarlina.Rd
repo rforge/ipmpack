@@ -110,8 +110,14 @@ A list including:
 	- offspringNext: where the row corresponds to offspring, this takes the value offspringNexxt
 	- year: year of the sample
 	
- listpar: 
- 	- a list of all the other parameters	
+ list.par: 
+ 	- a list of all the other parameters
+  matVarYear
+    - variance covariance matrix for demographic functions
+  trueGrow - stochastic growth rate, log lambda s
+  meantrueGrow - mean of lambda t
+  vartrueGrow - variance of log lambda t
+     		
 		
 }
 \author{
