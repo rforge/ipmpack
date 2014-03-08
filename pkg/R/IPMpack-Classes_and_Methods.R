@@ -433,7 +433,7 @@ setMethod("growthCum",
     c("numeric", "numeric", "data.frame", "growthObjLogIncrDeclineVar"),
     function(size, sizeNext, cov, growthObj){
       
-      newd <- data.frame(cbind(cov,size = size),
+      newd <- data.frame(cbind(cov, size = size),
           stringsAsFactors = FALSE)
       newd$size2 <- size^2
       newd$size3 <- size^3
