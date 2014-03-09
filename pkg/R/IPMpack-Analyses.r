@@ -50,7 +50,6 @@ convergeIPM<-function(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
 #parameters - an IPM
 # returns - the life expectancy for every starting size. 
 meanLifeExpect <- function(IPMmatrix){
-	require(MASS)
 	nBigMatrix <- length(IPMmatrix@.Data[1,]) #this nBigMatrix actually contains discrete, env, etc
 	#tmp <-  ginv(diag(IPMmatrix@nEnvClass*nBigMatrix)-IPMmatrix)
 	tmp <-  ginv(diag(nBigMatrix)-IPMmatrix)
@@ -66,7 +65,6 @@ meanLifeExpect <- function(IPMmatrix){
 # returns - the variance in life expectancy for every starting size. 
 
 varLifeExpect <- function(IPMmatrix){
-	require(MASS)
 	nBigMatrix <- length(IPMmatrix@.Data[1,])
 	#tmp <-  ginv(diag(IPMmatrix@nEnvClass*nBigMatrix)-IPMmatrix)
 	tmp <-  ginv(diag(nBigMatrix)-IPMmatrix)
@@ -121,9 +119,7 @@ survivorship <- function(IPMmatrix, loc, maxAge=300){
 #           - a size for which passage time is required            
 # returns - the passage time to this size from each of the sizes in the IPM 
 
-passageTime <- function(chosenSize,IPMmatrix){
-	require(MASS)
-	
+passageTime <- function(chosenSize,IPMmatrix){	
 	loc <- which(abs(chosenSize-IPMmatrix@meshpoints) ==
 					min(abs(chosenSize - IPMmatrix@meshpoints)),arr.ind=TRUE)[1]
 	matrix.dim <- length(IPMmatrix[1,])
@@ -158,9 +154,7 @@ passageTime <- function(chosenSize,IPMmatrix){
 #parameters - an IPM
 #           - a size for which passage time is required            
 # returns - the variance passage time to this size from each of the sizes in the IPM 
-varPassageTime <- function(chosenSize,IPMmatrix){
-	require(MASS)
-	
+varPassageTime <- function(chosenSize,IPMmatrix){	
 	loc <- which(abs(chosenSize-IPMmatrix@meshpoints)==min(abs(chosenSize-IPMmatrix@meshpoints)),arr.ind=TRUE)
 	matrix.dim <- length(IPMmatrix[1,])
 	
@@ -186,7 +180,6 @@ varPassageTime <- function(chosenSize,IPMmatrix){
 # =============================================================================
 ##Function to estimate Stochastic Passage Time
 stochPassageTime <- function(chosenSize,IPMmatrix,envMatrix){
-	require(MASS)
 	#get the right index for the size you want
 	loc <- which(abs(chosenSize-IPMmatrix@meshpoints)==min(abs(chosenSize-
 									IPMmatrix@meshpoints)),arr.ind=TRUE)
@@ -393,7 +386,6 @@ timeToSize <- function(startingSizes,IPM,endSize, startingEnv=1, maxT=100, propR
 #
 # Returns R0
 R0Calc<-function(Pmatrix, Fmatrix){
-	require(MASS)
 	Imatrix <- matrix(0, length(Pmatrix[1,]), length(Pmatrix[1,])); 
 	diag(Imatrix) <- 1
 	Nmatrix <- ginv(Imatrix - Pmatrix);
@@ -415,7 +407,6 @@ R0Calc<-function(Pmatrix, Fmatrix){
 #
 #ROB WILL MODIFY THIS CODE TO INCLUDE REPRODUCTIVE VALUES
 largeMatrixCalc <- function(Pmatrix, Fmatrix, tol = 1.e-8){
-	require(Matrix)
 	A2 <- Matrix(Pmatrix + Fmatrix);
 	nt <- Matrix(1,length(Pmatrix[1,]), 1);
 	nt1 <- nt; 
@@ -1192,7 +1183,6 @@ sensParams <- function (growObj, survObj, fecObj=NULL, clonalObj=NULL,
 stochGrowthRateSampleList <- function(nRunIn,tMax,listIPMmatrix=NULL,
 					listPmatrix=NULL, listFmatrix=NULL, seedList = NULL,
 					densDep=FALSE){
-	require(MASS)
 	
 	if (densDep & (is.null(listPmatrix) | is.null(listFmatrix))){
 		stop("Require listPmatrix & listFmatrix for densDep=TRUE")
@@ -1251,9 +1241,7 @@ stochGrowthRateManyCov <- function(covariate,nRunIn,tMax,
 		growthObj,survObj,fecObj,
 		nBigMatrix,minSize,maxSize, nMicrosites,
 		integrateType="midpoint",correction="none", 
-		trackStruct=FALSE, plot=FALSE,...){
-	require(MASS)
-	
+		trackStruct=FALSE, plot=FALSE,...){	
 	
 	nt<-rep(1,nBigMatrix)
 	Rt<-rep(NA,tMax)

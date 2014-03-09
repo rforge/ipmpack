@@ -266,7 +266,6 @@
 .getListRegObjects <- function(Obj,nsamp=1000) {
   
   require(mvtnorm)
-  require(MASS)
   
   #generate new set parameters from mvn
   npar <- length(Obj@fit$coefficients)
@@ -289,7 +288,6 @@
 .getListRegObjectsFec <- function(Obj,nsamp=1000) {
   
   require(mvtnorm)
-  require(MASS)
   
   objList <- list()
   
@@ -976,7 +974,6 @@
 #
 #
 .stochLifeExpect <- function(IPMmatrix,envMatrix){
-  require(MASS)
   
   matrix.dim <- length(IPMmatrix[1,])
   nstages <- IPMmatrix@nBigMatrix

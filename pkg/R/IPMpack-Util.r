@@ -669,7 +669,6 @@ coerceSurvObj <- function(survObj, coeff){
 
 sampleVitalRateObj <- function(Obj,nSamp=100,nDiscreteGrowthTransitions=NULL,nDiscreteOffspringTransitions=NULL,nOffspring=NULL) {
   require(mvtnorm)
-  require(MASS)
   require(MCMCpack)
   
   objList <- list()
