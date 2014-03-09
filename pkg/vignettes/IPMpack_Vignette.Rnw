@@ -654,10 +654,12 @@ where {\tt nBigMatrix.matrix} is the number of bins used, {\tt minSize} and {\tt
 the IPM (which should usually extend to beyond the smallest and largest size measurements) and the growth and survival objects are as above.  We can
 plot this Pmatrix using the below:
 
+To run the following code, the package "sparseMatrix" is required.  Load that
+library, and then this code can be run.
 \begin{figure}
 \begin{center}
 <<label=figCompound, fig=TRUE, echo=TRUE>>=
-image(as(Pmatrix[,],'sparseMatrix'),
+image(Pmatrix[,],
 	xlab = "Continuous stage (e.g. size) at t",
 		ylab = "Continuous stage (e.g. size) at t+1", axes = FALSE)
 @
@@ -695,7 +697,7 @@ and then plot the full matrix
 \begin{center}
 <<label=figCompound, fig=TRUE, echo=TRUE>>=
 IPM <- Pmatrix+Fmatrix
-image(as(log(IPM),'sparseMatrix'),
+image(log(IPM),
 	xlab = "Continuous stage (e.g. size) at t",
 		ylab = "Continuous stage (e.g. size) at t+1", axes = FALSE)
 @
