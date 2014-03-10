@@ -40,7 +40,7 @@ returning model scores, as well as tools for diagnostic tests of the IPM models
 themselves. There are also methods to build population models for varying environments, estimate longevity and passage time, sensitivity and elasticity (of either parameters or matrix elements), and much more.
 
 The basic ideas of IPMpack are published in Methods in Ecology and Evolution (Metcalf et al. 2013). Please cite that paper if you want to refer to IPMpack. This vignette is intended to introduce the concepts of IPMs as well as the
-implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $2.0$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge (http://ipmpack.r-forge.r-project.org/) that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
+implementation of IPMpack to biologists with a wide range of quantitative skills.  This vignette is for IPMpack version $2.1$, and so we encourage users to contact the IPMpack team at \href{IPMpack@gmail.com}{IPMpack@gmail.com} with any feedback or mistakes they find.  We also host a blog at R-forge (http://ipmpack.r-forge.r-project.org/) that contains news of updates, new features, and announcements of papers and meetings relevant to IPMs.
  
 \newpage
 
@@ -841,8 +841,8 @@ If the user wishes to fit a growth model with, for example, gamma errors, a simi
 
 \item Metcalf, Horvitz, Tuljapurkar \& Clark. 2009. A time to grow and a time to die: a  new way to analyze the dynamics of size, light, age and death of tropical trees. Ecology 90: 2766-2778.
 
-\item Metcalf, McMahon, Salguero-Gómez \& Jongejans. 2013. IPMpack: an R package
-for Integral Projection Models. Methods in Ecology and Evolution 4: 195-200
+\item Metcalf, McMahon, Salguero-G\'omez \& Jongejans. 2013. IPMpack: an R
+package for Integral Projection Models. Methods in Ecology and Evolution 4: 195-200
 
 \item Rees \& Rose. 2002. Evolution of flowering strategies in {\it Oenothera
 glazioviana}: an integral projection model approach. Proc. Roy. Soc. Lond. Ser.
