@@ -2,10 +2,11 @@
 \alias{invLogit}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Implements a logistic transform.
+Implements an inverse of the logistic transform.
 }
 \description{
-Provided a vector or numeric changes it into a vector on 0-1 using the invLogit transform.
+Provided a vector or numeric changes it into a vector on 0-1 using the inverse 
+of the logit transform.
 }
 \usage{
 invLogit(x)
@@ -17,7 +18,8 @@ vector of numbers for which the transform is required.
 }
 }
 \author{
-C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans & Cory Merow.
+C. Jessica E. Metcalf, Sean M. McMahon, Roberto Salguero-Gomez, Eelke Jongejans
+ & Cory Merow.
 }
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
