@@ -58,7 +58,5 @@ plot(Pmatrix@meshpoints, vP, type = "l", xlab="Continuous (e.g. Size) stage",
 	ylab = "Variance in passage time", col = "dark gray")
 abline(v = targetSize, col = "red")
 
-## not sure variance works with this....
-
 
 }
