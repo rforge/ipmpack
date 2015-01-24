@@ -43,7 +43,7 @@ convergeIPM(growObj, survObj, fecObj, nBigMatrix, minSize, maxSize,
     correction (see makeIPMPmatrix)
   }
   \item{preCensus}{
-    boolean defining whether fecundity is pre or post census; defaults to pre
+    boolean defining whether fecundity is pre- or post-census; defaults to pre
   }
   \item{tol}{
    desired tolerance level 
