@@ -8,6 +8,11 @@ fig11 vignette
 coerce fecObj
 ‘covariatel’ in help file makeEnvObj
 makeEnvObj: somehow rows and columns seem to be mixed up? Yes, needs to be fixed
-vignette fig8: t and t+1 need to be swapped [JESS DONE]. Also, perhaps plot t(log(IPM))
+vignette fig8:. Also, perhaps plot t(log(IPM))
 if offspringSplitter says 0 offspring go to a certain discrete stage, vitalRatesByOffspringType shouldn’t have to be specified: irrelevant
 "WARNING - number and sizes of offspring produced by individuals in discrete classes cannot be calculated yet. The Fmatrix contains zeros instead. Only solution at this point: change the F matrix yourself afterwards."
+
+-------------------------------------------
+TODONE
+
+vignette fig8: t and t+1 need to be swapped [JESS DONE]
