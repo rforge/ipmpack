@@ -1,0 +1,13 @@
+IPMpack to do list for Princeton Nov 2014
+
+
+Things that came up during the IPM course in Bergen:
+Olav Skarpaas misses clonalObjList in sampleIPM (actually, he’s trying to add it himself right now)
+stochGrowthRateSampleList : add argument to alter the probabilities with which IPMs are chosen (to better compete with the popbio package!)
+fig11 vignette
+coerce fecObj
+‘covariatel’ in help file makeEnvObj
+makeEnvObj: somehow rows and columns seem to be mixed up? Yes, needs to be fixed
+vignette fig8: t and t+1 need to be swapped. Also, perhaps plot t(log(IPM))
+if offspringSplitter says 0 offspring go to a certain discrete stage, vitalRatesByOffspringType shouldn’t have to be specified: irrelevant
+"WARNING - number and sizes of offspring produced by individuals in discrete classes cannot be calculated yet. The Fmatrix contains zeros instead. Only solution at this point: change the F matrix yourself afterwards."
