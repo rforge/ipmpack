@@ -12,6 +12,10 @@ vignette fig8:. Also, perhaps plot t(log(IPM))
 if offspringSplitter says 0 offspring go to a certain discrete stage, vitalRatesByOffspringType shouldn’t have to be specified: irrelevant
 "WARNING - number and sizes of offspring produced by individuals in discrete classes cannot be calculated yet. The Fmatrix contains zeros instead. Only solution at this point: change the F matrix yourself afterwards."
 
+?makeFecObj
+ dataf  
+a dataframe with columns "size", "sizeNext", "stage", "stageNext", and any additional columns with fecundity data. UIf fecundity data is transformed via log, etc, this MUST BE MADE CLEAR in the argument Transform since the fecundity object 
+
 -------------------------------------------
 TODONE
 
