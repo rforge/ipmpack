@@ -11,7 +11,7 @@
 \usage{
 
 makeFecObj(dataf, fecConstants=data.frame(NA),
-		Formula=list(fec~size),Family="gaussian",
+		Formula = list(fec~size), Family = "gaussian",
 		Transform="none",meanOffspringSize=NA,
 		sdOffspringSize=NA,offspringSplitter=data.frame(continuous=1),
 		vitalRatesPerOffspringType=data.frame(NA),fecByDiscrete=data.frame(NA),
